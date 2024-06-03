@@ -1,0 +1,12 @@
+{
+    "workspaces": [
+        "./client",
+        "./server",
+        "./shared"
+    ],
+    "scripts": {
+        "start": "node server/dist/index.js",
+        "build": "npm run build --workspaces --if-present",
+        "dev": "npm run build && npm start"
+    }
+}
