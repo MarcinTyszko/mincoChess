@@ -1,6 +1,6 @@
 import React from "react";
 
-import { EvaluationSource } from "@wintrchess/shared";
+import { EvaluationSource } from "wintrchess";
 
 function Analysis() {
     return <>

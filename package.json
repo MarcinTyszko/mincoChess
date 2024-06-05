@@ -1,8 +1,8 @@
 {
     "workspaces": [
-        "./client",
+        "./shared",
         "./server",
-        "./shared"
+        "./client"
     ],
     "scripts": {
         "start": "node server/dist/index.js",

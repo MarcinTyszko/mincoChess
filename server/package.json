@@ -3,7 +3,7 @@
         "build": "tsc"
     },
     "dependencies": {
-        "@wintrchess/shared": "*",
+        "wintrchess": "*",
         "dotenv": "^16.4.5",
         "express": "^4.19.2"
     },
