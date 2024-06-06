@@ -11,11 +11,4 @@ The backend for the website where the website content is served, and where any A
 #### `shared`
 Libraries, types and common logic is stored here and can be accessed by both the frontend and backend.
 
-### 🚀 Deploying locally
-
-- Install dependencies with `npm i`
-- Create `.env` file at root project directory
-- Add environment variables. Related documentation in `docs/environment.md`
-- Compile packages with `npm run build`
-- Start the backend web server with `npm start`
-- Connect to website at `localhost:` followed by the port specified in `.env` or `8080`
+Further documentation is in the GitHub repository wiki.

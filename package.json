@@ -7,6 +7,13 @@
     "scripts": {
         "start": "node server/dist/index.js",
         "build": "npm run build --workspaces --if-present",
-        "dev": "npm run build && npm start"
+        "dev": "npm run build && npm start",
+        "lint": "eslint **/*.ts"
+    },
+    "devDependencies": {
+        "@stylistic/eslint-plugin-ts": "^2.1.0",
+        "eslint": "^8.56.0",
+        "typescript": "^5.4.5",
+        "typescript-eslint": "^7.12.0"
     }
 }
