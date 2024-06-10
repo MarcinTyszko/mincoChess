@@ -22,6 +22,7 @@ function NavigationBar() {
                 <Button 
                     colour={ButtonColour.BLUE} 
                     icon={require("@assets/img/kofi.svg")}
+                    options={{ fontSize: "1.2rem" }}
                 >
                     Donate
                 </Button>

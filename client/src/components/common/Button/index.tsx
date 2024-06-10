@@ -4,22 +4,27 @@ import ButtonProps from "./ButtonProps";
 
 import * as styles from "./Button.module.css";
 
-const iconDefaultHeight = 22;
-
-function Button({ 
+function Button({
     children,
     colour,
     icon,
+    options,
     onClick = () => null
 }: ButtonProps) {
     return <button 
         className={styles.button} 
         style={{
-            backgroundColor: colour
+            backgroundColor: colour,
+            fontSize: options?.fontSize || "1rem",
+            padding: options?.padding || "10px"
         }}
-        onClick={event => onClick(event)}
+        onClick={onClick}
     >
-        <img src={icon} height={iconDefaultHeight} />
+        {icon == undefined
+            ? ""
+            : <img src={icon} height={options?.iconSize || "25px"} />
+        }
+
         {children}
     </button>;
 }
