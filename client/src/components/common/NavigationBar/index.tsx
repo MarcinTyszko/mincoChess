@@ -18,7 +18,7 @@ function NavigationBar() {
         </div>
 
         <div className={styles.navigationBarSection}>
-            <a href="https://ko-fi.com/wintrcat" title="Donate ❤">
+            <a href="https://ko-fi.com/wintrcat" target="_blank" title="Donate ❤">
                 <Button 
                     colour={ButtonColour.BLUE} 
                     icon={require("@assets/img/kofi.svg")}
@@ -27,14 +27,14 @@ function NavigationBar() {
                 </Button>
             </a>
 
-            <a href="https://youtube.com/@wintrcat" title="My YouTube Channel">
+            <a href="https://youtube.com/@wintrcat" target="_blank" title="My YouTube Channel">
                 <Button 
                     colour={ButtonColour.GREY} 
                     icon={require("@assets/img/youtube.svg")}
                 />
             </a>
 
-            <a href="https://discord.gg/XxtsAzPyCb" title="Join the community">
+            <a href="https://discord.gg/XxtsAzPyCb" target="_blank" title="Join the community">
                 <Button 
                     colour={ButtonColour.GREY} 
                     icon={require("@assets/img/discord.png")}
