@@ -13,14 +13,16 @@ module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
-        path: resolve("./dist")
+        path: resolve("./dist"),
+        //assetModuleFilename: "[query][hash][ext]"
     },
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         alias: {
             "@pages": resolve("./src/pages"),
             "@components": resolve("./src/components"),
-            "@constants": resolve("./src/constants")
+            "@constants": resolve("./src/constants"),
+            "@assets": resolve("./public")
         }
     },
     module: {
@@ -40,6 +42,10 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|webp|ttf)$/i,
+                type: "asset"
             }
         ]
     },
