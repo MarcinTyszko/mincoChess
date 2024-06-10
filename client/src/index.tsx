@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Analysis from "@pages/Analysis";
 
+import "./index.css";
+
 const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );

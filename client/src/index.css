@@ -5,4 +5,10 @@
 
 body {
     margin: 0;
+
+    background-color: #161616;
+}
+
+* {
+    font-family: "JetBrains Mono";
 }
