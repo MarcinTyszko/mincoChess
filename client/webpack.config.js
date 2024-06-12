@@ -22,6 +22,7 @@ module.exports = {
             "@pages": resolve("./src/pages"),
             "@components": resolve("./src/components"),
             "@constants": resolve("./src/constants"),
+            "@contexts": resolve("./src/contexts"),
             "@assets": resolve("./public")
         }
     },

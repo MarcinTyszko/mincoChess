@@ -8,3 +8,25 @@
     background-color: #292929;
     color: white;
 }
+
+@keyframes slide-in {
+    from {
+        top: 0;
+        left: -200px;
+    }
+
+    to {
+        top: 0;
+        left: 0;
+    }
+}
+
+.mobileSidebarOpen {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    animation-name: slide-in;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+}

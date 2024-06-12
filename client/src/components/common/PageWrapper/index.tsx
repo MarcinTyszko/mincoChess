@@ -9,8 +9,8 @@ import * as styles from "./PageWrapper.module.css";
 function PageWrapper({ children }: PageWrapperProps) {
     return <>
         <NavigationBar/>
-        <div className={styles.pageWrapper}>
-            <div>
+        <div className={styles.contentWrapper}>
+            <div className={styles.sidebar}>
                 <Sidebar/>
             </div>
 

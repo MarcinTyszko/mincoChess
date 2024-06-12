@@ -1,7 +1,17 @@
-.pageWrapper {
+.contentWrapper {
     display: grid;
     grid-template-columns: 175px auto;
 
     width: 100%;
     height: calc(100vh - 70px);
+}
+
+@media (max-width: 1230px) {
+    .contentWrapper {
+        grid-template-columns: 100%;
+    }
+
+    .sidebar {
+        display: none;
+    }
 }

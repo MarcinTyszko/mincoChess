@@ -8,6 +8,12 @@ import * as styles from "./NavigationBar.module.css";
 function NavigationBar() {
     return <div className={styles.navigationBar}>
         <div className={styles.navigationBarSection}>
+            <img
+                className={styles.menuButton}
+                src={require("@assets/img/menu.svg")}
+                height={35}
+            />
+
             <img 
                 src={require("@assets/img/logo.png")} 
                 alt="WintrChess"

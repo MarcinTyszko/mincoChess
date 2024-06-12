@@ -10,10 +10,35 @@
     background-color: #1d1d1d;
 }
 
+@media (max-width: 580px) {
+    .navigationBar {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}
+
 .navigationBarSection {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.menuButton {
+    display: none;
+
+    cursor: pointer;
+    
+    transition: transform 0.3s ease;
+}
+
+@media (max-width: 1230px) {
+    .menuButton {
+        display: inline;
+    }
+}
+
+.menuButton:hover {
+    transform: scale(1.05);
 }
 
 .title {
