@@ -1,8 +1,26 @@
 .wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 15px;
 
     width: 100%;
     height: 100%;
+
+    color: white;
+}
+
+.errorCode {
+    margin: 0;
+
+    font-size: 4rem;
+}
+
+.image {
+    border-radius: 20px;
+}
+
+.returnLink {
+    color: white;
 }
