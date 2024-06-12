@@ -12,7 +12,10 @@ function SidebarTab({ children, navigateTo, icon, iconSize }: SidebarTabProps) {
         navigate(navigateTo);
     }
 
-    return <button className={styles.sidebarTab} onClick={handleClick}>
+    return <button 
+        className={styles.sidebarTab} 
+        onClick={handleClick}
+    >
         <img src={icon} height={iconSize || "30px"} />
 
         {children}

@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import PageWrapper from "@components/common/PageWrapper";
 import Analysis from "@pages/Analysis";
-import NavigationBar from "@components/common/NavigationBar";
-import Sidebar from "@components/common/sidebar/Sidebar";
+import Unfound from "@pages/Unfound";
 
 import "./index.css";
 
@@ -14,10 +14,12 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <BrowserRouter>
-        <NavigationBar/>
-        <Sidebar/>
-        <Routes>
-            <Route path="/" element={<Analysis/>}/>
-        </Routes>
+        <PageWrapper>
+            <Routes>
+                <Route path="/" element={<Analysis/>} />
+
+                <Route path="*" element={<Unfound/>} />
+            </Routes>
+        </PageWrapper>
     </BrowserRouter>
 );

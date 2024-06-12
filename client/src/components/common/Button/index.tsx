@@ -22,7 +22,7 @@ function Button({
     >
         {icon == undefined
             ? ""
-            : <img src={icon} height={options?.iconSize || "25px"} />
+            : <img src={icon} height={options?.iconSize || "22px"} />
         }
 
         {children}

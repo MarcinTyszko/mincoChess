@@ -1,0 +1,7 @@
+.pageWrapper {
+    display: grid;
+    grid-template-columns: 175px auto;
+
+    width: 100%;
+    height: calc(100vh - 70px);
+}
