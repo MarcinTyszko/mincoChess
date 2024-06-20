@@ -4,21 +4,21 @@ import PageWrapperProps from "./PageWrapperProps";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
 
+import { SidebarProvider } from "@contexts/SidebarProvider";
+
 import * as styles from "./PageWrapper.module.css";
 
 function PageWrapper({ children }: PageWrapperProps) {
-    return <>
+    return <SidebarProvider>
         <NavigationBar/>
         <div className={styles.contentWrapper}>
-            <div className={styles.sidebar}>
-                <Sidebar/>
-            </div>
+            <Sidebar/>
 
             <div>
                 {children}
             </div>
         </div>
-    </>;
+    </SidebarProvider>;
 }
 
 export default PageWrapper;

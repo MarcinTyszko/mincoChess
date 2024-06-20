@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 
+import { SidebarContext } from "@contexts/SidebarProvider";
+
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
+    const { sidebarOpen, setSidebarOpen } = useContext(SidebarContext);
+
+    function handleMenuButtonClick() {
+        setSidebarOpen(!sidebarOpen);
+    }
+
     return <div className={styles.navigationBar}>
         <div className={styles.navigationBarSection}>
             <img
                 className={styles.menuButton}
                 src={require("@assets/img/menu.svg")}
                 height={35}
+                onClick={handleMenuButtonClick}
             />
 
             <img 

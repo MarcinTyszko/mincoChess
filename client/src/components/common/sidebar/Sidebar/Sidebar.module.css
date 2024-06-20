@@ -1,3 +1,13 @@
+@keyframes slide {
+    from {
+        left: -200px;
+    }
+
+    to {
+        left: 0;
+    }
+}
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -9,24 +19,30 @@
     color: white;
 }
 
-@keyframes slide-in {
-    from {
-        top: 0;
-        left: -200px;
-    }
-
-    to {
-        top: 0;
-        left: 0;
+@media (max-width: 1230px) {
+    .sidebar {
+        position: fixed;
+        top: 70px;
     }
 }
 
-.mobileSidebarOpen {
-    position: absolute;
-    top: 0;
+@media (max-width: 580px) {
+    .sidebar {
+        top: 122px;
+    }
+}
+
+.sidebarClosed {
+    left: -200px;
+
+    animation-name: slide;
+    animation-timing-function: ease-out;
+    animation-direction: reverse;
+}
+
+.sidebarOpen {
     left: 0;
 
-    animation-name: slide-in;
-    animation-duration: 0.4s;
+    animation-name: slide;
     animation-timing-function: ease-out;
 }

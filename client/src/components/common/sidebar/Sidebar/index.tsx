@@ -1,11 +1,37 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
-import SidebarTab from "@components/common/sidebar/SidebarTab";
+import SidebarTab from "../SidebarTab";
+import { SidebarContext } from "@contexts/SidebarProvider";
 
 import * as styles from "./Sidebar.module.css";
 
 function Sidebar() {
-    return <div className={styles.sidebar}>        
+    const { sidebarOpen } = useContext(SidebarContext);
+
+    const sidebar = useRef<HTMLDivElement>(null);
+    const initiallyRendered = useRef<boolean>(false);
+
+    useEffect(() => {
+        if (!sidebar.current) return;
+
+        if (!initiallyRendered.current) {
+            initiallyRendered.current = true;
+            return;
+        }
+
+        sidebar.current.classList.remove(styles.sidebarClosed);
+        sidebar.current.classList.remove(styles.sidebarOpen);
+
+        void sidebar.current.offsetWidth;
+
+        sidebar.current.classList.add(
+            sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
+        );
+
+        sidebar.current.style.animationDuration = "0.5s";
+    }, [sidebarOpen]);
+
+    return <div className={`${styles.sidebar} ${styles.sidebarClosed}`} ref={sidebar}>
         <SidebarTab
             navigateTo="/" 
             icon={require("@assets/img/analysis.svg")}

@@ -14,7 +14,6 @@ function Unfound() {
         <img
             className={styles.image}
             src={require("@assets/img/unfoundgame.gif")}
-            width={"45%"}
         />
 
         <Link to="/">

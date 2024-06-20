@@ -10,8 +10,4 @@
     .contentWrapper {
         grid-template-columns: 100%;
     }
-
-    .sidebar {
-        display: none;
-    }
 }
