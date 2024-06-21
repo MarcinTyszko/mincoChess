@@ -18,6 +18,7 @@ function Sidebar() {
             initiallyRendered.current = true;
             return;
         }
+        sidebar.current.style.animationDuration = "0.5s";
 
         sidebar.current.classList.remove(styles.sidebarClosed);
         sidebar.current.classList.remove(styles.sidebarOpen);
@@ -27,8 +28,6 @@ function Sidebar() {
         sidebar.current.classList.add(
             sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
         );
-
-        sidebar.current.style.animationDuration = "0.5s";
     }, [sidebarOpen]);
 
     return <div className={`${styles.sidebar} ${styles.sidebarClosed}`} ref={sidebar}>
