@@ -15,7 +15,9 @@ const SidebarContext = createContext<SidebarContextType>({
 });
 
 function SidebarProvider({ children }: SidebarProviderProps) {
-    const [ sidebarOpen, setSidebarOpen ] = useState<boolean>(false);
+    const [ sidebarOpen, setSidebarOpen ] = useState<boolean>(
+        window.innerWidth >= 1230
+    );
 
     return <SidebarContext.Provider value={{
         sidebarOpen, setSidebarOpen

@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    box-sizing: border-box;
+    padding: 0 10px;
+    height: 55px;
+
+    background-color: #242424;
+    color: white;
+}
+
+@media (max-width: 1000px) {
+    .wrapper {
+        border-radius: 0 !important;
+        width: 100%;
+    }
+}
+
+.profileImage {
+    height: 40px;
+}
+
+.title {
+    padding: 0 3px;
+
+    border-radius: 5px;
+    background-color: rgb(180, 20, 20);
+}
+
+.username {
+    color: white;
+}
+
+.rating {
+    color: grey;
+}

@@ -12,7 +12,9 @@ function PageWrapper({ children }: PageWrapperProps) {
     return <SidebarProvider>
         <NavigationBar/>
         <div className={styles.contentWrapper}>
-            <Sidebar/>
+            <div>
+                <Sidebar/>
+            </div>
 
             <div>
                 {children}

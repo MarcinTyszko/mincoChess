@@ -8,19 +8,27 @@
 
 @media (max-width: 1000px) {
     .wrapper {
-        grid-template-columns: 100%;
-        grid-template-rows: 100vw 100px;
+        display: flex;
+        flex-direction: column;
     }
 }
 
-.boardContainer {
+.gameContainer {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: 15px;
+    padding: 20px;
 }
 
-.reportPanel {
+@media (max-width: 1000px) {
+    .gameContainer {
+        align-items: start;
+
+        padding: 0;
+    }
+}
+
+.reportContainer {
     background-color: #242424;
 }

@@ -8,29 +8,36 @@ import * as styles from "./Sidebar.module.css";
 function Sidebar() {
     const { sidebarOpen } = useContext(SidebarContext);
 
-    const sidebar = useRef<HTMLDivElement>(null);
+    const sidebarRef = useRef<HTMLDivElement>(null);
     const initiallyRendered = useRef<boolean>(false);
 
     useEffect(() => {
-        if (!sidebar.current) return;
+        if (!sidebarRef.current) return;
+        const sidebar = sidebarRef.current;
 
         if (!initiallyRendered.current) {
             initiallyRendered.current = true;
             return;
         }
-        sidebar.current.style.animationDuration = "0.5s";
 
-        sidebar.current.classList.remove(styles.sidebarClosed);
-        sidebar.current.classList.remove(styles.sidebarOpen);
+        sidebar.style.animationDuration = "0.5s";
 
-        void sidebar.current.offsetWidth;
+        sidebar.classList.remove(styles.sidebarClosed);
+        sidebar.classList.remove(styles.sidebarOpen);
 
-        sidebar.current.classList.add(
+        void sidebar.offsetWidth;
+
+        sidebar.classList.add(
             sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
         );
     }, [sidebarOpen]);
 
-    return <div className={`${styles.sidebar} ${styles.sidebarClosed}`} ref={sidebar}>
+    return <div 
+        className={`${styles.sidebar} ${
+            sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
+        }`} 
+        ref={sidebarRef}
+    >
         <SidebarTab
             navigateTo="/" 
             icon={require("@assets/img/analysis.svg")}

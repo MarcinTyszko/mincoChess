@@ -13,16 +13,21 @@
     flex-direction: column;
     align-items: start;
     
+    position: fixed;
+    left: 0;
     height: 100%;
+    z-index: 100;
 
     background-color: #242424;
     color: white;
 }
 
-@media (max-width: 1230px) {
+@media (max-width: 1230px), (max-height: 600px) {
     .sidebar {
-        position: fixed;
         top: 70px;
+
+        box-shadow: 0 0 15px #000000;
+        clip-path: inset(0 -15px 0 0);
     }
 }
 
@@ -38,6 +43,12 @@
     animation-name: slide;
     animation-timing-function: ease-out;
     animation-direction: reverse;
+}
+
+@media (min-width: 1230px) {
+    .sidebarClosed {
+        left: 0;
+    }
 }
 
 .sidebarOpen {
