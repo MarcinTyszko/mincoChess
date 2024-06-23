@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import SidebarTabProps from "./SidebarTabProps";
 import { SidebarContext } from "@contexts/SidebarProvider";
+import Breakpoints from "@constants/Breakpoints";
 
 import * as styles from "./SidebarTab.module.css";
+
+const defaultIconSize = "30px";
 
 function SidebarTab({ 
     children,
@@ -17,14 +20,17 @@ function SidebarTab({
 
     function handleClick() {
         navigate(navigateTo);
-        setSidebarOpen(false);
+        
+        if (window.innerWidth < Breakpoints.RETRACT_SIDEBAR) {
+            setSidebarOpen(false);
+        }
     }
 
     return <button 
         className={styles.sidebarTab} 
         onClick={handleClick}
     >
-        <img src={icon} height={iconSize || "30px"} />
+        <img src={icon} height={iconSize || defaultIconSize} />
 
         {children}
     </button>;

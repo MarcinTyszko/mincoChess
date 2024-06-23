@@ -6,7 +6,7 @@
     height: 100%;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
     .wrapper {
         display: flex;
         flex-direction: column;
@@ -21,11 +21,13 @@
     padding: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
     .gameContainer {
         align-items: start;
 
         padding: 0;
+
+        background-color: #292929;
     }
 }
 

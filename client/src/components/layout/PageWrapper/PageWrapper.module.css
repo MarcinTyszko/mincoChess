@@ -11,3 +11,13 @@
         grid-template-columns: 100%;
     }
 }
+
+.content {
+    grid-column: 2 / 3;
+}
+
+@media (max-width: 1230px) {
+    .content {
+        grid-column: 1 / 2;
+    }
+}

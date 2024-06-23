@@ -11,12 +11,9 @@ import * as styles from "./PageWrapper.module.css";
 function PageWrapper({ children }: PageWrapperProps) {
     return <SidebarProvider>
         <NavigationBar/>
+        <Sidebar/>
         <div className={styles.contentWrapper}>
-            <div>
-                <Sidebar/>
-            </div>
-
-            <div>
+            <div className={styles.content}>
                 {children}
             </div>
         </div>

@@ -1,4 +1,12 @@
-import React, { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
+import React, { 
+    Dispatch,
+    SetStateAction,
+    ReactNode,
+    createContext, 
+    useState 
+} from "react";
+
+import Breakpoints from "@constants/Breakpoints";
 
 interface SidebarProviderProps {
     children: ReactNode;
@@ -16,7 +24,7 @@ const SidebarContext = createContext<SidebarContextType>({
 
 function SidebarProvider({ children }: SidebarProviderProps) {
     const [ sidebarOpen, setSidebarOpen ] = useState<boolean>(
-        window.innerWidth >= 1230
+        window.innerWidth >= Breakpoints.RETRACT_SIDEBAR
     );
 
     return <SidebarContext.Provider value={{

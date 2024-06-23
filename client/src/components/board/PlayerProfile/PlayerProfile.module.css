@@ -7,11 +7,11 @@
     padding: 0 10px;
     height: 55px;
 
-    background-color: #242424;
+    background-color: #292929;
     color: white;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
     .wrapper {
         border-radius: 0 !important;
         width: 100%;
