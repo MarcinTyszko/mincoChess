@@ -1,6 +1,7 @@
 import React from "react";
 
 import ChessBoard from "@components/board/ChessBoard";
+import GameSelector from "@components/analysis/GameSelector";
 
 import * as styles from "./Analysis.module.css";
 
@@ -11,7 +12,11 @@ function Analysis() {
         </div>
 
         <div className={styles.reportContainer}>
-            Game Report
+            <div className={styles.title}>
+                Game Report
+            </div>
+
+            <GameSelector/>
         </div>
     </div>;
 }
