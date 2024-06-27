@@ -2,7 +2,7 @@ interface PlayerProfile {
     username: string;
     rating?: number;
     title?: string;
-    profileImage?: string;
+    image?: string;
 }
 
 export default PlayerProfile;

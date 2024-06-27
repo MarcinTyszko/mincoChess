@@ -7,24 +7,22 @@ import * as styles from "./ChessBoard.module.css";
 
 function ChessBoard() {
     return <div className={styles.wrapper}>
-        <PlayerProfile
-            profileImage={require("@assets/img/defaultprofile.svg")}
-            rating={2322}
-            title="IM"
-        >
-            Eugene Kasparov
-        </PlayerProfile>
+        <PlayerProfile profile={{
+            image: require("@assets/img/defaultprofile.svg"),
+            title: "GM",
+            username: "Plankton Kasparov"
+        }}/>
 
         <Chessboard/>
 
         <PlayerProfile
-            profileImage={require("@assets/img/defaultprofile.svg")}
-            rating={2678}
-            title="GM"
+            profile={{
+                image: require("@assets/img/defaultprofile.svg"),
+                title: "IM",
+                username: "Levy SquarePants"
+            }}
             bottom
-        >
-            Levy SquarePants
-        </PlayerProfile>
+        />
     </div>;
 }
 

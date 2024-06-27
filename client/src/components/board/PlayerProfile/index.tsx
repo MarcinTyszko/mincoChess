@@ -8,10 +8,7 @@ const profileBorderRadius = "7px";
 
 function PlayerProfile({
     bottom,
-    username,
-    rating,
-    title,
-    profileImage
+    profile
 }: PlayerProfileProps) {
     return <div 
         className={styles.wrapper}
@@ -28,26 +25,26 @@ function PlayerProfile({
         }
     >
         {
-            profileImage ?
+            profile.image ?
                 <img 
                     className={styles.profileImage} 
-                    src={profileImage}
+                    src={profile.image}
                 />
                 :
                 ""
         }
 
         {
-            title ?
-                <span className={styles.title}>{title}</span>
+            profile.title ?
+                <span className={styles.title}>{profile.title}</span>
                 : ""
         }
 
-        <span className={styles.username}>{username}</span>
+        <span className={styles.username}>{profile.username}</span>
 
         {
-            rating ?
-                <span className={styles.rating}>({rating})</span>
+            profile.rating ?
+                <span className={styles.rating}>({profile.rating})</span>
                 : ""
         }
     </div>;

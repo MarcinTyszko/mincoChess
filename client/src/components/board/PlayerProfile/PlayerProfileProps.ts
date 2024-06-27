@@ -1,7 +1,8 @@
 import { PlayerProfile } from "wintrchess";
 
-interface PlayerProfileProps extends PlayerProfile {
+interface PlayerProfileProps {
     bottom?: boolean;
+    profile: PlayerProfile;
 }
 
 export default PlayerProfileProps;
