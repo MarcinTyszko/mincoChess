@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
+import useSidebarStore from "@stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
-import { SidebarContext } from "@contexts/SidebarProvider";
 
 import * as styles from "./Sidebar.module.css";
 
 function Sidebar() {
-    const { sidebarOpen } = useContext(SidebarContext);
+    const { sidebarOpen } = useSidebarStore();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
     const initiallyRendered = useRef<boolean>(false);

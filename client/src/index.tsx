@@ -6,6 +6,7 @@ import PageWrapper from "@components/layout/PageWrapper";
 import Analysis from "@pages/Analysis";
 import Unfound from "@pages/Unfound";
 
+import "./i18n";
 import "./index.css";
 
 const root = ReactDOM.createRoot(

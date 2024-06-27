@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import SidebarTabProps from "./SidebarTabProps";
-import { SidebarContext } from "@contexts/SidebarProvider";
+import useSidebarStore from "@stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
+import SidebarTabProps from "./SidebarTabProps";
 
 import * as styles from "./SidebarTab.module.css";
+
 
 const defaultIconSize = "30px";
 
@@ -16,7 +17,7 @@ function SidebarTab({
     iconSize
 }: SidebarTabProps) {
     const navigate = useNavigate();
-    const { setSidebarOpen } = useContext(SidebarContext);
+    const { setSidebarOpen } = useSidebarStore();
 
     function handleClick() {
         navigate(navigateTo);

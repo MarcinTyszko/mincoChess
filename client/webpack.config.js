@@ -21,8 +21,9 @@ module.exports = {
         alias: {
             "@pages": resolve("./src/pages"),
             "@components": resolve("./src/components"),
+            "@hooks": resolve("./src/hooks"),
             "@constants": resolve("./src/constants"),
-            "@contexts": resolve("./src/contexts"),
+            "@stores": resolve("./src/stores"),
             "@assets": resolve("./public")
         }
     },

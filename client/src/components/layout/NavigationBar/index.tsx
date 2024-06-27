@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
+import useSidebarStore from "@stores/SidebarStore";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
-
-import { SidebarContext } from "@contexts/SidebarProvider";
 
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
-    const { sidebarOpen, setSidebarOpen } = useContext(SidebarContext);
+    const { t } = useTranslation();
+    const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
     function handleMenuButtonClick() {
         setSidebarOpen(!sidebarOpen);
@@ -38,7 +39,7 @@ function NavigationBar() {
                     colour={ButtonColour.BLUE} 
                     icon={require("@assets/img/kofi.svg")}
                 >
-                    Donate
+                    {t("navigationBar.donate")}
                 </Button>
             </a>
 
