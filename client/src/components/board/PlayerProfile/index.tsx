@@ -7,8 +7,8 @@ import * as styles from "./PlayerProfile.module.css";
 const profileBorderRadius = "7px";
 
 function PlayerProfile({
-    children,
     bottom,
+    username,
     rating,
     title,
     profileImage
@@ -43,7 +43,7 @@ function PlayerProfile({
                 : ""
         }
 
-        <span className={styles.username}>{children}</span>
+        <span className={styles.username}>{username}</span>
 
         {
             rating ?

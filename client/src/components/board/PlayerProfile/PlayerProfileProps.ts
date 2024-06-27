@@ -1,11 +1,7 @@
-import { ReactNode } from "react";
+import { PlayerProfile } from "wintrchess";
 
-interface PlayerProfileProps {
-    children: ReactNode;
+interface PlayerProfileProps extends PlayerProfile {
     bottom?: boolean;
-    rating?: number;
-    title?: string;
-    profileImage?: string;
 }
 
 export default PlayerProfileProps;
