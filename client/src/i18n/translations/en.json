@@ -1,5 +1,24 @@
 {
     "navigationBar": {
         "donate": "Donate"
+    },
+    "sidebar": {
+        "analysis": "Analysis",
+        "archive": "Archive"
+    },
+    "pages": {
+        "analysis": {
+            "title": "Game Report",
+            "gameSelector": {
+                "sourceLabel": "Load game from",
+                "sourcePlaceholders": {
+                    "pgn": "PGN...",
+                    "fen": "FEN...",
+                    "chessCom": "Chess.com username...",
+                    "lichess": "Lichess username...",
+                    "chessKid": "ChessKid username..."
+                }
+            }
+        }
     }
 }
