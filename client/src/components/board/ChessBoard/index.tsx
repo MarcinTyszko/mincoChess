@@ -10,7 +10,8 @@ function ChessBoard() {
         <PlayerProfile profile={{
             image: require("@assets/img/defaultprofile.svg"),
             title: "GM",
-            username: "Plankton Kasparov"
+            username: "Plankton Kasparov",
+            rating: 2812
         }}/>
 
         <Chessboard/>
@@ -19,7 +20,8 @@ function ChessBoard() {
             profile={{
                 image: require("@assets/img/defaultprofile.svg"),
                 title: "IM",
-                username: "Levy SquarePants"
+                username: "Levy SquarePants",
+                rating: 2322
             }}
             bottom
         />
