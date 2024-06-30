@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import useSidebarStore from "@stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
-import SidebarTabProps from "./SidebarTabProps";
 
+import SidebarTabProps from "./SidebarTabProps";
 import * as styles from "./SidebarTab.module.css";
 
 

@@ -1,4 +1,4 @@
-import { ReactNode, MouseEventHandler } from "react";
+import { ReactNode, MouseEventHandler, CSSProperties } from "react";
 
 import ButtonColour from "@constants/ButtonColour";
 
@@ -7,10 +7,10 @@ interface ButtonProps {
     colour: ButtonColour | string;
     icon?: string;
     options?: {
-        padding?: string;
         iconSize?: string;
         fontSize?: string;
     };
+    style?: CSSProperties;
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 

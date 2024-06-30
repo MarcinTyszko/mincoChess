@@ -1,7 +1,6 @@
 import React from "react";
 
 import PlayerProfileProps from "./PlayerProfileProps";
-
 import * as styles from "./PlayerProfile.module.css";
 
 const profileBorderRadius = "7px";

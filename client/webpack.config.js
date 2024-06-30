@@ -24,6 +24,8 @@ module.exports = {
             "@hooks": resolve("./src/hooks"),
             "@constants": resolve("./src/constants"),
             "@stores": resolve("./src/stores"),
+            "@ctypes": resolve("./src/types"),
+            "@lib": resolve("./src/lib"),
             "@assets": resolve("./public")
         }
     },

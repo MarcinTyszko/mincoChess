@@ -21,7 +21,7 @@ function Analysis() {
             <GameSelector/>
 
             <Button
-                colour={ButtonColour.GREY}
+                colour={ButtonColour.LIGHT_GREY}
                 icon={require("@assets/img/analysis.svg")}
                 options={{
                     fontSize: "1.1rem",

@@ -1,9 +1,9 @@
 import React from "react";
 
-import PageWrapperProps from "./PageWrapperProps";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
 
+import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
 
 function PageWrapper({ children }: PageWrapperProps) {

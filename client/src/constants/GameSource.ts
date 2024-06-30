@@ -6,27 +6,32 @@ const gameSources: GameSourcesType = {
     pgn: {
         key: "pgn",
         title: "PGN",
-        expandField: true
+        expandField: true,
+        requiresSearch: false
     },
     fen: {
         key: "fen",
         title: "FEN",
-        expandField: false
+        expandField: false,
+        requiresSearch: false
     },
     chessCom: {
         key: "chessCom",
         title: "Chess.com",
-        expandField: false
+        expandField: false,
+        requiresSearch: true
     },
     lichess: {
         key: "lichess",
         title: "Lichess",
-        expandField: false
+        expandField: false,
+        requiresSearch: true
     },
     chessKid: {
         key: "chessKid",
         title: "ChessKid",
-        expandField: false
+        expandField: false,
+        requiresSearch: true
     }
 };
 

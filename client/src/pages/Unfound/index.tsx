@@ -21,7 +21,9 @@ function Unfound() {
                 colour={ButtonColour.BLUE}
                 icon={require("@assets/img/back.svg")}
                 options={{
-                    iconSize: "30px",
+                    iconSize: "30px"
+                }}
+                style={{
                     padding: "5px 10px"
                 }}
             >
