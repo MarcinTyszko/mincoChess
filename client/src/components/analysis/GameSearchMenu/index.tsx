@@ -14,6 +14,7 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
     const { t } = useTranslation();
 
     const [ games, setGames ] = useState<Game[]>([]);
+    const [ searchError, setSearchError ] = useState<string | null>(null);
 
     useEffect(() => {
         const currentDate = new Date();
@@ -30,16 +31,24 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
     }
 
     async function loadGames(month: number, year: number) {
-        switch (gameSource.key) {
-            case "chessCom":
-                setGames(
-                    await getChessComGames(username, month, year)
-                );
-                break;
-            case "lichess":
-                break;
-            case "chessKid":
-                break;
+        try {
+            switch (gameSource.key) {
+                case "chessCom":
+                    setGames(
+                        await getChessComGames(username, month, year)
+                    );
+                    break;
+                case "lichess":
+                    break;
+                case "chessKid":
+                    break;
+            }
+
+            setSearchError(null);
+        } catch {
+            setSearchError(
+                t("pages.analysis.gameSearchMenu.userNotFound")
+            );
         }
     }
 
@@ -77,11 +86,12 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
             {/* Note: Game listings here are currently a stub. */}
             <div className={styles.list}>
                 {
-                    games.length > 0 ?
+                    searchError
+                    || (games.length > 0 ?
                         games.map(game => <div>
                             {game.players?.white.username} vs {game.players?.black.username}
                         </div>)
-                        : t("pages.analysis.gameSearchMenu.noGamesFound")
+                        : t("pages.analysis.gameSearchMenu.noGamesFound"))
                 }
             </div>
         </div>

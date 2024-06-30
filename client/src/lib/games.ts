@@ -13,8 +13,12 @@ export async function getChessComGames(
     const gamesResponse = await fetch(
         `https://api.chess.com/pub/player/${username}/games/${year}/${padDateNumber(month)}`
     );
+
+    if (gamesResponse.status == 404) {
+        throw new Error();
+    }
+
     const games = (await gamesResponse.json()).games as any[];
-    
     if (!games) return [];
 
     return games.map(game => {

@@ -22,7 +22,8 @@
             },
             "gameSearchMenu": {
                 "title": "Select a game",
-                "noGamesFound": "There are no games for this month."
+                "userNotFound": "We couldn't find an account with this username.",
+                "noGamesFound": "We couldn't find any games for this month."
             }
         }
     }
