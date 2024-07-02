@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 
 import { Game } from "wintrchess";
 import { getChessComGames } from "@lib/games";
-
 import Button from "@components/common/Button";
 import MonthSelector from "@components/common/MonthSelector";
 
@@ -13,7 +12,7 @@ import * as styles from "./GameSearchMenu.module.css";
 function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) {
     const { t } = useTranslation();
 
-    const [ games, setGames ] = useState<Game[]>([]);
+    const [ games, setGames ] = useState<Game[] | null>(null);
     const [ searchError, setSearchError ] = useState<string | null>(null);
 
     useEffect(() => {
@@ -31,6 +30,8 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
     }
 
     async function loadGames(month: number, year: number) {
+        setGames(null);
+
         try {
             switch (gameSource.key) {
                 case "chessCom":
@@ -55,12 +56,10 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
     return <div className={styles.wrapper}>
         <div className={styles.menu}>
             <Button
-                colour={"#222222"}
                 icon={require("@assets/img/close.svg")}
-                options={{
-                    iconSize: "30px"
-                }}
+                iconSize="30px"
                 style={{
+                    backgroundColor: "#222",
                     padding: "5px",
                     position: "absolute",
                     top: "5px",
@@ -81,17 +80,23 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
                 {username}
             </span>
 
-            <MonthSelector onMonthChange={loadGames} />
+            <MonthSelector 
+                onMonthChange={loadGames} 
+                locked={searchError != null}
+            />
 
             {/* Note: Game listings here are currently a stub. */}
             <div className={styles.list}>
                 {
-                    searchError
-                    || (games.length > 0 ?
-                        games.map(game => <div>
-                            {game.players?.white.username} vs {game.players?.black.username}
-                        </div>)
-                        : t("pages.analysis.gameSearchMenu.noGamesFound"))
+                    searchError ?
+                        <span style={{color: "red"}}>{searchError}</span>
+                        : games ?
+                            (games.length > 0 ?
+                                games.map(game => <div>
+                                    {game.players?.white.username} vs {game.players?.black.username}
+                                </div>)
+                                : t("pages.analysis.gameSearchMenu.noGamesFound"))
+                            : t("pages.analysis.gameSearchMenu.loading")
                 }
             </div>
         </div>

@@ -1,33 +1,29 @@
-import { GameSource } from "wintrchess";
-
-type GameSourcesType = { [key: string]: GameSource };
-
-const gameSources: GameSourcesType = {
-    pgn: {
+const GameSource = {
+    PGN: {
         key: "pgn",
         title: "PGN",
         expandField: true,
         requiresSearch: false
     },
-    fen: {
+    FEN: {
         key: "fen",
         title: "FEN",
         expandField: false,
         requiresSearch: false
     },
-    chessCom: {
+    CHESS_COM: {
         key: "chessCom",
         title: "Chess.com",
         expandField: false,
         requiresSearch: true
     },
-    lichess: {
+    LICHESS: {
         key: "lichess",
         title: "Lichess",
         expandField: false,
         requiresSearch: true
     },
-    chessKid: {
+    CHESSKID: {
         key: "chessKid",
         title: "ChessKid",
         expandField: false,
@@ -35,4 +31,6 @@ const gameSources: GameSourcesType = {
     }
 };
 
-export default gameSources;
+type GameSource = Readonly<typeof GameSource.PGN>;
+
+export default GameSource;

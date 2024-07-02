@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import GameSource from "@ctypes/GameSource";
-import gameSources from "@constants/GameSource";
+import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import GameSearchMenu from "../GameSearchMenu";
@@ -12,19 +11,25 @@ import * as styles from "./GameSelector.module.css";
 function GameSelector() {
     const { t } = useTranslation();
 
-    const [ source, setSource ] = useState<GameSource>(gameSources.pgn);
-    const [ searchMenuOpen, setSearchMenuOpen ] = useState<boolean>(false);
+    const [ source, setSource ] = useState<GameSource>(GameSource.PGN);
+    const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
-    const gameInputFieldRef = useRef<HTMLTextAreaElement>(null);
+    const inputGameRef = useRef<string>("");
 
     function handleGameSourceChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        setSource(gameSources[event.target.value]);
+        const selectedSource = Object.values(GameSource)
+            .find(source => source.key == event.target.value);
+
+        if (!selectedSource) return;
+        setSource(selectedSource);
+    }
+
+    function handleGameInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+        inputGameRef.current = event.target.value;
     }
 
     function openGameSearchMenu() {
-        if (!gameInputFieldRef.current) return;
-        if (gameInputFieldRef.current.value.length == 0) return;
-
+        if (inputGameRef.current.length == 0) return;
         setSearchMenuOpen(true);
     }
 
@@ -39,9 +44,9 @@ function GameSelector() {
                 onChange={handleGameSourceChange}
             >
                 {
-                    Object.entries(gameSources)
-                        .map(([key, data]) => <option value={key}>
-                            {data.title}
+                    Object.values(GameSource)
+                        .map(source => <option value={source.key}>
+                            {source.title}
                         </option>)
                 }
             </select>
@@ -49,7 +54,6 @@ function GameSelector() {
 
         <textarea
             className={styles.inputGame}
-            ref={gameInputFieldRef}
             placeholder={
                 t(`pages.analysis.gameSelector.sourcePlaceholders.${source.key}`)
             }
@@ -57,34 +61,31 @@ function GameSelector() {
                 height: source.expandField ? "170px" : "70px",
                 borderRadius: source.requiresSearch ? undefined : "0 0 10px 10px"
             }}
+            onChange={handleGameInputChange}
         ></textarea>
 
         {
-            source.requiresSearch ?
-                <Button
-                    colour={ButtonColour.LIGHT_GREY}
-                    icon={require("@assets/img/search.svg")}
-                    options={{
-                        iconSize: "25px"
-                    }}
-                    style={{
-                        borderRadius: "0 0 10px 10px"
-                    }}
-                    onClick={openGameSearchMenu}
-                >
-                    {t("pages.analysis.gameSelector.searchGamesButton")}
-                </Button>
-                : ""
+            source.requiresSearch
+            && <Button
+                icon={require("@assets/img/search.svg")}
+                iconSize="25px"
+                style={{
+                    backgroundColor: ButtonColour.LIGHT_GREY,
+                    borderRadius: "0 0 10px 10px"
+                }}
+                onClick={openGameSearchMenu}
+            >
+                {t("pages.analysis.gameSelector.searchGamesButton")}
+            </Button>
         }
         
         {
-            searchMenuOpen ?
-                <GameSearchMenu
-                    username={gameInputFieldRef.current?.value || ""}
-                    gameSource={source}
-                    setOpen={setSearchMenuOpen}
-                />
-                : ""
+            searchMenuOpen
+            && <GameSearchMenu
+                username={inputGameRef.current}
+                gameSource={source}
+                setOpen={setSearchMenuOpen}
+            />
         }
     </div>;
 }

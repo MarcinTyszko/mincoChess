@@ -24,27 +24,23 @@ function PlayerProfile({
         }
     >
         {
-            profile.image ?
-                <img 
-                    className={styles.profileImage} 
-                    src={profile.image}
-                />
-                :
-                ""
+            !!profile.image
+            && <img 
+                className={styles.profileImage} 
+                src={profile.image}
+            />
         }
 
         {
-            profile.title ?
-                <span className={styles.title}>{profile.title}</span>
-                : ""
+            !!profile.title
+            && <span className={styles.title}>{profile.title}</span>
         }
 
         <span className={styles.username}>{profile.username}</span>
 
         {
-            profile.rating ?
-                <span className={styles.rating}>({profile.rating})</span>
-                : ""
+            !!profile.rating
+            && <span className={styles.rating}>({profile.rating})</span>
         }
     </div>;
 }

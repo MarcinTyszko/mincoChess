@@ -34,25 +34,43 @@ function NavigationBar() {
         </div>
 
         <div className={styles.navigationBarSection}>
-            <a href="https://ko-fi.com/wintrcat" target="_blank" title="Donate ❤">
+            <a 
+                href="https://ko-fi.com/wintrcat"
+                target="_blank" 
+                title={t("navigationBar.tooltips.donate")}
+            >
                 <Button 
-                    colour={ButtonColour.BLUE} 
+                    style={{
+                        backgroundColor: ButtonColour.BLUE
+                    }}
                     icon={require("@assets/img/kofi.svg")}
                 >
                     {t("navigationBar.donate")}
                 </Button>
             </a>
 
-            <a href="https://youtube.com/@wintrcat" target="_blank" title="My YouTube Channel">
+            <a 
+                href="https://youtube.com/@wintrcat"
+                target="_blank"
+                title={t("navigationBar.tooltips.youtube")}
+            >
                 <Button 
-                    colour={ButtonColour.GREY} 
+                    style={{
+                        backgroundColor: ButtonColour.GREY
+                    }}
                     icon={require("@assets/img/youtube.svg")}
                 />
             </a>
 
-            <a href="https://discord.gg/XxtsAzPyCb" target="_blank" title="Join the community">
+            <a 
+                href="https://discord.gg/XxtsAzPyCb"
+                target="_blank"
+                title={t("navigationBar.tooltips.discord")}
+            >
                 <Button 
-                    colour={ButtonColour.GREY} 
+                    style={{
+                        backgroundColor: ButtonColour.GREY
+                    }}
                     icon={require("@assets/img/discord.png")}
                 />
             </a>

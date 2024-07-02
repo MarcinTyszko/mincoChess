@@ -20,13 +20,19 @@ const monthNames = [
     "December"
 ];
 
-function MonthSelector({ onMonthChange, allowFuture }: MonthSelectorProps) {
-    const [ searchYear, setSearchYear ] = useState<number>(new Date().getFullYear());
-    const [ searchMonth, setSearchMonth ] = useState<number>(new Date().getMonth());
+function MonthSelector({ 
+    onMonthChange, 
+    allowFuture, 
+    locked
+}: MonthSelectorProps) {
+    const [ year, setYear ] = useState(new Date().getFullYear());
+    const [ month, setMonth ] = useState(new Date().getMonth());
 
     function incrementMonth(offset: number) {
-        let newMonth = searchMonth + offset;
-        let newYear = searchYear;
+        if (locked) return;
+
+        let newMonth = month + offset;
+        let newYear = year;
 
         const currentDate = new Date();
         if (
@@ -43,8 +49,8 @@ function MonthSelector({ onMonthChange, allowFuture }: MonthSelectorProps) {
             newMonth = 12 + newMonth;
         }
 
-        setSearchMonth(newMonth);
-        setSearchYear(newYear);
+        setMonth(newMonth);
+        setYear(newYear);
 
         if (!onMonthChange) return;
         onMonthChange(newMonth + 1, newYear);
@@ -52,28 +58,22 @@ function MonthSelector({ onMonthChange, allowFuture }: MonthSelectorProps) {
 
     return <div className={styles.wrapper}>
         <Button
-            colour={"#222222"}
             icon={require("@assets/img/back.svg")}
-            options={{
-                iconSize: "30px"
-            }}
+            iconSize="30px"
             style={{
+                backgroundColor: "#222",
                 padding: "5px"
             }}
             onClick={() => incrementMonth(-1)}
         />
 
-        <span>
-            {monthNames[searchMonth]} {searchYear}
-        </span>
+        <span>{monthNames[month]} {year}</span>
 
         <Button
-            colour={"#222222"}
             icon={require("@assets/img/next.svg")}
-            options={{
-                iconSize: "30px"
-            }}
+            iconSize="30px"
             style={{
+                backgroundColor: "#222",
                 padding: "5px"
             }}
             onClick={() => incrementMonth(1)}

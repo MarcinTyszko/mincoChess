@@ -15,7 +15,7 @@ export async function getChessComGames(
     );
 
     if (gamesResponse.status == 404) {
-        throw new Error();
+        throw new Error("user could not be found.");
     }
 
     const games = (await gamesResponse.json()).games as any[];
@@ -41,7 +41,8 @@ export async function getChessComGames(
                     rating: game.black.rating
                 }
             },
-            winner: winner
+            winner: winner,
+            date: new Date(game["end_time"])
         };
     });
 }

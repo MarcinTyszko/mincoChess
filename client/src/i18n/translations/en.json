@@ -1,6 +1,11 @@
 {
     "navigationBar": {
-        "donate": "Donate"
+        "donate": "Donate",
+        "tooltips": {
+            "donate": "Donate to me ❤",
+            "youtube": "My YouTube Channel",
+            "discord": "Join the community"
+        }
     },
     "sidebar": {
         "analysis": "Analysis",
@@ -22,6 +27,7 @@
             },
             "gameSearchMenu": {
                 "title": "Select a game",
+                "loading": "Loading games...",
                 "userNotFound": "We couldn't find an account with this username.",
                 "noGamesFound": "We couldn't find any games for this month."
             }
