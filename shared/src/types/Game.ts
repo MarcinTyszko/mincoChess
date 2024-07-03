@@ -15,6 +15,7 @@ interface Game {
         black?: PlayerProfile;
     };
     winner?: PieceColour;
+    terminationReason?: string;
     date: Date;
 }
 
