@@ -16,7 +16,7 @@ interface Game {
     };
     winner?: PieceColour;
     terminationReason?: string;
-    date: Date;
+    date?: Date;
 }
 
 export default Game;
