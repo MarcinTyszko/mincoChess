@@ -1,3 +1,6 @@
-export { default as PlayerProfile } from "./types/PlayerProfile";
-export { default as PieceColour } from "./types/PieceColour";
-export { default as Game } from "./types/Game";
+export { default as GameResult } from "./constants/GameResult";
+
+export { default as Game } from "./types/game/Game";
+export { default as GamePlayerProfile } from "./types/game/GamePlayerProfile";
+
+export * from "./types/PieceColour";

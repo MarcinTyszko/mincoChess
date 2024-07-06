@@ -1,32 +1,18 @@
 import React, { useState } from "react";
 
+import { monthNames } from "@lib/utils/date";
 import Button from "../Button";
 
 import MonthSelectorProps from "./MonthSelectorProps";
 import * as styles from "./MonthSelector.module.css";
-
-const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-];
 
 function MonthSelector({ 
     onMonthChange, 
     allowFuture, 
     locked
 }: MonthSelectorProps) {
-    const [ year, setYear ] = useState(new Date().getFullYear());
-    const [ month, setMonth ] = useState(new Date().getMonth());
+    const [ year, setYear ] = useState(new Date().getUTCFullYear());
+    const [ month, setMonth ] = useState(new Date().getUTCMonth());
 
     function incrementMonth(offset: number) {
         if (locked) return;
@@ -53,7 +39,7 @@ function MonthSelector({
         setYear(newYear);
 
         if (!onMonthChange) return;
-        onMonthChange(newMonth + 1, newYear);
+        onMonthChange(newMonth, newYear);
     }
 
     return <div className={styles.wrapper}>

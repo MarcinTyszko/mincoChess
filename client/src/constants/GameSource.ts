@@ -3,31 +3,36 @@ const GameSource = {
         key: "pgn",
         title: "PGN",
         expandField: true,
-        requiresSearch: false
+        requiresSearch: false,
+        ratelimited: false
     },
     FEN: {
         key: "fen",
         title: "FEN",
         expandField: false,
-        requiresSearch: false
+        requiresSearch: false,
+        ratelimited: false
     },
     CHESS_COM: {
         key: "chessCom",
         title: "Chess.com",
         expandField: false,
-        requiresSearch: true
+        requiresSearch: true,
+        ratelimited: false
     },
     LICHESS: {
         key: "lichess",
         title: "Lichess",
         expandField: false,
-        requiresSearch: true
+        requiresSearch: true,
+        ratelimited: true
     },
     CHESSKID: {
         key: "chessKid",
         title: "ChessKid",
         expandField: false,
-        requiresSearch: true
+        requiresSearch: true,
+        ratelimited: false
     }
 };
 

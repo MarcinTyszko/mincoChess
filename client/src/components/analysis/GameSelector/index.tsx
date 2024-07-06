@@ -20,6 +20,7 @@ function GameSelector() {
     const inputGameRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
+        // Load game source from cookies if one is stored
         const savedSource = Object.values(GameSource).find(source => {
             return source.key == cookies.get(Cookie.LAST_USED_GAME_SOURCE);
         });
@@ -32,9 +33,11 @@ function GameSelector() {
             .find(source => source.key == event.target.value);
         if (!selectedSource) return;
 
+        // Save the selected game source choice in cookies
         setSource(selectedSource);
         cookies.set(Cookie.LAST_USED_GAME_SOURCE, selectedSource.key);
 
+        // Put the saved chess website username from cookies into the text area
         if (!inputGameRef.current) return;
         inputGameRef.current.value = cookies.get(
             Cookie.LAST_CHESS_WEBSITE_USERNAME
@@ -50,6 +53,7 @@ function GameSelector() {
         const savedUsernames = cookies.get(Cookie.LAST_CHESS_WEBSITE_USERNAME) || {};
         if (typeof savedUsernames != "object") return;
 
+        // Save the input in cookies
         cookies.set(
             Cookie.LAST_CHESS_WEBSITE_USERNAME,
             {

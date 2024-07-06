@@ -1,6 +1,6 @@
 import { SetStateAction } from "react";
 
-import GameSource from "@ctypes/GameSource";
+import GameSource from "@constants/GameSource";
 
 interface GameSearchMenuProps {
     username: string;

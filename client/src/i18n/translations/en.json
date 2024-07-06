@@ -27,9 +27,10 @@
             },
             "gameSearchMenu": {
                 "title": "Select a game",
-                "loading": "Loading games...",
+                "loading": "Searching for games...",
                 "userNotFound": "We couldn't find an account with this username.",
-                "noGamesFound": "We couldn't find any games for this month."
+                "noGamesFound": "We couldn't find any games for this month.",
+                "ratelimited": "You were ratelimited, please wait..."
             }
         }
     }

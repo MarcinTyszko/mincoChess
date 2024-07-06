@@ -1,56 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Game } from "wintrchess";
-import { getChessComGames } from "@lib/games";
+import GameSource from "@constants/GameSource";
+import getChessComGames from "@lib/games/chessCom";
+import getLichessGames from "@lib/games/lichess";
+import { UserNotFoundError } from "@lib/games/errors";
 import Button from "@components/common/Button";
 import MonthSelector from "@components/common/MonthSelector";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
 
+async function fetchGames(
+    gameSource: GameSource,
+    username: string,
+    month: number,
+    year: number
+) {
+    switch (gameSource.key) {
+        case "chessCom":
+            return await getChessComGames(username, month, year);
+        case "lichess":
+            return await getLichessGames(username, month, year);
+        case "chessKid":
+            return [];
+        default:
+            return [];
+    }
+}
+
 function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) {
     const { t } = useTranslation();
+    const queryClient = useQueryClient();
 
-    const [ games, setGames ] = useState<Game[] | null>(null);
-    const [ searchError, setSearchError ] = useState<string | null>(null);
+    const [ month, setMonth ] = useState(new Date().getUTCMonth());
+    const [ year, setYear ] = useState(new Date().getUTCFullYear());
 
-    useEffect(() => {
-        const currentDate = new Date();
-
-        loadGames(
-            currentDate.getMonth() + 1,
-            currentDate.getFullYear()
-        );
-    }, []);
+    const { data: games, status, fetchStatus, error } = useQuery({ 
+        queryKey: ["games", username, month, year], 
+        queryFn: () => fetchGames(gameSource, username, month, year),
+        retry: (failureCount, error) => {
+            return !(error instanceof UserNotFoundError);
+        },
+        retryDelay: 2000
+    });
 
     function closeMenu() {
         if (!setOpen) return;
         setOpen(false);
-    }
-
-    async function loadGames(month: number, year: number) {
-        setGames(null);
-
-        try {
-            switch (gameSource.key) {
-                case "chessCom":
-                    setGames(
-                        await getChessComGames(username, month, year)
-                    );
-                    break;
-                case "lichess":
-                    break;
-                case "chessKid":
-                    break;
-            }
-
-            setSearchError(null);
-        } catch {
-            setSearchError(
-                t("pages.analysis.gameSearchMenu.userNotFound")
-            );
-        }
     }
 
     return <div className={styles.wrapper}>
@@ -81,22 +79,36 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
             </span>
 
             <MonthSelector 
-                onMonthChange={loadGames} 
-                locked={searchError != null}
+                onMonthChange={(month, year) => {
+                    setMonth(month);
+                    setYear(year);
+
+                    queryClient.cancelQueries({ queryKey: ["games"] });
+                }} 
+                locked={status == "error"}
             />
 
             {/* Note: Game listings here are currently a stub. */}
             <div className={styles.list}>
                 {
-                    searchError ?
-                        <span style={{color: "red"}}>{searchError}</span>
-                        : games ?
-                            (games.length > 0 ?
-                                games.map(game => <div>
-                                    {game.players?.white.username} vs {game.players?.black.username}
-                                </div>)
-                                : t("pages.analysis.gameSearchMenu.noGamesFound"))
-                            : t("pages.analysis.gameSearchMenu.loading")
+                    status == "error"
+                    && <span style={{ color: "red" }}>{t(error.message)}</span>
+                }
+
+                {
+                    (status == "pending" || fetchStatus == "fetching")
+                    && <span>{t("pages.analysis.gameSearchMenu.loading")}</span>
+                }
+
+                {
+                    status == "success" && fetchStatus == "idle"
+                    && (
+                        games.length > 0 ?
+                            games.map(game => <div>
+                                {game.players?.white.username} vs {game.players?.black.username}
+                            </div>)
+                            : t("pages.analysis.gameSearchMenu.noGamesFound")
+                    )
                 }
             </div>
         </div>
