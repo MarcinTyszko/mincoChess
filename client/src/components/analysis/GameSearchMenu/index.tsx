@@ -41,7 +41,8 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
         retry: (failureCount, error) => {
             return !(error instanceof UserNotFoundError);
         },
-        retryDelay: 2000
+        retryDelay: 2000,
+        staleTime: Infinity
     });
 
     function closeMenu() {

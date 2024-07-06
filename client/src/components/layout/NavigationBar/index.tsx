@@ -54,10 +54,7 @@ function NavigationBar() {
                 target="_blank"
                 title={t("navigationBar.tooltips.youtube")}
             >
-                <Button 
-                    style={{
-                        backgroundColor: ButtonColour.GREY
-                    }}
+                <Button
                     icon={require("@assets/img/youtube.svg")}
                 />
             </a>
@@ -67,10 +64,7 @@ function NavigationBar() {
                 target="_blank"
                 title={t("navigationBar.tooltips.discord")}
             >
-                <Button 
-                    style={{
-                        backgroundColor: ButtonColour.GREY
-                    }}
+                <Button
                     icon={require("@assets/img/discord.png")}
                 />
             </a>

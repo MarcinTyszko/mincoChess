@@ -3,7 +3,6 @@ import React from "react";
 import ChessBoard from "@components/board/ChessBoard";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
-import ButtonColour from "@constants/ButtonColour";
 
 import * as styles from "./Analysis.module.css";
 
@@ -21,11 +20,10 @@ function Analysis() {
             <GameSelector/>
 
             <Button
-                colour={ButtonColour.LIGHT_GREY}
                 icon={require("@assets/img/analysis.svg")}
-                options={{
-                    fontSize: "1.1rem",
-                    iconSize: "30px"
+                iconSize="30px"
+                style={{
+                    fontSize: "1.1rem"
                 }}
             >
                 Analyse

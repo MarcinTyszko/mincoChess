@@ -1,7 +1,5 @@
 import React from "react";
 
-import ButtonColour from "@constants/ButtonColour";
-
 import ButtonProps from "./ButtonProps";
 import * as styles from "./Button.module.css";
 
@@ -15,9 +13,9 @@ function Button({
     return <button
         className={styles.button}
         style={{
-            backgroundColor: style?.backgroundColor || ButtonColour.GREY,
-            padding: style?.padding || "10px",
-            fontSize: style?.fontSize || "1.1rem",
+            backgroundColor: style?.backgroundColor,
+            padding: style?.padding,
+            fontSize: style?.fontSize,
             ...style
         }}
         onClick={onClick}
