@@ -46,9 +46,9 @@ function getLoserResult(gameStatus: LichessGameStatus): GameResult {
             return GameResult.ABANDONED;
         case "unknownFinish":
             return GameResult.AGREED;
-        default:
-            return GameResult.AGREED;
     }
+
+    return GameResult.AGREED;
 }
 
 async function getLichessGames(

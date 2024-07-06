@@ -26,13 +26,6 @@ const GameSource = {
         expandField: false,
         requiresSearch: true,
         ratelimited: true
-    },
-    CHESSKID: {
-        key: "chessKid",
-        title: "ChessKid",
-        expandField: false,
-        requiresSearch: true,
-        ratelimited: false
     }
 };
 

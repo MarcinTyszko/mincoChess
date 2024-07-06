@@ -23,11 +23,9 @@ async function fetchGames(
             return await getChessComGames(username, month, year);
         case "lichess":
             return await getLichessGames(username, month, year);
-        case "chessKid":
-            return [];
-        default:
-            return [];
     }
+
+    return [];
 }
 
 function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) {
