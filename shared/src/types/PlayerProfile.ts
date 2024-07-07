@@ -1,5 +1,5 @@
 interface PlayerProfile {
-    username: string;
+    username?: string;
     rating?: number;
     title?: string;
     image?: string;
