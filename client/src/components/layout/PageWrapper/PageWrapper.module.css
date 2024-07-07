@@ -1,9 +1,16 @@
+.topSection {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    width: 100%;
+}
+
 .contentWrapper {
     display: grid;
     grid-template-columns: 170px auto;
 
     width: 100%;
-    height: calc(100vh - 70px);
 }
 
 @media (max-width: 1230px) {

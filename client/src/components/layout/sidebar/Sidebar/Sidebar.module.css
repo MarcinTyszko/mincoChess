@@ -24,16 +24,8 @@
 
 @media (max-width: 1230px) {
     .sidebar {
-        top: 70px;
-
         box-shadow: 0 0 15px #000000;
         clip-path: inset(0 -15px 0 0);
-    }
-}
-
-@media (max-width: 580px) {
-    .sidebar {
-        top: 122px;
     }
 }
 
