@@ -5,7 +5,7 @@ interface Game {
     initialPosition: string;
     timeControl?: string;
     variant: string;
-    players?: {
+    players: {
         white: GamePlayerProfile;
         black: GamePlayerProfile;
     };
