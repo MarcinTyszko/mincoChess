@@ -15,16 +15,12 @@
 
 @media (max-width: 1230px) {
     .contentWrapper {
-        grid-template-columns: 100%;
+        display: flex;
     }
 }
 
 .content {
     grid-column: 2 / 3;
-}
 
-@media (max-width: 1230px) {
-    .content {
-        grid-column: 1 / 2;
-    }
+    width: 100%;
 }

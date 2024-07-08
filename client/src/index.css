@@ -9,12 +9,6 @@ body {
     background-color: #161616;
 }
 
-@media (max-width: 900px) {
-    body {
-        background-color: #242424;
-    }
-}
-
 * {
     font-family: "JetBrains Mono";
 }

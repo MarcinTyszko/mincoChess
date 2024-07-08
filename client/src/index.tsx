@@ -6,6 +6,7 @@ import PageWrapper from "@components/layout/PageWrapper";
 import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
 const Analysis = lazy(() => import("@pages/Analysis"));
+const News = lazy(() => import("@pages/News"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 import "./i18n";
@@ -22,6 +23,7 @@ root.render(
                 <Routes>
                     <Route path="/" element={<Analysis/>} />
 
+                    <Route path="/news" element={<News/>} />
                     <Route path="*" element={<Unfound/>} />
                 </Routes>
             </Suspense>
