@@ -13,8 +13,7 @@ module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
-        path: resolve("./dist"),
-        //assetModuleFilename: "[query][hash][ext]"
+        path: resolve("./dist")
     },
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
