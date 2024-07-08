@@ -37,7 +37,7 @@
     animation-direction: reverse;
 }
 
-@media (min-width: 1230px) {
+@media (min-width: 1231px) {
     .sidebarClosed {
         left: 0;
     }
