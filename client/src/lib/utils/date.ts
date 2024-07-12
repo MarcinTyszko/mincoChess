@@ -13,9 +13,9 @@ export const monthNames = [
     "December"
 ];
 
-export function padDateNumber(month: number) {
-    const monthString = month.toString();
-    return monthString.length > 1 ? monthString : "0" + monthString;
+export function padDateNumber(dateNumber: number) {
+    const dateNumberString = dateNumber.toString();
+    return dateNumberString.length > 1 ? dateNumberString : "0" + dateNumberString;
 }
 
 export function getMonthLength(month: number) {
