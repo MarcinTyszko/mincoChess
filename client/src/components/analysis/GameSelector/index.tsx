@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cookies } from "react-cookie";
 
-import Cookie from "@constants/Cookie";
+import { Cookie } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";

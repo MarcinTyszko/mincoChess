@@ -4,7 +4,9 @@ require("dotenv").config({
     path: "../.env"
 });
 
-const nodeEnv = process.env.NODE_ENV == "dev" ? "development" : "production";
+const DotenvPlugin = require("dotenv-webpack");
+
+const nodeEnv = process.env.NODE_ENV || "production";
 
 /**
  * @type {Configuration}
@@ -52,5 +54,8 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new DotenvPlugin({ path: "../.env" })
+    ],
     mode: nodeEnv
 };

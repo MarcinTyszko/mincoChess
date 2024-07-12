@@ -11,5 +11,13 @@
 }
 
 .title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
     margin: 20px;
+}
+
+.title span {
+    font-size: 2rem;
 }

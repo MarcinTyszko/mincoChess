@@ -2,8 +2,8 @@
     "navigationBar": {
         "donate": "Donate",
         "tooltips": {
-            "donate": "Donate to me ❤",
-            "youtube": "My YouTube Channel",
+            "donate": "Donate to us ❤",
+            "youtube": "YouTube Channel",
             "discord": "Join the community"
         }
     },
@@ -33,6 +33,9 @@
                 "noGamesFound": "We couldn't find any games for this month.",
                 "ratelimited": "You were ratelimited, please wait..."
             }
+        },
+        "news": {
+            "title": "Newspaper"
         }
     }
 }

@@ -1,3 +1,4 @@
+export { default as Cookie } from "./constants/Cookie";
 export { default as GameResult } from "./constants/GameResult";
 export * from "./constants/GenericGameResult";
 

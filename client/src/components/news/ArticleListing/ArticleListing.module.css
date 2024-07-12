@@ -1,0 +1,45 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    padding: 15px;
+
+    width: 70%;
+
+    border-radius: 10px;
+    background-color: #242424;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wrapper:hover {
+    background-color: #202020;
+}
+
+@media (max-width: 580px) {
+    .wrapper {
+        margin: 15px;
+        
+        width: auto;
+    }
+}
+
+.metadata {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category {
+    padding: 2px 10px;
+
+    border-radius: 20px;
+    border: 1px solid #0c0c0cab;
+    background-color: #0c0c0c4c;
+}
+
+.date {
+    color: grey;
+}

@@ -9,6 +9,9 @@ const Analysis = lazy(() => import("@pages/Analysis"));
 const News = lazy(() => import("@pages/News"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
+const Login = lazy(() => import("@pages/admin/Login"));
+const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
+
 import "./i18n";
 import "./index.css";
 
@@ -22,9 +25,11 @@ root.render(
             <Suspense fallback={<LoadingPlaceholder/>}>
                 <Routes>
                     <Route path="/" element={<Analysis/>} />
-
                     <Route path="/news" element={<News/>} />
                     <Route path="*" element={<Unfound/>} />
+
+                    <Route path="/internal/login" element={<Login/>} />
+                    <Route path="/internal/dashboard" element={<Dashboard/>} />
                 </Routes>
             </Suspense>
         </PageWrapper>
