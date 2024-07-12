@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
-const database = mongoose.createConnection(process.env.DATABASE_URL || "");
-database.useDb("wintrchess");
+async function connectDatabase() {
+    if (!process.env.DATABASE_URL) return;
 
-export default database;
+    try {
+        await mongoose.connect(process.env.DATABASE_URL);
+        console.log("database connected successfully.");
+    } catch (err) {
+        console.log("database connection failed.");
+    }
+}
+
+export default connectDatabase;

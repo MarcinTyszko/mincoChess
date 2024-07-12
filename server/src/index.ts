@@ -4,6 +4,9 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config();
 
+import connectDatabase from "./lib/database";
+connectDatabase();
+
 import internalLoginRouter from "./routes/internal/login";
 import internalVerifySessionRouter from "./routes/internal/verifySession";
 
@@ -24,7 +27,7 @@ app.get("/*", async (req, res) => {
 });
 
 const port = process.env.PORT || 8080;
-const nodeEnv = process.env.NODE_ENV || "prod";
+const nodeEnv = process.env.NODE_ENV || "production";
 
 app.listen(port, () => {
     console.log(`server running on port ${port} (${nodeEnv} mode)`);

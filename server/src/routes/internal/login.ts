@@ -16,7 +16,7 @@ router.post("/internal/login", async (req, res) => {
     }
 
     // If ReCAPTCHA token is invalid, 400
-    if (process.env.NODE_ENV == "development") {
+    if (process.env.NODE_ENV != "development") {
         const captchaResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
             method: "POST",
             headers: {

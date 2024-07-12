@@ -10,19 +10,19 @@ async function verifySession() {
 function useProtectedRoute() {
     const navigate = useNavigate();
 
-    const { data: sessionValidity, status } = useQuery({
+    const { data: sessionValidity, status, fetchStatus } = useQuery({
         queryKey: ["sessionValidity"],
         queryFn: verifySession,
         retry: true
     });
 
     useEffect(() => {
-        if (status != "success") return;
+        if (status != "success" || fetchStatus != "idle") return;
 
         if (!sessionValidity) {
             navigate("/internal/login");
         }
-    }, [status]);
+    }, [status, fetchStatus]);
 }
 
 export default useProtectedRoute;

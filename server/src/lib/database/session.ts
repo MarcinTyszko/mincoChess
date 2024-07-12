@@ -1,5 +1,5 @@
+import { connection as database } from "mongoose";
 import * as uuid from "uuid";
-import database from ".";
 
 export async function createSession() {
     const sessionToken = uuid.v4();
