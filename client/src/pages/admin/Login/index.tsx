@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Cookie } from "wintrchess";
-import ReCAPTCHA from "react-google-recaptcha";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 
