@@ -1,0 +1,28 @@
+.gameListing {
+    display: flex;
+}
+
+.gameListing > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.playerInfo {
+    padding: 4px;
+}
+
+.playerInfo span {
+    margin-right: 5px;
+}
+
+.playerTitle {
+    background-color: #b54040;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.playerRating {
+    color: grey;
+}

@@ -6,6 +6,7 @@ import PageWrapper from "@components/layout/PageWrapper";
 import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
 const Analysis = lazy(() => import("@pages/Analysis"));
+const Archive = lazy(() => import("@pages/Archive"));
 const News = lazy(() => import("@pages/News"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
@@ -25,6 +26,8 @@ root.render(
             <Suspense fallback={<LoadingPlaceholder/>}>
                 <Routes>
                     <Route path="/" element={<Analysis/>} />
+                    <Route path="/archive" element={<Archive/>}/>
+
                     <Route path="/news" element={<News/>} />
                     <Route path="*" element={<Unfound/>} />
 
