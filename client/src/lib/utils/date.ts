@@ -28,3 +28,9 @@ export function getMonthLength(month: number) {
 
     return monthLengths[month];
 }
+
+export function formatDate(date: Date) {
+    const shortMonthName = monthNames[date.getMonth()].slice(0, 3);
+    
+    return `${date.getDate()} ${shortMonthName} ${date.getFullYear()}`;
+}

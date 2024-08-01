@@ -1,19 +1,17 @@
 import React from "react";
 
 import { getGenericGameResult, GenericGameResult } from "wintrchess";
-import { monthNames } from "@lib/utils/date";
+import { formatDate } from "@lib/utils/date";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
-function GameListing({
-    game,
-    moveCount
-}: GameListingProps) {
+function GameListing({ game, moveCount }: GameListingProps) {
     return <div className={styles.gameListing}>
         <div>
             {game.timeControl || "?"}
         </div>
+
         <div>
             <div className={styles.playerInfo}>
                 <span className={styles.playerTitle}>{game.players.white.title}</span> 
@@ -22,6 +20,7 @@ function GameListing({
                     ({game.players.white.rating || "?"})
                 </span>
             </div>
+
             <div className={styles.playerInfo}>
                 <span className={styles.playerTitle}>{game.players.black.title}</span> 
                 <span>{game.players.black.username || "Unknown"}</span>
@@ -30,6 +29,7 @@ function GameListing({
                 </span>
             </div>
         </div>
+
         <div>
             {
                 // Produce a string indicating if white won, lost or drew the game
@@ -40,18 +40,18 @@ function GameListing({
                 }[getGenericGameResult(game.players.white.result)]
             }
         </div>
+
         <div>
             <div>{game.players.white.accuracy || "?"}</div>
             <div>{game.players.black.accuracy || "?"}</div>
         </div>
+
         <div>{moveCount}</div>
+
         <div>
-            {game.date ? (
-                `${monthNames[game.date.getMonth()]} ${game.date.getDate()}, ${game.date.getFullYear()}`
-            ) : (
-                "Unknown"
-            )}
+            {game.date ? formatDate(game.date) : "Unknown"}
         </div>
+
         <div>
             <input type="checkbox" />
         </div>
