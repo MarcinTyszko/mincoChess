@@ -1,5 +1,17 @@
 .gameListing {
     display: flex;
+    justify-content: center;
+    
+    width: max(100%, 600px);
+}
+
+.selectableListing {
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.selectableListing:hover {
+    backdrop-filter: brightness(0.9);
 }
 
 .gameListing > div {

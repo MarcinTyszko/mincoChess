@@ -6,28 +6,33 @@ import { formatDate } from "@lib/utils/date";
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
-function GameListing({ game, moveCount }: GameListingProps) {
-    return <div className={styles.gameListing}>
+function GameListing({ game, onClick }: GameListingProps) {
+    return <div className={
+        `${styles.gameListing} ${onClick && styles.selectableListing}`
+    }>
         <div>
             {game.timeControl || "?"}
         </div>
 
         <div>
-            <div className={styles.playerInfo}>
-                <span className={styles.playerTitle}>{game.players.white.title}</span> 
-                <span>{game.players.white.username || "Unknown"}</span>
-                <span className={styles.playerRating}>
-                    ({game.players.white.rating || "?"})
-                </span>
-            </div>
-
-            <div className={styles.playerInfo}>
-                <span className={styles.playerTitle}>{game.players.black.title}</span> 
-                <span>{game.players.black.username || "Unknown"}</span>
-                <span className={styles.playerRating}>
-                    ({game.players.black.rating || "?"})
-                </span>
-            </div>
+            {
+                Object.values(game.players).map(player => (
+                    <div className={styles.playerInfo}>
+                        {
+                            !!player.title
+                            && <span className={styles.playerTitle}>
+                                {player.title}
+                            </span>
+                        }
+        
+                        <span>{player.username || "Unknown"}</span>
+        
+                        <span className={styles.playerRating}>
+                            ({player.rating || "?"})
+                        </span>
+                    </div>
+                ))
+            }
         </div>
 
         <div>
@@ -46,15 +51,11 @@ function GameListing({ game, moveCount }: GameListingProps) {
             <div>{game.players.black.accuracy || "?"}</div>
         </div>
 
-        <div>{moveCount}</div>
-
         <div>
             {game.date ? formatDate(game.date) : "Unknown"}
         </div>
 
-        <div>
-            <input type="checkbox" />
-        </div>
+        <input type="checkbox" />
     </div>;
 }
 

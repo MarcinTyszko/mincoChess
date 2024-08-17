@@ -37,7 +37,7 @@ async function getChessComGames(
                 result: game.black.result
             }
         },
-        date: new Date(game["end_time"])
+        date: new Date(game["end_time"] * 1000)
     }));
 }
 

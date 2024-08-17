@@ -8,6 +8,7 @@ import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/games/errors";
 import Button from "@components/common/Button";
 import MonthSelector from "@components/common/MonthSelector";
+import GameListing from "@components/common/GameListing";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
@@ -96,23 +97,29 @@ function GameSearchMenu({
             <div className={styles.list}>
                 {
                     status == "error" && fetchStatus == "idle"
-                    && <span style={{ color: "red" }}>
+                    && <span className={styles.statusMessage} style={{ color: "red" }}>
                         {t(error.message)}
                     </span>
                 }
 
                 {
                     fetchStatus == "fetching"
-                    && <span>{t("pages.analysis.gameSearchMenu.loading")}</span>
+                    && <span className={styles.statusMessage}>
+                        {t("pages.analysis.gameSearchMenu.loading")}
+                    </span>
                 }
 
                 {
                     status == "success" && fetchStatus == "idle"
                     && (
                         games.length > 0 ?
-                            games.map(game => <div>
-                                {game.players?.white.username} vs {game.players?.black.username}
-                            </div>)
+                            games
+                                .slice()
+                                .reverse()
+                                .map(game => <GameListing 
+                                    game={game}
+                                    onClick={() => null}
+                                />)
                             : t("pages.analysis.gameSearchMenu.noGamesFound")
                     )
                 }

@@ -2,7 +2,7 @@ import { Game } from "wintrchess";
 
 interface GameListingProps {
     game: Game;
-    moveCount: number;
+    onClick?: (game: Game) => void;
 }
 
 export default GameListingProps;
