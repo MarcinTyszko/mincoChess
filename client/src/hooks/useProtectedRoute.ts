@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 async function verifySession() {
     const verifyResponse = await fetch("/internal/verify");
+    
     return await verifyResponse.json();
 }
 

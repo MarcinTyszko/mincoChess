@@ -20,15 +20,20 @@ function GameSelector() {
     const inputGameRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
-        // Load game source from cookies if one is stored
+        // Load last game source from cookies if one is stored
+        const lastUsedGameSourceKey = cookies.get(Cookie.LAST_USED_GAME_SOURCE);
+
         const savedSource = Object.values(GameSource).find(source => {
-            return source.key == cookies.get(Cookie.LAST_USED_GAME_SOURCE);
+            return source.key == lastUsedGameSourceKey;
         });
 
-        if (savedSource) setSource(savedSource);
+        if (savedSource) {
+            setSource(savedSource);
+        }
     }, []);
 
     function handleGameSourceChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        // Get the selected game source from the dropdown
         const selectedSource = Object.values(GameSource)
             .find(source => source.key == event.target.value);
         if (!selectedSource) return;
@@ -39,6 +44,7 @@ function GameSelector() {
 
         // Put the saved chess website username from cookies into the text area
         if (!inputGameRef.current) return;
+
         inputGameRef.current.value = cookies.get(
             Cookie.LAST_CHESS_WEBSITE_USERNAME
         )?.[selectedSource.key] || "";
@@ -50,10 +56,11 @@ function GameSelector() {
             || source.key == GameSource.FEN.key
         ) return;
 
+        // Get saved chess website usernames from cookies
         const savedUsernames = cookies.get(Cookie.LAST_CHESS_WEBSITE_USERNAME) || {};
         if (typeof savedUsernames != "object") return;
 
-        // Save the input in cookies
+        // Save the input field contents in cookies
         cookies.set(
             Cookie.LAST_CHESS_WEBSITE_USERNAME,
             {
@@ -65,7 +72,10 @@ function GameSelector() {
 
     function openGameSearchMenu() {
         if (!inputGameRef.current) return;
+
+        // Don't open search menu if input game field is empty
         if (inputGameRef.current.value.length == 0) return;
+
         setSearchMenuOpen(true);
     }
 

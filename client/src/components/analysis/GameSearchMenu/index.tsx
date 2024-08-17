@@ -23,12 +23,16 @@ async function fetchGames(
             return await getChessComGames(username, month, year);
         case "lichess":
             return await getLichessGames(username, month, year);
+        default:
+            return [];
     }
-
-    return [];
 }
 
-function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) {
+function GameSearchMenu({
+    username,
+    gameSource,
+    setOpen
+}: GameSearchMenuProps) {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
 
@@ -79,10 +83,11 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
 
             <MonthSelector 
                 onMonthChange={(month, year) => {
+                    // Cancel other queries for games
+                    queryClient.cancelQueries({ queryKey: ["games"] });
+
                     setMonth(month);
                     setYear(year);
-
-                    queryClient.cancelQueries({ queryKey: ["games"] });
                 }} 
                 locked={status == "error"}
             />
@@ -90,12 +95,14 @@ function GameSearchMenu({ username, gameSource, setOpen }: GameSearchMenuProps) 
             {/* Note: Game listings here are currently a stub. */}
             <div className={styles.list}>
                 {
-                    status == "error"
-                    && <span style={{ color: "red" }}>{t(error.message)}</span>
+                    status == "error" && fetchStatus == "idle"
+                    && <span style={{ color: "red" }}>
+                        {t(error.message)}
+                    </span>
                 }
 
                 {
-                    (status == "pending" || fetchStatus == "fetching")
+                    fetchStatus == "fetching"
                     && <span>{t("pages.analysis.gameSearchMenu.loading")}</span>
                 }
 

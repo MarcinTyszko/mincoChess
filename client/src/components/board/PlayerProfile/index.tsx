@@ -6,8 +6,8 @@ import * as styles from "./PlayerProfile.module.css";
 const profileBorderRadius = "7px";
 
 function PlayerProfile({
-    bottom,
-    profile
+    profile,
+    bottom
 }: PlayerProfileProps) {
     return <div 
         className={styles.wrapper}
@@ -36,11 +36,15 @@ function PlayerProfile({
             && <span className={styles.title}>{profile.title}</span>
         }
 
-        <span className={styles.username}>{profile.username}</span>
+        <span className={styles.username}>
+            {profile.username}
+        </span>
 
         {
             !!profile.rating
-            && <span className={styles.rating}>({profile.rating})</span>
+            && <span className={styles.rating}>
+                ({profile.rating})
+            </span>
         }
     </div>;
 }
