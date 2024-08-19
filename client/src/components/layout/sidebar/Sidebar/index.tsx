@@ -44,6 +44,7 @@ function Sidebar() {
         <SidebarTab
             navigateTo="/" 
             icon={require("@assets/img/analysis.svg")}
+            style={{ width: "100%" }}
         >
             {t("sidebar.analysis")}
         </SidebarTab>
@@ -52,6 +53,7 @@ function Sidebar() {
             navigateTo="/archive" 
             icon={require("@assets/img/archive.svg")} 
             iconSize="20px"
+            style={{ width: "100%" }}
         >
             {t("sidebar.archive")}
         </SidebarTab>

@@ -12,6 +12,8 @@ const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
 const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
+const Analytics = lazy(() => import("@pages/admin/Analytics"));
+const NewsEditor = lazy(() => import("@pages/admin/News"));
 
 import "./i18n";
 import "./index.css";
@@ -20,21 +22,23 @@ const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
 
-root.render(
-    <BrowserRouter>
-        <PageWrapper>
-            <Suspense fallback={<LoadingPlaceholder/>}>
-                <Routes>
-                    <Route path="/" element={<Analysis/>} />
-                    <Route path="/archive" element={<Archive/>}/>
+root.render(<BrowserRouter>
+    <PageWrapper>
+        <Suspense fallback={<LoadingPlaceholder/>}>
+            <Routes>
+                <Route path="/" element={<Analysis/>} />
+                <Route path="/archive" element={<Archive/>}/>
 
-                    <Route path="/news" element={<News/>} />
-                    <Route path="*" element={<Unfound/>} />
+                <Route path="/news" element={<News/>} />
+                <Route path="*" element={<Unfound/>} />
 
-                    <Route path="/internal/login" element={<Login/>} />
-                    <Route path="/internal/dashboard" element={<Dashboard/>} />
-                </Routes>
-            </Suspense>
-        </PageWrapper>
-    </BrowserRouter>
-);
+                <Route path="/internal/login" element={<Login/>} />
+                <Route path="/internal/dashboard" element={<Dashboard/>}>
+                    <Route index element={<Analytics/>}/>
+                    <Route path="analytics" element={<Analytics/>}/>
+                    <Route path="news" element={<NewsEditor/>}/>
+                </Route>
+            </Routes>
+        </Suspense>
+    </PageWrapper>
+</BrowserRouter>);

@@ -7,11 +7,11 @@ import Breakpoints from "@constants/Breakpoints";
 import SidebarTabProps from "./SidebarTabProps";
 import * as styles from "./SidebarTab.module.css";
 
-
 const defaultIconSize = "30px";
 
 function SidebarTab({ 
     children,
+    style,
     navigateTo,
     icon,
     iconSize
@@ -27,11 +27,20 @@ function SidebarTab({
         }
     }
 
+    const isTabActive = location.pathname == navigateTo;
+
     return <button 
         className={styles.sidebarTab} 
         onClick={handleClick}
+        style={{
+            ...style,
+            backdropFilter: isTabActive ? "brightness(1.2)" : ""
+        }}
     >
-        <img src={icon} height={iconSize || defaultIconSize} />
+        {
+            !!icon
+            && <img src={icon} height={iconSize || defaultIconSize} />
+        }
 
         {children}
     </button>;

@@ -1,11 +1,9 @@
 .wrapper {
-    color: white;
-}
-
-.tabs {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+    padding: 30px;
+    box-sizing: border-box;
 
     width: 100%;
 }

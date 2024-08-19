@@ -23,7 +23,7 @@ function useProtectedRoute() {
         if (!sessionValidity) {
             navigate("/internal/login");
         }
-    }, [status, fetchStatus]);
+    }, [fetchStatus]);
 }
 
 export default useProtectedRoute;

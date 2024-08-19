@@ -1,9 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 
 interface SidebarTabProps {
     children: ReactNode;
+    style?: CSSProperties;
     navigateTo: string;
-    icon: string;
+    icon?: string;
     iconSize?: string;
 }
 

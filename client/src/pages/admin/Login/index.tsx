@@ -21,10 +21,6 @@ function Login() {
 
     async function login() {
         const captchaToken = captchaRef.current?.getValue();
-        if (
-            process.env.NODE_ENV != "development"
-            && !captchaToken
-        ) return;
 
         const sessionResponse = await fetch("/internal/login", {
             method: "POST",
