@@ -1,10 +1,12 @@
 import { connection as database } from "mongoose";
 import * as uuid from "uuid";
 
+import Collections from "./collections";
+
 export async function createSession() {
     const sessionToken = uuid.v4();
 
-    await database.collection("sessions").insertOne({
+    await database.collection(Collections.SESSIONS).insertOne({
         token: sessionToken,
         createdAt: new Date()
     });
@@ -13,10 +15,15 @@ export async function createSession() {
 }
 
 export async function deleteSession(token: string) {
-    await database.collection("sessions").deleteOne({ token });
+    await database
+        .collection(Collections.SESSIONS)
+        .deleteOne({ token });
 }
 
 export async function verifySession(token: string) {
-    const session = await database.collection("sessions").findOne({ token });
+    const session = await database
+        .collection(Collections.SESSIONS)
+        .findOne({ token });
+
     return !!session;
 }

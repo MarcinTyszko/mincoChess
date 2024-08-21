@@ -7,8 +7,7 @@ dotenv.config();
 import connectDatabase from "./lib/database";
 connectDatabase();
 
-import internalLoginRouter from "./routes/internal/login";
-import internalVerifySessionRouter from "./routes/internal/verifySession";
+import * as Routes from "./routes";
 
 const app = express();
 
@@ -19,11 +18,13 @@ app.use("/",
     express.static("client/public")
 );
 
-app.use("/", internalLoginRouter);
-app.use("/", internalVerifySessionRouter);
+app.use("/", Routes.internalRouter);
+app.use("/", Routes.apiRouter);
 
 app.get("/*", async (req, res) => {
-    res.sendFile(path.resolve("client/public/index.html"));
+    res.sendFile(
+        path.resolve("client/public/index.html")
+    );
 });
 
 const port = process.env.PORT || 8080;

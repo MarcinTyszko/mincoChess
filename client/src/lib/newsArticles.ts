@@ -1,0 +1,7 @@
+import { NewsArticle } from "wintrchess";
+
+export async function getNewsArticles(): Promise<NewsArticle[]> {
+    const articlesResponse = await fetch("/api/news");
+    
+    return await articlesResponse.json();
+}

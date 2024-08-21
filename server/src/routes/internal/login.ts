@@ -4,14 +4,16 @@ import { createSession } from "../../lib/database/session";
 
 const router = Router();
 
+interface LoginRequest {
+    password?: string;
+    captchaToken?: string;
+}
+
 router.post("/internal/login", async (req, res) => {
-    const { password, captchaToken } = req.body;
+    const { password, captchaToken }: LoginRequest = req.body;
 
     // If request any parameters are missing, 400
-    if (
-        process.env.NODE_ENV != "development" 
-        && (!password || !captchaToken)
-    ) {
+    if (!password || !captchaToken) {
         return res.status(400).send("Invalid request.");
     }
 
@@ -36,6 +38,7 @@ router.post("/internal/login", async (req, res) => {
         return res.status(401).send("Incorrect password.");
     }
 
+    // Create session
     const sessionToken = await createSession();
     res.send(sessionToken);
 });

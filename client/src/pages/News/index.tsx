@@ -14,13 +14,7 @@ function News() {
             <span>{t("pages.news.title")}</span>
         </div>  
 
-        <ArticleListing 
-            category="📝 Update"
-            categoryColour="#1e78ff"
-            date={new Date()}
-        >
-            Complete overhaul of Game Report is now released!
-        </ArticleListing>
+        
     </div>;
 }
 

@@ -1,10 +1,7 @@
-import { ReactNode } from "react";
+import { NewsArticle } from "wintrchess";
 
 interface ArticleListingProps {
-    children: ReactNode;
-    category: string;
-    categoryColour?: string;
-    date: Date;
+    article: NewsArticle;
 }
 
 export default ArticleListingProps;
