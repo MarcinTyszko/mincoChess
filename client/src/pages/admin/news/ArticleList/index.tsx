@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import Button from "@components/common/Button";
@@ -7,10 +8,12 @@ import ArticleListing from "@components/news/ArticleListing";
 import { getNewsArticles } from "@lib/newsArticles";
 import useProtectedRoute from "@hooks/useProtectedRoute";
 
-import * as styles from "./News.module.css";
+import * as styles from "./ArticleList.module.css";
 
-function News() {
+function ArticleList() {
     useProtectedRoute();
+
+    const navigate = useNavigate();
 
     const { data: newsArticles, status, error } = useQuery({
         queryKey: ["newsArticles"],
@@ -25,6 +28,7 @@ function News() {
                 backgroundColor: ButtonColour.BLUE,
                 marginBottom: "20px"
             }}
+            onClick={() => navigate("/internal/dashboard/news/edit")}
         >
             Compose News Post
         </Button>
@@ -43,4 +47,4 @@ function News() {
     </div>;
 }
 
-export default News;
+export default ArticleList;

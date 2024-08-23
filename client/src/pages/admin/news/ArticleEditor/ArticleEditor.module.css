@@ -1,0 +1,50 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px;
+}
+
+.formatSelector {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+
+    border-radius: 10px;
+    background-color: #3f3f3f;
+}
+
+.editor {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    width: 90%;
+    height: 500px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background-color: #3f3f3f;
+}
+
+@media (max-width: 900px) {
+    .editor {
+        width: 100%;
+    }
+}
+
+.editorContent {
+    padding: 10px;
+    width: 100%;
+
+    border: none;
+    background-color: #1a1a1a;
+    font-size: 1.1rem;
+    color: white;
+
+    resize: none;
+}
+
+.editorContent a {
+    color: white;
+}

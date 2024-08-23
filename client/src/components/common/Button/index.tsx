@@ -7,15 +7,14 @@ function Button({
     children,
     icon,
     iconSize,
+    highlighted,
     style,
     onClick
 }: ButtonProps) {
     return <button
         className={styles.button}
         style={{
-            backgroundColor: style?.backgroundColor,
-            padding: style?.padding,
-            fontSize: style?.fontSize,
+            filter: highlighted ? "brightness(1.1)" : "",
             ...style
         }}
         onClick={onClick}

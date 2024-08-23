@@ -12,3 +12,13 @@ body {
 * {
     font-family: "JetBrains Mono";
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+
+    background-color: #424242;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+}

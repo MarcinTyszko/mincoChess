@@ -59,13 +59,3 @@
 
     resize: none;
 }
-
-::-webkit-scrollbar {
-    width: 10px;
-
-    background-color: #424242;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: white;
-}

@@ -21,7 +21,10 @@ function ConfirmDialog({
 
             <div className={styles.options}>
                 <Button
-                    onClick={onConfirm}
+                    onClick={() => {
+                        setDialogOpen(false);
+                        onConfirm();
+                    }}
                     style={{
                         padding: "10px 20px",
                         backgroundColor: dangerAction ?

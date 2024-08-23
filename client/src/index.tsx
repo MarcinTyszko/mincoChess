@@ -13,7 +13,8 @@ const Unfound = lazy(() => import("@pages/Unfound"));
 const Login = lazy(() => import("@pages/admin/Login"));
 const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
 const Analytics = lazy(() => import("@pages/admin/Analytics"));
-const NewsEditor = lazy(() => import("@pages/admin/News"));
+const ArticleList = lazy(() => import("@pages/admin/news/ArticleList"));
+const ArticleEditor = lazy(() => import("@pages/admin/news/ArticleEditor"));
 
 import "./i18n";
 import "./index.css";
@@ -36,7 +37,8 @@ root.render(<BrowserRouter>
                 <Route path="/internal/dashboard" element={<Dashboard/>}>
                     <Route index element={<Analytics/>}/>
                     <Route path="analytics" element={<Analytics/>}/>
-                    <Route path="news" element={<NewsEditor/>}/>
+                    <Route path="news" element={<ArticleList/>} />
+                    <Route path="news/edit" element={<ArticleEditor/>} />
                 </Route>
             </Routes>
         </Suspense>
