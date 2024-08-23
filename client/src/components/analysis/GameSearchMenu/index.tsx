@@ -6,7 +6,7 @@ import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/games/errors";
-import Button from "@components/common/Button";
+import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
 
@@ -57,18 +57,7 @@ function GameSearchMenu({
 
     return <div className={styles.wrapper}>
         <div className={styles.menu}>
-            <Button
-                icon={require("@assets/img/close.svg")}
-                iconSize="30px"
-                style={{
-                    backgroundColor: "#222",
-                    padding: "5px",
-                    position: "absolute",
-                    top: "5px",
-                    right: "5px"
-                }}
-                onClick={closeMenu}
-            />
+            <DialogCloseButton onClick={closeMenu} />
 
             <span className={styles.title}>
                 {t("pages.analysis.gameSearchMenu.title")}
