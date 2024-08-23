@@ -5,14 +5,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import connectDatabase from "./lib/database";
-connectDatabase();
-
+import authenticator from "./lib/auth";
 import * as Routes from "./routes";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use("/internal", authenticator);
+
 app.use("/",
     express.static("client/dist"),
     express.static("client/public")
@@ -33,3 +34,5 @@ const nodeEnv = process.env.NODE_ENV || "production";
 app.listen(port, () => {
     console.log(`server running on port ${port} (${nodeEnv} mode)`);
 });
+
+connectDatabase();

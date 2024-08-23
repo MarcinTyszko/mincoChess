@@ -3,27 +3,29 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 async function verifySession() {
-    const verifyResponse = await fetch("/internal/verify");
+    const internalResponse = await fetch("/internal", {
+        redirect: "manual"
+    });
     
-    return await verifyResponse.json();
+    return internalResponse.ok;
 }
 
 function useProtectedRoute() {
     const navigate = useNavigate();
 
-    const { data: sessionValidity, status, fetchStatus } = useQuery({
-        queryKey: ["sessionValidity"],
+    const { data: sessionValid, status } = useQuery({
+        queryKey: ["verifySession"],
         queryFn: verifySession,
         retry: true
     });
 
     useEffect(() => {
-        if (status != "success" || fetchStatus != "idle") return;
+        if (status == "pending") return;
 
-        if (!sessionValidity) {
+        if (!sessionValid) {
             navigate("/internal/login");
         }
-    }, [fetchStatus]);
+    }, [status]);
 }
 
 export default useProtectedRoute;

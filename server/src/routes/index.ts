@@ -1,8 +1,9 @@
 import { Router } from "express";
 
 import newsArticlesRouter from "./api/newsArticles";
-import internalLoginRouter from "./internal/login";
-import internalVerifyRouter from "./internal/verifySession";
+
+import loginRouter from "./internal/login";
+import deleteNewsArticleRouter from "./internal/news/deleteArticle";
 
 export const apiRouter = Router();
 
@@ -13,6 +14,6 @@ apiRouter.use("/",
 export const internalRouter = Router();
 
 internalRouter.use("/",
-    internalLoginRouter,
-    internalVerifyRouter
+    loginRouter,
+    deleteNewsArticleRouter
 );

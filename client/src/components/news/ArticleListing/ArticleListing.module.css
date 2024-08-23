@@ -20,9 +20,7 @@
 
 @media (max-width: 580px) {
     .wrapper {
-        margin: 15px;
-        
-        width: auto;
+        width: 90%;
     }
 }
 
@@ -42,4 +40,9 @@
 
 .date {
     color: grey;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
 }

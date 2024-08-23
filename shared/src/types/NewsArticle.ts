@@ -1,4 +1,5 @@
 interface NewsArticle {
+    id: string;
     title: string;
     tag: {
         name: string;

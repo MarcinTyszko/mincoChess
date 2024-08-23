@@ -12,8 +12,8 @@ interface LoginRequest {
 router.post("/internal/login", async (req, res) => {
     const { password, captchaToken }: LoginRequest = req.body;
 
-    // If request any parameters are missing, 400
-    if (!password || !captchaToken) {
+    // If password parameter is missing, 400
+    if (!password) {
         return res.status(400).send("Invalid request.");
     }
 
