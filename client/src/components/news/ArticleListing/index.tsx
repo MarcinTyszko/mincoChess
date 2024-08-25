@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 import Button from "@components/common/Button";
 import ConfirmDialog from "@components/common/ConfirmDialog";
@@ -10,6 +11,7 @@ import * as styles from "./ArticleListing.module.css";
 
 function ArticleListing({ article, editable }: ArticleListingProps) {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const [ deleteConfirmOpen, setDeleteConfirmOpen ] = useState(false);
 
@@ -58,6 +60,9 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
 
                 <Button
                     icon={require("@assets/img/edit.svg")}
+                    onClick={() => navigate(
+                        `/internal/dashboard/news/edit?id=${article.id}`
+                    )}
                 />
             </div>
         }

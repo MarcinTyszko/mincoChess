@@ -17,8 +17,7 @@ function ArticleList() {
 
     const { data: newsArticles, status, error } = useQuery({
         queryKey: ["newsArticles"],
-        queryFn: getNewsArticles,
-        staleTime: Infinity
+        queryFn: getNewsArticles
     });
 
     return <div className={styles.wrapper}>

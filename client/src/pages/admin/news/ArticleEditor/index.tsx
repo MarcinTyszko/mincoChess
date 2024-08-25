@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { HexColorPicker } from "react-colorful";
 
+import { NewsArticle } from "wintrchess";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import TextField from "@components/common/TextField";
@@ -17,10 +19,10 @@ function ArticleEditor() {
     useProtectedRoute();
 
     const navigate = useNavigate();
+    const [ queryParams ] = useSearchParams();
 
     const [ articleTitle, setArticleTitle ] = useState("");
     const [ tagName, setTagName ] = useState("");
-
     const [ tagColourPickerOpen, setTagColourPickerOpen ] = useState(false);
     const [ tagColour, setTagColour ] = useState("#000000");
 
@@ -29,6 +31,24 @@ function ArticleEditor() {
 
     const [ publishConfirmOpen, setPublishConfirmOpen ] = useState(false);
 
+    useQuery({
+        queryKey: ["editedArticle"],
+        queryFn: async () => {
+            const articleId = queryParams.get("id");
+            if (!articleId) return;
+
+            const articleResponse = await fetch(`/api/news?id=${articleId}`);
+
+            const article: NewsArticle = await articleResponse.json();
+            if (!article) return;
+
+            setArticleTitle(article.title);
+            setTagName(article.tag.name);
+            setTagColour(article.tag.colour);
+            setArticleContent(article.content);
+        }
+    });
+
     async function publishArticle() {
         await fetch("/internal/news/publish", {
             method: "POST",
@@ -36,6 +56,7 @@ function ArticleEditor() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                id: queryParams.get("id"),
                 title: articleTitle,
                 tag: {
                     name: tagName,
@@ -56,6 +77,7 @@ function ArticleEditor() {
         <div className={styles.metadata}>
             <TextField
                 placeholder="Article title..."
+                value={articleTitle}
                 style={{
                     height: "40px"
                 }}
@@ -65,6 +87,7 @@ function ArticleEditor() {
             <div className={styles.tagMetadata}>
                 <TextField
                     placeholder="Tag name..."
+                    value={tagName}
                     style={{
                         height: "40px"
                     }}

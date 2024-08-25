@@ -30,9 +30,9 @@ router.post("/internal/news/publish", async (req, res) => {
         // If an article ID is specified, edit the article
         await database
             .collection<NewsArticle>(Collections.NEWS_ARTICLES)
-            .findOneAndUpdate(
+            .updateOne(
                 { id: article.id },
-                article
+                { $set: article }
             );
     } else {
         // If no ID specified, publish a new article

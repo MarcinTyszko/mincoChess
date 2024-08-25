@@ -3,6 +3,7 @@ import { CSSProperties } from "react";
 interface TextFieldProps {
     style?: CSSProperties;
     placeholder?: string;
+    value?: string;
     onChange?: (value: string) => void;
 }
 
