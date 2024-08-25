@@ -4,6 +4,7 @@ import newsArticlesRouter from "./api/newsArticles";
 
 import loginRouter from "./internal/login";
 import deleteNewsArticleRouter from "./internal/news/deleteArticle";
+import publishNewsArticleRouter from "./internal/news/publishArticle";
 
 export const apiRouter = Router();
 
@@ -15,5 +16,6 @@ export const internalRouter = Router();
 
 internalRouter.use("/",
     loginRouter,
-    deleteNewsArticleRouter
+    deleteNewsArticleRouter,
+    publishNewsArticleRouter
 );

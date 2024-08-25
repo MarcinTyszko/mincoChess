@@ -1,15 +1,17 @@
 import { connection as database } from "mongoose";
-import * as uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import Collections from "./collections";
 
 export async function createSession() {
-    const sessionToken = uuid.v4();
+    const sessionToken = uuidv4();
 
-    await database.collection(Collections.SESSIONS).insertOne({
-        token: sessionToken,
-        createdAt: new Date()
-    });
+    await database
+        .collection(Collections.SESSIONS)
+        .insertOne({
+            token: sessionToken,
+            createdAt: new Date()
+        });
 
     return sessionToken;
 }

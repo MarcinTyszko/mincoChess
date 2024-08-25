@@ -6,7 +6,8 @@ dotenv.config();
 
 import connectDatabase from "./lib/database";
 import authenticator from "./lib/auth";
-import * as Routes from "./routes";
+
+import { apiRouter, internalRouter } from "./routes";
 
 const app = express();
 
@@ -19,8 +20,8 @@ app.use("/",
     express.static("client/public")
 );
 
-app.use("/", Routes.internalRouter);
-app.use("/", Routes.apiRouter);
+app.use("/", apiRouter);
+app.use("/", internalRouter);
 
 app.get("/*", async (req, res) => {
     res.sendFile(

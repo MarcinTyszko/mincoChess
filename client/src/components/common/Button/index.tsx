@@ -14,7 +14,7 @@ function Button({
     return <button
         className={styles.button}
         style={{
-            filter: highlighted ? "brightness(1.1)" : "",
+            filter: highlighted ? "brightness(0.9)" : "",
             ...style
         }}
         onClick={onClick}

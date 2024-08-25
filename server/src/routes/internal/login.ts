@@ -28,6 +28,7 @@ router.post("/internal/login", async (req, res) => {
         });
     
         const captchaResult = await captchaResponse.json();
+        
         if (!captchaResult.success) {
             return res.status(400).send("You must complete the CAPTCHA.");
         }
