@@ -46,7 +46,8 @@ function ArticleEditor() {
             setTagName(article.tag.name);
             setTagColour(article.tag.colour);
             setArticleContent(article.content);
-        }
+        },
+        refetchOnWindowFocus: false
     });
 
     async function publishArticle() {

@@ -68,7 +68,7 @@
     padding: 10px;
     width: 100%;
     word-break: break-all;
-    overflow-y: auto;
+    overflow: auto;
 
     border: none;
     background-color: #1a1a1a;

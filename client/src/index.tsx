@@ -7,7 +7,8 @@ import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
 const Analysis = lazy(() => import("@pages/Analysis"));
 const Archive = lazy(() => import("@pages/Archive"));
-const News = lazy(() => import("@pages/News"));
+const NewsArticleList = lazy(() => import("@pages/News/ArticleList"));
+const NewsArticle = lazy(() => import("@pages/News/Article"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
@@ -30,7 +31,9 @@ root.render(<BrowserRouter>
                 <Route path="/" element={<Analysis/>} />
                 <Route path="/archive" element={<Archive/>}/>
 
-                <Route path="/news" element={<News/>} />
+                <Route path="/news" element={<NewsArticleList/>} />
+                <Route path="/news/:articleId" element={<NewsArticle/>} />
+
                 <Route path="*" element={<Unfound/>} />
 
                 <Route path="/internal/login" element={<Login/>} />

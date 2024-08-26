@@ -31,7 +31,10 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
         });
     }
 
-    return <div className={styles.wrapper}>
+    return <div
+        className={styles.wrapper}
+        onClick={() => navigate(`/news/${article.id}`)}
+    >
         <div className={styles.metadata}>
             <span
                 className={styles.category}
@@ -55,14 +58,18 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
             && <div className={styles.toolbar}>
                 <Button
                     icon={require("@assets/img/delete.svg")}
-                    onClick={() => setDeleteConfirmOpen(true)}
+                    onClick={event => {
+                        setDeleteConfirmOpen(true);
+                        event.stopPropagation();
+                    }}
                 />
 
                 <Button
                     icon={require("@assets/img/edit.svg")}
-                    onClick={() => navigate(
-                        `/internal/dashboard/news/edit?id=${article.id}`
-                    )}
+                    onClick={event => {
+                        navigate(`/internal/dashboard/news/edit?id=${article.id}`);
+                        event.stopPropagation();
+                    }}
                 />
             </div>
         }
