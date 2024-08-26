@@ -21,3 +21,7 @@
 .error {
     color: rgb(255, 50, 50);
 }
+
+.wrapper img {
+    width: 100%;
+}
