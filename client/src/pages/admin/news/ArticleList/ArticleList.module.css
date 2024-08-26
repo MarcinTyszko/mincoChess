@@ -8,3 +8,17 @@
 
     width: 100%;
 }
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 70%;
+}
+
+@media (max-width: 800px) {
+    .articles {
+        width: 100%;
+    }
+}

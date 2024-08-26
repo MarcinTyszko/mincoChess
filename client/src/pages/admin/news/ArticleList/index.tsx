@@ -32,17 +32,19 @@ function ArticleList() {
             Compose News Post
         </Button>
 
-        {
-            status == "success"
-            && newsArticles.map(article => (
-                <ArticleListing article={article} editable />
-            ))
-        }
+        <div className={styles.articles}>
+            {
+                status == "success"
+                && newsArticles.map(article => (
+                    <ArticleListing article={article} editable />
+                ))
+            }
 
-        {
-            status == "error"
-            && error.message
-        }
+            {
+                status == "error"
+                && error.message
+            }
+        </div>
     </div>;
 }
 
