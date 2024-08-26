@@ -1,12 +1,19 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 
 import ArticleListing from "@components/news/ArticleListing";
+import { getNewsArticles } from "@lib/newsArticles";
 
 import * as styles from "./News.module.css";
 
 function News() {
     const { t } = useTranslation();
+
+    const { data: newsArticles, status } = useQuery({
+        queryKey: ["newsArticles"],
+        queryFn: getNewsArticles
+    });
 
     return <div className={styles.wrapper}>
         <div className={styles.title}>
@@ -14,7 +21,14 @@ function News() {
             <span>{t("pages.news.title")}</span>
         </div>  
 
-        
+        <div className={styles.articles}>
+            {
+                status == "success"
+                && newsArticles.map(
+                    article => <ArticleListing article={article}/>
+                )
+            }
+        </div>
     </div>;
 }
 

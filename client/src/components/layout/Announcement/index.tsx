@@ -5,7 +5,11 @@ import Button from "@components/common/Button";
 import AnnouncementProps from "./AnnouncementProps";
 import * as styles from "./Announcement.module.css";
 
-function Announcement({ children, colour, setOpen }: AnnouncementProps) {
+function Announcement({
+    children,
+    colour,
+    setOpen
+}: AnnouncementProps) {
     return <div 
         className={styles.wrapper}
         style={{

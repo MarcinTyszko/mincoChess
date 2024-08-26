@@ -1,12 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import useSidebarStore from "@stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
 
+import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";
 
-function Sidebar() {
+function Sidebar({ style }: SidebarProps) {
     const { t } = useTranslation();
 
     const { sidebarOpen } = useSidebarStore();
@@ -38,25 +40,45 @@ function Sidebar() {
     return <div 
         className={`${styles.sidebar} ${
             sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
-        }`} 
+        }`}
+        style={style}
         ref={sidebarRef}
     >
-        <SidebarTab
-            navigateTo="/" 
-            icon={require("@assets/img/analysis.svg")}
-            style={{ width: "100%" }}
-        >
-            {t("sidebar.analysis")}
-        </SidebarTab>
+        <div className={styles.tabs}>
+            <SidebarTab
+                navigateTo="/" 
+                icon={require("@assets/img/analysis.svg")}
+                style={{ width: "100%" }}
+            >
+                {t("sidebar.analysis")}
+            </SidebarTab>
 
-        <SidebarTab
-            navigateTo="/archive" 
-            icon={require("@assets/img/archive.svg")} 
-            iconSize="20px"
-            style={{ width: "100%" }}
-        >
-            {t("sidebar.archive")}
-        </SidebarTab>
+            <SidebarTab
+                navigateTo="/archive" 
+                icon={require("@assets/img/archive.svg")} 
+                iconSize="20px"
+                style={{ width: "100%" }}
+            >
+                {t("sidebar.archive")}
+            </SidebarTab>
+        </div>
+
+        <div className={styles.footer}>
+            <SidebarTab
+                navigateTo="/news"
+                icon={require("@assets/img/news-icon.svg")}
+                style={{ width: "100%" }}
+            >
+                {t("sidebar.news")}
+            </SidebarTab>
+
+            <Link
+                to="/privacy"
+                style={{ color: "white" }}
+            >
+                Privacy Policy
+            </Link>
+        </div>
     </div>;
 }
 

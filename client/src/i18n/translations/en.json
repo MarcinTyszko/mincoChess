@@ -9,7 +9,9 @@
     },
     "sidebar": {
         "analysis": "Analysis",
-        "archive": "Archive"
+        "archive": "Archive",
+        "news": "News",
+        "privacy": "Privacy Policy"
     },
     "loading": "Loading...",
     "pages": {

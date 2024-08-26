@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -8,12 +9,11 @@ import Announcement from "../Announcement";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
-import { Link } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 function PageWrapper({ children }: PageWrapperProps) {
-    const [ contentWrapperHeight, setContentWrapperHeight ] = useState(0);
+    const [ topSectionHeight, setTopSectionHeight ] = useState(0);
     const [ announcementOpen, setAnnouncementOpen ] = useState(true);
 
     const topSectionRef = useRef<HTMLDivElement>(null);
@@ -22,9 +22,7 @@ function PageWrapper({ children }: PageWrapperProps) {
         if (!topSectionRef.current) return;
 
         const topSectionResizeObserver = new ResizeObserver(entries => {
-            for (const entry of entries) {
-                setContentWrapperHeight(entry.target.clientHeight);
-            }
+            setTopSectionHeight(entries[0].target.clientHeight);
         });
 
         topSectionResizeObserver.observe(topSectionRef.current);
@@ -58,15 +56,19 @@ function PageWrapper({ children }: PageWrapperProps) {
 
             <NavigationBar/>
         </div>
-
-        <Sidebar/>
         
         <div 
             className={styles.contentWrapper}
             style={{
-                height: `calc(100vh - ${contentWrapperHeight}px)`
+                height: `calc(100vh - ${topSectionHeight}px)`
             }}
         >
+            <Sidebar
+                style={{
+                    height: `calc(100vh - ${topSectionHeight}px)`
+                }}
+            />
+
             <div className={styles.content}>
                 {children}
             </div>
