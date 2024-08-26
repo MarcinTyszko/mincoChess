@@ -38,8 +38,8 @@ function Article() {
 
         {
             status == "error"
-            && <span>
-                {t("pages.news.error")}
+            && <span className={styles.error}>
+                {t("pages.news.article.error")}
             </span>
         }
     </div>;

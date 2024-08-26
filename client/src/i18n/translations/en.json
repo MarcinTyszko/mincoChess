@@ -38,7 +38,10 @@
         },
         "news": {
             "title": "Newspaper",
-            "error": "There was an error while loading the newspaper."
+            "error": "There was an error while loading the newspaper.",
+            "article": {
+                "error": "There was an error while loading this article."
+            }
         }
     }
 }

@@ -18,7 +18,10 @@ function News() {
     return <div className={styles.wrapper}>
         <div className={styles.title}>
             <img src={require("@assets/img/news.png")} height="50"/>
-            <span>{t("pages.news.title")}</span>
+
+            <span>
+                {t("pages.news.title")}
+            </span>
         </div>  
 
         <div className={styles.articles}>
@@ -27,6 +30,13 @@ function News() {
                 && newsArticles.map(
                     article => <ArticleListing article={article}/>
                 )
+            }
+
+            {
+                status == "error"
+                && <span className={styles.error}>
+                    {t("pages.news.error")}
+                </span>
             }
         </div>
     </div>;

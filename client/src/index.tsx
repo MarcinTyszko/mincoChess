@@ -7,8 +7,8 @@ import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
 const Analysis = lazy(() => import("@pages/Analysis"));
 const Archive = lazy(() => import("@pages/Archive"));
-const NewsArticleList = lazy(() => import("@pages/News/ArticleList"));
-const NewsArticle = lazy(() => import("@pages/News/Article"));
+const NewsArticleList = lazy(() => import("@pages/news/ArticleList"));
+const NewsArticle = lazy(() => import("@pages/news/Article"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
