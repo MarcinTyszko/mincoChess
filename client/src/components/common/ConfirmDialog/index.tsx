@@ -13,7 +13,10 @@ function ConfirmDialog({
     dangerAction,
     onConfirm
 }: ConfirmDialogProps) {
-    return <div className={styles.wrapper}>
+    return <div
+        className={styles.wrapper}
+        onClick={event => event.stopPropagation()}
+    >
         <div className={styles.dialog}>
             <DialogCloseButton onClick={() => setDialogOpen(false)} />
 

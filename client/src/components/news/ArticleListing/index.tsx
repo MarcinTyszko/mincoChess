@@ -59,16 +59,16 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
                 <Button
                     icon={require("@assets/img/delete.svg")}
                     onClick={event => {
-                        setDeleteConfirmOpen(true);
                         event.stopPropagation();
+                        setDeleteConfirmOpen(true);
                     }}
                 />
 
                 <Button
                     icon={require("@assets/img/edit.svg")}
                     onClick={event => {
-                        navigate(`/internal/dashboard/news/edit?id=${article.id}`);
                         event.stopPropagation();
+                        navigate(`/internal/dashboard/news/edit?id=${article.id}`);
                     }}
                 />
             </div>

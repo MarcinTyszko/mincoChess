@@ -72,9 +72,20 @@ function Sidebar({ style }: SidebarProps) {
                 {t("sidebar.news")}
             </SidebarTab>
 
+            <SidebarTab
+                navigateTo="/settings"
+                icon={require("@assets/img/settings.svg")}
+                style={{ width: "100%" }}
+            >
+                {t("sidebar.settings")}
+            </SidebarTab>
+
             <Link
                 to="/privacy"
-                style={{ color: "white" }}
+                style={{
+                    color: "white",
+                    margin: "10px 0"
+                }}
             >
                 Privacy Policy
             </Link>
