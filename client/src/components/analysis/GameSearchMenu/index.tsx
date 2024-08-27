@@ -82,7 +82,6 @@ function GameSearchMenu({
                 locked={status == "error"}
             />
 
-            {/* Note: Game listings here are currently a stub. */}
             <div className={styles.list}>
                 {
                     status == "error" && fetchStatus == "idle"

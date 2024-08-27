@@ -35,7 +35,10 @@ function PageWrapper({ children }: PageWrapperProps) {
         >
             {
                 announcementOpen
-                && <Announcement setOpen={setAnnouncementOpen}>
+                && <Announcement
+                    setOpen={setAnnouncementOpen}
+                    colour="rgb(255, 74, 29)"
+                >
                     <span>
                         <span>🎉 We've rebuilt Game Report from the ground up! Read </span>
 
