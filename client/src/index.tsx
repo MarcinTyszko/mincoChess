@@ -9,6 +9,7 @@ const Analysis = lazy(() => import("@pages/Analysis"));
 const Archive = lazy(() => import("@pages/Archive"));
 const NewsArticleList = lazy(() => import("@pages/news/ArticleList"));
 const NewsArticle = lazy(() => import("@pages/news/Article"));
+const Settings = lazy(() => import("@pages/Settings"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
@@ -30,9 +31,9 @@ root.render(<BrowserRouter>
             <Routes>
                 <Route path="/" element={<Analysis/>} />
                 <Route path="/archive" element={<Archive/>}/>
-
                 <Route path="/news" element={<NewsArticleList/>} />
                 <Route path="/news/:articleId" element={<NewsArticle/>} />
+                <Route path="/settings" element={<Settings/>} />
 
                 <Route path="*" element={<Unfound/>} />
 

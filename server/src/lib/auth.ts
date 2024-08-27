@@ -22,7 +22,7 @@ async function authenticator(req: Request, res: Response, next: NextFunction) {
     if (tokenValidity) {
         next();
     } else {
-        return res.redirect("/internal/login");
+        res.redirect("/internal/login");
     }
 }
 
