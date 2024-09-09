@@ -7,9 +7,12 @@ import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
 function GameListing({ game, onClick }: GameListingProps) {
-    return <div className={
-        `${styles.gameListing} ${onClick && styles.selectableListing}`
-    }>
+    return <div
+        className={
+            `${styles.gameListing} ${onClick && styles.selectableListing}`
+        }
+        onClick={() => onClick?.(game)}
+    >
         <div>
             {game.timeControl || "?"}
         </div>

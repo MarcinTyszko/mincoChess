@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { Game } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
@@ -9,6 +10,7 @@ import { UserNotFoundError } from "@lib/games/errors";
 import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
+import useSelectedGame from "@stores/SelectedGameStore";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
@@ -37,6 +39,8 @@ function GameSearchMenu({
     const { t } = useTranslation();
     const queryClient = useQueryClient();
 
+    const { selectedGame, setSelectedGame } = useSelectedGame();
+
     const [ month, setMonth ] = useState(new Date().getUTCMonth());
     const [ year, setYear ] = useState(new Date().getUTCFullYear());
 
@@ -53,6 +57,11 @@ function GameSearchMenu({
     function closeMenu() {
         if (!setOpen) return;
         setOpen(false);
+    }
+
+    function selectGame(game: Game) {
+        setSelectedGame(game);
+        closeMenu();
     }
 
     return <div className={styles.wrapper}>
@@ -106,7 +115,7 @@ function GameSearchMenu({
                                 .reverse()
                                 .map(game => <GameListing 
                                     game={game}
-                                    onClick={() => null}
+                                    onClick={selectGame}
                                 />)
                             : t("pages.analysis.gameSearchMenu.noGamesFound")
                     )
