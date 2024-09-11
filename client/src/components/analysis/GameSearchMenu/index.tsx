@@ -39,7 +39,7 @@ function GameSearchMenu({
     const { t } = useTranslation();
     const queryClient = useQueryClient();
 
-    const { selectedGame, setSelectedGame } = useSelectedGame();
+    const { setSelectedGame } = useSelectedGame();
 
     const [ month, setMonth ] = useState(new Date().getUTCMonth());
     const [ year, setYear ] = useState(new Date().getUTCFullYear());
