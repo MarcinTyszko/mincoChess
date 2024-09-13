@@ -7,28 +7,17 @@ export enum GenericGameResult {
 }
 
 export function getGenericGameResult(result: GameResult) {
-    switch (result) {
-        case GameResult.ABANDONED:
-            return GenericGameResult.LOSE;
-        case GameResult.AGREED:
-            return GenericGameResult.DRAW;
-        case GameResult.CHECKMATED:
-            return GenericGameResult.LOSE;
-        case GameResult.FIFTY_MOVE:
-            return GenericGameResult.DRAW;
-        case GameResult.INSUFFICIENT_MATERIAL:
-            return GenericGameResult.DRAW;
-        case GameResult.LOSE:
-            return GenericGameResult.LOSE;
-        case GameResult.REPETITION:
-            return GenericGameResult.DRAW;
-        case GameResult.RESIGNED:
-            return GenericGameResult.LOSE;
-        case GameResult.STALEMATE:
-            return GenericGameResult.DRAW;
-        case GameResult.TIMEOUT:
-            return GenericGameResult.LOSE;
-        case GameResult.WIN:
-            return GenericGameResult.WIN;
-    }
+    return {
+        [GameResult.ABANDONED]: GenericGameResult.LOSE,
+        [GameResult.AGREED]: GenericGameResult.DRAW,
+        [GameResult.CHECKMATED]: GenericGameResult.LOSE,
+        [GameResult.FIFTY_MOVE]: GenericGameResult.DRAW,
+        [GameResult.INSUFFICIENT_MATERIAL]: GenericGameResult.DRAW,
+        [GameResult.LOSE]: GenericGameResult.LOSE,
+        [GameResult.REPETITION]: GenericGameResult.DRAW,
+        [GameResult.RESIGNED]: GenericGameResult.LOSE,
+        [GameResult.STALEMATE]: GenericGameResult.DRAW,
+        [GameResult.TIMEOUT]: GenericGameResult.LOSE,
+        [GameResult.WIN]: GenericGameResult.WIN
+    }[result];
 }

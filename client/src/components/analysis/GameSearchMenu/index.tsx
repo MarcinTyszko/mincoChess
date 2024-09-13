@@ -10,7 +10,7 @@ import { UserNotFoundError } from "@lib/games/errors";
 import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
-import useSelectedGame from "@stores/SelectedGameStore";
+import useGameSelectorStore from "@stores/GameSelectorStore";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
@@ -39,7 +39,7 @@ function GameSearchMenu({
     const { t } = useTranslation();
     const queryClient = useQueryClient();
 
-    const { setSelectedGame } = useSelectedGame();
+    const { setSelectedGame } = useGameSelectorStore();
 
     const [ month, setMonth ] = useState(new Date().getUTCMonth());
     const [ year, setYear ] = useState(new Date().getUTCFullYear());

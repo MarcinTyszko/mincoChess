@@ -7,6 +7,7 @@ import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import GameSearchMenu from "../GameSearchMenu";
+import useGameSelectorStore from "@stores/GameSelectorStore";
 
 import * as styles from "./GameSelector.module.css";
 
@@ -14,7 +15,7 @@ function GameSelector() {
     const { t } = useTranslation();
     const cookies = new Cookies();
 
-    const [ source, setSource ] = useState<GameSource>(GameSource.PGN);
+    const { selectedGameSource, setSelectedGameSource } = useGameSelectorStore();
     const [ selectorInput, setSelectorInput ] = useState("");
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
@@ -34,7 +35,7 @@ function GameSelector() {
 
         if (!savedSource) return;
         
-        setSource(savedSource);
+        setSelectedGameSource(savedSource);
 
         // Load last selector input from cookies
         setSelectorInput(
@@ -49,9 +50,10 @@ function GameSelector() {
         
         if (!selectedSource) return;
 
-        // Save the selected game source choice in cookies
-        setSource(selectedSource);
+        // Save the selected game source choice in state
+        setSelectedGameSource(selectedSource);
 
+        // Save the selected game source choice in cookies
         cookies.set(Cookie.LAST_GAME_SELECTOR_SOURCE, selectedSource.key);
 
         // Put the saved selector input from cookies into the text area
@@ -71,7 +73,7 @@ function GameSelector() {
             Cookie.LAST_GAME_SELECTOR_INPUTS,
             {
                 ...savedSelectorInputs,
-                [source.key]: event.target.value
+                [selectedGameSource.key]: event.target.value
             }
         );
     }
@@ -91,7 +93,7 @@ function GameSelector() {
             <select 
                 className={styles.gameSourceSelector}
                 onChange={handleGameSourceChange}
-                value={source.key}
+                value={selectedGameSource.key}
             >
                 {
                     Object.values(GameSource)
@@ -105,18 +107,18 @@ function GameSelector() {
         <textarea
             className={styles.selectorField}
             placeholder={
-                t(`pages.analysis.gameSelector.sourcePlaceholders.${source.key}`)
+                t(`pages.analysis.gameSelector.sourcePlaceholders.${selectedGameSource.key}`)
             }
             style={{
-                height: source.expandField ? "170px" : "70px",
-                borderRadius: source.requiresSearch ? undefined : "0 0 10px 10px"
+                height: selectedGameSource.expandField ? "170px" : "70px",
+                borderRadius: selectedGameSource.requiresSearch ? undefined : "0 0 10px 10px"
             }}
             value={selectorInput}
             onChange={handleSelectorFieldChange}
         ></textarea>
 
         {
-            source.requiresSearch
+            selectedGameSource.requiresSearch
             && <Button
                 icon={require("@assets/img/search.svg")}
                 iconSize="25px"
@@ -134,7 +136,7 @@ function GameSelector() {
             searchMenuOpen
             && <GameSearchMenu
                 username={selectorInput}
-                gameSource={source}
+                gameSource={selectedGameSource}
                 setOpen={setSearchMenuOpen}
             />
         }

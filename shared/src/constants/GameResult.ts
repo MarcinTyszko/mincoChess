@@ -1,3 +1,7 @@
+// Note:
+// Game result values concur with Chess.com's API
+// Values need to be adapted to comply with other services
+
 enum GameResult {
     WIN = "win",
     CHECKMATED = "checkmated",

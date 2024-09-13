@@ -7,6 +7,7 @@ import {
 import { getMonthLength } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "./errors";
 
+// Game statuses defined by the Lichess API
 const gameStatuses = [
     "created",
     "started",
@@ -22,33 +23,26 @@ const gameStatuses = [
     "unknownFinish",
     "variantEnd"
 ] as const;
+
 type LichessGameStatus = typeof gameStatuses[number];
 
 function getLoserResult(gameStatus: LichessGameStatus): GameResult {
-    switch (gameStatus) {
-        case "aborted":
-            return GameResult.ABANDONED;
-        case "cheat":
-            return GameResult.LOSE;
-        case "draw":
-            return GameResult.AGREED;
-        case "mate":
-            return GameResult.CHECKMATED;
-        case "noStart":
-            return GameResult.AGREED;
-        case "outoftime":
-            return GameResult.TIMEOUT;
-        case "resign":
-            return GameResult.RESIGNED;
-        case "stalemate":
-            return GameResult.STALEMATE;
-        case "timeout":
-            return GameResult.ABANDONED;
-        case "unknownFinish":
-            return GameResult.AGREED;
-    }
+    return {
+        aborted: GameResult.ABANDONED,
+        cheat: GameResult.LOSE,
+        draw: GameResult.AGREED,
+        mate: GameResult.CHECKMATED,
+        noStart: GameResult.AGREED,
+        outoftime: GameResult.TIMEOUT,
+        resign: GameResult.RESIGNED,
+        stalemate: GameResult.STALEMATE,
+        timeout: GameResult.ABANDONED,
+        unknownFinish: GameResult.AGREED,
 
-    return GameResult.AGREED;
+        created: GameResult.AGREED,
+        started: GameResult.AGREED,
+        variantEnd: GameResult.AGREED
+    }[gameStatus];
 }
 
 async function getLichessGames(

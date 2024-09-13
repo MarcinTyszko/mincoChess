@@ -18,7 +18,10 @@ async function getChessComGames(
     }
 
     const games = (await gamesResponse.json()).games as any[];
-    if (!games) return [];
+    
+    if (!games) {
+        return [];
+    }
 
     return games.map(game => ({
         pgn: game.pgn,
