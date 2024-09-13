@@ -2,48 +2,38 @@ import {
     Game,
     GameResult,
     PieceColour,
+    TimeControl,
     oppositePieceColour
 } from "wintrchess";
 import { getMonthLength } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "./errors";
 
-// Game statuses defined by the Lichess API
-const gameStatuses = [
-    "created",
-    "started",
-    "aborted",
-    "mate",
-    "resign",
-    "stalemate",
-    "timeout",
-    "draw",
-    "outoftime",
-    "cheat",
-    "noStart",
-    "unknownFinish",
-    "variantEnd"
-] as const;
+// Loser's result based on game status defined by Lichess API
+const loserResults = {
+    aborted: GameResult.ABANDONED,
+    cheat: GameResult.LOSE,
+    draw: GameResult.AGREED,
+    mate: GameResult.CHECKMATED,
+    noStart: GameResult.AGREED,
+    outoftime: GameResult.TIMEOUT,
+    resign: GameResult.RESIGNED,
+    stalemate: GameResult.STALEMATE,
+    timeout: GameResult.ABANDONED,
+    unknownFinish: GameResult.AGREED,
 
-type LichessGameStatus = typeof gameStatuses[number];
+    created: GameResult.AGREED,
+    started: GameResult.AGREED,
+    variantEnd: GameResult.AGREED
+};
 
-function getLoserResult(gameStatus: LichessGameStatus): GameResult {
-    return {
-        aborted: GameResult.ABANDONED,
-        cheat: GameResult.LOSE,
-        draw: GameResult.AGREED,
-        mate: GameResult.CHECKMATED,
-        noStart: GameResult.AGREED,
-        outoftime: GameResult.TIMEOUT,
-        resign: GameResult.RESIGNED,
-        stalemate: GameResult.STALEMATE,
-        timeout: GameResult.ABANDONED,
-        unknownFinish: GameResult.AGREED,
-
-        created: GameResult.AGREED,
-        started: GameResult.AGREED,
-        variantEnd: GameResult.AGREED
-    }[gameStatus];
-}
+// Map from Lichess time controls to ours
+const timeControlCodes = {
+    ultraBullet: TimeControl.BULLET,
+    bullet: TimeControl.BULLET,
+    blitz: TimeControl.RAPID,
+    classical: TimeControl.CLASSICAL,
+    correspondence: TimeControl.CORRESPONDENCE
+};
 
 async function getLichessGames(
     username: string, 
@@ -106,13 +96,18 @@ async function getLichessGames(
         const winner: PieceColour | undefined = game.winner;
         if (winner) {
             results[winner] = GameResult.WIN;
-            results[oppositePieceColour(winner)] = getLoserResult(game.status);
+
+            results[oppositePieceColour(winner)] = loserResults[
+                game.status as keyof typeof loserResults
+            ];
         }
 
         return {
             pgn: game.pgn,
             initialPosition: game.initialFen,
-            timeControl: game.speed,
+            timeControl: timeControlCodes[
+                game.speed as keyof typeof timeControlCodes
+            ],
             variant: game.variant,
             players: {
                 white: {

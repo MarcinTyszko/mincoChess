@@ -1,6 +1,14 @@
-import { Game } from "wintrchess";
+import { Game, TimeControl } from "wintrchess";
 import { padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError } from "./errors";
+
+// Map from chess.com time controls to ours
+const timeControlCodes = {
+    bullet: TimeControl.BULLET,
+    blitz: TimeControl.BLITZ,
+    rapid: TimeControl.RAPID,
+    daily: TimeControl.CORRESPONDENCE
+};
 
 async function getChessComGames(
     username: string,
@@ -25,7 +33,9 @@ async function getChessComGames(
 
     return games.map(game => ({
         pgn: game.pgn,
-        timeControl: game["time_class"],
+        timeControl: timeControlCodes[
+            game["time_class"] as keyof typeof timeControlCodes
+        ],
         variant: game.rules,
         initialPosition: game["initial_setup"],
         players: {
