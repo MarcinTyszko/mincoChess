@@ -45,7 +45,7 @@ function GameSearchMenu({
     const [ year, setYear ] = useState(new Date().getUTCFullYear());
 
     const { data: games, status, fetchStatus, error } = useQuery({ 
-        queryKey: ["games", username, month, year], 
+        queryKey: ["games", gameSource.key, username, month, year], 
         queryFn: () => fetchGames(gameSource, username, month, year),
         retry: (failureCount, error) => {
             return !(error instanceof UserNotFoundError);
