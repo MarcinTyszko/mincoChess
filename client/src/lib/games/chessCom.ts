@@ -10,13 +10,16 @@ const timeControlCodes = {
     daily: TimeControl.CORRESPONDENCE
 };
 
+type TimeControlCode = keyof typeof timeControlCodes;
+
 async function getChessComGames(
     username: string,
     month: number,
     year: number
 ): Promise<Game[]> {
     const gamesResponse = await fetch(
-        `https://api.chess.com/pub/player/${username}/games/${year}/${padDateNumber(month + 1)}`
+        `https://api.chess.com/pub/player/${username}`
+        + `/games/${year}/${padDateNumber(month + 1)}`
     );
 
     if (gamesResponse.status == 404) {
@@ -34,7 +37,7 @@ async function getChessComGames(
     return games.map(game => ({
         pgn: game.pgn,
         timeControl: timeControlCodes[
-            game["time_class"] as keyof typeof timeControlCodes
+            game["time_class"] as TimeControlCode
         ],
         variant: game.rules,
         initialPosition: game["initial_setup"],

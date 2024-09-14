@@ -5,7 +5,7 @@ import {
     TimeControl,
     oppositePieceColour
 } from "wintrchess";
-import { getMonthLength } from "@lib/utils/date";
+import { getMonthLength, padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "./errors";
 
 // Loser's result based on game status defined by Lichess API
@@ -26,6 +26,8 @@ const loserResults = {
     variantEnd: GameResult.AGREED
 };
 
+type LichessGameResult = keyof typeof loserResults;
+
 // Map from Lichess time controls to ours
 const timeControlCodes = {
     ultraBullet: TimeControl.BULLET,
@@ -35,30 +37,29 @@ const timeControlCodes = {
     correspondence: TimeControl.CORRESPONDENCE
 };
 
+type TimeControlCode = keyof typeof timeControlCodes;
+
 async function getLichessGames(
     username: string, 
     month: number, 
     year: number
 ): Promise<Game[]> {
-    const monthStart = new Date();
-    monthStart.setUTCFullYear(year);
-    monthStart.setUTCMonth(month);
-    monthStart.setUTCDate(1);
-    monthStart.setUTCHours(0, 0, 0, 0);
+    const monthStart = new Date(
+        `${year}-${padDateNumber(month)}-01T00:00:00.000Z`
+    );
 
-    const monthEnd = new Date();
-    monthEnd.setUTCFullYear(year);
-    monthEnd.setUTCMonth(month);
-    monthEnd.setUTCDate(getMonthLength(month));
-    monthEnd.setUTCHours(23, 59, 59, 999);
+    const monthEnd = new Date(
+        `${year}-${padDateNumber(month)}-${getMonthLength(month)}`
+        + "T23:59:59.999Z"
+    );
 
     let gamesResponse: Response;
     try {
         gamesResponse = await fetch(
-            `https://lichess.org/api/games/user/${username}` +
-            `?since=${monthStart.getTime()}` +
-            `&until=${monthEnd.getTime()}` +
-            "&pgnInJson=true",
+            `https://lichess.org/api/games/user/${username}`
+            + `?since=${monthStart.getTime()}`
+            + `&until=${monthEnd.getTime()}`
+            + "&pgnInJson=true",
             {
                 headers: {
                     Accept: "application/x-ndjson"
@@ -98,7 +99,7 @@ async function getLichessGames(
             results[winner] = GameResult.WIN;
 
             results[oppositePieceColour(winner)] = loserResults[
-                game.status as keyof typeof loserResults
+                game.status as LichessGameResult
             ];
         }
 
@@ -106,7 +107,7 @@ async function getLichessGames(
             pgn: game.pgn,
             initialPosition: game.initialFen,
             timeControl: timeControlCodes[
-                game.speed as keyof typeof timeControlCodes
+                game.speed as TimeControlCode
             ],
             variant: game.variant,
             players: {
