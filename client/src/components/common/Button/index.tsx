@@ -8,6 +8,7 @@ function Button({
     icon,
     iconSize,
     highlighted,
+    tooltip,
     style,
     onClick
 }: ButtonProps) {
@@ -18,6 +19,7 @@ function Button({
             ...style
         }}
         onClick={onClick}
+        title={tooltip}
     >
         {
             !!icon 

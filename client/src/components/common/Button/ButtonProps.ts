@@ -5,6 +5,7 @@ interface ButtonProps {
     icon?: string;
     iconSize?: string;
     highlighted?: boolean;
+    tooltip?: string;
     style?: CSSProperties;
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }

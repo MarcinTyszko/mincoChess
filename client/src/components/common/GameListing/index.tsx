@@ -1,6 +1,7 @@
 import React from "react";
 
 import { getGenericGameResult, GenericGameResult } from "wintrchess";
+import Button from "../Button";
 import { formatDate } from "@lib/utils/date";
 
 import GameListingProps from "./GameListingProps";
@@ -19,8 +20,8 @@ function GameListing({ game, onClick }: GameListingProps) {
 
         <div>
             {
-                Object.values(game.players).map(player => (
-                    <div className={styles.playerInfo}>
+                Object.values(game.players)
+                    .map(player => <div className={styles.playerProfile}>
                         {
                             !!player.title
                             && <span className={styles.playerTitle}>
@@ -33,8 +34,7 @@ function GameListing({ game, onClick }: GameListingProps) {
                         <span className={styles.playerRating}>
                             ({player.rating || "?"})
                         </span>
-                    </div>
-                ))
+                    </div>)
             }
         </div>
 
@@ -57,6 +57,15 @@ function GameListing({ game, onClick }: GameListingProps) {
         <div>
             {game.date ? formatDate(game.date) : "Unknown"}
         </div>
+
+        <Button
+            icon={require("@assets/img/copy.svg")}
+            tooltip="Copy PGN"
+            onClick={event => {
+                event.stopPropagation();
+                navigator.clipboard.writeText(game.pgn);
+            }}
+        />
 
         <input type="checkbox" />
     </div>;

@@ -1,8 +1,14 @@
 .gameListing {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
     
     width: max(100%, 600px);
+
+    border-radius: 10px;
 }
 
 .selectableListing {
@@ -18,15 +24,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 10px;
+    gap: 5px;
 }
 
-.playerInfo {
-    padding: 4px;
-}
-
-.playerInfo span {
-    margin-right: 5px;
+.playerProfile {
+    display: flex;
+    gap: 5px;
 }
 
 .playerTitle {

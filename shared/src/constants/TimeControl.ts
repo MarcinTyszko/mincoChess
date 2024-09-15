@@ -1,9 +1,9 @@
 enum TimeControl {
-    BULLET = "bullet",
-    BLITZ = "blitz",
-    RAPID = "rapid",
-    CLASSICAL = "classical",
-    CORRESPONDENCE = "correspondence"
+    BULLET = "Bullet",
+    BLITZ = "Blitz",
+    RAPID = "Rapid",
+    CLASSICAL = "Classical",
+    CORRESPONDENCE = "Correspondence"
 }
 
 export default TimeControl;
