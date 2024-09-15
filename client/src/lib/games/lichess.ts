@@ -3,33 +3,26 @@ import {
     GameResult,
     PieceColour,
     TimeControl,
+    Variant,
     oppositePieceColour
 } from "wintrchess";
 import { getMonthLength, padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "./errors";
 
 // Loser's result based on game status defined by Lichess API
-const loserResults = {
+const loserResults: { [key: string]: GameResult } = {
     aborted: GameResult.ABANDONED,
     cheat: GameResult.LOSE,
     draw: GameResult.AGREED,
     mate: GameResult.CHECKMATED,
-    noStart: GameResult.AGREED,
     outoftime: GameResult.TIMEOUT,
     resign: GameResult.RESIGNED,
     stalemate: GameResult.STALEMATE,
-    timeout: GameResult.ABANDONED,
-    unknownFinish: GameResult.AGREED,
-
-    created: GameResult.AGREED,
-    started: GameResult.AGREED,
-    variantEnd: GameResult.AGREED
+    timeout: GameResult.ABANDONED
 };
 
-type LichessGameResult = keyof typeof loserResults;
-
 // Map from Lichess time controls to ours
-const timeControlCodes = {
+const timeControlCodes: { [key: string]: TimeControl } = {
     ultraBullet: TimeControl.BULLET,
     bullet: TimeControl.BULLET,
     blitz: TimeControl.RAPID,
@@ -37,7 +30,11 @@ const timeControlCodes = {
     correspondence: TimeControl.CORRESPONDENCE
 };
 
-type TimeControlCode = keyof typeof timeControlCodes;
+// Map from Lichess variants to ours
+const variantCodes: { [key: string]: Variant } = {
+    standard: Variant.STANDARD,
+    chess960: Variant.CHESS960
+};
 
 async function getLichessGames(
     username: string, 
@@ -98,18 +95,18 @@ async function getLichessGames(
         if (winner) {
             results[winner] = GameResult.WIN;
 
-            results[oppositePieceColour(winner)] = loserResults[
-                game.status as LichessGameResult
-            ];
+            results[oppositePieceColour(winner)] = (
+                loserResults[game.status] || GameResult.AGREED
+            );
         }
 
         return {
             pgn: game.pgn,
             initialPosition: game.initialFen,
-            timeControl: timeControlCodes[
-                game.speed as TimeControlCode
-            ],
-            variant: game.variant,
+            timeControl: (
+                timeControlCodes[game.speed] || TimeControl.CORRESPONDENCE
+            ),
+            variant: variantCodes[game.variant] || Variant.STANDARD,
             players: {
                 white: {
                     username: game.players.white.user.name,

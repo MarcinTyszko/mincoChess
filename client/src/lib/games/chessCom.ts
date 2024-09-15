@@ -1,16 +1,20 @@
-import { Game, TimeControl } from "wintrchess";
+import { Game, TimeControl, Variant } from "wintrchess";
 import { padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError } from "./errors";
 
 // Map from chess.com time controls to ours
-const timeControlCodes = {
+const timeControlCodes: { [key: string]: TimeControl } = {
     bullet: TimeControl.BULLET,
     blitz: TimeControl.BLITZ,
     rapid: TimeControl.RAPID,
     daily: TimeControl.CORRESPONDENCE
 };
 
-type TimeControlCode = keyof typeof timeControlCodes;
+// Map from chess.com variants to ours
+const variantCodes: { [key: string]: Variant } = {
+    chess: Variant.STANDARD,
+    chess960: Variant.CHESS960
+};
 
 async function getChessComGames(
     username: string,
@@ -36,10 +40,11 @@ async function getChessComGames(
 
     return games.map(game => ({
         pgn: game.pgn,
-        timeControl: timeControlCodes[
-            game["time_class"] as TimeControlCode
-        ],
-        variant: game.rules,
+        timeControl: (
+            timeControlCodes[game["time_class"]]
+            || TimeControl.CORRESPONDENCE
+        ),
+        variant: variantCodes[game.rules] || Variant.STANDARD,
         initialPosition: game["initial_setup"],
         players: {
             white: {
