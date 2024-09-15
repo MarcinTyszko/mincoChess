@@ -15,8 +15,12 @@ function GameSelector() {
     const { t } = useTranslation();
     const cookies = new Cookies();
 
-    const { selectedGameSource, setSelectedGameSource } = useGameSelectorStore();
-    const [ selectorInput, setSelectorInput ] = useState("");
+    const {
+        selectedGameSource,
+        setSelectedGameSource,
+        selectedGameInput,
+        setSelectedGameInput
+    } = useGameSelectorStore();
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
@@ -38,7 +42,7 @@ function GameSelector() {
         setSelectedGameSource(savedSource);
 
         // Load last selector input from cookies
-        setSelectorInput(
+        setSelectedGameInput(
             getSavedSelectorInput(savedSource)
         );
     }, []);
@@ -57,13 +61,13 @@ function GameSelector() {
         cookies.set(Cookie.LAST_GAME_SELECTOR_SOURCE, selectedSource.key);
 
         // Put the saved selector input from cookies into the text area
-        setSelectorInput(
+        setSelectedGameInput(
             getSavedSelectorInput(selectedSource)
         );
     }
 
     function handleSelectorFieldChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        setSelectorInput(event.target.value);
+        setSelectedGameInput(event.target.value);
 
         // Save the input field contents in cookies
         const savedSelectorInputs = cookies.get(Cookie.LAST_GAME_SELECTOR_INPUTS) || {};
@@ -79,7 +83,7 @@ function GameSelector() {
     }
 
     function openGameSearchMenu() {
-        if (selectorInput.length == 0) return;
+        if (selectedGameInput.length == 0) return;
 
         setSearchMenuOpen(true);
     }
@@ -113,7 +117,7 @@ function GameSelector() {
                 height: selectedGameSource.expandField ? "170px" : "70px",
                 borderRadius: selectedGameSource.requiresSearch ? undefined : "0 0 10px 10px"
             }}
-            value={selectorInput}
+            value={selectedGameInput}
             onChange={handleSelectorFieldChange}
         ></textarea>
 
@@ -135,7 +139,7 @@ function GameSelector() {
         {
             searchMenuOpen
             && <GameSearchMenu
-                username={selectorInput}
+                username={selectedGameInput}
                 gameSource={selectedGameSource}
                 setOpen={setSearchMenuOpen}
             />

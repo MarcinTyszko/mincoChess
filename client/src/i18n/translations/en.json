@@ -27,7 +27,11 @@
                     "lichess": "Lichess username...",
                     "chessKid": "ChessKid username..."
                 },
-                "searchGamesButton": "Search Games"
+                "searchGamesButton": "Search Games",
+                "errors": {
+                    "noGameSelected": "Please select a Chess game.",
+                    "invalidPGN": "This PGN is invalid."
+                }
             },
             "gameSearchMenu": {
                 "title": "Select a game",

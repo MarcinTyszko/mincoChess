@@ -4,7 +4,7 @@ import Evaluation from "./Evaluation";
 
 interface Position {
     board: Chess;
-    engineLines: {
+    engineLines?: {
         local: Evaluation[];
         cloud: Evaluation[];
     };

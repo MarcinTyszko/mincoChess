@@ -57,3 +57,7 @@
         display: none;
     }
 }
+
+.error {
+    color: rgb(255, 40, 40);
+}
