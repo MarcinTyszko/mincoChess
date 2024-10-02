@@ -1,12 +1,11 @@
 import TimeControl from "../../constants/TimeControl";
 import Variant from "../../constants/Variant";
 import GamePlayerProfile from "./GamePlayerProfile";
-import Position from "./Position";
+import GameReport from "./GameReport";
 
 interface Game {
     pgn: string;
     initialPosition: string;
-    positions?: Position[];
     timeControl?: TimeControl;
     variant: Variant;
     players: {
@@ -14,6 +13,7 @@ interface Game {
         black: GamePlayerProfile;
     };
     date?: Date;
+    report?: GameReport;
 }
 
 export default Game;

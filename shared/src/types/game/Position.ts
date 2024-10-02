@@ -1,9 +1,8 @@
-import { Chess } from "chess.js";
-
+import Classification from "../../constants/Classification";
 import Evaluation from "./Evaluation";
 
 interface Position {
-    board: Chess;
+    classification: Classification;
     engineLines?: {
         local: Evaluation[];
         cloud: Evaluation[];

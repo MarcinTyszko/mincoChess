@@ -4,7 +4,7 @@ import { Cookie } from "wintrchess";
 import { verifySession } from "./database/session";
 
 async function authenticator(req: Request, res: Response, next: NextFunction) {
-    // Allow unauthenticated login requests
+    // Allow unauthenticated login page requests
     if (req.path == "/login") {
         return next();
     }
