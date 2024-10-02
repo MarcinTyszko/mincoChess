@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 import { getNewsArticle } from "@lib/newsArticles";
 import { formatDate } from "@lib/utils/date";
+import Unfound from "@pages/Unfound";
 
 import * as styles from "./Article.module.css";
 
@@ -20,7 +21,7 @@ function Article() {
 
     return <div className={styles.wrapper}>
         {
-            status == "success"
+            article
             && <>
                 <span className={styles.title}>
                     {article.title}
@@ -30,9 +31,11 @@ function Article() {
                     {formatDate(new Date(article.date))}
                 </span>
 
-                <ReactMarkdown>
-                    {article.content}
-                </ReactMarkdown>
+                <div className={styles.content}>
+                    <ReactMarkdown>
+                        {article.content}
+                    </ReactMarkdown>
+                </div>
             </>
         }
 
@@ -41,6 +44,11 @@ function Article() {
             && <span className={styles.error}>
                 {t("pages.news.article.error")}
             </span>
+        }
+
+        {
+            status == "success" && article == null
+            && <Unfound/>
         }
     </div>;
 }

@@ -24,8 +24,6 @@ function Analysis() {
 
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
 
-    console.log(selectedGame);
-
     function initiateAnalysis() {
         // Validate that a game has been selected
         // Parse PGN or FEN string into Game object if necessary

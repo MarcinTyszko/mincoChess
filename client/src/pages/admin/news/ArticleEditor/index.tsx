@@ -34,14 +34,17 @@ function ArticleEditor() {
     useQuery({
         queryKey: ["editedArticle"],
         queryFn: async () => {
+            // Get existing article ID from URL
             const articleId = queryParams.get("id");
             if (!articleId) return;
 
+            // Fetch for the article details
             const articleResponse = await fetch(`/api/news?id=${articleId}`);
 
             const article: NewsArticle = await articleResponse.json();
             if (!article) return;
 
+            // Update interface with article details
             setArticleTitle(article.title);
             setTagName(article.tag.name);
             setTagColour(article.tag.colour);
@@ -57,7 +60,7 @@ function ArticleEditor() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                id: queryParams.get("id"),
+                id: queryParams.get("id") || undefined,
                 title: articleTitle,
                 tag: {
                     name: tagName,
