@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Chess } from "chess.js";
 
 import ChessBoard from "@components/board/ChessBoard";
 import GameSelector from "@components/analysis/GameSelector";
@@ -46,16 +45,6 @@ function Analysis() {
                     : parseFenString(selectedGameInput)
             );
         }
-
-        // Generate positions for evaluation phase
-        if (!selectedGame) return;
-
-        const parsedGame = new Chess();
-        parsedGame.loadPgn(selectedGame.pgn);
-
-        selectedGame.positions = [
-            { board: parsedGame }
-        ];
     }
 
     return <div className={styles.wrapper}>

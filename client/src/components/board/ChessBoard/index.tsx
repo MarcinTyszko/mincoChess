@@ -14,7 +14,15 @@ function ChessBoard() {
             rating: 2812
         }}/>
 
-        <Chessboard/>
+        <div className={styles.boardContainer}>
+            <div className={styles.evaluationBar}>
+                poop
+            </div>
+
+            <div className={styles.board}>
+                <Chessboard/>
+            </div>
+        </div>
 
         <PlayerProfile
             profile={{
