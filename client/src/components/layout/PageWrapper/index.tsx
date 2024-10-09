@@ -63,6 +63,7 @@ function PageWrapper({ children }: PageWrapperProps) {
         <div 
             className={styles.contentWrapper}
             style={{
+                marginTop: `${topSectionHeight}px`,
                 height: `calc(100vh - ${topSectionHeight}px)`
             }}
         >

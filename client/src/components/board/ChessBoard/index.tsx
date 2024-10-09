@@ -15,9 +15,9 @@ function ChessBoard() {
         }}/>
 
         <div className={styles.boardContainer}>
-            <div className={styles.evaluationBar}>
+            <svg className={styles.evaluationBar}>
                 poop
-            </div>
+            </svg>
 
             <div className={styles.board}>
                 <Chessboard/>

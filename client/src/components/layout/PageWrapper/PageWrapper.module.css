@@ -1,11 +1,13 @@
+/* Announcement and navigation bar */
 .topSection {
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1;
 
     width: 100%;
 }
 
+/* Sidebar and the main content frame */
 .contentWrapper {
     display: grid;
     grid-template-columns: 170px auto;
@@ -19,6 +21,7 @@
     }
 }
 
+/* Main content frame */
 .content {
     grid-column: 2 / 3;
 

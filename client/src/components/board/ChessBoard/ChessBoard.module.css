@@ -2,46 +2,70 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-
-    width: 610px;
-}
-
-@media (max-width: 1045px), (max-height: 820px) {
-    .wrapper {
-        width: 500px;
-    }
-}
-
-@media (max-width: 930px), (max-height: 720px) {
-    .wrapper {
-        width: 460px;
-    }
-}
-
-@media (max-width: 930px), (max-height: 670px) {
-    .wrapper {
-        width: 400px;
-    }
-}
-
-@media (max-width: 900px) {
-    .wrapper {
-        width: 70%;
-    }
-}
-
-@media (max-width: 650px) {
-    .wrapper {
-        width: 100%;
-    }
 }
 
 /* Contains eval bar and board */
 .boardContainer {
-    display: flex;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 40px auto;
 }
 
+/* Chess board itself */
+.board {
+    width: 600px;
+}
+
+/* Board size based on window WIDTH queries */
+@media (max-width: 1065px) {
+    .board {
+        width: 500px;
+    }
+}
+
+@media (max-width: 960px) {
+    .board {
+        width: 430px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .board {
+        width: calc(70vw - 40px) !important;
+    }
+}
+
+@media (max-width: 650px) {
+    .board {
+        width: calc(100vw - 40px) !important;
+    }
+}
+
+/* Board size based on window HEIGHT queries */
+@media (max-height: 850px) and (min-width: 1065px) {
+    .board {
+        width: 540px;
+    }
+}
+
+@media (max-height: 800px) {
+    .board {
+        width: 490px;
+    }
+}
+
+@media (max-height: 750px) {
+    .board {
+        width: 440px;
+    }
+}
+
+@media (max-height: 700px) {
+    .board {
+        width: 390px;
+    }
+}
+
+/* The evaluation bar */
 .evaluationBar {
     display: flex;
 
@@ -49,8 +73,4 @@
     height: 100%;
 
     background-color: gray;
-}
-
-.board {
-    width: calc(100% - 40px);
 }
