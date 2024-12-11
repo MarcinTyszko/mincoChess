@@ -1,6 +1,6 @@
 enum Classification {
     BRILLIANT,
-    GREAT,
+    ONLY,
     BEST,
     EXCELLENT,
     OKAY,
