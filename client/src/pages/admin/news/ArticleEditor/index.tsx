@@ -21,14 +21,17 @@ function ArticleEditor() {
     const navigate = useNavigate();
     const [ queryParams ] = useSearchParams();
 
+    // Article details
     const [ articleTitle, setArticleTitle ] = useState("");
     const [ tagName, setTagName ] = useState("");
     const [ tagColourPickerOpen, setTagColourPickerOpen ] = useState(false);
     const [ tagColour, setTagColour ] = useState("#000000");
-
-    const [ articleFormat, setArticleFormat ] = useState<ArticleFormat>("edit");
     const [ articleContent, setArticleContent ] = useState("");
 
+    // Edit or preview mode setting
+    const [ articleFormat, setArticleFormat ] = useState<ArticleFormat>("edit");
+
+    // Is publish confirmation dialog open
     const [ publishConfirmOpen, setPublishConfirmOpen ] = useState(false);
 
     useQuery({

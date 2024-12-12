@@ -1,3 +1,4 @@
+/* Contains player profiles and board container */
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -13,7 +14,7 @@
 /* Chess board itself */
 .board {
     width: 600px;
-    min-width: 300px;
+    min-width: 250px;
 }
 
 /* Board size based on window WIDTH queries */

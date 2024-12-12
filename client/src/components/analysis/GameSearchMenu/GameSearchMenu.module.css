@@ -1,3 +1,4 @@
+/* Dialog background and dialog */
 .wrapper {
     display: flex;
     justify-content: center;
@@ -13,6 +14,7 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+/* Dialog window */
 .menu {
     display: flex;
     flex-direction: column;
@@ -71,6 +73,7 @@
 @media (max-width: 900px) {
     .list {
         height: 100%;
+        align-items: start;
     }
 }
 
