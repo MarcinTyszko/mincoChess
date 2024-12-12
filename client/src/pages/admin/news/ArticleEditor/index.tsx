@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
-import { HexColorPicker } from "react-colorful";
 
 import { NewsArticle } from "wintrchess";
 import Button from "@components/common/Button";
+import ColourSwatch from "@components/common/ColourSwatch";
 import ButtonColour from "@constants/ButtonColour";
 import TextField from "@components/common/TextField";
 import ConfirmDialog from "@components/common/ConfirmDialog";
@@ -101,30 +101,12 @@ function ArticleEditor() {
                     onChange={value => setTagName(value)}
                 />
 
-                <div
-                    className={styles.swatch}
-                    style={{
-                        backgroundColor: tagColour
-                    }}
-                    onClick={event => {
-                        setTagColourPickerOpen(!tagColourPickerOpen);
-                        event.stopPropagation();
-                    }}
-                ></div>
-
-                {
-                    tagColourPickerOpen
-                    && <HexColorPicker
-                        style={{
-                            position: "absolute",
-                            top: "50px",
-                            right: "0",
-                            zIndex: 1
-                        }}
-                        onChange={setTagColour}
-                        onClick={event => event.stopPropagation()}
-                    />
-                }
+                <ColourSwatch
+                    colour={tagColour}
+                    setColour={setTagColour}
+                    open={tagColourPickerOpen}
+                    setOpen={setTagColourPickerOpen}
+                />
             </div>
         </div>
 

@@ -1,0 +1,15 @@
+.wrapper {
+    width: 45px;
+    position: relative;
+}
+
+.swatch {
+    box-sizing: border-box;
+    width: 45px;
+    height: 40px;
+
+    border-radius: 10px;
+    border: 4px solid #4e4e4e;
+
+    cursor: pointer;
+}

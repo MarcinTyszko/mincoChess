@@ -17,6 +17,7 @@ const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
 const Analytics = lazy(() => import("@pages/admin/Analytics"));
 const ArticleList = lazy(() => import("@pages/admin/news/ArticleList"));
 const ArticleEditor = lazy(() => import("@pages/admin/news/ArticleEditor"));
+const AnnouncementEditor = lazy(() => import("@pages/admin/AnnouncementEditor"));
 
 import "./i18n";
 import "./index.css";
@@ -43,6 +44,7 @@ root.render(<BrowserRouter>
                     <Route path="analytics" element={<Analytics/>}/>
                     <Route path="news" element={<ArticleList/>} />
                     <Route path="news/edit" element={<ArticleEditor/>} />
+                    <Route path="announcement" element={<AnnouncementEditor/>} />
                 </Route>
             </Routes>
         </Suspense>
