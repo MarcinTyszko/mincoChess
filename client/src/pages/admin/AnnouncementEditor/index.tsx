@@ -128,6 +128,7 @@ function AnnouncementEditor() {
             && <ConfirmDialog
                 setDialogOpen={setClearConfirmOpen}
                 onConfirm={() => publishAnnouncement({})}
+                dangerAction
             >
                 Are you sure you want to clear the announcement?
             </ConfirmDialog>
