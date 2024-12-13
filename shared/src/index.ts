@@ -10,3 +10,4 @@ export { default as Game } from "./types/game/Game";
 export { default as GamePlayerProfile } from "./types/game/GamePlayerProfile";
 
 export { default as NewsArticle } from "./types/NewsArticle";
+export { default as Announcement } from "./types/Announcement";

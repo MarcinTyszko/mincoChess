@@ -4,6 +4,8 @@
     align-items: center;
     gap: 20px;
 
+    height: 100%;
+
     padding: 30px;
 }
 
@@ -30,4 +32,14 @@
     background-color: #111111;
     color: white;
     font-size: 1rem;
+}
+
+.announcementMarkdown * {
+    margin: 0;
+    color: white;
+}
+
+.buttonBar {
+    display: flex;
+    gap: 20px;
 }

@@ -7,6 +7,12 @@
     width: 100%;
 }
 
+/* Markdown component in announcement banner */
+.announcementMarkdown * {
+    margin: 0;
+    color: white;
+}
+
 /* Sidebar and the main content frame */
 .contentWrapper {
     display: grid;

@@ -9,6 +9,7 @@ async function authenticator(req: Request, res: Response, next: NextFunction) {
         return next();
     }
 
+    // Get session token from cookies
     const sessionToken = req.cookies[Cookie.ADMIN_SESSION_TOKEN];
 
     // If the user does not have a session token

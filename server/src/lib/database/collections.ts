@@ -1,6 +1,7 @@
 enum Collections {
     SESSIONS = "sessions",
-    NEWS_ARTICLES = "news"
+    NEWS_ARTICLES = "news",
+    ANNOUNCEMENT = "announcement"
 }
 
 export default Collections;

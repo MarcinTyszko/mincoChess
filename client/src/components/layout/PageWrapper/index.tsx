@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ReactMarkdown from "react-markdown";
 
+import fetchAnnouncement from "@lib/announcement";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
-import Announcement from "../Announcement";
+import AnnouncementBanner from "../Announcement";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
-
-const queryClient = new QueryClient();
 
 function PageWrapper({ children }: PageWrapperProps) {
     const [ topSectionHeight, setTopSectionHeight ] = useState(0);
@@ -28,33 +27,28 @@ function PageWrapper({ children }: PageWrapperProps) {
         topSectionResizeObserver.observe(topSectionRef.current);
     }, []);
 
-    return <QueryClientProvider client={queryClient}>
+    const { data: announcement, status } = useQuery({
+        queryKey: ["announcement"],
+        queryFn: fetchAnnouncement
+    });
+
+    return <div>
         <div 
             className={styles.topSection} 
             ref={topSectionRef}
         >
             {
                 announcementOpen
-                && <Announcement
+                && status == "success"
+                && !!announcement.content
+                && <AnnouncementBanner
                     setOpen={setAnnouncementOpen}
-                    colour="rgb(255, 74, 29)"
+                    colour={announcement.colour}
                 >
-                    <span>
-                        <span>🎉 We've rebuilt Game Report from the ground up! Read </span>
-
-                        <Link 
-                            to="/news/thing"
-                            style={{
-                                textDecorationColor: "#47acff",
-                                color: "#ffffff"
-                            }}
-                        >
-                            <b>the full changelog</b>
-                        </Link>
-
-                        .
-                    </span>
-                </Announcement>
+                    <ReactMarkdown className={styles.announcementMarkdown}>
+                        {announcement.content}
+                    </ReactMarkdown>
+                </AnnouncementBanner>
             }
 
             <NavigationBar/>
@@ -79,7 +73,7 @@ function PageWrapper({ children }: PageWrapperProps) {
         </div>
 
         <ReactQueryDevtools/>
-    </QueryClientProvider>;
+    </div>;
 }
 
 export default PageWrapper;

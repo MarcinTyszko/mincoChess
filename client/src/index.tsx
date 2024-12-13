@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import PageWrapper from "@components/layout/PageWrapper";
 import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
@@ -26,27 +27,31 @@ const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
 
+const queryClient = new QueryClient();
+
 root.render(<BrowserRouter>
-    <PageWrapper>
-        <Suspense fallback={<LoadingPlaceholder/>}>
-            <Routes>
-                <Route path="/" element={<Analysis/>} />
-                <Route path="/archive" element={<Archive/>}/>
-                <Route path="/news" element={<NewsArticleList/>} />
-                <Route path="/news/:articleId" element={<NewsArticle/>} />
-                <Route path="/settings" element={<Settings/>} />
+    <QueryClientProvider client={queryClient}>
+        <PageWrapper>
+            <Suspense fallback={<LoadingPlaceholder/>}>
+                <Routes>
+                    <Route path="/" element={<Analysis/>} />
+                    <Route path="/archive" element={<Archive/>}/>
+                    <Route path="/news" element={<NewsArticleList/>} />
+                    <Route path="/news/:articleId" element={<NewsArticle/>} />
+                    <Route path="/settings" element={<Settings/>} />
 
-                <Route path="*" element={<Unfound/>} />
+                    <Route path="*" element={<Unfound/>} />
 
-                <Route path="/internal/login" element={<Login/>} />
-                <Route path="/internal/dashboard" element={<Dashboard/>}>
-                    <Route index element={<Analytics/>}/>
-                    <Route path="analytics" element={<Analytics/>}/>
-                    <Route path="news" element={<ArticleList/>} />
-                    <Route path="news/edit" element={<ArticleEditor/>} />
-                    <Route path="announcement" element={<AnnouncementEditor/>} />
-                </Route>
-            </Routes>
-        </Suspense>
-    </PageWrapper>
+                    <Route path="/internal/login" element={<Login/>} />
+                    <Route path="/internal/dashboard" element={<Dashboard/>}>
+                        <Route index element={<Analytics/>}/>
+                        <Route path="analytics" element={<Analytics/>}/>
+                        <Route path="news" element={<ArticleList/>} />
+                        <Route path="news/edit" element={<ArticleEditor/>} />
+                        <Route path="announcement" element={<AnnouncementEditor/>} />
+                    </Route>
+                </Routes>
+            </Suspense>
+        </PageWrapper>
+    </QueryClientProvider>
 </BrowserRouter>);

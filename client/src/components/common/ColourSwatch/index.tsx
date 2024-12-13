@@ -26,6 +26,7 @@ function ColourSwatch({ colour, setColour, open, setOpen }: ColourSwatchProps) {
                     right: "0",
                     zIndex: 1
                 }}
+                color={colour}
                 onChange={setColour}
                 onClick={event => event.stopPropagation()}
             />
