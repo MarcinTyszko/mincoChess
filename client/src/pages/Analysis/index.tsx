@@ -8,6 +8,7 @@ import GameSource from "@constants/GameSource";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
+import Stockfish from "@lib/engines/stockfish";
 
 import * as styles from "./Analysis.module.css";
 
@@ -45,6 +46,9 @@ function Analysis() {
                     : parseFenString(selectedGameInput)
             );
         }
+
+        // something here
+        new Stockfish();
     }
 
     return <div className={styles.wrapper}>
