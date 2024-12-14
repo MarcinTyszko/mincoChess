@@ -21,6 +21,8 @@
 
     background-color: #242424;
     color: white;
+
+    overflow-y: auto;
 }
 
 @media (max-width: 1230px) {
@@ -62,4 +64,11 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+
+.footerLinks {
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    flex-wrap: wrap;
 }

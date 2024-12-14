@@ -80,15 +80,29 @@ function Sidebar({ style }: SidebarProps) {
                 {t("sidebar.settings")}
             </SidebarTab>
 
-            <Link
-                to="/privacy"
-                style={{
-                    color: "white",
-                    margin: "10px 0"
-                }}
-            >
-                Privacy Policy
-            </Link>
+            <div className={styles.footerLinks}>
+                <Link
+                    to="/privacy"
+                    style={{
+                        color: "white",
+                        margin: "10px 0",
+                        fontSize: "0.85rem"
+                    }}
+                >
+                    Privacy
+                </Link>
+
+                <Link
+                    to="/credits"
+                    style={{
+                        color: "white",
+                        margin: "10px 0",
+                        fontSize: "0.85rem"
+                    }}
+                >
+                    Credits
+                </Link>
+            </div>
         </div>
     </div>;
 }
