@@ -8,7 +8,8 @@ import GameSource from "@constants/GameSource";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
-import Stockfish from "@lib/engines/stockfish";
+import Engine from "@lib/engine";
+import EngineVersion from "@constants/EngineVersion";
 
 import * as styles from "./Analysis.module.css";
 
@@ -48,7 +49,7 @@ function Analysis() {
         }
 
         // something here
-        new Stockfish();
+        new Engine(EngineVersion.STOCKFISH_16_1_LITE_SINGLE);
     }
 
     return <div className={styles.wrapper}>
