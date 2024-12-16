@@ -89,7 +89,7 @@ function Sidebar({ style }: SidebarProps) {
                         fontSize: "0.85rem"
                     }}
                 >
-                    Privacy
+                    {t("sidebar.privacyPolicy")}
                 </Link>
 
                 <Link
@@ -100,7 +100,7 @@ function Sidebar({ style }: SidebarProps) {
                         fontSize: "0.85rem"
                     }}
                 >
-                    Credits
+                    {t("sidebar.credits")}
                 </Link>
             </div>
         </div>

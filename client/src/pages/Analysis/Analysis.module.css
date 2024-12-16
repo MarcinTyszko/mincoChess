@@ -59,6 +59,11 @@
 }
 
 .error {
+    padding: 5px 0;
     text-align: center;
-    color: rgb(255, 40, 40);
+
+    background-color: rgba(239, 65, 70, 0.4);
+    border-radius: 10px;
+    
+    color: white;
 }

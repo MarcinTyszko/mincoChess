@@ -1,8 +1,9 @@
 {
+    "loading": "Loading...",
     "navigationBar": {
         "donate": "Donate",
         "tooltips": {
-            "donate": "Donate to us ❤",
+            "donate": "Donate ❤",
             "youtube": "YouTube Channel",
             "discord": "Join the community"
         }
@@ -12,9 +13,9 @@
         "archive": "Archive",
         "news": "News",
         "settings": "Settings",
-        "privacy": "Privacy Policy"
+        "privacyPolicy": "Privacy",
+        "credits": "Credits"
     },
-    "loading": "Loading...",
     "pages": {
         "analysis": {
             "title": "Game Report",
@@ -30,7 +31,7 @@
                 "searchGamesButton": "Search Games",
                 "errors": {
                     "noGameSelected": "Please select a Chess game.",
-                    "invalidPGN": "This PGN is invalid."
+                    "invalidGame": "Failed to parse invalid game."
                 }
             },
             "gameSearchMenu": {
@@ -39,7 +40,8 @@
                 "userNotFound": "We couldn't find an account with this username.",
                 "noGamesFound": "We couldn't find any games for this month.",
                 "ratelimited": "You were ratelimited, please wait..."
-            }
+            },
+            "analyseButton": "Analyse"
         },
         "news": {
             "title": "Newspaper",

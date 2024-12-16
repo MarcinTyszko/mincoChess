@@ -41,11 +41,17 @@ function Analysis() {
                 );
             }
 
-            setSelectedGame(
-                selectedGameSource == GameSource.PGN
-                    ? parsePgn(selectedGameInput)
-                    : parseFenString(selectedGameInput)
-            );
+            try {
+                setSelectedGame(
+                    selectedGameSource == GameSource.PGN
+                        ? parsePgn(selectedGameInput)
+                        : parseFenString(selectedGameInput)
+                );
+            } catch {
+                return setAnalysisError(
+                    t("pages.analysis.gameSelector.errors.invalidGame")
+                );
+            }
         }
 
         // something here
@@ -59,7 +65,7 @@ function Analysis() {
 
         <div className={styles.reportContainer}>
             <div className={styles.title}>
-                Game Report
+                {t("pages.analysis.title")}
             </div>
 
             <GameSelector/>
@@ -72,12 +78,15 @@ function Analysis() {
                 }}
                 onClick={initiateAnalysis}
             >
-                Analyse
+                {t("pages.analysis.analyseButton")}
             </Button>
 
-            <span className={styles.error}>
-                {!!analysisError && analysisError}
-            </span>
+            {
+                !!analysisError
+                && <span className={styles.error}>
+                    {analysisError}
+                </span>
+            }
         </div>
     </div>;
 }
