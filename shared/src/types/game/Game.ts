@@ -1,5 +1,5 @@
-import TimeControl from "../../constants/TimeControl";
-import Variant from "../../constants/Variant";
+import TimeControl from "../../constants/game/TimeControl";
+import Variant from "../../constants/game/Variant";
 import GamePlayerProfile from "./GamePlayerProfile";
 import GameReport from "./GameReport";
 

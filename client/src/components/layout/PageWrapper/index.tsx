@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactMarkdown from "react-markdown";
 
-import fetchAnnouncement from "@lib/announcement";
+import getAnnouncement from "@lib/announcement";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
 import AnnouncementBanner from "../Announcement";
@@ -29,7 +29,7 @@ function PageWrapper({ children }: PageWrapperProps) {
 
     const { data: announcement, status } = useQuery({
         queryKey: ["announcement"],
-        queryFn: fetchAnnouncement
+        queryFn: getAnnouncement
     });
 
     return <div>

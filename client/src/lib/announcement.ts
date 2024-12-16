@@ -1,6 +1,6 @@
 import { Announcement } from "wintrchess";
 
-async function fetchAnnouncement() {
+async function getAnnouncement() {
     const announcementRequest = await fetch("/api/announcement", {
         method: "GET"
     });
@@ -10,4 +10,4 @@ async function fetchAnnouncement() {
     return announcement;
 }
 
-export default fetchAnnouncement;
+export default getAnnouncement;
