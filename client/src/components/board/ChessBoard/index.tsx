@@ -1,6 +1,6 @@
 import React from "react";
-
 import { Chessboard } from "react-chessboard";
+
 import PlayerProfile from "../PlayerProfile";
 
 import * as styles from "./ChessBoard.module.css";
