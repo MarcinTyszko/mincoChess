@@ -15,7 +15,7 @@ const requestSchema = z.object({
         name: z.string(),
         colour: z.string()
     }),
-    date: z.string().datetime(),
+    timestamp: z.number(),
     content: z.string()
 });
 

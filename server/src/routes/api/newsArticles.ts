@@ -7,7 +7,7 @@ import { NewsArticle } from "wintrchess";
 const router = Router();
 
 router.get("/api/news", async (req, res) => {
-    const articleId = req.query.id;
+    const articleId = req.query.id?.toString();
 
     if (articleId) {
         const article = await database
@@ -20,6 +20,8 @@ router.get("/api/news", async (req, res) => {
             .collection<NewsArticle>(Collections.NEWS_ARTICLES)
             .find()
             .toArray();
+
+        articles.reverse();
 
         res.json(articles);
     }

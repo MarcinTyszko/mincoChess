@@ -5,7 +5,7 @@ interface NewsArticle {
         name: string;
         colour: string;
     };
-    date: string;
+    timestamp: number;
     content: string;
 }
 
