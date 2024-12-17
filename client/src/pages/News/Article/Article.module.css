@@ -28,6 +28,10 @@
     align-items: center;
 }
 
+.content * {
+    color: white;
+}
+
 .content img {
     width: 100%;
 }
