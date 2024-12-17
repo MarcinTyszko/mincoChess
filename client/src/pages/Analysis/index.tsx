@@ -28,10 +28,12 @@ function Analysis() {
     function initiateAnalysis() {
         // Validate that a game has been selected
         // Parse PGN or FEN string into Game object if necessary
-        if (selectedGameSource.requiresSearch && !selectedGame) {
-            return setAnalysisError(
-                t("pages.analysis.gameSelector.errors.noGameSelected")
-            );
+        if (selectedGameSource.requiresSearch) {
+            if (!selectedGame) {
+                return setAnalysisError(
+                    t("pages.analysis.gameSelector.errors.noGameSelected")
+                ); 
+            }
         } else {
             if (selectedGameInput.length == 0) {
                 return setAnalysisError(
