@@ -47,7 +47,7 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
             </span>
 
             <span className={styles.date}>
-                {formatDate(new Date(article.date))}
+                {formatDate(new Date(article.timestamp))}
             </span>
         </div>
 

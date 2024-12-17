@@ -69,7 +69,7 @@ function ArticleEditor() {
                     name: tagName,
                     colour: tagColour
                 },
-                date: new Date().toISOString(),
+                timestamp: Date.now(),
                 content: articleContent
             })
         });

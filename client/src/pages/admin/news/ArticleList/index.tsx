@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
-import ArticleListing from "@components/news/ArticleListing";
+import ArticleListing from "@components/common/ArticleListing";
 import { getNewsArticles } from "@lib/newsArticles";
 import useProtectedRoute from "@hooks/useProtectedRoute";
 

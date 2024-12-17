@@ -29,7 +29,8 @@ function PageWrapper({ children }: PageWrapperProps) {
 
     const { data: announcement, status } = useQuery({
         queryKey: ["announcement"],
-        queryFn: getAnnouncement
+        queryFn: getAnnouncement,
+        refetchOnWindowFocus: false
     });
 
     return <div>

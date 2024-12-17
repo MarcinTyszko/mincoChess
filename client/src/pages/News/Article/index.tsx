@@ -28,14 +28,12 @@ function Article() {
                 </span>
 
                 <span className={styles.date}>
-                    {formatDate(new Date(article.date))}
+                    {formatDate(new Date(article.timestamp))}
                 </span>
 
-                <div className={styles.content}>
-                    <ReactMarkdown>
-                        {article.content}
-                    </ReactMarkdown>
-                </div>
+                <ReactMarkdown className={styles.content}>
+                    {article.content}
+                </ReactMarkdown>
             </>
         }
 

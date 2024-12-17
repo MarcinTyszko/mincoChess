@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
-import ArticleListing from "@components/news/ArticleListing";
+import ArticleListing from "@components/common/ArticleListing";
 import { getNewsArticles } from "@lib/newsArticles";
 
 import * as styles from "./News.module.css";
