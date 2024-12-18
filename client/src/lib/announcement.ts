@@ -1,13 +1,11 @@
 import { Announcement } from "wintrchess";
 
-async function getAnnouncement() {
+async function getAnnouncement(): Promise<Announcement> {
     const announcementRequest = await fetch("/api/announcement", {
         method: "GET"
     });
 
-    const announcement: Announcement = await announcementRequest.json();
-
-    return announcement;
+    return await announcementRequest.json();
 }
 
 export default getAnnouncement;
