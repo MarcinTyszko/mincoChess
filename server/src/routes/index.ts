@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import newsArticlesRouter from "./api/newsArticles";
+import newsArticlesPagesRouter from "./api/newsArticlesPages";
 import announcementRouter from "./api/announcement";
 
 import loginRouter from "./internal/login";
@@ -12,6 +13,7 @@ export const apiRouter = Router();
 
 apiRouter.use("/",
     newsArticlesRouter,
+    newsArticlesPagesRouter,
     announcementRouter
 );
 

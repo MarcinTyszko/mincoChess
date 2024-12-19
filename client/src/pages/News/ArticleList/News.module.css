@@ -37,6 +37,13 @@
     }
 }
 
+.pageButtons {
+    display: flex;
+    gap: 10px;
+
+    margin: 20px;
+}
+
 .error {
     color: rgb(255, 50, 50);
 }
