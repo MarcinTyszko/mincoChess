@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -13,12 +13,12 @@ import * as styles from "./News.module.css";
 function News() {
     const { t } = useTranslation();
 
-    const navigate = useNavigate();
-
-    const [ searchParams ] = useSearchParams();
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const pageRef = useRef(
         parseInt(searchParams.get("page") || "1") || 1
     );
+
+    const pageButtonsRef = useRef<HTMLDivElement>(null);
 
     const queryClient = useQueryClient();
     const { data: newsArticles, status } = useQuery({
@@ -31,18 +31,24 @@ function News() {
         queryFn: getNewsArticlesPages
     });
 
-    function switchPage(increment: number) {
+    async function switchPage(increment: number) {
+        if (!pageRef.current) return;
+
         pageRef.current = Math.min(
             Math.max(1, pageRef.current + increment),
             pageCount || Infinity
         );
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["newsArticles"]
         });
 
-        navigate(`/news?page=${pageRef.current}`);
+        setSearchParams({ page: pageRef.current.toString() });
     }
+
+    useEffect(() => {
+        pageButtonsRef.current?.scrollIntoView();
+    }, [pageRef.current]);
 
     return <div className={styles.wrapper}>
         <div className={styles.title}>
@@ -69,29 +75,26 @@ function News() {
             }
         </div>
 
-        <div className={styles.pageButtons}>
+        <div className={styles.pageButtons} ref={pageButtonsRef}>
             <Button
                 style={{
-                    width: "140px",
                     backgroundColor: ButtonColour.BLUE
                 }}
                 icon={require("@assets/img/back.svg")}
                 onClick={() => switchPage(-1)}
-            >
-                Previous
-            </Button>
+            />
+
+            <span>
+                {pageRef.current || "?"} / {pageCount || "?"}
+            </span>
 
             <Button
                 style={{
-                    width: "140px",
-                    backgroundColor: ButtonColour.BLUE,
-                    direction: "rtl"
+                    backgroundColor: ButtonColour.BLUE
                 }}
                 icon={require("@assets/img/next.svg")}
                 onClick={() => switchPage(1)}
-            >
-                Next
-            </Button>
+            />
         </div>
     </div>;
 }
