@@ -1,11 +1,11 @@
 import Classification from "../../constants/Classification";
-import Evaluation from "./Evaluation";
+import EngineLine from "./EngineLine";
 
 interface Position {
     classification: Classification;
     engineLines?: {
-        local: Evaluation[];
-        cloud: Evaluation[];
+        local: EngineLine[];
+        cloud: EngineLine[];
     };
 }
 

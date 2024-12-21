@@ -1,6 +1,6 @@
 import { Game, TimeControl, Variant } from "wintrchess";
 import { padDateNumber } from "@lib/utils/date";
-import { UserNotFoundError } from "./errors";
+import { UserNotFoundError } from "../errors";
 
 // Map from chess.com time controls to ours
 const timeControlCodes: { [key: string]: TimeControl } = {

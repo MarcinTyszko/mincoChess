@@ -7,7 +7,7 @@ import {
     oppositePieceColour
 } from "wintrchess";
 import { getMonthLength, padDateNumber } from "@lib/utils/date";
-import { UserNotFoundError, RatelimitError } from "./errors";
+import { UserNotFoundError, RatelimitError } from "../errors";
 
 // Loser's result based on game status defined by Lichess API
 const loserResults: { [key: string]: GameResult } = {

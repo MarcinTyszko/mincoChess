@@ -25,7 +25,7 @@ function Analysis() {
 
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
 
-    function initiateAnalysis() {
+    async function initiateAnalysis() {
         // Validate that a game has been selected
         // Parse PGN or FEN string into Game object if necessary
         if (selectedGameSource.requiresSearch) {
@@ -55,7 +55,13 @@ function Analysis() {
         }
 
         // something here
-        new Engine(EngineVersion.STOCKFISH_16_1_LITE_SINGLE);
+        const sf = new Engine(EngineVersion.STOCKFISH_16_1_LITE_SINGLE);
+
+        sf.setLineCount(3);
+        
+        const topLine = (await sf.evaluate(22))[0];
+
+        console.log(`the top move is: ${topLine.moves[0].san}`);
     }
 
     return <div className={styles.wrapper}>
