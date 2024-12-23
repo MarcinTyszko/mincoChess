@@ -59,9 +59,10 @@ function Analysis() {
 
         sf.setLineCount(3);
         
-        const topLine = (await sf.evaluate(22))[0];
+        const evaluationResult = await sf.evaluate(22);
 
-        console.log(`the top move is: ${topLine.moves[0].san}`);
+        console.log(`took ${evaluationResult.elapsedTime}ms`);
+        console.log(`the top move is: ${evaluationResult.lines[0].moves[0].san}`);
     }
 
     return <div className={styles.wrapper}>

@@ -3,6 +3,11 @@ import { Chess } from "chess.js";
 import { EngineLine } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 
+interface EvaluationResult {
+    elapsedTime: number;
+    lines: EngineLine[];
+}
+
 // Convert UCI evaluation types to our ones
 const uciEvaluationTypes: Record<string, string | undefined> = {
     cp: "centipawn",
@@ -64,7 +69,9 @@ class Engine {
         this.position = fen;
     }
 
-    async evaluate(depth: number) {
+    async evaluate(depth: number): Promise<EvaluationResult> {
+        const startTime = Date.now();
+
         const evaluationLogs = (await this.consumeLogs(
             `go depth ${depth}`,
             message => (
@@ -127,7 +134,10 @@ class Engine {
             });
         }
 
-        return engineLines;
+        return {
+            elapsedTime: Date.now() - startTime,
+            lines: engineLines 
+        };
     }
 }
 
