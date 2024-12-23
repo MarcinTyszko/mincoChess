@@ -13,7 +13,8 @@ enum GameResult {
     LOSE = "lose",
     INSUFFICIENT_MATERIAL = "insufficient",
     FIFTY_MOVE = "50move",
-    ABANDONED = "abandoned"
+    ABANDONED = "abandoned",
+    UNKNOWN = "unknown"
 }
 
 export default GameResult;

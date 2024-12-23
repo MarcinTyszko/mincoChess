@@ -3,7 +3,8 @@ import GameResult from "./GameResult";
 export enum GenericGameResult {
     WIN = "win",
     DRAW = "draw",
-    LOSE = "lose"
+    LOSE = "lose",
+    UNKNOWN = "unknown"
 }
 
 export function getGenericGameResult(result: GameResult) {
@@ -18,6 +19,7 @@ export function getGenericGameResult(result: GameResult) {
         [GameResult.RESIGNED]: GenericGameResult.LOSE,
         [GameResult.STALEMATE]: GenericGameResult.DRAW,
         [GameResult.TIMEOUT]: GenericGameResult.LOSE,
-        [GameResult.WIN]: GenericGameResult.WIN
+        [GameResult.WIN]: GenericGameResult.WIN,
+        [GameResult.UNKNOWN]: GenericGameResult.UNKNOWN
     }[result];
 }
