@@ -1,7 +1,8 @@
-import { Game } from "wintrchess";
+import { Game, PieceColour } from "wintrchess";
 
 interface GameListingProps {
     game: Game;
+    perspective: PieceColour;
     onClick?: (game: Game) => void;
 }
 

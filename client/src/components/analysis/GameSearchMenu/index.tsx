@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Game } from "wintrchess";
+import { Game, PieceColour } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
@@ -54,19 +54,14 @@ function GameSearchMenu({
         staleTime: Infinity
     });
 
-    function closeMenu() {
-        if (!setOpen) return;
-        setOpen(false);
-    }
-
     function selectGame(game: Game) {
         setSelectedGame(game);
-        closeMenu();
+        setOpen?.(false);
     }
 
     return <div className={styles.wrapper}>
         <div className={styles.menu}>
-            <DialogCloseButton onClick={closeMenu} />
+            <DialogCloseButton onClick={() => setOpen?.(false)} />
 
             <span className={styles.title}>
                 {t("pages.analysis.gameSearchMenu.title")}
@@ -115,6 +110,7 @@ function GameSearchMenu({
                                 .reverse()
                                 .map(game => <GameListing 
                                     game={game}
+                                    perspective={PieceColour.WHITE}
                                     onClick={selectGame}
                                 />)
                             : t("pages.analysis.gameSearchMenu.noGamesFound")
