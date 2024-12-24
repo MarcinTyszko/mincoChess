@@ -1,6 +1,10 @@
 import React from "react";
 
-import { getGenericGameResult, GenericGameResult, getOpinionatedGameResult } from "wintrchess";
+import {
+    GenericGameResult,
+    getGenericGameResult,
+    getOpinionatedGameResult
+} from "wintrchess";
 import Button from "../Button";
 import { formatDate } from "@lib/utils/date";
 
@@ -52,26 +56,36 @@ function GameListing({
 
         <div style={{width: "95px"}}>
             {
-                {
-                    [GenericGameResult.WIN]: "Win",
-                    [GenericGameResult.DRAW]: "Draw",
-                    [GenericGameResult.LOSE]: "Loss",
-                    [GenericGameResult.UNKNOWN]: "Unknown"
-                }[
-                    getOpinionatedGameResult(
-                        getGenericGameResult(game.players.white.result),
-                        perspective
-                    )
-                ]
+                perspective
+                    ? {
+                        [GenericGameResult.WIN]: "Win",
+                        [GenericGameResult.DRAW]: "Draw",
+                        [GenericGameResult.LOSE]: "Loss",
+                        [GenericGameResult.UNKNOWN]: "Unknown"
+                    }[
+                        getOpinionatedGameResult(
+                            getGenericGameResult(game.players.white.result),
+                            perspective
+                        )
+                    ]
+                    : {
+                        [GenericGameResult.WIN]: "White won",
+                        [GenericGameResult.DRAW]: "Draw",
+                        [GenericGameResult.LOSE]: "Black won",
+                        [GenericGameResult.UNKNOWN]: "Unknown"
+                    }[
+                        getGenericGameResult(game.players.white.result)
+                    ]
             }
         </div>
 
-        {/* 
-        PUT THIS BACK LATER WHEN REPORT CAN BE ADDED TO GAMELISTINGPROPS
-        <div>
-            <div>{game.players.white.accuracy || "?"}</div>
-            <div>{game.players.black.accuracy || "?"}</div>
-        </div> */}
+        {
+            game.report
+            && <div>
+                <div>{game.report.accuracies.white}</div>
+                <div>{game.report.accuracies.black}</div>
+            </div>
+        }
 
         <div style={{width: "110px"}}>
             {game.date ? formatDate(game.date) : "Unknown"}
