@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Game, PieceColour } from "wintrchess";
+import { Game, getColourPlayed } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
@@ -110,7 +110,7 @@ function GameSearchMenu({
                                 .reverse()
                                 .map(game => <GameListing 
                                     game={game}
-                                    perspective={PieceColour.WHITE}
+                                    perspective={getColourPlayed(game, username)}
                                     onClick={selectGame}
                                 />)
                             : t("pages.analysis.gameSearchMenu.noGamesFound")

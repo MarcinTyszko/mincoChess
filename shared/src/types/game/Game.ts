@@ -2,8 +2,15 @@ import TimeControl from "../../constants/game/TimeControl";
 import Variant from "../../constants/game/Variant";
 import GamePlayerProfile from "./GamePlayerProfile";
 import GameReport from "./GameReport";
+import PieceColour from "../../constants/PieceColour";
 
-interface Game {
+export function getColourPlayed(game: Game, username: string) {
+    return game.players.white.username == username
+        ? PieceColour.WHITE
+        : PieceColour.BLACK;
+}
+
+export interface Game {
     pgn: string;
     initialPosition: string;
     timeControl?: TimeControl;

@@ -8,3 +8,5 @@ export function oppositePieceColour(colour: PieceColour) {
         PieceColour.BLACK 
         : PieceColour.WHITE;
 }
+
+export default PieceColour;

@@ -23,3 +23,5 @@ export function getGenericGameResult(result: GameResult) {
         [GameResult.UNKNOWN]: GenericGameResult.UNKNOWN
     }[result];
 }
+
+export default GenericGameResult;

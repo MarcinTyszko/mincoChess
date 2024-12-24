@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getGenericGameResult, GenericGameResult } from "wintrchess";
+import { getGenericGameResult, GenericGameResult, getOpinionatedGameResult } from "wintrchess";
 import Button from "../Button";
 import { formatDate } from "@lib/utils/date";
 
@@ -53,10 +53,16 @@ function GameListing({
         <div style={{width: "95px"}}>
             {
                 {
-                    [GenericGameResult.WIN]: "White won",
+                    [GenericGameResult.WIN]: "Win",
                     [GenericGameResult.DRAW]: "Draw",
-                    [GenericGameResult.LOSE]: "Black won"
-                }[getGenericGameResult(game.players.white.result)]
+                    [GenericGameResult.LOSE]: "Loss",
+                    [GenericGameResult.UNKNOWN]: "Unknown"
+                }[
+                    getOpinionatedGameResult(
+                        getGenericGameResult(game.players.white.result),
+                        perspective
+                    )
+                ]
             }
         </div>
 
