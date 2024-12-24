@@ -23,6 +23,8 @@
 .playerProfile {
     display: flex;
     gap: 5px;
+    
+    margin: 2px;
 }
 
 .playerTitle {

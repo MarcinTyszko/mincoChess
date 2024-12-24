@@ -7,6 +7,7 @@ import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/errors";
+import Loader from "@components/common/Loader";
 import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
@@ -89,16 +90,20 @@ function GameSearchMenu({
             <div className={styles.list}>
                 {
                     status == "error" && fetchStatus == "idle"
-                    && <span className={styles.statusMessage} style={{ color: "red" }}>
+                    && <span className={styles.errorMessage}>
                         {t(error.message)}
                     </span>
                 }
 
                 {
                     fetchStatus == "fetching"
-                    && <span className={styles.statusMessage}>
-                        {t("pages.analysis.gameSearchMenu.loading")}
-                    </span>
+                    && <div className={styles.loadingMessage}>
+                        <Loader/>
+                        
+                        <span>
+                            {t("pages.analysis.gameSearchMenu.loading")}
+                        </span>
+                    </div>
                 }
 
                 {

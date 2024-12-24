@@ -84,7 +84,16 @@
     }
 }
 
-.statusMessage {
+.loadingMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.errorMessage {
     text-align: center;
     width: 100%;
+
+    color: red;
 }
