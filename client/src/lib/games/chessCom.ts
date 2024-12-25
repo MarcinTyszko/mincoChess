@@ -23,7 +23,7 @@ async function getChessComGames(
 ): Promise<Game[]> {
     const gamesResponse = await fetch(
         `https://api.chess.com/pub/player/${username}`
-        + `/games/${year}/${padDateNumber(month + 1)}`
+        + `/games/${year}/${padDateNumber(month)}`
     );
 
     if (gamesResponse.status == 404) {
@@ -32,34 +32,40 @@ async function getChessComGames(
         );
     }
 
-    const games = (await gamesResponse.json()).games as any[];
+    const games: any[] | undefined = (await gamesResponse.json()).games;
     
     if (!games) {
         return [];
     }
 
-    return games.map(game => ({
-        pgn: game.pgn,
-        timeControl: (
-            timeControlCodes[game["time_class"]]
-            || TimeControl.CORRESPONDENCE
-        ),
-        variant: variantCodes[game.rules] || Variant.STANDARD,
-        initialPosition: game["initial_setup"],
-        players: {
-            white: {
-                username: game.white.username,
-                rating: game.white.rating,
-                result: game.white.result
+    return games
+        .reverse()
+        .filter(game => Object
+            .keys(variantCodes)
+            .includes(game.rules)
+        )
+        .map(game => ({
+            pgn: game.pgn,
+            timeControl: (
+                timeControlCodes[game["time_class"]]
+                || TimeControl.CORRESPONDENCE
+            ),
+            variant: variantCodes[game.rules],
+            initialPosition: game["initial_setup"],
+            players: {
+                white: {
+                    username: game.white.username,
+                    rating: game.white.rating,
+                    result: game.white.result
+                },
+                black: {
+                    username: game.black.username,
+                    rating: game.black.rating,
+                    result: game.black.result
+                }
             },
-            black: {
-                username: game.black.username,
-                rating: game.black.rating,
-                result: game.black.result
-            }
-        },
-        date: new Date(game["end_time"] * 1000)
-    }));
+            date: new Date(game["end_time"] * 1000)
+        }));
 }
 
 export default getChessComGames;

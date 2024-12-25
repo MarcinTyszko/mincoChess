@@ -11,8 +11,8 @@ function MonthSelector({
     allowFuture, 
     locked
 }: MonthSelectorProps) {
-    const [ year, setYear ] = useState(new Date().getUTCFullYear());
-    const [ month, setMonth ] = useState(new Date().getUTCMonth());
+    const [ year, setYear ] = useState(new Date().getFullYear());
+    const [ month, setMonth ] = useState(new Date().getMonth());
 
     function incrementMonth(offset: number) {
         if (locked) return;
@@ -38,8 +38,7 @@ function MonthSelector({
         setMonth(newMonth);
         setYear(newYear);
 
-        if (!onMonthChange) return;
-        onMonthChange(newMonth, newYear);
+        onMonthChange?.(newMonth + 1, newYear);
     }
 
     return <div className={styles.wrapper}>

@@ -37,10 +37,13 @@ const variantCodes: { [key: string]: Variant } = {
 };
 
 async function getLichessGames(
-    username: string, 
-    month: number, 
+    username: string,
+    month: number,
     year: number
 ): Promise<Game[]> {
+    console.log(year);
+    console.log(month);
+
     const monthStart = new Date(
         `${year}-${padDateNumber(month)}-01T00:00:00.000Z`
     );

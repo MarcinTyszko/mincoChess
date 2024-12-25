@@ -42,8 +42,8 @@ function GameSearchMenu({
 
     const { setSelectedGame } = useGameSelectorStore();
 
-    const [ month, setMonth ] = useState(new Date().getUTCMonth());
-    const [ year, setYear ] = useState(new Date().getUTCFullYear());
+    const [ month, setMonth ] = useState(new Date().getMonth() + 1);
+    const [ year, setYear ] = useState(new Date().getFullYear());
 
     const longFetchTimerRef = useRef<NodeJS.Timeout | null>(null);
     const [ isLongFetch, setIsLongFetch ] = useState(false);
@@ -134,7 +134,6 @@ function GameSearchMenu({
                         games.length > 0 ?
                             games
                                 .slice()
-                                .reverse()
                                 .map(game => <GameListing 
                                     game={game}
                                     perspective={getColourPlayed(game, username)}

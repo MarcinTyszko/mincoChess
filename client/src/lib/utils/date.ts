@@ -26,7 +26,7 @@ export function getMonthLength(month: number) {
         monthLengths[1] = 29;
     }
 
-    return monthLengths[month];
+    return monthLengths[month - 1];
 }
 
 export function formatDate(date: Date) {
