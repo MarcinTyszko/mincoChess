@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -45,9 +45,24 @@ function GameSearchMenu({
     const [ month, setMonth ] = useState(new Date().getUTCMonth());
     const [ year, setYear ] = useState(new Date().getUTCFullYear());
 
+    const longFetchTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const [ isLongFetch, setIsLongFetch ] = useState(false);
+
     const { data: games, status, fetchStatus, error } = useQuery({ 
         queryKey: ["games", gameSource.key, username, month, year], 
-        queryFn: () => fetchGames(gameSource, username, month, year),
+        queryFn: () => {
+            if (longFetchTimerRef.current != null) {
+                clearTimeout(longFetchTimerRef.current);
+                setIsLongFetch(false);
+            }
+
+            longFetchTimerRef.current = setTimeout(
+                () => setIsLongFetch(true),
+                2500
+            );
+
+            return fetchGames(gameSource, username, month, year);
+        },
         retry: (failureCount, error) => {
             return !(error instanceof UserNotFoundError);
         },
@@ -103,6 +118,13 @@ function GameSearchMenu({
                         <span>
                             {t("pages.analysis.gameSearchMenu.loading")}
                         </span>
+
+                        {
+                            isLongFetch
+                            && <span>
+                                {t("pages.analysis.gameSearchMenu.loadingLong")}
+                            </span>
+                        }
                     </div>
                 }
 
