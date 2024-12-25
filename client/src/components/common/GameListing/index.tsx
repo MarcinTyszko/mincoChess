@@ -3,7 +3,8 @@ import React from "react";
 import {
     GenericGameResult,
     getGenericGameResult,
-    getOpinionatedGameResult
+    getOpinionatedGameResult,
+    PlayerProfile
 } from "wintrchess";
 import Button from "../Button";
 import { formatDate } from "@lib/utils/date";
@@ -11,11 +12,19 @@ import { formatDate } from "@lib/utils/date";
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
-const MAX_USERNAME_LENGTH = 19;
+const MAX_PROFILE_LENGTH = 19;
 
-function cutUsername(username: string) {
-    return username.length > MAX_USERNAME_LENGTH
-        ? username.slice(0, MAX_USERNAME_LENGTH - 3) + "..."
+function cutUsername(profile: PlayerProfile) {
+    const titleLength = profile.title
+        ? profile.title.length + 1
+        : 0;
+    const usernameLength = (profile.username || "Unknown").length || 0;
+    const profileLength = titleLength + usernameLength;
+
+    const username = profile.username || "Unknown";
+
+    return profileLength > MAX_PROFILE_LENGTH
+        ? username.slice(0, MAX_PROFILE_LENGTH - titleLength - 3) + "..."
         : username;
 }
 
@@ -45,7 +54,7 @@ function GameListing({
                             </span>
                         }
         
-                        <span>{cutUsername(player.username || "Unknown")}</span>
+                        <span>{cutUsername(player)}</span>
         
                         <span style={{color: "grey"}}>
                             ({player.rating || "?"})
