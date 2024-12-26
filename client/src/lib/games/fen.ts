@@ -6,14 +6,14 @@ function parseFenString(fen: string): Game {
     const board = new Chess(fen);
 
     return {
-        initialPosition: fen,
+        initialPosition: board.fen(),
         pgn: board.pgn(),
         players: {
             white: {
-                result: GameResult.AGREED
+                result: GameResult.UNKNOWN
             },
             black: {
-                result: GameResult.AGREED
+                result: GameResult.UNKNOWN
             }
         },
         variant: Variant.STANDARD
