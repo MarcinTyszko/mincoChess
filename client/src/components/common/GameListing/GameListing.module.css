@@ -22,7 +22,14 @@
 
 .timeControlIcon {
     filter: brightness(0) invert();
-    height: 30px;
+    width: 100%;
+}
+
+.resultIconContainer {
+    display: flex;
+    align-items: center;
+
+    width: 20px;
 }
 
 .playerProfile {

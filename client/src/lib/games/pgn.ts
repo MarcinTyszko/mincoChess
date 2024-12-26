@@ -9,7 +9,7 @@ import {
 
 function parseResultString(result: string, colour: PieceColour) {
     if (result == "1/2-1/2") return GameResult.DRAW;
-    if (result == "*") return GameResult.UNKNOWN;
+    if (result == "*") return undefined;
 
     const winningResult = colour == PieceColour.WHITE ? "1-0" : "0-1";
 

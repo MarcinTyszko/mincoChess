@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -19,6 +19,26 @@ const timeControlIcons = {
     [TimeControl.RAPID]: require("@assets/img/timeControls/rapid.svg"),
     [TimeControl.CLASSICAL]: require("@assets/img/timeControls/classical.svg"),
     [TimeControl.CORRESPONDENCE]: require("@assets/img/timeControls/correspondence.svg")
+};
+
+// Gets a game result icon from white's result
+const gameResultIcons = {
+    unopinionated: {
+        [GameResult.WIN]: require("@assets/img/gameResults/unopinionated_win.png"),
+        [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
+        [GameResult.LOSE]: require("@assets/img/gameResults/unopinionated_lose.png")
+    },
+    opinionated: {
+        [GameResult.WIN]: require("@assets/img/gameResults/opinionated_win.png"),
+        [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
+        [GameResult.LOSE]: require("@assets/img/gameResults/opinionated_lose.png")
+    }
+};
+
+const gameResultTooltipCodes = {
+    [GameResult.WIN]: "win",
+    [GameResult.DRAW]: "draw",
+    [GameResult.LOSE]: "lose"
 };
 
 const MAX_PROFILE_LENGTH = 19;
@@ -43,6 +63,19 @@ function GameListing({
     onClick
 }: GameListingProps) {
     const { t } = useTranslation();
+
+    function getDisplayResult() {
+        if (!game.players.white.result) return;
+
+        return perspective
+            ? getOpinionatedGameResult(
+                game.players.white.result,
+                perspective
+            )
+            : game.players.white.result;
+    }
+
+    const displayResultRef = useRef(getDisplayResult());
 
     return <div
         className={
@@ -81,29 +114,6 @@ function GameListing({
             }
         </div>
 
-        <div style={{width: "95px"}}>
-            {
-                perspective
-                    ? {
-                        [GameResult.WIN]: "Win",
-                        [GameResult.DRAW]: "Draw",
-                        [GameResult.LOSE]: "Loss",
-                        [GameResult.UNKNOWN]: "Unknown"
-                    }[
-                        getOpinionatedGameResult(
-                            game.players.white.result,
-                            perspective
-                        )
-                    ]
-                    : {
-                        [GameResult.WIN]: "White won",
-                        [GameResult.DRAW]: "Draw",
-                        [GameResult.LOSE]: "Black won",
-                        [GameResult.UNKNOWN]: "Unknown"
-                    }[game.players.white.result]
-            }
-        </div>
-
         {
             game.report
             && <div>
@@ -115,6 +125,25 @@ function GameListing({
         <div style={{width: "110px"}}>
             {game.date ? formatDate(game.date) : "Unknown"}
         </div>
+
+        {
+            displayResultRef.current
+            && <div className={styles.resultIconContainer}>
+                <img
+                    src={
+                        perspective
+                            ? gameResultIcons.opinionated[displayResultRef.current]
+                            : gameResultIcons.unopinionated[displayResultRef.current]
+                    }
+                    title={t(
+                        "gameListing.gameResults."
+                        + (perspective ? "opinionated." : "unopinionated.")
+                        + gameResultTooltipCodes[displayResultRef.current]
+                    )}
+                    style={{width: "100%"}}
+                />
+            </div>
+        }
 
         <div>
             <Button

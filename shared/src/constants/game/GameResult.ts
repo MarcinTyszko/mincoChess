@@ -3,8 +3,7 @@ import PieceColour from "../PieceColour";
 export enum GameResult {
     WIN = "win",
     DRAW = "draw",
-    LOSE = "lose",
-    UNKNOWN = "unknown"
+    LOSE = "lose"
 }
 
 export function getOpinionatedGameResult(
@@ -15,8 +14,7 @@ export function getOpinionatedGameResult(
         return {
             [GameResult.WIN]: GameResult.LOSE,
             [GameResult.DRAW]: GameResult.DRAW,
-            [GameResult.LOSE]: GameResult.WIN,
-            [GameResult.UNKNOWN]: GameResult.UNKNOWN
+            [GameResult.LOSE]: GameResult.WIN
         }[whiteResult];
     }
 

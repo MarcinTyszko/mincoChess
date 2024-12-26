@@ -72,12 +72,12 @@ async function getChessComGames(
                 white: {
                     username: game.white.username,
                     rating: game.white.rating,
-                    result: gameResultCodes[game.white.result] || GameResult.UNKNOWN
+                    result: gameResultCodes[game.white.result]
                 },
                 black: {
                     username: game.black.username,
                     rating: game.black.rating,
-                    result: gameResultCodes[game.black.result] || GameResult.UNKNOWN
+                    result: gameResultCodes[game.black.result]
                 }
             },
             date: new Date(game["end_time"] * 1000)

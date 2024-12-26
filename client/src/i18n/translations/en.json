@@ -54,6 +54,18 @@
         }
     },
     "gameListing": {
-        "copyPGN": "Copy PGN"
+        "copyPGN": "Copy PGN",
+        "gameResults": {
+            "unopinionated": {
+                "win": "White won",
+                "draw": "Draw",
+                "lose": "Black won"
+            },
+            "opinionated": {
+                "win": "Won",
+                "draw": "Draw",
+                "lose": "Lost"
+            }
+        }
     }
 }
