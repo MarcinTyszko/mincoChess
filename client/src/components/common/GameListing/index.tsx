@@ -35,6 +35,7 @@ const gameResultIcons = {
     }
 };
 
+// Map of game results to their tooltip keys in translation file
 const gameResultTooltipCodes = {
     [GameResult.WIN]: "win",
     [GameResult.DRAW]: "draw",
