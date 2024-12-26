@@ -100,13 +100,15 @@ function GameListing({
                 Object.values(game.players)
                     .map(player => <div className={styles.playerProfile}>
                         {
-                            !!player.title
+                            player.title
                             && <span className={styles.playerTitle}>
                                 {player.title}
                             </span>
                         }
         
-                        <span>{cutUsername(player)}</span>
+                        <span>
+                            {cutUsername(player)}
+                        </span>
         
                         <span style={{color: "grey"}}>
                             ({player.rating || "?"})
@@ -118,8 +120,8 @@ function GameListing({
         {
             game.report
             && <div>
-                <div>{game.report.accuracies.white}</div>
-                <div>{game.report.accuracies.black}</div>
+                <span>{game.report.accuracies.white}</span>
+                <span>{game.report.accuracies.black}</span>
             </div>
         }
 
@@ -131,7 +133,7 @@ function GameListing({
 
         {
             displayResultRef.current
-            && <div className={styles.resultIconContainer}>
+            && <div style={{width: "20px"}}>
                 <img
                     src={
                         perspective
