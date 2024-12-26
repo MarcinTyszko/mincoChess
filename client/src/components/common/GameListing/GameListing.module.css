@@ -20,6 +20,11 @@
     backdrop-filter: brightness(0.9);
 }
 
+.timeControlIcon {
+    filter: brightness(0) invert();
+    height: 30px;
+}
+
 .playerProfile {
     display: flex;
     gap: 5px;

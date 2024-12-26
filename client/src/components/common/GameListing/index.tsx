@@ -1,15 +1,25 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
     GameResult,
     getOpinionatedGameResult,
-    PlayerProfile
+    PlayerProfile,
+    TimeControl
 } from "wintrchess";
 import Button from "../Button";
 import { formatDate } from "@lib/utils/date";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
+
+const timeControlIcons = {
+    [TimeControl.BULLET]: require("@assets/img/timeControls/bullet.png"),
+    [TimeControl.BLITZ]: require("@assets/img/timeControls/blitz.svg"),
+    [TimeControl.RAPID]: require("@assets/img/timeControls/rapid.svg"),
+    [TimeControl.CLASSICAL]: require("@assets/img/timeControls/classical.svg"),
+    [TimeControl.CORRESPONDENCE]: require("@assets/img/timeControls/correspondence.svg")
+};
 
 const MAX_PROFILE_LENGTH = 19;
 
@@ -32,15 +42,24 @@ function GameListing({
     perspective,
     onClick
 }: GameListingProps) {
+    const { t } = useTranslation();
+
     return <div
         className={
             `${styles.gameListing} ${onClick && styles.selectableListing}`
         }
         onClick={() => onClick?.(game)}
     >
-        <div style={{width: "50px"}}>
-            {game.timeControl || "?"}
-        </div>
+        {
+            game.timeControl
+            && <div style={{width: "30px"}}>
+                <img
+                    className={styles.timeControlIcon}
+                    src={timeControlIcons[game.timeControl]}
+                    title={game.timeControl}
+                />
+            </div>
+        }
 
         <div style={{width: "250px"}}>
             {
@@ -100,7 +119,7 @@ function GameListing({
         <div>
             <Button
                 icon={require("@assets/img/copy.svg")}
-                tooltip="Copy PGN"
+                tooltip={t("gameListing.copyPGN")}
                 onClick={event => {
                     event.stopPropagation();
                     navigator.clipboard.writeText(game.pgn);
