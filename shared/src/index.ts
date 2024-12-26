@@ -1,6 +1,5 @@
 export { default as Cookie } from "./constants/Cookie";
 export * from "./constants/game/GameResult";
-export * from "./constants/game/GenericGameResult";
 export * from "./constants/PieceColour";
 export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";

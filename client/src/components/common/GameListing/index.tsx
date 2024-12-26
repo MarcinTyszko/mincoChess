@@ -1,8 +1,7 @@
 import React from "react";
 
 import {
-    GenericGameResult,
-    getGenericGameResult,
+    GameResult,
     getOpinionatedGameResult,
     PlayerProfile
 } from "wintrchess";
@@ -67,24 +66,22 @@ function GameListing({
             {
                 perspective
                     ? {
-                        [GenericGameResult.WIN]: "Win",
-                        [GenericGameResult.DRAW]: "Draw",
-                        [GenericGameResult.LOSE]: "Loss",
-                        [GenericGameResult.UNKNOWN]: "Unknown"
+                        [GameResult.WIN]: "Win",
+                        [GameResult.DRAW]: "Draw",
+                        [GameResult.LOSE]: "Loss",
+                        [GameResult.UNKNOWN]: "Unknown"
                     }[
                         getOpinionatedGameResult(
-                            getGenericGameResult(game.players.white.result),
+                            game.players.white.result,
                             perspective
                         )
                     ]
                     : {
-                        [GenericGameResult.WIN]: "White won",
-                        [GenericGameResult.DRAW]: "Draw",
-                        [GenericGameResult.LOSE]: "Black won",
-                        [GenericGameResult.UNKNOWN]: "Unknown"
-                    }[
-                        getGenericGameResult(game.players.white.result)
-                    ]
+                        [GameResult.WIN]: "White won",
+                        [GameResult.DRAW]: "Draw",
+                        [GameResult.LOSE]: "Black won",
+                        [GameResult.UNKNOWN]: "Unknown"
+                    }[game.players.white.result]
             }
         </div>
 

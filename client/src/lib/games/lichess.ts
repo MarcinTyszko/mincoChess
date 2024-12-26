@@ -9,20 +9,14 @@ import {
 import { getMonthLength, padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "../errors";
 
-// Loser's result based on game status defined by Lichess API
-const loserResults: { [key: string]: GameResult } = {
-    aborted: GameResult.ABANDONED,
-    cheat: GameResult.LOSE,
-    draw: GameResult.AGREED,
-    mate: GameResult.CHECKMATED,
-    outoftime: GameResult.TIMEOUT,
-    resign: GameResult.RESIGNED,
-    stalemate: GameResult.STALEMATE,
-    timeout: GameResult.ABANDONED
+// Map from lichess winner colours to ours
+const winnerColourCodes: Record<string, PieceColour | undefined> = {
+    white: PieceColour.WHITE,
+    black: PieceColour.BLACK
 };
 
-// Map from Lichess time controls to ours
-const timeControlCodes: { [key: string]: TimeControl } = {
+// Map from lichess time controls to ours
+const timeControlCodes: Record<string, TimeControl | undefined> = {
     ultraBullet: TimeControl.BULLET,
     bullet: TimeControl.BULLET,
     blitz: TimeControl.RAPID,
@@ -30,8 +24,8 @@ const timeControlCodes: { [key: string]: TimeControl } = {
     correspondence: TimeControl.CORRESPONDENCE
 };
 
-// Map from Lichess variants to ours
-const variantCodes: { [key: string]: Variant } = {
+// Map from lichess variants to ours
+const variantCodes: Record<string, Variant | undefined> = {
     standard: Variant.STANDARD,
     chess960: Variant.CHESS960
 };
@@ -85,26 +79,23 @@ async function getLichessGames(
 
     return games.map(game => {
         const results = {
-            [PieceColour.WHITE]: GameResult.AGREED,
-            [PieceColour.BLACK]: GameResult.AGREED
+            [PieceColour.WHITE]: GameResult.DRAW,
+            [PieceColour.BLACK]: GameResult.DRAW
         };
 
-        // If there's a winner, set the result of the loser based on the
-        // game's status, and set the winner's result to WIN
-        const winner: PieceColour | undefined = game.winner;
+        // If there's a winner, set result to LOSE for opposite colour
+        const winner = winnerColourCodes[game.winner];
         if (winner) {
             results[winner] = GameResult.WIN;
-
-            results[oppositePieceColour(winner)] = (
-                loserResults[game.status] || GameResult.AGREED
-            );
+            results[oppositePieceColour(winner)] = GameResult.LOSE;
         }
 
         return {
             pgn: game.pgn,
             initialPosition: game.initialFen,
             timeControl: (
-                timeControlCodes[game.speed] || TimeControl.CORRESPONDENCE
+                timeControlCodes[game.speed]
+                || TimeControl.CORRESPONDENCE
             ),
             variant: variantCodes[game.variant] || Variant.STANDARD,
             players: {

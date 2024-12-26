@@ -1,9 +1,9 @@
-import { Game, TimeControl, Variant } from "wintrchess";
+import { Game, GameResult, TimeControl, Variant } from "wintrchess";
 import { padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError } from "../errors";
 
 // Map from chess.com time controls to ours
-const timeControlCodes: { [key: string]: TimeControl } = {
+const timeControlCodes: Record<string, TimeControl | undefined> = {
     bullet: TimeControl.BULLET,
     blitz: TimeControl.BLITZ,
     rapid: TimeControl.RAPID,
@@ -11,9 +11,25 @@ const timeControlCodes: { [key: string]: TimeControl } = {
 };
 
 // Map from chess.com variants to ours
-const variantCodes: { [key: string]: Variant } = {
+const variantCodes: Record<string, Variant | undefined> = {
     chess: Variant.STANDARD,
     chess960: Variant.CHESS960
+};
+
+// Map from chess.com game results to ours
+const gameResultCodes: Record<string, GameResult | undefined> = {
+    win: GameResult.WIN,
+    checkmated: GameResult.LOSE,
+    agreed: GameResult.DRAW,
+    repetition: GameResult.DRAW,
+    timeout: GameResult.LOSE,
+    resigned: GameResult.LOSE,
+    stalemate: GameResult.DRAW,
+    lose: GameResult.LOSE,
+    insufficient: GameResult.DRAW,
+    "50move": GameResult.DRAW,
+    abandoned: GameResult.LOSE,
+    timevsinsufficient: GameResult.DRAW
 };
 
 async function getChessComGames(
@@ -50,18 +66,18 @@ async function getChessComGames(
                 timeControlCodes[game["time_class"]]
                 || TimeControl.CORRESPONDENCE
             ),
-            variant: variantCodes[game.rules],
+            variant: variantCodes[game.rules] || Variant.STANDARD,
             initialPosition: game["initial_setup"],
             players: {
                 white: {
                     username: game.white.username,
                     rating: game.white.rating,
-                    result: game.white.result
+                    result: gameResultCodes[game.white.result] || GameResult.UNKNOWN
                 },
                 black: {
                     username: game.black.username,
                     rating: game.black.rating,
-                    result: game.black.result
+                    result: gameResultCodes[game.black.result] || GameResult.UNKNOWN
                 }
             },
             date: new Date(game["end_time"] * 1000)

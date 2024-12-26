@@ -9,7 +9,7 @@ interface EvaluationResult {
 }
 
 // Convert UCI evaluation types to our ones
-const uciEvaluationTypes: Record<string, string | undefined> = {
+const uciEvaluationTypes: Record<string, string> = {
     cp: "centipawn",
     mate: "mate"
 };
