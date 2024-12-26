@@ -124,7 +124,9 @@ function GameListing({
         }
 
         <div style={{width: "110px"}}>
-            {game.date ? formatDate(game.date) : "Unknown"}
+            <span title={game.date?.toLocaleString()}>
+                {game.date ? formatDate(game.date) : "Unknown"}
+            </span>
         </div>
 
         {
