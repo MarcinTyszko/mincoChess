@@ -1,6 +1,6 @@
 import React from "react";
 
-import { GamePlayerProfile, Game, GameResult } from "wintrchess";
+import { GamePlayerProfile, Game, GameResult, Variant } from "wintrchess";
 import GameListing from "@components/common/GameListing";
 
 import * as styles from "./Archive.module.css";
@@ -11,8 +11,7 @@ function Archive() {
         title: "IM",
         rating: 2330,
         image: "URL_TO_LEVY_PICTURE", // Add the actual URL to the player"s picture
-        result: GameResult.LOSE,
-        accuracy: 87.5
+        result: GameResult.LOSE
     };
 
     const blackPlayer: GamePlayerProfile = {
@@ -24,7 +23,7 @@ function Archive() {
     const game: Game = {
         pgn: "",
         initialPosition: "",
-        variant: "standard",
+        variant: Variant.STANDARD,
         players: {
             white: whitePlayer,
             black: blackPlayer
@@ -35,7 +34,7 @@ function Archive() {
         <div className={styles.gameListingContainer}>
             <GameListing
                 game={game}
-                moveCount={47}
+                onClick={() => null}
             />
         </div>
     </div>;
