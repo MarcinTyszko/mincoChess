@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactMarkdown from "react-markdown";
+import { ToastContainer } from "react-toastify";
 
 import getAnnouncement from "@lib/announcement";
 import NavigationBar from "../NavigationBar";
@@ -73,6 +74,7 @@ function PageWrapper({ children }: PageWrapperProps) {
             </div>
         </div>
 
+        <ToastContainer/>
         <ReactQueryDevtools/>
     </div>;
 }

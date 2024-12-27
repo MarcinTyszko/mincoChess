@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import {
     GameResult,
@@ -157,6 +158,20 @@ function GameListing({
                 onClick={event => {
                     event.stopPropagation();
                     navigator.clipboard.writeText(game.pgn);
+
+                    toast.success(
+                        t("gameListing.copyPGNToast"),
+                        {
+                            position: "bottom-left",
+                            theme: "dark",
+                            pauseOnHover: false,
+                            closeOnClick: true,
+                            closeButton: false,
+                            style: {
+                                fontFamily: "JetBrains Mono"
+                            }
+                        }
+                    );
                 }}
             />
         </div>

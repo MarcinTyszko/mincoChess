@@ -55,6 +55,7 @@
     },
     "gameListing": {
         "copyPGN": "Copy PGN",
+        "copyPGNToast": "Copied PGN!",
         "gameResults": {
             "unopinionated": {
                 "win": "White won",
