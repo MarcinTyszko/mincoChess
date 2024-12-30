@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import ChessBoard from "@components/board/ChessBoard";
@@ -10,11 +10,14 @@ import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
 import Engine from "@lib/engine";
 import EngineVersion from "@constants/EngineVersion";
+import useLayoutStore from "@stores/LayoutStore";
 
 import * as styles from "./Analysis.module.css";
 
 function Analysis() {
     const { t } = useTranslation();
+
+    const { setAnalysisBoardContainerWidth } = useLayoutStore();
 
     const {
         selectedGameSource,
@@ -24,6 +27,18 @@ function Analysis() {
     } = useGameSelectorStore();
 
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
+
+    const boardContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!boardContainerRef.current) return;
+
+        const boardContainerResizeObserver = new ResizeObserver(entries => {
+            setAnalysisBoardContainerWidth(entries[0].target.clientWidth);
+        });
+
+        boardContainerResizeObserver.observe(boardContainerRef.current);
+    }, []);
 
     async function initiateAnalysis() {
         // Validate that a game has been selected
@@ -66,7 +81,10 @@ function Analysis() {
     }
 
     return <div className={styles.wrapper}>
-        <div className={styles.gameContainer}>
+        <div
+            className={styles.gameContainer}
+            ref={boardContainerRef}
+        >
             <ChessBoard/>
         </div>
 

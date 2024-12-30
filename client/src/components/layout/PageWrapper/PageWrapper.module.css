@@ -14,7 +14,7 @@
 }
 
 /* Sidebar and the main content frame */
-.contentWrapper {
+.contentSection {
     display: grid;
     grid-template-columns: 170px auto;
 
@@ -22,7 +22,7 @@
 }
 
 @media (max-width: 1230px) {
-    .contentWrapper {
+    .contentSection {
         display: flex;
     }
 }

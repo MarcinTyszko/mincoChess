@@ -8,24 +8,35 @@ import getAnnouncement from "@lib/announcement";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
 import AnnouncementBanner from "../Announcement";
+import useLayoutStore from "@stores/LayoutStore";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
 
 function PageWrapper({ children }: PageWrapperProps) {
-    const [ topSectionHeight, setTopSectionHeight ] = useState(0);
     const [ announcementOpen, setAnnouncementOpen ] = useState(true);
 
+    const {
+        topSectionHeight,
+        setTopSectionHeight,
+        setContentSectionHeight
+    } = useLayoutStore();
+
     const topSectionRef = useRef<HTMLDivElement>(null);
+    const contentSectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!topSectionRef.current) return;
+        if (!topSectionRef.current || !contentSectionRef.current) return;
 
         const topSectionResizeObserver = new ResizeObserver(entries => {
             setTopSectionHeight(entries[0].target.clientHeight);
         });
-
         topSectionResizeObserver.observe(topSectionRef.current);
+
+        const contentSectionResizeObserver = new ResizeObserver(entries => {
+            setContentSectionHeight(entries[0].target.clientHeight);
+        });
+        contentSectionResizeObserver.observe(contentSectionRef.current);
     }, []);
 
     const { data: announcement, status } = useQuery({
@@ -57,11 +68,12 @@ function PageWrapper({ children }: PageWrapperProps) {
         </div>
         
         <div 
-            className={styles.contentWrapper}
+            className={styles.contentSection}
             style={{
                 marginTop: `${topSectionHeight}px`,
                 height: `calc(100vh - ${topSectionHeight}px)`
             }}
+            ref={contentSectionRef}
         >
             <Sidebar
                 style={{

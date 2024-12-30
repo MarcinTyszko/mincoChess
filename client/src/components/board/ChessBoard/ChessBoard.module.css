@@ -13,23 +13,10 @@
 
 /* Chess board itself */
 .board {
-    width: 600px;
     min-width: 250px;
 }
 
-/* Board size based on window WIDTH queries */
-@media (max-width: 1065px) {
-    .board {
-        width: 500px;
-    }
-}
-
-@media (max-width: 960px) {
-    .board {
-        width: 430px;
-    }
-}
-
+/* Board size */
 @media (max-width: 900px) {
     .board {
         width: calc(70vw - 40px);
@@ -39,31 +26,6 @@
 @media (max-width: 650px) {
     .board {
         width: calc(100vw - 40px);
-    }
-}
-
-/* Board size based on window HEIGHT queries */
-/* The height at which the board begins to shrink is different
-for different width levels, because they also make the board smaller */
-
-/* 1065px wide and larger */
-@media (max-height: 850px) and (min-width: 1065px) {
-    .board {
-        width: calc(100vh - 310px);
-    }
-}
-
-/* 960px to 1064px */
-@media (max-height: 800px) and (min-width: 960px) {
-    .board {
-        width: calc(100vh - 310px);
-    }
-}
-
-/* 900px to 959px */
-@media (max-height: 700px) and (min-width: 900px) {
-    .board {
-        width: calc(100vh - 310px);
     }
 }
 
