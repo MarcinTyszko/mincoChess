@@ -1,5 +1,5 @@
 enum Breakpoints {
-    RETRACT_SIDEBAR = 1230,
+    RETRACT_SIDEBAR = 1100,
     MOBILE_LAYOUT = 900
 }
 

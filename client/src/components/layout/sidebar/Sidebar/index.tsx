@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import useSidebarStore from "@stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
+import useDelayedEffect from "@hooks/useDelayedEffect";
 
 import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";
@@ -14,33 +15,29 @@ function Sidebar({ style }: SidebarProps) {
     const { sidebarOpen } = useSidebarStore();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
-    const initiallyRendered = useRef<boolean>(false);
 
-    useEffect(() => {
+    useDelayedEffect(() => {
         if (!sidebarRef.current) return;
-        const sidebar = sidebarRef.current;
 
-        if (!initiallyRendered.current) {
-            initiallyRendered.current = true;
-            return;
-        }
+        sidebarRef.current.className = styles.sidebar;
 
-        sidebar.style.animationDuration = "0.5s";
+        // Reset animation by forcing rerender of sidebar
+        void sidebarRef.current.offsetWidth;
 
-        sidebar.classList.remove(styles.sidebarClosed);
-        sidebar.classList.remove(styles.sidebarOpen);
-
-        void sidebar.offsetWidth;
-
-        sidebar.classList.add(
+        sidebarRef.current.classList.add(
             sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
-        );
+        );  
     }, [sidebarOpen]);
 
-    return <div 
-        className={`${styles.sidebar} ${
-            sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
-        }`}
+    return <div
+        className={(
+            `${styles.sidebar} `
+            + (
+                sidebarOpen
+                    ? styles.sidebarOpenStatic
+                    : styles.sidebarClosedStatic
+            )
+        )}
         style={style}
         ref={sidebarRef}
     >

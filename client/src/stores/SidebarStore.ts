@@ -9,7 +9,7 @@ interface SidebarStore {
 }
 
 const useSidebarStore = create<SidebarStore>(set => ({
-    sidebarOpen: window.innerWidth >= Breakpoints.RETRACT_SIDEBAR,
+    sidebarOpen: innerWidth >= Breakpoints.RETRACT_SIDEBAR,
 
     setSidebarOpen(newValue: boolean) {
         set({ sidebarOpen: newValue });

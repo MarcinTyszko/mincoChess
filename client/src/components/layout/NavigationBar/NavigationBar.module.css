@@ -24,17 +24,8 @@
 }
 
 .menuButton {
-    display: none;
-
     cursor: pointer;
-    
-    transition: transform 0.3s ease;
-}
-
-@media (max-width: 1230px) {
-    .menuButton {
-        display: inline;
-    }
+    transition-duration: 0.3s;
 }
 
 .menuButton:hover {

@@ -16,7 +16,7 @@
     min-width: 250px;
 }
 
-/* Board size */
+/* Board size for mobile layout */
 @media (max-width: 900px) {
     .board {
         width: calc(70vw - 40px);

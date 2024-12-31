@@ -53,7 +53,7 @@ function PageWrapper({ children }: PageWrapperProps) {
             {
                 announcementOpen
                 && status == "success"
-                && !!announcement.content
+                && announcement.content
                 && <AnnouncementBanner
                     setOpen={setAnnouncementOpen}
                     colour={announcement.colour}

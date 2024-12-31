@@ -4,25 +4,26 @@ import { useTranslation } from "react-i18next";
 import useSidebarStore from "@stores/SidebarStore";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
+import Breakpoints from "@constants/Breakpoints";
 
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
     const { t } = useTranslation();
-    const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
-    function handleMenuButtonClick() {
-        setSidebarOpen(!sidebarOpen);
-    }
+    const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
     return <div className={styles.navigationBar}>
         <div className={styles.navigationBarSection}>
-            <img
-                className={styles.menuButton}
-                src={require("@assets/img/menu.svg")}
-                height={35}
-                onClick={handleMenuButtonClick}
-            />
+            {
+                innerWidth <= Breakpoints.RETRACT_SIDEBAR
+                && <img
+                    className={styles.menuButton}
+                    src={require("@assets/img/menu.svg")}
+                    height={35}
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                />
+            }
 
             <img 
                 src={require("@assets/img/logo.png")} 
@@ -30,7 +31,9 @@ function NavigationBar() {
                 height={50}
             />
 
-            <span className={styles.title}>WintrChess</span>
+            <span className={styles.title}>
+                WintrChess
+            </span>
         </div>
 
         <div className={styles.navigationBarSection}>
