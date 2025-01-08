@@ -8,7 +8,7 @@ export { default as PlayerProfile } from "./types/PlayerProfile";
 export * from "./types/game/Game";
 export { default as GamePlayerProfile } from "./types/game/GamePlayerProfile";
 export { default as GameReport } from "./types/game/GameReport";
-export { default as Position } from "./types/game/Position";
+export { default as BoardState } from "./types/game/BoardState";
 export { default as EngineLine } from "./types/game/EngineLine";
 export { default as Move } from "./types/game/Move";
 

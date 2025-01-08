@@ -28,6 +28,13 @@ function parsePgn(pgn: string): Game {
             : Variant.STANDARD
     );
 
+    let initialPosition = parsedGameHeaders["FEN"];
+    try {
+        new Chess(initialPosition);
+    } catch {
+        initialPosition = new Chess().fen();
+    }
+
     return {
         pgn: pgn,
         players: {
@@ -51,7 +58,7 @@ function parsePgn(pgn: string): Game {
             }
         },
         variant: parsedGameVariant,
-        initialPosition: parsedGameHeaders["FEN"] || new Chess().fen()
+        initialPosition: initialPosition
     };
 }
 

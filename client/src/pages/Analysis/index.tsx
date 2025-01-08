@@ -8,7 +8,7 @@ import GameSource from "@constants/GameSource";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
-import Engine from "@lib/engine";
+import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
 import useLayoutStore from "@stores/LayoutStore";
 
@@ -42,42 +42,36 @@ function Analysis() {
 
     async function initiateAnalysis() {
         // Validate that a game has been selected
-        // Parse PGN or FEN string into Game object if necessary
-        if (selectedGameSource.requiresSearch) {
-            if (!selectedGame) {
-                return setAnalysisError(
-                    t("pages.analysis.gameSelector.errors.noGameSelected")
-                ); 
-            }
-        } else {
-            if (selectedGameInput.length == 0) {
-                return setAnalysisError(
-                    t("pages.analysis.gameSelector.errors.noGameSelected")
-                );
-            }
-
-            try {
-                setSelectedGame(
-                    selectedGameSource == GameSource.PGN
-                        ? parsePgn(selectedGameInput)
-                        : parseFenString(selectedGameInput)
-                );
-            } catch {
-                return setAnalysisError(
-                    t("pages.analysis.gameSelector.errors.invalidGame")
-                );
-            }
+        if (selectedGameSource.requiresSearch && !selectedGame) {
+            return setAnalysisError(
+                t("pages.analysis.gameSelector.errors.noGameSelected")
+            );
         }
 
-        // something here
-        const sf = new Engine(EngineVersion.STOCKFISH_16_1_LITE_SINGLE);
+        if (selectedGameInput.length == 0) {
+            return setAnalysisError(
+                t("pages.analysis.gameSelector.errors.noGameSelected")
+            );
+        }
 
-        sf.setLineCount(3);
-        
-        const evaluationResult = await sf.evaluate(22);
+        // Parse FEN or PGN into game object
+        try {
+            setSelectedGame(
+                selectedGameSource == GameSource.PGN
+                    ? parsePgn(selectedGameInput)
+                    : parseFenString(selectedGameInput)
+            );
+        } catch {
+            return setAnalysisError(
+                t("pages.analysis.gameSelector.errors.invalidGame")
+            );
+        }
 
-        console.log(`took ${evaluationResult.elapsedTime}ms`);
-        console.log(`the top move is: ${evaluationResult.lines[0].moves[0].san}`);
+        // Generate evaluations for each position
+        evaluateMoves(
+            selectedGame!,
+            EngineVersion.STOCKFISH_16_1_LITE_SINGLE
+        );
     }
 
     return <div className={styles.wrapper}>

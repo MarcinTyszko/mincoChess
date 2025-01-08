@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import Position from "./Position";
+import BoardState from "./BoardState";
 
 interface GameReport {
     board: Chess;
@@ -12,7 +12,7 @@ interface GameReport {
         white: number;
         black: number;
     };
-    positions: Position[];
+    positions: BoardState[];
 }
 
 export default GameReport;
