@@ -9,7 +9,7 @@ interface EvaluationResult {
 }
 
 // Convert UCI evaluation types to our ones
-const uciEvaluationTypes: Record<string, string | undefined> = {
+const UCI_EVALUATION_TYPES: Record<string, string | undefined> = {
     cp: "centipawn",
     mate: "mate"
 };
@@ -24,8 +24,6 @@ class Engine {
 
         this.worker.postMessage("uci");
         this.setPosition(this.position);
-
-        this.worker.onmessage = event => console.log(event.data);
     }
 
     private consumeLogs(
@@ -56,6 +54,18 @@ class Engine {
 
             this.worker.addEventListener("message", onMessageReceived);
             this.worker.addEventListener("error", reject);
+        });
+    }
+
+    onMessage(handler: (message: string) => void) {
+        this.worker.addEventListener("message", event => {
+            handler(String(event.data));
+        });
+    }
+
+    onError(handler: (error: string) => void) {
+        this.worker.addEventListener("error", event => {
+            handler(String(event.error));
         });
     }
 
@@ -133,16 +143,21 @@ class Engine {
             if (duplicateLine) continue;
 
             // Extract evaluation type and score
-            const scoreMatches = log.match(/ score (cp|mate) (\d+)/);
+            const scoreMatches = log.match(/ score (cp|mate) (-?\d+)/);
 
-            const evaluationType = uciEvaluationTypes[scoreMatches?.[1] || ""];
+            const evaluationType = UCI_EVALUATION_TYPES[scoreMatches?.[1] || ""];
             if (
                 evaluationType != "centipawn"
                 && evaluationType != "mate"
             ) continue;
 
-            const evaluationScore = parseInt(scoreMatches?.[2] || "");
+            let evaluationScore = parseInt(scoreMatches?.[2] || "");
             if (isNaN(evaluationScore)) continue;
+
+            // Make sure evaluations are always from White's view
+            if (this.position.includes(" b ")) {
+                evaluationScore = -evaluationScore;
+            }
 
             // Extract UCI moves from pv
             const moveUcis = (log.match(/ pv (.*)/)?.[1] || "").split(" ");
@@ -153,11 +168,7 @@ class Engine {
 
             const board = new Chess(this.position);
             for (const moveUci of moveUcis) {
-                try {
-                    moveSans.push(board.move(moveUci).san);
-                } catch {
-                    console.log(this.position);
-                }
+                moveSans.push(board.move(moveUci).san);
             }
 
             engineLines.push({

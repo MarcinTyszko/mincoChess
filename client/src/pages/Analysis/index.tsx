@@ -75,7 +75,9 @@ function Analysis() {
             {
                 engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
                 engineDepth: 18,
-                maxEngineCount: 4
+                maxEngineCount: 4,
+                engineConfig: engine => engine.setLineCount(2),
+                verbose: true
             }
         );
 
