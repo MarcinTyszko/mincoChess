@@ -26,6 +26,7 @@ function Analysis() {
         selectedGameInput
     } = useGameSelectorStore();
 
+    const [ analysisProgress, setAnalysisProgress ] = useState(0);
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
 
     const boardContainerRef = useRef<HTMLDivElement>(null);
@@ -77,7 +78,8 @@ function Analysis() {
                 engineDepth: 18,
                 maxEngineCount: 4,
                 engineConfig: engine => engine.setLineCount(2),
-                verbose: true
+                verbose: true,
+                onProgress: progress => setAnalysisProgress(progress)
             }
         );
 
@@ -109,6 +111,10 @@ function Analysis() {
             >
                 {t("pages.analysis.analyseButton")}
             </Button>
+
+            <span style={{ color: "white" }}>
+                PROGRESS: {analysisProgress * 100}%
+            </span>
 
             {
                 !!analysisError

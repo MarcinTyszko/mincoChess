@@ -34,6 +34,13 @@ async function evaluateMoves(
     const moves: (Move | null)[] = board.history({ verbose: true });
     moves.unshift(null);
 
+    // Each board state has a progress from 0 to 1
+    const progresses: number[] = [];
+
+    const progress = () => (
+        progresses.reduce((a, b) => a + b) / moves.length
+    );
+
     // Apply cloud evaluations where possible
     const fenCollectionBoard = new Chess(game.initialPosition);
     
@@ -120,6 +127,10 @@ async function evaluateMoves(
                 }
                 : undefined
         });
+
+        progresses.push(1);
+
+        options.onProgress?.(progress());
     }
 
     // Locally evaluate remaining positions
@@ -156,7 +167,16 @@ async function evaluateMoves(
             const currentBoardStateIndex = boardStateIndex;
             const currentMove = moves[boardStateIndex];
 
-            engine.evaluate(options.engineDepth).then(result => {
+            engine.evaluate(
+                options.engineDepth,
+                depth => {
+                    progresses[currentBoardStateIndex] = (
+                        depth / options.engineDepth
+                    );
+
+                    options.onProgress?.(progress());
+                }
+            ).then(result => {
                 boardStates[currentBoardStateIndex] ??= {
                     engineLines: {
                         local: result.lines
@@ -180,7 +200,7 @@ async function evaluateMoves(
         // Start engines on first positions
         for (let i = 0; i < requiredEngineCount; i++) {
             const engine = new Engine(options.engineVersion);
-            
+
             options.engineConfig?.(engine);
 
             if (options.verbose) {

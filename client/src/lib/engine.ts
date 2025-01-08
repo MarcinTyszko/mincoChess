@@ -109,6 +109,8 @@ class Engine {
     ): Promise<EvaluationResult> {
         const startTime = Date.now();
 
+        let highestDepthReached = 0;
+
         const evaluationLogs = (await this.consumeLogs(
             `go depth ${depth}`,
             log => (
@@ -120,7 +122,8 @@ class Engine {
                     log.match(/(?<= depth )\d+/)?.[0] || ""
                 );
 
-                if (!isNaN(depth)) {
+                if (!isNaN(depth) && depth > highestDepthReached) {
+                    highestDepthReached = depth;
                     onDepthReached?.(depth);
                 }
             }
