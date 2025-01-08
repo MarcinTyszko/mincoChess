@@ -41,37 +41,45 @@ function Analysis() {
     }, []);
 
     async function initiateAnalysis() {
+        let analysisGame = selectedGame;
+
         // Validate that a game has been selected
-        if (selectedGameSource.requiresSearch && !selectedGame) {
+        if (selectedGameSource.requiresSearch) {
+            if (!selectedGame) {
+                return setAnalysisError(
+                    t("pages.analysis.gameSelector.errors.noGameSelected")
+                );
+            }
+        } else if (selectedGameInput.length == 0) {
             return setAnalysisError(
                 t("pages.analysis.gameSelector.errors.noGameSelected")
             );
-        }
-
-        if (selectedGameInput.length == 0) {
-            return setAnalysisError(
-                t("pages.analysis.gameSelector.errors.noGameSelected")
-            );
-        }
-
-        // Parse FEN or PGN into game object
-        try {
-            setSelectedGame(
-                selectedGameSource == GameSource.PGN
+        } else {
+            // Parse FEN or PGN into game object
+            try {
+                analysisGame = selectedGameSource == GameSource.PGN
                     ? parsePgn(selectedGameInput)
-                    : parseFenString(selectedGameInput)
-            );
-        } catch {
-            return setAnalysisError(
-                t("pages.analysis.gameSelector.errors.invalidGame")
-            );
-        }
+                    : parseFenString(selectedGameInput);
+
+                setSelectedGame(analysisGame);
+            } catch {
+                return setAnalysisError(
+                    t("pages.analysis.gameSelector.errors.invalidGame")
+                );
+            }
+        } 
 
         // Generate evaluations for each position
-        evaluateMoves(
-            selectedGame!,
-            EngineVersion.STOCKFISH_16_1_LITE_SINGLE
+        const evaluatedStates = await evaluateMoves(
+            analysisGame!,
+            {
+                engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
+                engineDepth: 18,
+                maxEngineCount: 4
+            }
         );
+
+        console.log(evaluatedStates);
     }
 
     return <div className={styles.wrapper}>

@@ -9,7 +9,7 @@ interface EvaluationResult {
 }
 
 // Convert UCI evaluation types to our ones
-const uciEvaluationTypes: Record<string, string> = {
+const uciEvaluationTypes: Record<string, string | undefined> = {
     cp: "centipawn",
     mate: "mate"
 };
@@ -24,11 +24,14 @@ class Engine {
 
         this.worker.postMessage("uci");
         this.setPosition(this.position);
+
+        this.worker.onmessage = event => console.log(event.data);
     }
 
     private consumeLogs(
         command: string,
-        endCondition: (logMessage: string) => boolean
+        endCondition: (logMessage: string) => boolean,
+        onLogReceived?: (logMessage: string) => void
     ): Promise<string[]> {
         this.worker.postMessage(command);
 
@@ -38,6 +41,8 @@ class Engine {
         return new Promise((resolve, reject) => {
             function onMessageReceived(event: MessageEvent) {
                 const message = String(event.data);
+
+                onLogReceived?.(message);
     
                 logMessages.push(message);
     
@@ -64,20 +69,51 @@ class Engine {
         this.setOption("MultiPV", lines.toString());
     }
 
-    setPosition(fen: string) {
-        this.worker.postMessage(`position ${fen}`);
+    getPosition() {
+        return this.position;
+    }
+
+    setPosition(fen: string, uciMoves?: string[]) {
+        if (uciMoves?.length) {
+            this.worker.postMessage(
+                `position fen ${fen} moves ${uciMoves.join(" ")}`
+            );
+
+            const board = new Chess();
+            for (const uciMove of uciMoves) {
+                board.move(uciMove);
+            }
+
+            this.position = board.fen();
+
+            return;
+        }
+
+        this.worker.postMessage(`position fen ${fen}`);
         this.position = fen;
     }
 
-    async evaluate(depth: number): Promise<EvaluationResult> {
+    async evaluate(
+        depth: number,
+        onDepthReached?: (depth: number) => void
+    ): Promise<EvaluationResult> {
         const startTime = Date.now();
 
         const evaluationLogs = (await this.consumeLogs(
             `go depth ${depth}`,
-            message => (
-                message.startsWith("bestmove")
-                || message.includes("depth 0")
-            )
+            log => (
+                log.startsWith("bestmove")
+                || log.includes("depth 0")
+            ),
+            log => {
+                const depth = parseInt(
+                    log.match(/(?<= depth )\d+/)?.[0] || ""
+                );
+
+                if (!isNaN(depth)) {
+                    onDepthReached?.(depth);
+                }
+            }
         )).filter(
             message => message.startsWith("info depth")
         );
@@ -117,7 +153,11 @@ class Engine {
 
             const board = new Chess(this.position);
             for (const moveUci of moveUcis) {
-                moveSans.push(board.move(moveUci).san);
+                try {
+                    moveSans.push(board.move(moveUci).san);
+                } catch {
+                    console.log(this.position);
+                }
             }
 
             engineLines.push({
