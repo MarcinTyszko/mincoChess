@@ -1,9 +1,9 @@
 {
     "loading": "Loading...",
     "navigationBar": {
-        "donate": "Donate",
+        "support": "Support",
         "tooltips": {
-            "donate": "Donate ❤",
+            "support": "Support us ❤",
             "youtube": "YouTube Channel",
             "discord": "Join the community"
         }

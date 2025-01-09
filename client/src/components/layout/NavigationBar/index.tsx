@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 
 import useSidebarStore from "@stores/SidebarStore";
 import Button from "@components/common/Button";
-import ButtonColour from "@constants/ButtonColour";
 import Breakpoints from "@constants/Breakpoints";
 
 import * as styles from "./NavigationBar.module.css";
@@ -45,15 +44,16 @@ function NavigationBar() {
             <a 
                 href="https://ko-fi.com/wintrcat"
                 target="_blank" 
-                title={t("navigationBar.tooltips.donate")}
+                title={t("navigationBar.tooltips.support")}
             >
-                <Button 
+                <Button
                     style={{
-                        backgroundColor: ButtonColour.BLUE
+                        background: "linear-gradient(-225deg,"
+                            + "#22E1FF 0%, #1D8FE1 48%, #625EB1 100%)"
                     }}
                     icon={require("@assets/img/kofi.svg")}
                 >
-                    {t("navigationBar.donate")}
+                    {t("navigationBar.support")}
                 </Button>
             </a>
 
