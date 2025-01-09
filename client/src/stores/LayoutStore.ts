@@ -5,9 +5,9 @@ interface LayoutStore {
     contentSectionHeight: number;
     analysisBoardContainerWidth: number;
 
-    setTopSectionHeight(height: number): void;
-    setContentSectionHeight(height: number): void;
-    setAnalysisBoardContainerWidth(width: number): void;
+    setTopSectionHeight: (height: number) => void;
+    setContentSectionHeight: (height: number) => void;
+    setAnalysisBoardContainerWidth: (width: number) => void;
 }
 
 const useLayoutStore = create<LayoutStore>(set => ({

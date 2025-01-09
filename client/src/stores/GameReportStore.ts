@@ -5,7 +5,7 @@ import { GameReport } from "wintrchess";
 interface GameReportStore {
     report?: GameReport;
 
-    setReport(newReport: GameReport): void;
+    setReport: (newReport: GameReport) => void;
 }
 
 const useGameReportStore = create<GameReportStore>(set => ({

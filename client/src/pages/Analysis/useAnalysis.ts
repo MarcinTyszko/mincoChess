@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 
+import useGameSelectorStore from "@stores/GameSelectorStore";
+import useLoadedGameStore from "@stores/LoadedGameStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
 import GameSource from "@constants/GameSource";
-import useGameSelectorStore from "@stores/GameSelectorStore";
 import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
 
@@ -19,6 +20,8 @@ function useAnalysis(
         selectedGame,
         setSelectedGame
     } = useGameSelectorStore();
+
+    const { setLoadedGame } = useLoadedGameStore();
 
     async function analyse() {
         let analysisGame = selectedGame;
@@ -48,6 +51,9 @@ function useAnalysis(
                 );
             }
         }
+
+        // Load game on site
+        setLoadedGame(analysisGame);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

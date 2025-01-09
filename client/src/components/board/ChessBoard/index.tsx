@@ -1,17 +1,59 @@
 import React from "react";
 import { Chessboard } from "react-chessboard";
+import {
+    CustomSquareRenderer,
+    Square
+} from "react-chessboard/dist/chessboard/types";
 
+import useChessBoardStore from "@stores/ChessBoardStore";
 import PlayerProfile from "../PlayerProfile";
 import Breakpoints from "@constants/Breakpoints";
 import useLayoutStore from "@stores/LayoutStore";
 
 import * as styles from "./ChessBoard.module.css";
 
+function getSquareRenderer(): CustomSquareRenderer {
+    const { highlightedSquares } = useChessBoardStore();
+
+    return ({ children, style, square }) => (
+        <div style={{ ...style, position: "relative" }}>
+            {
+                highlightedSquares.includes(square)
+                && <div
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#eb6150",
+                        opacity: 0.8
+                    }}
+                ></div>
+            }
+
+            {children}
+        </div>
+    );
+}
+
 function ChessBoard() {
     const {
         contentSectionHeight,
         analysisBoardContainerWidth
     } = useLayoutStore();
+
+    const {
+        highlightedSquares,
+        addSquareHighlight,
+        removeSquareHighlight
+    } = useChessBoardStore();
+
+    function highlightSquare(square: Square) {
+        if (highlightedSquares.includes(square)) {
+            return removeSquareHighlight(square);
+        }
+
+        addSquareHighlight(square);
+    }
 
     return <div className={styles.wrapper}>
         <PlayerProfile profile={{
@@ -23,7 +65,7 @@ function ChessBoard() {
 
         <div className={styles.boardContainer}>
             <svg className={styles.evaluationBar}>
-                poop
+                <text>poop</text>
             </svg>
 
             <div
@@ -37,7 +79,10 @@ function ChessBoard() {
                         : undefined
                 }}
             >
-                <Chessboard/>
+                <Chessboard
+                    onSquareRightClick={highlightSquare}
+                    customSquare={getSquareRenderer()}
+                />
             </div>
         </div>
 
