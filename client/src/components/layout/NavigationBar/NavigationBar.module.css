@@ -10,7 +10,7 @@
     background-color: #1d1d1d;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 660px) {
     .navigationBar {
         flex-direction: column;
         row-gap: 10px;

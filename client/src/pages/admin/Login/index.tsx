@@ -44,7 +44,10 @@ function Login() {
     }
 
     return <div className={styles.wrapper}>
-        <img src={require("@assets/img/logo.png")} height="100"/>
+        <img
+            src={require("@assets/img/logo.svg")}
+            height={100}
+        />
 
         <input
             className={styles.password} 

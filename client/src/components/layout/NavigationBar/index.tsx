@@ -26,9 +26,14 @@ function NavigationBar() {
             }
 
             <img 
-                src={require("@assets/img/logo.png")} 
+                src={require("@assets/img/logo.svg")}
+                style={{
+                    transform: "scaleX(-1)",
+                    filter: "invert()"
+                }}
                 alt="WintrChess"
-                height={50}
+                title="WINTR"
+                height={35}
             />
 
             <span className={styles.title}>
