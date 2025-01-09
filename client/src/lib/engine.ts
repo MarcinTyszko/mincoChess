@@ -69,6 +69,10 @@ class Engine {
         });
     }
 
+    terminate() {
+        this.worker.terminate();
+    }
+
     setOption(option: string, value: string) {
         this.worker.postMessage(
             `setoption name ${option} value ${value}`

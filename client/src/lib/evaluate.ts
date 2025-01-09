@@ -149,6 +149,8 @@ async function evaluateMoves(
         // Bring an engine to a new FEN
         function evaluateNextPosition(engine: Engine) {
             if (boardStateIndex >= moves.length) {
+                engine.terminate();
+
                 if (++enginesResting == requiredEngineCount) {
                     res(boardStates);
                 }
