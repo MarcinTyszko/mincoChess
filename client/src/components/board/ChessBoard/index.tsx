@@ -44,7 +44,8 @@ function ChessBoard() {
     const {
         highlightedSquares,
         addSquareHighlight,
-        removeSquareHighlight
+        removeSquareHighlight,
+        clearSquareHighlights
     } = useChessBoardStore();
 
     function highlightSquare(square: Square) {
@@ -80,6 +81,7 @@ function ChessBoard() {
                 }}
             >
                 <Chessboard
+                    onSquareClick={clearSquareHighlights}
                     onSquareRightClick={highlightSquare}
                     customSquare={getSquareRenderer()}
                 />

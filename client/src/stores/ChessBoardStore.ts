@@ -7,6 +7,7 @@ interface ChessBoardStore {
 
     addSquareHighlight: (square: Square) => void;
     removeSquareHighlight: (square: Square) => void;
+    clearSquareHighlights: () => void;
 }
 
 const useChessBoardStore = create<ChessBoardStore>(set => ({
@@ -26,6 +27,10 @@ const useChessBoardStore = create<ChessBoardStore>(set => ({
                 hgSquare => hgSquare != square
             )
         }));
+    },
+
+    clearSquareHighlights() {
+        set({ highlightedSquares: [] });
     }
 }));
 
