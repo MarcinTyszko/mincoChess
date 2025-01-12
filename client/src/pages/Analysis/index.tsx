@@ -6,6 +6,7 @@ import ChessBoard from "@components/board/ChessBoard";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
+import Breakpoints from "@constants/Breakpoints";
 
 import useAnalysis from "./useAnalysis";
 import * as styles from "./Analysis.module.css";
@@ -13,7 +14,11 @@ import * as styles from "./Analysis.module.css";
 function Analysis() {
     const { t } = useTranslation();
 
-    const { setAnalysisBoardContainerWidth } = useLayoutStore();
+    const {
+        contentSectionHeight,
+        analysisBoardContainerWidth,
+        setAnalysisBoardContainerWidth
+    } = useLayoutStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
@@ -37,7 +42,26 @@ function Analysis() {
             className={styles.gameContainer}
             ref={boardContainerRef}
         >
-            <ChessBoard/>
+            <ChessBoard
+                topProfile={{
+                    title: "IM",
+                    username: "Levy Krabs",
+                    rating: 2322
+                }}
+                bottomProfile={{
+                    title: "GM",
+                    username: "Spongebob Kasparov",
+                    rating: 2851
+                }}
+                style={{
+                    width: innerWidth > Breakpoints.MOBILE_LAYOUT
+                        ? (
+                            `min(${contentSectionHeight - 150}px, `
+                            + `${analysisBoardContainerWidth - 120}px)`
+                        )
+                        : undefined
+                }}
+            />
         </div>
 
         <div className={styles.reportContainer}>

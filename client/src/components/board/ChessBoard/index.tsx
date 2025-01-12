@@ -1,52 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
     CustomSquareRenderer,
+    Piece,
     Square
 } from "react-chessboard/dist/chessboard/types";
 
 import useChessBoardStore from "@stores/ChessBoardStore";
+import useLoadedGameStore from "@stores/LoadedGameStore";
 import PlayerProfile from "../PlayerProfile";
-import Breakpoints from "@constants/Breakpoints";
-import useLayoutStore from "@stores/LayoutStore";
 
+import ChessBoardProps from "./ChessBoardProps";
 import * as styles from "./ChessBoard.module.css";
 
-function getSquareRenderer(): CustomSquareRenderer {
+const squareRenderer: CustomSquareRenderer = ({
+    children,
+    style,
+    square
+}) => {
     const { highlightedSquares } = useChessBoardStore();
 
-    return ({ children, style, square }) => (
-        <div style={{ ...style, position: "relative" }}>
-            {
-                highlightedSquares.includes(square)
-                && <div
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#eb6150",
-                        opacity: 0.8
-                    }}
-                ></div>
-            }
+    return <div style={{ ...style, position: "relative" }}>
+        {
+            highlightedSquares.includes(square)
+            && <div
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "#eb6150",
+                    opacity: 0.8
+                }}
+            ></div>
+        }
 
-            {children}
-        </div>
-    );
-}
+        {children}
+    </div>;
+};
 
-function ChessBoard() {
-    const {
-        contentSectionHeight,
-        analysisBoardContainerWidth
-    } = useLayoutStore();
-
+function ChessBoard({
+    topProfile,
+    bottomProfile,
+    style
+}: ChessBoardProps) {
     const {
         highlightedSquares,
         addSquareHighlight,
         removeSquareHighlight,
         clearSquareHighlights
     } = useChessBoardStore();
+
+    const {
+        loadedMoveTree,
+        moveTreeCursor
+    } = useLoadedGameStore();
+
+    const [ board, setBoard ] = useState(new Chess());
 
     function highlightSquare(square: Square) {
         if (highlightedSquares.includes(square)) {
@@ -56,47 +66,60 @@ function ChessBoard() {
         addSquareHighlight(square);
     }
 
+    function addMove(source: Square, target: Square, piece: Piece) {
+        clearSquareHighlights();
+
+        try {
+            board.move({
+                from: source,
+                to: target,
+                promotion: piece[1]?.toLowerCase() || "q"
+            });
+        } catch {
+            return false;
+        }
+
+        setBoard(board);
+
+        return true;
+    }
+
     return <div className={styles.wrapper}>
-        <PlayerProfile profile={{
-            image: require("@assets/img/defaultprofile.svg"),
-            title: "GM",
-            username: "Plankton Kasparov",
-            rating: 2812
-        }}/>
+        {
+            topProfile
+            && <PlayerProfile profile={topProfile} />
+        }
 
         <div className={styles.boardContainer}>
-            <svg className={styles.evaluationBar}>
+            <div
+                className={styles.evaluationBar}
+                style={{ height: style?.width }}
+            >
                 <text>poop</text>
-            </svg>
+            </div>
 
             <div
                 className={styles.board}
-                style={{
-                    width: innerWidth > Breakpoints.MOBILE_LAYOUT
-                        ? (
-                            `min(${contentSectionHeight - 150}px, `
-                            + `${analysisBoardContainerWidth - 120}px)`
-                        )
-                        : undefined
-                }}
+                style={style}
             >
                 <Chessboard
+                    position={board.fen()}
                     onSquareClick={clearSquareHighlights}
                     onSquareRightClick={highlightSquare}
-                    customSquare={getSquareRenderer()}
+                    onPieceDrop={addMove}
+                    customSquare={squareRenderer}
+                    promotionDialogVariant="vertical"
                 />
             </div>
         </div>
 
-        <PlayerProfile
-            profile={{
-                image: require("@assets/img/defaultprofile.svg"),
-                title: "IM",
-                username: "Levy SquarePants",
-                rating: 2322
-            }}
-            bottom
-        />
+        {
+            bottomProfile
+            && <PlayerProfile
+                profile={bottomProfile}
+                bottom
+            />
+        }
     </div>;
 }
 

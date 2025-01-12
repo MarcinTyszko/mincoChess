@@ -7,8 +7,7 @@
 
 /* Contains eval bar and board */
 .boardContainer {
-    display: grid;
-    grid-template-columns: 40px auto;
+    display: flex;
 }
 
 /* Chess board itself */
@@ -31,8 +30,6 @@
 
 /* The evaluation bar */
 .evaluationBar {
-    display: flex;
-
     width: 40px;
     height: 100%;
 

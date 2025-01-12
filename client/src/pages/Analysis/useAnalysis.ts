@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { parse as getMoveTree } from "pgn-parser";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useLoadedGameStore from "@stores/LoadedGameStore";
@@ -21,7 +22,11 @@ function useAnalysis(
         setSelectedGame
     } = useGameSelectorStore();
 
-    const { setLoadedGame } = useLoadedGameStore();
+    const {
+        setLoadedGame,
+        setLoadedMoveTree,
+        setMoveTreeCursor
+    } = useLoadedGameStore();
 
     async function analyse() {
         let analysisGame = selectedGame;
@@ -52,12 +57,30 @@ function useAnalysis(
             }
         }
 
-        // Load game on site
+        if (!analysisGame) {
+            return setAnalysisError(
+                t("pages.analysis.gameSelector.errors.noGameSelected")
+            );
+        }
+
+        // Set game as loaded one
         setLoadedGame(analysisGame);
+
+        try {
+            setLoadedMoveTree(
+                getMoveTree(analysisGame.pgn)[0]
+            );
+        } catch {
+            return setAnalysisError(
+                t("pages.analysis.gameSelector.errors.invalidGame")
+            );
+        }
+        
+        setMoveTreeCursor([0]);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(
-            analysisGame!,
+            analysisGame,
             {
                 engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
                 engineDepth: 18,
