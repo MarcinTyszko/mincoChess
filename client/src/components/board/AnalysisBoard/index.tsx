@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Chess, Move } from "chess.js";
+import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
     CustomSquareRenderer,
