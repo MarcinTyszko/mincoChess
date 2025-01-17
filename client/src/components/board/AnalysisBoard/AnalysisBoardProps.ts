@@ -2,10 +2,10 @@ import { CSSProperties } from "react";
 
 import { PlayerProfile } from "wintrchess";
 
-interface ChessBoardProps {
+interface AnalysisBoardProps {
     topProfile?: PlayerProfile;
     bottomProfile?: PlayerProfile;
     style?: CSSProperties;
 }
 
-export default ChessBoardProps;
+export default AnalysisBoardProps;

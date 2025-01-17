@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { parse as getMoveTree } from "pgn-parser";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useLoadedGameStore from "@stores/LoadedGameStore";
+import useLoadedGameStore from "@stores/AnalysisGameStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
 import GameSource from "@constants/GameSource";
@@ -23,8 +23,8 @@ function useAnalysis(
     } = useGameSelectorStore();
 
     const {
-        setLoadedGame,
-        setLoadedMoveTree,
+        setAnalysisGame,
+        setAnalysisGameMoveTree,
         setMoveTreeCursor
     } = useLoadedGameStore();
 
@@ -64,10 +64,10 @@ function useAnalysis(
         }
 
         // Set game as loaded one
-        setLoadedGame(analysisGame);
+        setAnalysisGame(analysisGame);
 
         try {
-            setLoadedMoveTree(
+            setAnalysisGameMoveTree(
                 getMoveTree(analysisGame.pgn)[0]
             );
         } catch {
@@ -77,6 +77,8 @@ function useAnalysis(
         }
         
         setMoveTreeCursor([0]);
+
+        console.log(getMoveTree(analysisGame.pgn)[0]);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

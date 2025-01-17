@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { round } from "lodash";
 
-import ChessBoard from "@components/board/ChessBoard";
+import AnalysisBoard from "@components/board/AnalysisBoard";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
@@ -42,7 +42,7 @@ function Analysis() {
             className={styles.gameContainer}
             ref={boardContainerRef}
         >
-            <ChessBoard
+            <AnalysisBoard
                 topProfile={{
                     title: "IM",
                     username: "Levy Krabs",
@@ -87,7 +87,7 @@ function Analysis() {
             </span>
 
             {
-                !!analysisError
+                analysisError
                 && <span className={styles.error}>
                     {analysisError}
                 </span>

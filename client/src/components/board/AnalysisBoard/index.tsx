@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Chess } from "chess.js";
+import React, { useContext, useState } from "react";
+import { Chess, Move } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
     CustomSquareRenderer,
@@ -7,23 +7,22 @@ import {
     Square
 } from "react-chessboard/dist/chessboard/types";
 
-import useChessBoardStore from "@stores/ChessBoardStore";
-import useLoadedGameStore from "@stores/LoadedGameStore";
+import HighlightedSquaresContext from "./HighlightedSquaresContext";
 import PlayerProfile from "../PlayerProfile";
 
-import ChessBoardProps from "./ChessBoardProps";
-import * as styles from "./ChessBoard.module.css";
+import AnalysisBoardProps from "./AnalysisBoardProps";
+import * as styles from "./AnalysisBoard.module.css";
 
 const squareRenderer: CustomSquareRenderer = ({
     children,
     style,
     square
 }) => {
-    const { highlightedSquares } = useChessBoardStore();
+    const squareHighlights = useContext(HighlightedSquaresContext);
 
     return <div style={{ ...style, position: "relative" }}>
         {
-            highlightedSquares.includes(square)
+            squareHighlights.highlightedSquares.includes(square)
             && <div
                 style={{
                     position: "absolute",
@@ -39,26 +38,28 @@ const squareRenderer: CustomSquareRenderer = ({
     </div>;
 };
 
-function ChessBoard({
+function AnalysisBoard({
     topProfile,
     bottomProfile,
     style
-}: ChessBoardProps) {
-    const {
-        highlightedSquares,
-        addSquareHighlight,
-        removeSquareHighlight,
-        clearSquareHighlights
-    } = useChessBoardStore();
-
-    const {
-        loadedMoveTree,
-        moveTreeCursor
-    } = useLoadedGameStore();
-
+}: AnalysisBoardProps) {
     const [ board, setBoard ] = useState(new Chess());
 
-    function highlightSquare(square: Square) {
+    const [ highlightedSquares, setHighlightedSquares ] = useState<Square[]>([]);
+
+    function addSquareHighlight(square: Square) {
+        setHighlightedSquares([ ...highlightedSquares, square ]);
+    }
+
+    function removeSquareHighlight(square: Square) {
+        const updatedSquares = highlightedSquares.filter(
+            highlightedSquare => highlightedSquare != square
+        );
+
+        setHighlightedSquares(updatedSquares);
+    }
+
+    function toggleSquareHighlight(square: Square) {
         if (highlightedSquares.includes(square)) {
             return removeSquareHighlight(square);
         }
@@ -67,7 +68,9 @@ function ChessBoard({
     }
 
     function addMove(source: Square, target: Square, piece: Piece) {
-        clearSquareHighlights();
+        setHighlightedSquares([]);
+
+        // let move: Move;
 
         try {
             board.move({
@@ -102,14 +105,22 @@ function ChessBoard({
                 className={styles.board}
                 style={style}
             >
-                <Chessboard
-                    position={board.fen()}
-                    onSquareClick={clearSquareHighlights}
-                    onSquareRightClick={highlightSquare}
-                    onPieceDrop={addMove}
-                    customSquare={squareRenderer}
-                    promotionDialogVariant="vertical"
-                />
+                <HighlightedSquaresContext.Provider
+                    value={{
+                        highlightedSquares,
+                        addSquareHighlight,
+                        removeSquareHighlight
+                    }}
+                >
+                    <Chessboard
+                        position={board.fen()}
+                        onSquareClick={() => setHighlightedSquares([])}
+                        onSquareRightClick={toggleSquareHighlight}
+                        onPieceDrop={addMove}
+                        customSquare={squareRenderer}
+                        promotionDialogVariant="vertical"
+                    />
+                </HighlightedSquaresContext.Provider>
             </div>
         </div>
 
@@ -123,4 +134,4 @@ function ChessBoard({
     </div>;
 }
 
-export default ChessBoard;
+export default AnalysisBoard;
