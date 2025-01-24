@@ -126,7 +126,7 @@ class Engine {
                     log.match(/(?<= depth )\d+/)?.[0] || ""
                 );
 
-                if (!isNaN(depth) && depth > highestDepthReached) {
+                if (!isNaN(depth) && depth >= highestDepthReached) {
                     highestDepthReached = depth;
                     onDepthReached?.(depth);
                 }

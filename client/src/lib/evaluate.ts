@@ -172,9 +172,10 @@ async function evaluateMoves(
             engine.evaluate(
                 options.engineDepth,
                 depth => {
-                    progresses[currentBoardStateIndex] = (
-                        depth / options.engineDepth
-                    );
+                    // Depth 0 is given for states with no legal moves
+                    progresses[currentBoardStateIndex] = depth == 0
+                        ? 1
+                        : depth / options.engineDepth;
 
                     options.onProgress?.(progress());
                 }

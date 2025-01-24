@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { parse as getMoveTree } from "pgn-parser";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useLoadedGameStore from "@stores/AnalysisGameStore";
+import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
 import GameSource from "@constants/GameSource";
@@ -26,7 +26,7 @@ function useAnalysis(
         setAnalysisGame,
         setAnalysisGameMoveTree,
         setMoveTreeCursor
-    } = useLoadedGameStore();
+    } = useAnalysisGameStore();
 
     async function analyse() {
         let analysisGame = selectedGame;
