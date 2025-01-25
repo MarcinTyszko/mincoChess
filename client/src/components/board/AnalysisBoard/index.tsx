@@ -22,7 +22,7 @@ const squareRenderer: CustomSquareRenderer = ({
 
     return <div style={{ ...style, position: "relative" }}>
         {
-            squareHighlights.highlightedSquares.includes(square)
+            squareHighlights.includes(square)
             && <div
                 style={{
                     position: "absolute",
@@ -47,24 +47,16 @@ function AnalysisBoard({
 
     const [ highlightedSquares, setHighlightedSquares ] = useState<Square[]>([]);
 
-    function addSquareHighlight(square: Square) {
-        setHighlightedSquares([ ...highlightedSquares, square ]);
-    }
-
-    function removeSquareHighlight(square: Square) {
-        const updatedSquares = highlightedSquares.filter(
-            highlightedSquare => highlightedSquare != square
-        );
-
-        setHighlightedSquares(updatedSquares);
-    }
-
     function toggleSquareHighlight(square: Square) {
         if (highlightedSquares.includes(square)) {
-            return removeSquareHighlight(square);
+            const updatedSquares = highlightedSquares.filter(
+                highlightedSquare => highlightedSquare != square
+            );
+    
+            return setHighlightedSquares(updatedSquares);
         }
 
-        addSquareHighlight(square);
+        setHighlightedSquares([ ...highlightedSquares, square ]);
     }
 
     function addMove(source: Square, target: Square, piece: Piece) {
@@ -106,11 +98,7 @@ function AnalysisBoard({
                 style={style}
             >
                 <HighlightedSquaresContext.Provider
-                    value={{
-                        highlightedSquares,
-                        addSquareHighlight,
-                        removeSquareHighlight
-                    }}
+                    value={highlightedSquares}
                 >
                     <Chessboard
                         position={board.fen()}
