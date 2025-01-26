@@ -39,7 +39,7 @@ function Analysis() {
 
     return <div className={styles.wrapper}>
         <div
-            className={styles.gameContainer}
+            className={styles.boardContainer}
             ref={boardContainerRef}
         >
             <AnalysisBoard

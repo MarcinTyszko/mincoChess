@@ -8,7 +8,6 @@ function useDelayedEffect(
 
     useEffect(() => {
         if (!fired.current) {
-
             fired.current = true;
             return;
         }

@@ -7,7 +7,7 @@ import {
     oppositePieceColour
 } from "wintrchess";
 import { getMonthLength, padDateNumber } from "@lib/utils/date";
-import { UserNotFoundError, RatelimitError } from "../errors";
+import { UserNotFoundError, RatelimitError } from "../utils/errors";
 
 // Map from lichess winner colours to ours
 const winnerColourCodes: Record<string, PieceColour | undefined> = {

@@ -3,7 +3,7 @@ import { Chess, Move } from "chess.js";
 import { Game, BoardState, EngineLine } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 import Engine from "./engine";
-import { EvaluateMovesError } from "./errors";
+import { EvaluateMovesError } from "./utils/errors";
 
 interface EvaluateMovesOptions {
     engineVersion: EngineVersion;
