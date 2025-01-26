@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { clamp } from "lodash";
 
 import ArticleListing from "@components/common/ArticleListing";
 import Button from "@components/common/Button";
@@ -13,17 +14,19 @@ import * as styles from "./News.module.css";
 function News() {
     const { t } = useTranslation();
 
+    const queryClient = useQueryClient();
+
     const [ searchParams, setSearchParams ] = useSearchParams();
+
     const pageRef = useRef(
         parseInt(searchParams.get("page") || "1") || 1
     );
 
     const pageButtonsRef = useRef<HTMLDivElement>(null);
 
-    const queryClient = useQueryClient();
     const { data: newsArticles, status } = useQuery({
         queryKey: ["newsArticles"],
-        queryFn: () => getNewsArticles(pageRef.current || 1)
+        queryFn: () => getNewsArticles(pageRef.current)
     });
 
     const { data: pageCount } = useQuery({
@@ -32,18 +35,19 @@ function News() {
     });
 
     async function switchPage(increment: number) {
-        if (!pageRef.current) return;
-
-        pageRef.current = Math.min(
-            Math.max(1, pageRef.current + increment),
+        const newPage = clamp(
+            pageRef.current + increment,
+            1,
             pageCount || Infinity
         );
+
+        pageRef.current = newPage;
 
         await queryClient.refetchQueries({
             queryKey: ["newsArticles"]
         });
 
-        setSearchParams({ page: pageRef.current.toString() });
+        setSearchParams({ page: newPage.toString() });
     }
 
     useEffect(() => {

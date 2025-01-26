@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 
 function useDelayedEffect(
     effect: () => void,
-    deps: any[]
+    deps?: any[]
 ) {
     const fired = useRef(false);
 

@@ -1,11 +1,12 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import React, { useRef, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { clamp } from "lodash";
 
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ArticleListing from "@components/common/ArticleListing";
-import { getNewsArticles } from "@lib/newsArticles";
+import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 import useProtectedRoute from "@hooks/useProtectedRoute";
 
 import * as styles from "./ArticleList.module.css";
@@ -15,17 +16,51 @@ function ArticleList() {
 
     const navigate = useNavigate();
 
+    const queryClient = useQueryClient();
+
+    const [ searchParams, setSearchParams ] = useSearchParams();
+
+    const pageRef = useRef(
+        parseInt(searchParams.get("page") || "1") || 1
+    );
+
+    const pageButtonsRef = useRef<HTMLDivElement>(null);
+
     const { data: newsArticles, status, error } = useQuery({
         queryKey: ["newsArticles"],
-        queryFn: getNewsArticles
+        queryFn: () => getNewsArticles(pageRef.current)
     });
+
+    const { data: pageCount } = useQuery({
+        queryKey: ["newsArticlesPages"],
+        queryFn: getNewsArticlesPages
+    });
+
+    useEffect(() => {
+        pageButtonsRef.current?.scrollIntoView();
+    }, [pageRef.current]);
+
+    async function switchPage(increment: number) {
+        const newPage = clamp(
+            pageRef.current + increment,
+            1,
+            pageCount || Infinity
+        );
+
+        pageRef.current = newPage;
+
+        await queryClient.refetchQueries({
+            queryKey: ["newsArticles"]
+        });
+
+        setSearchParams({ page: newPage.toString() });
+    }
 
     return <div className={styles.wrapper}>
         <Button
             icon={require("@assets/img/add.svg")}
             style={{
-                backgroundColor: ButtonColour.BLUE,
-                marginBottom: "20px"
+                backgroundColor: ButtonColour.BLUE
             }}
             onClick={() => navigate("/internal/dashboard/news/edit")}
         >
@@ -44,6 +79,28 @@ function ArticleList() {
                 status == "error"
                 && error.message
             }
+        </div>
+
+        <div className={styles.pageButtons} ref={pageButtonsRef}>
+            <Button
+                style={{
+                    backgroundColor: ButtonColour.BLUE
+                }}
+                icon={require("@assets/img/back.svg")}
+                onClick={() => switchPage(-1)}
+            />
+
+            <span>
+                {pageRef.current || "?"} / {pageCount || "?"}
+            </span>
+
+            <Button
+                style={{
+                    backgroundColor: ButtonColour.BLUE
+                }}
+                icon={require("@assets/img/next.svg")}
+                onClick={() => switchPage(1)}
+            />
         </div>
     </div>;
 }
