@@ -14,7 +14,7 @@ router.post("/internal/login", async (req, res) => {
 
     // If password parameter is missing, 400
     if (!password) {
-        return res.status(400).send("Invalid request.");
+        return res.status(400).send("Incorrect password.");
     }
 
     // If ReCAPTCHA token is invalid, 400

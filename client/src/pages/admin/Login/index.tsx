@@ -29,10 +29,12 @@ function Login() {
             },
             body: JSON.stringify({ password, captchaToken })
         });
+
         const sessionText = await sessionResponse.text();
 
         if (!sessionResponse.ok) {
             captchaRef.current?.reset();
+            
             setError(sessionText);
             
             return;

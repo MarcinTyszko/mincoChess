@@ -21,11 +21,14 @@
     width: 100%;
 }
 
-.announcementBox {
+.editor > input {
+    height: 50px;
+}
+
+.announcementPreview {
     text-align: center;
 
     width: 100%;
-    height: 50px;
 
     border: 3px solid #242424;
     border-radius: 5px;

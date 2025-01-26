@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useQuery, QueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 import { Announcement } from "wintrchess";
 import fetchAnnouncement from "@lib/announcement";
@@ -9,6 +10,7 @@ import ColourSwatch from "@components/common/ColourSwatch";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ConfirmDialog from "@components/common/ConfirmDialog";
+import TextField from "@components/common/TextField";
 import useProtectedRoute from "@hooks/useProtectedRoute";
 
 import * as styles from "./AnnouncementEditor.module.css";
@@ -52,6 +54,36 @@ function AnnouncementEditor() {
         queryClient.refetchQueries({
             queryKey: ["announcement"]
         });
+
+        if (content) {
+            toast.success(
+                "Announcement published.",
+                {
+                    position: "bottom-left",
+                    theme: "dark",
+                    pauseOnHover: false,
+                    closeOnClick: true,
+                    closeButton: false,
+                    style: {
+                        fontFamily: "JetBrains Mono"
+                    }
+                }
+            );
+        } else {
+            toast.error(
+                "Announcement cleared.",
+                {
+                    position: "bottom-left",
+                    theme: "dark",
+                    pauseOnHover: false,
+                    closeOnClick: true,
+                    closeButton: false,
+                    style: {
+                        fontFamily: "JetBrains Mono"
+                    }
+                }
+            );
+        }
     }
 
     return <div
@@ -61,11 +93,14 @@ function AnnouncementEditor() {
         <h1>Edit</h1>
 
         <div className={styles.editor}>
-            <input
-                className={styles.announcementBox}
+            <TextField
+                placeholder="Announcement..."
+                onChange={setBannerContent}
                 value={bannerContent}
-                onChange={event => setBannerContent(event.target.value)}
-                type="text"
+                style={{
+                    borderRadius: "10px",
+                    border: "3px solid #242424"
+                }}
             />
 
             <ColourSwatch
@@ -78,7 +113,7 @@ function AnnouncementEditor() {
 
         <h1>Preview</h1>
 
-        <div className={styles.announcementBox}>
+        <div className={styles.announcementPreview}>
             <AnnouncementBanner colour={bannerColour}>
                 <ReactMarkdown className={styles.announcementMarkdown}>
                     {bannerContent}

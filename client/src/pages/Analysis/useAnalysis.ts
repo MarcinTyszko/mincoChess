@@ -63,7 +63,7 @@ function useAnalysis(
             );
         }
 
-        // Set game as loaded one
+        // Set analysis game to the selected one
         setAnalysisGame(analysisGame);
 
         try {
