@@ -85,20 +85,16 @@ function ArticleEditor() {
             <TextField
                 placeholder="Article title..."
                 value={articleTitle}
-                style={{
-                    height: "40px"
-                }}
                 onChange={value => setArticleTitle(value)}
+                style={{ height: "45px" }}
             />
 
             <div className={styles.tagMetadata}>
                 <TextField
                     placeholder="Tag name..."
                     value={tagName}
-                    style={{
-                        height: "40px"
-                    }}
                     onChange={value => setTagName(value)}
+                    style={{ height: "45px" }}
                 />
 
                 <ColourSwatch
