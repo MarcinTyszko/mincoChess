@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import useSidebarStore from "@stores/SidebarStore";
 import Button from "@components/common/Button";
@@ -9,6 +10,8 @@ import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
 
     const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
@@ -67,15 +70,16 @@ function NavigationBar() {
                 />
             </a>
 
-            <a 
-                href="https://discord.gg/XxtsAzPyCb"
-                target="_blank"
-                title={t("navigationBar.tooltips.discord")}
-            >
-                <Button
-                    icon={require("@assets/img/discord.png")}
-                />
-            </a>
+            <Button
+                icon={require("@assets/img/help.svg")}
+                style={{
+                    width: "52px",
+                    padding: "5px"
+                }}
+                iconSize="32px"
+                tooltip={t("navigationBar.tooltips.help")}
+                onClick={() => navigate("/help")}
+            />
         </div>
     </div>;
 }

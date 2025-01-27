@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 450px) {
+    .wrapper {
+        padding: 30px 0;
+    }
+}
+
+.wrapper * {
+    color: white;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    background-color: #222;
+}
+
+.importantValue {
+    display: inline;
+    padding: 5px 15px;
+    box-sizing: border-box;
+
+    background-color: #202020;
+    color: white;
+    font-size: 1.1rem;
+
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.importantValue:hover {
+    background-color: #181818;
+}

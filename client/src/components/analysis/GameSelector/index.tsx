@@ -9,9 +9,10 @@ import ButtonColour from "@constants/ButtonColour";
 import GameSearchMenu from "../GameSearchMenu";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 
+import GameSelectorProps from "./GameSelectorProps";
 import * as styles from "./GameSelector.module.css";
 
-function GameSelector() {
+function GameSelector({ style }: GameSelectorProps) {
     const { t } = useTranslation();
     const cookies = new Cookies();
 
@@ -88,7 +89,7 @@ function GameSelector() {
         setSearchMenuOpen(true);
     }
 
-    return <div className={styles.wrapper}>
+    return <div className={styles.wrapper} style={style}>
         <div className={styles.gameSourceSection}>
             <div className={styles.gameSourceLabel}>
                 {t("pages.analysis.gameSelector.sourceLabel")}

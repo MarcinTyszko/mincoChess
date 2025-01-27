@@ -11,6 +11,7 @@ const Archive = lazy(() => import("@pages/Archive"));
 const NewsArticleList = lazy(() => import("@pages/news/ArticleList"));
 const NewsArticle = lazy(() => import("@pages/news/Article"));
 const Settings = lazy(() => import("@pages/Settings"));
+const HelpCenter = lazy(() => import("@pages/HelpCenter"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
@@ -35,17 +36,19 @@ root.render(<BrowserRouter>
             <Suspense fallback={<LoadingPlaceholder/>}>
                 <Routes>
                     <Route path="/" element={<Analysis/>} />
-                    <Route path="/archive" element={<Archive/>}/>
+                    <Route path="/archive" element={<Archive/>} />
                     <Route path="/news" element={<NewsArticleList/>} />
                     <Route path="/news/:articleId" element={<NewsArticle/>} />
                     <Route path="/settings" element={<Settings/>} />
+
+                    <Route path="/help" element={<HelpCenter/>} />
 
                     <Route path="*" element={<Unfound/>} />
 
                     <Route path="/internal/login" element={<Login/>} />
                     <Route path="/internal/dashboard" element={<Dashboard/>}>
-                        <Route index element={<Analytics/>}/>
-                        <Route path="analytics" element={<Analytics/>}/>
+                        <Route index element={<Analytics/>} />
+                        <Route path="analytics" element={<Analytics/>} />
                         <Route path="news" element={<ArticleList/>} />
                         <Route path="news/edit" element={<ArticleEditor/>} />
                         <Route path="announcement" element={<AnnouncementEditor/>} />
