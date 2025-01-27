@@ -36,6 +36,7 @@ function NavigationBar() {
                 alt="WintrChess"
                 title="WINTR"
                 height={35}
+                draggable={false}
             />
 
             <span className={styles.title}>

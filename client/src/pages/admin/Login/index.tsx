@@ -53,6 +53,7 @@ function Login() {
                 transform: "scaleX(-1)",
                 filter: "invert()"
             }}
+            draggable={false}
         />
 
         <input
