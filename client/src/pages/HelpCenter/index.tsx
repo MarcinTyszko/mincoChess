@@ -28,8 +28,7 @@ function HelpCenter() {
             </Header>
 
             <span>
-                If you need help using WintrChess features, or have found an issue
-                you'd like to report to us, you can contact support at:
+                {t("pages.helpCenter.contact.support")}
             </span>
 
             <a
@@ -42,9 +41,7 @@ function HelpCenter() {
             <hr style={{ width: "100%" }} />
 
             <span>
-                If you have a business related enquiry you need to get to us, or have
-                some cool suggestions for how we can improve the WintrChess platform,
-                send an email to:
+                {t("pages.helpCenter.contact.letters")}
             </span>
 
             <a
