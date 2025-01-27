@@ -1,15 +1,20 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import Select, { SingleValue } from "react-select";
 
-import useSidebarStore from "@stores/SidebarStore";
+import languages from "@i18n/languages";
+import useSidebarStore from "@stores/SidebarStore"; 
 import Button from "@components/common/Button";
 import Breakpoints from "@constants/Breakpoints";
 
+import LanguageOption from "@ctypes/LanguageOption";
+import LanguageSwitcher from "./LanguageSwitcher";
+import FlagDisplayLabel from "./FlagDisplayLabel";
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const navigate = useNavigate();
 
@@ -61,15 +66,58 @@ function NavigationBar() {
                 </Button>
             </a>
 
-            <a 
-                href="https://youtube.com/@wintrcat"
-                target="_blank"
-                title={t("navigationBar.tooltips.youtube")}
-            >
-                <Button
-                    icon={require("@assets/img/youtube.svg")}
-                />
-            </a>
+            <Select
+                options={languages}
+                defaultValue={languages.find(lang => lang.id == "en")}
+                getOptionLabel={option => option.label}
+                styles={{
+                    control: baseStyles => ({
+                        ...baseStyles,
+                        width: "52px",
+                        height: "42px",
+                        backgroundColor: "#343434",
+                        border: "none",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                        transitionDuration: "0.3s"
+                    }),
+                    singleValue: baseStyles => ({
+                        ...baseStyles,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignContent: "center"
+                    }),
+                    menu: baseStyles => ({
+                        ...baseStyles,
+                        width: "200px",
+                        left: "-148px",
+                        backgroundColor: "#303030",
+                        color: "white"
+                    }),
+                    option: (baseStyles, state) => ({
+                        ...baseStyles,
+                        backgroundColor: state.isFocused
+                            ? "#242424"
+                            : "#303030",
+                        transitionDuration: "0.3s"
+                    })
+                }}
+                components={{
+                    Control: LanguageSwitcher,
+                    SingleValue: FlagDisplayLabel,
+                    DropdownIndicator: null
+                }}
+                isSearchable={false}
+                onChange={option => {
+                    option = option as SingleValue<LanguageOption>;
+
+                    i18n.changeLanguage(
+                        option?.id == "en"
+                            ? "en"
+                            : "cat"
+                    );
+                }}
+            />
 
             <Button
                 icon={require("@assets/img/help.svg")}

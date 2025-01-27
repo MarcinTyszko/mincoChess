@@ -36,6 +36,7 @@
       "@constants/*": ["./src/constants/*"],
       "@stores/*": ["./src/stores/*"],
       "@ctypes/*": ["./src/types/*"],
+      "@i18n/*": ["./src/i18n/*"],
       "@lib/*": ["./src/lib/*"],
       "@assets/*": ["./public/*"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */

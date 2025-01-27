@@ -36,3 +36,7 @@
     color: white;
     font-size: 2rem;
 }
+
+.languageSwitcher:hover {
+    filter: brightness(0.9);
+}

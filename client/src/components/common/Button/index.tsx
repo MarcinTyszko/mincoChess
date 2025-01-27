@@ -22,8 +22,11 @@ function Button({
         title={tooltip}
     >
         {
-            !!icon 
-            && <img src={icon} height={iconSize || "22px"} />
+            icon
+            && <img
+                src={icon}
+                height={iconSize || "22px"}
+            />
         }
 
         {children}

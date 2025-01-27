@@ -26,6 +26,7 @@ module.exports = {
             "@constants": resolve("./src/constants"),
             "@stores": resolve("./src/stores"),
             "@ctypes": resolve("./src/types"),
+            "@i18n": resolve("./src/i18n"),
             "@lib": resolve("./src/lib"),
             "@assets": resolve("./public")
         }
