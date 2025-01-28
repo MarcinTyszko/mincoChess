@@ -9,8 +9,8 @@ import languages from "@i18n/languages";
 import useSidebarStore from "@stores/SidebarStore"; 
 import Button from "@components/common/Button";
 import Breakpoints from "@constants/Breakpoints";
-
 import LanguageOption from "@ctypes/LanguageOption";
+
 import LanguageSwitcher from "./LanguageSwitcher";
 import FlagDisplayLabel from "./FlagDisplayLabel";
 import * as styles from "./NavigationBar.module.css";
