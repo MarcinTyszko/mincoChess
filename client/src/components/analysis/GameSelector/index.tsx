@@ -14,6 +14,7 @@ import * as styles from "./GameSelector.module.css";
 
 function GameSelector({ style }: GameSelectorProps) {
     const { t } = useTranslation();
+    
     const cookies = new Cookies();
 
     const {

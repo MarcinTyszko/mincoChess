@@ -2,7 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import Select, { SingleValue } from "react-select";
+import { Cookies } from "react-cookie";
 
+import { Cookie } from "wintrchess";
 import languages from "@i18n/languages";
 import useSidebarStore from "@stores/SidebarStore"; 
 import Button from "@components/common/Button";
@@ -17,6 +19,8 @@ function NavigationBar() {
     const { t, i18n } = useTranslation();
 
     const navigate = useNavigate();
+
+    const cookies = new Cookies();
 
     const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
@@ -111,11 +115,11 @@ function NavigationBar() {
                 onChange={option => {
                     option = option as SingleValue<LanguageOption>;
 
-                    i18n.changeLanguage(
-                        option?.id == "en"
-                            ? "en"
-                            : "cat"
-                    );
+                    if (!option?.id) return;
+
+                    i18n.changeLanguage(option.id);
+
+                    cookies.set(Cookie.PREFERRED_LANGUAGE, option.id);
                 }}
             />
 
