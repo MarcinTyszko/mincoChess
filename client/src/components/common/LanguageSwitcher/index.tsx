@@ -1,0 +1,70 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+import Select, { SingleValue } from "react-select";
+import { Cookies } from "react-cookie";
+
+import { Cookie } from "wintrchess";
+import languages from "@i18n/languages";
+import LanguageOption from "@ctypes/LanguageOption";
+import { FlagDisplayLabel, LanguageSwitcherControl } from "./components";
+
+function LanguageSwitcher() {
+    const { i18n } = useTranslation();
+
+    const cookies = new Cookies();
+
+    return <Select
+        options={languages}
+        defaultValue={languages.find(lang => lang.id == "en")}
+        getOptionLabel={option => option.label}
+        styles={{
+            control: baseStyles => ({
+                ...baseStyles,
+                width: "52px",
+                height: "42px",
+                backgroundColor: "#343434",
+                border: "none",
+                borderRadius: "10px",
+                cursor: "pointer",
+                transitionDuration: "0.3s"
+            }),
+            singleValue: baseStyles => ({
+                ...baseStyles,
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center"
+            }),
+            menu: baseStyles => ({
+                ...baseStyles,
+                width: "200px",
+                left: "-148px",
+                backgroundColor: "#303030",
+                color: "white"
+            }),
+            option: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: state.isFocused
+                    ? "#242424"
+                    : "#303030",
+                transitionDuration: "0.3s"
+            })
+        }}
+        components={{
+            Control: LanguageSwitcherControl,
+            SingleValue: FlagDisplayLabel,
+            DropdownIndicator: null
+        }}
+        isSearchable={false}
+        onChange={option => {
+            option = option as SingleValue<LanguageOption>;
+
+            if (!option?.id) return;
+
+            i18n.changeLanguage(option.id);
+
+            cookies.set(Cookie.PREFERRED_LANGUAGE, option.id);
+        }}
+    />;
+}
+
+export default LanguageSwitcher;
