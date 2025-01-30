@@ -46,6 +46,7 @@ function LanguageSwitcher() {
                 backgroundColor: state.isFocused
                     ? "#242424"
                     : "#303030",
+                cursor: "pointer",
                 transitionDuration: "0.3s"
             })
         }}
