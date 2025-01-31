@@ -4,6 +4,7 @@ import { round } from "lodash";
 
 import AnalysisBoard from "@components/board/AnalysisBoard";
 import GameSelector from "@components/analysis/GameSelector";
+import useGameSelectorStore from "@stores/GameSelectorStore";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
 import Breakpoints from "@constants/Breakpoints";
@@ -19,6 +20,11 @@ function Analysis() {
         analysisBoardContainerWidth,
         setAnalysisBoardContainerWidth
     } = useLayoutStore();
+
+    const {
+        setSelectedGame,
+        setGameSelectorError
+    } = useGameSelectorStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
@@ -69,7 +75,11 @@ function Analysis() {
                 {t("pages.analysis.title")}
             </div>
 
-            <GameSelector/>
+            <GameSelector
+                saveCookies
+                onChange={setSelectedGame}
+                setError={setGameSelectorError}
+            />
 
             <Button
                 icon={require("@assets/img/analysis.svg")}

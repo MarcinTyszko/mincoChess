@@ -1,11 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { parse as getMoveTree } from "pgn-parser";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import parsePgn from "@lib/games/pgn";
-import parseFenString from "@lib/games/fen";
-import GameSource from "@constants/GameSource";
 import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
 
@@ -16,73 +12,43 @@ function useAnalysis(
     const { t } = useTranslation();
 
     const {
-        selectedGameSource,
-        selectedGameInput,
         selectedGame,
-        setSelectedGame
+        gameSelectorError
     } = useGameSelectorStore();
 
-    const {
-        setAnalysisGame,
-        setAnalysisGameMoveTree,
-        setMoveTreeCursor
-    } = useAnalysisGameStore();
+    const { setAnalysisGame } = useAnalysisGameStore();
 
     async function analyse() {
-        let analysisGame = selectedGame;
-
-        // Validate that a game has been selected
-        if (selectedGameSource.requiresSearch) {
-            if (!selectedGame) {
-                return setAnalysisError(
-                    t("pages.analysis.gameSelector.errors.noGameSelected")
-                );
-            }
-        } else if (selectedGameInput.length == 0) {
-            return setAnalysisError(
-                t("pages.analysis.gameSelector.errors.noGameSelected")
-            );
-        } else {
-            // Parse FEN or PGN into game object
-            try {
-                analysisGame = selectedGameSource == GameSource.PGN
-                    ? parsePgn(selectedGameInput)
-                    : parseFenString(selectedGameInput);
-
-                setSelectedGame(analysisGame);
-            } catch {
-                return setAnalysisError(
-                    t("pages.analysis.gameSelector.errors.invalidGame")
-                );
-            }
+        if (gameSelectorError) {
+            return setAnalysisError(gameSelectorError);
         }
 
-        if (!analysisGame) {
+        if (!selectedGame) {
             return setAnalysisError(
                 t("pages.analysis.gameSelector.errors.noGameSelected")
             );
         }
 
         // Set analysis game to the selected one
-        setAnalysisGame(analysisGame);
+        setAnalysisGame(selectedGame);
 
-        try {
-            setAnalysisGameMoveTree(
-                getMoveTree(analysisGame.pgn)[0]
-            );
-        } catch {
-            return setAnalysisError(
-                t("pages.analysis.gameSelector.errors.invalidGame")
-            );
-        }
+        // try {
+        //     setAnalysisGameMoveTree(
+        //         getMoveTree(selectedGame.pgn)[0]
+        //     );
+        // } catch {
+        //     return setAnalysisError(
+        //         t(gameSelectorError)
+        //     );
+        // }
         
-        setMoveTreeCursor([0]);
+        // setMoveTreeCursor([0]);
 
-        console.log(getMoveTree(analysisGame.pgn)[0]);
+        // console.log(getMoveTree(selectedGame.pgn)[0]);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(
-            analysisGame,
+            selectedGame,
             {
                 engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
                 engineDepth: 18,

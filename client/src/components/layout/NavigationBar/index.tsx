@@ -28,7 +28,7 @@ function NavigationBar() {
                 />
             }
 
-            <img 
+            <img
                 src={require("@assets/img/logo.svg")}
                 style={{
                     transform: "scaleX(-1)",

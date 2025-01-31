@@ -7,29 +7,54 @@ import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import GameSearchMenu from "../GameSearchMenu";
-import useGameSelectorStore from "@stores/GameSelectorStore";
+import parsePgn from "@lib/games/pgn";
+import parseFenString from "@lib/games/fen";
 
 import GameSelectorProps from "./GameSelectorProps";
 import * as styles from "./GameSelector.module.css";
 
-function GameSelector({ style }: GameSelectorProps) {
+function GameSelector({
+    style,
+    saveCookies,
+    onChange,
+    setError
+}: GameSelectorProps) {
     const { t } = useTranslation();
     
     const cookies = new Cookies();
 
-    const {
-        selectedGameSource,
-        setSelectedGameSource,
-        selectedGameInput,
-        setSelectedGameInput
-    } = useGameSelectorStore();
+    const [ gameSource, setGameSource ] = useState(GameSource.PGN);
+    const [ fieldInput, setFieldInput ] = useState("");
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
-    function getSavedSelectorInput(source: GameSource): string {
+    function getSavedFieldInput(source: GameSource): string | undefined {
         return cookies.get(
             Cookie.LAST_GAME_SELECTOR_INPUTS
-        )?.[source.key] || "";
+        )?.[source.key];
+    }
+
+    // Parse an entered PGN or FEN and emit it
+    function parseFieldInput(input: string) {
+        if (input.length == 0) {
+            return setError?.(
+                t("pages.analysis.gameSelector.errors.noGameSelected")
+            );
+        }
+
+        try {
+            onChange?.(
+                gameSource == GameSource.PGN
+                    ? parsePgn(input)
+                    : parseFenString(input)
+            );
+
+            setError?.();
+        } catch (err) {
+            setError?.(
+                t("pages.analysis.gameSelector.errors.invalidGame")
+            );
+        }
     }
 
     useEffect(() => {
@@ -40,13 +65,20 @@ function GameSelector({ style }: GameSelectorProps) {
             .find(source => source.key == savedSourceKey);
 
         if (!savedSource) return;
-        
-        setSelectedGameSource(savedSource);
+
+        setGameSource(savedSource);
 
         // Load last selector input from cookies
-        setSelectedGameInput(
-            getSavedSelectorInput(savedSource)
-        );
+        const savedFieldInput = getSavedFieldInput(savedSource);
+
+        if (!savedFieldInput) return;
+        
+        setFieldInput(savedFieldInput);
+        
+        // Parse and emit field input if possible
+        if (!savedSource.requiresSearch) {
+            parseFieldInput(savedFieldInput);
+        }
     }, []);
 
     function handleGameSourceChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -57,35 +89,55 @@ function GameSelector({ style }: GameSelectorProps) {
         if (!selectedSource) return;
 
         // Save the selected game source choice in state
-        setSelectedGameSource(selectedSource);
+        setGameSource(selectedSource);
 
         // Save the selected game source choice in cookies
-        cookies.set(Cookie.LAST_GAME_SELECTOR_SOURCE, selectedSource.key);
+        if (saveCookies) {
+            cookies.set(Cookie.LAST_GAME_SELECTOR_SOURCE, selectedSource.key);
+        }
 
         // Put the saved selector input from cookies into the text area
-        setSelectedGameInput(
-            getSavedSelectorInput(selectedSource)
-        );
+        const savedFieldInput = getSavedFieldInput(selectedSource);
+        
+        if (!savedFieldInput) return;
+
+        setFieldInput(savedFieldInput);
+
+        // Parse and emit field input if possible
+        setError?.();
+
+        if (!selectedSource.requiresSearch) {
+            parseFieldInput(savedFieldInput);
+        }
     }
 
-    function handleSelectorFieldChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        setSelectedGameInput(event.target.value);
+    function handleFieldInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+        setFieldInput(event.target.value);
+
+        // Parse and emit field input if possible
+        if (!gameSource.requiresSearch) {
+            parseFieldInput(event.target.value);
+        }
 
         // Save the input field contents in cookies
-        const savedSelectorInputs = cookies.get(Cookie.LAST_GAME_SELECTOR_INPUTS) || {};
-        if (typeof savedSelectorInputs != "object") return;
+        if (!saveCookies) return;
+
+        let savedSelectorInputs = cookies.get(Cookie.LAST_GAME_SELECTOR_INPUTS) || {};
+        if (typeof savedSelectorInputs != "object") {
+            savedSelectorInputs = {};
+        }
 
         cookies.set(
             Cookie.LAST_GAME_SELECTOR_INPUTS,
             {
                 ...savedSelectorInputs,
-                [selectedGameSource.key]: event.target.value
+                [gameSource.key]: event.target.value
             }
         );
     }
 
     function openGameSearchMenu() {
-        if (selectedGameInput.length == 0) return;
+        if (fieldInput.length == 0) return;
 
         setSearchMenuOpen(true);
     }
@@ -99,7 +151,7 @@ function GameSelector({ style }: GameSelectorProps) {
             <select 
                 className={styles.gameSourceSelector}
                 onChange={handleGameSourceChange}
-                value={selectedGameSource.key}
+                value={gameSource.key}
             >
                 {
                     Object.values(GameSource)
@@ -113,18 +165,18 @@ function GameSelector({ style }: GameSelectorProps) {
         <textarea
             className={styles.selectorField}
             placeholder={
-                t(`pages.analysis.gameSelector.sourcePlaceholders.${selectedGameSource.key}`)
+                t(`pages.analysis.gameSelector.sourcePlaceholders.${gameSource.key}`)
             }
             style={{
-                height: selectedGameSource.expandField ? "170px" : "70px",
-                borderRadius: selectedGameSource.requiresSearch ? undefined : "0 0 10px 10px"
+                height: gameSource.expandField ? "170px" : "70px",
+                borderRadius: gameSource.requiresSearch ? undefined : "0 0 10px 10px"
             }}
-            value={selectedGameInput}
-            onChange={handleSelectorFieldChange}
+            value={fieldInput}
+            onChange={handleFieldInputChange}
         ></textarea>
 
         {
-            selectedGameSource.requiresSearch
+            gameSource.requiresSearch
             && <Button
                 icon={require("@assets/img/search.svg")}
                 iconSize="25px"
@@ -141,9 +193,10 @@ function GameSelector({ style }: GameSelectorProps) {
         {
             searchMenuOpen
             && <GameSearchMenu
-                username={selectedGameInput}
-                gameSource={selectedGameSource}
+                username={fieldInput}
+                gameSource={gameSource}
                 setOpen={setSearchMenuOpen}
+                setSelectedGame={onChange}
             />
         }
     </div>;

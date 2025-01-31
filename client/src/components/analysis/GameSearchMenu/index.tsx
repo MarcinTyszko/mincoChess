@@ -11,7 +11,6 @@ import Loader from "@components/common/Loader";
 import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
-import useGameSelectorStore from "@stores/GameSelectorStore";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
@@ -35,12 +34,11 @@ async function fetchGames(
 function GameSearchMenu({
     username,
     gameSource,
-    setOpen
+    setOpen,
+    setSelectedGame
 }: GameSearchMenuProps) {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
-
-    const { setSelectedGame } = useGameSelectorStore();
 
     const [ month, setMonth ] = useState(new Date().getMonth() + 1);
     const [ year, setYear ] = useState(new Date().getFullYear());
@@ -71,7 +69,7 @@ function GameSearchMenu({
     });
 
     function selectGame(game: Game) {
-        setSelectedGame(game);
+        setSelectedGame?.(game);
         setOpen?.(false);
     }
 
