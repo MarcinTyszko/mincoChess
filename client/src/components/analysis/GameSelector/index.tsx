@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cookies } from "react-cookie";
 
-import { Cookie } from "wintrchess";
+import { Cookie, Game } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
@@ -26,6 +26,8 @@ function GameSelector({
     const [ gameSource, setGameSource ] = useState(GameSource.PGN);
     const [ fieldInput, setFieldInput ] = useState("");
 
+    const [ selectedServiceGame, setSelectedServiceGame ] = useState<Game>();
+
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
     function getSavedFieldInput(source: GameSource): string | undefined {
@@ -34,9 +36,17 @@ function GameSelector({
         )?.[source.key];
     }
 
-    // Parse an entered PGN or FEN and emit it
-    function parseFieldInput(input: string) {
-        if (input.length == 0) {
+    // Parse an entered PGN or FEN and emit it when input changes
+    useEffect(() => {
+        if (gameSource.requiresSearch) {
+            return selectedServiceGame
+                ? onChange?.(selectedServiceGame)
+                : setError?.(
+                    t("pages.analysis.gameSelector.errors.noGameSelected")
+                );
+        }
+
+        if (fieldInput.length == 0) {
             return setError?.(
                 t("pages.analysis.gameSelector.errors.noGameSelected")
             );
@@ -45,8 +55,8 @@ function GameSelector({
         try {
             onChange?.(
                 gameSource == GameSource.PGN
-                    ? parsePgn(input)
-                    : parseFenString(input)
+                    ? parsePgn(fieldInput)
+                    : parseFenString(fieldInput)
             );
 
             setError?.();
@@ -55,8 +65,9 @@ function GameSelector({
                 t("pages.analysis.gameSelector.errors.invalidGame")
             );
         }
-    }
+    }, [gameSource, fieldInput]);
 
+    // Load saved values from cookies
     useEffect(() => {
         // Load last game source from cookies
         const savedSourceKey = cookies.get(Cookie.LAST_GAME_SELECTOR_SOURCE);
@@ -74,11 +85,6 @@ function GameSelector({
         if (!savedFieldInput) return;
         
         setFieldInput(savedFieldInput);
-        
-        // Parse and emit field input if possible
-        if (!savedSource.requiresSearch) {
-            parseFieldInput(savedFieldInput);
-        }
     }, []);
 
     function handleGameSourceChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -102,22 +108,10 @@ function GameSelector({
         if (!savedFieldInput) return;
 
         setFieldInput(savedFieldInput);
-
-        // Parse and emit field input if possible
-        setError?.();
-
-        if (!selectedSource.requiresSearch) {
-            parseFieldInput(savedFieldInput);
-        }
     }
 
     function handleFieldInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         setFieldInput(event.target.value);
-
-        // Parse and emit field input if possible
-        if (!gameSource.requiresSearch) {
-            parseFieldInput(event.target.value);
-        }
 
         // Save the input field contents in cookies
         if (!saveCookies) return;
@@ -196,7 +190,7 @@ function GameSelector({
                 username={fieldInput}
                 gameSource={gameSource}
                 setOpen={setSearchMenuOpen}
-                setSelectedGame={onChange}
+                setSelectedGame={setSelectedServiceGame}
             />
         }
     </div>;
