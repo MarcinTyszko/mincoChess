@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
@@ -77,7 +77,11 @@ function GameListing({
             : game.players.white.result;
     }
 
-    const displayResultRef = useRef(getDisplayResult());
+    const [ displayResult, setDisplayResult ] = useState(getDisplayResult());
+
+    useEffect(() => {
+        setDisplayResult(getDisplayResult());
+    });
 
     return <div
         className={
@@ -133,48 +137,47 @@ function GameListing({
         </div>
 
         {
-            displayResultRef.current
+            displayResult
             && <div style={{width: "20px"}}>
                 <img
                     src={
                         perspective
-                            ? gameResultIcons.opinionated[displayResultRef.current]
-                            : gameResultIcons.unopinionated[displayResultRef.current]
+                            ? gameResultIcons.opinionated[displayResult]
+                            : gameResultIcons.unopinionated[displayResult]
                     }
                     title={t(
                         "gameListing.gameResults."
                         + (perspective ? "opinionated." : "unopinionated.")
-                        + gameResultTooltipCodes[displayResultRef.current]
+                        + gameResultTooltipCodes[displayResult]
                     )}
                     style={{width: "100%"}}
                 />
             </div>
         }
 
-        <div>
-            <Button
-                icon={require("@assets/img/copy.svg")}
-                tooltip={t("gameListing.copyPGN")}
-                onClick={event => {
-                    event.stopPropagation();
-                    navigator.clipboard.writeText(game.pgn);
+        <Button
+            icon={require("@assets/img/copy.svg")}
+            tooltip={t("gameListing.copyPGN")}
+            onClick={event => {
+                event.stopPropagation();
 
-                    toast.success(
-                        t("gameListing.copyPGNToast"),
-                        {
-                            position: "bottom-left",
-                            theme: "dark",
-                            pauseOnHover: false,
-                            closeOnClick: true,
-                            closeButton: false,
-                            style: {
-                                fontFamily: "JetBrains Mono"
-                            }
+                navigator.clipboard.writeText(game.pgn);
+
+                toast.success(
+                    t("gameListing.copyPGNToast"),
+                    {
+                        position: "bottom-left",
+                        theme: "dark",
+                        pauseOnHover: false,
+                        closeOnClick: true,
+                        closeButton: false,
+                        style: {
+                            fontFamily: "JetBrains Mono"
                         }
-                    );
-                }}
-            />
-        </div>
+                    }
+                );
+            }}
+        />
 
         {
             onClick

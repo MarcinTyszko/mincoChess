@@ -20,7 +20,7 @@
     backdrop-filter: brightness(0.9);
 }
 
-.gameListing > div {
+.gameListing > * {
     display: flex;
     flex-direction: column;
     justify-content: center;
