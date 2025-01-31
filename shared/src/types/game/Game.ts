@@ -1,7 +1,6 @@
 import TimeControl from "../../constants/game/TimeControl";
 import Variant from "../../constants/game/Variant";
 import GamePlayerProfile from "./GamePlayerProfile";
-import GameReport from "./GameReport";
 import PieceColour from "../../constants/PieceColour";
 
 export function getColourPlayed(game: Game, username: string) {
@@ -20,7 +19,6 @@ export interface Game {
         black: GamePlayerProfile;
     };
     date?: Date;
-    report?: GameReport;
 }
 
 export default Game;

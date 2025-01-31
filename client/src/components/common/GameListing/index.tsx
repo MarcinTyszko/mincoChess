@@ -122,13 +122,13 @@ function GameListing({
             }
         </div>
 
-        {
+        {/* {
             game.report
             && <div>
                 <span>{game.report.accuracies.white}</span>
                 <span>{game.report.accuracies.black}</span>
             </div>
-        }
+        } */}
 
         <div style={{width: "110px"}}>
             <span title={game.date?.toLocaleString()}>
