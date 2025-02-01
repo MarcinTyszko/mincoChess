@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-import { Game } from "wintrchess";
+import { AnalysisGame } from "wintrchess";
 
 interface AnalysisGameStore {
-    analysisGame?: Game;
+    analysisGame?: AnalysisGame;
 
-    setAnalysisGame: (game?: Game) => void;
+    setAnalysisGame: (game?: AnalysisGame) => void;
 }
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
-    setAnalysisGame(game?: Game) {
+    setAnalysisGame(game?: AnalysisGame) {
         set({ analysisGame: game });
     }
 }));

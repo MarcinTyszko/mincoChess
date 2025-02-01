@@ -3,6 +3,7 @@ import EngineLine from "./EngineLine";
 import Move from "./Move";
 
 interface BoardState {
+    fen: string;
     move?: Move;
     engineLines: {
         local?: EngineLine[];

@@ -1,0 +1,60 @@
+import { parseGame } from "@mliebelt/pgn-parser";
+import { Chess } from "chess.js";
+
+import { Game, StateTreeNode } from "wintrchess";
+
+function getStateTree(game: Game) {
+    const parsedPGN = parseGame(game.pgn);
+
+    type ParsedPGNMove = typeof parsedPGN.moves[number];
+
+    const rootNode: StateTreeNode = {
+        mainline: true,
+        children: [],
+        state: {
+            fen: game.initialPosition,
+            engineLines: {}
+        }
+    };
+
+    function addMovesToNode(
+        node: StateTreeNode,
+        moves: ParsedPGNMove[],
+        mainline: boolean
+    ) {
+        let lastNode = node;
+
+        for (const pgnMove of moves) {
+            const move = new Chess(lastNode.state.fen)
+                .move(pgnMove.notation.notation);
+
+            const newNode: StateTreeNode = {
+                mainline: mainline,
+                parent: lastNode,
+                children: [],
+                state: {
+                    fen: move.after,
+                    engineLines: {},
+                    move: {
+                        san: move.san,
+                        uci: move.lan
+                    }
+                }
+            };
+
+            lastNode.children.push(newNode);
+
+            for (const variation of pgnMove.variations) {
+                addMovesToNode(lastNode, variation, false);
+            }
+
+            lastNode = newNode;
+        }
+    }
+
+    addMovesToNode(rootNode, parsedPGN.moves, true);
+
+    return rootNode;
+}
+
+export default getStateTree;

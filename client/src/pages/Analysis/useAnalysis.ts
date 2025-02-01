@@ -4,6 +4,7 @@ import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
+import getStateTree from "@lib/gameStateTree";
 
 function useAnalysis(
     setAnalysisError: React.Dispatch<React.SetStateAction<string | null>>,
@@ -19,6 +20,7 @@ function useAnalysis(
     const { setAnalysisGame } = useAnalysisGameStore();
 
     async function analyse() {
+        // Ensure a valid game has been selected
         if (gameSelectorError) {
             return setAnalysisError(gameSelectorError);
         }
@@ -30,21 +32,20 @@ function useAnalysis(
         }
 
         // Set analysis game to the selected one
-        setAnalysisGame(selectedGame);
+        setAnalysisGame({
+            ...selectedGame,
+            accuracies: {
+                black: 0,
+                white: 0
+            },
+            estimatedRatings: {
+                white: 0,
+                black: 0
+            },
+            stateTree: getStateTree(selectedGame)
+        });
 
-        // try {
-        //     setAnalysisGameMoveTree(
-        //         getMoveTree(selectedGame.pgn)[0]
-        //     );
-        // } catch {
-        //     return setAnalysisError(
-        //         t(gameSelectorError)
-        //     );
-        // }
-        
-        // setMoveTreeCursor([0]);
-
-        // console.log(getMoveTree(selectedGame.pgn)[0]);
+        console.log(getStateTree(selectedGame));
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(
@@ -55,7 +56,7 @@ function useAnalysis(
                 maxEngineCount: 4,
                 engineConfig: engine => engine.setLineCount(2),
                 verbose: true,
-                onProgress: progress => setAnalysisProgress(progress)
+                onProgress: setAnalysisProgress
             }
         );
 
