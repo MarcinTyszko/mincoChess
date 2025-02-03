@@ -55,7 +55,6 @@ function useAnalysis(
                 engineDepth: 18,
                 maxEngineCount: 4,
                 engineConfig: engine => engine.setLineCount(2),
-                verbose: true,
                 onProgress: setAnalysisProgress
             }
         );

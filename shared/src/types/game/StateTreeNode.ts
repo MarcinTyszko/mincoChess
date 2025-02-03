@@ -28,7 +28,7 @@ class StateTreeNode {
      * or end in 0.5 if the move was played by black.
      */
     moveNumber() {
-        let current: StateTreeNode | undefined = this;
+        let current: StateTreeNode = this;
         let depth = 0;
 
         while (current?.parent) {
@@ -53,7 +53,7 @@ class StateTreeNode {
      * required to traverse to this node from the nearest mainline node.
      */
     variationDepth() {
-        let current: StateTreeNode | undefined = this;
+        let current: StateTreeNode = this;
         let depth = 0;
 
         while (!current.mainline && current.parent) {

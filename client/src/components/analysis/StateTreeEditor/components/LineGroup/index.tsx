@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 
+import { PieceColour } from "wintrchess";
 import Indent from "../Indent";
 import Text from "../Text";
 
@@ -7,21 +8,23 @@ import LineGroupProps from "./LineGroupProps";
 import * as styles from "./LineGroup.module.css";
 
 function LineGroup({ node, forceWhiteMoveNumber, children }: LineGroupProps) {
-    const moveNumber = node.moveNumber();
+    const moveNumber = useMemo(() => node.moveNumber(), []);
+    const variationDepth = useMemo(() => node.variationDepth(), []);
 
     return <div className={styles.wrapper}>
         {
-            Array(node.variationDepth()).fill(
+            Array(variationDepth).fill(
                 <Indent/>
             )
         }
 
         <Text>
             {Math.trunc(moveNumber) + 1}
+            
             {
-                forceWhiteMoveNumber
+                forceWhiteMoveNumber || node.state.moveColour == PieceColour.WHITE
                     ? "."
-                    : (moveNumber % 1 == 0 ? "." : "...")
+                    : "..."
             }
         </Text>
 

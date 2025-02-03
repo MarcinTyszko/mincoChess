@@ -3,4 +3,6 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 7px;
+
+    margin: -2px 0;
 }

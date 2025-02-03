@@ -11,9 +11,6 @@ function renderNode(node: StateTreeNode) {
     const parentNode = node.parent;
     const grandparentNode = parentNode.parent;
 
-    const priorityChildNode = node.children.find(child => child.mainline)
-        || node.children.at(0);
-
     if (node.state.moveColour == PieceColour.WHITE) {
         // If white and black move in pair have variations
         if (
@@ -22,7 +19,7 @@ function renderNode(node: StateTreeNode) {
         ) {
             // If it is in the mainline, split nodes into two line groups
             if (node.mainline) return (
-                <LineGroup node={node} forceWhiteMoveNumber>     
+                <LineGroup node={node}>     
                     <Move state={node.state}/>
 
                     <Text>
@@ -31,6 +28,9 @@ function renderNode(node: StateTreeNode) {
                 </LineGroup>
             );
         } else {
+            const priorityChildNode = node.children.find(child => child.mainline)
+                || node.children.at(0);
+
             return <LineGroup node={node}>      
                 <Move state={node.state}/>
 
@@ -65,11 +65,10 @@ function renderNode(node: StateTreeNode) {
         } else {
             // If this is not part of a move pair split, render
             // nothing since it's merged with the last line group,
-            // unless this node is a variation and the white move
-            // is in the mainline. Non-mainline black move cannot
-            // merge with a mainline white move.
+            // unless this node has a different variation depth than
+            // the white move (its parent).
             if (
-                !(parentNode.mainline && !node.mainline)
+                parentNode.variationDepth() == node.variationDepth()
             ) return <></>;
         }
     }
@@ -86,22 +85,29 @@ function generateTreeView(rootNode: StateTreeNode) {
         if (parentNode.children.length == 0) return;
 
         // Manually render mainline node first
-        // If there is no mainline node, it can just be whatever's first
-        const priorityNode = parentNode.children.find(child => child.mainline)
-            || parentNode.children[0];
+        const priorityNode = parentNode.children.find(child => child.mainline);
 
-        lineGroups.push(renderNode(priorityNode));
+        if (priorityNode) {
+            lineGroups.push(renderNode(priorityNode));
 
-        // Recursively render rest of the nodes
-        for (const node of parentNode.children.slice(1)) {
-            lineGroups.push(renderNode(node));
-    
-            generateTreeViewLayer(node);
+            // Recursively render rest of the nodes
+            for (const node of parentNode.children.slice(1)) {
+                lineGroups.push(renderNode(node));
+        
+                generateTreeViewLayer(node);
+            }
+
+            // Recursively render the mainline node, going to next
+            // mainline moves.
+            generateTreeViewLayer(priorityNode);
+        } else {
+            // Recursively render child nodes
+            for (const node of parentNode.children) {
+                lineGroups.push(renderNode(node));
+        
+                generateTreeViewLayer(node);
+            }
         }
-
-        // Recursively render the mainline node, going to next
-        // mainline moves.
-        generateTreeViewLayer(priorityNode);
     }
 
     generateTreeViewLayer(rootNode);
