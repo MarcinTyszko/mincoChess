@@ -1,21 +1,21 @@
 import { parseGame } from "@mliebelt/pgn-parser";
 import { Chess } from "chess.js";
 
-import { Game, StateTreeNode } from "wintrchess";
+import { Game, PieceColour, StateTreeNode } from "wintrchess";
 
 function getStateTree(game: Game) {
     const parsedPGN = parseGame(game.pgn);
 
     type ParsedPGNMove = typeof parsedPGN.moves[number];
 
-    const rootNode: StateTreeNode = {
+    const rootNode = new StateTreeNode({
         mainline: true,
         children: [],
         state: {
             fen: game.initialPosition,
             engineLines: {}
         }
-    };
+    });
 
     function addMovesToNode(
         node: StateTreeNode,
@@ -28,7 +28,7 @@ function getStateTree(game: Game) {
             const move = new Chess(lastNode.state.fen)
                 .move(pgnMove.notation.notation);
 
-            const newNode: StateTreeNode = {
+            const newNode = new StateTreeNode({
                 mainline: mainline,
                 parent: lastNode,
                 children: [],
@@ -38,9 +38,12 @@ function getStateTree(game: Game) {
                     move: {
                         san: move.san,
                         uci: move.lan
-                    }
+                    },
+                    moveColour: move.color == "w"
+                        ? PieceColour.WHITE
+                        : PieceColour.BLACK
                 }
-            };
+            });
 
             lastNode.children.push(newNode);
 

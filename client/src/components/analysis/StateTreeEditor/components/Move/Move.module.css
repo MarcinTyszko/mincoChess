@@ -1,0 +1,14 @@
+.wrapper {
+    padding: 3px;
+
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}

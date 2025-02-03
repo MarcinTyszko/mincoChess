@@ -93,7 +93,7 @@ class Engine {
                 `position fen ${fen} moves ${uciMoves.join(" ")}`
             );
 
-            const board = new Chess();
+            const board = new Chess(fen);
             for (const uciMove of uciMoves) {
                 board.move(uciMove);
             }

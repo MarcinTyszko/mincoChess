@@ -5,12 +5,14 @@ import { round } from "lodash";
 import AnalysisBoard from "@components/board/AnalysisBoard";
 import GameSelector from "@components/analysis/GameSelector";
 import useGameSelectorStore from "@stores/GameSelectorStore";
+import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
 import Breakpoints from "@constants/Breakpoints";
 
 import useAnalysis from "./useAnalysis";
 import * as styles from "./Analysis.module.css";
+import StateTreeEditor from "@components/analysis/StateTreeEditor";
 
 function Analysis() {
     const { t } = useTranslation();
@@ -25,6 +27,10 @@ function Analysis() {
         setSelectedGame,
         setGameSelectorError
     } = useGameSelectorStore();
+
+    const {
+        analysisGame
+    } = useAnalysisGameStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
@@ -70,7 +76,14 @@ function Analysis() {
             />
         </div>
 
-        <div className={styles.reportContainer}>
+        <div
+            className={styles.reportContainer}
+            style={{
+                height: innerWidth > Breakpoints.MOBILE_LAYOUT
+                    ? `${contentSectionHeight}px`
+                    : undefined
+            }}
+        >
             <div className={styles.title}>
                 {t("pages.analysis.title")}
             </div>
@@ -101,6 +114,20 @@ function Analysis() {
                 && <span className={styles.error}>
                     {analysisError}
                 </span>
+            }
+
+            {
+                analysisGame
+                && <StateTreeEditor
+                    stateTreeRootNode={analysisGame.stateTree}
+                    style={{
+                        backgroundColor: "#1c1c1c",
+                        borderRadius: "10px",
+                        padding: "2px 5px",
+                        height: "405px",
+                        overflowY: "auto"
+                    }}
+                />
             }
         </div>
     </div>;

@@ -117,6 +117,7 @@ async function evaluateMoves(
         }
 
         boardStates.push({
+            fen: fen,
             engineLines: {
                 cloud: engineLines
             },
@@ -158,6 +159,8 @@ async function evaluateMoves(
                 return;
             }
 
+            console.log(game.initialPosition);
+
             engine.setPosition(
                 game.initialPosition,
                 moves
@@ -181,6 +184,9 @@ async function evaluateMoves(
                 }
             ).then(result => {
                 boardStates[currentBoardStateIndex] ??= {
+                    fen: currentMove
+                        ? currentMove.after
+                        : game.initialPosition,
                     engineLines: {
                         local: result.lines
                     },

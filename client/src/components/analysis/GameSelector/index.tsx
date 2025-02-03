@@ -39,11 +39,16 @@ function GameSelector({
     // Parse an entered PGN or FEN and emit it when input changes
     useEffect(() => {
         if (gameSource.requiresSearch) {
-            return selectedServiceGame
-                ? onChange?.(selectedServiceGame)
-                : setError?.(
+            if (selectedServiceGame) {
+                onChange?.(selectedServiceGame);
+                setError?.();
+            } else {
+                setError?.(
                     t("pages.analysis.gameSelector.errors.noGameSelected")
                 );
+            }
+
+            return;
         }
 
         if (fieldInput.length == 0) {
@@ -65,7 +70,7 @@ function GameSelector({
                 t("pages.analysis.gameSelector.errors.invalidGame")
             );
         }
-    }, [gameSource, fieldInput]);
+    }, [gameSource, fieldInput, selectedServiceGame]);
 
     // Load saved values from cookies
     useEffect(() => {
