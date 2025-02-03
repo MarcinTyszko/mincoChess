@@ -6,6 +6,8 @@ import { Game, PieceColour, StateTreeNode } from "wintrchess";
 function getStateTree(game: Game) {
     const parsedPGN = parseGame(game.pgn);
 
+    console.log(parsedPGN);
+
     type ParsedPGNMove = typeof parsedPGN.moves[number];
 
     const rootNode = new StateTreeNode({

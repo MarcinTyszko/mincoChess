@@ -59,7 +59,25 @@ class StateTreeNode {
         while (!current.mainline && current.parent) {
             current = current.parent;
 
-            if (current.children.length > 1) {
+            // If the priority child node of current (part of the "main
+            // variant line") is directly chained to this node, then this
+            // node is not actually apart of a variation, so depth is not
+            // added even if current has multiple continuations.
+            const priorityChildNode = current.children[0];
+
+            let prioritySearchNode: StateTreeNode = this;
+            let priorityChildNodeFound = false;
+
+            while (prioritySearchNode.parent) {
+                prioritySearchNode = prioritySearchNode.parent;
+
+                if (prioritySearchNode == priorityChildNode) {
+                    priorityChildNodeFound = true;
+                    break;
+                }
+            }
+
+            if (current.children.length > 1 && !priorityChildNodeFound) {
                 depth++;
             }
         }

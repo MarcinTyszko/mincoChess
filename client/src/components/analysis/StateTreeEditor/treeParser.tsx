@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { minBy } from "lodash";
 
 import { PieceColour, StateTreeNode } from "wintrchess";
 import LineGroup from "./components/LineGroup";
@@ -67,8 +68,11 @@ function renderNode(node: StateTreeNode) {
             // nothing since it's merged with the last line group,
             // unless this node has a different variation depth than
             // the white move (its parent).
+            const priorityChildNode = parentNode.children[0];
+
             if (
                 parentNode.variationDepth() == node.variationDepth()
+                || priorityChildNode == node
             ) return <></>;
         }
     }
@@ -84,21 +88,28 @@ function generateTreeView(rootNode: StateTreeNode) {
     function generateTreeViewLayer(parentNode: StateTreeNode) {
         if (parentNode.children.length == 0) return;
 
-        // Manually render mainline node first
-        const priorityNode = parentNode.children.find(child => child.mainline);
+        // Manually render node with lowest variation depth first
+        const priorityNode = minBy(
+            parentNode.children,
+            child => child.variationDepth()
+        );
 
         if (priorityNode) {
             lineGroups.push(renderNode(priorityNode));
 
             // Recursively render rest of the nodes
-            for (const node of parentNode.children.slice(1)) {
+            const remainingNodes = parentNode.children.filter(
+                child => child != priorityNode
+            );
+
+            for (const node of remainingNodes) {
                 lineGroups.push(renderNode(node));
         
                 generateTreeViewLayer(node);
             }
 
-            // Recursively render the mainline node, going to next
-            // mainline moves.
+            // Recursively render the priority node, going to next moves on
+            // the priority line.
             generateTreeViewLayer(priorityNode);
         } else {
             // Recursively render child nodes
