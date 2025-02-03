@@ -123,7 +123,7 @@ function Analysis() {
                     style={{
                         backgroundColor: "#1c1c1c",
                         borderRadius: "10px",
-                        padding: "2px 5px",
+                        padding: "7px 10px",
                         height: "405px",
                         overflowY: "auto"
                     }}
