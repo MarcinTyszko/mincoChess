@@ -8,11 +8,15 @@
 /* Contains eval bar and board */
 .boardContainer {
     display: flex;
+
+    width: 100%;
 }
 
 /* Chess board itself */
 .board {
     min-width: 250px;
+
+    width: calc(100% - 40px);
 }
 
 /* Board size for mobile layout */
@@ -31,7 +35,6 @@
 /* The evaluation bar */
 .evaluationBar {
     width: 40px;
-    height: 100%;
 
     background-color: gray;
 }

@@ -10,8 +10,6 @@
     .wrapper {
         display: flex;
         flex-direction: column;
-
-        background-color: #242424;
     }
 }
 
@@ -19,18 +17,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 10px;
-}
-
-@media (max-width: 900px) {
-    .gameContainer {
-        align-items: start;
-
-        padding: 0;
-
-        background-color: #292929;
-    }
 }
 
 .reportContainer {

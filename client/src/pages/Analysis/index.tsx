@@ -69,8 +69,8 @@ function Analysis() {
                 style={{
                     width: innerWidth > Breakpoints.MOBILE_LAYOUT
                         ? (
-                            `min(${contentSectionHeight - 150}px, `
-                            + `${analysisBoardContainerWidth - 120}px)`
+                            `min(${contentSectionHeight - 110}px, `
+                            + `${analysisBoardContainerWidth - 40}px)`
                         )
                         : undefined
                 }}
