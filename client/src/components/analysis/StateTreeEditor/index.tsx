@@ -4,11 +4,13 @@ import useEvents from "@hooks/useEvents";
 import EventType from "@constants/EventType";
 
 import generateTreeView from "./treeParser";
+import MoveClickEventContext from "./MoveClickEventContext";
 import StateTreeEditorProps from "./StateTreeEditorProps";
 
 function StateTreeEditor({
     style,
-    stateTreeRootNode
+    stateTreeRootNode,
+    onMoveClick
 }: StateTreeEditorProps) {
     const { subscribeEventListener } = useEvents();
 
@@ -25,7 +27,9 @@ function StateTreeEditor({
     }, []);
 
     return <div style={style}>
-        {treeView}
+        <MoveClickEventContext.Provider value={onMoveClick}>
+            {treeView}
+        </MoveClickEventContext.Provider>
     </div>;
 }
 

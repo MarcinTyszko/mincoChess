@@ -21,7 +21,7 @@ function renderNode(node: StateTreeNode) {
             // If it is in the mainline, split nodes into two line groups
             if (node.mainline) return (
                 <LineGroup node={node}>     
-                    <Move state={node.state}/>
+                    <Move stateTreeNode={node}/>
 
                     <Text>
                         ...
@@ -33,11 +33,11 @@ function renderNode(node: StateTreeNode) {
                 || node.children.at(0);
 
             return <LineGroup node={node}>      
-                <Move state={node.state}/>
+                <Move stateTreeNode={node}/>
 
                 {
                     priorityChildNode
-                    && <Move state={priorityChildNode.state}/>
+                    && <Move stateTreeNode={priorityChildNode}/>
                 }
             </LineGroup>;
         }
@@ -60,7 +60,7 @@ function renderNode(node: StateTreeNode) {
                         ...
                     </Text>
             
-                    <Move state={node.state}/>
+                    <Move stateTreeNode={node}/>
                 </LineGroup>
             );
         } else {
@@ -78,7 +78,7 @@ function renderNode(node: StateTreeNode) {
     }
 
     return <LineGroup node={node}>
-        <Move state={node.state}/>
+        <Move stateTreeNode={node}/>
     </LineGroup>;
 }
 

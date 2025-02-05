@@ -29,7 +29,8 @@ function Analysis() {
     } = useGameSelectorStore();
 
     const {
-        analysisGame
+        analysisGame,
+        setCurrentStateTreeNode
     } = useAnalysisGameStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
@@ -120,6 +121,7 @@ function Analysis() {
                 analysisGame
                 && <StateTreeEditor
                     stateTreeRootNode={analysisGame.stateTree}
+                    onMoveClick={setCurrentStateTreeNode}
                     style={{
                         backgroundColor: "#1c1c1c",
                         borderRadius: "10px",

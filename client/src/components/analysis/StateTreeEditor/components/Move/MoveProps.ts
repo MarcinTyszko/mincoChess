@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 
-import { BoardState } from "wintrchess";
+import { StateTreeNode } from "wintrchess";
 
 interface MoveProps {
-    state?: BoardState;
-    onClick?: (state: BoardState) => void;
+    stateTreeNode?: StateTreeNode;
     children?: ReactNode;
 }
 

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 
+import MoveClickEventContext from "../../MoveClickEventContext";
 import MoveProps from "./MoveProps";
 import * as styles from "./Move.module.css";
 
-function Move({ state, onClick, children }: MoveProps) {
+function Move({ stateTreeNode, children }: MoveProps) {
+    const onMoveClick = useContext(MoveClickEventContext);
+
     return <span
         className={styles.wrapper}
         onClick={() => {
-            if (state) onClick?.(state);
+            if (stateTreeNode) onMoveClick?.(stateTreeNode);
         }}
     >
-        {state?.move?.san || children || "?"}
+        {stateTreeNode?.state.move?.san || children || "?"}
     </span>;
 }
 
