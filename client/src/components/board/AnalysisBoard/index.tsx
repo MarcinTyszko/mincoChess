@@ -71,8 +71,6 @@ function AnalysisBoard({
         const move = currentStateTreeNode.state.move;
         const fen = currentStateTreeNode.state.fen;
 
-        console.log(currentStateTreeNode);
-
         if (!move) return;
 
         const board = new Chess(fen);
