@@ -17,7 +17,10 @@ function useAnalysis(
         gameSelectorError
     } = useGameSelectorStore();
 
-    const { setAnalysisGame } = useAnalysisGameStore();
+    const {
+        setAnalysisGame,
+        setCurrentStateTreeNode
+    } = useAnalysisGameStore();
 
     async function analyse() {
         // Ensure a valid game has been selected
@@ -32,6 +35,8 @@ function useAnalysis(
         }
 
         // Set analysis game to the selected one
+        const stateTreeRoot = getStateTree(selectedGame);
+
         setAnalysisGame({
             ...selectedGame,
             accuracies: {
@@ -42,10 +47,12 @@ function useAnalysis(
                 white: 0,
                 black: 0
             },
-            stateTree: getStateTree(selectedGame)
+            stateTree: stateTreeRoot
         });
 
-        console.log(getStateTree(selectedGame));
+        setCurrentStateTreeNode(stateTreeRoot);
+
+        console.log(stateTreeRoot);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

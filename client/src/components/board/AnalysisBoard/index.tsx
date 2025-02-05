@@ -7,9 +7,13 @@ import {
     Square
 } from "react-chessboard/dist/chessboard/types";
 
-import HighlightedSquaresContext from "./HighlightedSquaresContext";
+import { PieceColour, STARTING_FEN, StateTreeNode } from "wintrchess";
+import useEvents from "@hooks/useEvents";
+import EventType from "@constants/EventType";
+import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import PlayerProfile from "../PlayerProfile";
 
+import HighlightedSquaresContext from "./HighlightedSquaresContext";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
 
@@ -43,7 +47,12 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
-    const [ board, setBoard ] = useState(new Chess());
+    const {
+        currentStateTreeNode,
+        setCurrentStateTreeNode
+    } = useAnalysisGameStore();
+
+    const { dispatchEvent } = useEvents();
 
     const [ highlightedSquares, setHighlightedSquares ] = useState<Square[]>([]);
 
@@ -62,10 +71,11 @@ function AnalysisBoard({
     function addMove(source: Square, target: Square, piece: Piece) {
         setHighlightedSquares([]);
 
-        // let move: Move;
+        // Validate that move is legal
+        const validationBoard = new Chess(currentStateTreeNode.state.fen);
 
         try {
-            board.move({
+            var move = validationBoard.move({
                 from: source,
                 to: target,
                 promotion: piece[1]?.toLowerCase() || "q"
@@ -74,7 +84,40 @@ function AnalysisBoard({
             return false;
         }
 
-        setBoard(board);
+        // Add a new node to state tree
+        const existingNode = currentStateTreeNode.children.find(
+            child => child.state.move?.san == move.san
+        );
+
+        let createdNode: StateTreeNode | undefined = undefined;
+
+        if (!existingNode) {
+            createdNode = new StateTreeNode({
+                mainline: currentStateTreeNode.mainline
+                    && !currentStateTreeNode.children.some(
+                        child => child.mainline
+                    ),
+                parent: currentStateTreeNode,
+                children: [],
+                state: {
+                    fen: move.after,
+                    move: {
+                        san: move.san,
+                        uci: move.lan
+                    },
+                    moveColour: move.color == "w"
+                        ? PieceColour.WHITE
+                        : PieceColour.BLACK,
+                    engineLines: {}
+                }
+            });
+
+            currentStateTreeNode.children.push(createdNode);
+        }
+
+        setCurrentStateTreeNode(existingNode || createdNode);
+
+        dispatchEvent(EventType.STATE_TREE_UPDATE);
 
         return true;
     }
@@ -101,7 +144,7 @@ function AnalysisBoard({
                     value={highlightedSquares}
                 >
                     <Chessboard
-                        position={board.fen()}
+                        position={currentStateTreeNode?.state.fen || STARTING_FEN}
                         onSquareClick={() => setHighlightedSquares([])}
                         onSquareRightClick={toggleSquareHighlight}
                         onPieceDrop={addMove}
