@@ -12,3 +12,8 @@
 .wrapper:hover {
     background-color: rgba(0, 0, 0, 0.25);
 }
+
+.current {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 2px solid #555;
+}
