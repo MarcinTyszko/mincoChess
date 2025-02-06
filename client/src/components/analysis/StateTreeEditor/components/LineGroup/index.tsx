@@ -14,11 +14,20 @@ function LineGroup({ node, forceWhiteMoveNumber, children }: LineGroupProps) {
     return <div className={styles.wrapper}>
         {
             Array(variationDepth).fill(
-                <Indent/>
+                <Indent style={{
+                    position: "absolute",
+                    top: "-2px"
+                }}/>
             )
         }
 
-        <Text>
+        <Text
+            style={{
+                marginLeft: variationDepth > 0
+                    ? "15px"
+                    : "0px"
+            }}
+        >
             {Math.trunc(moveNumber) + 1}
             
             {

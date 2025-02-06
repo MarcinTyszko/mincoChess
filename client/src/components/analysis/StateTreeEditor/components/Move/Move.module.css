@@ -6,7 +6,7 @@
     color: white;
 
     cursor: pointer;
-    transition-duration: 0.3s;
+    transition: background-color 0.3s;
 }
 
 .wrapper:hover {
@@ -14,6 +14,9 @@
 }
 
 .current {
+    z-index: 1;
+    margin-bottom: -2px;
+
     background-color: rgba(255, 255, 255, 0.1) !important;
     border-bottom: 2px solid #555;
 }
