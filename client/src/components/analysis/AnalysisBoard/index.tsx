@@ -8,7 +8,12 @@ import {
     Square
 } from "react-chessboard/dist/chessboard/types";
 
-import { PieceColour, STARTING_FEN, StateTreeNode } from "wintrchess";
+import {
+    PieceColour,
+    STARTING_FEN,
+    StateTreeNode,
+    Variant
+} from "wintrchess";
 import useEvents from "@hooks/useEvents";
 import EventType from "@constants/EventType";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
@@ -33,6 +38,8 @@ function AnalysisBoard({
     style
 }: AnalysisBoardProps) {
     const {
+        analysisGame,
+        setAnalysisGame,
         currentStateTreeNode,
         setCurrentStateTreeNode
     } = useAnalysisGameStore();
@@ -120,34 +127,54 @@ function AnalysisBoard({
             return false;
         }
 
+        // If there is no analysis game, create new one from played move
+        if (!analysisGame) {
+            setAnalysisGame({
+                pgn: `1. ${move.san}`,
+                accuracies: {
+                    black: 0,
+                    white: 0
+                },
+                estimatedRatings: {
+                    white: 0,
+                    black: 0
+                },
+                initialPosition: STARTING_FEN,
+                players: {
+                    white: { username: "White" },
+                    black: { username: "Black" }
+                },
+                stateTree: currentStateTreeNode,
+                variant: Variant.STANDARD
+            });
+        }
+
         // Add a new node to state tree
         const existingNode = currentStateTreeNode.children.find(
             child => child.state.move?.san == move.san
         );
 
-        let createdNode: StateTreeNode | undefined = undefined;
+        const createdNode = new StateTreeNode({
+            mainline: currentStateTreeNode.mainline
+                && !currentStateTreeNode.children.some(
+                    child => child.mainline
+                ),
+            parent: currentStateTreeNode,
+            children: [],
+            state: {
+                fen: move.after,
+                move: {
+                    san: move.san,
+                    uci: move.lan
+                },
+                moveColour: move.color == "w"
+                    ? PieceColour.WHITE
+                    : PieceColour.BLACK,
+                engineLines: {}
+            }
+        });
 
         if (!existingNode) {
-            createdNode = new StateTreeNode({
-                mainline: currentStateTreeNode.mainline
-                    && !currentStateTreeNode.children.some(
-                        child => child.mainline
-                    ),
-                parent: currentStateTreeNode,
-                children: [],
-                state: {
-                    fen: move.after,
-                    move: {
-                        san: move.san,
-                        uci: move.lan
-                    },
-                    moveColour: move.color == "w"
-                        ? PieceColour.WHITE
-                        : PieceColour.BLACK,
-                    engineLines: {}
-                }
-            });
-
             currentStateTreeNode.children.push(createdNode);
         }
 

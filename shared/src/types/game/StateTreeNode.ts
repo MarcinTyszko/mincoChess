@@ -24,6 +24,29 @@ class StateTreeNode {
     }
 
     /**
+     * @description Returns the priority child node; either the mainline
+     * child or the first one (part of the variant mainline).
+     */
+    priorityChild() {
+        return this.children.find(child => child.mainline)
+            || this.children.at(0);
+    }
+
+    /**
+     * @description Traverse as far down as possible through priority
+     * child nodes and return the last node.
+     */
+    finalNode() {
+        let current: StateTreeNode = this;
+
+        while (current.children.length > 0) {
+            current = current.children[0];
+        }
+
+        return current;
+    }
+
+    /**
      * @description The move number of the node. Can be an integer
      * or end in 0.5 if the move was played by black.
      */

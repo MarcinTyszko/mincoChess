@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 5px;
+    width: 365px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #1a1a1a;
+    border-radius: 10px;
+}
+
+.wrapper img {
+    border-radius: 10px;
+    
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.wrapper img:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 400px) {
+    .wrapper {
+        width: 280px;
+    }
+
+    .wrapper img {
+        width: 30px !important;
+    }
+}
+
+.autoplayContainer {
+    display: flex;
+    align-items: center;
+}

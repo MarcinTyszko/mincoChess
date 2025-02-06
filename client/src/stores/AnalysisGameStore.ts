@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { create } from "zustand";
 
 import {
@@ -11,7 +12,7 @@ interface AnalysisGameStore {
     currentStateTreeNode: StateTreeNode;
 
     setAnalysisGame: (game?: AnalysisGame) => void;
-    setCurrentStateTreeNode: (state?: StateTreeNode) => void;
+    setCurrentStateTreeNode: Dispatch<SetStateAction<StateTreeNode>>;
 }
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
@@ -28,7 +29,13 @@ const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
         set({ analysisGame: game });
     },
 
-    setCurrentStateTreeNode(node?: StateTreeNode) {
+    setCurrentStateTreeNode(node: SetStateAction<StateTreeNode>) {
+        if (typeof node == "function") {
+            return set(state => ({
+                currentStateTreeNode: node(state.currentStateTreeNode)
+            }));
+        }
+        
         set({ currentStateTreeNode: node });
     }
 }));

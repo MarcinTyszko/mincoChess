@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { round } from "lodash";
 
-import AnalysisBoard from "@components/board/AnalysisBoard";
+import AnalysisBoard from "@components/analysis/AnalysisBoard";
 import GameSelector from "@components/analysis/GameSelector";
+import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import Button from "@components/common/Button";
@@ -131,6 +132,16 @@ function Analysis() {
                     }}
                 />
             }
+
+            <StateTreeTraverser
+                style={{
+                    position: "fixed",
+                    bottom: "10px",
+                    right: innerWidth > Breakpoints.MOBILE_LAYOUT
+                        ? "10px"
+                        : `calc(50vw - (${innerWidth > 400 ? 365 : 280}px / 2))`
+                }}
+            />
         </div>
     </div>;
 }
