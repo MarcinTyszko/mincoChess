@@ -49,9 +49,9 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
 
         if (priorityChild) {
             setCurrentStateTreeNode(priorityChild);
-
-            if (isPlaying) toggleAutoplay();
         }
+
+        if (!priorityChild && isPlaying) toggleAutoplay();
     }
 
     function toggleAutoplay() {
