@@ -28,6 +28,7 @@ function Move({ node, children }: MoveProps) {
     function deleteNode() {
         if (!node?.parent) return;
 
+        // Remove this node
         const siblings = node.parent.children;
 
         siblings.splice(
@@ -35,6 +36,12 @@ function Move({ node, children }: MoveProps) {
             1
         );
 
+        // If deleted node was mainline, promote first sibling
+        if (node.mainline && siblings.length > 0) {
+            siblings[0].mainlinePromote();
+        }
+
+        // Select the parent node
         setCurrentStateTreeNode(node.parent);
 
         dispatchEvent(EventType.STATE_TREE_UPDATE);

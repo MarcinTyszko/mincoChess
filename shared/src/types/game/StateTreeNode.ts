@@ -54,6 +54,22 @@ class StateTreeNode {
     hasVariations() {
         return (this.parent?.children.length || 0) > 1;
     }
+
+    /**
+     * @description Promote this node and it's priority child line into
+     * the mainline.
+     */
+    mainlinePromote() {
+        this.mainline = true;
+
+        let current: StateTreeNode = this;
+
+        while (current.children.length > 0) {
+            current = current.children[0];
+
+            current.mainline = true;
+        }
+    }
 }
 
 export default StateTreeNode;
