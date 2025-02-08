@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 
@@ -9,30 +9,40 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
     const {
         analysisGame,
         currentStateTreeNode,
-        setCurrentStateTreeNode
+        setCurrentStateTreeNode,
+        autoplayEnabled,
+        setAutoplayEnabled
     } = useAnalysisGameStore();
-
-    const [ isPlaying, setIsPlaying ] = useState(false);
 
     const playIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
 
+    useEffect(() => {
+        if (autoplayEnabled) {
+            traverseForwards();
+
+            playIntervalRef.current = setInterval(traverseForwards, 1000);
+        } else {
+            clearInterval(playIntervalRef.current);
+        }
+    }, [autoplayEnabled]);
+
     function traverseToBeginning() {
         setCurrentStateTreeNode(analysisGame.stateTree);
-        setAutoplay(false);
+        setAutoplayEnabled(false);
     }
 
     function traverseToEnd() {
         setCurrentStateTreeNode(
             analysisGame.stateTree.finalNode()
         );
-        setAutoplay(false);
+        setAutoplayEnabled(false);
     }
 
     function traverseBackwards() {
         setCurrentStateTreeNode(
             currentStateTreeNode.parent || analysisGame.stateTree
         );
-        setAutoplay(false);
+        setAutoplayEnabled(false);
     }
 
     function traverseForwards() {
@@ -42,23 +52,11 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             if (priorityChild) {
                 return priorityChild;
             } else {
-                setAutoplay(false);
+                setAutoplayEnabled(false);
 
                 return currentNode;
             }
         });
-    }
-
-    function setAutoplay(status: boolean) {
-        setIsPlaying(status);
-
-        if (status) {
-            traverseForwards();
-
-            playIntervalRef.current = setInterval(traverseForwards, 1000);
-        } else {
-            clearInterval(playIntervalRef.current);
-        }
     }
 
     return <div className={styles.wrapper} style={style}>
@@ -76,10 +74,10 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
 
         <div
             className={styles.autoplayContainer}
-            onClick={() => setAutoplay(!isPlaying)}
+            onClick={() => setAutoplayEnabled(!autoplayEnabled)}
         >
             {
-                isPlaying
+                autoplayEnabled
                     ? <img src={require("@assets/img/pause.svg")} width={50} />
                     : <img src={require("@assets/img/play.svg")} width={50} />
             }

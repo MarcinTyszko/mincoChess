@@ -11,9 +11,11 @@ import {
 interface AnalysisGameStore {
     analysisGame: AnalysisGame;
     currentStateTreeNode: StateTreeNode;
+    autoplayEnabled: boolean;
 
     setAnalysisGame: (game: AnalysisGame) => void;
     setCurrentStateTreeNode: Dispatch<SetStateAction<StateTreeNode>>;
+    setAutoplayEnabled: (enabled: boolean) => void;
 }
 
 const defaultRootNode = new StateTreeNode({
@@ -27,6 +29,7 @@ const defaultRootNode = new StateTreeNode({
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
     currentStateTreeNode: defaultRootNode,
+    autoplayEnabled: false,
 
     analysisGame: {
         pgn: "",
@@ -59,6 +62,10 @@ const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
         }
         
         set({ currentStateTreeNode: node });
+    },
+
+    setAutoplayEnabled(enabled) {
+        set({ autoplayEnabled: enabled });
     }
 }));
 

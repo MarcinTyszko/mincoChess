@@ -51,8 +51,6 @@ function useAnalysis(
         });
 
         setCurrentStateTreeNode(stateTreeRoot);
-
-        console.log(stateTreeRoot);
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

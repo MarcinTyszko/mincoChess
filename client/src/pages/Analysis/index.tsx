@@ -31,7 +31,8 @@ function Analysis() {
 
     const {
         analysisGame,
-        setCurrentStateTreeNode
+        setCurrentStateTreeNode,
+        setAutoplayEnabled
     } = useAnalysisGameStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
@@ -118,20 +119,14 @@ function Analysis() {
                 </span>
             }
 
-            {
-                analysisGame
-                && <StateTreeEditor
-                    stateTreeRootNode={analysisGame.stateTree}
-                    onMoveClick={setCurrentStateTreeNode}
-                    style={{
-                        backgroundColor: "#1c1c1c",
-                        borderRadius: "10px",
-                        padding: "7px 10px",
-                        minHeight: "380px",
-                        overflowY: "auto"
-                    }}
-                />
-            }
+            <StateTreeEditor
+                className={styles.stateTreeEditor}
+                stateTreeRootNode={analysisGame.stateTree}
+                onMoveClick={node => {
+                    setCurrentStateTreeNode(node);
+                    setAutoplayEnabled(false);
+                }} 
+            />
 
             <StateTreeTraverser
                 style={{

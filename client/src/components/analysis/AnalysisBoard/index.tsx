@@ -13,8 +13,6 @@ import {
     STARTING_FEN,
     StateTreeNode
 } from "wintrchess";
-import useEvents from "@hooks/useEvents";
-import EventType from "@constants/EventType";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import PlayerProfile from "../PlayerProfile";
 
@@ -40,8 +38,6 @@ function AnalysisBoard({
         currentStateTreeNode,
         setCurrentStateTreeNode
     } = useAnalysisGameStore();
-
-    const { dispatchEvent } = useEvents();
 
     const [ highlightedSquares, setHighlightedSquares ] = useState<Square[]>([]);
 
@@ -154,8 +150,6 @@ function AnalysisBoard({
         }
 
         setCurrentStateTreeNode(existingNode || createdNode);
-
-        dispatchEvent(EventType.STATE_TREE_UPDATE);
 
         return true;
     }
