@@ -127,7 +127,7 @@ function Analysis() {
                         backgroundColor: "#1c1c1c",
                         borderRadius: "10px",
                         padding: "7px 10px",
-                        height: "405px",
+                        minHeight: "380px",
                         overflowY: "auto"
                     }}
                 />
@@ -142,6 +142,8 @@ function Analysis() {
                         : `calc(50vw - (${innerWidth > 400 ? 365 : 280}px / 2))`
                 }}
             />
+
+            <div className={styles.stateTreeTraverserPlaceholder} />
         </div>
     </div>;
 }

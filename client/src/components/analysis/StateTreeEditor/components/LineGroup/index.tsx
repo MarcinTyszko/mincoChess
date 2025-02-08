@@ -1,43 +1,56 @@
 import React from "react";
+import { range } from "lodash";
 
 import { PieceColour } from "wintrchess";
 import Indent from "../Indent";
 import Text from "../Text";
+import Move from "../Move";
 
 import LineGroupProps from "./LineGroupProps";
 import * as styles from "./LineGroup.module.css";
 
-function LineGroup({ node, forceWhiteMoveNumber, children }: LineGroupProps) {
-    const moveNumber = node.moveNumber();
-    const variationDepth = node.variationDepth();
+const INDENT_GAP = 15;
+
+function LineGroup({
+    indentCount,
+    nodes,
+    forceWhiteMoveNumber
+}: LineGroupProps) {
+    const firstNode = nodes.at(0);
 
     return <div className={styles.wrapper}>
         {
-            Array(variationDepth).fill(
-                <Indent style={{
-                    position: "absolute",
-                    top: "-2px"
-                }}/>
-            )
+            range(indentCount).map(index => (
+                <Indent
+                    style={{
+                        position: "absolute",
+                        top: "-3px",
+                        left: `${index * INDENT_GAP}px`
+                    }}
+                />
+            ))
         }
 
         <Text
             style={{
-                marginLeft: variationDepth > 0
-                    ? "15px"
-                    : "0px"
+                marginLeft: `${indentCount * INDENT_GAP}px`
             }}
         >
-            {Math.trunc(moveNumber) + 1}
+            {Math.trunc(firstNode?.moveNumber() || 0) + 1}
             
             {
-                forceWhiteMoveNumber || node.state.moveColour == PieceColour.WHITE
+                forceWhiteMoveNumber || firstNode?.state.moveColour == PieceColour.WHITE
                     ? "."
                     : "..."
             }
         </Text>
 
-        {children}
+        {
+            nodes.map(node => node
+                ? <Move node={node} />
+                : <Text>...</Text>
+            )
+        }
     </div>;
 }
 

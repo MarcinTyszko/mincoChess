@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import useEvents from "@hooks/useEvents";
 import EventType from "@constants/EventType";
@@ -14,9 +14,12 @@ function StateTreeEditor({
 }: StateTreeEditorProps) {
     const { subscribeEventListener } = useEvents();
 
-    const [ treeView, setTreeView ] = useState(
-        generateTreeView(stateTreeRootNode)
+    const initialTreeView = useMemo(
+        () => generateTreeView(stateTreeRootNode),
+        []
     );
+
+    const [ treeView, setTreeView ] = useState(initialTreeView);
 
     useEffect(() => {
         subscribeEventListener(EventType.STATE_TREE_UPDATE, () => {

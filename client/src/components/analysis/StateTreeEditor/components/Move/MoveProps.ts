@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { StateTreeNode } from "wintrchess";
 
 interface MoveProps {
-    stateTreeNode?: StateTreeNode;
+    node?: StateTreeNode;
     children?: ReactNode;
 }
 

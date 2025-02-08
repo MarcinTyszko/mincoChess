@@ -1,131 +1,79 @@
-import React, { ReactNode } from "react";
-import { minBy } from "lodash";
+import React from "react";
 
 import { PieceColour, StateTreeNode } from "wintrchess";
 import LineGroup from "./components/LineGroup";
-import Text from "./components/Text";
-import Move from "./components/Move";
 
-function renderNode(node: StateTreeNode) {
-    if (!node.parent) return;
-
-    const parentNode = node.parent;
-    const grandparentNode = parentNode.parent;
-
-    if (node.state.moveColour == PieceColour.WHITE) {
-        // If white and black move in pair have variations
-        if (
-            parentNode.children.length > 1
-            && node.children.length > 1
-        ) {
-            // If it is in the mainline, split nodes into two line groups
-            if (node.mainline) return (
-                <LineGroup node={node}>     
-                    <Move stateTreeNode={node}/>
-
-                    <Text>
-                        ...
-                    </Text>
-                </LineGroup>
-            );
-        } else {
-            const priorityChildNode = node.children.find(child => child.mainline)
-                || node.children.at(0);
-
-            return <LineGroup node={node}>      
-                <Move stateTreeNode={node}/>
-
-                {
-                    priorityChildNode
-                    && <Move stateTreeNode={priorityChildNode}/>
-                }
-            </LineGroup>;
-        }
-    } else {
-        // If there is a grandparent node, check if both moves
-        // have variations. If not, the parent must be the root
-        // node, so "... e5" must be used regardless.
-        if (
-            grandparentNode
-                ? (
-                    parentNode.children.length > 1
-                    && grandparentNode.children.length > 1
-                )
-                : true
-        ) {
-            // Render the second half of a move pair split
-            if (node.mainline) return (
-                <LineGroup node={node} forceWhiteMoveNumber>
-                    <Text>
-                        ...
-                    </Text>
-            
-                    <Move stateTreeNode={node}/>
-                </LineGroup>
-            );
-        } else {
-            // If this is not part of a move pair split, render
-            // nothing since it's merged with the last line group,
-            // unless this node has a different variation depth than
-            // the white move (its parent).
-            const priorityChildNode = parentNode.children[0];
-
-            if (
-                parentNode.variationDepth() == node.variationDepth()
-                || priorityChildNode == node
-            ) return <></>;
-        }
-    }
-
-    return <LineGroup node={node}>
-        <Move stateTreeNode={node}/>
-    </LineGroup>;
+interface NodeGroup {
+    indentCount: number;
+    nodes: (StateTreeNode | null)[];
 }
 
 function generateTreeView(rootNode: StateTreeNode) {
-    const lineGroups: ReactNode[] = [];
+    // Each line group is a list of tree nodes in it
+    const nodeGroups: NodeGroup[] = [];
 
-    function generateTreeViewLayer(parentNode: StateTreeNode) {
-        if (parentNode.children.length == 0) return;
-
-        // Manually render node with lowest variation depth first
-        const priorityNode = minBy(
-            parentNode.children,
-            child => child.variationDepth()
+    function nodeGroupOf(targetNode: StateTreeNode) {
+        return nodeGroups.find(
+            group => group.nodes.some(node => node == targetNode)
         );
+    }
 
-        if (priorityNode) {
-            lineGroups.push(renderNode(priorityNode));
+    function renderChildren(node: StateTreeNode, indentCount: number) {
+        const priorityChild = node.children.at(0);
+        if (!priorityChild) return;
 
-            // Recursively render rest of the nodes
-            const remainingNodes = parentNode.children.filter(
-                child => child != priorityNode
-            );
+        const nodeGroup = nodeGroupOf(node);
+        const groupIndentCount = nodeGroup?.indentCount || 0;
 
-            for (const node of remainingNodes) {
-                lineGroups.push(renderNode(node));
-        
-                generateTreeViewLayer(node);
-            }
-
-            // Recursively render the priority node, going to next moves on
-            // the priority line.
-            generateTreeViewLayer(priorityNode);
+        // If the priority child is a black move and white move doesn't
+        // have variations, and the white move is alone in its group,
+        // you can merge this black move with the white move's group
+        if (
+            priorityChild.state.moveColour == PieceColour.BLACK
+            && nodeGroup?.nodes.length == 1
+            && !node.hasVariations()
+        ) {
+            nodeGroup.nodes.push(priorityChild);
         } else {
-            // Recursively render child nodes
-            for (const node of parentNode.children) {
-                lineGroups.push(renderNode(node));
-        
-                generateTreeViewLayer(node);
-            }
+            nodeGroups.push({
+                indentCount: indentCount
+                    + +(priorityChild.hasVariations() && !node.mainline),
+                nodes: [priorityChild]
+            });
+        }
+
+        // If priority child is mainline or is merged with its parent node group,
+        // the children of the priority node should be rendered after all of its
+        // variations and their children. If not, you're in a state of just listing
+        // variations.
+        const priorityRenderLast = nodeGroupOf(priorityChild) == nodeGroupOf(node)
+            || priorityChild.mainline;
+
+        if (!priorityRenderLast) {
+            renderChildren(priorityChild, groupIndentCount + 1);
+        }
+
+        for (const child of node.children.slice(1)) {
+            const childIndentCount = Math.min(indentCount + 1, groupIndentCount + 1);
+
+            nodeGroups.push({
+                indentCount: childIndentCount,
+                nodes: [child]
+            });
+
+            renderChildren(child, childIndentCount);
+        }
+
+        if (priorityRenderLast) {
+            renderChildren(priorityChild, groupIndentCount);
         }
     }
 
-    generateTreeViewLayer(rootNode);
+    renderChildren(rootNode, 0);
 
-    return <div>
-        {lineGroups}
-    </div>;
+    return nodeGroups.map(
+        group => <LineGroup {...group} />
+    );
 }
 
 export default generateTreeView;

@@ -10,7 +10,7 @@ import MoveClickEventContext from "../../MoveClickEventContext";
 import MoveProps from "./MoveProps";
 import * as styles from "./Move.module.css";
 
-function Move({ stateTreeNode, children }: MoveProps) {
+function Move({ node, children }: MoveProps) {
     const onMoveClick = useContext(MoveClickEventContext);
 
     const {
@@ -23,64 +23,32 @@ function Move({ stateTreeNode, children }: MoveProps) {
     const [ contextMenuPosition, setContextMenuPosition ] = useState<ContextMenuPosition>();
 
     function deleteNode() {
-        if (!stateTreeNode?.parent) return;
+        if (!node?.parent) return;
 
-        const siblings = stateTreeNode.parent.children;
+        const siblings = node.parent.children;
 
         siblings.splice(
-            siblings.indexOf(stateTreeNode),
+            siblings.indexOf(node),
             1
         );
 
-        setCurrentStateTreeNode(stateTreeNode.parent);
+        setCurrentStateTreeNode(node.parent);
 
         dispatchEvent(EventType.STATE_TREE_UPDATE);
     }
 
     function promoteNode() {
-        if (!stateTreeNode?.parent) return;
-
-        // Find the closest node of a lower variation depth
-        let closestShallowerNode = stateTreeNode;
-
-        while (closestShallowerNode.parent) {
-            closestShallowerNode = closestShallowerNode.parent;
-
-            if (closestShallowerNode.variationDepth() < stateTreeNode.variationDepth()) {
-                break;
-            }
-        }
-
-        const closestShallowerSiblings = closestShallowerNode.parent?.children;
-        if (!closestShallowerSiblings) return;
-
-        // If there is a mainline sibling, overthrow it
-        const siblings = stateTreeNode.parent.children;
-
-        const mainlineSibling = siblings.find(child => child.mainline);
-
-        if (mainlineSibling) {
-            mainlineSibling.mainline = false;
-            stateTreeNode.mainline = true;
-        }
-
-        // Put this node at the beginning of the closest shallower node's siblings
-        siblings.splice(
-            siblings.indexOf(stateTreeNode),
-            1
-        );
-
-        closestShallowerSiblings.unshift(stateTreeNode);
+        throw new Error("not implemented yet.");
     }
 
     return <>
         <span
             className={
                 styles.wrapper
-                + ` ${currentStateTreeNode == stateTreeNode && styles.current}`
+                + ` ${currentStateTreeNode == node && styles.current}`
             }
             onClick={() => {
-                if (stateTreeNode) onMoveClick?.(stateTreeNode);
+                if (node) onMoveClick?.(node);
             }}
             onContextMenu={event => {
                 event.preventDefault();
@@ -98,7 +66,7 @@ function Move({ stateTreeNode, children }: MoveProps) {
                 addEventListener("click", onClick);
             }}
         >
-            {stateTreeNode?.state.move?.san || children || "?"}
+            {node?.state.move?.san || children || "?"}
         </span>
 
         {
@@ -115,6 +83,11 @@ function Move({ stateTreeNode, children }: MoveProps) {
                         icon: require("@assets/img/up.svg"),
                         label: "Promote move",
                         onSelect: promoteNode
+                    },
+                    {
+                        icon: require("@assets/img/help.svg"),
+                        label: "Log state tree node",
+                        onSelect: () => console.log(node)
                     }
                 ]}
             />

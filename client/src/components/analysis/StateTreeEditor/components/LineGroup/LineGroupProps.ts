@@ -1,11 +1,9 @@
-import { ReactNode } from "react";
-
 import { StateTreeNode } from "wintrchess";
 
 interface LineGroupProps {
-    node: StateTreeNode;
+    indentCount: number;
+    nodes: (StateTreeNode | null)[];
     forceWhiteMoveNumber?: boolean;
-    children: ReactNode;
 }
 
 export default LineGroupProps;

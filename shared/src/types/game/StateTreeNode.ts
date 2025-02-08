@@ -24,29 +24,6 @@ class StateTreeNode {
     }
 
     /**
-     * @description Returns the priority child node; either the mainline
-     * child or the first one (part of the variant mainline).
-     */
-    priorityChild() {
-        return this.children.find(child => child.mainline)
-            || this.children.at(0);
-    }
-
-    /**
-     * @description Traverse as far down as possible through priority
-     * child nodes and return the last node.
-     */
-    finalNode() {
-        let current: StateTreeNode = this;
-
-        while (current.children.length > 0) {
-            current = current.children[0];
-        }
-
-        return current;
-    }
-
-    /**
      * @description The move number of the node. Can be an integer
      * or end in 0.5 if the move was played by black.
      */
@@ -72,40 +49,10 @@ class StateTreeNode {
     }
 
     /**
-     * @description The number of branches, excluding those with only one choice,
-     * required to traverse to this node from the nearest mainline node.
+     * @description Returns whether or not this node has siblings.
      */
-    variationDepth() {
-        let current: StateTreeNode = this;
-        let depth = 0;
-
-        while (!current.mainline && current.parent) {
-            current = current.parent;
-
-            // If the priority child node of current (part of the "main
-            // variant line") is directly chained to this node, then this
-            // node is not actually apart of a variation, so depth is not
-            // added even if current has multiple continuations.
-            const priorityChildNode = current.children[0];
-
-            let prioritySearchNode: StateTreeNode = this;
-            let priorityChildNodeFound = false;
-
-            while (prioritySearchNode.parent) {
-                prioritySearchNode = prioritySearchNode.parent;
-
-                if (prioritySearchNode == priorityChildNode) {
-                    priorityChildNodeFound = true;
-                    break;
-                }
-            }
-
-            if (current.children.length > 1 && !priorityChildNodeFound) {
-                depth++;
-            }
-        }
-
-        return depth;
+    hasVariations() {
+        return (this.parent?.children.length || 0) > 1;
     }
 }
 
