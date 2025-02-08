@@ -15,15 +15,15 @@ const useLayoutStore = create<LayoutStore>(set => ({
     contentSectionHeight: 0,
     analysisBoardContainerWidth: 0,
 
-    setTopSectionHeight(height: number) {
+    setTopSectionHeight(height) {
         set({ topSectionHeight: height });
     },
 
-    setContentSectionHeight(height: number) {
+    setContentSectionHeight(height) {
         set({ contentSectionHeight: height });
     },
 
-    setAnalysisBoardContainerWidth(width: number) {
+    setAnalysisBoardContainerWidth(width) {
         set({ analysisBoardContainerWidth: width });
     }
 }));

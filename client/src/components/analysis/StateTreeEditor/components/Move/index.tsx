@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import ContextMenu from "@components/common/ContextMenu";
-import { ContextMenuPosition } from "@components/common/ContextMenu/types";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useEvents from "@hooks/useEvents";
 import EventType from "@constants/EventType";
+import useContextMenu from "@hooks/useContextMenu";
 
 import MoveClickEventContext from "../../MoveClickEventContext";
 import MoveProps from "./MoveProps";
@@ -20,7 +20,10 @@ function Move({ node, children }: MoveProps) {
 
     const { dispatchEvent } = useEvents();
 
-    const [ contextMenuPosition, setContextMenuPosition ] = useState<ContextMenuPosition>();
+    const {
+        contextMenuPosition,
+        openContextMenu
+    } = useContextMenu();
 
     function deleteNode() {
         if (!node?.parent) return;
@@ -50,21 +53,7 @@ function Move({ node, children }: MoveProps) {
             onClick={() => {
                 if (node) onMoveClick?.(node);
             }}
-            onContextMenu={event => {
-                event.preventDefault();
-
-                setContextMenuPosition({
-                    x: event.pageX,
-                    y: event.pageY
-                });
-
-                const onClick = () => {
-                    setContextMenuPosition(undefined);
-                    removeEventListener("click", onClick);
-                };
-
-                addEventListener("click", onClick);
-            }}
+            onContextMenu={openContextMenu}
         >
             {node?.state.move?.san || children || "?"}
         </span>

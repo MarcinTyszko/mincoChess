@@ -25,11 +25,11 @@ const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
         }
     }),
 
-    setAnalysisGame(game?: AnalysisGame) {
+    setAnalysisGame(game) {
         set({ analysisGame: game });
     },
 
-    setCurrentStateTreeNode(node: SetStateAction<StateTreeNode>) {
+    setCurrentStateTreeNode(node) {
         if (typeof node == "function") {
             return set(state => ({
                 currentStateTreeNode: node(state.currentStateTreeNode)
