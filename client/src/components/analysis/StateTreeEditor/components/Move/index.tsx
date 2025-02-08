@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 
 import ContextMenu from "@components/common/ContextMenu";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useEvents from "@hooks/useEvents";
-import EventType from "@constants/EventType";
 import useContextMenu from "@hooks/useContextMenu";
 
 import MoveClickEventContext from "../../MoveClickEventContext";
@@ -17,8 +15,6 @@ function Move({ node, children }: MoveProps) {
         currentStateTreeNode,
         setCurrentStateTreeNode
     } = useAnalysisGameStore();
-
-    const { dispatchEvent } = useEvents();
 
     const {
         contextMenuPosition,
@@ -43,8 +39,6 @@ function Move({ node, children }: MoveProps) {
 
         // Select the parent node
         setCurrentStateTreeNode(node.parent);
-
-        dispatchEvent(EventType.STATE_TREE_UPDATE);
     }
 
     function promoteNode() {

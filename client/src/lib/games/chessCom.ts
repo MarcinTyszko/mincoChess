@@ -1,4 +1,4 @@
-import { Game, GameResult, TimeControl, Variant } from "wintrchess";
+import { Game, GameResult, STARTING_FEN, TimeControl, Variant } from "wintrchess";
 import { padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError } from "../utils/errors";
 
@@ -67,7 +67,7 @@ async function getChessComGames(
                 || TimeControl.CORRESPONDENCE
             ),
             variant: variantCodes[game.rules] || Variant.STANDARD,
-            initialPosition: game["initial_setup"],
+            initialPosition: game["initial_setup"] || STARTING_FEN,
             players: {
                 white: {
                     username: game.white.username,

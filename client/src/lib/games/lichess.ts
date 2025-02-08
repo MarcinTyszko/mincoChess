@@ -4,7 +4,8 @@ import {
     PieceColour,
     TimeControl,
     Variant,
-    oppositePieceColour
+    oppositePieceColour,
+    STARTING_FEN
 } from "wintrchess";
 import { getMonthLength, padDateNumber } from "@lib/utils/date";
 import { UserNotFoundError, RatelimitError } from "../utils/errors";
@@ -92,7 +93,7 @@ async function getLichessGames(
 
         return {
             pgn: game.pgn,
-            initialPosition: game.initialFen,
+            initialPosition: game.initialFen || STARTING_FEN,
             timeControl: (
                 timeControlCodes[game.speed]
                 || TimeControl.CORRESPONDENCE
