@@ -17,67 +17,41 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
     const playIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
 
     function traverseToBeginning() {
-        if (!analysisGame) return;
-
         setCurrentStateTreeNode(analysisGame.stateTree);
-
-        if (isPlaying) toggleAutoplay();
+        setAutoplay(false);
     }
 
     function traverseToEnd() {
-        if (!analysisGame) return;
-
         setCurrentStateTreeNode(
-            analysisGame?.stateTree.finalNode()
+            analysisGame.stateTree.finalNode()
         );
-
-        if (isPlaying) toggleAutoplay();
+        setAutoplay(false);
     }
 
     function traverseBackwards() {
-        if (!analysisGame) return;
-
         setCurrentStateTreeNode(
-            currentStateTreeNode.parent || analysisGame?.stateTree
+            currentStateTreeNode.parent || analysisGame.stateTree
         );
-
-        if (isPlaying) toggleAutoplay();
+        setAutoplay(false);
     }
 
     function traverseForwards() {
-        const priorityChild = currentStateTreeNode.priorityChild();
+        const priorityChild = currentStateTreeNode.children.at(0);
 
         if (priorityChild) {
             setCurrentStateTreeNode(priorityChild);
+        } else {
+            setAutoplay(false);
         }
-
-        if (!priorityChild && isPlaying) toggleAutoplay();
     }
 
-    function toggleAutoplay() {
-        const autoplayStatus = !isPlaying;
+    function setAutoplay(status: boolean) {
+        setIsPlaying(status);
 
-        setIsPlaying(autoplayStatus);
+        if (status) {
+            traverseForwards();
 
-        if (autoplayStatus) {
-            function nextNode() {
-                setCurrentStateTreeNode(node => {
-                    const priorityChild = node?.priorityChild();
-
-                    if (priorityChild) {
-                        return priorityChild;
-                    } else {
-                        clearInterval(playIntervalRef.current);
-                        setIsPlaying(false);
-
-                        return node;
-                    }
-                });
-            }
-
-            nextNode();
-
-            playIntervalRef.current = setInterval(nextNode, 1000);
+            playIntervalRef.current = setInterval(traverseForwards, 1000);
         } else {
             clearInterval(playIntervalRef.current);
         }
@@ -98,7 +72,7 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
 
         <div
             className={styles.autoplayContainer}
-            onClick={toggleAutoplay}
+            onClick={() => setAutoplay(!isPlaying)}
         >
             {
                 isPlaying

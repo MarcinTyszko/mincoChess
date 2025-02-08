@@ -11,8 +11,7 @@ import {
 import {
     PieceColour,
     STARTING_FEN,
-    StateTreeNode,
-    Variant
+    StateTreeNode
 } from "wintrchess";
 import useEvents from "@hooks/useEvents";
 import EventType from "@constants/EventType";
@@ -38,8 +37,6 @@ function AnalysisBoard({
     style
 }: AnalysisBoardProps) {
     const {
-        analysisGame,
-        setAnalysisGame,
         currentStateTreeNode,
         setCurrentStateTreeNode
     } = useAnalysisGameStore();
@@ -125,28 +122,6 @@ function AnalysisBoard({
             });
         } catch {
             return false;
-        }
-
-        // If there is no analysis game, create new one from played move
-        if (!analysisGame) {
-            setAnalysisGame({
-                pgn: `1. ${move.san}`,
-                accuracies: {
-                    black: 0,
-                    white: 0
-                },
-                estimatedRatings: {
-                    white: 0,
-                    black: 0
-                },
-                initialPosition: STARTING_FEN,
-                players: {
-                    white: { username: "White" },
-                    black: { username: "Black" }
-                },
-                stateTree: currentStateTreeNode,
-                variant: Variant.STANDARD
-            });
         }
 
         // Add a new node to state tree
