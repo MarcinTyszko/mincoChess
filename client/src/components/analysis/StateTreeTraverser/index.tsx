@@ -36,13 +36,17 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
     }
 
     function traverseForwards() {
-        const priorityChild = currentStateTreeNode.children.at(0);
+        setCurrentStateTreeNode(currentNode => {
+            const priorityChild = currentNode.children.at(0);
 
-        if (priorityChild) {
-            setCurrentStateTreeNode(priorityChild);
-        } else {
-            setAutoplay(false);
-        }
+            if (priorityChild) {
+                return priorityChild;
+            } else {
+                setAutoplay(false);
+
+                return currentNode;
+            }
+        });
     }
 
     function setAutoplay(status: boolean) {
