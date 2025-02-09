@@ -59,7 +59,10 @@ function useAnalysis(
                 engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
                 engineDepth: 18,
                 maxEngineCount: 4,
-                engineConfig: engine => engine.setLineCount(2),
+                engineConfig: engine => {
+                    engine.setLineCount(2);
+                    engine.setThreadCount(4);
+                },
                 onProgress: setAnalysisProgress
             }
         );

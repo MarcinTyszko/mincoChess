@@ -83,8 +83,8 @@ class Engine {
         this.setOption("MultiPV", lines.toString());
     }
 
-    getPosition() {
-        return this.position;
+    setThreadCount(threads: number) {
+        this.setOption("Threads", threads.toString());
     }
 
     setPosition(fen: string, uciMoves?: string[]) {
