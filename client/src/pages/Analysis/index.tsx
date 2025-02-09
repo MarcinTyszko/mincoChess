@@ -59,16 +59,8 @@ function Analysis() {
             ref={boardContainerRef}
         >
             <AnalysisBoard
-                topProfile={{
-                    title: "IM",
-                    username: "Levy Krabs",
-                    rating: 2322
-                }}
-                bottomProfile={{
-                    title: "GM",
-                    username: "Spongebob Kasparov",
-                    rating: 2851
-                }}
+                topProfile={analysisGame.players.white}
+                bottomProfile={analysisGame.players.black}
                 style={{
                     width: innerWidth > Breakpoints.MOBILE_LAYOUT
                         ? (
