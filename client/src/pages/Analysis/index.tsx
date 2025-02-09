@@ -10,6 +10,7 @@ import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
 import Breakpoints from "@constants/Breakpoints";
+import playBoardSound from "@lib/boardSounds";
 
 import useAnalysis from "./useAnalysis";
 import * as styles from "./Analysis.module.css";
@@ -124,6 +125,9 @@ function Analysis() {
                 stateTreeRootNode={analysisGame.stateTree}
                 onMoveClick={node => {
                     setCurrentStateTreeNode(node);
+
+                    playBoardSound(node);
+
                     setAutoplayEnabled(false);
                 }} 
             />

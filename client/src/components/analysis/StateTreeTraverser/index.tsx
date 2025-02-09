@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import playBoardSound from "@lib/boardSounds";
 
 import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";
@@ -14,27 +15,31 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
         setAutoplayEnabled
     } = useAnalysisGameStore();
 
-    const playIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
+    const autoplayIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
 
     useEffect(() => {
         if (autoplayEnabled) {
             traverseForwards();
 
-            playIntervalRef.current = setInterval(traverseForwards, 1000);
+            autoplayIntervalRef.current = setInterval(traverseForwards, 1000);
         } else {
-            clearInterval(playIntervalRef.current);
+            clearInterval(autoplayIntervalRef.current);
         }
     }, [autoplayEnabled]);
 
     function traverseToBeginning() {
         setCurrentStateTreeNode(analysisGame.stateTree);
+
         setAutoplayEnabled(false);
     }
 
     function traverseToEnd() {
-        setCurrentStateTreeNode(
-            analysisGame.stateTree.finalNode()
-        );
+        const finalNode = analysisGame.stateTree.finalNode();
+
+        setCurrentStateTreeNode(finalNode);
+
+        playBoardSound(finalNode);
+
         setAutoplayEnabled(false);
     }
 
@@ -42,6 +47,9 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
         setCurrentStateTreeNode(
             currentStateTreeNode.parent || analysisGame.stateTree
         );
+
+        playBoardSound(currentStateTreeNode);
+
         setAutoplayEnabled(false);
     }
 
@@ -50,6 +58,8 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             const priorityChild = currentNode.children.at(0);
 
             if (priorityChild) {
+                playBoardSound(priorityChild);
+
                 return priorityChild;
             } else {
                 setAutoplayEnabled(false);
