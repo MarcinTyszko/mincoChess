@@ -6,7 +6,7 @@ import { Game, getColourPlayed } from "wintrchess";
 import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
-import { UserNotFoundError } from "@lib/utils/errors";
+import { UserNotFoundError } from "@lib/errors";
 import Loader from "@components/common/Loader";
 import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";

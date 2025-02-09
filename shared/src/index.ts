@@ -8,6 +8,9 @@ export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";
 export { default as STARTING_FEN } from "./constants/game/startingFen";
 
+export * from "./lib/date";
+export * from "./lib/moveNotation";
+
 export * from "./types/game/Game";
 export { default as AnalysisGame } from "./types/game/AnalysisGame";
 export { default as PlayerProfile } from "./types/PlayerProfile";

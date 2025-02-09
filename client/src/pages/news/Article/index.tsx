@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
+import { formatDate } from "wintrchess";
 import { getNewsArticle } from "@lib/newsArticles";
-import { formatDate } from "@lib/utils/date";
 import Unfound from "@pages/Unfound";
 
 import * as styles from "./Article.module.css";

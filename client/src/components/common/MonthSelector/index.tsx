@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { monthNames } from "@lib/utils/date";
+import { monthNames } from "wintrchess";
 import Button from "../Button";
 
 import MonthSelectorProps from "./MonthSelectorProps";

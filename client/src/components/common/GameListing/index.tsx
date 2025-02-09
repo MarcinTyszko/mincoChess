@@ -6,10 +6,10 @@ import {
     GameResult,
     getOpinionatedGameResult,
     PlayerProfile,
-    TimeControl
+    TimeControl,
+    formatDate
 } from "wintrchess";
 import Button from "../Button";
-import { formatDate } from "@lib/utils/date";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";

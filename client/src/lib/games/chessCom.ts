@@ -1,6 +1,12 @@
-import { Game, GameResult, STARTING_FEN, TimeControl, Variant } from "wintrchess";
-import { padDateNumber } from "@lib/utils/date";
-import { UserNotFoundError } from "../utils/errors";
+import {
+    Game,
+    GameResult,
+    TimeControl,
+    Variant,
+    padDateNumber,
+    STARTING_FEN
+} from "wintrchess";
+import { UserNotFoundError } from "../errors";
 
 // Map from chess.com time controls to ours
 const timeControlCodes: Record<string, TimeControl | undefined> = {

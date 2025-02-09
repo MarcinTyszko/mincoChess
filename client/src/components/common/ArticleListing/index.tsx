@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
+import { formatDate } from "wintrchess";
 import Button from "@components/common/Button";
 import ConfirmDialog from "@components/common/ConfirmDialog";
-import { formatDate } from "@lib/utils/date";
 
 import ArticleListingProps from "./ArticleListingProps";
 import * as styles from "./ArticleListing.module.css";

@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect, useState } from "react";
+import React, { forwardRef, useContext, useEffect, useMemo, useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
@@ -11,7 +11,9 @@ import {
 import {
     PieceColour,
     STARTING_FEN,
-    StateTreeNode
+    StateTreeNode,
+    parseSanMove,
+    parseUciMove
 } from "wintrchess";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import PlayerProfile from "../PlayerProfile";
@@ -39,17 +41,39 @@ function AnalysisBoard({
         setCurrentStateTreeNode
     } = useAnalysisGameStore();
 
-    const [ highlightedSquares, setHighlightedSquares ] = useState<Square[]>([]);
+    const [
+        highlightedSquares,
+        setHighlightedSquares
+    ] = useState<Square[]>([]);
 
     const squareRenderer = forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
             const squareHighlights = useContext(HighlightedSquaresContext);
+
+            const playedMove = useMemo(() => {
+                if (!currentStateTreeNode.state.move) return;
+
+                return parseUciMove(currentStateTreeNode.state.move.uci);
+            }, [currentStateTreeNode]);
         
             return <div
                 style={{ ...style, position: "relative" }}
                 ref={ref}
             >
                 {children}
+
+                {
+                    (square == playedMove?.from || square == playedMove?.to)
+                    && <div
+                        style={{
+                            position: "absolute",
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: "#ffff33",
+                            opacity: 0.5
+                        }}
+                    />
+                }
                 
                 {
                     squareHighlights.includes(square)
@@ -69,23 +93,23 @@ function AnalysisBoard({
 
     useEffect(() => {
         const move = currentStateTreeNode.state.move;
-        const fen = currentStateTreeNode.state.fen;
-
         if (!move) return;
 
-        const board = new Chess(fen);
+        const board = new Chess(currentStateTreeNode.state.fen);
 
         if (board.isGameOver()) {
             new Audio(moveSounds.gameEnd).play();
         }
 
-        if (board.isCheck()) {
+        const parsedMove = parseSanMove(move.san);
+
+        if (parsedMove.check) {
             new Audio(moveSounds.check).play();
-        } else if (move.san.includes("O")) {
+        } else if (parsedMove.castling) {
             new Audio(moveSounds.castle).play();
-        } else if (move.san.includes("=")) {
+        } else if (parsedMove.promotion) {
             new Audio(moveSounds.promote).play();
-        } else if (move.san.includes("x")) {
+        } else if (parsedMove.capture) {
             new Audio(moveSounds.capture).play();
         } else {
             new Audio(moveSounds.move).play();

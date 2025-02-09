@@ -5,10 +5,11 @@ import {
     TimeControl,
     Variant,
     oppositePieceColour,
+    getMonthLength,
+    padDateNumber,
     STARTING_FEN
 } from "wintrchess";
-import { getMonthLength, padDateNumber } from "@lib/utils/date";
-import { UserNotFoundError, RatelimitError } from "../utils/errors";
+import { UserNotFoundError, RatelimitError } from "../errors";
 
 // Map from lichess winner colours to ours
 const winnerColourCodes: Record<string, PieceColour | undefined> = {
