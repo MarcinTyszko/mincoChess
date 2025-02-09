@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import playBoardSound from "@lib/boardSounds";
@@ -68,6 +69,11 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             }
         });
     }
+
+    useHotkeys("up, shift+left", traverseToBeginning);
+    useHotkeys("down, shift+right", traverseToEnd);
+    useHotkeys("left", traverseBackwards);
+    useHotkeys("right", traverseForwards);
 
     return <div className={styles.wrapper} style={style}>
         <img

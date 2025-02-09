@@ -27,6 +27,7 @@
         "react-cookie": "^7.1.4",
         "react-dom": "^18.3.1",
         "react-google-recaptcha": "^3.1.0",
+        "react-hotkeys-hook": "^4.6.1",
         "react-i18next": "^14.1.2",
         "react-languages-select": "^1.0.20",
         "react-markdown": "^9.0.1",
