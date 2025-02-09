@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cookies } from "react-cookie";
 
-import { Cookie, Game } from "wintrchess";
+import { Game, LocalStorageKey } from "wintrchess";
+import useLocalStorage from "@hooks/useLocalStorage";
 import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
@@ -20,8 +20,16 @@ function GameSelector({
     setError
 }: GameSelectorProps) {
     const { t } = useTranslation();
-    
-    const cookies = new Cookies();
+
+    const {
+        value: savedGameSourceKey,
+        set: setSavedGameSourceKey
+    } = useLocalStorage<string>(LocalStorageKey.LAST_GAME_SELECTOR_SOURCE);
+
+    const {
+        parsedValue: savedFieldInputs,
+        set: setSavedFieldInputs
+    } = useLocalStorage<Record<string, string>>(LocalStorageKey.LAST_GAME_SELECTOR_INPUTS);
 
     const [ gameSource, setGameSource ] = useState(GameSource.PGN);
     const [ fieldInput, setFieldInput ] = useState("");
@@ -29,12 +37,6 @@ function GameSelector({
     const [ selectedServiceGame, setSelectedServiceGame ] = useState<Game>();
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
-
-    function getSavedFieldInput(source: GameSource): string | undefined {
-        return cookies.get(
-            Cookie.LAST_GAME_SELECTOR_INPUTS
-        )?.[source.key];
-    }
 
     // Parse an entered PGN or FEN and emit it when input changes
     useEffect(() => {
@@ -74,19 +76,19 @@ function GameSelector({
 
     // Load saved values from cookies
     useEffect(() => {
-        // Load last game source from cookies
-        const savedSourceKey = cookies.get(Cookie.LAST_GAME_SELECTOR_SOURCE);
+        if (!saveCookies) return;
 
+        // Load last game source from cookies
         const savedSource = Object.values(GameSource)
-            .find(source => source.key == savedSourceKey);
+            .find(source => source.key == savedGameSourceKey);
 
         if (!savedSource) return;
 
         setGameSource(savedSource);
 
         // Load last selector input from cookies
-        const savedFieldInput = getSavedFieldInput(savedSource);
-
+        const savedFieldInput = savedFieldInputs[savedSource.key];
+        
         if (!savedFieldInput) return;
         
         setFieldInput(savedFieldInput);
@@ -102,17 +104,13 @@ function GameSelector({
         // Save the selected game source choice in state
         setGameSource(selectedSource);
 
-        // Save the selected game source choice in cookies
         if (saveCookies) {
-            cookies.set(Cookie.LAST_GAME_SELECTOR_SOURCE, selectedSource.key);
-        }
+            // Save the selected game source choice in cookies
+            setSavedGameSourceKey(selectedSource.key);
 
-        // Put the saved selector input from cookies into the text area
-        const savedFieldInput = getSavedFieldInput(selectedSource);
-        
-        if (!savedFieldInput) return;
-
-        setFieldInput(savedFieldInput);
+            // Put the saved selector input from cookies into the text area
+            setFieldInput(savedFieldInputs[selectedSource.key] || "");
+        }  
     }
 
     function handleFieldInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -121,18 +119,10 @@ function GameSelector({
         // Save the input field contents in cookies
         if (!saveCookies) return;
 
-        let savedSelectorInputs = cookies.get(Cookie.LAST_GAME_SELECTOR_INPUTS) || {};
-        if (typeof savedSelectorInputs != "object") {
-            savedSelectorInputs = {};
-        }
-
-        cookies.set(
-            Cookie.LAST_GAME_SELECTOR_INPUTS,
-            {
-                ...savedSelectorInputs,
-                [gameSource.key]: event.target.value
-            }
-        );
+        setSavedFieldInputs({
+            ...savedFieldInputs,
+            [gameSource.key]: event.target.value
+        });
     }
 
     function openGameSearchMenu() {

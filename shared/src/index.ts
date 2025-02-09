@@ -1,6 +1,8 @@
 export { default as Cookie } from "./constants/Cookie";
+export { default as LocalStorageKey } from "./constants/LocalStorageKey";
 export * from "./constants/PieceColour";
 export { default as Classification } from "./constants/Classification";
+
 export * from "./constants/game/GameResult";
 export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";
