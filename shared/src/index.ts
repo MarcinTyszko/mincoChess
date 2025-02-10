@@ -6,7 +6,7 @@ export { default as Classification } from "./constants/Classification";
 export * from "./constants/game/GameResult";
 export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";
-export { default as STARTING_FEN } from "./constants/game/startingFen";
+export * from "./constants/utils";
 
 export * from "./lib/date";
 export * from "./lib/moveNotation";

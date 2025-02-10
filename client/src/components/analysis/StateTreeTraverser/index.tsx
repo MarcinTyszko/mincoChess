@@ -2,19 +2,21 @@ import React, { useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 
 import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";
 
 function StateTreeTraverser({ style }: StateTreeTraverserProps) {
+    const { analysisGame } = useAnalysisGameStore();
+
     const {
-        analysisGame,
         currentStateTreeNode,
         setCurrentStateTreeNode,
         autoplayEnabled,
         setAutoplayEnabled
-    } = useAnalysisGameStore();
+    } = useAnalysisBoardStore();
 
     const autoplayIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
 

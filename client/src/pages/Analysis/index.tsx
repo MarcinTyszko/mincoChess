@@ -8,6 +8,7 @@ import GameSelector from "@components/analysis/GameSelector";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import Button from "@components/common/Button";
 import useLayoutStore from "@stores/LayoutStore";
 import Breakpoints from "@constants/Breakpoints";
@@ -31,11 +32,12 @@ function Analysis() {
         setGameSelectorError
     } = useGameSelectorStore();
 
+    const { analysisGame } = useAnalysisGameStore();
+
     const {
-        analysisGame,
         setCurrentStateTreeNode,
         setAutoplayEnabled
-    } = useAnalysisGameStore();
+    } = useAnalysisBoardStore();
 
     const [ analysisProgress, setAnalysisProgress ] = useState(0);
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);

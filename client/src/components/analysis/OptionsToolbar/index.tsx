@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import Button from "@components/common/Button";
 
 import * as styles from "./OptionsToolbar.module.css";
@@ -13,6 +14,11 @@ function OptionsToolbar() {
         gameAnalysisOpen,
         setGameAnalysisOpen
     } = useAnalysisGameStore();
+
+    const {
+        boardFlipped,
+        setBoardFlipped
+    } = useAnalysisBoardStore();
 
     return <div className={styles.wrapper}>
         {
@@ -31,7 +37,7 @@ function OptionsToolbar() {
             icon={require("@assets/img/flip.svg")}
             iconSize={"40px"}
             tooltip={t("pages.analysis.options.flipBoard")}
-            onClick={() => console.log("board flip! kawaii!!")}
+            onClick={() => setBoardFlipped(!boardFlipped)}
         />
 
         <Button

@@ -14,7 +14,7 @@ import {
     StateTreeNode,
     parseUciMove
 } from "wintrchess";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
@@ -29,8 +29,9 @@ function AnalysisBoard({
 }: AnalysisBoardProps) {
     const {
         currentStateTreeNode,
-        setCurrentStateTreeNode
-    } = useAnalysisGameStore();
+        setCurrentStateTreeNode,
+        boardFlipped
+    } = useAnalysisBoardStore();
 
     const [
         highlightedSquares,
@@ -151,8 +152,12 @@ function AnalysisBoard({
         style={style}
     >
         {
-            topProfile
-            && <PlayerProfile profile={topProfile} />
+            (topProfile && bottomProfile)
+            && <PlayerProfile
+                profile={
+                    boardFlipped ? bottomProfile : topProfile
+                }
+            />
         }
 
         <div className={styles.boardContainer}>
@@ -172,15 +177,20 @@ function AnalysisBoard({
                         customSquare={squareRenderer}
                         promotionDialogVariant="vertical"
                         animationDuration={200}
+                        boardOrientation={
+                            boardFlipped ? "black" : "white"
+                        }
                     />
                 </HighlightedSquaresContext.Provider>
             </div>
         </div>
 
         {
-            bottomProfile
+            (topProfile && bottomProfile)
             && <PlayerProfile
-                profile={bottomProfile}
+                profile={
+                    boardFlipped ? topProfile : bottomProfile
+                }
                 bottom
             />
         }

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
 import getStateTree from "@lib/gameStateTree";
@@ -18,10 +19,9 @@ function useAnalysis(
         gameSelectorError
     } = useGameSelectorStore();
 
-    const {
-        setAnalysisGame,
-        setCurrentStateTreeNode
-    } = useAnalysisGameStore();
+    const { setAnalysisGame } = useAnalysisGameStore();
+
+    const { setCurrentStateTreeNode } = useAnalysisBoardStore();
 
     async function analyse() {
         // Ensure a valid game has been selected

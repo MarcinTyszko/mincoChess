@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import ContextMenu from "@components/common/ContextMenu";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useContextMenu from "@hooks/useContextMenu";
 
 import MoveClickEventContext from "../../MoveClickEventContext";
@@ -14,7 +14,7 @@ function Move({ node, children }: MoveProps) {
     const {
         currentStateTreeNode,
         setCurrentStateTreeNode
-    } = useAnalysisGameStore();
+    } = useAnalysisBoardStore();
 
     const {
         contextMenuPosition,
