@@ -23,7 +23,7 @@ function playBoardSound(node: StateTreeNode) {
 
     const parsedMove = parseSanMove(move.san);
 
-    if (parsedMove.check) {
+    if (parsedMove.check || parsedMove.checkmate) {
         new Audio(moveSounds.check).play();
     } else if (parsedMove.castling) {
         new Audio(moveSounds.castle).play();
