@@ -32,7 +32,10 @@ function Analysis() {
         setGameSelectorError
     } = useGameSelectorStore();
 
-    const { analysisGame } = useAnalysisGameStore();
+    const {
+        analysisGame,
+        gameAnalysisOpen
+    } = useAnalysisGameStore();
 
     const {
         setCurrentStateTreeNode,
@@ -89,26 +92,27 @@ function Analysis() {
 
             <OptionsToolbar/>
 
-            <GameSelector
-                saveCookies
-                onChange={setSelectedGame}
-                setError={setGameSelectorError}
-            />
+            {
+                !gameAnalysisOpen
+                && <>
+                    <GameSelector
+                        saveCookies
+                        onChange={setSelectedGame}
+                        setError={setGameSelectorError}
+                    />
 
-            <Button
-                icon={require("@assets/img/analysis.svg")}
-                iconSize="30px"
-                style={{
-                    fontSize: "1.1rem"
-                }}
-                onClick={analyse}
-            >
-                {t("pages.analysis.analyseButton")}
-            </Button>
-
-            <span style={{ color: "white" }}>
-                PROGRESS: {round(analysisProgress * 100, 1)}%
-            </span>
+                    <Button
+                        icon={require("@assets/img/analysis.svg")}
+                        iconSize="30px"
+                        style={{
+                            fontSize: "1.1rem"
+                        }}
+                        onClick={analyse}
+                    >
+                        {t("pages.analysis.analyseButton")}
+                    </Button>
+                </>
+            }
 
             {
                 analysisError
@@ -117,17 +121,26 @@ function Analysis() {
                 </span>
             }
 
-            <StateTreeEditor
-                className={styles.stateTreeEditor}
-                stateTreeRootNode={analysisGame.stateTree}
-                onMoveClick={node => {
-                    setCurrentStateTreeNode(node);
+            {
+                gameAnalysisOpen
+                && <>
+                    <span style={{ color: "white" }}>
+                        PROGRESS: {round(analysisProgress * 100, 1)}%
+                    </span>
 
-                    playBoardSound(node);
+                    <StateTreeEditor
+                        className={styles.stateTreeEditor}
+                        stateTreeRootNode={analysisGame.stateTree}
+                        onMoveClick={node => {
+                            setCurrentStateTreeNode(node);
 
-                    setAutoplayEnabled(false);
-                }}
-            />
+                            playBoardSound(node);
+
+                            setAutoplayEnabled(false);
+                        }}
+                    />
+                </>
+            }
 
             <StateTreeTraverser
                 style={{

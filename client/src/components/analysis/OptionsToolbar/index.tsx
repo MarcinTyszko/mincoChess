@@ -22,7 +22,7 @@ function OptionsToolbar() {
 
     return <div className={styles.wrapper}>
         {
-            (gameAnalysisOpen || true)
+            gameAnalysisOpen
             && <Button
                 icon={require("@assets/img/back.svg")}
                 iconSize={"40px"}

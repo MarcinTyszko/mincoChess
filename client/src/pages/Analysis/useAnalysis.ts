@@ -9,8 +9,8 @@ import getStateTree from "@lib/gameStateTree";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
 function useAnalysis(
-    setAnalysisError: React.Dispatch<React.SetStateAction<string | null>>,
-    setAnalysisProgress: React.Dispatch<React.SetStateAction<number>>
+    setAnalysisError: (error: string | null) => void,
+    setAnalysisProgress: (progress: number) => void
 ) {
     const { t } = useTranslation();
 
@@ -19,7 +19,10 @@ function useAnalysis(
         gameSelectorError
     } = useGameSelectorStore();
 
-    const { setAnalysisGame } = useAnalysisGameStore();
+    const {
+        setAnalysisGame,
+        setGameAnalysisOpen
+    } = useAnalysisGameStore();
 
     const { setCurrentStateTreeNode } = useAnalysisBoardStore();
 
@@ -54,6 +57,8 @@ function useAnalysis(
         setAnalysisGame(analysisGame);
 
         setCurrentStateTreeNode(stateTreeRoot);
+
+        setGameAnalysisOpen(true);
 
         // Load profile images from Chess.com if it is possible
         if (isGameFromChessCom(selectedGame)) {
