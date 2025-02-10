@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+
+    border-radius: 10px;
+    background-color: #323232;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-grow: 1;
+}

@@ -5,16 +5,19 @@ import {
     AnalysisGame,
     StateTreeNode,
     Variant,
-    STARTING_FEN
+    STARTING_FEN,
+    GameResult
 } from "wintrchess";
 
 interface AnalysisGameStore {
     analysisGame: AnalysisGame;
     currentStateTreeNode: StateTreeNode;
+    gameAnalysisOpen: boolean;
     autoplayEnabled: boolean;
 
     setAnalysisGame: (game: AnalysisGame) => void;
     setCurrentStateTreeNode: Dispatch<SetStateAction<StateTreeNode>>;
+    setGameAnalysisOpen: (open: boolean) => void;
     setAutoplayEnabled: (enabled: boolean) => void;
 }
 
@@ -29,6 +32,7 @@ const defaultRootNode = new StateTreeNode({
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
     currentStateTreeNode: defaultRootNode,
+    gameAnalysisOpen: false,
     autoplayEnabled: false,
 
     analysisGame: {
@@ -43,8 +47,14 @@ const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
         },
         initialPosition: STARTING_FEN,
         players: {
-            white: { username: "White" },
-            black: { username: "Black" }
+            white: {
+                username: "White",
+                result: GameResult.UNKNOWN
+            },
+            black: {
+                username: "Black",
+                result: GameResult.UNKNOWN
+            }
         },
         stateTree: defaultRootNode,
         variant: Variant.STANDARD
@@ -62,6 +72,10 @@ const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
         }
         
         set({ currentStateTreeNode: node });
+    },
+
+    setGameAnalysisOpen(open) {
+        set({ gameAnalysisOpen: open });
     },
 
     setAutoplayEnabled(enabled) {

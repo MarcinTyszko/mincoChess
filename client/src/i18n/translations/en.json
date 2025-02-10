@@ -1,5 +1,7 @@
 {
     "loading": "Loading...",
+    "back": "Back",
+    "settings": "Settings",
     "navigationBar": {
         "support": "Support",
         "tooltips": {
@@ -12,13 +14,16 @@
         "analysis": "Analysis",
         "archive": "Archive",
         "news": "News",
-        "settings": "Settings",
         "privacyPolicy": "Privacy",
         "credits": "Credits"
     },
     "pages": {
         "analysis": {
             "title": "Game Report",
+            "options": {
+                "flipBoard": "Flip Board",
+                "share": "Share Game"
+            },
             "gameSelector": {
                 "sourceLabel": "Load game from",
                 "sourcePlaceholders": {

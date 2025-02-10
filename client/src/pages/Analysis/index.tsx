@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { round } from "lodash";
 
 import AnalysisBoard from "@components/analysis/AnalysisBoard";
+import OptionsToolbar from "@components/analysis/OptionsToolbar";
 import GameSelector from "@components/analysis/GameSelector";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 import useGameSelectorStore from "@stores/GameSelectorStore";
@@ -59,8 +60,8 @@ function Analysis() {
             ref={boardContainerRef}
         >
             <AnalysisBoard
-                topProfile={analysisGame.players.white}
-                bottomProfile={analysisGame.players.black}
+                topProfile={analysisGame.players.black}
+                bottomProfile={analysisGame.players.white}
                 style={{
                     width: innerWidth > Breakpoints.MOBILE_LAYOUT
                         ? (
@@ -83,6 +84,8 @@ function Analysis() {
             <div className={styles.title}>
                 {t("pages.analysis.title")}
             </div>
+
+            <OptionsToolbar/>
 
             <GameSelector
                 saveCookies
@@ -121,7 +124,7 @@ function Analysis() {
                     playBoardSound(node);
 
                     setAutoplayEnabled(false);
-                }} 
+                }}
             />
 
             <StateTreeTraverser

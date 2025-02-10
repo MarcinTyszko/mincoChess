@@ -74,7 +74,7 @@ function Sidebar({ style }: SidebarProps) {
                 icon={require("@assets/img/settings.svg")}
                 style={{ width: "100%" }}
             >
-                {t("sidebar.settings")}
+                {t("settings")}
             </SidebarTab>
 
             <div className={styles.footerLinks}>
