@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import { Game, Variant } from "wintrchess";
+import { Game, GameResult, Variant } from "wintrchess";
 
 function parseFenString(fen: string): Game {
     const board = new Chess(fen);
@@ -9,8 +9,12 @@ function parseFenString(fen: string): Game {
         initialPosition: board.fen(),
         pgn: board.pgn(),
         players: {
-            white: {},
-            black: {}
+            white: {
+                result: GameResult.UNKNOWN
+            },
+            black: {
+                result: GameResult.UNKNOWN
+            }
         },
         variant: Variant.STANDARD
     };

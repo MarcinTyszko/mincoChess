@@ -56,9 +56,7 @@ async function getChessComGames(
 
     const games: any[] | undefined = (await gamesResponse.json()).games;
     
-    if (!games) {
-        return [];
-    }
+    if (!games) return [];
 
     return games
         .reverse()
@@ -78,12 +76,12 @@ async function getChessComGames(
                 white: {
                     username: game.white.username,
                     rating: game.white.rating,
-                    result: gameResultCodes[game.white.result]
+                    result: gameResultCodes[game.white.result] || GameResult.UNKNOWN
                 },
                 black: {
                     username: game.black.username,
                     rating: game.black.rating,
-                    result: gameResultCodes[game.black.result]
+                    result: gameResultCodes[game.black.result] || GameResult.UNKNOWN
                 }
             },
             date: new Date(game["end_time"] * 1000)

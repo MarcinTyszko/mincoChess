@@ -5,6 +5,7 @@ import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import evaluateMoves from "@lib/evaluate";
 import EngineVersion from "@constants/EngineVersion";
 import getStateTree from "@lib/gameStateTree";
+import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
 function useAnalysis(
     setAnalysisError: React.Dispatch<React.SetStateAction<string | null>>,
@@ -37,7 +38,7 @@ function useAnalysis(
         // Set analysis game to the selected one
         const stateTreeRoot = getStateTree(selectedGame);
 
-        setAnalysisGame({
+        const analysisGame = {
             ...selectedGame,
             accuracies: {
                 black: 0,
@@ -48,9 +49,21 @@ function useAnalysis(
                 black: 0
             },
             stateTree: stateTreeRoot
-        });
+        };
+
+        setAnalysisGame(analysisGame);
 
         setCurrentStateTreeNode(stateTreeRoot);
+
+        // Load profile images from Chess.com if it is possible
+        if (isGameFromChessCom(selectedGame)) {
+            getChessComProfileImages(selectedGame).then(images => {
+                analysisGame.players.white.image = images.white;
+                analysisGame.players.black.image = images.black;
+
+                setAnalysisGame(analysisGame);
+            });
+        }
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

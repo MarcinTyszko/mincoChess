@@ -10,7 +10,7 @@ import {
 
 function parseResultString(result: string, colour: PieceColour) {
     if (result == "1/2-1/2") return GameResult.DRAW;
-    if (result == "*") return undefined;
+    if (result == "*") return GameResult.UNKNOWN;
 
     const winningResult = colour == PieceColour.WHITE ? "1-0" : "0-1";
 
@@ -21,7 +21,7 @@ function parsePgn(pgn: string): Game {
     const parsedGame = new Chess();
     parsedGame.loadPgn(pgn);
 
-    const parsedGameHeaders = parsedGame.header();
+    const parsedGameHeaders = parsedGame.getHeaders();
 
     const parsedGameVariant = (
         parsedGameHeaders["Variant"] == "Chess960"

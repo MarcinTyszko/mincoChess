@@ -171,6 +171,7 @@ function AnalysisBoard({
                         onPieceDrop={addMove}
                         customSquare={squareRenderer}
                         promotionDialogVariant="vertical"
+                        animationDuration={200}
                     />
                 </HighlightedSquaresContext.Provider>
             </div>
