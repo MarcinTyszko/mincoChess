@@ -7,6 +7,7 @@ interface ButtonProps {
     highlighted?: boolean;
     tooltip?: string;
     style?: CSSProperties;
+    className?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 

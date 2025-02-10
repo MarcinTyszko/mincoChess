@@ -9,11 +9,12 @@ function Button({
     iconSize,
     highlighted,
     tooltip,
+    className,
     style,
     onClick
 }: ButtonProps) {
     return <button
-        className={styles.button}
+        className={`${styles.button} ${className}`}
         style={{
             filter: highlighted ? "brightness(0.9)" : "",
             ...style

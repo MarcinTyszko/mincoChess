@@ -1,13 +1,28 @@
 .wrapper {
     display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
 
     border-radius: 10px;
     background-color: #323232;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-grow: 1;
+.backButton {
+    padding: 3px;
+    box-sizing: border-box;
+    width: 52px;
+    height: 52px;
+    position: absolute;
+    left: 0;
+
+    background-color: #383838;
+}
+
+.optionButton {
+    padding: 6px;
+    width: 52px;
+    height: 52px;
+
+    background-color: #323232;
 }
