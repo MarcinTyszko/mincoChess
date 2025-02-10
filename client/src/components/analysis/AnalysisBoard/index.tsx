@@ -15,6 +15,7 @@ import {
     parseUciMove
 } from "wintrchess";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
 import HighlightedSquaresContext from "./HighlightedSquaresContext";
@@ -139,6 +140,8 @@ function AnalysisBoard({
         }
 
         setCurrentStateTreeNode(existingNode || createdNode);
+
+        playBoardSound(createdNode);
 
         return true;
     }

@@ -28,6 +28,9 @@ function PlayerProfile({
             && <img 
                 className={styles.profileImage} 
                 src={profile.image}
+                onError={event => {
+                    event.currentTarget.src = require("@assets/img/defaultprofileimage.png");
+                }}
             />
         }
 

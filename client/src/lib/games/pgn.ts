@@ -4,7 +4,8 @@ import {
     Game,
     GameResult,
     PieceColour,
-    Variant
+    Variant,
+    STARTING_FEN
 } from "wintrchess";
 
 function parseResultString(result: string, colour: PieceColour) {
@@ -28,15 +29,12 @@ function parsePgn(pgn: string): Game {
             : Variant.STANDARD
     );
 
-    let initialPosition = (
-        parsedGameHeaders["FEN"]
-        || new Chess().fen()
-    );
+    let initialPosition = parsedGameHeaders["FEN"] || STARTING_FEN;
 
     try {
         new Chess(initialPosition);
     } catch {
-        initialPosition = new Chess().fen();
+        initialPosition = STARTING_FEN;
     }
 
     return {
@@ -46,6 +44,7 @@ function parsePgn(pgn: string): Game {
                 username: parsedGameHeaders["White"],
                 title: parsedGameHeaders["WhiteTitle"],
                 rating: parseInt(parsedGameHeaders["WhiteElo"]),
+                image: parsedGameHeaders["WhiteUrl"],
                 result: parseResultString(
                     parsedGameHeaders["Result"],
                     PieceColour.WHITE
@@ -55,6 +54,7 @@ function parsePgn(pgn: string): Game {
                 username: parsedGameHeaders["Black"],
                 title: parsedGameHeaders["BlackTitle"],
                 rating: parseInt(parsedGameHeaders["BlackElo"]),
+                image: parsedGameHeaders["BlackUrl"],
                 result: parseResultString(
                     parsedGameHeaders["Result"],
                     PieceColour.BLACK
