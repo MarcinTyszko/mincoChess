@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 import { Game, getColourPlayed } from "wintrchess";
 import GameSource from "@constants/GameSource";
@@ -68,7 +69,22 @@ function GameSearchMenu({
         staleTime: Infinity
     });
 
-    function selectGame(game: Game) {
+    function selectListing(game: Game) {
+        toast.success(
+            "Game selected!",
+            {
+                position: "bottom-left",
+                theme: "dark",
+                pauseOnHover: false,
+                closeOnClick: true,
+                closeButton: false,
+                autoClose: 2000,
+                style: {
+                    fontFamily: "JetBrains Mono"
+                }
+            }
+        );
+
         setSelectedGame?.(game);
         setOpen?.(false);
     }
@@ -135,7 +151,7 @@ function GameSearchMenu({
                                 .map(game => <GameListing 
                                     game={game}
                                     perspective={getColourPlayed(game, username)}
-                                    onClick={selectGame}
+                                    onClick={selectListing}
                                 />)
                             : t("pages.analysis.gameSearchMenu.noGamesFound")
                     )

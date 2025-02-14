@@ -27,12 +27,14 @@ const gameResultIcons = {
     unopinionated: {
         [GameResult.WIN]: require("@assets/img/gameResults/unopinionated_win.png"),
         [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
-        [GameResult.LOSE]: require("@assets/img/gameResults/unopinionated_lose.png")
+        [GameResult.LOSE]: require("@assets/img/gameResults/unopinionated_lose.png"),
+        [GameResult.UNKNOWN]: require("@assets/img/gameResults/draw.png")
     },
     opinionated: {
         [GameResult.WIN]: require("@assets/img/gameResults/opinionated_win.png"),
         [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
-        [GameResult.LOSE]: require("@assets/img/gameResults/opinionated_lose.png")
+        [GameResult.LOSE]: require("@assets/img/gameResults/opinionated_lose.png"),
+        [GameResult.UNKNOWN]: require("@assets/img/gameResults/draw.png")
     }
 };
 
@@ -40,7 +42,8 @@ const gameResultIcons = {
 const gameResultTooltipCodes = {
     [GameResult.WIN]: "win",
     [GameResult.DRAW]: "draw",
-    [GameResult.LOSE]: "lose"
+    [GameResult.LOSE]: "lose",
+    [GameResult.UNKNOWN]: "unknown"
 };
 
 const MAX_PROFILE_LENGTH = 19;

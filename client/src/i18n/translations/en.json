@@ -80,12 +80,14 @@
             "unopinionated": {
                 "win": "White won",
                 "draw": "Draw",
-                "lose": "Black won"
+                "lose": "Black won",
+                "unknown": "Unknown"
             },
             "opinionated": {
                 "win": "Won",
                 "draw": "Draw",
-                "lose": "Lost"
+                "lose": "Lost",
+                "unknown": "Unknown"
             }
         }
     }
