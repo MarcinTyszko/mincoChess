@@ -15,6 +15,7 @@ import {
     parseUciMove
 } from "wintrchess";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
@@ -27,6 +28,8 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
+    const { setGameAnalysisOpen } = useAnalysisGameStore();
+
     const {
         currentStateTreeNode,
         setCurrentStateTreeNode,
@@ -141,6 +144,8 @@ function AnalysisBoard({
         }
 
         setCurrentStateTreeNode(existingNode || createdNode);
+
+        setGameAnalysisOpen(true);
 
         playBoardSound(createdNode);
 
