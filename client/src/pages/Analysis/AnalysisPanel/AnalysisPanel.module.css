@@ -1,4 +1,4 @@
-.reportContainer {
+.wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -12,7 +12,7 @@
 }
 
 @media (max-width: 900px) {
-    .reportContainer {
+    .wrapper {
         overflow-y: visible;
     }
 }
@@ -31,29 +31,4 @@
     .title {
         display: none;
     }
-}
-
-.error {
-    padding: 5px 0;
-    text-align: center;
-
-    background-color: rgba(239, 65, 70, 0.4);
-    border-radius: 10px;
-    
-    color: white;
-}
-
-.stateTreeEditor {
-    background-color: #1c1c1c;
-    border-radius: 10px;
-    padding: 7px 10px;
-    min-height: 380px;
-    max-height: 380px;
-    overflow-y: auto;
-}
-
-.stateTreeTraverserPlaceholder {
-    display: flex;
-    width: 100%;
-    min-height: 60px;
 }

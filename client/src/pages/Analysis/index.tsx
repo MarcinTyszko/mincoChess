@@ -1,14 +1,14 @@
 import React from "react";
 
 import BoardArea from "./BoardArea";
-import ReportArea from "./ReportArea";
+import AnalysisPanel from "./AnalysisPanel";
 import * as styles from "./Analysis.module.css";
 
 function Analysis() {
     return <div className={styles.wrapper}>
         <BoardArea/>
 
-        <ReportArea/>
+        <AnalysisPanel/>
     </div>;
 }
 
