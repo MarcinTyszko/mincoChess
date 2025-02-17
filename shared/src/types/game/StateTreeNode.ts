@@ -65,7 +65,7 @@ class StateTreeNode {
     /**
      * @description Returns whether or not this node has siblings.
      */
-    hasVariations() {
+    hasSiblings() {
         return (this.parent?.children.length || 0) > 1;
     }
 

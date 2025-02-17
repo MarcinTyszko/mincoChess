@@ -8,15 +8,6 @@ function getStateTree(game: Game) {
 
     type ParsedPGNMove = typeof parsedPGN.moves[number];
 
-    const rootNode = new StateTreeNode({
-        mainline: true,
-        children: [],
-        state: {
-            fen: game.initialPosition,
-            engineLines: {}
-        }
-    });
-
     function addMovesToNode(
         node: StateTreeNode,
         moves: ParsedPGNMove[],
@@ -54,6 +45,15 @@ function getStateTree(game: Game) {
             lastNode = newNode;
         }
     }
+
+    const rootNode = new StateTreeNode({
+        mainline: true,
+        children: [],
+        state: {
+            fen: game.initialPosition,
+            engineLines: {}
+        }
+    });
 
     addMovesToNode(rootNode, parsedPGN.moves, true);
 

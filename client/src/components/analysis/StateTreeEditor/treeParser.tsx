@@ -6,70 +6,50 @@ import LineGroup from "./components/LineGroup";
 interface NodeGroup {
     indentCount: number;
     nodes: (StateTreeNode | null)[];
+    forceWhiteMoveNumber?: boolean;
 }
 
 function generateTreeView(rootNode: StateTreeNode) {
-    // Each line group is a list of tree nodes in it
     const nodeGroups: NodeGroup[] = [];
 
-    function nodeGroupOf(targetNode: StateTreeNode) {
+    function nodeGroupOf(target: StateTreeNode) {
         return nodeGroups.find(
-            group => group.nodes.some(node => node == targetNode)
+            group => group.nodes.some(node => node == target)
         );
     }
 
-    function renderChildren(node: StateTreeNode, indentCount: number) {
-        const priorityChild = node.children.at(0);
-        if (!priorityChild) return;
+    function renderChildrenOf(node: StateTreeNode, indentCount: number) {
+        // Push the priority child first
+        const firstChild = node.children.at(0);
+        if (!firstChild) return;
 
-        const nodeGroup = nodeGroupOf(node);
-        const groupIndentCount = nodeGroup?.indentCount || 0;
-
-        // If the priority child is a black move and white move doesn't
-        // have variations, and the white move is alone in its group,
-        // you can merge this black move with the white move's group
         if (
-            priorityChild.state.moveColour == PieceColour.BLACK
-            && nodeGroup?.nodes.length == 1
-            && !node.hasVariations()
+            firstChild.state.moveColour == PieceColour.BLACK
+            && !(firstChild.hasSiblings() && node.hasSiblings())
         ) {
-            nodeGroup.nodes.push(priorityChild);
+            nodeGroupOf(node)?.nodes.push(firstChild);
         } else {
             nodeGroups.push({
-                indentCount: indentCount
-                    + +(priorityChild.hasVariations() && !node.mainline),
-                nodes: [priorityChild]
+                indentCount: indentCount,
+                nodes: [firstChild]
             });
         }
 
-        // If priority child is mainline or is merged with its parent node group,
-        // the children of the priority node should be rendered after all of its
-        // variations and their children. If not, you're in a state of just listing
-        // variations.
-        const priorityRenderLast = nodeGroupOf(priorityChild) == nodeGroupOf(node)
-            || priorityChild.mainline;
-
-        if (!priorityRenderLast) {
-            renderChildren(priorityChild, groupIndentCount + 1);
-        }
-
+        // Recursively render the rest of the children
         for (const child of node.children.slice(1)) {
-            const childIndentCount = Math.min(indentCount + 1, groupIndentCount + 1);
-
             nodeGroups.push({
-                indentCount: childIndentCount,
+                indentCount: indentCount + 1,
                 nodes: [child]
             });
 
-            renderChildren(child, childIndentCount);
+            renderChildrenOf(child, indentCount + 1);
         }
 
-        if (priorityRenderLast) {
-            renderChildren(priorityChild, groupIndentCount);
-        }
+        // Recursively render the priority child
+        renderChildrenOf(firstChild, indentCount);
     }
 
-    renderChildren(rootNode, 0);
+    renderChildrenOf(rootNode, 0);
 
     return nodeGroups.map(
         group => <LineGroup {...group} />
