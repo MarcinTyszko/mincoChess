@@ -2,11 +2,13 @@ import React from "react";
 
 import PlayerProfileProps from "./PlayerProfileProps";
 import * as styles from "./PlayerProfile.module.css";
+import { PieceColour } from "wintrchess";
 
 const profileBorderRadius = "7px";
 
 function PlayerProfile({
     profile,
+    colour,
     bottom
 }: PlayerProfileProps) {
     return <div 
@@ -40,7 +42,14 @@ function PlayerProfile({
         }
 
         <span className={styles.username}>
-            {profile.username}
+            {
+                profile.username
+                || (
+                    colour == PieceColour.WHITE
+                        ? "White"
+                        : "Black"
+                )
+            }
         </span>
 
         {

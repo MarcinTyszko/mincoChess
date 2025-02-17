@@ -46,8 +46,6 @@ class StateTreeNode {
 
         if (initialPosition) {
             const board = new Chess(initialPosition);
-
-            console.log(board.moveNumber());
         
             initialMoveNumber = board.moveNumber()
                 + (board.turn() == "b" ? 0.5 : 0);

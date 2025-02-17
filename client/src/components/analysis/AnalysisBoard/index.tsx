@@ -156,14 +156,12 @@ function AnalysisBoard({
         className={styles.wrapper}
         style={style}
     >
-        {
-            (topProfile && bottomProfile)
-            && <PlayerProfile
-                profile={
-                    boardFlipped ? bottomProfile : topProfile
-                }
-            />
-        }
+        <PlayerProfile
+            profile={
+                boardFlipped ? bottomProfile : topProfile
+            }
+            colour={boardFlipped ? PieceColour.WHITE : PieceColour.BLACK}
+        />
 
         <div className={styles.boardContainer}>
             <div className={styles.evaluationBar}>
@@ -190,15 +188,13 @@ function AnalysisBoard({
             </div>
         </div>
 
-        {
-            (topProfile && bottomProfile)
-            && <PlayerProfile
-                profile={
-                    boardFlipped ? topProfile : bottomProfile
-                }
-                bottom
-            />
-        }
+        <PlayerProfile
+            profile={
+                boardFlipped ? topProfile : bottomProfile
+            }
+            colour={boardFlipped ? PieceColour.BLACK : PieceColour.WHITE}
+            bottom
+        />
     </div>;
 }
 
