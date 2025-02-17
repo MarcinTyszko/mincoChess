@@ -6,7 +6,6 @@ import LineGroup from "./components/LineGroup";
 interface NodeGroup {
     indentCount: number;
     nodes: (StateTreeNode | null)[];
-    forceWhiteMoveNumber?: boolean;
 }
 
 function generateTreeView(rootNode: StateTreeNode) {
@@ -23,9 +22,12 @@ function generateTreeView(rootNode: StateTreeNode) {
         const firstChild = node.children.at(0);
         if (!firstChild) return;
 
+        // Check possibility of merging with group
+        // Cannot merge if the white node is the root
         if (
             firstChild.state.moveColour == PieceColour.BLACK
             && !(firstChild.hasSiblings() && node.hasSiblings())
+            && node.parent
         ) {
             nodeGroupOf(node)?.nodes.push(firstChild);
         } else {
@@ -52,7 +54,10 @@ function generateTreeView(rootNode: StateTreeNode) {
     renderChildrenOf(rootNode, 0);
 
     return nodeGroups.map(
-        group => <LineGroup {...group} />
+        group => <LineGroup
+            {...group}
+            initialPosition={rootNode.state.fen}
+        />
     );
 }
 

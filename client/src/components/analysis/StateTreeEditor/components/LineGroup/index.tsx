@@ -14,6 +14,7 @@ const INDENT_GAP = 15;
 function LineGroup({
     indentCount,
     nodes,
+    initialPosition,
     forceWhiteMoveNumber
 }: LineGroupProps) {
     const firstNode = nodes.at(0);
@@ -36,7 +37,11 @@ function LineGroup({
                 marginLeft: `${indentCount * INDENT_GAP}px`
             }}
         >
-            {Math.trunc(firstNode?.moveNumber() || 0) + 1}
+            {
+                Math.trunc(
+                    firstNode?.moveNumber(initialPosition) || 0
+                )
+            }
             
             {
                 forceWhiteMoveNumber || firstNode?.state.moveColour == PieceColour.WHITE

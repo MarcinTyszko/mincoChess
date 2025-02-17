@@ -39,6 +39,8 @@ function useAnalysis(
         }
 
         // Set analysis game to the selected one
+        console.log(selectedGame);
+
         const stateTreeRoot = getStateTree(selectedGame);
 
         const analysisGame = {
@@ -69,6 +71,8 @@ function useAnalysis(
                 setAnalysisGame(analysisGame);
             });
         }
+
+        console.log("reached");
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(

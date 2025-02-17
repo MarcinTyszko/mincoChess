@@ -1,6 +1,6 @@
+import { Chess } from "chess.js";
 import { round } from "lodash";
 
-import PieceColour from "../../constants/PieceColour";
 import BoardState from "./BoardState";
 
 interface StateTreeNodeProps {
@@ -41,7 +41,18 @@ class StateTreeNode {
      * @description The move number of the node. Can be an integer
      * or end in 0.5 if the move was played by black.
      */
-    moveNumber() {
+    moveNumber(initialPosition?: string) {
+        let initialMoveNumber = 1;
+
+        if (initialPosition) {
+            const board = new Chess(initialPosition);
+
+            console.log(board.moveNumber());
+        
+            initialMoveNumber = board.moveNumber()
+                + (board.turn() == "b" ? 0.5 : 0);
+        }
+
         let current: StateTreeNode = this;
         let depth = 0;
 
@@ -53,13 +64,7 @@ class StateTreeNode {
         // current = Root Node at this point
         let pairDepth = (depth - 1) / 2;
 
-        const firstMoveColour = current.children.at(0)?.state.moveColour;
-
-        if (firstMoveColour == PieceColour.BLACK) {
-            pairDepth += 0.5;
-        }
-
-        return round(pairDepth, 1);
+        return round(pairDepth, 1) + initialMoveNumber;
     }
 
     /**
