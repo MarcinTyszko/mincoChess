@@ -32,3 +32,9 @@
         display: none;
     }
 }
+
+.stateTreeTraverserPlaceholder {
+    display: flex;
+    width: 100%;
+    min-height: 60px;
+}

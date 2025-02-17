@@ -6,9 +6,3 @@
     max-height: 380px;
     overflow-y: auto;
 }
-
-.stateTreeTraverserPlaceholder {
-    display: flex;
-    width: 100%;
-    min-height: 60px;
-}
