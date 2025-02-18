@@ -42,7 +42,19 @@ function Move({ node, children }: MoveProps) {
     }
 
     function promoteNode() {
-        throw new Error("not implemented yet.");
+        if (!node?.parent) return;
+
+        const siblings = node.parent.children;
+
+        const promotedNode = siblings
+            .splice(siblings.indexOf(node), 1)
+            .at(0);
+
+        if (!promotedNode) return;
+
+        siblings.unshift(promotedNode);
+
+        setCurrentStateTreeNode(node);
     }
 
     return <>
