@@ -1,8 +1,7 @@
-import { PieceColour, PlayerProfile } from "wintrchess";
+import { PlayerProfile } from "wintrchess";
 
 interface PlayerProfileProps {
     profile: PlayerProfile;
-    colour: PieceColour;
     bottom?: boolean;
 }
 

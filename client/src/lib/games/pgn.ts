@@ -41,7 +41,7 @@ function parsePgn(pgn: string): Game {
         pgn: pgn,
         players: {
             white: {
-                username: parsedGameHeaders["White"],
+                username: parsedGameHeaders["White"] || "White",
                 title: parsedGameHeaders["WhiteTitle"],
                 rating: parseInt(parsedGameHeaders["WhiteElo"]),
                 image: parsedGameHeaders["WhiteUrl"],
@@ -51,7 +51,7 @@ function parsePgn(pgn: string): Game {
                 )
             },
             black: {
-                username: parsedGameHeaders["Black"],
+                username: parsedGameHeaders["Black"] || "Black",
                 title: parsedGameHeaders["BlackTitle"],
                 rating: parseInt(parsedGameHeaders["BlackElo"]),
                 image: parsedGameHeaders["BlackUrl"],

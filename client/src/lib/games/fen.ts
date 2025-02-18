@@ -10,9 +10,11 @@ function parseFenString(fen: string): Game {
         pgn: board.pgn() + "*",
         players: {
             white: {
+                username: "White",
                 result: GameResult.UNKNOWN
             },
             black: {
+                username: "Black",
                 result: GameResult.UNKNOWN
             }
         },

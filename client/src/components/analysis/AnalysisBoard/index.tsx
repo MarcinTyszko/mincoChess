@@ -160,7 +160,6 @@ function AnalysisBoard({
             profile={
                 boardFlipped ? bottomProfile : topProfile
             }
-            colour={boardFlipped ? PieceColour.WHITE : PieceColour.BLACK}
         />
 
         <div className={styles.boardContainer}>
@@ -192,7 +191,6 @@ function AnalysisBoard({
             profile={
                 boardFlipped ? topProfile : bottomProfile
             }
-            colour={boardFlipped ? PieceColour.BLACK : PieceColour.WHITE}
             bottom
         />
     </div>;
