@@ -57,7 +57,7 @@ function AnnouncementEditor() {
 
         if (content) {
             toast.success(
-                "Announcement published.",
+                "Announcement published!",
                 {
                     position: "bottom-left",
                     theme: "dark",
@@ -114,7 +114,10 @@ function AnnouncementEditor() {
         <h1>Preview</h1>
 
         <div className={styles.announcementPreview}>
-            <AnnouncementBanner colour={bannerColour}>
+            <AnnouncementBanner
+                colour={bannerColour}
+                style={{ zIndex: 0 }}
+            >
                 <ReactMarkdown className={styles.announcementMarkdown}>
                     {bannerContent}
                 </ReactMarkdown>
@@ -137,7 +140,7 @@ function AnnouncementEditor() {
                 icon={require("@assets/img/delete.svg")}
                 style={{
                     gap: "5px",
-                    backgroundColor: ButtonColour.BLUE
+                    backgroundColor: ButtonColour.RED
                 }}
                 onClick={() => setClearConfirmOpen(true)}
             >

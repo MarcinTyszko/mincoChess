@@ -8,11 +8,13 @@ import * as styles from "./Announcement.module.css";
 function Announcement({
     children,
     colour,
+    style,
     setOpen
 }: AnnouncementProps) {
     return <div 
         className={styles.wrapper}
         style={{
+            ...style,
             backgroundColor: colour
         }}
     >
