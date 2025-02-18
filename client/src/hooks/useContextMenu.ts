@@ -1,7 +1,6 @@
 import {
     useState,
     useEffect,
-    useCallback,
     useRef,
     MouseEvent
 } from "react";
@@ -20,10 +19,10 @@ function useContextMenu() {
         setContextMenuPosition
     ] = useState<ContextMenuPosition>();
 
-    const onClick = useCallback(() => {
+    function onClick() {
         setContextMenuPosition(undefined);
         removeEventListener("click", onClick);
-    }, []);
+    }
 
     useEffect(() => {
         if (openId == contextMenuIdRef.current) return;
