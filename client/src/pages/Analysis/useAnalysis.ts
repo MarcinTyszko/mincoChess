@@ -39,10 +39,6 @@ function useAnalysis(
         }
 
         // Set analysis game to the selected one
-        console.log(selectedGame);
-
-        const stateTreeRoot = getStateTree(selectedGame);
-
         const analysisGame = {
             ...selectedGame,
             accuracies: {
@@ -53,12 +49,12 @@ function useAnalysis(
                 white: 0,
                 black: 0
             },
-            stateTree: stateTreeRoot
+            stateTree: getStateTree(selectedGame)
         };
 
         setAnalysisGame(analysisGame);
 
-        setCurrentStateTreeNode(stateTreeRoot);
+        setCurrentStateTreeNode(analysisGame.stateTree);
 
         setGameAnalysisOpen(true);
 
@@ -71,12 +67,10 @@ function useAnalysis(
                 setAnalysisGame(analysisGame);
             });
         }
-
-        console.log("reached");
         
         // Generate evaluations for each position
         const evaluatedStates = await evaluateMoves(
-            selectedGame,
+            analysisGame,
             {
                 engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
                 engineDepth: 18,

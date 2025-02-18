@@ -1,6 +1,11 @@
-import { Chess, Move } from "chess.js";
+import { Chess } from "chess.js";
+import { sum, sumBy } from "lodash";
 
-import { Game, BoardState, EngineLine } from "wintrchess";
+import {
+    EngineLine,
+    AnalysisGame,
+    StateTreeNode
+} from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 import Engine from "./engine";
 import { EvaluateMovesError } from "./errors";
@@ -21,47 +26,31 @@ const UCI_CASTLING_MOVES: Record<string, string> = {
     e1a1: "e1c1"
 };
 
+/**
+ * @throws {EvaluateMovesError}
+ */
 async function evaluateMoves(
-    game: Game,
+    game: AnalysisGame,
     options: EvaluateMovesOptions
-): Promise<BoardState[]> {
-    const boardStates: BoardState[] = [];
+): Promise<StateTreeNode[]> {
+    const stateTreeNodes: StateTreeNode[] = game.stateTree.chain();
 
-    // Get moves from the game, include null move for starting position
-    const board = new Chess();
-    board.loadPgn(game.pgn);
-
-    const moves: (Move | null)[] = board.history({ verbose: true });
-    moves.unshift(null);
-
-    // Each board state has a progress from 0 to 1
+    // Each state tree node keeps a progress from 0 to 1
     const progresses: number[] = [];
 
-    const progress = () => (
-        progresses.reduce((a, b) => a + b) / moves.length
-    );
+    const progress = () => sum(progresses) / stateTreeNodes.length;
 
     // Apply cloud evaluations where possible
-    const fenCollectionBoard = new Chess(game.initialPosition);
-    
-    for (const move of moves) {
-        // Add move to temp board to collect current FEN
-        if (move) {
-            fenCollectionBoard.move(move.lan);
-        }
-
-        const fen = fenCollectionBoard.fen();
-
+    for (const stateTreeNode of stateTreeNodes) {
         // Fetch cloud evaluation from Lichess servers
         const cloudEvaluationResponse = await fetch(
             "https://lichess.org/api/cloud-eval"
-                + `?fen=${fen}`
-                + "&multiPv=2",
-            { method: "GET" }
+                + `?fen=${stateTreeNode.state.fen}`
+                + "&multiPv=2"
         );
 
         if (options.verbose) {
-            console.log(`sending cloud evaluation request for: ${fen}`);
+            console.log(`sending cloud evaluation request for: ${stateTreeNode.state.fen}`);
         }
 
         // If no evaluations or found / other error, skip to local
@@ -80,7 +69,7 @@ async function evaluateMoves(
 
         // Parse each variation as our engine lines
         for (const variation of cloudEvaluation.pvs) {
-            const variationBoard = new Chess(fen);
+            const variationBoard = new Chess(stateTreeNode.state.fen);
 
             engineLines.push({
                 evaluation: {
@@ -96,41 +85,25 @@ async function evaluateMoves(
                             uciMove = UCI_CASTLING_MOVES[uciMove];
                         }
 
-                        variationBoard.move(uciMove);
+                        try {
+                            const parsedMove = variationBoard.move(uciMove);
 
-                        const parsedMove = variationBoard
-                            .history({ verbose: true })
-                            .at(-1);
-
-                        if (!parsedMove) {
+                            return {
+                                san: parsedMove.san,
+                                uci: parsedMove.lan
+                            };
+                        } catch {
                             throw new EvaluateMovesError(
                                 "error with temp board for loading cloud variations."
                             );
                         }
-
-                        return {
-                            san: parsedMove.san,
-                            uci: parsedMove.lan
-                        };
                     })
             });
         }
 
-        boardStates.push({
-            fen: fen,
-            engineLines: {
-                cloud: engineLines
-            },
-            move: move
-                ? {
-                    san: move.san,
-                    uci: move.lan
-                }
-                : undefined
-        });
+        stateTreeNode.state.engineLines.cloud = engineLines;
 
         progresses.push(1);
-
         options.onProgress?.(progress());
     }
 
@@ -138,76 +111,64 @@ async function evaluateMoves(
 
     // Maximum engine count or however many are needed for each
     // remaining position, add 1 for cutoff for last cloud evaluated state
-    const requiredEngineCount = Math.min(
+    const evaluatedStateCount = sumBy(
+        stateTreeNodes,
+        node => node.state.engineLines.cloud ? 1 : 0
+    );
+
+    const engineCount = Math.min(
         options.maxEngineCount || 1,
-        (moves.length - boardStates.length) + 1
+        (stateTreeNodes.length - evaluatedStateCount) + 1
     );
 
     return new Promise((res, rej) => {
         let enginesResting = 0;
-        let boardStateIndex = Math.max(boardStates.length - 1, 0);
+        let stateTreeNodeIndex = Math.max(evaluatedStateCount - 1, 0);
 
         // Bring an engine to a new FEN
         function evaluateNextPosition(engine: Engine) {
-            if (boardStateIndex >= moves.length) {
+            if (stateTreeNodeIndex >= stateTreeNodes.length) {
                 engine.terminate();
 
-                if (++enginesResting == requiredEngineCount) {
-                    res(boardStates);
+                if (++enginesResting == engineCount) {
+                    res(stateTreeNodes);
                 }
 
                 return;
             }
 
-            console.log(game.initialPosition);
-
             engine.setPosition(
                 game.initialPosition,
-                moves
-                    .slice(0, boardStateIndex + 1)
-                    .filter(move => !!move)
-                    .map(move => move.lan)
+                stateTreeNodes
+                    .slice(0, stateTreeNodeIndex + 1)
+                    .filter(node => node.state.move)
+                    .map(node => node.state.move!.uci)
             );
 
-            const currentBoardStateIndex = boardStateIndex;
-            const currentMove = moves[boardStateIndex];
+            const currentStateTreeNodeIndex = stateTreeNodeIndex;
+            const currentStateTreeNode = stateTreeNodes[stateTreeNodeIndex];
 
             engine.evaluate(
                 options.engineDepth,
                 depth => {
                     // Depth 0 is given for states with no legal moves
-                    progresses[currentBoardStateIndex] = depth == 0
+                    progresses[currentStateTreeNodeIndex] = depth == 0
                         ? 1
                         : depth / options.engineDepth;
 
                     options.onProgress?.(progress());
                 }
             ).then(result => {
-                boardStates[currentBoardStateIndex] ??= {
-                    fen: currentMove
-                        ? currentMove.after
-                        : game.initialPosition,
-                    engineLines: {
-                        local: result.lines
-                    },
-                    move: currentMove
-                        ? {
-                            san: currentMove.san,
-                            uci: currentMove.lan
-                        }
-                        : undefined
-                };
-
-                boardStates[currentBoardStateIndex].engineLines.local = result.lines;
+                currentStateTreeNode.state.engineLines.local = result.lines;
 
                 evaluateNextPosition(engine);
             });
 
-            boardStateIndex++;
+            stateTreeNodeIndex++;
         }
 
         // Start engines on first positions
-        for (let i = 0; i < requiredEngineCount; i++) {
+        for (let i = 0; i < engineCount; i++) {
             const engine = new Engine(options.engineVersion);
 
             options.engineConfig?.(engine);

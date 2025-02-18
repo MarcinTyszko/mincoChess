@@ -24,17 +24,21 @@ class StateTreeNode {
     }
 
     /**
-     * @description Recurse through priority children until the end
-     * of the tree is reached. Returns the final node.
+     * @description Follows the priority child until there are no
+     * children. Returns all nodes traversed throughout.
      */
-    finalNode() {
+    chain() {
+        const chain: StateTreeNode[] = [this];
+
         let current: StateTreeNode = this;
 
         while (current.children.length > 0) {
             current = current.children[0];
+
+            chain.push(current);
         }
 
-        return current;
+        return chain;
     }
 
     /**
@@ -77,14 +81,8 @@ class StateTreeNode {
      * the mainline.
      */
     mainlinePromote() {
-        this.mainline = true;
-
-        let current: StateTreeNode = this;
-
-        while (current.children.length > 0) {
-            current = current.children[0];
-
-            current.mainline = true;
+        for (const node of this.chain()) {
+            node.mainline = true;
         }
     }
 }

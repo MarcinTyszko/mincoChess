@@ -37,7 +37,8 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
     }
 
     function traverseToEnd() {
-        const finalNode = analysisGame.stateTree.finalNode();
+        const finalNode = analysisGame.stateTree.chain().at(-1)
+            || analysisGame.stateTree;
 
         setCurrentStateTreeNode(finalNode);
 
