@@ -10,10 +10,7 @@ import * as styles from "./OptionsToolbar.module.css";
 function OptionsToolbar() {
     const { t } = useTranslation();
 
-    const {
-        gameAnalysisOpen,
-        setGameAnalysisOpen
-    } = useAnalysisGameStore();
+    const { gameAnalysisOpen } = useAnalysisGameStore();
 
     const {
         boardFlipped,
@@ -28,7 +25,7 @@ function OptionsToolbar() {
                 iconSize={"40px"}
                 className={styles.backButton}
                 tooltip={t("back")}
-                onClick={() => setGameAnalysisOpen(false)}
+                onClick={() => location.reload()}
             />
         }
 
