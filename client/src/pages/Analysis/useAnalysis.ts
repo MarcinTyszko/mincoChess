@@ -69,21 +69,27 @@ function useAnalysis(
         }
         
         // Generate evaluations for each position
-        const evaluatedStates = await evaluateMoves(
-            analysisGame,
-            {
-                engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
-                engineDepth: 18,
-                maxEngineCount: 4,
-                engineConfig: engine => {
-                    engine.setLineCount(2);
-                    engine.setThreadCount(4);
-                },
-                onProgress: setAnalysisProgress
-            }
-        );
+        try {
+            const evaluatedStates = await evaluateMoves(
+                analysisGame,
+                {
+                    engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
+                    engineDepth: 18,
+                    maxEngineCount: 4,
+                    engineConfig: engine => {
+                        engine.setLineCount(2);
+                        engine.setThreadCount(4);
+                    },
+                    onProgress: setAnalysisProgress
+                }
+            );
 
-        console.log(evaluatedStates);
+            console.log(evaluatedStates);
+        } catch {
+            setAnalysisError(
+                t("pages.analysis.analysisError")
+            );
+        }
     }
 
     return analyse;

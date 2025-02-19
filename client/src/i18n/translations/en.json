@@ -46,7 +46,8 @@
                 "noGamesFound": "We couldn't find any games for this month.",
                 "ratelimited": "You were ratelimited, please wait..."
             },
-            "analyseButton": "Analyse"
+            "analyseButton": "Analyse",
+            "analysisError": "Failed to analyse game. You may have an issue with your Internet connection or your browser."
         },
         "news": {
             "title": "Newspaper",
