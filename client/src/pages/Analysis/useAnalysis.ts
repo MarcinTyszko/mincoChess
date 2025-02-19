@@ -86,6 +86,8 @@ function useAnalysis(
 
             console.log(evaluatedStates);
         } catch {
+            setGameAnalysisOpen(false);
+
             setAnalysisError(
                 t("pages.analysis.analysisError")
             );
