@@ -1,32 +1,10 @@
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-
-    background-color: rgba(0, 0, 0, 0.6);
-
-    cursor: default;
-}
-
 .dialog {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    box-sizing: border-box;
 
     padding: 55px 15px 15px 15px;
-    position: relative;
     width: min(400px, 90%);
-
-    border-radius: 10px;
-    background-color: #323232;
 }
 
 .options {

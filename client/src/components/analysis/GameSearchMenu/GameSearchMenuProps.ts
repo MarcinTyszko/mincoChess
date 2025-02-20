@@ -1,12 +1,10 @@
-import { Dispatch, SetStateAction } from "react";
-
 import { Game } from "wintrchess";
 import GameSource from "@constants/GameSource";
 
 interface GameSearchMenuProps {
     username: string;
     gameSource: GameSource;
-    setOpen?: Dispatch<SetStateAction<boolean>>;
+    setOpen: (open: boolean) => void;
     setSelectedGame?: (game: Game) => void;
 }
 

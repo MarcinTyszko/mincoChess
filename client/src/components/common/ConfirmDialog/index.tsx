@@ -2,10 +2,10 @@ import React from "react";
 
 import Button from "../Button";
 import ButtonColour from "@constants/ButtonColour";
-import DialogCloseButton from "../DialogCloseButton";
 
 import ConfirmDialogProps from "./ConfirmDialogProps";
 import * as styles from "./ConfirmDialog.module.css";
+import Dialog from "../Dialog";
 
 function ConfirmDialog({
     setDialogOpen,
@@ -13,43 +13,39 @@ function ConfirmDialog({
     dangerAction,
     onConfirm
 }: ConfirmDialogProps) {
-    return <div
-        className={styles.wrapper}
-        onClick={event => event.stopPropagation()}
+    return <Dialog
+        className={styles.dialog}
+        setOpen={setDialogOpen}     
     >
-        <div className={styles.dialog}>
-            <DialogCloseButton onClick={() => setDialogOpen(false)} />
+        {children}
 
-            {children}
+        <div className={styles.options}>
+            <Button
+                onClick={() => {
+                    setDialogOpen(false);
+                    onConfirm();
+                }}
+                style={{
+                    padding: "10px 20px",
+                    backgroundColor: dangerAction ?
+                        ButtonColour.RED
+                        : ButtonColour.BLUE
+                }}
+            >
+                Yes
+            </Button>
 
-            <div className={styles.options}>
-                <Button
-                    onClick={() => {
-                        setDialogOpen(false);
-                        onConfirm();
-                    }}
-                    style={{
-                        padding: "10px 20px",
-                        backgroundColor: dangerAction ?
-                            ButtonColour.RED
-                            : ButtonColour.BLUE
-                    }}
-                >
-                    Yes
-                </Button>
-
-                <Button
-                    onClick={() => setDialogOpen(false)}
-                    style={{
-                        padding: "10px 20px",
-                        backgroundColor: "#242424"
-                    }}
-                >
-                    No
-                </Button>
-            </div>
+            <Button
+                onClick={() => setDialogOpen(false)}
+                style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#242424"
+                }}
+            >
+                No
+            </Button>
         </div>
-    </div>;
+    </Dialog>;
 }
 
 export default ConfirmDialog;

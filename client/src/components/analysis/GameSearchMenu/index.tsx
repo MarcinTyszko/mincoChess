@@ -8,8 +8,8 @@ import GameSource from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/errors";
+import Dialog from "@components/common/Dialog";
 import Loader from "@components/common/Loader";
-import DialogCloseButton from "@components/common/DialogCloseButton";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
 
@@ -89,76 +89,75 @@ function GameSearchMenu({
         setOpen?.(false);
     }
 
-    return <div className={styles.wrapper}>
-        <div className={styles.menu}>
-            <DialogCloseButton onClick={() => setOpen?.(false)} />
+    return <Dialog
+        className={styles.dialog}
+        setOpen={setOpen}
+    >
+        <span className={styles.title}>
+            {t("pages.analysis.gameSearchMenu.title")}
+        </span>
 
-            <span className={styles.title}>
-                {t("pages.analysis.gameSearchMenu.title")}
-            </span>
+        <span className={styles.sourceTitle}>
+            {gameSource.title}
 
-            <span className={styles.sourceTitle}>
-                {gameSource.title}
+            <img src={require("@assets/img/rightchevron.svg")} />
 
-                <img src={require("@assets/img/rightchevron.svg")} />
+            {username}
+        </span>
 
-                {username}
-            </span>
+        <MonthSelector 
+            onMonthChange={(month, year) => {
+                // Cancel other queries for games
+                queryClient.cancelQueries({ queryKey: ["games"] });
 
-            <MonthSelector 
-                onMonthChange={(month, year) => {
-                    // Cancel other queries for games
-                    queryClient.cancelQueries({ queryKey: ["games"] });
+                setMonth(month);
+                setYear(year);
+            }} 
+            locked={status == "error"}
+        />
 
-                    setMonth(month);
-                    setYear(year);
-                }} 
-                locked={status == "error"}
-            />
+        <div className={styles.list}>
+            {
+                status == "error" && fetchStatus == "idle"
+                && <span className={styles.errorMessage}>
+                    {t(error.message)}
+                </span>
+            }
 
-            <div className={styles.list}>
-                {
-                    status == "error" && fetchStatus == "idle"
-                    && <span className={styles.errorMessage}>
-                        {t(error.message)}
+            {
+                fetchStatus == "fetching"
+                && <div className={styles.loadingMessage}>
+                    <Loader/>
+                    
+                    <span>
+                        {t("pages.analysis.gameSearchMenu.loading")}
                     </span>
-                }
 
-                {
-                    fetchStatus == "fetching"
-                    && <div className={styles.loadingMessage}>
-                        <Loader/>
-                        
-                        <span>
-                            {t("pages.analysis.gameSearchMenu.loading")}
+                    {
+                        isLongFetch
+                        && <span>
+                            {t("pages.analysis.gameSearchMenu.loadingLong")}
                         </span>
+                    }
+                </div>
+            }
 
-                        {
-                            isLongFetch
-                            && <span>
-                                {t("pages.analysis.gameSearchMenu.loadingLong")}
-                            </span>
-                        }
-                    </div>
-                }
-
-                {
-                    status == "success" && fetchStatus == "idle"
-                    && (
-                        games.length > 0 ?
-                            games
-                                .slice()
-                                .map(game => <GameListing 
-                                    game={game}
-                                    perspective={getColourPlayed(game, username)}
-                                    onClick={selectListing}
-                                />)
-                            : t("pages.analysis.gameSearchMenu.noGamesFound")
-                    )
-                }
-            </div>
+            {
+                status == "success" && fetchStatus == "idle"
+                && (
+                    games.length > 0 ?
+                        games
+                            .slice()
+                            .map(game => <GameListing 
+                                game={game}
+                                perspective={getColourPlayed(game, username)}
+                                onClick={selectListing}
+                            />)
+                        : t("pages.analysis.gameSearchMenu.noGamesFound")
+                )
+            }
         </div>
-    </div>;
+    </Dialog>;
 }
 
 export default GameSearchMenu;
