@@ -24,6 +24,15 @@
                 "flipBoard": "Flip Board",
                 "share": "Share Game"
             },
+            "analysisSettings": {
+                "title": "Analysis Settings",
+                "engine": "Engine",
+                "engineDepth": "Engine Depth",
+                "engineLines": "Engine Lines",
+                "includeClassifications": "Include Classifications",
+                "brilliant": "Brilliant",
+                "theory": "Theory"
+            },
             "gameSelector": {
                 "sourceLabel": "Load game from",
                 "sourcePlaceholders": {
