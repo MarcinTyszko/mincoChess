@@ -60,7 +60,7 @@ function OptionsToolbar() {
 
         {
             settingsOpen
-            && <AnalysisSettingsDialog setOpen={setSettingsOpen}/>
+            && <AnalysisSettingsDialog setOpen={setSettingsOpen} />
         }
     </>;
 }
