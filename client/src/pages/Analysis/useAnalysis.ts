@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useSettings from "@hooks/useSettings";
 import evaluateMoves from "@lib/evaluate";
-import EngineVersion from "@constants/EngineVersion";
 import getStateTree from "@lib/gameStateTree";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
@@ -25,6 +25,8 @@ function useAnalysis(
     } = useAnalysisGameStore();
 
     const { setCurrentStateTreeNode } = useAnalysisBoardStore();
+
+    const { settings } = useSettings();
 
     async function analyse() {
         // Ensure a valid game has been selected
@@ -73,8 +75,8 @@ function useAnalysis(
             const evaluatedStates = await evaluateMoves(
                 analysisGame,
                 {
-                    engineVersion: EngineVersion.STOCKFISH_16_1_LITE_SINGLE,
-                    engineDepth: 18,
+                    engineVersion: settings.analysis.engine,
+                    engineDepth: settings.analysis.engineDepth,
                     maxEngineCount: 4,
                     engineConfig: engine => {
                         engine.setLineCount(2);
