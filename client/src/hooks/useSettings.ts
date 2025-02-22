@@ -1,3 +1,5 @@
+import { merge } from "lodash";
+
 import { LocalStorageKey } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 
@@ -41,23 +43,8 @@ function useSettings() {
         set: setSettings
     } = useLocalStorage<Settings>(LocalStorageKey.SETTINGS);
 
-    const combinedSettings: Settings = {
-        analysis: {
-            ...defaultSettings.analysis,
-            ...settings.analysis,
-            includedClassifications: {
-                ...defaultSettings.analysis.includedClassifications,
-                ...settings.analysis?.includedClassifications
-            }
-        },
-        themes: {
-            ...defaultSettings.themes,
-            ...settings.themes
-        }
-    };
-
     return {
-        settings: combinedSettings,
+        settings: merge(defaultSettings, settings),
         setSettings: setSettings
     };
 }
