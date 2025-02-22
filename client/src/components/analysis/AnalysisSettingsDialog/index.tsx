@@ -5,6 +5,7 @@ import useSettings from "@hooks/useSettings";
 import Dialog from "@components/common/Dialog";
 import DropdownSetting from "@components/common/settings/DropdownSetting";
 import NumberSetting from "@components/common/settings/NumberSetting";
+import CheckboxSetting from "@components/common/settings/CheckboxSetting";
 import EngineVersion from "@constants/EngineVersion";
 
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
@@ -90,18 +91,15 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             {t("pages.analysis.analysisSettings.includeClassifications")}
         </span>
 
-        {/* <div className={styles.setting}>
+        <div className={styles.setting}>
             <span>{t("pages.analysis.analysisSettings.brilliant")}</span>
 
-            <input
-                className={styles.settingsField}
-                type="checkbox"
-                checked={analysisSettings.includeBrilliant ?? true}
-                onChange={event => {
-                    setAnalysisSettings({
-                        ...analysisSettings,
-                        includeBrilliant: event.target.checked
-                    });
+            <CheckboxSetting
+                getInitialValue={() => settings.analysis.includedClassifications.brilliant}
+                onChange={checked => {
+                    settings.analysis.includedClassifications.brilliant = checked;
+
+                    setSettings(settings);
                 }}
             />
         </div>
@@ -109,18 +107,15 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         <div className={styles.setting}>
             <span>{t("pages.analysis.analysisSettings.theory")}</span>
 
-            <input
-                className={styles.settingsField}
-                type="checkbox"
-                checked={analysisSettings.includeTheory ?? true}
-                onChange={event => {
-                    setAnalysisSettings({
-                        ...analysisSettings,
-                        includeTheory: event.target.checked
-                    });
+            <CheckboxSetting
+                getInitialValue={() => settings.analysis.includedClassifications.theory}
+                onChange={checked => {
+                    settings.analysis.includedClassifications.theory = checked;
+
+                    setSettings(settings);
                 }}
             />
-        </div> */}
+        </div>
     </Dialog>;
 }
 
