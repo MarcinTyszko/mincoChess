@@ -31,10 +31,3 @@
         width: calc(100vw - 40px);
     }
 }
-
-/* The evaluation bar */
-.evaluationBar {
-    width: 40px;
-
-    background-color: gray;
-}

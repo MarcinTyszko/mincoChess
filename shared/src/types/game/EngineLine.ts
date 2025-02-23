@@ -1,10 +1,8 @@
+import Evaluation from "./Evaluation";
 import Move from "./Move";
 
 interface EngineLine {
-    evaluation: {
-        type: "centipawn" | "mate";
-        value: number;
-    };
+    evaluation: Evaluation;
     depth: number;
     index: number;
     moves: Move[];

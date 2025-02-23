@@ -1,4 +1,11 @@
-import React, { forwardRef, useContext, useMemo, useState } from "react";
+import React, {
+    forwardRef,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
@@ -14,9 +21,11 @@ import {
     StateTreeNode,
     parseUciMove
 } from "wintrchess";
+import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import playBoardSound from "@lib/boardSounds";
+import EvaluationBar from "../EvaluationBar";
 import PlayerProfile from "../PlayerProfile";
 
 import HighlightedSquaresContext from "./HighlightedSquaresContext";
@@ -28,6 +37,11 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
+    const {
+        analysisBoardWidth,
+        setAnalysisBoardWidth
+    } = useLayoutStore();
+
     const { setGameAnalysisOpen } = useAnalysisGameStore();
 
     const {
@@ -40,6 +54,18 @@ function AnalysisBoard({
         highlightedSquares,
         setHighlightedSquares
     ] = useState<Square[]>([]);
+
+    const boardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!boardRef.current) return;
+
+        const boardResizeObserver = new ResizeObserver(entries => {
+            setAnalysisBoardWidth(entries[0].target.clientWidth);
+        });
+
+        boardResizeObserver.observe(boardRef.current);
+    }, []);
 
     const squareRenderer = forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
@@ -163,11 +189,16 @@ function AnalysisBoard({
         />
 
         <div className={styles.boardContainer}>
-            <div className={styles.evaluationBar}>
-                poop
-            </div>
+            <EvaluationBar
+                height={analysisBoardWidth}
+                evaluation={{
+                    type: "centipawn",
+                    value: 1000
+                }}
+                flipped={boardFlipped}
+            />
 
-            <div className={styles.board}>
+            <div className={styles.board} ref={boardRef}>
                 <HighlightedSquaresContext.Provider
                     value={highlightedSquares}
                 >
