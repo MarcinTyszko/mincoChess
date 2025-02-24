@@ -16,6 +16,7 @@ import {
 } from "react-chessboard/dist/chessboard/types";
 
 import {
+    BoardState,
     PieceColour,
     STARTING_FEN,
     StateTreeNode,
@@ -152,7 +153,7 @@ function AnalysisBoard({
                 ),
             parent: currentStateTreeNode,
             children: [],
-            state: {
+            state: new BoardState({
                 fen: move.after,
                 move: {
                     san: move.san,
@@ -162,7 +163,7 @@ function AnalysisBoard({
                     ? PieceColour.WHITE
                     : PieceColour.BLACK,
                 engineLines: {}
-            }
+            })
         });
 
         if (!existingNode) {
@@ -191,10 +192,13 @@ function AnalysisBoard({
         <div className={styles.boardContainer}>
             <EvaluationBar
                 height={analysisBoardWidth}
-                evaluation={{
-                    type: "centipawn",
-                    value: 1000
-                }}
+                evaluation={
+                    currentStateTreeNode.state.topEngineLine()?.evaluation
+                    || {
+                        type: "centipawn",
+                        value: 0
+                    }
+                }
                 flipped={boardFlipped}
             />
 

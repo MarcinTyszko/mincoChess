@@ -1,9 +1,7 @@
 .evaluationBar {
     width: 40px;
-
-    background-color: #fff;
 }
 
-.blackBar {
-    background-color: #0c0c0c;
+.overBar {
+    transition: height 0.5s ease-out
 }

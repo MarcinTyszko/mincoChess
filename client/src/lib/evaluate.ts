@@ -73,8 +73,8 @@ async function evaluateMoves(
 
             engineLines.push({
                 evaluation: {
-                    type: variation.cp ? "centipawn" : "mate",
-                    value: parseFloat(variation.cp || variation.mate)
+                    type: (variation.cp == undefined) ? "mate" : "centipawn",
+                    value: parseFloat(variation.cp ?? variation.mate)
                 },
                 depth: parseInt(cloudEvaluation.depth),
                 index: parseInt(cloudEvaluation.pvs.indexOf(variation)),

@@ -8,7 +8,7 @@ function useLocalStorage<ValueType>(key: LocalStorageKey) {
     );
 
     function set(value: Partial<ValueType>) {
-        let newValue = typeof value == "object"
+        const newValue = typeof value == "object"
             ? JSON.stringify(value)
             : String(value);
 
