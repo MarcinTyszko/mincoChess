@@ -16,7 +16,7 @@ function NumberSetting({
         type="number"
         min={min}
         max={max}
-        value={getInitialValue()}
+        defaultValue={getInitialValue()}
         onChange={event => onChange(
             parseInt(event.target.value)
         )}

@@ -3,8 +3,6 @@ import { merge } from "lodash";
 import { LocalStorageKey } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 
-import useLocalStorage from "./useLocalStorage";
-
 interface Settings {
     analysis: {
         engine: EngineVersion;
@@ -37,16 +35,27 @@ const defaultSettings: Settings = {
     }
 };
 
-function useSettings() {
-    const {
-        parsedValue: settings,
-        set: setSettings
-    } = useLocalStorage<Settings>(LocalStorageKey.SETTINGS);
+export function getSettings(): Settings {
+    const savedSettings = localStorage.getItem(LocalStorageKey.SETTINGS);
+    if (!savedSettings) return defaultSettings;
 
-    return {
-        settings: merge(defaultSettings, settings),
-        setSettings: setSettings
-    };
+    try {
+        return merge(
+            defaultSettings,
+            JSON.parse(savedSettings)
+        );
+    } catch {
+        return defaultSettings;
+    }
 }
 
-export default useSettings;
+export function setSettings(
+    updater: (settings: Settings) => Settings
+) {
+    const settings = updater(getSettings());
+
+    localStorage.setItem(
+        LocalStorageKey.SETTINGS,
+        JSON.stringify(settings)
+    );
+}

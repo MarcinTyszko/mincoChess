@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import useSettings from "@hooks/useSettings";
+import { getSettings, setSettings } from "@lib/settings";
 import Dialog from "@components/common/Dialog";
 import DropdownSetting from "@components/common/settings/DropdownSetting";
 import NumberSetting from "@components/common/settings/NumberSetting";
@@ -14,7 +14,7 @@ import * as styles from "./AnalysisSettingsDialog.module.css";
 function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
     const { t } = useTranslation();
 
-    const { settings, setSettings } = useSettings();
+    const settings = getSettings();
 
     return <Dialog
         className={styles.settingsDialog}
@@ -47,9 +47,11 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 ]}
                 getInitialValue={() => settings.analysis.engine}
                 onSelect={value => {
-                    settings.analysis.engine = value as EngineVersion;
+                    setSettings(settings => {
+                        settings.analysis.engine = value as EngineVersion;
 
-                    setSettings(settings);
+                        return settings;
+                    });
                 }}
                 style={{ width: "180px" }}
             />
@@ -63,9 +65,11 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 max={99}
                 getInitialValue={() => settings.analysis.engineDepth}
                 onChange={value => {
-                    settings.analysis.engineDepth = value;
+                    setSettings(settings => {
+                        settings.analysis.engineDepth = value;
 
-                    setSettings(settings);
+                        return settings;
+                    });
                 }}
                 style={{ width: "180px" }}
             />
@@ -79,9 +83,11 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 max={5}
                 getInitialValue={() => settings.analysis.engineLines}
                 onChange={value => {
-                    settings.analysis.engineLines = value;
+                    setSettings(settings => {
+                        settings.analysis.engineLines = value;
 
-                    setSettings(settings);
+                        return settings;
+                    });
                 }}
                 style={{ width: "180px" }}
             />
@@ -97,9 +103,11 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.includedClassifications.brilliant}
                 onChange={checked => {
-                    settings.analysis.includedClassifications.brilliant = checked;
+                    setSettings(settings => {
+                        settings.analysis.includedClassifications.brilliant = checked;
 
-                    setSettings(settings);
+                        return settings;
+                    });
                 }}
             />
         </div>
@@ -110,9 +118,11 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.includedClassifications.theory}
                 onChange={checked => {
-                    settings.analysis.includedClassifications.theory = checked;
+                    setSettings(settings => {
+                        settings.analysis.includedClassifications.theory = checked;
 
-                    setSettings(settings);
+                        return settings;
+                    });
                 }}
             />
         </div>

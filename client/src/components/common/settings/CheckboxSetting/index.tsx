@@ -11,7 +11,7 @@ function CheckboxSetting({
     return <input
         className={styles.settingsField}
         type="checkbox"
-        checked={getInitialValue()}
+        defaultChecked={getInitialValue()}
         onChange={event => onChange(event.target.checked)}
         style={style}
     />;

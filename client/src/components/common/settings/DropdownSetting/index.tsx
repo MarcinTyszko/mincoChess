@@ -12,7 +12,7 @@ function DropdownSetting({
     return <select
         className={styles.settingsField}
         style={style}
-        value={getInitialValue()}
+        defaultValue={getInitialValue()}
         onChange={event => onSelect(event.target.value)}
     >
         {
