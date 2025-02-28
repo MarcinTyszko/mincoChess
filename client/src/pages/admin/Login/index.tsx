@@ -49,10 +49,6 @@ function Login() {
         <img
             src={require("@assets/img/logo.svg")}
             height={100}
-            style={{
-                transform: "scaleX(-1)",
-                filter: "invert()"
-            }}
             draggable={false}
         />
 

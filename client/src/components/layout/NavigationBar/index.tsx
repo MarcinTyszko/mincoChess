@@ -30,13 +30,9 @@ function NavigationBar() {
 
             <img
                 src={require("@assets/img/logo.svg")}
-                style={{
-                    transform: "scaleX(-1)",
-                    filter: "invert()"
-                }}
                 alt="WintrChess"
                 title="WINTR"
-                height={35}
+                height={40}
                 draggable={false}
             />
 
