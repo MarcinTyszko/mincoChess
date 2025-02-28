@@ -1,5 +1,5 @@
 import React from "react";
-import { clamp, round } from "lodash";
+import { clamp } from "lodash";
 
 import EvaluationBarProps from "./EvaluationBarProps";
 import * as styles from "./EvaluationBar.module.css";
@@ -19,7 +19,7 @@ function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
         blackHeight = evaluation.value > 0
             ? 0
             : height;
-    }
+    }    
 
     return <div
         className={styles.evaluationBar}
@@ -38,13 +38,25 @@ function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
                 height={flipped ? (height - blackHeight) : blackHeight}
             />
 
+            {
+                evaluation.type == "mate"
+                && evaluation.value == 0
+                && <rect
+                    fill="#b0b0b0"
+                    x={0}
+                    y={0}
+                    width={width}
+                    height={height}
+                />
+            }
+
             <text
                 textAnchor="middle"
                 x={20}
                 y={
-                    evaluation.value >= 0
-                        ? height - 12
-                        : 20
+                    (evaluation.value >= 0) == flipped
+                        ? 20
+                        : height - 12
                 }
                 fontSize={14}
                 fill={
@@ -59,7 +71,9 @@ function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
                 {
                     evaluation.type == "mate"
                         ? `M${Math.abs(evaluation.value)}`
-                        : round(Math.abs(evaluation.value) / 100, 1)
+                        : (Math.abs(evaluation.value) / 100).toFixed(
+                            evaluation.value >= 1000 ? 0 : 1
+                        )
                 }
             </text>
         </svg>

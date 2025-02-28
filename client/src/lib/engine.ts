@@ -140,8 +140,9 @@ class Engine {
         for (const log of evaluationLogs.reverse()) {
             // Extract depth and multipv index of line
             const depth = parseInt(log.match(/(?<= depth )\d+/)?.[0] || "");
-            const index = parseInt(log.match(/(?<= multipv )\d+/)?.[0] || "");
-            if (isNaN(depth) || isNaN(index)) continue;
+            if (isNaN(depth)) continue;
+
+            const index = parseInt(log.match(/(?<= multipv )\d+/)?.[0] || "") || 1;
 
             // Skip non-latest line with this depth & index
             const duplicateLine = engineLines.some(
@@ -167,8 +168,7 @@ class Engine {
             }
 
             // Extract UCI moves from pv
-            const moveUcis = (log.match(/ pv (.*)/)?.[1] || "").split(" ");
-            if (moveUcis.length == 0) continue;
+            const moveUcis = log.match(/ pv (.*)/)?.at(1)?.split(" ") || [];
 
             // Convert these to SANs on a temp board
             const moveSans: string[] = [];

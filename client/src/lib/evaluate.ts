@@ -77,7 +77,7 @@ async function evaluateMoves(
                     value: parseFloat(variation.cp ?? variation.mate)
                 },
                 depth: parseInt(cloudEvaluation.depth),
-                index: parseInt(cloudEvaluation.pvs.indexOf(variation)),
+                index: parseInt(cloudEvaluation.pvs.indexOf(variation)) + 1,
                 moves: variation.moves
                     .split(" ")
                     .map((uciMove: string) => {
