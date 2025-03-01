@@ -195,7 +195,7 @@ function AnalysisBoard({
                 evaluation={
                     currentStateTreeNode.state.topEngineLine()?.evaluation
                     || {
-                        type: "mate",
+                        type: "centipawn",
                         value: 0
                     }
                 }
