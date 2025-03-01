@@ -15,13 +15,7 @@ import {
     Square
 } from "react-chessboard/dist/chessboard/types";
 
-import {
-    BoardState,
-    PieceColour,
-    STARTING_FEN,
-    StateTreeNode,
-    parseUciMove
-} from "wintrchess";
+import { STARTING_FEN, parseUciMove } from "wintrchess";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
@@ -142,39 +136,12 @@ function AnalysisBoard({
         }
 
         // Add a new node to state tree
-        const existingNode = currentStateTreeNode.children.find(
-            child => child.state.move?.san == move.san
-        );
+        const addedNode = currentStateTreeNode.addChildMove(move.san);
 
-        const createdNode = new StateTreeNode({
-            mainline: currentStateTreeNode.mainline
-                && !currentStateTreeNode.children.some(
-                    child => child.mainline
-                ),
-            parent: currentStateTreeNode,
-            children: [],
-            state: new BoardState({
-                fen: move.after,
-                move: {
-                    san: move.san,
-                    uci: move.lan
-                },
-                moveColour: move.color == "w"
-                    ? PieceColour.WHITE
-                    : PieceColour.BLACK,
-                engineLines: {}
-            })
-        });
-
-        if (!existingNode) {
-            currentStateTreeNode.children.push(createdNode);
-        }
-
-        setCurrentStateTreeNode(existingNode || createdNode);
+        setCurrentStateTreeNode(addedNode);
+        playBoardSound(addedNode);
 
         setGameAnalysisOpen(true);
-
-        playBoardSound(createdNode);
 
         return true;
     }
@@ -194,10 +161,10 @@ function AnalysisBoard({
                 height={analysisBoardWidth}
                 evaluation={
                     currentStateTreeNode.state.topEngineLine()?.evaluation
-                    || {
-                        type: "centipawn",
-                        value: 0
-                    }
+                        || {
+                            type: "centipawn",
+                            value: 0
+                        }
                 }
                 flipped={boardFlipped}
             />

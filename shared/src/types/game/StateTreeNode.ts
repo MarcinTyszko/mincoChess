@@ -1,6 +1,7 @@
 import { Chess } from "chess.js";
 import { round } from "lodash";
 
+import PieceColour from "../../constants/PieceColour";
 import BoardState from "./BoardState";
 
 interface StateTreeNodeProps {
@@ -84,6 +85,44 @@ class StateTreeNode {
         for (const node of this.chain()) {
             node.mainline = true;
         }
+    }
+
+    /**
+     * @description Adds a child node from a SAN move, accounting for possible
+     * mainline and a pre-existing node of the same move. Returns child node.
+     */
+    addChildMove(san: string) {
+        const existingNode = this.children.find(
+            child => child.state.move?.san == san
+        );
+        
+        const childMove = new Chess(this.state.fen).move(san);
+
+        const createdNode = new StateTreeNode({
+            mainline: this.mainline
+                && !this.children.some(
+                    child => child.mainline
+                ),
+            parent: this,
+            children: [],
+            state: new BoardState({
+                fen: childMove.after,
+                move: {
+                    san: childMove.san,
+                    uci: childMove.lan
+                },
+                moveColour: childMove.color == "w"
+                    ? PieceColour.WHITE
+                    : PieceColour.BLACK,
+                engineLines: {}
+            })
+        });
+
+        if (!existingNode) {
+            this.children.push(createdNode);
+        }
+
+        return existingNode || createdNode;
     }
 }
 

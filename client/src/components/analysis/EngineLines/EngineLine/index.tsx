@@ -1,12 +1,31 @@
 import React, { useState, useRef } from "react";
 
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+
 import * as styles from "./EngineLine.module.css";
 import EngineLineProps from "./EngineLineProps";
 
 function EngineLine({ line }: EngineLineProps) {
+    const {
+        currentStateTreeNode,
+        setCurrentStateTreeNode
+    } = useAnalysisBoardStore();
+
     const [ expanded, setExpanded ] = useState(false);
 
     const engineLineRef = useRef<HTMLDivElement>(null);
+
+    function traverseToLineMove(targetIndex: number) {
+        let currentNode = currentStateTreeNode;
+
+        for (let moveIndex = 0; moveIndex <= targetIndex; moveIndex++) {
+            currentNode = currentNode.addChildMove(
+                line.moves[moveIndex].san
+            );
+        }
+
+        setCurrentStateTreeNode(currentNode);
+    }
 
     return <div
         className={styles.engineLine}
@@ -32,9 +51,14 @@ function EngineLine({ line }: EngineLineProps) {
         </span>
 
         {
-            line.moves.slice(0, 12).map(move => <span>
-                {move.san}
-            </span>)
+            line.moves.map((move, index) => (
+                <span
+                    className={styles.lineMove}
+                    onClick={() => traverseToLineMove(index)}
+                >
+                    {move.san}
+                </span>
+            ))
         }
 
         <img

@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { EngineLine } from "wintrchess";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import { getSettings } from "@lib/settings";
 import Engine from "@lib/engine";
 
@@ -15,15 +16,18 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
+    const {
+        realtimeEngineDepth,
+        setRealtimeEngineDepth,
+        realtimeEngineLines,
+        setRealtimeEngineLines
+    } = useRealtimeEngineStore();
+
     const settings = getSettings();
 
     const engine = useMemo(() => (
         new Engine(settings.analysis.engine)
     ), []);
-
-    const [ localDepth, setLocalDepth ] = useState(0);
-
-    const [ localEngineLines, setLocalEngineLines ] = useState<EngineLine[]>([]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -32,7 +36,9 @@ function EngineLines({ fen }: EngineLinesProps) {
         settings.analysis.engineLines
     );
 
-    const localLines = localEngineLines.filter(line => line.depth == localDepth);
+    const localLines = realtimeEngineLines.filter(
+        line => line.depth == realtimeEngineDepth
+    );
 
     const displayedLines = cachedLines.length == settings.analysis.engineLines
         ? cachedLines : localLines;
@@ -57,8 +63,8 @@ function EngineLines({ fen }: EngineLinesProps) {
             await engine.evaluate(
                 settings.analysis.engineDepth,
                 (depth, lines) => {
-                    setLocalDepth(depth);
-                    setLocalEngineLines(lines);
+                    setRealtimeEngineDepth(depth);
+                    setRealtimeEngineLines(lines);
 
                     latestDepth = depth;
                     latestEngineLines = lines;
@@ -82,7 +88,7 @@ function EngineLines({ fen }: EngineLinesProps) {
             </span>
 
             <span>
-                {displayedLines.at(0)?.depth || localDepth}
+                {displayedLines.at(0)?.depth || realtimeEngineDepth}
             </span>
         </span>
 
