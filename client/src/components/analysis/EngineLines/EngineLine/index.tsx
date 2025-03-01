@@ -66,16 +66,17 @@ function EngineLine({ line }: EngineLineProps) {
             ))
         }
 
-        <img
-            className={styles.expandArrow}
-            src={
-                expanded
-                    ? require("@assets/img/expandarrow.svg")
-                    : require("@assets/img/collapsearrow.svg")
-            }
-            width={20}
-            onClick={() => setExpanded(!expanded)}
-        />
+        <div className={styles.expandArrowContainer}>
+            <img
+                className={styles.expandArrow}
+                src={require("@assets/img/expandarrow.svg")}
+                width={20}
+                onClick={() => setExpanded(!expanded)}
+                style={{
+                    transform: expanded ? "rotate(180deg)" : "rotate(0deg)"
+                }}
+            />
+        </div>
     </div>;
 }
 

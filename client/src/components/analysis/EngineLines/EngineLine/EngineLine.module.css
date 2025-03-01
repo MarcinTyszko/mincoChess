@@ -34,16 +34,22 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.expandArrow {
+.expandArrowContainer {
+    height: 20px;
     position: absolute;
     right: 0;
+    top: 3px;
 
     border-radius: 5px;
 
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease
 }
 
-.expandArrow:hover {
+.expandArrowContainer:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.expandArrow {
+    transition: transform 0.3s ease;
 }
