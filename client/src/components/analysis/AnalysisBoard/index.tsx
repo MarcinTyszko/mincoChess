@@ -20,10 +20,10 @@ import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import playBoardSound from "@lib/boardSounds";
-import EvaluationBar from "../EvaluationBar";
 import PlayerProfile from "../PlayerProfile";
 
 import HighlightedSquaresContext from "./HighlightedSquaresContext";
+import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
 
@@ -32,10 +32,7 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
-    const {
-        analysisBoardWidth,
-        setAnalysisBoardWidth
-    } = useLayoutStore();
+    const { setAnalysisBoardWidth } = useLayoutStore();
 
     const { setGameAnalysisOpen } = useAnalysisGameStore();
 
@@ -157,17 +154,7 @@ function AnalysisBoard({
         />
 
         <div className={styles.boardContainer}>
-            <EvaluationBar
-                height={analysisBoardWidth}
-                evaluation={
-                    currentStateTreeNode.state.topEngineLine()?.evaluation
-                        || {
-                            type: "centipawn",
-                            value: 0
-                        }
-                }
-                flipped={boardFlipped}
-            />
+            <EvaluationBarArea/>
 
             <div className={styles.board} ref={boardRef}>
                 <HighlightedSquaresContext.Provider

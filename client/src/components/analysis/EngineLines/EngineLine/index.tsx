@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 
@@ -14,6 +14,11 @@ function EngineLine({ line }: EngineLineProps) {
     const [ expanded, setExpanded ] = useState(false);
 
     const engineLineRef = useRef<HTMLDivElement>(null);
+
+    useEffect(
+        () => setExpanded(false),
+        [currentStateTreeNode]
+    );
 
     function traverseToLineMove(targetIndex: number) {
         let currentNode = currentStateTreeNode;

@@ -36,12 +36,16 @@ function EngineLines({ fen }: EngineLinesProps) {
         settings.analysis.engineLines
     );
 
+    const cachedDepth = currentStateTreeNode.state.topEngineLine()?.depth || 0;
+
     const localLines = realtimeEngineLines.filter(
         line => line.depth == realtimeEngineDepth
     );
 
-    const displayedLines = cachedLines.length == settings.analysis.engineLines
-        ? cachedLines : localLines;
+    const displayedLines = (
+        cachedLines.length == settings.analysis.engineLines
+        && cachedDepth >= settings.analysis.engineDepth
+    ) ? cachedLines : localLines;
 
     // Evaluate position locally if no cache available
     useEffect(() => {
