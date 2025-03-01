@@ -22,7 +22,7 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     const [ localDepth, setLocalDepth ] = useState(0);
 
-    const [ engineLines, setEngineLines ] = useState<EngineLine[]>([]);
+    const [ localEngineLines, setLocalEngineLines ] = useState<EngineLine[]>([]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -31,11 +31,12 @@ function EngineLines({ fen }: EngineLinesProps) {
         settings.analysis.engineLines
     );
 
-    const localLines = engineLines.filter(line => line.depth == localDepth);
+    const localLines = localEngineLines.filter(line => line.depth == localDepth);
 
     const displayedLines = cachedLines.length == settings.analysis.engineLines
         ? cachedLines : localLines;
 
+    // Evaluate position locally if no cache available
     useEffect(() => {
         if (evaluationDelayRef.current) {
             clearTimeout(evaluationDelayRef.current);
@@ -45,17 +46,31 @@ function EngineLines({ fen }: EngineLinesProps) {
 
         engine.stopEvaluation();
 
-        evaluationDelayRef.current = setTimeout(() => {
+        evaluationDelayRef.current = setTimeout(async () => {
             engine.setLineCount(settings.analysis.engineLines);
             engine.setPosition(fen);
 
-            engine.evaluate(
+            let latestDepth = 0;
+            let latestEngineLines: EngineLine[] = [];
+
+            await engine.evaluate(
                 settings.analysis.engineDepth,
                 (depth, lines) => {
                     setLocalDepth(depth);
-                    setEngineLines(lines);
+                    setLocalEngineLines(lines);
+
+                    latestDepth = depth;
+                    latestEngineLines = lines;
                 }
             );
+
+            if (latestDepth == settings.analysis.engineDepth) {
+                currentStateTreeNode.state.engineLines.local ??= [];
+
+                currentStateTreeNode.state.engineLines.local.push(
+                    ...latestEngineLines
+                );
+            }
         }, 500);
     }, [fen]);
 
