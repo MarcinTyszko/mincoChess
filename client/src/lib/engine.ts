@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import { EngineLine } from "wintrchess";
+import { EngineLine, STARTING_FEN } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
 
 interface EvaluationResult {
@@ -17,7 +17,7 @@ const UCI_EVALUATION_TYPES: Record<string, string | undefined> = {
 class Engine {
     private worker: Worker;
 
-    private position = new Chess().fen();
+    private position = STARTING_FEN;
 
     constructor(version: EngineVersion) {
         this.worker = new Worker("engines/" + version);
@@ -61,12 +61,16 @@ class Engine {
         this.worker.addEventListener("message", event => {
             handler(String(event.data));
         });
+
+        return this;
     }
 
     onError(handler: (error: string) => void) {
         this.worker.addEventListener("error", event => {
             handler(String(event.error));
         });
+
+        return this;
     }
 
     terminate() {
@@ -77,14 +81,20 @@ class Engine {
         this.worker.postMessage(
             `setoption name ${option} value ${value}`
         );
+
+        return this;
     }
 
     setLineCount(lines: number) {
         this.setOption("MultiPV", lines.toString());
+
+        return this;
     }
 
     setThreadCount(threads: number) {
         this.setOption("Threads", threads.toString());
+
+        return this;
     }
 
     setPosition(fen: string, uciMoves?: string[]) {
@@ -105,97 +115,92 @@ class Engine {
 
         this.worker.postMessage(`position fen ${fen}`);
         this.position = fen;
+
+        return this;
     }
 
     async evaluate(
         depth: number,
-        onDepthReached?: (depth: number) => void
+        onDepthReached?: (depth: number, lines: EngineLine[]) => void
     ): Promise<EvaluationResult> {
         const startTime = Date.now();
 
-        let highestDepthReached = 0;
+        let engineLines: EngineLine[] = [];
 
-        const evaluationLogs = (await this.consumeLogs(
+        await this.consumeLogs(
             `go depth ${depth}`,
             log => (
                 log.startsWith("bestmove")
                 || log.includes("depth 0")
             ),
             log => {
-                const depth = parseInt(
-                    log.match(/(?<= depth )\d+/)?.[0] || ""
-                );
+                if (!log.startsWith("info depth")) return;
+                if (log.includes("currmove")) return;
 
-                if (!isNaN(depth) && depth >= highestDepthReached) {
-                    highestDepthReached = depth;
-                    onDepthReached?.(depth);
+                // Extract depth and multipv index of line
+                const depth = parseInt(log.match(/(?<= depth )\d+/)?.[0] || "");
+                if (isNaN(depth)) return;
+
+                const index = parseInt(log.match(/(?<= multipv )\d+/)?.[0] || "") || 1;
+
+                // Extract evaluation type and score
+                const scoreMatches = log.match(/ score (cp|mate) (-?\d+)/);
+
+                const evaluationType = UCI_EVALUATION_TYPES[scoreMatches?.[1] || ""];
+                if (
+                    evaluationType != "centipawn"
+                    && evaluationType != "mate"
+                ) return;
+
+                let evaluationScore = parseInt(scoreMatches?.[2] || "");
+                if (isNaN(evaluationScore)) return;
+
+                // Make sure evaluations are always from White's view
+                if (this.position.includes(" b ")) {
+                    evaluationScore = -evaluationScore;
                 }
+
+                // Extract UCI moves from pv
+                const moveUcis = log.match(/ pv (.*)/)?.at(1)?.split(" ") || [];
+
+                // Convert these to SANs on a temp board
+                const moveSans: string[] = [];
+
+                const board = new Chess(this.position);
+                for (const moveUci of moveUcis) {
+                    moveSans.push(board.move(moveUci).san);
+                }
+
+                // Remove old duplicate line and add new one
+                engineLines = engineLines.filter(line => (
+                    line.depth != depth || line.index != index
+                ));
+
+                engineLines.push({
+                    depth: depth,
+                    index: index,
+                    evaluation: {
+                        type: evaluationType,
+                        value: evaluationScore
+                    },
+                    moves: moveUcis.map((moveUci, moveIndex) => ({
+                        uci: moveUci,
+                        san: moveSans[moveIndex]
+                    }))
+                });
+
+                onDepthReached?.(depth, engineLines);
             }
-        )).filter(
-            message => message.startsWith("info depth")
         );
-
-        const engineLines: EngineLine[] = [];
-
-        for (const log of evaluationLogs.reverse()) {
-            // Extract depth and multipv index of line
-            const depth = parseInt(log.match(/(?<= depth )\d+/)?.[0] || "");
-            if (isNaN(depth)) continue;
-
-            const index = parseInt(log.match(/(?<= multipv )\d+/)?.[0] || "") || 1;
-
-            // Skip non-latest line with this depth & index
-            const duplicateLine = engineLines.some(
-                line => line.depth == depth && line.index == index
-            );
-            if (duplicateLine) continue;
-
-            // Extract evaluation type and score
-            const scoreMatches = log.match(/ score (cp|mate) (-?\d+)/);
-
-            const evaluationType = UCI_EVALUATION_TYPES[scoreMatches?.[1] || ""];
-            if (
-                evaluationType != "centipawn"
-                && evaluationType != "mate"
-            ) continue;
-
-            let evaluationScore = parseInt(scoreMatches?.[2] || "");
-            if (isNaN(evaluationScore)) continue;
-
-            // Make sure evaluations are always from White's view
-            if (this.position.includes(" b ")) {
-                evaluationScore = -evaluationScore;
-            }
-
-            // Extract UCI moves from pv
-            const moveUcis = log.match(/ pv (.*)/)?.at(1)?.split(" ") || [];
-
-            // Convert these to SANs on a temp board
-            const moveSans: string[] = [];
-
-            const board = new Chess(this.position);
-            for (const moveUci of moveUcis) {
-                moveSans.push(board.move(moveUci).san);
-            }
-
-            engineLines.push({
-                depth: depth,
-                index: index,
-                evaluation: {
-                    type: evaluationType,
-                    value: evaluationScore
-                },
-                moves: moveUcis.map((moveUci, moveIndex) => ({
-                    uci: moveUci,
-                    san: moveSans[moveIndex]
-                }))
-            });
-        }
 
         return {
             elapsedTime: Date.now() - startTime,
             lines: engineLines 
         };
+    }
+
+    stopEvaluation() {
+        this.worker.postMessage("stop");
     }
 }
 

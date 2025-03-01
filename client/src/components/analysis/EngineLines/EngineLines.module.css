@@ -1,0 +1,30 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    padding-top: 7px;
+
+    border-radius: 10px;
+    background-color: #323232;
+}
+
+.depth {
+    color: gray;
+    font-size: 0.7rem;
+}
+
+.engineLine {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+
+    color: white;
+}
+
+.evaluation {
+    padding: 2px 5px;
+
+    border-radius: 10px;
+}

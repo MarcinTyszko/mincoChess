@@ -8,11 +8,13 @@ import StateTreeEditor from "@components/analysis/StateTreeEditor";
 import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./GameReport.module.css";
+import EngineLines from "@components/analysis/EngineLines";
 
 function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
 
     const {
+        currentStateTreeNode,
         setCurrentStateTreeNode,
         setAutoplayEnabled
     } = useAnalysisBoardStore();
@@ -20,6 +22,8 @@ function GameReport() {
     const { analysisProgress } = useContext(AnalysisProgressContext);
     
     return <>
+        <EngineLines fen={currentStateTreeNode.state.fen} />
+
         <span style={{ color: "white" }}>
             PROGRESS: {round(analysisProgress * 100, 1)}%
         </span>

@@ -56,7 +56,10 @@
                 "ratelimited": "You were ratelimited, please wait..."
             },
             "analyseButton": "Analyse",
-            "analysisError": "Failed to analyse game. You may have an issue with your Internet connection or your browser."
+            "analysisError": "Failed to analyse game. You may have an issue with your Internet connection or your browser.",
+            "engineLines": {
+                "depth": "Depth:"
+            }
         },
         "news": {
             "title": "Newspaper",
