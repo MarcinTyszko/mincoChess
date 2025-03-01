@@ -12,19 +12,9 @@
 .depth {
     display: flex;
     gap: 5px;
-    
+
     color: gray;
     font-size: 0.7rem;
-}
-
-.engineLine {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 3px;
-    width: 100%;
-
-    color: white;
 }
 
 .engineLineSeparator {
@@ -34,10 +24,4 @@
 
     border-width: 1px 0 0 0;
     border-color: #a5a5a5;
-}
-
-.evaluation {
-    padding: 2px 5px;
-
-    border-radius: 10px;
 }

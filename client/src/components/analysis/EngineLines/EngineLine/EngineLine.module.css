@@ -1,0 +1,35 @@
+.engineLine {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3px;
+    width: 100%;
+    padding-right: 23px;
+    box-sizing: border-box;
+    position: relative;
+
+    color: white;
+    overflow: hidden;
+
+    transition: height 0.3s ease-out;
+}
+
+.evaluation {
+    padding: 2px 5px;
+
+    border-radius: 10px;
+}
+
+.expandArrow {
+    position: absolute;
+    right: 0;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.expandArrow:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}

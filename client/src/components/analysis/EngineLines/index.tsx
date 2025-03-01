@@ -6,6 +6,7 @@ import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import { getSettings } from "@lib/settings";
 import Engine from "@lib/engine";
 
+import EngineLineInfo from "./EngineLine";
 import EngineLinesProps from "./EngineLinesProps";
 import * as styles from "./EngineLines.module.css";
 
@@ -89,29 +90,7 @@ function EngineLines({ fen }: EngineLinesProps) {
             displayedLines.sort(
                 (a, b) => a.index - b.index
             ).map((line, index) => <>
-                <div className={styles.engineLine}>
-                    <span
-                        className={styles.evaluation}
-                        style={{
-                            backgroundColor: line.evaluation.value >= 0
-                                ? "#fff" : "#0c0c0c",
-                            color: line.evaluation.value >= 0
-                                ? "#0c0c0c" : "#fff"
-                        }}
-                    >
-                        {
-                            line.evaluation.type == "centipawn"
-                                ? Math.abs(line.evaluation.value / 100).toFixed(1)
-                                : `M${Math.abs(line.evaluation.value)}`
-                        }
-                    </span>
-
-                    {
-                        line.moves.slice(0, 12).map(move => <span>
-                            {move.san}
-                        </span>)
-                    }
-                </div>
+                <EngineLineInfo line={line} />
 
                 {
                     index != (displayedLines.length - 1)
