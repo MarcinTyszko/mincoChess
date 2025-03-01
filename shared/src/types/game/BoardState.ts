@@ -1,4 +1,4 @@
-import { maxBy } from "lodash";
+import { max, maxBy, uniqWith } from "lodash";
 
 import Classification from "../../constants/Classification";
 import PieceColour from "../../constants/PieceColour";
@@ -34,14 +34,33 @@ class BoardState {
         this.classification = props.classification;
     }
 
+    private combinedEngineLines() {
+        return [
+            ...(this.engineLines.local || []),
+            ...(this.engineLines.cloud || [])
+        ];
+    }
+
     topEngineLine() {
         return maxBy(
-            [
-                ...(this.engineLines.local || []),
-                ...(this.engineLines.cloud || [])
-            ],
+            this.combinedEngineLines(),
             line => line.depth - line.index
         );
+    }
+
+    topEngineLines(count: number) {
+        const combinedLines = this.combinedEngineLines();
+
+        const maxDepth = max(
+            combinedLines.map(line => line.depth)
+        );
+
+        if (!maxDepth) return [];
+
+        return uniqWith(
+            combinedLines.filter(line => line.depth == maxDepth),
+            (a, b) => a.index == b.index
+        ).slice(0, count);
     }
 }
 

@@ -10,6 +10,9 @@
 }
 
 .depth {
+    display: flex;
+    gap: 5px;
+    
     color: gray;
     font-size: 0.7rem;
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { EngineLine } from "wintrchess";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import { getSettings } from "@lib/settings";
 import Engine from "@lib/engine";
 
@@ -11,24 +12,36 @@ import * as styles from "./EngineLines.module.css";
 function EngineLines({ fen }: EngineLinesProps) {
     const { t } = useTranslation();
 
+    const { currentStateTreeNode } = useAnalysisBoardStore();
+
     const settings = getSettings();
 
     const engine = useMemo(() => (
         new Engine(settings.analysis.engine)
     ), []);
 
-    const [ depth, setDepth ] = useState(0);
+    const [ localDepth, setLocalDepth ] = useState(0);
 
     const [ engineLines, setEngineLines ] = useState<EngineLine[]>([]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const displayedLines = engineLines.filter(line => line.depth == depth);
+    // Get engine lines to display
+    const cachedLines = currentStateTreeNode.state.topEngineLines(
+        settings.analysis.engineLines
+    );
+
+    const localLines = engineLines.filter(line => line.depth == localDepth);
+
+    const displayedLines = cachedLines.length == settings.analysis.engineLines
+        ? cachedLines : localLines;
 
     useEffect(() => {
         if (evaluationDelayRef.current) {
             clearTimeout(evaluationDelayRef.current);
         }
+
+        if (displayedLines == cachedLines) return;
 
         engine.stopEvaluation();
 
@@ -39,7 +52,7 @@ function EngineLines({ fen }: EngineLinesProps) {
             engine.evaluate(
                 settings.analysis.engineDepth,
                 (depth, lines) => {
-                    setDepth(depth);
+                    setLocalDepth(depth);
                     setEngineLines(lines);
                 }
             );
@@ -48,11 +61,19 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     return <div className={styles.wrapper}>
         <span className={styles.depth}>
-            {`${t("pages.analysis.engineLines.depth")} ${depth}`}
+            <span>
+                {t("pages.analysis.engineLines.depth")}
+            </span>
+
+            <span>
+                {displayedLines.at(0)?.depth || localDepth}
+            </span>
         </span>
 
         {
-            displayedLines.map((line, index) => <>
+            displayedLines.sort(
+                (a, b) => a.index - b.index
+            ).map((line, index) => <>
                 <div className={styles.engineLine}>
                     <span
                         className={styles.evaluation}

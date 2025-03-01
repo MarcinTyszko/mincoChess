@@ -6,6 +6,7 @@ import {
     AnalysisGame,
     StateTreeNode
 } from "wintrchess";
+import { getSettings } from "./settings";
 import EngineVersion from "@constants/EngineVersion";
 import Engine from "./engine";
 import { EvaluateMovesError } from "./errors";
@@ -40,13 +41,16 @@ async function evaluateMoves(
 
     const progress = () => sum(progresses) / stateTreeNodes.length;
 
+    // Get settings for engine line count
+    const engineLineCount = getSettings().analysis.engineLines;
+
     // Apply cloud evaluations where possible
     for (const stateTreeNode of stateTreeNodes) {
         // Fetch cloud evaluation from Lichess servers
         const cloudEvaluationResponse = await fetch(
             "https://lichess.org/api/cloud-eval"
                 + `?fen=${stateTreeNode.state.fen}`
-                + "&multiPv=2"
+                + `&multiPv=${engineLineCount}`
         );
 
         if (options.verbose) {
