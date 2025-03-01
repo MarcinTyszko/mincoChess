@@ -13,16 +13,17 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     const settings = getSettings();
 
-    const engine = useMemo(() => {
-        return new Engine(settings.analysis.engine)
-            .setLineCount(settings.analysis.engineLines);
-    }, []);
+    const engine = useMemo(() => (
+        new Engine(settings.analysis.engine)
+    ), []);
 
     const [ depth, setDepth ] = useState(0);
 
     const [ engineLines, setEngineLines ] = useState<EngineLine[]>([]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const displayedLines = engineLines.filter(line => line.depth == depth);
 
     useEffect(() => {
         if (evaluationDelayRef.current) {
@@ -32,6 +33,7 @@ function EngineLines({ fen }: EngineLinesProps) {
         engine.stopEvaluation();
 
         evaluationDelayRef.current = setTimeout(() => {
+            engine.setLineCount(settings.analysis.engineLines);
             engine.setPosition(fen);
 
             engine.evaluate(
@@ -50,9 +52,8 @@ function EngineLines({ fen }: EngineLinesProps) {
         </span>
 
         {
-            engineLines
-                .filter(line => line.depth == depth)
-                .map(line => <div className={styles.engineLine}>
+            displayedLines.map((line, index) => <>
+                <div className={styles.engineLine}>
                     <span
                         className={styles.evaluation}
                         style={{
@@ -74,7 +75,13 @@ function EngineLines({ fen }: EngineLinesProps) {
                             {move.san}
                         </span>)
                     }
-                </div>)
+                </div>
+
+                {
+                    index != (displayedLines.length - 1)
+                    && <hr className={styles.engineLineSeparator} />
+                }
+            </>)
         }
     </div>;
 }
