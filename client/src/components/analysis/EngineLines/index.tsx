@@ -77,7 +77,11 @@ function EngineLines({ fen }: EngineLinesProps) {
                 }
             );
 
-            if (latestDepth != settings.analysis.engineDepth) return;
+            // If preferred depth not reached and it is not mate (depth 0 return)
+            if (
+                latestDepth != settings.analysis.engineDepth
+                && latestDepth != 0
+            ) return;
 
             currentStateTreeNode.state.engineLines.local = uniqWith(
                 [

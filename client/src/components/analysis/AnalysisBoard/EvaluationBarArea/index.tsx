@@ -25,17 +25,20 @@ function EvaluationBarArea() {
         realtimeEngineLines
     } = useRealtimeEngineStore();
 
-    const liminalState = clone(currentStateTreeNode.state);
-    liminalState.engineLines = { local: realtimeEngineLines };
+    // Compare real-time engine lines with cached ones
+    const currentLocalState = clone(currentStateTreeNode.state);
+    currentLocalState.engineLines = { local: realtimeEngineLines };
+
+    const topLocalLine = currentLocalState.topEngineLine();
 
     const topCachedLine = currentStateTreeNode.state.topEngineLine();
-    const topLiminalLine = liminalState.topEngineLine();
+    const cachedDepth = topCachedLine?.depth || -Infinity;
 
     return <EvaluationBar
         height={analysisBoardWidth}
         evaluation={
-            realtimeEngineDepth > (topCachedLine?.depth || 0)
-                ? (topLiminalLine?.evaluation || DEFAULT_EVALUATION)
+            realtimeEngineDepth > cachedDepth
+                ? (topLocalLine?.evaluation || DEFAULT_EVALUATION)
                 : (topCachedLine?.evaluation || DEFAULT_EVALUATION)
         }
         flipped={boardFlipped}
