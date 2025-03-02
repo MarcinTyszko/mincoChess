@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./EngineLine.module.css";
 import EngineLineProps from "./EngineLineProps";
@@ -30,6 +31,8 @@ function EngineLine({ line }: EngineLineProps) {
         }
 
         setCurrentStateTreeNode(currentNode);
+
+        playBoardSound(currentNode);
     }
 
     return <div
@@ -50,7 +53,7 @@ function EngineLine({ line }: EngineLineProps) {
         >
             {
                 line.evaluation.type == "centipawn"
-                    ? Math.abs(line.evaluation.value / 100).toFixed(1)
+                    ? Math.abs(line.evaluation.value / 100).toFixed(2)
                     : `M${Math.abs(line.evaluation.value)}`
             }
         </span>

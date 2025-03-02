@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { range } from "lodash";
+import { range, uniqWith } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -77,13 +77,18 @@ function EngineLines({ fen }: EngineLinesProps) {
                 }
             );
 
-            if (latestDepth == settings.analysis.engineDepth) {
-                currentStateTreeNode.state.engineLines.local ??= [];
+            if (latestDepth != settings.analysis.engineDepth) return;
 
-                currentStateTreeNode.state.engineLines.local.push(
+            currentStateTreeNode.state.engineLines.local = uniqWith(
+                [
+                    ...(currentStateTreeNode.state.engineLines.local || []),
                     ...latestEngineLines
-                );
-            }
+                ],
+                (a, b) => (
+                    a.depth == b.depth
+                    && a.index == b.index
+                )
+            );
         }, 500);
     }, [fen]);
 
