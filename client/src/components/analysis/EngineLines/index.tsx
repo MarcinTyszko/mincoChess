@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { range, uniqWith } from "lodash";
 
 import { EngineLine } from "wintrchess";
+import useDelayedEffect from "@hooks/useDelayedEffect";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import { getSettings } from "@lib/settings";
@@ -27,9 +28,17 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     const settings = getSettings();
 
-    const engine = useMemo(() => (
-        new Engine(settings.analysis.engine)
-    ), []);
+    const [ engine, setEngine ] = useState(
+        () => new Engine(settings.analysis.engine)
+    );
+
+    useDelayedEffect(() => {
+        engine.terminate();
+
+        setEngine(
+            new Engine(settings.analysis.engine)
+        );
+    }, [settings.analysis.engine]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

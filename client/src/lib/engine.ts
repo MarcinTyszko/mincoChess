@@ -74,7 +74,7 @@ class Engine {
     }
 
     terminate() {
-        this.worker.terminate();
+        this.worker.postMessage("quit");
     }
 
     setOption(option: string, value: string) {
