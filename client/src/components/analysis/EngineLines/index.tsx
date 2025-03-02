@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { range } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -8,6 +9,7 @@ import { getSettings } from "@lib/settings";
 import Engine from "@lib/engine";
 
 import EngineLineInfo from "./EngineLine";
+import SkeletonLine from "./SkeletonLine";
 import EngineLinesProps from "./EngineLinesProps";
 import * as styles from "./EngineLines.module.css";
 
@@ -106,6 +108,16 @@ function EngineLines({ fen }: EngineLinesProps) {
                     index != (displayedLines.length - 1)
                     && <hr className={styles.engineLineSeparator} />
                 }
+            </>)
+        }
+
+        {
+            range(
+                Math.max(0, settings.analysis.engineLines - displayedLines.length)
+            ).map(() => <>
+                <hr className={styles.engineLineSeparator} />
+
+                <SkeletonLine/>
             </>)
         }
     </div>;
