@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
@@ -7,6 +8,8 @@ import * as styles from "./EngineLine.module.css";
 import EngineLineProps from "./EngineLineProps";
 
 function EngineLine({ line }: EngineLineProps) {
+    const { t } = useTranslation();
+
     const {
         currentStateTreeNode,
         setCurrentStateTreeNode
@@ -54,7 +57,11 @@ function EngineLine({ line }: EngineLineProps) {
             {
                 line.evaluation.type == "centipawn"
                     ? Math.abs(line.evaluation.value / 100).toFixed(2)
-                    : `M${Math.abs(line.evaluation.value)}`
+                    : (
+                        line.evaluation.value == 0
+                            ? t("pages.analysis.engineLines.checkmate")
+                            : `M${Math.abs(line.evaluation.value)}`
+                    )
             }
         </span>
 

@@ -58,7 +58,8 @@
             "analyseButton": "Analyse",
             "analysisError": "Failed to analyse game. You may have an issue with your Internet connection or your browser.",
             "engineLines": {
-                "depth": "Depth:"
+                "depth": "Depth:",
+                "checkmate": "Checkmate"
             }
         },
         "news": {

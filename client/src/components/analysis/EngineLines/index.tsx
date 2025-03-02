@@ -51,13 +51,13 @@ function EngineLines({ fen }: EngineLinesProps) {
 
     // Evaluate position locally if no cache available
     useEffect(() => {
+        engine.stopEvaluation();
+
         if (evaluationDelayRef.current) {
             clearTimeout(evaluationDelayRef.current);
         }
 
         if (displayedLines == cachedLines) return;
-
-        engine.stopEvaluation();
 
         evaluationDelayRef.current = setTimeout(async () => {
             engine.setLineCount(settings.analysis.engineLines);
@@ -121,7 +121,8 @@ function EngineLines({ fen }: EngineLinesProps) {
         }
 
         {
-            range(
+            displayedLines.at(0)?.depth != 0
+            && range(
                 Math.max(0, settings.analysis.engineLines - displayedLines.length)
             ).map(() => <>
                 <hr className={styles.engineLineSeparator} />
