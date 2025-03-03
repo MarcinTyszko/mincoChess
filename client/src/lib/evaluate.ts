@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { sum, sumBy } from "lodash";
+import { sum, sumBy, round } from "lodash";
 
 import {
     EngineLine,
@@ -39,7 +39,7 @@ async function evaluateMoves(
     // Each state tree node keeps a progress from 0 to 1
     const progresses: number[] = [];
 
-    const progress = () => sum(progresses) / stateTreeNodes.length;
+    const progress = () => round(sum(progresses) / stateTreeNodes.length, 3);
 
     // Get settings for engine line count
     const engineLineCount = getSettings().analysis.engineLines;

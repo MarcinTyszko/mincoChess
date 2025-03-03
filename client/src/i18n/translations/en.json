@@ -60,6 +60,9 @@
             "engineLines": {
                 "depth": "Depth:",
                 "checkmate": "Checkmate"
+            },
+            "progressReporter": {
+                "analysing": "Analysing..."
             }
         },
         "news": {

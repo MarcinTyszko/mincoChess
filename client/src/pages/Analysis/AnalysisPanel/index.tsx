@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 import useLayoutStore from "@stores/LayoutStore";
@@ -7,7 +7,6 @@ import Breakpoints from "@constants/Breakpoints";
 import OptionsToolbar from "@components/analysis/OptionsToolbar";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
-import AnalysisProgressContext from "./AnalysisProgressContext";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import * as styles from "./AnalysisPanel.module.css";
@@ -18,8 +17,6 @@ function AnalysisPanel() {
     const { contentSectionHeight } = useLayoutStore();
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
-
-    const [ analysisProgress, setAnalysisProgress ] = useState(0);
     
     return <div
         className={styles.wrapper}
@@ -35,18 +32,11 @@ function AnalysisPanel() {
 
         <OptionsToolbar/>
 
-        <AnalysisProgressContext.Provider
-            value={{
-                analysisProgress: analysisProgress,
-                setAnalysisProgress: setAnalysisProgress
-            }}
-        >
-            {
-                gameAnalysisOpen
-                    ? <GameReport/>
-                    : <GameSelection/>
-            }
-        </AnalysisProgressContext.Provider>
+        {
+            gameAnalysisOpen
+                ? <GameReport/>
+                : <GameSelection/>
+        }
 
         <StateTreeTraverser
             style={{

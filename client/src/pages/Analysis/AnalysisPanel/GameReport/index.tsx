@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
-import { round } from "lodash";
+import React from "react";
 
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import AnalysisProgressContext from "../AnalysisProgressContext";
+import EngineLines from "@components/analysis/EngineLines";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
 import playBoardSound from "@lib/boardSounds";
 
+import ProgressArea from "./ProgressArea";
 import * as styles from "./GameReport.module.css";
-import EngineLines from "@components/analysis/EngineLines";
 
 function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
@@ -18,15 +17,11 @@ function GameReport() {
         setCurrentStateTreeNode,
         setAutoplayEnabled
     } = useAnalysisBoardStore();
-
-    const { analysisProgress } = useContext(AnalysisProgressContext);
     
     return <>
-        <EngineLines fen={currentStateTreeNode.state.fen} />
+        <ProgressArea/>
 
-        <span style={{ color: "white" }}>
-            PROGRESS: {round(analysisProgress * 100, 1)}%
-        </span>
+        <EngineLines fen={currentStateTreeNode.state.fen} />
 
         <StateTreeEditor
             className={styles.stateTreeEditor}

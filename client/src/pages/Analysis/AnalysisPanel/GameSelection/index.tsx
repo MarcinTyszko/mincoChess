@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import AnalysisProgressContext from "../AnalysisProgressContext";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 
@@ -17,11 +16,9 @@ function GameSelection() {
         setGameSelectorError
     } = useGameSelectorStore();
 
-    const { setAnalysisProgress } = useContext(AnalysisProgressContext);
-
     const [ analysisError, setAnalysisError ] = useState<string | null>(null);
 
-    const analyse = useAnalysis(setAnalysisError, setAnalysisProgress);
+    const analyse = useAnalysis(setAnalysisError);
     
     return <>
         <GameSelector

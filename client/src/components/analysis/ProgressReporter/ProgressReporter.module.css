@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+
+    border-radius: 10px;
+    background-color: #323232;
+    color: white;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.progress {
+    width: 100%;
+}
