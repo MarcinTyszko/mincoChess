@@ -62,7 +62,8 @@
                 "checkmate": "Checkmate"
             },
             "progressReporter": {
-                "analysing": "Analysing..."
+                "analysing": "Analysing...",
+                "tooltip": "If this takes a while, you can try lowering the engine depth in the settings."
             }
         },
         "news": {

@@ -25,6 +25,10 @@ function ProgressReporter() {
             className={styles.progress}
             value={analysisProgress}
         />
+
+        <span className={styles.tooltip}>
+            {t("pages.analysis.progressReporter.tooltip")}
+        </span>
     </div>;
 }
 

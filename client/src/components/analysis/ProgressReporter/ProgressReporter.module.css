@@ -20,3 +20,10 @@
 .progress {
     width: 100%;
 }
+
+.tooltip {
+    width: 100%;
+
+    font-size: 0.75rem;
+    color: #d6d6d6;
+}
