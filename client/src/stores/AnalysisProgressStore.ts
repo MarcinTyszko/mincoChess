@@ -7,7 +7,7 @@ interface AnalysisProgressStore {
 }
 
 const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
-    analysisProgress: 0,
+    analysisProgress: 1,
 
     setAnalysisProgress(progress) {
         set({ analysisProgress: progress });
