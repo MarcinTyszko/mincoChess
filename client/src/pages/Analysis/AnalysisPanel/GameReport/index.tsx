@@ -14,7 +14,6 @@ function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
 
     const {
-        currentStateTreeNode,
         setCurrentStateTreeNode,
         setAutoplayEnabled
     } = useAnalysisBoardStore();
@@ -26,7 +25,7 @@ function GameReport() {
 
         {
             settings.analysis.engineLines > 0
-            && <EngineLines fen={currentStateTreeNode.state.fen} />
+            && <EngineLines/>
         }
 
         <StateTreeEditor

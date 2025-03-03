@@ -11,10 +11,9 @@ import Engine from "@lib/engine";
 
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
-import EngineLinesProps from "./EngineLinesProps";
 import * as styles from "./EngineLines.module.css";
 
-function EngineLines({ fen }: EngineLinesProps) {
+function EngineLines() {
     const { t } = useTranslation();
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
@@ -70,7 +69,7 @@ function EngineLines({ fen }: EngineLinesProps) {
 
         evaluationDelayRef.current = setTimeout(async () => {
             engine.setLineCount(settings.analysis.engineLines);
-            engine.setPosition(fen);
+            engine.setPosition(currentStateTreeNode.state.fen);
 
             let latestDepth = 0;
             let latestEngineLines: EngineLine[] = [];
@@ -103,7 +102,7 @@ function EngineLines({ fen }: EngineLinesProps) {
                 )
             );
         }, 500);
-    }, [fen]);
+    }, [currentStateTreeNode]);
 
     return <div className={styles.wrapper}>
         <span className={styles.depth}>

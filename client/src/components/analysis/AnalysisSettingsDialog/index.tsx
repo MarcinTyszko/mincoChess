@@ -93,7 +93,22 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             />
         </div>
 
-        <span style={{ color: "white" }}>
+        <div className={styles.setting}>
+            <span>{t("pages.analysis.analysisSettings.suggestionArrows")}</span>
+
+            <CheckboxSetting
+                getInitialValue={() => settings.analysis.suggestionArrows}
+                onChange={checked => {
+                    setSettings(settings => {
+                        settings.analysis.suggestionArrows = checked;
+
+                        return settings;
+                    });
+                }}
+            />
+        </div>
+
+        {/* <span style={{ color: "white" }}>
             {t("pages.analysis.analysisSettings.includeClassifications")}
         </span>
 
@@ -125,7 +140,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                     });
                 }}
             />
-        </div>
+        </div> */}
     </Dialog>;
 }
 

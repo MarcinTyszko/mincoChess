@@ -29,6 +29,7 @@
                 "engine": "Engine",
                 "engineDepth": "Engine Depth",
                 "engineLines": "Engine Lines",
+                "suggestionArrows": "Suggestion Arrows",
                 "includeClassifications": "Include Classifications",
                 "brilliant": "Brilliant",
                 "theory": "Theory"

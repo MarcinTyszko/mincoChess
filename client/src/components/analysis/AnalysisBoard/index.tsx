@@ -17,8 +17,8 @@ import {
 
 import { STARTING_FEN, parseUciMove } from "wintrchess";
 import useLayoutStore from "@stores/LayoutStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
