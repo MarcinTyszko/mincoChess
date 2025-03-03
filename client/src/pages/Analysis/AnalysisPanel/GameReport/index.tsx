@@ -4,6 +4,7 @@ import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import EngineLines from "@components/analysis/EngineLines";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
+import { getSettings } from "@lib/settings";
 import playBoardSound from "@lib/boardSounds";
 
 import ProgressArea from "./ProgressArea";
@@ -17,11 +18,16 @@ function GameReport() {
         setCurrentStateTreeNode,
         setAutoplayEnabled
     } = useAnalysisBoardStore();
+
+    const settings = getSettings();
     
     return <>
         <ProgressArea/>
 
-        <EngineLines fen={currentStateTreeNode.state.fen} />
+        {
+            settings.analysis.engineLines > 0
+            && <EngineLines fen={currentStateTreeNode.state.fen} />
+        }
 
         <StateTreeEditor
             className={styles.stateTreeEditor}

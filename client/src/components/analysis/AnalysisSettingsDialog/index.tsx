@@ -79,7 +79,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.analysisSettings.engineLines")}</span>
 
             <NumberSetting
-                min={1}
+                min={0}
                 max={5}
                 getInitialValue={() => settings.analysis.engineLines}
                 onChange={value => {
