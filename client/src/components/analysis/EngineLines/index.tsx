@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { range, uniqWith } from "lodash";
+import { isEqual, range, uniqWith } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
@@ -22,7 +22,8 @@ function EngineLines() {
         realtimeEngineDepth,
         setRealtimeEngineDepth,
         realtimeEngineLines,
-        setRealtimeEngineLines
+        setRealtimeEngineLines,
+        setDisplayedEngineLines
     } = useRealtimeEngineStore();
 
     const settings = getSettings();
@@ -42,20 +43,26 @@ function EngineLines() {
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Get engine lines to display
-    const cachedLines = currentStateTreeNode.state.topEngineLines(
-        settings.analysis.engineLines
-    );
+    const calculatedDisplayedLines = useMemo(() => {
+        const cachedLines = currentStateTreeNode.state.topEngineLines(
+            settings.analysis.engineLines
+        );
+    
+        const cachedDepth = cachedLines.at(0)?.depth || 0;
+    
+        const localLines = realtimeEngineLines.filter(
+            line => line.depth == realtimeEngineDepth
+        );
+    
+        return (
+            cachedLines.length == settings.analysis.engineLines
+            && cachedDepth >= settings.analysis.engineDepth
+        ) ? cachedLines : localLines;
+    }, [currentStateTreeNode, realtimeEngineLines]);
 
-    const cachedDepth = currentStateTreeNode.state.topEngineLine()?.depth || 0;
-
-    const localLines = realtimeEngineLines.filter(
-        line => line.depth == realtimeEngineDepth
-    );
-
-    const displayedLines = (
-        cachedLines.length == settings.analysis.engineLines
-        && cachedDepth >= settings.analysis.engineDepth
-    ) ? cachedLines : localLines;
+    useEffect(() => {
+        setDisplayedEngineLines(calculatedDisplayedLines);
+    }, [calculatedDisplayedLines]);
 
     // Evaluate position locally if no cache available
     useEffect(() => {
@@ -65,7 +72,15 @@ function EngineLines() {
             clearTimeout(evaluationDelayRef.current);
         }
 
-        if (displayedLines == cachedLines) return;
+        const cachedLines = currentStateTreeNode.state.topEngineLines(
+            settings.analysis.engineLines
+        );
+
+        // If they are both empty you should still evaluate locally
+        if (
+            isEqual(calculatedDisplayedLines, cachedLines)
+            && calculatedDisplayedLines.length > 0
+        ) return;
 
         evaluationDelayRef.current = setTimeout(async () => {
             engine.setLineCount(settings.analysis.engineLines);
@@ -78,7 +93,7 @@ function EngineLines() {
                 settings.analysis.engineDepth,
                 (depth, lines) => {
                     setRealtimeEngineDepth(depth);
-                    setRealtimeEngineLines(lines);
+                    setRealtimeEngineLines(lines.slice());
 
                     latestDepth = depth;
                     latestEngineLines = lines;
@@ -111,27 +126,27 @@ function EngineLines() {
             </span>
 
             <span>
-                {displayedLines.at(0)?.depth || realtimeEngineDepth}
+                {calculatedDisplayedLines.at(0)?.depth || realtimeEngineDepth}
             </span>
         </span>
 
         {
-            displayedLines.sort(
+            calculatedDisplayedLines.sort(
                 (a, b) => a.index - b.index
             ).map((line, index) => <>
                 <EngineLineInfo line={line} />
 
                 {
-                    index != (displayedLines.length - 1)
+                    index != (calculatedDisplayedLines.length - 1)
                     && <hr className={styles.engineLineSeparator} />
                 }
             </>)
         }
 
         {
-            displayedLines.at(0)?.depth != 0
+            calculatedDisplayedLines.at(0)?.depth != 0
             && range(
-                Math.max(0, settings.analysis.engineLines - displayedLines.length)
+                Math.max(0, settings.analysis.engineLines - calculatedDisplayedLines.length)
             ).map(() => <>
                 <hr className={styles.engineLineSeparator} />
 

@@ -1,4 +1,4 @@
-import { max, maxBy, uniqWith } from "lodash";
+import { maxBy, uniq, uniqWith } from "lodash";
 
 import Classification from "../../constants/Classification";
 import PieceColour from "../../constants/PieceColour";
@@ -41,6 +41,9 @@ class BoardState {
         ];
     }
 
+    /**
+     * @description Returns the line with the highest depth and lowest index.
+     */
     topEngineLine() {
         return maxBy(
             this.combinedEngineLines(),
@@ -48,19 +51,32 @@ class BoardState {
         );
     }
 
+    /**
+     * @description Returns the lines of a state with the highest depth. May return
+     * as many lines as specified with their different indexes, or an empty list if
+     * enough lines cannot be found at a single depth.
+     */
     topEngineLines(count: number) {
         const combinedLines = this.combinedEngineLines();
 
-        const maxDepth = max(
-            combinedLines.map(line => line.depth)
+        const depths = uniq(
+            combinedLines
+                .map(line => line.depth)
+                .sort((a, b) => b - a)
         );
 
-        if (!maxDepth) return [];
+        for (const depth of depths) {
+            const lines = uniqWith(
+                combinedLines.filter(line => line.depth == depth),
+                (a, b) => a.index == b.index
+            );
 
-        return uniqWith(
-            combinedLines.filter(line => line.depth == maxDepth),
-            (a, b) => a.index == b.index
-        ).slice(0, count);
+            if (lines.length >= count) {
+                return lines.slice(0, count);
+            }
+        }
+
+        return [];
     }
 }
 
