@@ -23,6 +23,9 @@ function EngineLines() {
         setRealtimeEngineDepth,
         realtimeEngineLines,
         setRealtimeEngineLines,
+        displayedEngineDepth,
+        setDisplayedEngineDepth,
+        displayedEngineLines,
         setDisplayedEngineLines
     } = useRealtimeEngineStore();
 
@@ -61,7 +64,15 @@ function EngineLines() {
     }, [currentStateTreeNode, realtimeEngineLines]);
 
     useEffect(() => {
-        setDisplayedEngineLines(calculatedDisplayedLines);
+        const displayedDepth = calculatedDisplayedLines.at(0)?.depth;
+
+        if (displayedDepth) {
+            setDisplayedEngineDepth(displayedDepth);
+        }
+
+        if (calculatedDisplayedLines.length >= settings.analysis.engineLines) {
+            setDisplayedEngineLines(calculatedDisplayedLines);
+        }
     }, [calculatedDisplayedLines]);
 
     // Evaluate position locally if no cache available
@@ -126,27 +137,27 @@ function EngineLines() {
             </span>
 
             <span>
-                {calculatedDisplayedLines.at(0)?.depth || realtimeEngineDepth}
+                {displayedEngineDepth}
             </span>
         </span>
 
         {
-            calculatedDisplayedLines.sort(
+            displayedEngineLines.sort(
                 (a, b) => a.index - b.index
             ).map((line, index) => <>
                 <EngineLineInfo line={line} />
 
                 {
-                    index != (calculatedDisplayedLines.length - 1)
+                    index != (displayedEngineLines.length - 1)
                     && <hr className={styles.engineLineSeparator} />
                 }
             </>)
         }
 
         {
-            calculatedDisplayedLines.at(0)?.depth != 0
+            displayedEngineLines.at(0)?.depth != 0
             && range(
-                Math.max(0, settings.analysis.engineLines - calculatedDisplayedLines.length)
+                Math.max(0, settings.analysis.engineLines - displayedEngineLines.length)
             ).map(() => <>
                 <hr className={styles.engineLineSeparator} />
 
