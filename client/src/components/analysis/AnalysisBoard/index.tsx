@@ -6,9 +6,11 @@ import React, {
     useRef,
     useState
 } from "react";
+import { isEqual } from "lodash";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
+    Arrow,
     CustomSquareProps,
     CustomSquareRenderer,
     Piece,
@@ -47,6 +49,11 @@ function AnalysisBoard({
         setHighlightedSquares
     ] = useState<Square[]>([]);
 
+    const [ userArrows, setUserArrows ] = useState<Arrow[]>([]);
+    const [ suggestionArrows ] = useState<Arrow[]>(
+        [["e2", "e4", "#98bc49"]]
+    );
+
     const boardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -61,6 +68,8 @@ function AnalysisBoard({
 
     const squareRenderer = forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
+            const { currentStateTreeNode } = useAnalysisBoardStore();
+
             const squareHighlights = useContext(HighlightedSquaresContext);
 
             const playedMove = useMemo(() => {
@@ -105,15 +114,13 @@ function AnalysisBoard({
     ) as CustomSquareRenderer;
 
     function toggleSquareHighlight(square: Square) {
-        if (highlightedSquares.includes(square)) {
-            const updatedSquares = highlightedSquares.filter(
-                highlightedSquare => highlightedSquare != square
-            );
-    
-            return setHighlightedSquares(updatedSquares);
-        }
-
-        setHighlightedSquares([ ...highlightedSquares, square ]);
+        setHighlightedSquares(prev => (
+            prev.includes(square)
+                ? prev.filter(
+                    highlightedSquare => highlightedSquare != square
+                )
+                : [ ...prev, square ]
+        ));
     }
 
     function addMove(source: Square, target: Square, piece: Piece) {
@@ -143,6 +150,20 @@ function AnalysisBoard({
         return true;
     }
 
+    // const suggestionArrows = getSettings().analysis.suggestionArrows
+    //     ? displayedEngineLines
+    //         .filter(line => line.moves.length > 0)
+    //         .map(line => {
+    //             const uciMove = parseUciMove(line.moves[0].uci);
+
+    //             return [
+    //                 uciMove.from,
+    //                 uciMove.to,
+    //                 "#98bc49"
+    //             ] as Arrow;
+    //         })
+    //     : [];
+
     return <div
         className={styles.wrapper}
         style={style}
@@ -162,10 +183,19 @@ function AnalysisBoard({
                 >
                     <Chessboard
                         position={currentStateTreeNode?.state.fen || STARTING_FEN}
-                        onSquareClick={() => setHighlightedSquares([])}
+                        onSquareClick={() => {
+                            setHighlightedSquares([]);
+                            setUserArrows([]);
+                        }}
                         onSquareRightClick={toggleSquareHighlight}
                         onPieceDrop={addMove}
+                        onArrowsChange={newUserArrows => {
+                            if (newUserArrows.length == 0) return;
+
+                            setUserArrows(prev => [ ...prev, ...newUserArrows ]);
+                        }}
                         customSquare={squareRenderer}
+                        customArrows={[ ...userArrows, ...suggestionArrows ]}
                         promotionDialogVariant="vertical"
                         animationDuration={200}
                         boardOrientation={
