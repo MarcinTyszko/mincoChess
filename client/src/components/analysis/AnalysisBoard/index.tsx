@@ -59,14 +59,12 @@ function AnalysisBoard({
 
         setHighlightedSquares([]);
         setUserArrows([]);
+        setSuggestionArrows([]);
 
         if (!getSettings().analysis.suggestionArrows) return;
 
         const topLine = currentStateTreeNode.state.topEngineLine();
-
-        if (!topLine?.moves.length) {
-            return setSuggestionArrows([]);
-        }
+        if (!topLine?.moves.length) return;
 
         const uciMove = parseUciMove(topLine.moves[0].uci);
 
