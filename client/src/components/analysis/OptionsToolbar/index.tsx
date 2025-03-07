@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -54,7 +55,20 @@ function OptionsToolbar() {
                 icon={require("@assets/img/share.svg")}
                 iconSize={"35px"}
                 tooltip={t("pages.analysis.options.share")}
-                onClick={() => console.log("share! kawaii!!")}
+                onClick={() => toast.info(
+                    t("pages.analysis.options.sharingSoon"),
+                    {
+                        position: "bottom-left",
+                        theme: "dark",
+                        pauseOnHover: false,
+                        closeOnClick: true,
+                        closeButton: false,
+                        autoClose: 2000,
+                        style: {
+                            fontFamily: "JetBrains Mono"
+                        }
+                    }
+                )}
             />
         </div>
 
