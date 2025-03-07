@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { getSettings, setSettings } from "@lib/settings";
+import useSettingsStore from "@stores/SettingsStore";
 import Dialog from "@components/common/Dialog";
 import DropdownSetting from "@components/common/settings/DropdownSetting";
 import NumberSetting from "@components/common/settings/NumberSetting";
@@ -14,7 +14,7 @@ import * as styles from "./AnalysisSettingsDialog.module.css";
 function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
     const { t } = useTranslation();
 
-    const settings = getSettings();
+    const { settings, setSettings } = useSettingsStore();
 
     return <Dialog
         className={styles.settingsDialog}

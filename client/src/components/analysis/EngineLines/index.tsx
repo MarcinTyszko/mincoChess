@@ -4,9 +4,9 @@ import { isEqual, range, uniqWith } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
-import { getSettings } from "@lib/settings";
 import Engine from "@lib/engine";
 
 import EngineLineInfo from "./EngineLine";
@@ -15,6 +15,8 @@ import * as styles from "./EngineLines.module.css";
 
 function EngineLines() {
     const { t } = useTranslation();
+
+    const { settings } = useSettingsStore();
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
@@ -28,8 +30,6 @@ function EngineLines() {
         displayedEngineLines,
         setDisplayedEngineLines
     } = useRealtimeEngineStore();
-
-    const settings = getSettings();
 
     const [ engine, setEngine ] = useState(
         () => new Engine(settings.analysis.engine)
@@ -87,10 +87,14 @@ function EngineLines() {
             settings.analysis.engineLines
         );
 
+        const cachedDepth = cachedLines.at(0)?.depth || 0;
+
         // If they are both empty you should still evaluate locally
+        // Check sufficiency of cache
         if (
             isEqual(calculatedDisplayedLines, cachedLines)
             && calculatedDisplayedLines.length > 0
+            && cachedDepth >= settings.analysis.engineDepth
         ) return;
 
         evaluationDelayRef.current = setTimeout(async () => {

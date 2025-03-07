@@ -6,7 +6,6 @@ import {
     AnalysisGame,
     StateTreeNode
 } from "wintrchess";
-import { getSettings } from "./settings";
 import EngineVersion from "@constants/EngineVersion";
 import Engine from "./engine";
 import { EvaluateMovesError } from "./errors";
@@ -15,12 +14,13 @@ interface EvaluateMovesOptions {
     engineVersion: EngineVersion;
     maxEngineCount?: number;
     engineDepth: number;
+    cloudEngineLines?: number;
     engineConfig?: (engine: Engine) => void;
     onProgress?: (progress: number) => void;
     verbose?: boolean;
 }
 
-const UCI_CASTLING_MOVES: Record<string, string> = {
+const LICHESS_CASTLING_MOVES: Record<string, string> = {
     e8h8: "e8g8",
     e1h1: "e1g1",
     e8a8: "e8c8",
@@ -41,16 +41,13 @@ async function evaluateMoves(
 
     const progress = () => round(sum(progresses) / stateTreeNodes.length, 3);
 
-    // Get settings for engine line count
-    const engineLineCount = getSettings().analysis.engineLines;
-
     // Apply cloud evaluations where possible
     for (const stateTreeNode of stateTreeNodes) {
         // Fetch cloud evaluation from Lichess servers
         const cloudEvaluationResponse = await fetch(
             "https://lichess.org/api/cloud-eval"
                 + `?fen=${stateTreeNode.state.fen}`
-                + `&multiPv=${engineLineCount}`
+                + `&multiPv=${Math.max(2, options.cloudEngineLines || 2)}`
         );
 
         if (options.verbose) {
@@ -85,8 +82,8 @@ async function evaluateMoves(
                 moves: variation.moves
                     .split(" ")
                     .map((uciMove: string) => {
-                        if (Object.keys(UCI_CASTLING_MOVES).includes(uciMove)) {
-                            uciMove = UCI_CASTLING_MOVES[uciMove];
+                        if (Object.keys(LICHESS_CASTLING_MOVES).includes(uciMove)) {
+                            uciMove = LICHESS_CASTLING_MOVES[uciMove];
                         }
 
                         try {

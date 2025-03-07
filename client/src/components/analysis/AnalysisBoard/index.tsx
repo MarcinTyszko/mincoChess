@@ -17,10 +17,10 @@ import {
 } from "react-chessboard/dist/chessboard/types";
 
 import { STARTING_FEN, parseUciMove } from "wintrchess";
+import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import { getSettings } from "@lib/settings";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
@@ -34,6 +34,8 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
+    const { settings } = useSettingsStore();
+
     const { setAnalysisBoardWidth } = useLayoutStore();
 
     const { setGameAnalysisOpen } = useAnalysisGameStore();
@@ -60,8 +62,12 @@ function AnalysisBoard({
         setHighlightedSquares([]);
         setUserArrows([]);
         setSuggestionArrows([]);
+    }, [currentStateTreeNode]);
 
-        if (!getSettings().analysis.suggestionArrows) return;
+    useEffect(() => {
+        if (!settings.analysis.suggestionArrows) {
+            return setSuggestionArrows([]);
+        }
 
         const topLine = currentStateTreeNode.state.topEngineLine();
         if (!topLine?.moves.length) return;
@@ -75,7 +81,10 @@ function AnalysisBoard({
                 "#98bc49"
             ] as Arrow
         ]);
-    }, [currentStateTreeNode]);
+    }, [
+        currentStateTreeNode,
+        settings.analysis.suggestionArrows
+    ]);
 
     const boardRef = useRef<HTMLDivElement>(null);
 

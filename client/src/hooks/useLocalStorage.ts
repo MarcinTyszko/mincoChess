@@ -3,9 +3,11 @@ import { useState } from "react";
 import { LocalStorageKey } from "wintrchess";
 
 function useLocalStorage<ValueType>(key: LocalStorageKey) {
-    const [ value, setValue ] = useState(
-        localStorage.getItem(key)
-    );
+    const [ , setLocalValue ] = useState<string>();
+
+    function get() {
+        return localStorage.getItem(key);
+    }
 
     function set(value: Partial<ValueType>) {
         const newValue = typeof value == "object"
@@ -14,10 +16,12 @@ function useLocalStorage<ValueType>(key: LocalStorageKey) {
 
         localStorage.setItem(key, newValue);
 
-        setValue(newValue);
+        setLocalValue(newValue);
     }
 
     function parse(): Partial<ValueType> {
+        const value = get();
+
         if (value == null) return {};
 
         try {
@@ -28,7 +32,7 @@ function useLocalStorage<ValueType>(key: LocalStorageKey) {
     }
 
     return {
-        value: value,
+        value: get(),
         parsedValue: parse(),
         set: set
     };

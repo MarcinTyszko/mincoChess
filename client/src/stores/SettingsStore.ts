@@ -1,7 +1,8 @@
-import { merge } from "lodash";
+import { create } from "zustand";
 
-import { LocalStorageKey } from "wintrchess";
 import EngineVersion from "@constants/EngineVersion";
+import { LocalStorageKey } from "wintrchess";
+import { merge } from "lodash";
 
 interface Settings {
     analysis: {
@@ -20,6 +21,8 @@ interface Settings {
     };
 }
 
+type SettingsReducer = (settings: Settings) => Settings;
+
 const defaultSettings: Settings = {
     analysis: {
         engine: EngineVersion.STOCKFISH_16_1_LITE,
@@ -37,27 +40,41 @@ const defaultSettings: Settings = {
     }
 };
 
-export function getSettings(): Settings {
-    const savedSettings = localStorage.getItem(LocalStorageKey.SETTINGS);
-    if (!savedSettings) return defaultSettings;
+function fetchSettings() {
+    const value = localStorage.getItem(LocalStorageKey.SETTINGS);
+
+    if (value == null) {
+        return defaultSettings;
+    }
 
     try {
         return merge(
             defaultSettings,
-            JSON.parse(savedSettings)
+            JSON.parse(value)
         );
     } catch {
         return defaultSettings;
     }
 }
 
-export function setSettings(
-    updater: (settings: Settings) => Settings
-) {
-    const settings = updater(getSettings());
-
-    localStorage.setItem(
-        LocalStorageKey.SETTINGS,
-        JSON.stringify(settings)
-    );
+interface SettingsStore {
+    settings: Settings;
+    setSettings: (updater: SettingsReducer) => void;
 }
+
+const useSettingsStore = create<SettingsStore>((set, get) => ({
+    settings: fetchSettings(),
+
+    setSettings(updater) {
+        const newSettings = updater(get().settings);
+
+        set({ settings: newSettings });
+
+        localStorage.setItem(
+            LocalStorageKey.SETTINGS,
+            JSON.stringify(newSettings)
+        );
+    }
+}));
+
+export default useSettingsStore;

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -7,12 +8,13 @@ import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import evaluateMoves from "@lib/evaluate";
 import getStateTree from "@lib/gameStateTree";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
-import { getSettings } from "@lib/settings";
 
 function useAnalysis(
     setAnalysisError: (error: string | null) => void
 ) {
     const { t } = useTranslation();
+
+    const { settings } = useSettingsStore();
 
     const {
         selectedGame,
@@ -71,14 +73,13 @@ function useAnalysis(
         }
         
         // Generate evaluations for each position
-        const settings = getSettings();
-
         try {
             const evaluatedStates = await evaluateMoves(
                 analysisGame,
                 {
                     engineVersion: settings.analysis.engine,
                     engineDepth: settings.analysis.engineDepth,
+                    cloudEngineLines: settings.analysis.engineLines,
                     maxEngineCount: 4,
                     engineConfig: engine => {
                         engine.setLineCount(2);
