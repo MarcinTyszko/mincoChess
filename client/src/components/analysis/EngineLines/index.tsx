@@ -132,7 +132,10 @@ function EngineLines() {
                 )
             );
         }, 500);
-    }, [currentStateTreeNode]);
+    }, [
+        currentStateTreeNode,
+        settings.analysis.engineLines
+    ]);
 
     return <div className={styles.wrapper}>
         <span className={styles.depth}>

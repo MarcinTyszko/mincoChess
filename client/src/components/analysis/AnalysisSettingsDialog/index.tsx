@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { clamp } from "lodash";
 
 import useSettingsStore from "@stores/SettingsStore";
 import Dialog from "@components/common/Dialog";
@@ -66,7 +67,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 getInitialValue={() => settings.analysis.engineDepth}
                 onChange={value => {
                     setSettings(settings => {
-                        settings.analysis.engineDepth = value;
+                        settings.analysis.engineDepth = clamp(value, 10, 99);
 
                         return settings;
                     });
@@ -84,7 +85,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 getInitialValue={() => settings.analysis.engineLines}
                 onChange={value => {
                     setSettings(settings => {
-                        settings.analysis.engineLines = value;
+                        settings.analysis.engineLines = clamp(value, 0, 5);
 
                         return settings;
                     });
