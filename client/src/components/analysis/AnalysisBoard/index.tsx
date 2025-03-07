@@ -6,7 +6,6 @@ import React, {
     useRef,
     useState
 } from "react";
-import { isEqual } from "lodash";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {
@@ -21,6 +20,7 @@ import { STARTING_FEN, parseUciMove } from "wintrchess";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import { getSettings } from "@lib/settings";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
@@ -50,9 +50,34 @@ function AnalysisBoard({
     ] = useState<Square[]>([]);
 
     const [ userArrows, setUserArrows ] = useState<Arrow[]>([]);
-    const [ suggestionArrows ] = useState<Arrow[]>(
-        [["e2", "e4", "#98bc49"]]
-    );
+    const [ suggestionArrows, setSuggestionArrows ] = useState<Arrow[]>([]);
+
+    const [ position, setPosition ] = useState(STARTING_FEN);
+
+    useEffect(() => {
+        setPosition(currentStateTreeNode.state.fen);
+
+        setHighlightedSquares([]);
+        setUserArrows([]);
+
+        if (!getSettings().analysis.suggestionArrows) return;
+
+        const topLine = currentStateTreeNode.state.topEngineLine();
+
+        if (!topLine?.moves.length) {
+            return setSuggestionArrows([]);
+        }
+
+        const uciMove = parseUciMove(topLine.moves[0].uci);
+
+        setSuggestionArrows([
+            [
+                uciMove.from,
+                uciMove.to,
+                "#98bc49"
+            ] as Arrow
+        ]);
+    }, [currentStateTreeNode]);
 
     const boardRef = useRef<HTMLDivElement>(null);
 
@@ -150,20 +175,6 @@ function AnalysisBoard({
         return true;
     }
 
-    // const suggestionArrows = getSettings().analysis.suggestionArrows
-    //     ? displayedEngineLines
-    //         .filter(line => line.moves.length > 0)
-    //         .map(line => {
-    //             const uciMove = parseUciMove(line.moves[0].uci);
-
-    //             return [
-    //                 uciMove.from,
-    //                 uciMove.to,
-    //                 "#98bc49"
-    //             ] as Arrow;
-    //         })
-    //     : [];
-
     return <div
         className={styles.wrapper}
         style={style}
@@ -182,7 +193,7 @@ function AnalysisBoard({
                     value={highlightedSquares}
                 >
                     <Chessboard
-                        position={currentStateTreeNode?.state.fen || STARTING_FEN}
+                        position={position}
                         onSquareClick={() => {
                             setHighlightedSquares([]);
                             setUserArrows([]);
