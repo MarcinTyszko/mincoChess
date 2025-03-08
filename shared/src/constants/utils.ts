@@ -7,7 +7,6 @@ export const defaultRootNode = new StateTreeNode({
     mainline: true,
     children: [],
     state: new BoardState({
-        fen: STARTING_FEN,
-        engineLines: {}
+        fen: STARTING_FEN
     })
 });

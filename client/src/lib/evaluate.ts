@@ -4,9 +4,9 @@ import { sum, sumBy, round } from "lodash";
 import {
     EngineLine,
     AnalysisGame,
-    StateTreeNode
+    StateTreeNode,
+    EngineVersion
 } from "wintrchess";
-import EngineVersion from "@constants/EngineVersion";
 import Engine from "./engine";
 import { EvaluateMovesError } from "./errors";
 
@@ -77,6 +77,7 @@ async function evaluateMoves(
                     type: (variation.cp == undefined) ? "mate" : "centipawn",
                     value: parseFloat(variation.cp ?? variation.mate)
                 },
+                source: EngineVersion.LICHESS_CLOUD,
                 depth: parseInt(cloudEvaluation.depth),
                 index: parseInt(cloudEvaluation.pvs.indexOf(variation)) + 1,
                 moves: variation.moves
@@ -102,7 +103,9 @@ async function evaluateMoves(
             });
         }
 
-        stateTreeNode.state.engineLines.cloud = engineLines;
+        stateTreeNode.state.engineLines.push(
+            ...engineLines
+        );
 
         progresses.push(1);
         options.onProgress?.(progress());
@@ -114,7 +117,9 @@ async function evaluateMoves(
     // remaining position, add 1 for cutoff for last cloud evaluated state
     const evaluatedStateCount = sumBy(
         stateTreeNodes,
-        node => node.state.engineLines.cloud ? 1 : 0
+        node => node.state.engineLines.some(
+            line => line.source == EngineVersion.LICHESS_CLOUD
+        ) ? 1 : 0
     );
 
     const engineCount = Math.min(
@@ -160,7 +165,9 @@ async function evaluateMoves(
                     options.onProgress?.(progress());
                 }
             ).then(result => {
-                currentStateTreeNode.state.engineLines.local = result.lines;
+                currentStateTreeNode.state.engineLines.push(
+                    ...result.lines
+                );
 
                 evaluateNextPosition(engine);
             });

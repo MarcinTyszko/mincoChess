@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isEqual, range, uniqWith } from "lodash";
+import { isEqual, range } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
@@ -45,7 +45,7 @@ function EngineLines() {
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Get engine lines to display
+    // Get engine lines to display, update global state
     const calculatedDisplayedLines = useMemo(() => {
         const cachedLines = currentStateTreeNode.state.topEngineLines(
             settings.analysis.engineLines
@@ -121,15 +121,8 @@ function EngineLines() {
                 && latestDepth != 0
             ) return;
 
-            currentStateTreeNode.state.engineLines.local = uniqWith(
-                [
-                    ...(currentStateTreeNode.state.engineLines.local || []),
-                    ...latestEngineLines
-                ],
-                (a, b) => (
-                    a.depth == b.depth
-                    && a.index == b.index
-                )
+            currentStateTreeNode.state.engineLines.push(
+                ...latestEngineLines
             );
         }, 500);
     }, [

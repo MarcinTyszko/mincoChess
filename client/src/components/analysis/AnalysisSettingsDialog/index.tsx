@@ -2,12 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { clamp } from "lodash";
 
+import { EngineVersion } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
 import Dialog from "@components/common/Dialog";
 import DropdownSetting from "@components/common/settings/DropdownSetting";
 import NumberSetting from "@components/common/settings/NumberSetting";
 import CheckboxSetting from "@components/common/settings/CheckboxSetting";
-import EngineVersion from "@constants/EngineVersion";
 
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
 import * as styles from "./AnalysisSettingsDialog.module.css";

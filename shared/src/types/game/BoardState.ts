@@ -9,10 +9,7 @@ interface BoardStateProps {
     fen: string;
     move?: Move;
     moveColour?: PieceColour;
-    engineLines: {
-        local?: EngineLine[];
-        cloud?: EngineLine[];
-    };
+    engineLines?: EngineLine[];
     classification?: Classification;
 }
 
@@ -20,25 +17,15 @@ class BoardState {
     fen: string;
     move?: Move;
     moveColour?: PieceColour;
-    engineLines: {
-        local?: EngineLine[];
-        cloud?: EngineLine[];
-    };
+    engineLines: EngineLine[];
     classification?: Classification;
 
     constructor(props: BoardStateProps) {
         this.fen = props.fen;
         this.move = props.move;
         this.moveColour = props.moveColour;
-        this.engineLines = props.engineLines;
+        this.engineLines = props.engineLines || [];
         this.classification = props.classification;
-    }
-
-    private combinedEngineLines() {
-        return [
-            ...(this.engineLines.local || []),
-            ...(this.engineLines.cloud || [])
-        ];
     }
 
     /**
@@ -46,7 +33,7 @@ class BoardState {
      */
     topEngineLine() {
         return maxBy(
-            this.combinedEngineLines(),
+            this.engineLines,
             line => line.depth - line.index
         );
     }
@@ -57,17 +44,15 @@ class BoardState {
      * enough lines cannot be found at a single depth.
      */
     topEngineLines(count: number) {
-        const combinedLines = this.combinedEngineLines();
-
         const depths = uniq(
-            combinedLines
+            this.engineLines
                 .map(line => line.depth)
                 .sort((a, b) => b - a)
         );
 
         for (const depth of depths) {
             const lines = uniqWith(
-                combinedLines.filter(line => line.depth == depth),
+                this.engineLines.filter(line => line.depth == depth),
                 (a, b) => a.index == b.index
             );
 

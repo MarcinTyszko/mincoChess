@@ -1,7 +1,6 @@
 import { Chess } from "chess.js";
 
-import { EngineLine, STARTING_FEN } from "wintrchess";
-import EngineVersion from "@constants/EngineVersion";
+import { EngineLine, EngineVersion, STARTING_FEN } from "wintrchess";
 
 interface EvaluationResult {
     elapsedTime: number;
@@ -16,11 +15,13 @@ const UCI_EVALUATION_TYPES: Record<string, string | undefined> = {
 
 class Engine {
     private worker: Worker;
+    private version: EngineVersion;
 
     private position = STARTING_FEN;
 
     constructor(version: EngineVersion) {
         this.worker = new Worker("engines/" + version);
+        this.version = version;
 
         this.worker.postMessage("uci");
         this.setPosition(this.position);
@@ -183,6 +184,7 @@ class Engine {
                         type: evaluationType,
                         value: evaluationScore
                     },
+                    source: this.version,
                     moves: moveUcis.map((moveUci, moveIndex) => ({
                         uci: moveUci,
                         san: moveSans[moveIndex]

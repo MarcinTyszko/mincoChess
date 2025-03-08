@@ -113,8 +113,7 @@ class StateTreeNode {
                 },
                 moveColour: childMove.color == "w"
                     ? PieceColour.WHITE
-                    : PieceColour.BLACK,
-                engineLines: {}
+                    : PieceColour.BLACK
             })
         });
 
