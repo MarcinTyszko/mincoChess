@@ -27,7 +27,7 @@ function EvaluationBarArea() {
 
     // Compare real-time engine lines with cached ones
     const currentLocalState = clone(currentStateTreeNode.state);
-    currentLocalState.engineLines = { local: realtimeEngineLines };
+    currentLocalState.engineLines = realtimeEngineLines;
 
     const topLocalLine = currentLocalState.topEngineLine();
 
