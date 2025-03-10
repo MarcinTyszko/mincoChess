@@ -12,6 +12,7 @@ import Engine from "@lib/engine";
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
 import * as styles from "./EngineLines.module.css";
+import { Chess } from "chess.js";
 
 function EngineLines() {
     const { t } = useTranslation();
@@ -94,6 +95,13 @@ function EngineLines() {
         settings.analysis.engineLines
     ]);
 
+    const displayedLineCount = useMemo(() => (
+        Math.min(
+            new Chess(currentStateTreeNode.state.fen).moves().length,
+            settings.analysis.engineLines
+        )
+    ), [currentStateTreeNode]);
+
     return <div className={styles.wrapper}>
         <span className={styles.depth}>
             <span>
@@ -121,7 +129,7 @@ function EngineLines() {
         {
             displayedEngineLines.at(0)?.depth != 0
             && range(
-                Math.max(0, settings.analysis.engineLines - displayedEngineLines.length)
+                Math.max(0, displayedLineCount - displayedEngineLines.length)
             ).map(() => <>
                 <hr className={styles.engineLineSeparator} />
 
