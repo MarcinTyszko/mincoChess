@@ -3,10 +3,16 @@ import { clamp } from "lodash";
 
 import EvaluationBarProps from "./EvaluationBarProps";
 import * as styles from "./EvaluationBar.module.css";
+import { PieceColour } from "wintrchess";
 
 const width = 40;
 
-function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
+function EvaluationBar({
+    height,
+    evaluation,
+    moveColour,
+    flipped
+}: EvaluationBarProps) {
     let blackHeight: number;
 
     if (evaluation.type == "centipawn") {
@@ -16,10 +22,22 @@ function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
             height - (height / 16)
         );
     } else {
-        blackHeight = evaluation.value > 0
-            ? 0
-            : height;
-    }    
+        if (evaluation.value == 0) {
+            blackHeight = moveColour == PieceColour.WHITE
+                ? 0
+                : height;
+        } else {
+            blackHeight = evaluation.value > 0
+                ? 0
+                : height;
+        }
+    }
+
+    const textY = blackHeight > (height / 2) == flipped
+        ? height - 12 : 20;
+
+    const textColour = blackHeight > (height / 2) == flipped
+        ? "#000" : "#fff";
 
     return <div
         className={styles.evaluationBar}
@@ -38,32 +56,12 @@ function EvaluationBar({ height, evaluation, flipped }: EvaluationBarProps) {
                 height={flipped ? (height - blackHeight) : blackHeight}
             />
 
-            {
-                evaluation.type == "mate"
-                && evaluation.value == 0
-                && <rect
-                    fill="#b0b0b0"
-                    x={0}
-                    y={0}
-                    width={width}
-                    height={height}
-                />
-            }
-
             <text
                 textAnchor="middle"
                 x={20}
-                y={
-                    (evaluation.value >= 0) == flipped
-                        ? 20
-                        : height - 12
-                }
+                y={textY}
                 fontSize={14}
-                fill={
-                    evaluation.value >= 0
-                        ? "#000"
-                        : "#fff"
-                }
+                fill={textColour}
                 style={{
                     fontFamily: "sans-serif"
                 }}

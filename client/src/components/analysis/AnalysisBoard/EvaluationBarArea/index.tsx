@@ -14,7 +14,10 @@ const DEFAULT_EVALUATION: Evaluation = {
 function EvaluationBarArea() {
     const { analysisBoardWidth } = useLayoutStore();
 
-    const { boardFlipped } = useAnalysisBoardStore();
+    const {
+        currentStateTreeNode,
+        boardFlipped
+    } = useAnalysisBoardStore();
 
     const { displayedEngineLines } = useRealtimeEngineStore();
 
@@ -32,6 +35,7 @@ function EvaluationBarArea() {
     return <EvaluationBar
         height={analysisBoardWidth}
         evaluation={evaluation}
+        moveColour={currentStateTreeNode.state.moveColour}
         flipped={boardFlipped}
     />;
 }
