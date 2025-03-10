@@ -1,3 +1,4 @@
+import { Chess } from "chess.js";
 import { maxBy, uniq, uniqWith } from "lodash";
 
 import EngineVersion from "../../constants/game/EngineVersion";
@@ -49,6 +50,21 @@ class BoardState {
         targetCount?: number;
         targetDepth?: number;
     }) {
+        // Cap target count to number of legal moves
+        const legalMoveCount = new Chess(this.fen).moves().length;
+
+        if (options?.targetCount) {
+            options.targetCount = Math.min(
+                Math.max(legalMoveCount, 1),
+                options.targetCount
+            );
+        }
+
+        // If no legal moves, target depth should be removed
+        if (options?.targetDepth && legalMoveCount == 0) {
+            options.targetDepth = 0;
+        }
+
         const {
             targetSource,
             targetCount,
@@ -77,7 +93,7 @@ class BoardState {
                 line => line.source == EngineVersion.LICHESS_CLOUD
             ).slice(0, targetCount);
 
-            if (cloudLines.length >= (targetCount || 1)) {
+            if (cloudLines.length >= (targetCount ?? 1)) {
                 displayedLines ??= cloudLines;
             }
 
@@ -86,7 +102,7 @@ class BoardState {
                 line => !targetSource || line.source == targetSource
             ).slice(0, targetCount);
 
-            if (localLines.length >= (targetCount || 1)) {
+            if (localLines.length >= (targetCount ?? 1)) {
                 displayedLines ??= localLines;
             }
 
