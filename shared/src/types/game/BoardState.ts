@@ -1,5 +1,6 @@
 import { maxBy, uniq, uniqWith } from "lodash";
 
+import EngineVersion from "../../constants/game/EngineVersion";
 import Classification from "../../constants/Classification";
 import PieceColour from "../../constants/PieceColour";
 import EngineLine from "./EngineLine";
@@ -39,29 +40,65 @@ class BoardState {
     }
 
     /**
-     * @description Returns the lines of a state with the highest depth. May return
-     * as many lines as specified with their different indexes, or an empty list if
-     * enough lines cannot be found at a single depth.
+     * @description Returns a set of sorted lines that match the targets given,
+     * or null if one of the given targets cannot be met. Lichess Cloud
+     * lines will always override target source where other targets are met.
      */
-    topEngineLines(count: number) {
+    displayedLines(options?: {
+        targetSource?: EngineVersion;
+        targetCount?: number;
+        targetDepth?: number;
+    }) {
+        const {
+            targetSource,
+            targetCount,
+            targetDepth
+        } = options || {};
+
         const depths = uniq(
             this.engineLines
                 .map(line => line.depth)
+                .filter(depth => !targetDepth || depth >= targetDepth)
                 .sort((a, b) => b - a)
         );
 
         for (const depth of depths) {
-            const lines = uniqWith(
-                this.engineLines.filter(line => line.depth == depth),
-                (a, b) => a.index == b.index
+            const depthLines = uniqWith(
+                this.engineLines.filter(
+                    line => line.depth == depth
+                ),
+                (lineA, lineB) => lineA.isEqual(lineB)
             );
 
-            if (lines.length >= count) {
-                return lines.slice(0, count);
+            let displayedLines: EngineLine[] | undefined;
+
+            // If cloud lines are sufficient, consider them first
+            const cloudLines = depthLines.filter(
+                line => line.source == EngineVersion.LICHESS_CLOUD
+            ).slice(0, targetCount);
+
+            if (cloudLines.length >= (targetCount || 1)) {
+                displayedLines ??= cloudLines;
+            }
+
+            // Otherwise consider local lines if sufficient
+            const localLines = depthLines.filter(
+                line => !targetSource || line.source == targetSource
+            ).slice(0, targetCount);
+
+            if (localLines.length >= (targetCount || 1)) {
+                displayedLines ??= localLines;
+            }
+
+            // If either are sufficient, sort by index and return
+            if (displayedLines) {
+                return displayedLines.sort(
+                    (a, b) => a.index - b.index
+                );
             }
         }
 
-        return [];
+        return null;
     }
 }
 

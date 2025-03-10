@@ -1,5 +1,4 @@
-import React from "react";
-import { clone } from "lodash";
+import React, { useEffect, useState } from "react";
 
 import { Evaluation } from "wintrchess";
 import useLayoutStore from "@stores/LayoutStore";
@@ -15,32 +14,24 @@ const DEFAULT_EVALUATION: Evaluation = {
 function EvaluationBarArea() {
     const { analysisBoardWidth } = useLayoutStore();
 
-    const {
-        currentStateTreeNode,
-        boardFlipped
-    } = useAnalysisBoardStore();
+    const { boardFlipped } = useAnalysisBoardStore();
 
-    const {
-        realtimeEngineDepth,
-        realtimeEngineLines
-    } = useRealtimeEngineStore();
+    const { displayedEngineLines } = useRealtimeEngineStore();
 
-    // Compare real-time engine lines with cached ones
-    const currentLocalState = clone(currentStateTreeNode.state);
-    currentLocalState.engineLines = realtimeEngineLines;
+    const [ evaluation, setEvaluation ] = useState<Evaluation>(DEFAULT_EVALUATION);
 
-    const topLocalLine = currentLocalState.topEngineLine();
+    useEffect(() => {
+        if (displayedEngineLines.length == 0) return;
 
-    const topCachedLine = currentStateTreeNode.state.topEngineLine();
-    const cachedDepth = topCachedLine?.depth || -Infinity;
+        setEvaluation(
+            displayedEngineLines.at(0)?.evaluation
+            || DEFAULT_EVALUATION
+        );
+    }, [displayedEngineLines]);
 
     return <EvaluationBar
         height={analysisBoardWidth}
-        evaluation={
-            realtimeEngineDepth > cachedDepth
-                ? (topLocalLine?.evaluation || DEFAULT_EVALUATION)
-                : (topCachedLine?.evaluation || DEFAULT_EVALUATION)
-        }
+        evaluation={evaluation}
         flipped={boardFlipped}
     />;
 }

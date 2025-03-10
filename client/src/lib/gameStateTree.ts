@@ -30,7 +30,6 @@ function getStateTree(game: Game) {
                 children: [],
                 state: new BoardState({
                     fen: move.after,
-                    engineLines: {},
                     move: {
                         san: move.san,
                         uci: move.lan
@@ -55,8 +54,7 @@ function getStateTree(game: Game) {
         mainline: true,
         children: [],
         state: new BoardState({
-            fen: game.initialPosition,
-            engineLines: {}
+            fen: game.initialPosition
         })
     });
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isEqual, range } from "lodash";
+import { range } from "lodash";
 
 import { EngineLine } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
@@ -20,20 +20,30 @@ function EngineLines() {
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
-    const {
-        realtimeEngineDepth,
-        setRealtimeEngineDepth,
+    const { setDisplayedEngineLines } = useRealtimeEngineStore();
+
+    const [
         realtimeEngineLines,
-        setRealtimeEngineLines,
-        displayedEngineDepth,
-        setDisplayedEngineDepth,
-        displayedEngineLines,
-        setDisplayedEngineLines
-    } = useRealtimeEngineStore();
+        setRealtimeEngineLines
+    ] = useState<EngineLine[]>([]);
 
     const [ engine, setEngine ] = useState(
         () => new Engine(settings.analysis.engine)
     );
+
+    const displayedEngineLines = useMemo(() => (
+        currentStateTreeNode.state.displayedLines({
+            targetSource: settings.analysis.engine,
+            targetCount: settings.analysis.engineLines
+        }) || []
+    ), [
+        currentStateTreeNode,
+        realtimeEngineLines
+    ]);
+
+    useEffect(() => {
+        setDisplayedEngineLines(displayedEngineLines);
+    }, [displayedEngineLines]);
 
     useDelayedEffect(() => {
         engine.terminate();
@@ -45,37 +55,6 @@ function EngineLines() {
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Get engine lines to display, update global state
-    const calculatedDisplayedLines = useMemo(() => {
-        const cachedLines = currentStateTreeNode.state.topEngineLines(
-            settings.analysis.engineLines
-        );
-    
-        const cachedDepth = cachedLines.at(0)?.depth || 0;
-    
-        const localLines = realtimeEngineLines.filter(
-            line => line.depth == realtimeEngineDepth
-        );
-    
-        return (
-            cachedLines.length == settings.analysis.engineLines
-            && cachedDepth >= settings.analysis.engineDepth
-        ) ? cachedLines : localLines;
-    }, [currentStateTreeNode, realtimeEngineLines]);
-
-    useEffect(() => {
-        const displayedDepth = calculatedDisplayedLines.at(0)?.depth;
-
-        if (displayedDepth) {
-            setDisplayedEngineDepth(displayedDepth);
-        }
-
-        if (calculatedDisplayedLines.length >= settings.analysis.engineLines) {
-            setDisplayedEngineLines(calculatedDisplayedLines);
-        }
-    }, [calculatedDisplayedLines]);
-
-    // Evaluate position locally if no cache available
     useEffect(() => {
         engine.stopEvaluation();
 
@@ -83,50 +62,35 @@ function EngineLines() {
             clearTimeout(evaluationDelayRef.current);
         }
 
-        const cachedLines = currentStateTreeNode.state.topEngineLines(
-            settings.analysis.engineLines
-        );
+        const cacheLines = currentStateTreeNode.state.displayedLines({
+            targetSource: settings.analysis.engine,
+            targetCount: settings.analysis.engineLines,
+            targetDepth: settings.analysis.engineDepth
+        });
+        
+        if (cacheLines) return;
 
-        const cachedDepth = cachedLines.at(0)?.depth || 0;
+        setRealtimeEngineLines([]);
 
-        // If they are both empty you should still evaluate locally
-        // Check sufficiency of cache
-        if (
-            isEqual(calculatedDisplayedLines, cachedLines)
-            && calculatedDisplayedLines.length > 0
-            && cachedDepth >= settings.analysis.engineDepth
-        ) return;
-
-        evaluationDelayRef.current = setTimeout(async () => {
-            engine.setLineCount(settings.analysis.engineLines);
+        evaluationDelayRef.current = setTimeout(() => {
             engine.setPosition(currentStateTreeNode.state.fen);
+            engine.setLineCount(settings.analysis.engineLines);
 
-            let latestDepth = 0;
-            let latestEngineLines: EngineLine[] = [];
-
-            await engine.evaluate(
+            engine.evaluate(
                 settings.analysis.engineDepth,
-                (depth, lines) => {
-                    setRealtimeEngineDepth(depth);
-                    setRealtimeEngineLines(lines.slice());
+                line => {
+                    currentStateTreeNode.state.engineLines.push(line);
 
-                    latestDepth = depth;
-                    latestEngineLines = lines;
+                    setRealtimeEngineLines(
+                        prev => [ ...prev, line ]
+                    );
                 }
             );
-
-            // If preferred depth not reached and it is not mate (depth 0 return)
-            if (
-                latestDepth != settings.analysis.engineDepth
-                && latestDepth != 0
-            ) return;
-
-            currentStateTreeNode.state.engineLines.push(
-                ...latestEngineLines
-            );
-        }, 500);
+        }, 400);
     }, [
         currentStateTreeNode,
+        settings.analysis.engine,
+        settings.analysis.engineDepth,
         settings.analysis.engineLines
     ]);
 
@@ -137,7 +101,7 @@ function EngineLines() {
             </span>
 
             <span>
-                {displayedEngineDepth}
+                {displayedEngineLines.at(0)?.depth || 0}
             </span>
         </span>
 

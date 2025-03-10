@@ -122,7 +122,7 @@ class Engine {
 
     async evaluate(
         depth: number,
-        onDepthReached?: (depth: number, lines: EngineLine[]) => void
+        onEngineLine?: (line: EngineLine) => void
     ): Promise<EvaluationResult> {
         const startTime = Date.now();
 
@@ -177,7 +177,7 @@ class Engine {
                     line.depth != depth || line.index != index
                 ));
 
-                engineLines.push({
+                const newEngineLine = new EngineLine({
                     depth: depth,
                     index: index,
                     evaluation: {
@@ -191,7 +191,9 @@ class Engine {
                     }))
                 });
 
-                onDepthReached?.(depth, engineLines);
+                engineLines.push(newEngineLine);
+
+                onEngineLine?.(newEngineLine);
             }
         );
 
