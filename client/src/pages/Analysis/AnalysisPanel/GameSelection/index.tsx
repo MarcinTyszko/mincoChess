@@ -1,24 +1,61 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { AnalysisGame } from "wintrchess";
+import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
+import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
+import evaluateMoves from "@lib/evaluate";
 
-import useAnalysis from "../../useAnalysis";
+import useImportGame from "../../useImportGame";
 
 function GameSelection() {
     const { t } = useTranslation();
+
+    const { settings } = useSettingsStore();
 
     const {
         setSelectedGame,
         setGameSelectorError
     } = useGameSelectorStore();
 
-    const [ analysisError, setAnalysisError ] = useState<string | null>(null);
+    const {
+        setAnalysisProgress,
+        setAnalysisError
+    } = useAnalysisProgressStore();
 
-    const analyse = useAnalysis(setAnalysisError);
+    const [ importError, setImportError ] = useState<string | null>(null);
+
+    const importGame = useImportGame(setImportError);
+
+    async function evaluate(analysisGame: AnalysisGame) {
+        // Generate evaluations for each position
+        try {
+            var evaluatedStates = await evaluateMoves(
+                analysisGame,
+                {
+                    engineVersion: settings.analysis.engine,
+                    engineDepth: settings.analysis.engineDepth,
+                    cloudEngineLines: settings.analysis.engineLines,
+                    maxEngineCount: 4,
+                    engineConfig: engine => {
+                        engine.setLineCount(2);
+                        engine.setThreadCount(4);
+                    },
+                    onProgress: setAnalysisProgress
+                }
+            );
+
+            console.log(evaluatedStates);
+        } catch {
+            return setAnalysisError(
+                t("pages.analysis.analysisError")
+            );
+        }
+    }
     
     return <>
         <GameSelector
@@ -33,15 +70,20 @@ function GameSelection() {
             style={{
                 fontSize: "1.1rem"
             }}
-            onClick={analyse}
+            onClick={() => {
+                const analysisGame = importGame();
+                if (!analysisGame) return;
+
+                evaluate(analysisGame);
+            }}
         >
             {t("pages.analysis.analyseButton")}
         </Button>
 
         {
-            analysisError
+            importError
             && <ErrorMessage>
-                {analysisError}
+                {importError}
             </ErrorMessage>
         }
     </>;

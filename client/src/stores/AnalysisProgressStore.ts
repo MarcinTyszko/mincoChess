@@ -2,8 +2,10 @@ import { create } from "zustand";
 
 interface AnalysisProgressStore {
     analysisProgress: number;
+    analysisError?: string;
 
     setAnalysisProgress: (progress: number) => void;
+    setAnalysisError: (error: string) => void;
 }
 
 const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
@@ -11,6 +13,10 @@ const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
 
     setAnalysisProgress(progress) {
         set({ analysisProgress: progress });
+    },
+
+    setAnalysisError(error) {
+        set({ analysisError: error });
     }
 }));
 

@@ -4,7 +4,10 @@ import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 
 function ProgressArea() {
-    const { analysisProgress } = useAnalysisProgressStore();
+    const {
+        analysisProgress,
+        analysisError
+    } = useAnalysisProgressStore();
 
     useEffect(() => {
         if (analysisProgress < 1) return;
@@ -24,7 +27,10 @@ function ProgressArea() {
     return <>
         {
             analysisProgress < 1
-            && <ProgressReporter/>
+            && <ProgressReporter
+                progress={analysisProgress}
+                error={analysisError}
+            />
         }
     </>;
 }
