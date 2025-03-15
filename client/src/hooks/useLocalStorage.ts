@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { LocalStorageKey } from "wintrchess";
+import LocalStorageKey from "@constants/LocalStorageKey";
 
 function useLocalStorage<ValueType>(key: LocalStorageKey) {
     const [ , setLocalValue ] = useState<string>();

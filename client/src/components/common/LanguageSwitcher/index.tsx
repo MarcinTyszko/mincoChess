@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Select, { SingleValue } from "react-select";
-import { Cookies } from "react-cookie";
 
-import { Cookie } from "wintrchess";
+import LocalStorageKey from "@constants/LocalStorageKey";
 import languages from "@i18n/languages";
 import LanguageOption from "@ctypes/LanguageOption";
 import { FlagDisplayLabel, LanguageSwitcherControl } from "./components";
@@ -11,11 +10,22 @@ import { FlagDisplayLabel, LanguageSwitcherControl } from "./components";
 function LanguageSwitcher() {
     const { i18n } = useTranslation();
 
-    const cookies = new Cookies();
+    const savedLanguage = useMemo(() => {
+        const preferredLanguage = localStorage.getItem(
+            LocalStorageKey.PREFERRED_LANGUAGE
+        );
+
+        if (!preferredLanguage) return;
+
+        return languages.find(lang => lang.id == preferredLanguage);
+    }, []);
 
     return <Select
         options={languages}
-        defaultValue={languages.find(lang => lang.id == "en")}
+        defaultValue={
+            savedLanguage
+            || languages.find(lang => lang.id == "en")
+        }
         getOptionLabel={option => option.label}
         styles={{
             control: baseStyles => ({
@@ -63,7 +73,10 @@ function LanguageSwitcher() {
 
             i18n.changeLanguage(option.id);
 
-            cookies.set(Cookie.PREFERRED_LANGUAGE, option.id);
+            localStorage.setItem(
+                LocalStorageKey.PREFERRED_LANGUAGE,
+                option.id
+            );
         }}
     />;
 }

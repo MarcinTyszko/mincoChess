@@ -1,7 +1,8 @@
 import { create } from "zustand";
-
-import { LocalStorageKey, EngineVersion } from "wintrchess";
 import { merge } from "lodash";
+
+import { EngineVersion } from "wintrchess";
+import LocalStorageKey from "@constants/LocalStorageKey";
 
 interface Settings {
     analysis: {

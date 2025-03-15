@@ -1,5 +1,4 @@
 export { default as Cookie } from "./constants/Cookie";
-export { default as LocalStorageKey } from "./constants/LocalStorageKey";
 export * from "./constants/PieceColour";
 export { default as Classification } from "./constants/Classification";
 

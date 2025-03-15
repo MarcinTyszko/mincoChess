@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Game, LocalStorageKey } from "wintrchess";
+import { Game } from "wintrchess";
+import LocalStorageKey from "@constants/LocalStorageKey";
 import useLocalStorage from "@hooks/useLocalStorage";
 import GameSource from "@constants/GameSource";
 import Button from "@components/common/Button";
