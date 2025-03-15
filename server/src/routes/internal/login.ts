@@ -19,18 +19,24 @@ router.post("/internal/login", async (req, res) => {
 
     // If ReCAPTCHA token is invalid, 400
     if (process.env.NODE_ENV != "development") {
-        const captchaResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `secret=${process.env.RECAPTCHA_CLIENT_SECRET}&response=${captchaToken}`
-        });
+        const captchaResponse = await fetch(
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    secret: process.env.TURNSTILE_INTERNAL_SECRET_KEY,
+                    response: captchaToken
+                })
+            }
+        );
     
         const captchaResult = await captchaResponse.json();
         
         if (!captchaResult.success) {
-            return res.status(400).send("You must complete the CAPTCHA.");
+            return res.status(400).send("Please wait for the CAPTCHA or refresh the page.");
         }
     }
 

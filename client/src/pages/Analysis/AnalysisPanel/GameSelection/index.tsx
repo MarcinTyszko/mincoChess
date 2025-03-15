@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
+import ErrorMessage from "@components/common/ErrorMessage";
 
 import useAnalysis from "../../useAnalysis";
-import * as styles from "./GameSelection.module.css";
 
 function GameSelection() {
     const { t } = useTranslation();
@@ -40,9 +40,9 @@ function GameSelection() {
 
         {
             analysisError
-            && <span className={styles.error}>
+            && <ErrorMessage>
                 {analysisError}
-            </span>
+            </ErrorMessage>
         }
     </>;
 }
