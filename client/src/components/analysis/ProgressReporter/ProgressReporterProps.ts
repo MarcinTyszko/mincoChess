@@ -1,5 +1,6 @@
 interface ProgressReporterProps {
     progress: number;
+    tooltip?: string;
     error?: string;
 }
 

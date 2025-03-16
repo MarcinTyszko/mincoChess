@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { AnalysisGame } from "wintrchess";
+import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
+import useEvaluationProgressStore from "@stores/EvaluationProgressStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
@@ -23,15 +24,20 @@ function GameSelection() {
     } = useGameSelectorStore();
 
     const {
-        setAnalysisProgress,
-        setAnalysisError
-    } = useAnalysisProgressStore();
+        setEvaluationProgress,
+        setAnalysisStatus,
+        setAnalysisTooltip,
+        setAnalysisError,
+        setAnalysisCaptchaToken
+    } = useEvaluationProgressStore();
 
     const [ importError, setImportError ] = useState<string | null>(null);
 
     const importGame = useImportGame(setImportError);
 
     async function evaluate(analysisGame: AnalysisGame) {
+        setAnalysisStatus(AnalysisStatus.EVALUATING);
+
         // Generate evaluations for each position
         try {
             var evaluatedStates = await evaluateMoves(
@@ -45,15 +51,21 @@ function GameSelection() {
                         engine.setLineCount(2);
                         engine.setThreadCount(4);
                     },
-                    onProgress: setAnalysisProgress
+                    onProgress: setEvaluationProgress
                 }
             );
 
+            setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
+
             console.log(evaluatedStates);
         } catch {
-            return setAnalysisError(
+            setAnalysisStatus(AnalysisStatus.INACTIVE);
+
+            setAnalysisError(
                 t("pages.analysis.analysisError")
             );
+
+            return;
         }
     }
     
@@ -71,6 +83,14 @@ function GameSelection() {
                 fontSize: "1.1rem"
             }}
             onClick={() => {
+                setAnalysisStatus(AnalysisStatus.INACTIVE);
+                setAnalysisCaptchaToken();
+
+                setAnalysisTooltip(
+                    t("pages.analysis.progressReporter.tooltip")
+                );
+                setAnalysisError();
+
                 const analysisGame = importGame();
                 if (!analysisGame) return;
 

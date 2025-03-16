@@ -6,7 +6,11 @@ import ErrorMessage from "@components/common/ErrorMessage";
 import ProgressReporterProps from "./ProgressReporterProps";
 import * as styles from "./ProgressReporter.module.css";
 
-function ProgressReporter({ progress, error }: ProgressReporterProps) {
+function ProgressReporter({
+    progress,
+    tooltip,
+    error
+}: ProgressReporterProps) {
     const { t } = useTranslation();
 
     return <div className={styles.wrapper}>
@@ -26,13 +30,17 @@ function ProgressReporter({ progress, error }: ProgressReporterProps) {
         />
 
         {
+            tooltip
+            && <span className={styles.tooltip}>
+                {tooltip}
+            </span>
+        }
+
+        {
             error
-                ? <ErrorMessage>
-                    {error}
-                </ErrorMessage>
-                : <span className={styles.tooltip}>
-                    {t("pages.analysis.progressReporter.tooltip")}
-                </span>
+            && <ErrorMessage>
+                {error}
+            </ErrorMessage>
         }
     </div>;
 }

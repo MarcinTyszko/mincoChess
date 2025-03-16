@@ -65,7 +65,10 @@
             },
             "progressReporter": {
                 "analysing": "Analysing...",
-                "tooltip": "If this takes a while, you can try lowering the engine depth in the settings."
+                "tooltip": "If this takes a while, you can try lowering the engine depth in the settings.",
+                "captchaLoadFailed": "Failed to load CAPTCHA. Your browser is likely outdated.",
+                "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
+                "completeNotification": "Analysis Complete"
             }
         },
         "news": {
