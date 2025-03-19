@@ -34,7 +34,11 @@ router.post("/api/analysis/session", async (req, res) => {
             {
                 remainingActions: 80
             }
-        )
+        ),
+        {
+            sameSite: true,
+            httpOnly: true
+        }
     );
 
     res.sendStatus(200);
