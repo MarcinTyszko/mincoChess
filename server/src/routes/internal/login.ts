@@ -1,6 +1,8 @@
 import { Router } from "express";
 
 import { createSession } from "../../lib/database/session";
+import { verifyCaptchaToken } from "../../lib/captcha";
+import SessionType from "../../constants/sessionType";
 
 const router = Router();
 
@@ -17,26 +19,19 @@ router.post("/internal/login", async (req, res) => {
         return res.status(400).send("Incorrect password.");
     }
 
-    // If ReCAPTCHA token is invalid, 400
+    if (!captchaToken) {
+        return res.status(400).send("Please fill out the CAPTCHA.");
+    }
+
+    // If Turnstile token is invalid, 400
     if (process.env.NODE_ENV != "development") {
-        const captchaResponse = await fetch(
-            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    secret: process.env.TURNSTILE_INTERNAL_SECRET_KEY,
-                    response: captchaToken
-                })
-            }
+        const captchaTokenValid = await verifyCaptchaToken(
+            captchaToken,
+            process.env.TURNSTILE_INTERNAL_SECRET_KEY
         );
-    
-        const captchaResult = await captchaResponse.json();
         
-        if (!captchaResult.success) {
-            return res.status(400).send("Please wait for the CAPTCHA or refresh the page.");
+        if (!captchaTokenValid) {
+            return res.status(400).send("Please refresh the page and redo the CAPTCHA.");
         }
     }
 
@@ -46,7 +41,7 @@ router.post("/internal/login", async (req, res) => {
     }
 
     // Create session
-    const sessionToken = await createSession();
+    const sessionToken = await createSession(SessionType.INTERNAL);
     res.send(sessionToken);
 });
 

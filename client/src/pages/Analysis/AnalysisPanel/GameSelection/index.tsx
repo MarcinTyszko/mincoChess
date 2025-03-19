@@ -5,7 +5,7 @@ import { AnalysisGame } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useEvaluationProgressStore from "@stores/EvaluationProgressStore";
+import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
@@ -27,9 +27,8 @@ function GameSelection() {
         setEvaluationProgress,
         setAnalysisStatus,
         setAnalysisTooltip,
-        setAnalysisError,
-        setAnalysisCaptchaToken
-    } = useEvaluationProgressStore();
+        setAnalysisError
+    } = useAnalysisProgressStore();
 
     const [ importError, setImportError ] = useState<string | null>(null);
 
@@ -84,7 +83,6 @@ function GameSelection() {
             }}
             onClick={() => {
                 setAnalysisStatus(AnalysisStatus.INACTIVE);
-                setAnalysisCaptchaToken();
 
                 setAnalysisTooltip(
                     t("pages.analysis.progressReporter.tooltip")

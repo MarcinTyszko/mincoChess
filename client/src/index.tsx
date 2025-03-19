@@ -36,6 +36,7 @@ root.render(<BrowserRouter>
             <Suspense fallback={<LoadingPlaceholder/>}>
                 <Routes>
                     <Route path="/" element={<Analysis/>} />
+                    <Route path="/analysis" element={<Analysis/>} />
                     <Route path="/archive" element={<Archive/>} />
                     <Route path="/news" element={<NewsArticleList/>} />
                     <Route path="/news/:articleId" element={<NewsArticle/>} />

@@ -3,7 +3,7 @@ import Turnstile from "react-turnstile";
 import { useTranslation } from "react-i18next";
 
 import AnalysisStatus from "@constants/AnalysisStatus";
-import useEvaluationProgressStore from "@stores/EvaluationProgressStore";
+import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 
 function ProgressArea() {
@@ -15,11 +15,8 @@ function ProgressArea() {
         setAnalysisStatus,
         analysisTooltip,
         setAnalysisTooltip,
-        analysisError,
-        setAnalysisError,
-        analysisCaptchaToken,
-        setAnalysisCaptchaToken
-    } = useEvaluationProgressStore();
+        analysisError
+    } = useAnalysisProgressStore();
 
     useEffect(() => {
         if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
@@ -58,21 +55,6 @@ function ProgressArea() {
                 progress={evaluationProgress}
                 tooltip={analysisTooltip}
                 error={analysisError}
-            />
-        }
-
-        {
-            process.env.TURNSTILE_ANALYSIS_SITE_KEY
-            && analysisStatus != AnalysisStatus.INACTIVE
-            && <Turnstile
-                sitekey={process.env.TURNSTILE_ANALYSIS_SITE_KEY}
-                onSuccess={setAnalysisCaptchaToken}
-                onUnsupported={() => setAnalysisError(
-                    t("pages.analysis.progressReporter.captchaLoadFailed")
-                )}
-                onError={() => setAnalysisError(
-                    t("pages.analysis.progressReporter.captchaUnknownError")
-                )}
             />
         }
     </>;

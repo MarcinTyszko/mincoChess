@@ -1,16 +1,22 @@
 import { connection as database } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-import Collections from "./collections";
+import Collection from "../../constants/collection";
+import SessionType from "../../constants/sessionType";
 
-export async function createSession() {
+export async function createSession(
+    type: SessionType,
+    extras?: Record<string, any>
+) {
     const sessionToken = uuidv4();
 
     await database
-        .collection(Collections.SESSIONS)
+        .collection(Collection.SESSIONS)
         .insertOne({
             token: sessionToken,
-            createdAt: new Date()
+            type: type,
+            createdAt: new Date(),
+            ...extras
         });
 
     return sessionToken;
@@ -18,13 +24,13 @@ export async function createSession() {
 
 export async function deleteSession(token: string) {
     await database
-        .collection(Collections.SESSIONS)
+        .collection(Collection.SESSIONS)
         .deleteOne({ token });
 }
 
 export async function verifySession(token: string) {
     const session = await database
-        .collection(Collections.SESSIONS)
+        .collection(Collection.SESSIONS)
         .findOne({ token });
 
     return !!session;

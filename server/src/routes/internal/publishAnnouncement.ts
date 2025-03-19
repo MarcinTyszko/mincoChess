@@ -2,7 +2,7 @@ import { Router } from "express";
 import { connection as database } from "mongoose";
 
 import { Announcement } from "wintrchess";
-import Collections from "../../lib/database/collections";
+import Collections from "../../constants/collection";
 
 const router = Router();
 

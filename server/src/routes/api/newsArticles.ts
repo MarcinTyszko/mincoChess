@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { connection as database } from "mongoose";
 
-import Collections from "../../lib/database/collections";
 import { NewsArticle } from "wintrchess";
+import Collections from "../../constants/collection";
 
 const router = Router();
 

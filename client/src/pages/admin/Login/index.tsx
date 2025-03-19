@@ -44,7 +44,7 @@ function Login() {
             return;
         }
 
-        cookies.set(Cookie.ADMIN_SESSION_TOKEN, responseText);
+        cookies.set(Cookie.INTERNAL_SESSION_TOKEN, responseText);
 
         navigate("/internal/dashboard");
     }
