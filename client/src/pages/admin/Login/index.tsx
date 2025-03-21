@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Cookies } from "react-cookie";
 import Turnstile, { useTurnstile } from "react-turnstile";
 
-import { Cookie } from "wintrchess";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ErrorMessage from "@components/common/ErrorMessage";
@@ -21,8 +19,6 @@ function Login() {
 
     const [ captchaToken, setCaptchaToken ] = useState<string | null>(null);
 
-    const cookies = new Cookies();
-
     async function login() {
         const loginResponse = await fetch("/internal/login", {
             method: "POST",
@@ -35,16 +31,12 @@ function Login() {
             })
         });
 
-        const responseText = await loginResponse.text();
-
         if (!loginResponse.ok) {
-            setError(responseText);
+            setError(await loginResponse.text());
             turnstile.reset();
 
             return;
         }
-
-        cookies.set(Cookie.INTERNAL_SESSION_TOKEN, responseText);
 
         navigate("/internal/dashboard");
     }

@@ -4,7 +4,7 @@ import { connection as database } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
 import { NewsArticle } from "wintrchess";
-import Collections from "../../../constants/collection";
+import Collections from "../../../constants/Collection";
 
 const router = Router();
 

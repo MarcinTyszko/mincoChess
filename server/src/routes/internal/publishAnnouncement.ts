@@ -2,7 +2,7 @@ import { Router } from "express";
 import { connection as database } from "mongoose";
 
 import { Announcement } from "wintrchess";
-import Collections from "../../constants/collection";
+import Collection from "@constants/Collection";
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.post("/internal/announcement/publish", async (req, res) => {
     const { colour, content }: Announcement = req.body;
 
     await database
-        .collection(Collections.ANNOUNCEMENT)
+        .collection(Collection.ANNOUNCEMENT)
         .updateOne(
             {},
             {

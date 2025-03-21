@@ -4,23 +4,18 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config();
 
-import connectDatabase from "./lib/database";
-import authenticator from "./lib/auth";
+import connectDatabase from "@database/connect";
+import { analysisAuthenticator, internalAuthenticator } from "@lib/authentication";
 
 import { apiRouter, internalRouter } from "./routes";
 
 const app = express();
 
-app.use((req, res, next) => {
-    res.set("Cross-Origin-Embedder-Policy", "require-corp");
-    res.set("Cross-Origin-Opener-Policy", "same-origin");
-
-    next();
-});
-
 app.use(express.json());
 app.use(cookieParser());
-app.use("/internal", authenticator);
+
+app.use("/internal", internalAuthenticator);
+app.use("/api/analysis", analysisAuthenticator);
 
 app.use("/",
     express.static("client/dist"),

@@ -1,8 +1,8 @@
 import { connection as database } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-import Collection from "../../constants/collection";
-import SessionType from "../../constants/sessionType";
+import Collection from "@constants/Collection";
+import SessionType from "@constants/SessionType";
 
 export async function createSession(
     type: SessionType,

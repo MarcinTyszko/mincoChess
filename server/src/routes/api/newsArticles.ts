@@ -2,7 +2,7 @@ import { Router } from "express";
 import { connection as database } from "mongoose";
 
 import { NewsArticle } from "wintrchess";
-import Collections from "../../constants/collection";
+import Collection from "@constants/Collection";
 
 const router = Router();
 
@@ -18,13 +18,13 @@ router.get("/api/news", async (req, res) => {
 
     if (articleId) {
         const article = await database
-            .collection<NewsArticle>(Collections.NEWS_ARTICLES)
+            .collection<NewsArticle>(Collection.NEWS_ARTICLES)
             .findOne({ id: articleId });
 
         res.json(article);
     } else {
         const articles = await database
-            .collection<NewsArticle>(Collections.NEWS_ARTICLES)
+            .collection<NewsArticle>(Collection.NEWS_ARTICLES)
             .find()
             .sort({ timestamp: -1 })
             .skip((page - 1) * ARTICLES_PER_PAGE)

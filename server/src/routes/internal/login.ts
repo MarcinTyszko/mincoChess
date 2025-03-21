@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { StatusCodes } from "http-status-codes";
 
-import { createSession } from "../../lib/database/session";
-import { verifyCaptchaToken } from "../../lib/captcha";
-import SessionType from "../../constants/sessionType";
+import { Cookie } from "wintrchess";
+import { signInternalJWT } from "@lib/authentication";
+import { verifyCaptchaToken } from "@lib/captcha";
 
 const router = Router();
 
@@ -14,13 +15,17 @@ interface LoginRequest {
 router.post("/internal/login", async (req, res) => {
     const { password, captchaToken }: LoginRequest = req.body;
 
-    // If password parameter is missing, 400
+    // If parameters are missing
     if (!password) {
-        return res.status(400).send("Incorrect password.");
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send("Incorrect password.");
     }
 
     if (!captchaToken) {
-        return res.status(400).send("Please fill out the CAPTCHA.");
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send("Please fill out the CAPTCHA.");
     }
 
     // If Turnstile token is invalid, 400
@@ -31,18 +36,34 @@ router.post("/internal/login", async (req, res) => {
         );
         
         if (!captchaTokenValid) {
-            return res.status(400).send("Please refresh the page and redo the CAPTCHA.");
+            return res
+                .status(StatusCodes.UNAUTHORIZED)
+                .send("Please refresh the page and redo the CAPTCHA.");
         }
     }
 
     // If password is incorrect, 401
-    if (password != process.env.ADMIN_PASSWORD) {
-        return res.status(401).send("Incorrect password.");
+    if (password != process.env.INTERNAL_PASSWORD) {
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send("Incorrect password.");
     }
 
     // Create session
-    const sessionToken = await createSession(SessionType.INTERNAL);
-    res.send(sessionToken);
+    try {
+        res.cookie(
+            Cookie.INTERNAL_JWT,
+            signInternalJWT(),
+            {
+                sameSite: true,
+                httpOnly: true
+            }
+        );
+    
+        res.sendStatus(StatusCodes.OK);
+    } catch {
+        res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+    }
 });
 
 export default router;

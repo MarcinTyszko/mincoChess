@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { connection as database } from "mongoose";
 
-import Collections from "../../../constants/collection";
+import Collections from "../../../constants/Collection";
 
 const router = Router();
 

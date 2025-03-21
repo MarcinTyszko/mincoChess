@@ -1,0 +1,19 @@
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "@constants": "./dist/constants",
+                    "@database": "./dist/database",
+                    "@lib": "./dist/lib",
+                    "@routes": "./dist/routes"
+                }
+            }
+        ]
+    ]
+}
