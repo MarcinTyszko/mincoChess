@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { Cookie } from "wintrchess";
 import AnalysisSession from "@database/models/AnalysisSession";
 
-const defaultSessionExpiry = 300;
+const defaultSessionExpiry = 3600;
 
 export function signInternalJWT() {
     if (!process.env.INTERNAL_JWT_SECRET) {
@@ -36,14 +36,16 @@ export const internalAuthenticator: RequestHandler = async (req, res, next) => {
         return res.redirect("/internal/login");
     }
 
-    // Verify token signature and refresh it
+    // Verify token signature and issue refreshed one
     try {
         jwt.verify(jsonWebToken, process.env.INTERNAL_JWT_SECRET);
 
-        res.cookie(
-            Cookie.INTERNAL_JWT,
-            signInternalJWT()
-        );
+        const decodedJWT = jwt.decode(jsonWebToken, { json: true });
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (currentTime >= (decodedJWT?.exp || 0)) {
+            return res.redirect("/internal/login");
+        }
 
         next();
     } catch {
