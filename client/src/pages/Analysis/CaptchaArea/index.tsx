@@ -12,8 +12,20 @@ function CaptchaArea() {
 
     const { setAnalysisSessionToken } = useAnalysisSessionStore();
 
-    function refreshAnalysisSession(captchaToken: string) {
-        
+    async function requestAnalysisSession(captchaToken: string) {
+        const sessionResponse = await fetch("/api/analysis/session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token: captchaToken })
+        });
+
+        if (!sessionResponse.ok) return;
+
+        const sessionToken = await sessionResponse.text();
+
+        setAnalysisSessionToken(sessionToken);
     }
 
     return <>
@@ -21,15 +33,7 @@ function CaptchaArea() {
             process.env.TURNSTILE_ANALYSIS_SITE_KEY
             && <Turnstile
                 sitekey={process.env.TURNSTILE_ANALYSIS_SITE_KEY}
-                onSuccess={async token => {
-                    await fetch("/api/analysis/session", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ token })
-                    });
-                }}
+                onSuccess={requestAnalysisSession}
                 onUnsupported={() => setAnalysisError(
                     t("pages.analysis.progressReporter.captchaLoadFailed")
                 )}

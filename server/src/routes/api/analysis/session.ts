@@ -36,6 +36,19 @@ router.post("/api/analysis/session", async (req, res) => {
             .send("CAPTCHA Token invalid.");
     }
 
+    // Do not replace existing valid session
+    const existingSessionToken = req.cookies[Cookie.ANALYSIS_SESSION_TOKEN];
+
+    if (existingSessionToken) {
+        const existingSession = await AnalysisSession.findOne({
+            token: existingSessionToken
+        });
+
+        if (existingSession) {
+            return res.sendStatus(StatusCodes.NOT_MODIFIED);
+        }
+    }
+
     // Generate session
     const sessionToken = uuidv4();
 
@@ -54,7 +67,7 @@ router.post("/api/analysis/session", async (req, res) => {
         }
     );
 
-    res.sendStatus(StatusCodes.OK);
+    res.send(sessionToken);
 });
 
 export default router;
