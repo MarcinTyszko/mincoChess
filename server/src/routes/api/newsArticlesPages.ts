@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { connection as database } from "mongoose";
 
-import Collection from "@constants/Collection";
+import NewsArticle from "@database/models/NewsArticle";
 
 const router = Router();
 
@@ -9,9 +8,7 @@ const ARTICLES_PER_PAGE = 10;
 
 router.get("/api/news/pages", async (req, res) => {
     const pageCount = Math.ceil(
-        await database
-            .collection(Collection.NEWS_ARTICLES)
-            .countDocuments()
+        await NewsArticle.countDocuments()
         / ARTICLES_PER_PAGE
     );
 

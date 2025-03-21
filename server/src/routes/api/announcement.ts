@@ -1,14 +1,11 @@
 import { Router } from "express";
-import { connection as database } from "mongoose";
 
-import Collection from "@constants/Collection";
+import Announcement from "@database/models/Announcement";
 
 const router = Router();
 
 router.get("/api/announcement", async (req, res) => {
-    const announcement = await database
-        .collection(Collection.ANNOUNCEMENT)
-        .findOne({});
+    const announcement = await Announcement.findOne();
 
     res.json(announcement || {});
 });
