@@ -45,7 +45,7 @@ router.post("/api/analysis/session", async (req, res) => {
         });
 
         if (existingSession) {
-            return res.sendStatus(StatusCodes.NOT_MODIFIED);
+            return res.sendStatus(StatusCodes.OK);
         }
     }
 

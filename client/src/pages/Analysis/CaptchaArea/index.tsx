@@ -8,7 +8,7 @@ import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
 function CaptchaArea() {
     const { t } = useTranslation();
 
-    const { setAnalysisError } = useAnalysisProgressStore();
+    const { setCaptchaError } = useAnalysisProgressStore();
 
     const { setAnalysisSessionToken } = useAnalysisSessionStore();
 
@@ -21,7 +21,11 @@ function CaptchaArea() {
             body: JSON.stringify({ token: captchaToken })
         });
 
-        if (!sessionResponse.ok) return;
+        if (!sessionResponse.ok) {
+            return setCaptchaError(
+                t("pages.analysis.progressReporter.captchaUnknownError")
+            );
+        }
 
         const sessionToken = await sessionResponse.text();
 
@@ -34,10 +38,10 @@ function CaptchaArea() {
             && <Turnstile
                 sitekey={process.env.TURNSTILE_ANALYSIS_SITE_KEY}
                 onSuccess={requestAnalysisSession}
-                onUnsupported={() => setAnalysisError(
+                onUnsupported={() => setCaptchaError(
                     t("pages.analysis.progressReporter.captchaLoadFailed")
                 )}
-                onError={() => setAnalysisError(
+                onError={() => setCaptchaError(
                     t("pages.analysis.progressReporter.captchaUnknownError")
                 )}
                 style={{ display: "none" }}

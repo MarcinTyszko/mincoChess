@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 
 import ErrorMessage from "@components/common/ErrorMessage";
 
@@ -8,16 +7,13 @@ import * as styles from "./ProgressReporter.module.css";
 
 function ProgressReporter({
     progress,
+    title,
     tooltip,
     error
 }: ProgressReporterProps) {
-    const { t } = useTranslation();
-
     return <div className={styles.wrapper}>
         <div className={styles.info}>
-            <span>
-                {t("pages.analysis.progressReporter.analysing")}
-            </span>
+            {title && <span>{title}</span>}
 
             <span>
                 {(progress * 100).toFixed(1)}%

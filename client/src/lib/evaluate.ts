@@ -160,9 +160,14 @@ async function evaluateMoves(
                 options.engineDepth,
                 line => {
                     // Depth 0 is given for states with no legal moves
-                    progresses[currentStateTreeNodeIndex] = line.depth == 0
-                        ? 1
-                        : line.depth / options.engineDepth;
+                    const localProgress = line.depth == 0
+                        ? 1 : line.depth / options.engineDepth;
+                    
+                    // Progress value will already exist for cutoff node
+                    progresses[currentStateTreeNodeIndex] = Math.max(
+                        progresses[currentStateTreeNodeIndex] || 0,
+                        localProgress
+                    );
 
                     options.onProgress?.(progress());
                 }

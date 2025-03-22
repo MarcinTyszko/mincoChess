@@ -7,12 +7,14 @@ interface AnalysisProgressStore {
     analysisStatus: AnalysisStatus;
     analysisTooltip?: string;
     analysisError?: string;
+    captchaError?: string;
 
     setEvaluationProgress: (progress: number) => void;
     setAnalysisStatus: (status: AnalysisStatus) => void;
 
     setAnalysisTooltip: (tooltip?: string) => void;
     setAnalysisError: (error?: string) => void;
+    setCaptchaError: (error?: string) => void;
 }
 
 const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
@@ -33,6 +35,10 @@ const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
 
     setAnalysisError(error) {
         set({ analysisError: error });
+    },
+
+    setCaptchaError(error) {
+        set({ captchaError: error });
     }
 }));
 

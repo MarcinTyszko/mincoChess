@@ -64,10 +64,13 @@
                 "checkmate": "Checkmate"
             },
             "progressReporter": {
-                "analysing": "Analysing...",
-                "tooltip": "If this takes a while, you can try lowering the engine depth in the settings.",
+                "evaluating": "Evaluating...",
+                "classifying": "Classifying...",
+                "defaultTooltip": "If this takes a while, you can try lowering the engine depth in the settings.",
+                "captchaDelay": "Please wait for the CAPTCHA...",
                 "captchaLoadFailed": "Failed to load CAPTCHA. Your browser is likely outdated.",
                 "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
+                "invalidSession": "Failed to verify CAPTCHA. Retrying...",
                 "completeNotification": "Analysis Complete"
             }
         },

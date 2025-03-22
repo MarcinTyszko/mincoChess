@@ -78,14 +78,12 @@ function GameSelection() {
         <Button
             icon={require("@assets/img/analysis.svg")}
             iconSize="30px"
-            style={{
-                fontSize: "1.1rem"
-            }}
+            style={{ fontSize: "1.1rem" }}
             onClick={() => {
                 setAnalysisStatus(AnalysisStatus.INACTIVE);
 
                 setAnalysisTooltip(
-                    t("pages.analysis.progressReporter.tooltip")
+                    t("pages.analysis.progressReporter.defaultTooltip")
                 );
                 setAnalysisError();
 
