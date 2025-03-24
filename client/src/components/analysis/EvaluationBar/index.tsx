@@ -33,11 +33,11 @@ function EvaluationBar({
         }
     }
 
-    const textY = blackHeight > (height / 2) == flipped
+    const textY = (blackHeight > (height / 2) == flipped)
         ? height - 12 : 20;
 
-    const textColour = blackHeight > (height / 2) == flipped
-        ? "#000" : "#fff";
+    const textColour = (blackHeight > (height / 2))
+        ? "#fff" : "#000";
 
     return <div
         className={styles.evaluationBar}
