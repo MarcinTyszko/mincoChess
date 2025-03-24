@@ -36,7 +36,7 @@ function AnalysisPanel() {
             );
         });
 
-        analysisPanelObserver.observe(analysisPanelRef.current)
+        analysisPanelObserver.observe(analysisPanelRef.current);
     }, []);
 
     const treeTraverserWidth = innerWidth > Breakpoints.MOBILE_LAYOUT
