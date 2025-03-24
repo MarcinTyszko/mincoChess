@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import useLayoutStore from "@stores/LayoutStore";
@@ -14,9 +14,33 @@ import * as styles from "./AnalysisPanel.module.css";
 function AnalysisPanel() {
     const { t } = useTranslation();
 
-    const { contentSectionHeight } = useLayoutStore();
+    const {
+        contentSectionHeight,
+        analysisPanelScrollable,
+        setAnalysisPanelScrollable
+    } = useLayoutStore();
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
+
+    const analysisPanelRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!analysisPanelRef.current) return;
+
+        const analysisPanelObserver = new ResizeObserver(entries => {
+            const analysisPanel = entries[0].target as HTMLDivElement;
+
+            setAnalysisPanelScrollable(
+                analysisPanel.offsetWidth != analysisPanel.clientWidth
+            );
+        });
+
+        analysisPanelObserver.observe(analysisPanelRef.current)
+    }, []);
+
+    const treeTraverserWidth = innerWidth > Breakpoints.MOBILE_LAYOUT
+        ? (analysisPanelScrollable ? 355 : 365)
+        : (innerWidth > 400 ? 365 : 280);
     
     return <div
         className={styles.wrapper}
@@ -25,6 +49,7 @@ function AnalysisPanel() {
                 ? `${contentSectionHeight}px`
                 : undefined
         }}
+        ref={analysisPanelRef}
     >
         <div className={styles.title}>
             {t("pages.analysis.title")}
@@ -41,10 +66,13 @@ function AnalysisPanel() {
         <StateTreeTraverser
             style={{
                 position: "fixed",
+                width: treeTraverserWidth,
                 bottom: "10px",
                 right: innerWidth > Breakpoints.MOBILE_LAYOUT
-                    ? "10px"
-                    : `calc(50vw - (${innerWidth > 400 ? 365 : 280}px / 2))`
+                    ? (
+                        analysisPanelScrollable ? "20px" : "10px"
+                    )
+                    : `calc(50vw - (${treeTraverserWidth}px / 2))`
             }}
         />
 
