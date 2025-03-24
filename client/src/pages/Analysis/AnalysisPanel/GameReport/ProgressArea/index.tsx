@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { TFunction } from "i18next";
 import { useTurnstile } from "react-turnstile";
 
 import AnalysisStatus from "@constants/AnalysisStatus";
@@ -8,15 +7,14 @@ import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 
-function getStatusTitle(status: AnalysisStatus, translate: TFunction) {
-    switch (status) {
-        case AnalysisStatus.EVALUATING:
-            return translate("pages.analysis.progressReporter.evaluating");
-        case AnalysisStatus.CLASSIFYING:
-            return translate("pages.analysis.progressReporter.classifying");
-        default:
-            return translate("pages.analysis.progressReporter.evaluating");
-    }
+function getStatusTitle(status: AnalysisStatus) {
+    const statusTitles: Record<string, string | undefined> = {
+        [AnalysisStatus.EVALUATING]: "pages.analysis.progressReporter.evaluating",
+        [AnalysisStatus.CLASSIFYING]: "pages.analysis.progressReporter.classifying"
+    };
+
+    return statusTitles[status]
+        || "pages.analysis.progressReporter.evaluating";
 }
 
 function ProgressArea() {
@@ -29,6 +27,7 @@ function ProgressArea() {
         analysisStatus,
         setAnalysisStatus,
         analysisTooltip,
+        setAnalysisTooltip,
         analysisError,
         setAnalysisError,
         captchaError
@@ -58,7 +57,12 @@ function ProgressArea() {
             if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
             if (captchaError) {
-                return setAnalysisError(captchaError);
+                setAnalysisError(captchaError);
+                
+                turnstile.reset();
+                turnstile.execute();
+                
+                return;
             }
 
             const classifyResponse = await fetch("/api/analysis/classify", {
@@ -66,14 +70,18 @@ function ProgressArea() {
             });
 
             if (!classifyResponse.ok) {
-                setAnalysisError(
-                    t("pages.analysis.progressReporter.invalidSession")
+                setAnalysisError();
+                setAnalysisTooltip(
+                    t("pages.analysis.progressReporter.captchaDelay")
                 );
 
                 turnstile.reset();
+                turnstile.execute();
 
                 return;
             }
+
+            setAnalysisStatus(AnalysisStatus.CLASSIFYING);
 
             const classifications = await classifyResponse.json();
 
@@ -91,7 +99,7 @@ function ProgressArea() {
             analysisStatus != AnalysisStatus.INACTIVE
             && <ProgressReporter
                 progress={evaluationProgress}
-                title={getStatusTitle(analysisStatus, t)}
+                title={t(getStatusTitle(analysisStatus))}
                 tooltip={analysisTooltip}
                 error={analysisError}
             />

@@ -70,7 +70,6 @@
                 "captchaDelay": "Please wait for the CAPTCHA...",
                 "captchaLoadFailed": "Failed to load CAPTCHA. Your browser is likely outdated.",
                 "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
-                "invalidSession": "Failed to verify CAPTCHA. Retrying...",
                 "completeNotification": "Analysis Complete"
             }
         },

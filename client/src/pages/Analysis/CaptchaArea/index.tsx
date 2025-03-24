@@ -30,6 +30,7 @@ function CaptchaArea() {
         const sessionToken = await sessionResponse.text();
 
         setAnalysisSessionToken(sessionToken);
+        setCaptchaError();
     }
 
     return <>
@@ -37,6 +38,7 @@ function CaptchaArea() {
             process.env.TURNSTILE_ANALYSIS_SITE_KEY
             && <Turnstile
                 sitekey={process.env.TURNSTILE_ANALYSIS_SITE_KEY}
+                refreshExpired="manual"
                 onSuccess={requestAnalysisSession}
                 onUnsupported={() => setCaptchaError(
                     t("pages.analysis.progressReporter.captchaLoadFailed")
@@ -46,7 +48,7 @@ function CaptchaArea() {
                 )}
                 style={{ display: "none" }}
             />
-        }   
+        }
     </>;
 }
 
