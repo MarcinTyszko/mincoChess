@@ -10,11 +10,11 @@ import ProgressReporter from "@components/analysis/ProgressReporter";
 function getStatusTitle(status: AnalysisStatus) {
     const statusTitles: Record<string, string | undefined> = {
         [AnalysisStatus.EVALUATING]: "pages.analysis.progressReporter.evaluating",
+        [AnalysisStatus.AWAITING_CAPTCHA]: "pages.analysis.progressReporter.awaitingCaptcha",
         [AnalysisStatus.CLASSIFYING]: "pages.analysis.progressReporter.classifying"
     };
 
-    return statusTitles[status]
-        || "pages.analysis.progressReporter.evaluating";
+    return statusTitles[status];
 }
 
 function ProgressArea() {
@@ -26,8 +26,6 @@ function ProgressArea() {
         evaluationProgress,
         analysisStatus,
         setAnalysisStatus,
-        analysisTooltip,
-        setAnalysisTooltip,
         analysisError,
         setAnalysisError,
         captchaError
@@ -56,7 +54,7 @@ function ProgressArea() {
         async function effect() {
             if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
-            if (captchaError) {
+            if (captchaError || !analysisSessionToken) {
                 setAnalysisError(captchaError);
                 
                 turnstile.reset();
@@ -71,9 +69,6 @@ function ProgressArea() {
 
             if (!classifyResponse.ok) {
                 setAnalysisError();
-                setAnalysisTooltip(
-                    t("pages.analysis.progressReporter.captchaDelay")
-                );
 
                 turnstile.reset();
                 turnstile.execute();
@@ -85,6 +80,8 @@ function ProgressArea() {
 
             const classifications = await classifyResponse.json();
 
+            await new Promise(res => setTimeout(res, 1500));
+
             console.log("mocked classifications recieved!");
             console.log(classifications);
 
@@ -94,13 +91,15 @@ function ProgressArea() {
         effect();
     }, [analysisSessionToken, analysisStatus]);
 
+    const statusTitle = getStatusTitle(analysisStatus);
+
     return <>
         {
             analysisStatus != AnalysisStatus.INACTIVE
             && <ProgressReporter
                 progress={evaluationProgress}
-                title={t(getStatusTitle(analysisStatus))}
-                tooltip={analysisTooltip}
+                title={statusTitle ? t(statusTitle) : undefined}
+                tooltip={t("pages.analysis.progressReporter.tooltip")}
                 error={analysisError}
             />
         }
