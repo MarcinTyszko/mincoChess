@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import Breakpoints from "@constants/Breakpoints";
-import OptionsToolbar from "@components/analysis/OptionsToolbar";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import * as styles from "./AnalysisPanel.module.css";
+
+const OptionsToolbar = lazy(() => import("@components/analysis/OptionsToolbar"));
 
 function AnalysisPanel() {
     const { t } = useTranslation();
