@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTurnstile } from "react-turnstile";
 
-import { AnalysisGame, serializeStateTree } from "wintrchess";
+import { GameAnalysis, serializeStateTree } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
@@ -67,15 +67,24 @@ function ProgressArea() {
                 return;
             }
 
+            const gameAnalysis: GameAnalysis = {
+                accuracies: {
+                    white: 0,
+                    black: 0
+                },
+                estimatedRatings: {
+                    white: 0,
+                    black: 0
+                },
+                stateTree: serializeStateTree(analysisGame.stateTree)
+            };
+
             const classifyResponse = await fetch("/api/analysis/classify", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    ...analysisGame,
-                    stateTree: serializeStateTree(analysisGame.stateTree)
-                })
+                body: JSON.stringify(gameAnalysis)
             });
 
             if (!classifyResponse.ok) {
@@ -89,12 +98,12 @@ function ProgressArea() {
 
             setAnalysisStatus(AnalysisStatus.CLASSIFYING);
 
-            const reportedAnalysisGame: AnalysisGame = await classifyResponse.json();
+            const bakedGameAnalysis: GameAnalysis = await classifyResponse.json();
 
             await new Promise(res => setTimeout(res, 1500));
 
             console.log("mocked game report recieved!");
-            console.log(reportedAnalysisGame);
+            console.log(bakedGameAnalysis);
 
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }

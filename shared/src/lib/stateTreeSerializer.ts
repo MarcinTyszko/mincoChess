@@ -9,6 +9,11 @@ export function serializeStateTree(rootNode: StateTreeNode) {
         nodeCopy.parent = undefined;
         nodeCopy.children = [];
         nodeCopy.state = cloneDeep(nodeCopy.state);
+        
+        nodeCopy.state.engineLines = nodeCopy.state.engineLines.map(line => {
+            line.moves = line.moves.slice(0, 1);
+            return line;
+        });
 
         for (const child of node.children) {
             nodeCopy.children.push(

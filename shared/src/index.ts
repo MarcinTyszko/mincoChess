@@ -13,6 +13,7 @@ export * from "./lib/moveNotation";
 export * from "./lib/stateTreeSerializer";
 
 export * from "./types/game/Game";
+export { default as GameAnalysis } from "./types/game/GameAnalysis";
 export { default as AnalysisGame } from "./types/game/AnalysisGame";
 export { default as GamePlayerProfile } from "./types/game/GamePlayerProfile";
 export { default as StateTreeNode } from "./types/game/StateTreeNode";

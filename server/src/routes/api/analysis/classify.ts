@@ -1,21 +1,21 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { AnalysisGame } from "wintrchess";
+import { GameAnalysis } from "wintrchess";
 
 const router = Router();
 
 router.post("/api/analysis/classify", async (req, res) => {
-    const analysisGame: AnalysisGame | undefined = req.body;
+    const gameAnalysis: GameAnalysis | undefined = req.body;
 
-    if (!analysisGame) {
+    if (!gameAnalysis) {
         return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
-    analysisGame.accuracies.white = 95.6;
-    analysisGame.accuracies.black = 82.1;
+    gameAnalysis.accuracies.white = 95.6;
+    gameAnalysis.accuracies.black = 82.1;
 
-    res.json(analysisGame);
+    res.json(gameAnalysis);
 });
 
 export default router;

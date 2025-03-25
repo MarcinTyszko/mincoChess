@@ -1,16 +1,6 @@
 import Game from "./Game";
-import StateTreeNode from "./StateTreeNode";
+import GameAnalysis from "./GameAnalysis";
 
-interface AnalysisGame extends Game {
-    accuracies: {
-        white: number;
-        black: number;
-    };
-    estimatedRatings: {
-        white: number;
-        black: number;
-    };
-    stateTree: StateTreeNode;
-}
+type AnalysisGame = Game & GameAnalysis;
 
 export default AnalysisGame;

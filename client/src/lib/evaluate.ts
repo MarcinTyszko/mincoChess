@@ -135,6 +135,9 @@ async function evaluateMoves(
 
         // Bring an engine to a new FEN
         function evaluateNextPosition(engine: Engine) {
+            const currentStateTreeNodeIndex = stateTreeNodeIndex;
+            const currentStateTreeNode = stateTreeNodes[stateTreeNodeIndex];
+
             if (stateTreeNodeIndex >= stateTreeNodes.length) {
                 engine.terminate();
 
@@ -153,9 +156,6 @@ async function evaluateMoves(
                     .map(node => node.state.move!.uci)
             );
 
-            const currentStateTreeNodeIndex = stateTreeNodeIndex;
-            const currentStateTreeNode = stateTreeNodes[stateTreeNodeIndex];
-
             engine.evaluate(
                 options.engineDepth,
                 line => {
@@ -173,7 +173,10 @@ async function evaluateMoves(
                 }
             ).then(result => {
                 currentStateTreeNode.state.engineLines.push(
-                    ...result.lines
+                    ...result.lines.filter(line => (
+                        line.depth == options.engineDepth
+                        || line.depth == 3
+                    ))
                 );
 
                 evaluateNextPosition(engine);
