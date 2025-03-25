@@ -68,14 +68,6 @@ function ProgressArea() {
             }
 
             const gameAnalysis: GameAnalysis = {
-                accuracies: {
-                    white: 0,
-                    black: 0
-                },
-                estimatedRatings: {
-                    white: 0,
-                    black: 0
-                },
                 stateTree: serializeStateTree(analysisGame.stateTree)
             };
 

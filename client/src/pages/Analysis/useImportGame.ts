@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { AnalysisGame } from "wintrchess";
+import { AnalysedGame } from "wintrchess";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -37,16 +37,8 @@ function useImportGame(
         }
 
         // Set analysis game to the selected one
-        const analysisGame: AnalysisGame = {
+        const analysisGame: AnalysedGame = {
             ...selectedGame,
-            accuracies: {
-                black: 0,
-                white: 0
-            },
-            estimatedRatings: {
-                white: 0,
-                black: 0
-            },
             stateTree: getStateTree(selectedGame)
         };
 

@@ -1,6 +1,6 @@
 import Game from "./Game";
 import GameAnalysis from "./GameAnalysis";
 
-type AnalysisGame = Game & GameAnalysis;
+type AnalysedGame = Game & GameAnalysis;
 
-export default AnalysisGame;
+export default AnalysedGame;

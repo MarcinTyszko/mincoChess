@@ -12,8 +12,10 @@ router.post("/api/analysis/classify", async (req, res) => {
         return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
-    gameAnalysis.accuracies.white = 95.6;
-    gameAnalysis.accuracies.black = 82.1;
+    gameAnalysis.accuracies = {
+        white: 95.1,
+        black: 82.7
+    };
 
     res.json(gameAnalysis);
 });

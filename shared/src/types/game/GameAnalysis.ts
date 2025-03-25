@@ -1,11 +1,11 @@
 import StateTreeNode from "./StateTreeNode";
 
 interface GameAnalysis {
-    accuracies: {
+    accuracies?: {
         white: number;
         black: number;
     };
-    estimatedRatings: {
+    estimatedRatings?: {
         white: number;
         black: number;
     };

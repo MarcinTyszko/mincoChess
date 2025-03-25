@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import {
-    AnalysisGame,
+    AnalysedGame,
     defaultRootNode,
     Variant,
     STARTING_FEN,
@@ -9,24 +9,16 @@ import {
 } from "wintrchess";
 
 interface AnalysisGameStore {
-    analysisGame: AnalysisGame;
+    analysisGame: AnalysedGame;
     gameAnalysisOpen: boolean;
 
-    setAnalysisGame: (game: AnalysisGame) => void;
+    setAnalysisGame: (game: AnalysedGame) => void;
     setGameAnalysisOpen: (open: boolean) => void;
 }
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
     analysisGame: {
         pgn: "",
-        accuracies: {
-            black: 0,
-            white: 0
-        },
-        estimatedRatings: {
-            white: 0,
-            black: 0
-        },
         initialPosition: STARTING_FEN,
         players: {
             white: {
