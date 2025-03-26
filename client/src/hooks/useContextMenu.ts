@@ -19,15 +19,17 @@ function useContextMenu() {
         setContextMenuPosition
     ] = useState<ContextMenuPosition>();
 
-    function onClick() {
+    function closeContextMenu() {
         setContextMenuPosition(undefined);
-        removeEventListener("click", onClick);
+
+        removeEventListener("click", closeContextMenu);
+        removeEventListener("scroll", closeContextMenu);
     }
 
     useEffect(() => {
         if (openId == contextMenuIdRef.current) return;
 
-        onClick();
+        closeContextMenu();
     }, [openId]);
 
     return {
@@ -38,11 +40,12 @@ function useContextMenu() {
             setOpenId(contextMenuIdRef.current);
     
             setContextMenuPosition({
-                x: event.pageX,
-                y: event.pageY
+                x: event.clientX,
+                y: event.clientY
             });
     
-            addEventListener("click", onClick);
+            addEventListener("click", closeContextMenu);
+            addEventListener("scroll", closeContextMenu, { capture: true });
         }
     };
 }
