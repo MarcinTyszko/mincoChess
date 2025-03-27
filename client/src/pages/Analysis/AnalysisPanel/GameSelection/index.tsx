@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { AnalysisGame } from "wintrchess";
+import { AnalysedGame } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
@@ -34,7 +34,7 @@ function GameSelection() {
 
     const importGame = useImportGame(setImportError);
 
-    async function evaluate(analysisGame: AnalysisGame) {
+    async function evaluate(analysisGame: AnalysedGame) {
         setAnalysisStatus(AnalysisStatus.EVALUATING);
 
         // Generate evaluations for each position
