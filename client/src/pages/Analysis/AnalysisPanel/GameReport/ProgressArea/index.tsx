@@ -67,16 +67,14 @@ function ProgressArea() {
                 return;
             }
 
-            const gameAnalysis: GameAnalysis = {
-                stateTree: serializeStateTree(analysisGame.stateTree)
-            };
-
             const classifyResponse = await fetch("/api/analysis/classify", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(gameAnalysis)
+                body: JSON.stringify({
+                    stateTree: serializeStateTree(analysisGame.stateTree)
+                } as GameAnalysis)
             });
 
             if (!classifyResponse.ok) {

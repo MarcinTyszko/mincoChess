@@ -80,11 +80,17 @@ function EngineLines() {
             engine.evaluate(
                 settings.analysis.engineDepth,
                 line => {
-                    currentStateTreeNode.state.engineLines.push(line);
-
                     setRealtimeEngineLines(
                         prev => [ ...prev, line ]
                     );
+                    
+                    const isLineDuplicate = currentStateTreeNode.state.engineLines.some(
+                        existingLine => existingLine.isEqual(line)
+                    );
+
+                    if (isLineDuplicate) return;
+
+                    currentStateTreeNode.state.engineLines.push(line);
                 }
             );
         }, 400);
