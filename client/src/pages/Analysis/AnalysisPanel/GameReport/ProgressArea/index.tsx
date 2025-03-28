@@ -24,7 +24,10 @@ function ProgressArea() {
 
     const turnstile = useTurnstile();
 
-    const { analysisGame } = useAnalysisGameStore();
+    const {
+        analysisGame,
+        setAnalysisGame
+    } = useAnalysisGameStore();
 
     const {
         evaluationProgress,
@@ -74,8 +77,14 @@ function ProgressArea() {
                 );
             }
 
-            console.log("mocked game report received!");
-            console.log(classifyResult.gameAnalysis);
+            if (!classifyResult.gameAnalysis) {
+                return setAnalysisStatus(AnalysisStatus.INACTIVE);
+            }
+
+            setAnalysisGame({
+                ...analysisGame,
+                ...classifyResult.gameAnalysis
+            });
 
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }

@@ -1,10 +1,10 @@
 import { StatusCodes } from "http-status-codes";
 
 import {
-    deserializeStateTree,
     GameAnalysis,
     SerializedGameAnalysis,
     serializeStateTree,
+    deserializeGameAnalysis,
     StateTreeNode
 } from "wintrchess";
 
@@ -34,10 +34,7 @@ async function classifyStateTree(
 
     return {
         status: classifyResponse.status,
-        gameAnalysis: {
-            ...gameAnalysis,
-            stateTree: deserializeStateTree(gameAnalysis.stateTree)
-        }
+        gameAnalysis: deserializeGameAnalysis(gameAnalysis)
     };
 }
 
