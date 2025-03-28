@@ -1,4 +1,10 @@
-# WintrChess
+# ♟ WintrChess
+
+A website built to analyse your Chess games and provide useful studying tools, free of charge.
+
+Originally [Game Report](https://github.com/wintrcat/freechess), the platform has been rebuilt with vastly more features.
+
+# 📂 Project Structure
 
 The WintrChess repository is a monorepo made up of three packages:
 
@@ -10,5 +16,3 @@ The backend for the website where the website content is served, and where any A
 
 #### `shared`
 Libraries, types and common logic is stored here and can be accessed by both the frontend and backend.
-
-Further documentation is in the GitHub repository wiki.
