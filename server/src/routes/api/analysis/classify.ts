@@ -2,11 +2,11 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import {
-    serializeStateTree,
-    deserializeStateTree,
+    serializeGameAnalysis,
+    deserializeGameAnalysis,
     SerializedGameAnalysis
 } from "wintrchess";
-import gameReport from "@lib/legacy/gameReporter";
+import legacyGameReport from "@lib/legacy/gameReporter";
 
 const router = Router();
 
@@ -19,15 +19,17 @@ router.post("/api/analysis/classify", async (req, res) => {
     }
 
     // Deserialize, classify and reserialize
-    const reportedGameAnalysis = await gameReport({
-        ...serializedGameAnalysis,
-        stateTree: deserializeStateTree(serializedGameAnalysis.stateTree)
-    });
-
-    res.json({
-        ...reportedGameAnalysis,
-        stateTree: serializeStateTree(reportedGameAnalysis.stateTree)
-    } as SerializedGameAnalysis);
+    try {
+        const reportedGameAnalysis = await legacyGameReport(
+            deserializeGameAnalysis(serializedGameAnalysis)
+        );
+    
+        res.json(
+            serializeGameAnalysis(reportedGameAnalysis)
+        );
+    } catch {
+        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 });
 
 export default router;

@@ -10,7 +10,8 @@ export * from "./constants/utils";
 
 export * from "./lib/date";
 export * from "./lib/moveNotation";
-export * from "./lib/stateTreeSerializer";
+export * from "./lib/serialization/stateTree";
+export * from "./lib/serialization/gameAnalysis";
 
 export * from "./types/game/Game";
 export { default as GameAnalysis } from "./types/game/GameAnalysis";

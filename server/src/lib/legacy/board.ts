@@ -170,8 +170,11 @@ export function isPieceHanging(lastFen: string, fen: string, square: Square) {
     let attackers = getAttackers(fen, square);
     let defenders = getDefenders(fen, square);
 
+    const lastPieceValue = pieceValues[lastPiece?.type] || 0;
+    const pieceValue = pieceValues[piece?.type] || 0;
+
     // If piece was just traded equally or better, not hanging
-    if (pieceValues[lastPiece.type] >= pieceValues[piece.type] && lastPiece.color != piece.color) {
+    if (lastPieceValue >= pieceValue && lastPiece.color != piece.color) {
         return false;
     }
 
@@ -179,7 +182,7 @@ export function isPieceHanging(lastFen: string, fen: string, square: Square) {
     // minor piece, it was a favourable rook exchange, so rook not hanging
     if (
         piece.type == "r"
-        && pieceValues[lastPiece.type] == 3 
+        && lastPieceValue == 3 
         && attackers.every(atk => pieceValues[atk.type] == 3)
         && attackers.length == 1
     ) {
@@ -187,7 +190,7 @@ export function isPieceHanging(lastFen: string, fen: string, square: Square) {
     }
 
     // If piece has an attacker of lower value, hanging
-    if (attackers.some(atk => pieceValues[atk.type] < pieceValues[piece.type])) {
+    if (attackers.some(atk => pieceValues[atk.type] < pieceValue)) {
         return true;
     }
 
@@ -200,7 +203,7 @@ export function isPieceHanging(lastFen: string, fen: string, square: Square) {
         // If taking the piece even though it has more attackers than defenders
         // would be a sacrifice in itself, not hanging
         if (
-            pieceValues[piece.type] < minAttackerValue 
+            pieceValue < minAttackerValue 
             && defenders.some(dfn => pieceValues[dfn.type] < minAttackerValue)
         ) {
             return false;

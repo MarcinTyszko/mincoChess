@@ -1,7 +1,7 @@
 import { cloneDeep } from "lodash";
 
-import StateTreeNode from "../types/game/StateTreeNode";
-import SerializedStateTreeNode from "../types/game/serialized/SerializedStateTreeNode";
+import StateTreeNode from "../../types/game/StateTreeNode";
+import SerializedStateTreeNode from "../../types/game/serialized/SerializedStateTreeNode";
 
 export function serializeStateTree(rootNode: StateTreeNode) {
     function serializeNode(node: StateTreeNode) {
