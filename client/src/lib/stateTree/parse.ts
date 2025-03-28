@@ -8,7 +8,7 @@ import {
     StateTreeNode
 } from "wintrchess";
 
-function getStateTree(game: Game) {
+function parseStateTree(game: Game) {
     const parsedPGN = parseGame(game.pgn);
 
     type ParsedPGNMove = typeof parsedPGN.moves[number];
@@ -63,4 +63,4 @@ function getStateTree(game: Game) {
     return rootNode;
 }
 
-export default getStateTree;
+export default parseStateTree;

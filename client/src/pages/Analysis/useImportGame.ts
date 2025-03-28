@@ -4,7 +4,7 @@ import { AnalysedGame } from "wintrchess";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import getStateTree from "@lib/gameStateTree";
+import getStateTree from "@lib/stateTree/parse";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
 function useImportGame() {

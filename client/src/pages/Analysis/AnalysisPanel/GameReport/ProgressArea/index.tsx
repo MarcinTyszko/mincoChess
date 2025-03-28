@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTurnstile } from "react-turnstile";
+import { StatusCodes } from "http-status-codes";
 
-import { GameAnalysis, serializeStateTree } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
+import classifyStateTree from "@lib/stateTree/classify";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 
 function getStatusTitle(status: AnalysisStatus) {
     const statusTitles: Record<string, string | undefined> = {
         [AnalysisStatus.EVALUATING]: "pages.analysis.progressReporter.evaluating",
-        [AnalysisStatus.AWAITING_CAPTCHA]: "pages.analysis.progressReporter.awaitingCaptcha",
-        [AnalysisStatus.CLASSIFYING]: "pages.analysis.progressReporter.classifying"
+        [AnalysisStatus.AWAITING_CAPTCHA]: "pages.analysis.progressReporter.awaitingCaptcha"
     };
 
     return statusTitles[status];
@@ -64,34 +64,24 @@ function ProgressArea() {
                 return setAnalysisError(analysisCaptchaError);
             }
 
-            const classifyResponse = await fetch("/api/analysis/classify", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    stateTree: serializeStateTree(analysisGame.stateTree)
-                } as GameAnalysis)
-            });
+            const classifyResult = await classifyStateTree(analysisGame.stateTree);
 
-            if (!classifyResponse.ok) {
+            if (classifyResult.status == StatusCodes.UNAUTHORIZED) {
                 return turnstile.reset();
+            } else if (classifyResult.status != StatusCodes.OK) {
+                return setAnalysisError(
+                    t("pages.analysis.progressReporter.classifyFailed")
+                );
             }
 
-            setAnalysisStatus(AnalysisStatus.CLASSIFYING);
-
-            const bakedGameAnalysis: GameAnalysis = await classifyResponse.json();
-
-            await new Promise(res => setTimeout(res, 1500));
-
             console.log("mocked game report received!");
-            console.log(bakedGameAnalysis);
+            console.log(classifyResult.gameAnalysis);
 
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }
 
         effect();
-    }, [ analysisSessionToken, analysisStatus ]);
+    }, [analysisSessionToken, analysisStatus]);
 
     const statusTitle = getStatusTitle(analysisStatus);
 
@@ -101,7 +91,11 @@ function ProgressArea() {
             && <ProgressReporter
                 progress={evaluationProgress}
                 title={statusTitle ? t(statusTitle) : undefined}
-                tooltip={t("pages.analysis.progressReporter.tooltip")}
+                tooltip={
+                    analysisStatus == AnalysisStatus.EVALUATING
+                        ? t("pages.analysis.progressReporter.evaluatingTooltip")
+                        : t("pages.analysis.progressReporter.captchaTooltip")
+                }
                 error={analysisError}
             />
         }
