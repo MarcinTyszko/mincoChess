@@ -39,7 +39,7 @@ function GameSelector({
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
-    // Parse an entered PGN or FEN and emit it when input changes
+    // When selected game changes
     useEffect(() => {
         if (gameSource.requiresSearch) {
             if (selectedServiceGame) {
@@ -61,6 +61,7 @@ function GameSelector({
         }
 
         try {
+            // Attempt to emit parsed PGN or FEN
             onChange?.(
                 gameSource == GameSource.PGN
                     ? parsePgn(fieldInput)

@@ -2,15 +2,15 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Turnstile from "react-turnstile";
 
-import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
 
 function CaptchaArea() {
     const { t } = useTranslation();
 
-    const { setCaptchaError } = useAnalysisProgressStore();
-
-    const { setAnalysisSessionToken } = useAnalysisSessionStore();
+    const {
+        setAnalysisSessionToken,
+        setAnalysisCaptchaError
+    } = useAnalysisSessionStore();
 
     async function requestAnalysisSession(captchaToken: string) {
         const sessionResponse = await fetch("/api/analysis/session", {
@@ -22,15 +22,15 @@ function CaptchaArea() {
         });
 
         if (!sessionResponse.ok) {
-            return setCaptchaError(
-                t("pages.analysis.progressReporter.captchaUnknownError")
+            return setAnalysisCaptchaError(
+                t("pages.analysis.progressReporter.captchaVerifyFailed")
             );
         }
 
         const sessionToken = await sessionResponse.text();
 
         setAnalysisSessionToken(sessionToken);
-        setCaptchaError();
+        setAnalysisCaptchaError();
     }
 
     return <>
@@ -40,10 +40,10 @@ function CaptchaArea() {
                 sitekey={process.env.TURNSTILE_ANALYSIS_SITE_KEY}
                 refreshExpired="manual"
                 onSuccess={requestAnalysisSession}
-                onUnsupported={() => setCaptchaError(
+                onUnsupported={() => setAnalysisCaptchaError(
                     t("pages.analysis.progressReporter.captchaLoadFailed")
                 )}
-                onError={() => setCaptchaError(
+                onError={() => setAnalysisCaptchaError(
                     t("pages.analysis.progressReporter.captchaUnknownError")
                 )}
                 style={{ display: "none" }}

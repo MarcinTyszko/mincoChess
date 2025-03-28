@@ -21,7 +21,7 @@ function getStatusTitle(status: AnalysisStatus) {
 
 function ProgressArea() {
     const { t } = useTranslation();
-    
+
     const turnstile = useTurnstile();
 
     const { analysisGame } = useAnalysisGameStore();
@@ -31,11 +31,13 @@ function ProgressArea() {
         analysisStatus,
         setAnalysisStatus,
         analysisError,
-        setAnalysisError,
-        captchaError
+        setAnalysisError
     } = useAnalysisProgressStore();
 
-    const { analysisSessionToken } = useAnalysisSessionStore();
+    const {
+        analysisSessionToken,
+        analysisCaptchaError
+    } = useAnalysisSessionStore();
 
     // Tab notification for complete analysis
     useEffect(() => {
@@ -58,13 +60,8 @@ function ProgressArea() {
         async function effect() {
             if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
-            if (captchaError || !analysisSessionToken) {
-                setAnalysisError(captchaError);
-                
-                turnstile.reset();
-                turnstile.execute();
-                
-                return;
+            if (analysisCaptchaError) {
+                return setAnalysisError(analysisCaptchaError);
             }
 
             const classifyResponse = await fetch("/api/analysis/classify", {
@@ -78,12 +75,7 @@ function ProgressArea() {
             });
 
             if (!classifyResponse.ok) {
-                setAnalysisError();
-
-                turnstile.reset();
-                turnstile.execute();
-
-                return;
+                return turnstile.reset();
             }
 
             setAnalysisStatus(AnalysisStatus.CLASSIFYING);
@@ -92,14 +84,14 @@ function ProgressArea() {
 
             await new Promise(res => setTimeout(res, 1500));
 
-            console.log("mocked game report recieved!");
+            console.log("mocked game report received!");
             console.log(bakedGameAnalysis);
 
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }
 
         effect();
-    }, [analysisSessionToken, analysisStatus]);
+    }, [ analysisSessionToken, analysisStatus ]);
 
     const statusTitle = getStatusTitle(analysisStatus);
 

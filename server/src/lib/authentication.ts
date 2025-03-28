@@ -69,18 +69,18 @@ export const analysisAuthenticator: RequestHandler = async (req, res, next) => {
     // Verify token against the database
     const session = await AnalysisSession.findOne({ token: sessionToken });
 
-    if (session) {
-        const newActions = session.actions - 1;
-
-        if (newActions > 0) {
-            session.actions = newActions;
-            await session.save();
-        } else {
-            await session.deleteOne();
-        }
-
-        next();
-    } else {
-        res.sendStatus(StatusCodes.UNAUTHORIZED);
+    if (!session) {
+        return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
+
+    const newActions = session.actions - 1;
+
+    if (newActions > 0) {
+        session.actions = newActions;
+        await session.save();
+    } else {
+        await session.deleteOne();
+    }
+
+    next();
 };

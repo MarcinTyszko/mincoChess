@@ -65,10 +65,11 @@
             },
             "progressReporter": {
                 "evaluating": "Evaluating...",
-                "awaitingCaptcha": "Waiting for the CAPTCHA...",
+                "awaitingCaptcha": "Solving the CAPTCHA...",
                 "classifying": "Classifying...",
                 "tooltip": "If this takes a while, you can try lowering the engine depth in the settings.",
-                "captchaLoadFailed": "Failed to load CAPTCHA. Your browser is likely outdated.",
+                "captchaVerifyFailed": "Could not verify the CAPTCHA; try refreshing the page.",
+                "captchaLoadFailed": "Could not load the CAPTCHA. Your browser is likely outdated.",
                 "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
                 "completeNotification": "Analysis Complete"
             }

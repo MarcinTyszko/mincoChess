@@ -1,70 +1,43 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { AnalysedGame } from "wintrchess";
-import AnalysisStatus from "@constants/AnalysisStatus";
-import useSettingsStore from "@stores/SettingsStore";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
-import evaluateMoves from "@lib/evaluate";
 
 import useImportGame from "../../useImportGame";
+import useEvaluateGame from "@pages/Analysis/useEvaluateGame";
 
 function GameSelection() {
     const { t } = useTranslation();
-
-    const { settings } = useSettingsStore();
 
     const {
         setSelectedGame,
         setGameSelectorError
     } = useGameSelectorStore();
 
-    const {
-        setEvaluationProgress,
-        setAnalysisStatus,
-        setAnalysisTooltip,
-        setAnalysisError
-    } = useAnalysisProgressStore();
+    const { setAnalysisError } = useAnalysisProgressStore();
 
     const [ importError, setImportError ] = useState<string | null>(null);
 
-    const importGame = useImportGame(setImportError);
+    const importGame = useImportGame();
+    const evaluateGame = useEvaluateGame();
 
-    async function evaluate(analysisGame: AnalysedGame) {
-        setAnalysisStatus(AnalysisStatus.EVALUATING);
-
-        // Generate evaluations for each position
+    function onAnalyseClick() {
         try {
-            var evaluatedStates = await evaluateMoves(
-                analysisGame,
-                {
-                    engineVersion: settings.analysis.engine,
-                    engineDepth: settings.analysis.engineDepth,
-                    cloudEngineLines: settings.analysis.engineLines,
-                    maxEngineCount: 4,
-                    engineConfig: engine => {
-                        engine.setLineCount(2);
-                        engine.setThreadCount(4);
-                    },
-                    onProgress: setEvaluationProgress
-                }
-            );
+            var analysisGame = importGame();
 
-            setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
+            if (!analysisGame) return;
+        } catch (err) {
+            return setImportError((err as Error).message);
+        }
 
-            console.log(evaluatedStates);
-        } catch {
-            setAnalysisStatus(AnalysisStatus.INACTIVE);
-
-            setAnalysisError(
-                t("pages.analysis.analysisError")
-            );
-
-            return;
+        try {
+            evaluateGame(analysisGame);
+        } catch (err) {
+            setAnalysisError((err as Error).message);
         }
     }
     
@@ -79,19 +52,7 @@ function GameSelection() {
             icon={require("@assets/img/analysis.svg")}
             iconSize="30px"
             style={{ fontSize: "1.1rem" }}
-            onClick={() => {
-                setAnalysisStatus(AnalysisStatus.INACTIVE);
-
-                setAnalysisTooltip(
-                    t("pages.analysis.progressReporter.defaultTooltip")
-                );
-                setAnalysisError();
-
-                const analysisGame = importGame();
-                if (!analysisGame) return;
-
-                evaluate(analysisGame);
-            }}
+            onClick={onAnalyseClick}
         >
             {t("pages.analysis.analyseButton")}
         </Button>

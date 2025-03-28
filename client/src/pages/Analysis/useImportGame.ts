@@ -7,9 +7,7 @@ import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import getStateTree from "@lib/gameStateTree";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
-function useImportGame(
-    setImportError: (error: string | null) => void
-) {
+function useImportGame() {
     const { t } = useTranslation();
 
     const {
@@ -27,11 +25,11 @@ function useImportGame(
     function importSelectedGame() {
         // Ensure a valid game has been selected
         if (gameSelectorError) {
-            return setImportError(gameSelectorError);
+            throw new Error(gameSelectorError);
         }
 
         if (!selectedGame) {
-            return setImportError(
+            throw new Error(
                 t("pages.analysis.gameSelector.errors.noGameSelected")
             );
         }
@@ -43,9 +41,7 @@ function useImportGame(
         };
 
         setAnalysisGame(analysisGame);
-
         setCurrentStateTreeNode(analysisGame.stateTree);
-
         setGameAnalysisOpen(true);
 
         // Load profile images from Chess.com if it is possible
