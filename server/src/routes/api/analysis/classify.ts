@@ -1,23 +1,33 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { GameAnalysis } from "wintrchess";
+import {
+    serializeStateTree,
+    deserializeStateTree,
+    SerializedGameAnalysis
+} from "wintrchess";
+import gameReport from "@lib/legacy/gameReporter";
 
 const router = Router();
 
 router.post("/api/analysis/classify", async (req, res) => {
-    const gameAnalysis: GameAnalysis | undefined = req.body;
+    // Verify existence of game analysis in request
+    const serializedGameAnalysis: SerializedGameAnalysis | undefined = req.body;
 
-    if (!gameAnalysis) {
+    if (!serializedGameAnalysis) {
         return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
-    gameAnalysis.accuracies = {
-        white: 95.1,
-        black: 82.7
-    };
+    // Deserialize, classify and reserialize
+    const reportedGameAnalysis = await gameReport({
+        ...serializedGameAnalysis,
+        stateTree: deserializeStateTree(serializedGameAnalysis.stateTree)
+    });
 
-    res.json(gameAnalysis);
+    res.json({
+        ...reportedGameAnalysis,
+        stateTree: serializeStateTree(reportedGameAnalysis.stateTree)
+    } as SerializedGameAnalysis);
 });
 
 export default router;

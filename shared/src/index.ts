@@ -22,6 +22,9 @@ export { default as Move } from "./types/game/Move";
 export { default as EngineLine } from "./types/game/EngineLine";
 export { default as Evaluation } from "./types/game/Evaluation";
 
+export { default as SerializedGameAnalysis } from "./types/game/serialized/SerializedGameAnalysis";
+export { default as SerializedStateTreeNode } from "./types/game/serialized/SerializedStateTreeNode";
+
 export { default as PlayerProfile } from "./types/PlayerProfile";
 export { default as NewsArticle } from "./types/NewsArticle";
 export { default as Announcement } from "./types/Announcement";

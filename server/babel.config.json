@@ -11,7 +11,8 @@
                     "@constants": "./dist/constants",
                     "@database": "./dist/database",
                     "@lib": "./dist/lib",
-                    "@routes": "./dist/routes"
+                    "@routes": "./dist/routes",
+                    "@resources": "./resources"
                 }
             }
         ]
