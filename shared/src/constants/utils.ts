@@ -1,5 +1,5 @@
-import BoardState from "../types/game/BoardState";
-import StateTreeNode from "../types/game/StateTreeNode";
+import { BoardState } from "../types/game/position/BoardState";
+import { StateTreeNode } from "../types/game/position/StateTreeNode";
 
 export const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 

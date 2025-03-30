@@ -24,9 +24,7 @@ router.post("/api/analysis/classify", async (req, res) => {
             deserializeGameAnalysis(serializedGameAnalysis)
         );
     
-        res.json(
-            serializeGameAnalysis(reportedGameAnalysis)
-        );
+        res.json(serializeGameAnalysis(reportedGameAnalysis));
     } catch {
         res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }

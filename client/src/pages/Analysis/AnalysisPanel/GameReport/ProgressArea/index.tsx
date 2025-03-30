@@ -69,6 +69,7 @@ function ProgressArea() {
 
             const classifyResult = await classifyStateTree(analysisGame.stateTree);
 
+            // For any errors, display message or reset CAPTCHA
             if (classifyResult.status == StatusCodes.UNAUTHORIZED) {
                 return turnstile.reset();
             } else if (classifyResult.status != StatusCodes.OK) {
@@ -81,11 +82,13 @@ function ProgressArea() {
                 return setAnalysisStatus(AnalysisStatus.INACTIVE);
             }
 
+            // Update analysed game with new analysis object
             setAnalysisGame({
                 ...analysisGame,
                 ...classifyResult.gameAnalysis
             });
 
+            // Return to inactive analysis state
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }
 

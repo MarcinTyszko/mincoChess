@@ -3,7 +3,6 @@ import { StatusCodes } from "http-status-codes";
 import {
     GameAnalysis,
     SerializedGameAnalysis,
-    serializeStateTree,
     deserializeGameAnalysis,
     StateTreeNode
 } from "wintrchess";
@@ -22,7 +21,7 @@ async function classifyStateTree(
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            stateTree: serializeStateTree(rootNode)
+            stateTree: rootNode.serialize()
         } as SerializedGameAnalysis)
     });
 
@@ -30,11 +29,11 @@ async function classifyStateTree(
         return { status: classifyResponse.status };
     }
 
-    const gameAnalysis: SerializedGameAnalysis = await classifyResponse.json();
+    const classifiedAnalysis: SerializedGameAnalysis = await classifyResponse.json();
 
     return {
         status: classifyResponse.status,
-        gameAnalysis: deserializeGameAnalysis(gameAnalysis)
+        gameAnalysis: deserializeGameAnalysis(classifiedAnalysis)
     };
 }
 

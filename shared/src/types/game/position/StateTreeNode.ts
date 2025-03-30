@@ -1,8 +1,13 @@
 import { Chess } from "chess.js";
 import { round } from "lodash";
 
-import PieceColour from "../../constants/PieceColour";
-import BoardState from "./BoardState";
+import { serializeObject } from "../../../lib/serialization";
+import {
+    BoardState,
+    deserializeBoardState,
+    SerializedBoardState
+} from "./BoardState";
+import PieceColour from "../../../constants/PieceColour";
 
 interface StateTreeNodeProps {
     mainline: boolean;
@@ -11,7 +16,13 @@ interface StateTreeNodeProps {
     parent?: StateTreeNode;
 }
 
-class StateTreeNode {
+export interface SerializedStateTreeNode {
+    mainline: boolean;
+    state: SerializedBoardState;
+    children: SerializedStateTreeNode[];
+}
+
+export class StateTreeNode {
     mainline: boolean;
     state: BoardState;
     children: StateTreeNode[];
@@ -22,6 +33,14 @@ class StateTreeNode {
         this.parent = props.parent;
         this.children = props.children;
         this.state = props.state;
+    }
+
+    serialize(): SerializedStateTreeNode {
+        return serializeObject({
+            children: this.children.map(child => child.serialize()),
+            mainline: this.mainline,
+            state: this.state.serialize()
+        });
     }
 
     /**
@@ -125,4 +144,21 @@ class StateTreeNode {
     }
 }
 
-export default StateTreeNode;
+export function deserializeStateTree(rootNode: SerializedStateTreeNode) {
+    function deserializeNode(node: SerializedStateTreeNode, parent?: StateTreeNode) {
+        const deserializedNode = new StateTreeNode({
+            parent: parent,
+            children: [],
+            state: deserializeBoardState(node.state),
+            mainline: node.mainline
+        });
+
+        deserializedNode.children = node.children.map(
+            child => deserializeNode(child, deserializedNode)
+        );
+
+        return deserializedNode;
+    }
+
+    return deserializeNode(rootNode);
+}

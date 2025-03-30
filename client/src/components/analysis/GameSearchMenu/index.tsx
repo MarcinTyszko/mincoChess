@@ -79,6 +79,7 @@ function GameSearchMenu({
                 closeOnClick: true,
                 closeButton: false,
                 autoClose: 2000,
+                pauseOnFocusLoss: false,
                 style: {
                     fontFamily: "JetBrains Mono"
                 }

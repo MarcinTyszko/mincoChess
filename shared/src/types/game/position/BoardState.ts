@@ -1,10 +1,11 @@
 import { Chess } from "chess.js";
 import { maxBy, uniq, uniqWith } from "lodash";
 
-import EngineVersion from "../../constants/game/EngineVersion";
-import Classification from "../../constants/Classification";
-import PieceColour from "../../constants/PieceColour";
-import EngineLine from "./EngineLine";
+import { serializeObject } from "../../../lib/serialization";
+import { deserializeEngineLine, EngineLine, SerializedEngineLine } from "./EngineLine";
+import EngineVersion from "../../../constants/game/EngineVersion";
+import Classification from "../../../constants/Classification";
+import PieceColour from "../../../constants/PieceColour";
 import Move from "./Move";
 
 interface BoardStateProps {
@@ -15,7 +16,12 @@ interface BoardStateProps {
     classification?: Classification;
 }
 
-class BoardState {
+export type SerializedBoardState = (
+    Omit<BoardStateProps, "engineLines">
+    & { engineLines: SerializedEngineLine[] }
+);
+
+export class BoardState {
     fen: string;
     move?: Move;
     moveColour?: PieceColour;
@@ -28,6 +34,15 @@ class BoardState {
         this.moveColour = props.moveColour;
         this.engineLines = props.engineLines || [];
         this.classification = props.classification;
+    }
+
+    serialize(): SerializedBoardState {
+        return serializeObject({
+            ...this,
+            engineLines: this.engineLines.map(
+                line => line.serialize()
+            )
+        });
     }
 
     /**
@@ -118,4 +133,9 @@ class BoardState {
     }
 }
 
-export default BoardState;
+export function deserializeBoardState(state: SerializedBoardState) {
+    return new BoardState({
+        ...state,
+        engineLines: state.engineLines.map(deserializeEngineLine)
+    });
+}

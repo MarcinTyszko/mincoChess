@@ -1,4 +1,5 @@
-import EngineVersion from "../../constants/game/EngineVersion";
+import { serializeObject } from "../../../lib/serialization";
+import EngineVersion from "../../../constants/game/EngineVersion";
 import Evaluation from "./Evaluation";
 import Move from "./Move";
 
@@ -10,7 +11,9 @@ interface EngineLineProps {
     moves: Move[];
 }
 
-class EngineLine {
+export type SerializedEngineLine = EngineLineProps;
+
+export class EngineLine {
     evaluation: Evaluation;
     source: EngineVersion;
     depth: number;
@@ -25,6 +28,10 @@ class EngineLine {
         this.moves = props.moves;
     }
 
+    serialize(): SerializedEngineLine {
+        return serializeObject(this);
+    }
+
     isEqual(other: EngineLine) {
         return (
             this.depth == other.depth
@@ -34,4 +41,6 @@ class EngineLine {
     }
 }
 
-export default EngineLine;
+export function deserializeEngineLine(line: SerializedEngineLine) {
+    return new EngineLine({ ...line });
+}
