@@ -1,20 +1,7 @@
-import React, {
-    forwardRef,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
-import {
-    Arrow,
-    CustomSquareProps,
-    CustomSquareRenderer,
-    Piece,
-    Square
-} from "react-chessboard/dist/chessboard/types";
+import { Arrow, Piece, Square } from "react-chessboard/dist/chessboard/types";
 
 import { STARTING_FEN, parseUciMove } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
@@ -24,6 +11,7 @@ import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
+import useSquareRenderer from "./SquareRenderer";
 import HighlightedSquaresContext from "./HighlightedSquaresContext";
 import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
@@ -34,6 +22,8 @@ function AnalysisBoard({
     bottomProfile,
     style
 }: AnalysisBoardProps) {
+    const squareRenderer = useSquareRenderer();
+    
     const { settings } = useSettingsStore();
 
     const { setAnalysisBoardWidth } = useLayoutStore();
@@ -97,53 +87,6 @@ function AnalysisBoard({
 
         boardResizeObserver.observe(boardRef.current);
     }, []);
-
-    const squareRenderer = forwardRef<HTMLDivElement, CustomSquareProps>(
-        ({ style, children, square }, ref) => {
-            const { currentStateTreeNode } = useAnalysisBoardStore();
-
-            const squareHighlights = useContext(HighlightedSquaresContext);
-
-            const playedMove = useMemo(() => {
-                if (!currentStateTreeNode.state.move) return;
-
-                return parseUciMove(currentStateTreeNode.state.move.uci);
-            }, [currentStateTreeNode]);
-        
-            return <div
-                style={{ ...style, position: "relative" }}
-                ref={ref}
-            >
-                {children}
-
-                {
-                    (square == playedMove?.from || square == playedMove?.to)
-                    && <div
-                        style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "#ffff33",
-                            opacity: 0.5
-                        }}
-                    />
-                }
-                
-                {
-                    squareHighlights.includes(square)
-                    && <div
-                        style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "#eb6150",
-                            opacity: 0.8
-                        }}
-                    />
-                }
-            </div>;
-        }
-    ) as CustomSquareRenderer;
 
     function toggleSquareHighlight(square: Square) {
         setHighlightedSquares(prev => (
