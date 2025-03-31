@@ -3,7 +3,12 @@ import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { Arrow, Piece, Square } from "react-chessboard/dist/chessboard/types";
 
-import { STARTING_FEN, parseUciMove } from "wintrchess";
+import {
+    STARTING_FEN,
+    parseUciMove,
+    getTopEngineLine,
+    addChildMove
+} from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
@@ -59,7 +64,7 @@ function AnalysisBoard({
             return setSuggestionArrows([]);
         }
 
-        const topLine = currentStateTreeNode.state.topEngineLine();
+        const topLine = getTopEngineLine(currentStateTreeNode.state);
         if (!topLine?.moves.length) return;
 
         const uciMove = parseUciMove(topLine.moves[0].uci);
@@ -115,7 +120,7 @@ function AnalysisBoard({
         }
 
         // Add a new node to state tree
-        const addedNode = currentStateTreeNode.addChildMove(move.san);
+        const addedNode = addChildMove(currentStateTreeNode, move.san);
 
         setCurrentStateTreeNode(addedNode);
         playBoardSound(addedNode);

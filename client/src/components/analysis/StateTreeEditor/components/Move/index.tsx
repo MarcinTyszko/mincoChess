@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 
+import { getNodeChain } from "wintrchess";
 import ContextMenu from "@components/common/ContextMenu";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useContextMenu from "@hooks/useContextMenu";
@@ -34,7 +35,9 @@ function Move({ node, children }: MoveProps) {
 
         // If deleted node was mainline, promote first sibling
         if (node.mainline && siblings.length > 0) {
-            siblings[0].mainlinePromote();
+            for (const siblingChainNode of getNodeChain(siblings[0])) {
+                siblingChainNode.mainline = true;
+            }
         }
 
         // Select the parent node

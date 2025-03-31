@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Chess } from "chess.js";
 import { range } from "lodash";
 
-import { EngineLine } from "wintrchess";
+import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
@@ -12,7 +13,6 @@ import Engine from "@lib/engine";
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
 import * as styles from "./EngineLines.module.css";
-import { Chess } from "chess.js";
 
 function EngineLines() {
     const { t } = useTranslation();
@@ -33,10 +33,13 @@ function EngineLines() {
     );
 
     const displayedEngineLines = useMemo(() => (
-        currentStateTreeNode.state.displayedLines({
-            targetSource: settings.analysis.engine,
-            targetCount: settings.analysis.engineLines
-        }) || []
+        getDisplayedLines(
+            currentStateTreeNode.state,
+            {
+                targetSource: settings.analysis.engine,
+                targetCount: settings.analysis.engineLines
+            }
+        ) || []
     ), [
         currentStateTreeNode,
         realtimeEngineLines
@@ -63,11 +66,14 @@ function EngineLines() {
             clearTimeout(evaluationDelayRef.current);
         }
 
-        const cacheLines = currentStateTreeNode.state.displayedLines({
-            targetSource: settings.analysis.engine,
-            targetCount: settings.analysis.engineLines,
-            targetDepth: settings.analysis.engineDepth
-        });
+        const cacheLines = getDisplayedLines(
+            currentStateTreeNode.state,
+            {
+                targetSource: settings.analysis.engine,
+                targetCount: settings.analysis.engineLines,
+                targetDepth: settings.analysis.engineDepth
+            }
+        );
         
         if (cacheLines) return;
 
@@ -85,7 +91,7 @@ function EngineLines() {
                     );
                     
                     const isLineDuplicate = currentStateTreeNode.state.engineLines.some(
-                        existingLine => existingLine.isEqual(line)
+                        existingLine => isEngineLineEqual(existingLine, line)
                     );
 
                     if (isLineDuplicate) return;

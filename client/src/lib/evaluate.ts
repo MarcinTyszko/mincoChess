@@ -3,9 +3,10 @@ import { sum, sumBy, round } from "lodash";
 
 import {
     EngineLine,
-    AnalysisGame,
+    AnalysedGame,
     StateTreeNode,
-    EngineVersion
+    EngineVersion,
+    getNodeChain
 } from "wintrchess";
 import Engine from "./engine";
 import { EvaluateMovesError } from "./errors";
@@ -31,10 +32,10 @@ const LICHESS_CASTLING_MOVES: Record<string, string> = {
  * @throws {EvaluateMovesError}
  */
 async function evaluateMoves(
-    game: AnalysisGame,
+    game: AnalysedGame,
     options: EvaluateMovesOptions
 ): Promise<StateTreeNode[]> {
-    const stateTreeNodes: StateTreeNode[] = game.stateTree.chain();
+    const stateTreeNodes: StateTreeNode[] = getNodeChain(game.stateTree);
 
     // Each state tree node keeps a progress from 0 to 1
     const progresses: number[] = [];
@@ -72,37 +73,35 @@ async function evaluateMoves(
         for (const variation of cloudEvaluation.pvs) {
             const variationBoard = new Chess(stateTreeNode.state.fen);
 
-            engineLines.push(
-                new EngineLine({
-                    evaluation: {
-                        type: (variation.cp == undefined) ? "mate" : "centipawn",
-                        value: parseFloat(variation.cp ?? variation.mate)
-                    },
-                    source: EngineVersion.LICHESS_CLOUD,
-                    depth: parseInt(cloudEvaluation.depth),
-                    index: parseInt(cloudEvaluation.pvs.indexOf(variation)) + 1,
-                    moves: variation.moves
-                        .split(" ")
-                        .map((uciMove: string) => {
-                            if (Object.keys(LICHESS_CASTLING_MOVES).includes(uciMove)) {
-                                uciMove = LICHESS_CASTLING_MOVES[uciMove];
-                            }
-    
-                            try {
-                                const parsedMove = variationBoard.move(uciMove);
-    
-                                return {
-                                    san: parsedMove.san,
-                                    uci: parsedMove.lan
-                                };
-                            } catch {
-                                throw new EvaluateMovesError(
-                                    "error with temp board for loading cloud variations."
-                                );
-                            }
-                        })
-                })
-            );
+            engineLines.push({
+                evaluation: {
+                    type: (variation.cp == undefined) ? "mate" : "centipawn",
+                    value: parseFloat(variation.cp ?? variation.mate)
+                },
+                source: EngineVersion.LICHESS_CLOUD,
+                depth: parseInt(cloudEvaluation.depth),
+                index: parseInt(cloudEvaluation.pvs.indexOf(variation)) + 1,
+                moves: variation.moves
+                    .split(" ")
+                    .map((uciMove: string) => {
+                        if (Object.keys(LICHESS_CASTLING_MOVES).includes(uciMove)) {
+                            uciMove = LICHESS_CASTLING_MOVES[uciMove];
+                        }
+
+                        try {
+                            const parsedMove = variationBoard.move(uciMove);
+
+                            return {
+                                san: parsedMove.san,
+                                uci: parsedMove.lan
+                            };
+                        } catch {
+                            throw new EvaluateMovesError(
+                                "error with temp board for loading cloud variations."
+                            );
+                        }
+                    })
+            });
         }
 
         stateTreeNode.state.engineLines.push(

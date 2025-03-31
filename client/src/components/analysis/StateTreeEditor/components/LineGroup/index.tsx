@@ -1,7 +1,7 @@
 import React from "react";
 import { range } from "lodash";
 
-import { PieceColour } from "wintrchess";
+import { getNodeMoveNumber, PieceColour } from "wintrchess";
 import Indent from "../Indent";
 import Text from "../Text";
 import Move from "../Move";
@@ -38,9 +38,11 @@ function LineGroup({
             }}
         >
             {
-                Math.trunc(
-                    firstNode?.moveNumber(initialPosition) || 0
-                )
+                firstNode
+                    ? Math.trunc(
+                        getNodeMoveNumber(firstNode, initialPosition)
+                    )
+                    : 0
             }
             
             {

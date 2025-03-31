@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PieceColour, StateTreeNode } from "wintrchess";
+import { getNodeSiblings, PieceColour, StateTreeNode } from "wintrchess";
 import LineGroup from "./components/LineGroup";
 
 interface NodeGroup {
@@ -26,7 +26,10 @@ function generateTreeView(rootNode: StateTreeNode) {
         // Cannot merge if the white node is the root
         if (
             firstChild.state.moveColour == PieceColour.BLACK
-            && !(firstChild.hasSiblings() && node.hasSiblings())
+            && !(
+                getNodeSiblings(firstChild).length > 0
+                && getNodeSiblings(node).length > 0
+            )
             && node.parent
         ) {
             nodeGroupOf(node)?.nodes.push(firstChild);

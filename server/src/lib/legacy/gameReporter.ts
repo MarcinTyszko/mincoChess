@@ -1,12 +1,17 @@
 import { maxBy } from "lodash";
 
-import { EngineVersion, GameAnalysis } from "wintrchess";
+import {
+    StateTreeNode,
+    EngineVersion,
+    GameAnalysis,
+    getNodeChain
+} from "wintrchess";
 import analyse from "@lib/legacy/analyse";
 import { EvaluatedPosition as LegacyBoardState } from "@lib/legacy/types/Position";
 
-async function gameReport(gameAnalysis: GameAnalysis) {
+async function gameReport(stateTree: StateTreeNode) {
     // Convert state tree chain into legacy board states
-    const stateTreeChain = gameAnalysis.stateTree.chain();
+    const stateTreeChain = getNodeChain(stateTree);
     const boardStates: LegacyBoardState[] = [];
 
     for (const node of stateTreeChain) {
@@ -66,7 +71,7 @@ async function gameReport(gameAnalysis: GameAnalysis) {
     // Construct game analyis object
     const parsedGameAnalysis: GameAnalysis = {
         accuracies: legacyGameAnalysis.accuracies,
-        stateTree: gameAnalysis.stateTree
+        stateTree: stateTree
     };
 
     return parsedGameAnalysis;

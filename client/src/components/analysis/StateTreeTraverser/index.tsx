@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import { getNodeChain } from "wintrchess";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
@@ -37,7 +38,7 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
     }
 
     function traverseToEnd() {
-        const finalNode = analysisGame.stateTree.chain().at(-1)
+        const finalNode = getNodeChain(analysisGame.stateTree).at(-1)
             || analysisGame.stateTree;
 
         setCurrentStateTreeNode(finalNode);

@@ -1,6 +1,10 @@
 import { Chess } from "chess.js";
 
-import { EngineLine, EngineVersion, STARTING_FEN } from "wintrchess";
+import {
+    EngineLine,
+    EngineVersion,
+    STARTING_FEN
+} from "wintrchess";
 
 interface EvaluationResult {
     elapsedTime: number;
@@ -177,7 +181,7 @@ class Engine {
                     line.depth != depth || line.index != index
                 ));
 
-                const newEngineLine = new EngineLine({
+                const newEngineLine: EngineLine = {
                     depth: depth,
                     index: index,
                     evaluation: {
@@ -189,7 +193,7 @@ class Engine {
                         uci: moveUci,
                         san: moveSans[moveIndex]
                     }))
-                });
+                };
 
                 engineLines.push(newEngineLine);
 

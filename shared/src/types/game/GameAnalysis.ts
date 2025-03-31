@@ -1,10 +1,4 @@
-import { cloneDeep, omit } from "lodash";
-
-import {
-    StateTreeNode,
-    SerializedStateTreeNode,
-    deserializeStateTree
-} from "./position/StateTreeNode";
+import { StateTreeNode } from "./position/StateTreeNode";
 
 export interface GameAnalysis {
     accuracies?: {
@@ -16,27 +10,4 @@ export interface GameAnalysis {
         black: number;
     };
     stateTree: StateTreeNode;
-}
-
-export type SerializedGameAnalysis = (
-    Omit<GameAnalysis, "stateTree">
-    & { stateTree: SerializedStateTreeNode }
-);
-
-export function serializeGameAnalysis(
-    gameAnalysis: GameAnalysis
-): SerializedGameAnalysis {
-    return {
-        ...cloneDeep(omit(gameAnalysis, "stateTree")),
-        stateTree: gameAnalysis.stateTree.serialize()
-    };
-}
-
-export function deserializeGameAnalysis(
-    gameAnalysis: SerializedGameAnalysis
-): GameAnalysis {
-    return {
-        ...cloneDeep(omit(gameAnalysis, "stateTree")),
-        stateTree: deserializeStateTree(gameAnalysis.stateTree)
-    };
 }

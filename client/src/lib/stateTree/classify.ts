@@ -2,9 +2,9 @@ import { StatusCodes } from "http-status-codes";
 
 import {
     GameAnalysis,
-    SerializedGameAnalysis,
-    deserializeGameAnalysis,
-    StateTreeNode
+    StateTreeNode,
+    serializeNode,
+    deserializeNode
 } from "wintrchess";
 
 interface ClassificationResult {
@@ -20,20 +20,22 @@ async function classifyStateTree(
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            stateTree: rootNode.serialize()
-        } as SerializedGameAnalysis)
+        body: JSON.stringify(
+            serializeNode(rootNode)
+        )
     });
 
     if (!classifyResponse.ok) {
         return { status: classifyResponse.status };
     }
 
-    const classifiedAnalysis: SerializedGameAnalysis = await classifyResponse.json();
+    const processedAnalysis: GameAnalysis = await classifyResponse.json();
+
+    processedAnalysis.stateTree = deserializeNode(processedAnalysis.stateTree);
 
     return {
         status: classifyResponse.status,
-        gameAnalysis: deserializeGameAnalysis(classifiedAnalysis)
+        gameAnalysis: processedAnalysis
     };
 }
 

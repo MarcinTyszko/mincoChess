@@ -2,7 +2,6 @@ import { parseGame } from "@mliebelt/pgn-parser";
 import { Chess } from "chess.js";
 
 import {
-    BoardState,
     Game,
     PieceColour,
     StateTreeNode
@@ -24,12 +23,13 @@ function parseStateTree(game: Game) {
             const move = new Chess(lastNode.state.fen)
                 .move(pgnMove.notation.notation);
 
-            const newNode = new StateTreeNode({
+            const newNode: StateTreeNode = {
                 mainline: mainline,
                 parent: lastNode,
                 children: [],
-                state: new BoardState({
+                state: {
                     fen: move.after,
+                    engineLines: [],
                     move: {
                         san: move.san,
                         uci: move.lan
@@ -37,8 +37,8 @@ function parseStateTree(game: Game) {
                     moveColour: move.color == "w"
                         ? PieceColour.WHITE
                         : PieceColour.BLACK
-                })
-            });
+                }
+            };
 
             lastNode.children.push(newNode);
 
@@ -50,13 +50,14 @@ function parseStateTree(game: Game) {
         }
     }
 
-    const rootNode = new StateTreeNode({
+    const rootNode: StateTreeNode = {
         mainline: true,
         children: [],
-        state: new BoardState({
-            fen: game.initialPosition
-        })
-    });
+        state: {
+            fen: game.initialPosition,
+            engineLines: []
+        }
+    };
 
     addMovesToNode(rootNode, parsedPGN.moves, true);
 
