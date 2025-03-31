@@ -1,3 +1,4 @@
+import { uniqueId } from "lodash";
 import { parseGame } from "@mliebelt/pgn-parser";
 import { Chess } from "chess.js";
 
@@ -24,6 +25,7 @@ function parseStateTree(game: Game) {
                 .move(pgnMove.notation.notation);
 
             const newNode: StateTreeNode = {
+                id: uniqueId(),
                 mainline: mainline,
                 parent: lastNode,
                 children: [],
@@ -51,6 +53,7 @@ function parseStateTree(game: Game) {
     }
 
     const rootNode: StateTreeNode = {
+        id: uniqueId(),
         mainline: true,
         children: [],
         state: {

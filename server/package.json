@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "build": "npx babel ./src -d dist -x .ts,.json"
+        "build": "npx babel ./src -d dist -x .ts,.json",
+        "check": "tsc --noEmit"
     },
     "dependencies": {
         "chess.js": "^1.1.0",

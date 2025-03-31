@@ -1,8 +1,11 @@
+import { uniqueId } from "lodash";
+
 import { StateTreeNode } from "../types/game/position/StateTreeNode";
 
 export const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 export const defaultRootNode: StateTreeNode = {
+    id: uniqueId(),
     mainline: true,
     children: [],
     state: {

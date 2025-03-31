@@ -3,8 +3,10 @@ import { useTranslation } from "react-i18next";
 import { useTurnstile } from "react-turnstile";
 import { StatusCodes } from "http-status-codes";
 
+import { findNodeRecursively } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
 import classifyStateTree from "@lib/stateTree/classify";
@@ -28,6 +30,8 @@ function ProgressArea() {
         analysisGame,
         setAnalysisGame
     } = useAnalysisGameStore();
+
+    const { setCurrentStateTreeNode } = useAnalysisBoardStore();
 
     const {
         evaluationProgress,
@@ -86,6 +90,18 @@ function ProgressArea() {
             setAnalysisGame({
                 ...analysisGame,
                 ...classifyResult.gameAnalysis
+            });
+
+            // Set current state tree node to equivalent in new tree
+            setCurrentStateTreeNode(prev => {
+                if (!classifyResult.gameAnalysis) {
+                    return prev;
+                }
+
+                return findNodeRecursively(
+                    classifyResult.gameAnalysis?.stateTree,
+                    node => node.id == prev.id
+                ) || prev;
             });
 
             // Return to inactive analysis state

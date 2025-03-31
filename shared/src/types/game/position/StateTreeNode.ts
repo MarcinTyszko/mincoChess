@@ -1,10 +1,11 @@
 import { Chess } from "chess.js";
-import { round, clone } from "lodash";
+import { round, clone, uniqueId } from "lodash";
 
 import { BoardState } from "./BoardState";
 import PieceColour from "../../../constants/PieceColour";
 
 export interface StateTreeNode {
+    id: string;
     mainline: boolean;
     state: BoardState;
     children: StateTreeNode[];
@@ -36,6 +37,7 @@ export function serializeNode(rootNode: StateTreeNode) {
 export function deserializeNode(rootNode: StateTreeNode) {
     function deserializeNode(node: StateTreeNode, parent?: StateTreeNode) {
         const deserializedNode: StateTreeNode = {
+            id: node.id,
             parent: parent,
             children: [],
             state: node.state,
@@ -50,6 +52,29 @@ export function deserializeNode(rootNode: StateTreeNode) {
     }
 
     return deserializeNode(rootNode);
+}
+
+/**
+ * @description Search recursively for a node that passes a given
+ * predicate, starting from a root node. Returns the first passing
+ * node or undefined if one cannot be found
+ */
+export function findNodeRecursively(
+    rootNode: StateTreeNode,
+    predicate: (node: StateTreeNode) => boolean
+) {
+    const frontier: StateTreeNode[] = [rootNode];
+
+    while (frontier.length > 0) {
+        const node = frontier.pop();
+        if (!node) break;
+
+        if (predicate(node)) {
+            return node;
+        }
+
+        frontier.push(...node.children);
+    }
 }
 
 /**
@@ -108,6 +133,10 @@ export function getNodeSiblings(node: StateTreeNode) {
     ) || [];
 }
 
+/**
+ * @description Adds a child to the node based on the SAN move given;
+ * returns the added node.
+ */
 export function addChildMove(node: StateTreeNode, san: string) {
     const existingNode = node.children.find(
         child => child.state.move?.san == san
@@ -116,6 +145,7 @@ export function addChildMove(node: StateTreeNode, san: string) {
     const childMove = new Chess(node.state.fen).move(san);
 
     const createdNode: StateTreeNode = {
+        id: uniqueId(),
         mainline: node.mainline
             && !node.children.some(
                 child => child.mainline

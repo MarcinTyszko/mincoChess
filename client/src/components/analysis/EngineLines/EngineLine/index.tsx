@@ -6,6 +6,7 @@ import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./EngineLine.module.css";
 import EngineLineProps from "./EngineLineProps";
+import { addChildMove } from "wintrchess";
 
 function EngineLine({ line }: EngineLineProps) {
     const { t } = useTranslation();
@@ -28,9 +29,7 @@ function EngineLine({ line }: EngineLineProps) {
         let currentNode = currentStateTreeNode;
 
         for (let moveIndex = 0; moveIndex <= targetIndex; moveIndex++) {
-            currentNode = currentNode.addChildMove(
-                line.moves[moveIndex].san
-            );
+            currentNode = addChildMove(currentNode, line.moves[moveIndex].san);
         }
 
         setCurrentStateTreeNode(currentNode);
