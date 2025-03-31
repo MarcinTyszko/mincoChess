@@ -4,6 +4,7 @@ import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import EngineLines from "@components/analysis/EngineLines";
+import ClassifiedMoveCard from "@components/analysis/report/ClassifiedMoveCard";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
 import playBoardSound from "@lib/boardSounds";
 
@@ -16,6 +17,7 @@ function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
 
     const {
+        currentStateTreeNode,
         setCurrentStateTreeNode,
         setAutoplayEnabled
     } = useAnalysisBoardStore();
@@ -27,6 +29,8 @@ function GameReport() {
             settings.analysis.engineLines > 0
             && <EngineLines/>
         }
+
+        <ClassifiedMoveCard node={currentStateTreeNode} />
 
         <StateTreeEditor
             className={styles.stateTreeEditor}
