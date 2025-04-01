@@ -1,7 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { addChildMove, Classification, getTopEngineLine } from "wintrchess";
+import {
+    Classification,
+    addChildMove,
+    getTopEngineLine
+} from "wintrchess";
 import {
     classificationColours,
     classificationImages,

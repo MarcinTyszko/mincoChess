@@ -74,6 +74,9 @@
                 "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
                 "classifyFailed": "Unknown error while generating the game report; try refreshing the page.",
                 "completeNotification": "Analysis Complete"
+            },
+            "accuraciesCard": {
+                "title": "Accuracies"
             }
         },
         "news": {

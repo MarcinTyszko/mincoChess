@@ -5,6 +5,7 @@ import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import EngineLines from "@components/analysis/EngineLines";
 import ClassifiedMoveCard from "@components/analysis/report/ClassifiedMoveCard";
+import AccuraciesCard from "@components/analysis/report/AccuraciesCard";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
 import playBoardSound from "@lib/boardSounds";
 
@@ -31,6 +32,14 @@ function GameReport() {
         }
 
         <ClassifiedMoveCard node={currentStateTreeNode} />
+
+        {
+            analysisGame.accuracies
+            && <AccuraciesCard
+                accuracies={analysisGame.accuracies}
+                estimatedRatings={analysisGame.estimatedRatings}
+            />
+        }
 
         <StateTreeEditor
             className={styles.stateTreeEditor}
