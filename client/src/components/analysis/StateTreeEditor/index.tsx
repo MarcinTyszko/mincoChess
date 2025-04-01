@@ -1,8 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import generateTreeView from "./treeParser";
 import MoveClickEventContext from "./MoveClickEventContext";
 import StateTreeEditorProps from "./StateTreeEditorProps";
+import * as styles from "./StateTreeEditor.module.css";
 
 function StateTreeEditor({
     className,
@@ -10,9 +12,19 @@ function StateTreeEditor({
     stateTreeRootNode,
     onMoveClick
 }: StateTreeEditorProps) {
+    const { t } = useTranslation();
+
+    const treeView = generateTreeView(stateTreeRootNode);
+
     return <div className={className} style={style}>
         <MoveClickEventContext.Provider value={onMoveClick}>
-            {generateTreeView(stateTreeRootNode)}
+            {
+                treeView.length > 0
+                    ? treeView
+                    : <i className={styles.addNodePrompt}>
+                        {t("pages.analysis.stateTreeEditor.addNodePrompt")}
+                    </i>
+            }
         </MoveClickEventContext.Provider>
     </div>;
 }

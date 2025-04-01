@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 
 import { getNodeChain } from "wintrchess";
 import ContextMenu from "@components/common/ContextMenu";
@@ -10,6 +11,8 @@ import MoveProps from "./MoveProps";
 import * as styles from "./Move.module.css";
 
 function Move({ node, children }: MoveProps) {
+    const { t } = useTranslation();
+
     const onMoveClick = useContext(MoveClickEventContext);
 
     const {
@@ -81,12 +84,12 @@ function Move({ node, children }: MoveProps) {
                 options={[
                     {
                         icon: require("@assets/img/delete.svg"),
-                        label: "Delete move",
+                        label: t("pages.analysis.stateTreeEditor.moveContextMenu.delete"),
                         onSelect: deleteNode
                     },
                     {
                         icon: require("@assets/img/up.svg"),
-                        label: "Promote move",
+                        label: t("pages.analysis.stateTreeEditor.moveContextMenu.promote"),
                         onSelect: promoteNode
                     },
                     {

@@ -63,6 +63,13 @@
                 "depth": "Depth:",
                 "checkmate": "Checkmate"
             },
+            "stateTreeEditor": {
+                "moveContextMenu": {
+                    "delete": "Delete move",
+                    "promote": "Promote move"
+                },
+                "addNodePrompt": "Play some moves..."
+            },
             "progressReporter": {
                 "evaluating": "Evaluating...",
                 "awaitingCaptcha": "Solving the CAPTCHA...",
