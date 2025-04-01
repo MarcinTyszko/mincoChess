@@ -86,15 +86,19 @@ function EngineLines() {
             engine.evaluate(
                 settings.analysis.engineDepth,
                 line => {
-                    setRealtimeEngineLines(
-                        prev => [ ...prev, line ]
-                    );
+                    const engineLines = currentStateTreeNode.state.engineLines;
+
+                    setRealtimeEngineLines(prev => [ ...prev, line ]);
                     
-                    const isLineDuplicate = currentStateTreeNode.state.engineLines.some(
+                    const duplicateLine = engineLines.find(
                         existingLine => isEngineLineEqual(existingLine, line)
                     );
 
-                    if (isLineDuplicate) return;
+                    if (duplicateLine) {
+                        currentStateTreeNode.state.engineLines = engineLines.filter(
+                            line => line != duplicateLine
+                        );
+                    }
 
                     currentStateTreeNode.state.engineLines.push(line);
                 }
