@@ -46,8 +46,8 @@ function ClassifiedMoveCard({ node }: ClassifiedMoveCardProps) {
                 node.state.classification != undefined
                 && <img
                     src={classificationImages[node.state.classification]}
-                    width={50}
-                    height={50}
+                    width={30}
+                    height={30}
                 />
             }
 

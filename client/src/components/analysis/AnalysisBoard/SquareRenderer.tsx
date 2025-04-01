@@ -72,10 +72,10 @@ function useSquareRenderer() {
                         src={classificationImages[classification]}
                         style={{
                             position: "absolute",
-                            right: "-25%",
-                            top: "-25%",
-                            width: "60%",
-                            height: "60%",
+                            right: "-15%",
+                            top: "-15%",
+                            width: "45%",
+                            height: "45%",
                             zIndex: 6
                         }}
                     />
