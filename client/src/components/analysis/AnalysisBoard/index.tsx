@@ -44,11 +44,12 @@ function AnalysisBoard({
 
     const {
         setPlayableSquares,
+        setCapturableSquares,
         setHighlightedSquares
     } = useBoardSquaresStore(
         useShallow(state => ({
             setPlayableSquares: state.setPlayableSquares,
-            highlightedSquares: state.highlightedSquares,
+            setCapturableSquares: state.setCapturableSquares,
             setHighlightedSquares: state.setHighlightedSquares
         }))
     );
@@ -102,13 +103,20 @@ function AnalysisBoard({
         boardResizeObserver.observe(boardRef.current);
     }, []);
 
-    const generatePlayableSquares = useCallback(
-        (square: Square) => (
-            new Chess(currentStateTreeNode.state.fen)
-                .moves({ square, verbose: true })
-                .map(move => move.to)
-        ), [currentStateTreeNode]
-    );
+    const generatePlayableSquares = useCallback((square: Square) => {
+        const legalMoves = new Chess(currentStateTreeNode.state.fen)
+            .moves({ square, verbose: true });
+
+        const playableSquares = legalMoves.map(move => move.to);
+        const capturableSquares = legalMoves
+            .filter(move => move.captured)
+            .map(move => move.to);
+
+        return {
+            movable: playableSquares,
+            capturable: capturableSquares
+        };
+    }, [currentStateTreeNode]);
 
     function handleSquareClick(square: Square, piece?: Piece) {
         setHighlightedSquares([]);
@@ -120,16 +128,21 @@ function AnalysisBoard({
             addMove(selectedSquareRef.current, square, piece);
 
             setPlayableSquares([]);
+            setCapturableSquares([]);
             selectedSquareRef.current = undefined;
 
             return;
         }
 
         if (piece && selectedSquareRef.current != square) {
-            setPlayableSquares(generatePlayableSquares(square));
+            const playableSquares = generatePlayableSquares(square);
+
+            setPlayableSquares(playableSquares.movable);
+            setCapturableSquares(playableSquares.capturable);
             selectedSquareRef.current = square;
         } else {
             setPlayableSquares([]);
+            setCapturableSquares([]);
             selectedSquareRef.current = undefined;
         }
     }
@@ -190,11 +203,15 @@ function AnalysisBoard({
                     onSquareClick={handleSquareClick}
                     onSquareRightClick={toggleSquareHighlight}
                     onPieceDragBegin={(piece, square) => {
-                        setPlayableSquares(generatePlayableSquares(square));
+                        const playableSquares = generatePlayableSquares(square);
+
+                        setPlayableSquares(playableSquares.movable);
+                        setCapturableSquares(playableSquares.capturable);
                         selectedSquareRef.current = square;
                     }}
                     onPieceDragEnd={() => {
                         setPlayableSquares([]);
+                        setCapturableSquares([]);
                         selectedSquareRef.current = undefined;
                     }}
                     onPieceDrop={addMove}

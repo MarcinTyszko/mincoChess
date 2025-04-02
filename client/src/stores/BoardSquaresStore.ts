@@ -5,15 +5,18 @@ import { Square } from "react-chessboard/dist/chessboard/types";
 interface BoardSquaresStore {
     selectedSourceSquare?: Square;
     playableSquares: Square[];
+    capturableSquares: Square[];
     highlightedSquares: Square[];
     
     setSelectedSourceSquare: (square?: Square) => void;
     setPlayableSquares: (squares: Square[]) => void;
+    setCapturableSquares: (squares: Square[]) => void;
     setHighlightedSquares: Dispatch<SetStateAction<Square[]>>;
 }
 
 const useBoardSquaresStore = create<BoardSquaresStore>(set => ({
     playableSquares: [],
+    capturableSquares: [],
     highlightedSquares: [],
 
     setSelectedSourceSquare(square) {
@@ -22,6 +25,10 @@ const useBoardSquaresStore = create<BoardSquaresStore>(set => ({
 
     setPlayableSquares(squares) {
         set({ playableSquares: squares });
+    },
+
+    setCapturableSquares(squares) {
+        set({ capturableSquares: squares });
     },
 
     setHighlightedSquares(squares) {

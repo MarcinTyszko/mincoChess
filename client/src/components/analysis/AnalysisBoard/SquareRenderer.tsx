@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef, useMemo, useRef } from "react";
 import {
     CustomSquareProps,
     CustomSquareRenderer
@@ -21,6 +21,7 @@ function useSquareRenderer() {
     
             const {
                 playableSquares,
+                capturableSquares,
                 highlightedSquares
             } = useBoardSquaresStore();
     
@@ -30,6 +31,8 @@ function useSquareRenderer() {
                 return parseUciMove(currentStateTreeNode.state.move.uci);
             }, [currentStateTreeNode]);
 
+            const squareRef = useRef<HTMLDivElement | null>(null);
+
             const classification = currentStateTreeNode.state.classification;
 
             const classificationColour = classification != undefined
@@ -37,7 +40,15 @@ function useSquareRenderer() {
         
             return <div
                 style={{ ...style, position: "relative" }}
-                ref={ref}
+                ref={element => {
+                    if (typeof ref == "function") {
+                        ref(element);
+                    } else if (ref) {
+                        ref.current = element;
+                    }
+
+                    squareRef.current = element;
+                }}
             >
                 {children}
     
@@ -58,7 +69,16 @@ function useSquareRenderer() {
                 {/* Playable Square Circle */}
                 {
                     playableSquares.includes(square)
-                    && <div className={styles.playableMoveCircle} />
+                    && <div
+                        className={
+                            capturableSquares.includes(square)
+                                ? styles.capturableMoveCircle
+                                : styles.playableMoveCircle
+                        }
+                        style={{
+                            borderWidth: 0.1 * (squareRef.current?.clientWidth || 0)
+                        }}
+                    />
                 }
                 
                 {/* Selected square highlight */}
