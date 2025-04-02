@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import {
     CustomSquareProps,
     CustomSquareRenderer
@@ -10,15 +10,19 @@ import {
     classificationImages
 } from "@constants/classifications";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useBoardSquaresStore from "@stores/BoardSquaresStore";
 
-import HighlightedSquaresContext from "./HighlightedSquaresContext";
+import * as styles from "./AnalysisBoard.module.css";
 
 function useSquareRenderer() {
     return forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
             const { currentStateTreeNode } = useAnalysisBoardStore();
     
-            const squareHighlights = useContext(HighlightedSquaresContext);
+            const {
+                playableSquares,
+                highlightedSquares
+            } = useBoardSquaresStore();
     
             const playedMove = useMemo(() => {
                 if (!currentStateTreeNode.state.move) return;
@@ -50,10 +54,16 @@ function useSquareRenderer() {
                         }}
                     />
                 }
+
+                {/* Playable Square Circle */}
+                {
+                    playableSquares.includes(square)
+                    && <div className={styles.playableMoveCircle} />
+                }
                 
                 {/* Selected square highlight */}
                 {
-                    squareHighlights.includes(square)
+                    highlightedSquares.includes(square)
                     && <div
                         style={{
                             position: "absolute",

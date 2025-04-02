@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { Arrow, Piece, Square } from "react-chessboard/dist/chessboard/types";
@@ -13,11 +14,11 @@ import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useBoardSquaresStore from "@stores/BoardSquaresStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
 import useSquareRenderer from "./SquareRenderer";
-import HighlightedSquaresContext from "./HighlightedSquaresContext";
 import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
@@ -41,15 +42,23 @@ function AnalysisBoard({
         boardFlipped
     } = useAnalysisBoardStore();
 
-    const [
-        highlightedSquares,
+    const {
+        setPlayableSquares,
         setHighlightedSquares
-    ] = useState<Square[]>([]);
+    } = useBoardSquaresStore(
+        useShallow(state => ({
+            setPlayableSquares: state.setPlayableSquares,
+            highlightedSquares: state.highlightedSquares,
+            setHighlightedSquares: state.setHighlightedSquares
+        }))
+    );
 
     const [ userArrows, setUserArrows ] = useState<Arrow[]>([]);
     const [ suggestionArrows, setSuggestionArrows ] = useState<Arrow[]>([]);
 
     const [ position, setPosition ] = useState(STARTING_FEN);
+
+    const selectedSquareRef = useRef<Square>();
 
     useEffect(() => {
         setPosition(currentStateTreeNode.state.fen);
@@ -93,6 +102,14 @@ function AnalysisBoard({
         boardResizeObserver.observe(boardRef.current);
     }, []);
 
+    const generatePlayableSquares = useCallback(
+        (square: Square) => (
+            new Chess(currentStateTreeNode.state.fen)
+                .moves({ square, verbose: true })
+                .map(move => move.to)
+        ), [currentStateTreeNode]
+    );
+
     function toggleSquareHighlight(square: Square) {
         setHighlightedSquares(prev => (
             prev.includes(square)
@@ -103,7 +120,7 @@ function AnalysisBoard({
         ));
     }
 
-    function addMove(source: Square, target: Square, piece: Piece) {
+    function addMove(source: Square, target: Square, piece?: Piece) {
         setHighlightedSquares([]);
 
         // Validate that move is legal
@@ -113,7 +130,7 @@ function AnalysisBoard({
             var move = validationBoard.move({
                 from: source,
                 to: target,
-                promotion: piece[1]?.toLowerCase() || "q"
+                promotion: piece?.at(1)?.toLowerCase() || "q"
             });
         } catch {
             return false;
@@ -144,31 +161,56 @@ function AnalysisBoard({
             <EvaluationBarArea/>
 
             <div className={styles.board} ref={boardRef}>
-                <HighlightedSquaresContext.Provider
-                    value={highlightedSquares}
-                >
-                    <Chessboard
-                        position={position}
-                        onSquareClick={() => {
-                            setHighlightedSquares([]);
-                            setUserArrows([]);
-                        }}
-                        onSquareRightClick={toggleSquareHighlight}
-                        onPieceDrop={addMove}
-                        onArrowsChange={newUserArrows => {
-                            if (newUserArrows.length == 0) return;
+                <Chessboard
+                    position={position}
+                    onSquareClick={(square, piece) => {
+                        setHighlightedSquares([]);
+                        setUserArrows([]);
 
-                            setUserArrows(prev => [ ...prev, ...newUserArrows ]);
-                        }}
-                        customSquare={squareRenderer}
-                        customArrows={[ ...userArrows, ...suggestionArrows ]}
-                        promotionDialogVariant="vertical"
-                        animationDuration={200}
-                        boardOrientation={
-                            boardFlipped ? "black" : "white"
+                        if (piece) {
+                            if (square == selectedSquareRef.current) {
+                                setPlayableSquares([]);
+                                selectedSquareRef.current = undefined;
+                            } else {
+                                setPlayableSquares(generatePlayableSquares(square));
+                                selectedSquareRef.current = square;
+                            }
+                        } else {
+                            if (!selectedSquareRef.current) return;
+
+                            const playableSquares = useBoardSquaresStore.getState().playableSquares;
+
+                            if (playableSquares.includes(square)) { 
+                                addMove(selectedSquareRef.current, square, piece);
+                            }
+
+                            setPlayableSquares([]);
+                            selectedSquareRef.current = undefined;
                         }
-                    />
-                </HighlightedSquaresContext.Provider>
+                    }}
+                    onSquareRightClick={toggleSquareHighlight}
+                    onPieceDragBegin={(piece, square) => {
+                        setPlayableSquares(generatePlayableSquares(square));
+                        selectedSquareRef.current = square;
+                    }}
+                    onPieceDragEnd={() => {
+                        setPlayableSquares([]);
+                        selectedSquareRef.current = undefined;
+                    }}
+                    onPieceDrop={addMove}
+                    onArrowsChange={newUserArrows => {
+                        if (newUserArrows.length == 0) return;
+
+                        setUserArrows(prev => [ ...prev, ...newUserArrows ]);
+                    }}
+                    customSquare={squareRenderer}
+                    customArrows={[ ...userArrows, ...suggestionArrows ]}
+                    promotionDialogVariant="vertical"
+                    animationDuration={200}
+                    boardOrientation={
+                        boardFlipped ? "black" : "white"
+                    }
+                />
             </div>
         </div>
 

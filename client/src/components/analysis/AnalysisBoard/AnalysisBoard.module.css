@@ -31,3 +31,15 @@
         width: calc(100vw - 40px);
     }
 }
+
+.playableMoveCircle {
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    width: 30%;
+    height: 30%;
+    box-sizing: border-box;
+
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.15);
+}
