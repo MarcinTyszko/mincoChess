@@ -114,23 +114,21 @@ function AnalysisBoard({
         setHighlightedSquares([]);
         setUserArrows([]);
 
-        if (piece) {
-            if (square == selectedSquareRef.current) {
-                setPlayableSquares([]);
-                selectedSquareRef.current = undefined;
-            } else {
-                setPlayableSquares(generatePlayableSquares(square));
-                selectedSquareRef.current = square;
-            }
+        const playableSquares = useBoardSquaresStore.getState().playableSquares;
+
+        if (playableSquares.includes(square) && selectedSquareRef.current) { 
+            addMove(selectedSquareRef.current, square, piece);
+
+            setPlayableSquares([]);
+            selectedSquareRef.current = undefined;
+
+            return;
+        }
+
+        if (piece && selectedSquareRef.current != square) {
+            setPlayableSquares(generatePlayableSquares(square));
+            selectedSquareRef.current = square;
         } else {
-            if (!selectedSquareRef.current) return;
-
-            const playableSquares = useBoardSquaresStore.getState().playableSquares;
-
-            if (playableSquares.includes(square)) { 
-                addMove(selectedSquareRef.current, square, piece);
-            }
-
             setPlayableSquares([]);
             selectedSquareRef.current = undefined;
         }
