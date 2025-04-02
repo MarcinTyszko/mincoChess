@@ -110,6 +110,32 @@ function AnalysisBoard({
         ), [currentStateTreeNode]
     );
 
+    function handleSquareClick(square: Square, piece?: Piece) {
+        setHighlightedSquares([]);
+        setUserArrows([]);
+
+        if (piece) {
+            if (square == selectedSquareRef.current) {
+                setPlayableSquares([]);
+                selectedSquareRef.current = undefined;
+            } else {
+                setPlayableSquares(generatePlayableSquares(square));
+                selectedSquareRef.current = square;
+            }
+        } else {
+            if (!selectedSquareRef.current) return;
+
+            const playableSquares = useBoardSquaresStore.getState().playableSquares;
+
+            if (playableSquares.includes(square)) { 
+                addMove(selectedSquareRef.current, square, piece);
+            }
+
+            setPlayableSquares([]);
+            selectedSquareRef.current = undefined;
+        }
+    }
+
     function toggleSquareHighlight(square: Square) {
         setHighlightedSquares(prev => (
             prev.includes(square)
@@ -163,31 +189,7 @@ function AnalysisBoard({
             <div className={styles.board} ref={boardRef}>
                 <Chessboard
                     position={position}
-                    onSquareClick={(square, piece) => {
-                        setHighlightedSquares([]);
-                        setUserArrows([]);
-
-                        if (piece) {
-                            if (square == selectedSquareRef.current) {
-                                setPlayableSquares([]);
-                                selectedSquareRef.current = undefined;
-                            } else {
-                                setPlayableSquares(generatePlayableSquares(square));
-                                selectedSquareRef.current = square;
-                            }
-                        } else {
-                            if (!selectedSquareRef.current) return;
-
-                            const playableSquares = useBoardSquaresStore.getState().playableSquares;
-
-                            if (playableSquares.includes(square)) { 
-                                addMove(selectedSquareRef.current, square, piece);
-                            }
-
-                            setPlayableSquares([]);
-                            selectedSquareRef.current = undefined;
-                        }
-                    }}
+                    onSquareClick={handleSquareClick}
                     onSquareRightClick={toggleSquareHighlight}
                     onPieceDragBegin={(piece, square) => {
                         setPlayableSquares(generatePlayableSquares(square));
