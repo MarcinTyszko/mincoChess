@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getNodeChain } from "wintrchess";
+import { classificationImages } from "@constants/classifications";
 import ContextMenu from "@components/common/ContextMenu";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useContextMenu from "@hooks/useContextMenu";
@@ -64,6 +65,15 @@ function Move({ node, children }: MoveProps) {
     }
 
     return <>
+        {
+            node?.state.classification != undefined
+            && <img
+                src={classificationImages[node.state.classification]}
+                width={20}
+                height={20}
+            />
+        }
+
         <span
             className={
                 styles.wrapper
