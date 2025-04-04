@@ -90,6 +90,10 @@
                 "classifyFailed": "Unknown error while generating the game report; try refreshing the page.",
                 "completeNotification": "Analysis Complete"
             },
+            "analysisTabBar": {
+                "report": "Report",
+                "analysis": "Analysis"
+            },
             "accuraciesCard": {
                 "title": "Accuracies"
             }

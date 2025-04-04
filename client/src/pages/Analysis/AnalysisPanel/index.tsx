@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useRef } from "react";
+import React, { lazy, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useLayoutStore from "@stores/LayoutStore";
@@ -6,8 +6,11 @@ import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import Breakpoints from "@constants/Breakpoints";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
+import { AnalysisTab } from "./AnalysisTabBar";
+import AnalysisTabBar from "./AnalysisTabBar";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
+import GameAnalysis from "./GameAnalysis";
 import * as styles from "./AnalysisPanel.module.css";
 
 const OptionsToolbar = lazy(() => import("@components/analysis/OptionsToolbar"));
@@ -22,6 +25,8 @@ function AnalysisPanel() {
     } = useLayoutStore();
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
+
+    const [ analysisTab, setAnalysisTab ] = useState(AnalysisTab.REPORT);
 
     const analysisPanelRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +65,18 @@ function AnalysisPanel() {
 
         {
             gameAnalysisOpen
-                ? <GameReport/>
+            && <AnalysisTabBar
+                activeTab={analysisTab}
+                onTabSelect={setAnalysisTab}
+            />
+        }
+
+        {
+            gameAnalysisOpen
+                ? (analysisTab == AnalysisTab.REPORT
+                    ? <GameReport/>
+                    : <GameAnalysis/>
+                )
                 : <GameSelection/>
         }
 
