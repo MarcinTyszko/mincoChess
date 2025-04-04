@@ -19,7 +19,7 @@
     width: 170px;
     z-index: 1000;
 
-    background-color: #242424;
+    background-color: var(--ui-shade-3);
     color: white;
 
     animation-duration: 0.3s;

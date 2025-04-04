@@ -43,24 +43,18 @@ function MonthSelector({
 
     return <div className={styles.wrapper}>
         <Button
+            className={styles.selectorButton}
             icon={require("@assets/img/back.svg")}
             iconSize="30px"
-            style={{
-                backgroundColor: "#222",
-                padding: "5px"
-            }}
             onClick={() => incrementMonth(-1)}
         />
 
         <span>{monthNames[month]} {year}</span>
 
         <Button
+            className={styles.selectorButton}
             icon={require("@assets/img/next.svg")}
             iconSize="30px"
-            style={{
-                backgroundColor: "#222",
-                padding: "5px"
-            }}
             onClick={() => incrementMonth(1)}
         />
     </div>;

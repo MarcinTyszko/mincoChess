@@ -32,7 +32,7 @@ function LanguageSwitcher() {
                 ...baseStyles,
                 width: "52px",
                 height: "42px",
-                backgroundColor: "#343434",
+                backgroundColor: "var(--ui-shade-5)",
                 border: "none",
                 borderRadius: "10px",
                 cursor: "pointer",
@@ -48,14 +48,14 @@ function LanguageSwitcher() {
                 ...baseStyles,
                 width: "200px",
                 left: "-148px",
-                backgroundColor: "#303030",
+                backgroundColor: "var(--ui-shade-4)",
                 color: "white"
             }),
             option: (baseStyles, state) => ({
                 ...baseStyles,
                 backgroundColor: state.isFocused
-                    ? "#242424"
-                    : "#303030",
+                    ? "var(--ui-shade-3)"
+                    : "var(--ui-shade-4)",
                 cursor: "pointer",
                 transitionDuration: "0.3s"
             })

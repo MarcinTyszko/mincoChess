@@ -6,7 +6,7 @@
     box-sizing: border-box;
     position: relative;
 
-    background-color: #242424;
+    background-color: var(--ui-shade-3);
 
     overflow-y: auto;
 }

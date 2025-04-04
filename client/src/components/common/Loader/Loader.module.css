@@ -14,7 +14,7 @@
     height: 48px;
 
     border-radius: 100%;
-    border: 10px solid rgb(90, 90, 90);
+    border: 10px solid var(--ui-shade-5);
     border-bottom-color: #47acff;
 
     animation: spin 1s linear infinite;

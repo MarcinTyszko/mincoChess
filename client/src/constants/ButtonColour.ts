@@ -1,7 +1,7 @@
 enum ButtonColour {
     TRANSPARENT = "rgba(0, 0, 0, 0)",
     GREY = "#343434",
-    LIGHT_GREY = "#414141",
+    LIGHT_GREY = "var(--ui-shade-5)",
     BLUE = "#467de8",
     RED = "#ff3b3b"
 }

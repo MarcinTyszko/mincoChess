@@ -159,6 +159,7 @@ function GameListing({
         }
 
         <Button
+            className={styles.copyButton}
             icon={require("@assets/img/copy.svg")}
             tooltip={t("gameListing.copyPGN")}
             onClick={event => {

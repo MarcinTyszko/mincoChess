@@ -7,7 +7,7 @@
 
     border: none;
     border-radius: 10px;
-    background-color: #343434;
+    background-color: var(--ui-shade-5);
     color: white;
     font-size: 1.1rem;
 

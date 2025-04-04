@@ -19,7 +19,7 @@
     width: 50%;
 
     border-top-left-radius: 10px;
-    background-color: #424242;
+    background-color: var(--ui-shade-5);
     font-size: 1.1rem;
 }
 
@@ -36,7 +36,7 @@
 
     border: none;
     border-top-right-radius: 10px;
-    background-color: #4b4b4b;
+    background-color: var(--ui-shade-6);
     color: white;
     font-size: 1.1rem;
 
@@ -44,7 +44,7 @@
 }
 
 .gameSourceSelector:hover {
-    background-color: #555555;
+    filter: brightness(1.1)
 }
 
 .selectorField {
@@ -53,7 +53,7 @@
     padding: 10px;
 
     border: none;
-    background-color: #323232;
+    background-color: var(--ui-shade-4);
     color: white;
     font-size: 1rem;
 

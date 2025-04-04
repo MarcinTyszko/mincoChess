@@ -19,5 +19,5 @@
     box-sizing: border-box;
 
     border-radius: 10px;
-    background-color: #323232;
+    background-color: var(--ui-shade-3);
 }

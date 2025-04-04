@@ -70,6 +70,14 @@
                 },
                 "addNodePrompt": "Play some moves..."
             },
+            "stateTreeTraverser": {
+                "beginning": "Go to beginning",
+                "back": "Last move",
+                "play": "Play",
+                "pause": "Pause",
+                "next": "Next move",
+                "end": "Go to end"
+            },
             "progressReporter": {
                 "evaluating": "Evaluating...",
                 "awaitingCaptcha": "Solving the CAPTCHA...",

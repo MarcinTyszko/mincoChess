@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { getNodeChain } from "wintrchess";
@@ -10,6 +11,8 @@ import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";
 
 function StateTreeTraverser({ style }: StateTreeTraverserProps) {
+    const { t } = useTranslation();
+
     const { analysisGame } = useAnalysisGameStore();
 
     const {
@@ -84,17 +87,23 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             src={require("@assets/img/start.svg")}
             width={50}
             onClick={traverseToBeginning}
+            title={t("pages.analysis.stateTreeTraverser.beginning")}
         />
 
         <img
             src={require("@assets/img/back.svg")}
             width={50}
             onClick={traverseBackwards}
+            title={t("pages.analysis.stateTreeTraverser.back")}
         />
 
         <div
             className={styles.autoplayContainer}
             onClick={() => setAutoplayEnabled(!autoplayEnabled)}
+            title={autoplayEnabled
+                ? t("pages.analysis.stateTreeTraverser.pause")
+                : t("pages.analysis.stateTreeTraverser.play")
+            }
         >
             {
                 autoplayEnabled
@@ -107,12 +116,14 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             src={require("@assets/img/next.svg")}
             width={50}
             onClick={traverseForwards}
+            title={t("pages.analysis.stateTreeTraverser.next")}
         />
 
         <img
             src={require("@assets/img/end.svg")}
             width={50}
             onClick={traverseToEnd}
+            title={t("pages.analysis.stateTreeTraverser.end")}
         />
     </div>;
 }

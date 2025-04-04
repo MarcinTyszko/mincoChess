@@ -8,7 +8,7 @@
     width: 100%;
     box-sizing: border-box;
 
-    background-color: #1d1d1d;
+    background-color: var(--ui-shade-2);
 }
 
 @media (max-width: 660px) {

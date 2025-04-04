@@ -42,3 +42,7 @@
     border-radius: 5px;
     padding: 2px;
 }
+
+.copyButton {
+    background-color: var(--ui-shade-4);
+}
