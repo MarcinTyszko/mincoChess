@@ -27,6 +27,8 @@
     font-family: "Nunito";
     font-weight: 700;
     font-size: 2.5rem;
+
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 900px) {
