@@ -34,7 +34,8 @@ function SidebarTab({
         onClick={handleClick}
         style={{
             ...style,
-            backdropFilter: isTabActive ? "brightness(1.2)" : ""
+            backdropFilter: isTabActive ? "brightness(1.2)" : "",
+            boxShadow: isTabActive ? "inset 0 -2px 0 0 #467de8" : undefined
         }}
     >
         {
