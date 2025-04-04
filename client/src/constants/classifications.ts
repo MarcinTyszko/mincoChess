@@ -1,8 +1,22 @@
 import { Classification } from "wintrchess";
 
+export const classifications = [
+    Classification.BRILLIANT,
+    Classification.ONLY,
+    Classification.BEST,
+    Classification.EXCELLENT,
+    Classification.OKAY,
+    Classification.INACCURACY,
+    Classification.MISTAKE,
+    Classification.BLUNDER,
+    Classification.FORCED,
+    Classification.THEORY,
+    Classification.RISKY
+];
+
 export const classificationImages = {
     [Classification.BRILLIANT]: require("@assets/img/classifications/brilliant.png"),
-    [Classification.ONLY]: require("@assets/img/classifications/brilliant.png"),
+    [Classification.ONLY]: require("@assets/img/classifications/only.png"),
     [Classification.BEST]: require("@assets/img/classifications/best.png"),
     [Classification.EXCELLENT]: require("@assets/img/classifications/excellent.png"),
     [Classification.OKAY]: require("@assets/img/classifications/okay.png"),
