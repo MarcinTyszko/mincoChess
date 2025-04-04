@@ -12,6 +12,8 @@
 
     word-break: break-all;
     color: white;
+    font-family: "Nunito";
+    font-weight: 700;
     font-size: 1rem;
 
     cursor: pointer;

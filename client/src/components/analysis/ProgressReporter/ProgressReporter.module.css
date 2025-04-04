@@ -6,7 +6,7 @@
     padding: 10px;
 
     border-radius: 10px;
-    background-color: #323232;
+    background-color: var(--ui-shade-4);
     color: white;
 }
 

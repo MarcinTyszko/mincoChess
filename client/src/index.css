@@ -8,6 +8,11 @@
     src: url("../public/fonts/notosans.ttf");
 }
 
+@font-face {
+    font-family: "Nunito";
+    src: url("../public/fonts/nunito.ttf")
+}
+
 :root {
     --ui-shade-1: #101216;
     --ui-shade-2: #17191e;
