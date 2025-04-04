@@ -1,0 +1,16 @@
+.analyseButton {
+    margin-bottom: 4px;
+
+    background-color: #2d3443;
+    box-shadow: 0 4px 0 #252b37;
+    font-size: 1.1rem;
+
+    transition-duration: 0.5s;
+}
+
+.analyseButton:active {
+    margin-bottom: 0;
+    
+    box-shadow: 0 0 0 #252b37;
+    transform: translateY(4px);
+}

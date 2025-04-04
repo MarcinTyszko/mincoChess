@@ -9,6 +9,7 @@ import ErrorMessage from "@components/common/ErrorMessage";
 
 import useImportGame from "../../useImportGame";
 import useEvaluateGame from "@pages/Analysis/useEvaluateGame";
+import * as styles from "./GameSelection.module.css";
 
 function GameSelection() {
     const { t } = useTranslation();
@@ -49,9 +50,9 @@ function GameSelection() {
         />
 
         <Button
+            className={styles.analyseButton}
             icon={require("@assets/img/analysis.svg")}
             iconSize="30px"
-            style={{ fontSize: "1.1rem" }}
             onClick={onAnalyseClick}
         >
             {t("pages.analysis.analyseButton")}
