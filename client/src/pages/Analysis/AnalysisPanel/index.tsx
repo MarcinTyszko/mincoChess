@@ -93,7 +93,10 @@ function AnalysisPanel() {
             }}
         />
 
-        <ClassifiedMoveCard node={currentStateTreeNode} />
+        {
+            gameAnalysisOpen
+            && <ClassifiedMoveCard node={currentStateTreeNode} />
+        }
 
         {
             gameAnalysisOpen
