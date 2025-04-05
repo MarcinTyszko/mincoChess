@@ -31,7 +31,9 @@ function ProgressArea() {
         setAnalysisGame
     } = useAnalysisGameStore();
 
-    const { setCurrentStateTreeNode } = useAnalysisBoardStore();
+    const setCurrentStateTreeNode = useAnalysisBoardStore(
+        state => state.setCurrentStateTreeNode
+    );
 
     const {
         evaluationProgress,

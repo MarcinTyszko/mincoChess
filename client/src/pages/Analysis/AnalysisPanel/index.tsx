@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import AnalysisTab from "@constants/AnalysisTab";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useAnalysisTabStore from "@stores/analysis/AnalysisTabStore";
 import Breakpoints from "@constants/Breakpoints";
 import EngineLines from "@components/analysis/EngineLines";
+import ClassifiedMoveCard from "@components/analysis/report/ClassifiedMoveCard";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
 import AnalysisTabBar from "./AnalysisTabBar";
@@ -28,6 +30,10 @@ function AnalysisPanel() {
     } = useLayoutStore();
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
+
+    const currentStateTreeNode = useAnalysisBoardStore(
+        state => state.currentStateTreeNode
+    );
 
     const { activeTab } = useAnalysisTabStore();
 
@@ -79,6 +85,8 @@ function AnalysisPanel() {
                     ? "none" : undefined
             }}
         />
+
+        <ClassifiedMoveCard node={currentStateTreeNode} />
 
         {
             gameAnalysisOpen

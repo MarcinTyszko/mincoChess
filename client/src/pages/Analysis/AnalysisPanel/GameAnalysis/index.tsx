@@ -1,9 +1,9 @@
 import React from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import playBoardSound from "@lib/boardSounds";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
-import ClassifiedMoveCard from "@components/analysis/report/ClassifiedMoveCard";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
 
 import * as styles from "./GameAnalysis.module.css";
@@ -12,20 +12,21 @@ function GameAnalysis() {
     const { analysisGame } = useAnalysisGameStore();
 
     const {
-        currentStateTreeNode,
         setCurrentStateTreeNode,
         setAutoplayEnabled
-    } = useAnalysisBoardStore();
+    } = useAnalysisBoardStore(
+        useShallow(state => ({
+            setCurrentStateTreeNode: state.setCurrentStateTreeNode,
+            setAutoplayEnabled: state.setAutoplayEnabled
+        }))
+    );
     
     return <>
-        <ClassifiedMoveCard node={currentStateTreeNode} />
-
         <StateTreeEditor
             className={styles.stateTreeEditor}
             stateTreeRootNode={analysisGame.stateTree}
             onMoveClick={node => {
                 setCurrentStateTreeNode(node);
-
                 playBoardSound(node);
 
                 setAutoplayEnabled(false);
