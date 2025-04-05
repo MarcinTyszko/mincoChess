@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AnalysedGame } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
-import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
+import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import evaluateMoves from "@lib/evaluate";
 
 function useEvaluateGame() {

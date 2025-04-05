@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 
 import { AnalysedGame } from "wintrchess";
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import getStateTree from "@lib/stateTree/parse";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 

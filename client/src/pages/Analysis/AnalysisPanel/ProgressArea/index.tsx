@@ -5,10 +5,10 @@ import { StatusCodes } from "http-status-codes";
 
 import { findNodeRecursively } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
-import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
+import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
+import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
 import classifyStateTree from "@lib/stateTree/classify";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 

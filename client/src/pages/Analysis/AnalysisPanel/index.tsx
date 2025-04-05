@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import AnalysisTab from "@constants/AnalysisTab";
 import useLayoutStore from "@stores/LayoutStore";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisTabStore from "@stores/AnalysisTabStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisTabStore from "@stores/analysis/AnalysisTabStore";
 import Breakpoints from "@constants/Breakpoints";
 import EngineLines from "@components/analysis/EngineLines";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";

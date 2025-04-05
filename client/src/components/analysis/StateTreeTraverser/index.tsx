@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import { getNodeChain } from "wintrchess";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 
 import StateTreeTraverserProps from "./StateTreeTraverserProps";

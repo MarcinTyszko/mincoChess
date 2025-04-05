@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 import useLayoutStore from "@stores/LayoutStore";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import Breakpoints from "@constants/Breakpoints";
 import AnalysisBoard from "@components/analysis/AnalysisBoard";
 

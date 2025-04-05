@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import AnalysisTab from "@constants/AnalysisTab";
-import useAnalysisTabStore from "@stores/AnalysisTabStore";
+import useAnalysisTabStore from "@stores/analysis/AnalysisTabStore";
 import Button from "@components/common/Button";
 
 import * as styles from "./AnalysisTabBar.module.css";

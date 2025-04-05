@@ -1,6 +1,6 @@
 import React from "react";
 
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import AccuraciesCard from "@components/analysis/report/AccuraciesCard";
 import ClassificationCountCard from "@components/analysis/report/ClassificationCountCard";
 

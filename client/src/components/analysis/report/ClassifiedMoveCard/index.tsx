@@ -12,7 +12,7 @@ import {
     inalterableClassifications
 } from "@constants/classifications";
 import playBoardSound from "@lib/boardSounds";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 
 import ClassifiedMoveCardProps from "./ClassifiedMoveCardProps";
 import * as styles from "./ClassifiedMoveCard.module.css";

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import Button from "@components/common/Button";
 import AnalysisSettingsDialog from "../AnalysisSettingsDialog";
 

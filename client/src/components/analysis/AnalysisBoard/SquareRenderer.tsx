@@ -3,14 +3,14 @@ import {
     CustomSquareProps,
     CustomSquareRenderer
 } from "react-chessboard/dist/chessboard/types";
+import { useShallow } from "zustand/react/shallow";
 
 import { parseUciMove } from "wintrchess";
 import {
     classificationColours,
     classificationImages
 } from "@constants/classifications";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import useBoardSquaresStore from "@stores/BoardSquaresStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 
 import * as styles from "./AnalysisBoard.module.css";
 
@@ -23,7 +23,13 @@ function useSquareRenderer() {
                 playableSquares,
                 capturableSquares,
                 highlightedSquares
-            } = useBoardSquaresStore();
+            } = useAnalysisBoardStore(
+                useShallow(state => ({
+                    playableSquares: state.playableSquares,
+                    capturableSquares: state.capturableSquares,
+                    highlightedSquares: state.highlightedSquares
+                }))
+            );
     
             const playedMove = useMemo(() => {
                 if (!currentStateTreeNode.state.move) return;

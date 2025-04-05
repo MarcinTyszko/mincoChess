@@ -1,8 +1,8 @@
 import React from "react";
 
 import playBoardSound from "@lib/boardSounds";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import ClassifiedMoveCard from "@components/analysis/report/ClassifiedMoveCard";
 import StateTreeEditor from "@components/analysis/StateTreeEditor";
 

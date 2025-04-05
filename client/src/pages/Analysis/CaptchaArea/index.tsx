@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Turnstile from "react-turnstile";
 
-import useAnalysisSessionStore from "@stores/AnalysisSessionStore";
+import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
 
 function CaptchaArea() {
     const { t } = useTranslation();

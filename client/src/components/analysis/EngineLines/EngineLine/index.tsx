@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./EngineLine.module.css";

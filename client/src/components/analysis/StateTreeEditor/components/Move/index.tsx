@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getNodeChain } from "wintrchess";
 import { classificationImages } from "@constants/classifications";
 import ContextMenu from "@components/common/ContextMenu";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useContextMenu from "@hooks/useContextMenu";
 
 import MoveClickEventContext from "../../MoveClickEventContext";

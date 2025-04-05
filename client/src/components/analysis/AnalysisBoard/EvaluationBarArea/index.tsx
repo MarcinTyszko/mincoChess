@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Evaluation } from "wintrchess";
 import useLayoutStore from "@stores/LayoutStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import EvaluationBar from "@components/analysis/EvaluationBar";
 

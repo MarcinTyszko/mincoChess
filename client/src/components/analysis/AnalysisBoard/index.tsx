@@ -12,10 +12,9 @@ import {
 } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
-import useAnalysisGameStore from "@stores/AnalysisGameStore";
-import useAnalysisTabStore from "@stores/AnalysisTabStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
-import useBoardSquaresStore from "@stores/BoardSquaresStore";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
+import useAnalysisTabStore from "@stores/analysis/AnalysisTabStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 import PlayerProfile from "../PlayerProfile";
 
@@ -46,15 +45,15 @@ function AnalysisBoard({
     const {
         currentStateTreeNode,
         setCurrentStateTreeNode,
-        boardFlipped
-    } = useAnalysisBoardStore();
-
-    const {
+        boardFlipped,
         setPlayableSquares,
         setCapturableSquares,
         setHighlightedSquares
-    } = useBoardSquaresStore(
+    } = useAnalysisBoardStore(
         useShallow(state => ({
+            currentStateTreeNode: state.currentStateTreeNode,
+            setCurrentStateTreeNode: state.setCurrentStateTreeNode,
+            boardFlipped: state.boardFlipped,
             setPlayableSquares: state.setPlayableSquares,
             setCapturableSquares: state.setCapturableSquares,
             setHighlightedSquares: state.setHighlightedSquares
@@ -129,7 +128,7 @@ function AnalysisBoard({
         setHighlightedSquares([]);
         setUserArrows([]);
 
-        const playableSquares = useBoardSquaresStore.getState().playableSquares;
+        const playableSquares = useAnalysisBoardStore.getState().playableSquares;
 
         if (playableSquares.includes(square) && selectedSquareRef.current) { 
             addMove(selectedSquareRef.current, square, piece);

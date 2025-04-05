@@ -6,7 +6,7 @@ import { range } from "lodash";
 import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
 import useDelayedEffect from "@hooks/useDelayedEffect";
 import useSettingsStore from "@stores/SettingsStore";
-import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import Engine from "@lib/engine";
 

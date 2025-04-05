@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useAnalysisProgressStore from "@stores/AnalysisProgressStore";
+import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import GameSelector from "@components/analysis/GameSelector";
 import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
