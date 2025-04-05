@@ -2,6 +2,7 @@ import React, { lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import AnalysisTab from "@constants/AnalysisTab";
+import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
@@ -22,6 +23,10 @@ const OptionsToolbar = lazy(() => import("@components/analysis/OptionsToolbar"))
 
 function AnalysisPanel() {
     const { t } = useTranslation();
+
+    const engineEnabled = useSettingsStore(
+        state => state.settings.analysis.engineEnabled
+    );
 
     const {
         contentSectionHeight,
@@ -81,8 +86,10 @@ function AnalysisPanel() {
 
         <EngineLines
             style={{
-                display: activeTab == AnalysisTab.REPORT
-                    ? "none" : undefined
+                display: (
+                    activeTab == AnalysisTab.REPORT
+                    || !engineEnabled
+                ) ? "none" : undefined
             }}
         />
 

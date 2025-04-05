@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Evaluation } from "wintrchess";
+import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
@@ -12,6 +13,10 @@ const DEFAULT_EVALUATION: Evaluation = {
 };
 
 function EvaluationBarArea() {
+    const engineEnabled = useSettingsStore(
+        state => state.settings.analysis.engineEnabled
+    );
+
     const { analysisBoardWidth } = useLayoutStore();
 
     const {
@@ -33,6 +38,7 @@ function EvaluationBarArea() {
     }, [displayedEngineLines]);
 
     return <EvaluationBar
+        disabled={!engineEnabled}
         height={analysisBoardWidth}
         evaluation={evaluation}
         moveColour={currentStateTreeNode.state.moveColour}

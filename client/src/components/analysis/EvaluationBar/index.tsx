@@ -8,6 +8,7 @@ import { PieceColour } from "wintrchess";
 const width = 40;
 
 function EvaluationBar({
+    disabled,
     height,
     evaluation,
     moveColour,
@@ -47,33 +48,44 @@ function EvaluationBar({
         }}
     >
         <svg viewBox={`0 0 ${width} ${height}`}>
-            <rect
-                className={styles.overBar}
-                fill={flipped ? "#fff" : "#0c0c0c"}
-                x={0}
-                y={0}
-                width={width}
-                height={flipped ? (height - blackHeight) : blackHeight}
-            />
+            {disabled
+                ? <rect
+                    fill="#a5a5a5"
+                    x={0}
+                    y={0}
+                    width={width}
+                    height={height}
+                />
+                : <>
+                    <rect
+                        className={styles.overBar}
+                        fill={flipped ? "#fff" : "#0c0c0c"}
+                        x={0}
+                        y={0}
+                        width={width}
+                        height={flipped ? (height - blackHeight) : blackHeight}
+                    />
 
-            <text
-                textAnchor="middle"
-                x={20}
-                y={textY}
-                fontSize={14}
-                fill={textColour}
-                style={{
-                    fontFamily: "sans-serif"
-                }}
-            >
-                {
-                    evaluation.type == "mate"
-                        ? `M${Math.abs(evaluation.value)}`
-                        : (Math.abs(evaluation.value) / 100).toFixed(
-                            evaluation.value >= 1000 ? 0 : 1
-                        )
-                }
-            </text>
+                    <text
+                        textAnchor="middle"
+                        x={20}
+                        y={textY}
+                        fontSize={14}
+                        fill={textColour}
+                        style={{
+                            fontFamily: "sans-serif"
+                        }}
+                    >
+                        {
+                            evaluation.type == "mate"
+                                ? `M${Math.abs(evaluation.value)}`
+                                : (Math.abs(evaluation.value) / 100).toFixed(
+                                    evaluation.value >= 1000 ? 0 : 1
+                                )
+                        }
+                    </text>
+                </>
+            }
         </svg>
     </div>;
 }
