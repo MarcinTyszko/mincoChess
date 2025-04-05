@@ -27,6 +27,7 @@
             },
             "analysisSettings": {
                 "title": "Analysis Settings",
+                "engineEnabled": "Engine Enabled",
                 "engine": "Engine",
                 "engineDepth": "Engine Depth",
                 "engineLines": "Engine Lines",

@@ -6,6 +6,7 @@ import LocalStorageKey from "@constants/LocalStorageKey";
 
 interface Settings {
     analysis: {
+        engineEnabled: boolean;
         engine: EngineVersion;
         engineDepth: number;
         engineLines: number;
@@ -25,6 +26,7 @@ type SettingsReducer = (settings: Settings) => Settings;
 
 const defaultSettings: Settings = {
     analysis: {
+        engineEnabled: true,
         engine: EngineVersion.STOCKFISH_16_1_LITE,
         engineDepth: 18,
         engineLines: 3,

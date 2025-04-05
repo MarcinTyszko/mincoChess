@@ -32,6 +32,20 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             </span>
         </div>
 
+        <span className={styles.setting}>
+            <span>{t("pages.analysis.analysisSettings.engineEnabled")}</span>
+
+            <CheckboxSetting
+                getInitialValue={() => settings.analysis.engineEnabled}
+                onChange={checked => {
+                    setSettings(settings => {
+                        settings.analysis.engineEnabled = checked;
+                        return settings;
+                    });
+                }}
+            />
+        </span>
+
         <div className={styles.setting}>
             <span>{t("pages.analysis.analysisSettings.engine")}</span>
 
@@ -50,7 +64,6 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onSelect={value => {
                     setSettings(settings => {
                         settings.analysis.engine = value as EngineVersion;
-
                         return settings;
                     });
                 }}
@@ -68,7 +81,6 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={value => {
                     setSettings(settings => {
                         settings.analysis.engineDepth = clamp(value, 10, 99);
-
                         return settings;
                     });
                 }}
@@ -86,7 +98,6 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={value => {
                     setSettings(settings => {
                         settings.analysis.engineLines = clamp(value, 0, 5);
-
                         return settings;
                     });
                 }}
@@ -102,7 +113,6 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={checked => {
                     setSettings(settings => {
                         settings.analysis.suggestionArrows = checked;
-
                         return settings;
                     });
                 }}

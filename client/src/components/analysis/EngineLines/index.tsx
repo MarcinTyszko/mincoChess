@@ -4,7 +4,6 @@ import { Chess } from "chess.js";
 import { range } from "lodash";
 
 import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
-import useDelayedEffect from "@hooks/useDelayedEffect";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
@@ -22,45 +21,57 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
-    const { setDisplayedEngineLines } = useRealtimeEngineStore();
+    const {
+        displayedEngineLines,
+        setDisplayedEngineLines
+    } = useRealtimeEngineStore();
 
     const [
         realtimeEngineLines,
         setRealtimeEngineLines
     ] = useState<EngineLine[]>([]);
 
-    const [ engine, setEngine ] = useState(
-        () => new Engine(settings.analysis.engine)
-    );
+    const [ engine, setEngine ] = useState<Engine | undefined>();
 
-    const displayedEngineLines = useMemo(() => (
-        getDisplayedLines(
-            currentStateTreeNode.state,
-            {
-                targetSource: settings.analysis.engine,
-                targetCount: settings.analysis.engineLines
-            }
-        ) || []
-    ), [
+    // Update displayed engine lines when move changed,
+    // or when the real time lines update
+    useEffect(() => {
+        setDisplayedEngineLines(
+            getDisplayedLines(
+                currentStateTreeNode.state,
+                {
+                    targetSource: settings.analysis.engine,
+                    targetCount: settings.analysis.engineLines
+                }
+            ) || []
+        );
+    }, [
         currentStateTreeNode,
         realtimeEngineLines
     ]);
 
     useEffect(() => {
-        setDisplayedEngineLines(displayedEngineLines);
-    }, [displayedEngineLines]);
+        engine?.terminate();
 
-    useDelayedEffect(() => {
-        engine.terminate();
+        if (settings.analysis.engineEnabled) {
+            const newEngine = new Engine(settings.analysis.engine);
+            setEngine(newEngine);
 
-        setEngine(
-            new Engine(settings.analysis.engine)
-        );
-    }, [settings.analysis.engine]);
+            return () => newEngine.terminate();
+        } else {
+            setEngine(undefined);
+        }
+    }, [
+        settings.analysis.engineEnabled,
+        settings.analysis.engine
+    ]);
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    // Queue an evaluation if it may be required
     useEffect(() => {
+        if (!engine) return;
+
         engine.stopEvaluation();
 
         if (evaluationDelayRef.current) {
@@ -107,7 +118,7 @@ function EngineLines({ style }: EngineLinesProps) {
         }, 400);
     }, [
         currentStateTreeNode,
-        settings.analysis.engine,
+        engine,
         settings.analysis.engineDepth,
         settings.analysis.engineLines
     ]);

@@ -13,7 +13,7 @@ function CheckboxSetting({
         type="checkbox"
         defaultChecked={getInitialValue()}
         onChange={event => onChange(event.target.checked)}
-        style={style}
+        style={{ ...style, margin: 0 }}
     />;
 }
 
