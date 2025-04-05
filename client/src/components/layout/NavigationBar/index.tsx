@@ -37,7 +37,11 @@ function NavigationBar() {
             />
 
             <span className={styles.title}>
-                WintrChess
+                Wintr
+
+                <b style={{ letterSpacing: 0 }}>
+                    Chess
+                </b>
             </span>
         </div>
 
