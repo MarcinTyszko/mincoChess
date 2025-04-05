@@ -39,12 +39,13 @@
             "gameSelector": {
                 "sourceLabel": "Load game from",
                 "sourcePlaceholders": {
-                    "pgn": "PGN...",
+                    "pgn": "Paste PGN...",
                     "fen": "FEN string...",
                     "chessCom": "Chess.com username...",
                     "lichess": "Lichess username..."
                 },
                 "searchGamesButton": "Search Games",
+                "uploadPGNButton": "Upload PGN File",
                 "errors": {
                     "noGameSelected": "Please select a Chess game.",
                     "invalidGame": "Failed to parse invalid game."

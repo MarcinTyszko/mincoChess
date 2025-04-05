@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Game } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
 import useLocalStorage from "@hooks/useLocalStorage";
-import GameSource from "@constants/GameSource";
+import { GameSelectorButton, GameSource } from "@constants/GameSource";
 import Button from "@components/common/Button";
-import ButtonColour from "@constants/ButtonColour";
 import GameSearchMenu from "../GameSearchMenu";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
@@ -39,9 +38,11 @@ function GameSelector({
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
+    const pgnFileUploadRef = useRef<HTMLInputElement>(null);
+
     // When selected game changes
     useEffect(() => {
-        if (gameSource.requiresSearch) {
+        if (gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES) {
             if (selectedServiceGame) {
                 onChange?.(selectedServiceGame);
                 setError?.();
@@ -144,11 +145,10 @@ function GameSelector({
                 onChange={handleGameSourceChange}
                 value={gameSource.key}
             >
-                {
-                    Object.values(GameSource)
-                        .map(source => <option value={source.key}>
-                            {source.title}
-                        </option>)
+                {Object.values(GameSource)
+                    .map(source => <option value={source.key}>
+                        {source.title}
+                    </option>)
                 }
             </select>
         </div>
@@ -160,25 +160,52 @@ function GameSelector({
             }
             style={{
                 height: gameSource.expandField ? "170px" : "70px",
-                borderRadius: gameSource.requiresSearch ? undefined : "0 0 10px 10px"
+                borderRadius: gameSource.selectorButton != undefined
+                    ? undefined : "0 0 10px 10px"
             }}
             value={fieldInput}
             onChange={handleFieldInputChange}
         ></textarea>
 
         {
-            gameSource.requiresSearch
+            gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
             && <Button
+                className={styles.selectorButton}
                 icon={require("@assets/img/search.svg")}
                 iconSize="25px"
-                style={{
-                    backgroundColor: ButtonColour.LIGHT_GREY,
-                    borderRadius: "0 0 10px 10px"
-                }}
                 onClick={openGameSearchMenu}
             >
                 {t("pages.analysis.gameSelector.searchGamesButton")}
             </Button>
+        }
+
+        {
+            gameSource.selectorButton == GameSelectorButton.UPLOAD_FILE
+            && <>
+                <Button
+                    className={styles.selectorButton}
+                    icon={require("@assets/img/upload.svg")}
+                    iconSize="25px"
+                    onClick={() => pgnFileUploadRef.current?.click()}
+                >
+                    {t("pages.analysis.gameSelector.uploadPGNButton")}
+                </Button>
+
+                <input
+                    ref={pgnFileUploadRef}
+                    type="file"
+                    accept=".pgn"
+                    style={{ display: "none" }}
+                    onChange={async () => {
+                        if (!pgnFileUploadRef.current) return;
+
+                        const file = pgnFileUploadRef.current.files?.[0];
+                        if (!file) return;
+
+                        setFieldInput(await file.text());
+                    }}
+                />
+            </>
         }
         
         {
