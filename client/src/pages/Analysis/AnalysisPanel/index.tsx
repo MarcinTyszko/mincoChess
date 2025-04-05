@@ -1,14 +1,16 @@
 import React, { lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
+import AnalysisTab from "@constants/AnalysisTab";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import useAnalysisTabStore from "@stores/AnalysisTabStore";
 import Breakpoints from "@constants/Breakpoints";
+import EngineLines from "@components/analysis/EngineLines";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
-import AnalysisTab from "@constants/AnalysisTab";
 import AnalysisTabBar from "./AnalysisTabBar";
+import ProgressArea from "./ProgressArea";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import GameAnalysis from "./GameAnalysis";
@@ -68,6 +70,15 @@ function AnalysisPanel() {
             gameAnalysisOpen
             && <AnalysisTabBar/>
         }
+
+        <ProgressArea/>
+
+        <EngineLines
+            style={{
+                display: activeTab == AnalysisTab.REPORT
+                    ? "none" : undefined
+            }}
+        />
 
         {
             gameAnalysisOpen

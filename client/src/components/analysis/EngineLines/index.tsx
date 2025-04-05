@@ -12,9 +12,10 @@ import Engine from "@lib/engine";
 
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
+import EngineLinesProps from "./EngineLinesProps";
 import * as styles from "./EngineLines.module.css";
 
-function EngineLines() {
+function EngineLines({ style }: EngineLinesProps) {
     const { t } = useTranslation();
 
     const { settings } = useSettingsStore();
@@ -118,7 +119,10 @@ function EngineLines() {
         )
     ), [currentStateTreeNode]);
 
-    return <div className={styles.wrapper}>
+    return <div
+        className={styles.wrapper}
+        style={style}
+    >
         <span className={styles.depth}>
             <span>
                 {t("pages.analysis.engineLines.depth")}

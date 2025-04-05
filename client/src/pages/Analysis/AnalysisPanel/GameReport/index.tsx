@@ -4,8 +4,6 @@ import useAnalysisGameStore from "@stores/AnalysisGameStore";
 import AccuraciesCard from "@components/analysis/report/AccuraciesCard";
 import ClassificationCountCard from "@components/analysis/report/ClassificationCountCard";
 
-import ProgressArea from "../ProgressArea";
-
 function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
 
@@ -15,8 +13,6 @@ function GameReport() {
     };
     
     return <>
-        <ProgressArea/>
-
         <AccuraciesCard
             accuracies={accuracies}
             estimatedRatings={analysisGame.estimatedRatings}
