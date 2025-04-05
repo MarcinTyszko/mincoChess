@@ -14,11 +14,17 @@ function AccuraciesCard({ accuracies, estimatedRatings }: AccuraciesCardProps) {
 
         <div className={styles.accuracies}>
             <div className={`${styles.accuracy} ${styles.whiteAccuracy}`}>
-                {accuracies.white.toFixed(1)}%
+                {accuracies.white
+                    ? accuracies.white.toFixed(1) + "%"
+                    : "N/A"
+                }
             </div>
 
             <div className={`${styles.accuracy} ${styles.blackAccuracy}`}>
-                {accuracies.black.toFixed(1)}%
+                {accuracies.black
+                    ? accuracies.black.toFixed(1) + "%"
+                    : "N/A"
+                }
             </div>
         </div>
     </div>;

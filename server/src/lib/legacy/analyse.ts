@@ -346,11 +346,14 @@ async function analyse(positions: EvaluatedPosition[]): Promise<Report> {
         accuracies[moveColour].maximum++;
     }
 
+    const whiteAccuracy = accuracies.white.current / accuracies.white.maximum * 100;
+    const blackAccuracy = accuracies.black.current / accuracies.black.maximum * 100;
+
     // Return complete report
     return {
         accuracies: {
-            white: accuracies.white.current / accuracies.white.maximum * 100,
-            black: accuracies.black.current / accuracies.black.maximum * 100
+            white: isNaN(whiteAccuracy) ? undefined : whiteAccuracy,
+            black: isNaN(blackAccuracy) ? undefined : blackAccuracy
         },
         positions: positions
     };
