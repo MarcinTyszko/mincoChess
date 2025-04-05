@@ -8,17 +8,19 @@ import ProgressArea from "../ProgressArea";
 
 function GameReport() {
     const { analysisGame } = useAnalysisGameStore();
+
+    const accuracies = analysisGame.accuracies || {
+        white: 0,
+        black: 0
+    };
     
     return <>
         <ProgressArea/>
 
-        {
-            analysisGame.accuracies
-            && <AccuraciesCard
-                accuracies={analysisGame.accuracies}
-                estimatedRatings={analysisGame.estimatedRatings}
-            />
-        }
+        <AccuraciesCard
+            accuracies={accuracies}
+            estimatedRatings={analysisGame.estimatedRatings}
+        />
 
         <ClassificationCountCard analysisGame={analysisGame} />
     </>;

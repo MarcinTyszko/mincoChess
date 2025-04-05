@@ -1,12 +1,13 @@
-import React, { lazy, useEffect, useRef, useState } from "react";
+import React, { lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisTabStore from "@stores/AnalysisTabStore";
 import Breakpoints from "@constants/Breakpoints";
 import StateTreeTraverser from "@components/analysis/StateTreeTraverser";
 
-import { AnalysisTab } from "./AnalysisTabBar";
+import AnalysisTab from "@constants/AnalysisTab";
 import AnalysisTabBar from "./AnalysisTabBar";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
@@ -26,7 +27,7 @@ function AnalysisPanel() {
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
 
-    const [ analysisTab, setAnalysisTab ] = useState(AnalysisTab.REPORT);
+    const { activeTab } = useAnalysisTabStore();
 
     const analysisPanelRef = useRef<HTMLDivElement>(null);
 
@@ -65,15 +66,12 @@ function AnalysisPanel() {
 
         {
             gameAnalysisOpen
-            && <AnalysisTabBar
-                activeTab={analysisTab}
-                onTabSelect={setAnalysisTab}
-            />
+            && <AnalysisTabBar/>
         }
 
         {
             gameAnalysisOpen
-                ? (analysisTab == AnalysisTab.REPORT
+                ? (activeTab == AnalysisTab.REPORT
                     ? <GameReport/>
                     : <GameAnalysis/>
                 )

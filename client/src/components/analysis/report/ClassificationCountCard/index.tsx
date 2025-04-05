@@ -41,7 +41,7 @@ function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps)
 
     return <div className={styles.wrapper}>
         <table className={styles.classificationTable}>
-            <tr>
+            <thead>
                 <th/>
                 <th className={styles.username}>
                     {analysisGame.players.white.username || "White"}
@@ -50,7 +50,7 @@ function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps)
                 <th className={styles.username}>
                     {analysisGame.players.black.username || "Black"}
                 </th>
-            </tr>
+            </thead>
 
             {classifications
                 .filter(classif => !excludedClassifications.includes(classif))

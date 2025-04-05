@@ -13,6 +13,7 @@ import {
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/AnalysisGameStore";
+import useAnalysisTabStore from "@stores/AnalysisTabStore";
 import useAnalysisBoardStore from "@stores/AnalysisBoardStore";
 import useBoardSquaresStore from "@stores/BoardSquaresStore";
 import playBoardSound from "@lib/boardSounds";
@@ -22,6 +23,7 @@ import useSquareRenderer from "./SquareRenderer";
 import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
+import AnalysisTab from "@constants/AnalysisTab";
 
 function AnalysisBoard({
     topProfile,
@@ -34,7 +36,12 @@ function AnalysisBoard({
 
     const { setAnalysisBoardWidth } = useLayoutStore();
 
-    const { setGameAnalysisOpen } = useAnalysisGameStore();
+    const {
+        gameAnalysisOpen,
+        setGameAnalysisOpen
+    } = useAnalysisGameStore();
+
+    const setActiveTab = useAnalysisTabStore(state => state.setActiveTab);
 
     const {
         currentStateTreeNode,
@@ -178,6 +185,10 @@ function AnalysisBoard({
 
         setCurrentStateTreeNode(addedNode);
         playBoardSound(addedNode);
+
+        if (!gameAnalysisOpen) {
+            setActiveTab(AnalysisTab.ANALYSIS);
+        }
 
         setGameAnalysisOpen(true);
 

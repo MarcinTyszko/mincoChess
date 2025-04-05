@@ -1,18 +1,16 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import AnalysisTab from "@constants/AnalysisTab";
+import useAnalysisTabStore from "@stores/AnalysisTabStore";
 import Button from "@components/common/Button";
 
-import AnalysisTabBarProps from "./AnalysisTabBarProps";
 import * as styles from "./AnalysisTabBar.module.css";
 
-export enum AnalysisTab {
-    REPORT,
-    ANALYSIS
-}
-
-function AnalysisTabBar({ activeTab, onTabSelect }: AnalysisTabBarProps) {
+function AnalysisTabBar() {
     const { t } = useTranslation();
+
+    const { activeTab, setActiveTab } = useAnalysisTabStore();
 
     return <div className={styles.wrapper}>
         <Button
@@ -20,7 +18,7 @@ function AnalysisTabBar({ activeTab, onTabSelect }: AnalysisTabBarProps) {
                 `${styles.button} ${styles.reportButton} `
                 + (activeTab == AnalysisTab.REPORT ? styles.selectedButton : "")
             }
-            onClick={() => onTabSelect(AnalysisTab.REPORT)}
+            onClick={() => setActiveTab(AnalysisTab.REPORT)}
         >
             {t("pages.analysis.analysisTabBar.report")}
         </Button>
@@ -30,7 +28,7 @@ function AnalysisTabBar({ activeTab, onTabSelect }: AnalysisTabBarProps) {
                 `${styles.button} ${styles.analysisButton} `
                 + (activeTab == AnalysisTab.ANALYSIS ? styles.selectedButton : "")
             }
-            onClick={() => onTabSelect(AnalysisTab.ANALYSIS)}
+            onClick={() => setActiveTab(AnalysisTab.ANALYSIS)}
         >
             {t("pages.analysis.analysisTabBar.analysis")}
         </Button>
