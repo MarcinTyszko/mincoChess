@@ -7,11 +7,12 @@ function TextField({
     style,
     placeholder,
     value,
+    password,
     onChange
 }: TextFieldProps) {
     return <input
         className={styles.field}
-        type="text"
+        type={password ? "password" : "text"}
         placeholder={placeholder}
         style={style}
         value={value}

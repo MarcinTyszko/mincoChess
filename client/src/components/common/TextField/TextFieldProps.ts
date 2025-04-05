@@ -4,6 +4,7 @@ interface TextFieldProps {
     style?: CSSProperties;
     placeholder?: string;
     value?: string;
+    password?: boolean;
     onChange?: (value: string) => void;
 }
 

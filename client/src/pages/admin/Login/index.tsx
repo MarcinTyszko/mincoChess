@@ -4,6 +4,7 @@ import Turnstile, { useTurnstile } from "react-turnstile";
 
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
+import TextField from "@components/common/TextField";
 import ErrorMessage from "@components/common/ErrorMessage";
 
 import * as styles from "./Login.module.css";
@@ -48,11 +49,15 @@ function Login() {
             draggable={false}
         />
 
-        <input
-            className={styles.password} 
-            type="password"
+        <TextField
+            style={{
+                width: "min(300px, 100%)",
+                height: "50px",
+                borderRadius: "10px"
+            }}
             placeholder="Password..."
-            onChange={event => setPassword(event.target.value)}
+            password
+            onChange={setPassword}
         />
 
         {
@@ -60,11 +65,7 @@ function Login() {
             && <Turnstile
                 sitekey={process.env.TURNSTILE_INTERNAL_SITE_KEY}
                 theme="dark"
-                onSuccess={token => {
-                    console.log(`Turnstile successful. Token: ${token}`);
-                    
-                    setCaptchaToken(token);
-                }}
+                onSuccess={setCaptchaToken}
             />
         }
 

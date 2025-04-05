@@ -5,7 +5,7 @@
     height: 100%;
 
     border: none;
-    background-color: #1a1a1a;
+    background-color: var(--ui-shade-2);
     font-size: 1.1rem;
     color: white;
 }

@@ -22,14 +22,14 @@ router.post("/internal/login", async (req, res) => {
             .send("Incorrect password.");
     }
 
-    if (!captchaToken) {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .send("Please fill out the CAPTCHA.");
-    }
-
     // If Turnstile token is invalid, 400
     if (process.env.NODE_ENV != "development") {
+        if (!captchaToken) {
+            return res
+                .status(StatusCodes.UNAUTHORIZED)
+                .send("Please fill out the CAPTCHA.");
+        }
+
         const captchaTokenValid = await verifyCaptchaToken(
             captchaToken,
             process.env.TURNSTILE_INTERNAL_SECRET_KEY
