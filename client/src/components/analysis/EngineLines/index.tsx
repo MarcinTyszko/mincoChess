@@ -4,10 +4,8 @@ import { range } from "lodash";
 import { Chess } from "chess.js";
 
 import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
-import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
-import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
 import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import Engine from "@lib/engine";
@@ -25,11 +23,6 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
-    const {
-        analysisSessionToken,
-        analysisCaptchaError
-    } = useAnalysisSessionStore();
-
     const setRealtimeClassifyError = useAnalysisProgressStore(
         state => state.setRealtimeClassifyError
     );
@@ -45,11 +38,6 @@ function EngineLines({ style }: EngineLinesProps) {
     ] = useState<EngineLine[]>([]);
 
     const [ engine, setEngine ] = useState<Engine | undefined>();
-
-    const [
-        classifyStatus,
-        setClassifyStatus
-    ] = useState(AnalysisStatus.INACTIVE);
 
     // Update displayed engine lines when move changed,
     // or when the real time lines update
@@ -86,7 +74,7 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const realtimeClassify = useRealtimeClassifier(setClassifyStatus);
+    const considerRealtimeClassify = useRealtimeClassifier();
 
     // Queue an evaluation & classification if it may be required
     useEffect(() => {
@@ -111,10 +99,7 @@ function EngineLines({ style }: EngineLinesProps) {
         );
         
         if (cacheLines) {
-            if (currentStateTreeNode.state.classification == undefined) {
-                realtimeClassify();
-            }
-
+            considerRealtimeClassify();
             return;
         }
 
@@ -151,40 +136,22 @@ function EngineLines({ style }: EngineLinesProps) {
             );
 
             // If depth fully reached, and node does not already have a classification
-            // and it is not a root node with no parent, generate a classification
+            // If game is in terminal position, don't consider depth 0
             if (
                 (
-                    reachedDepth > 0
+                    !new Chess(currentStateTreeNode.state.fen).isGameOver()
                     && reachedDepth < settings.analysis.engineDepth
                 )
-                || currentStateTreeNode.state.classification != undefined
                 || !currentStateTreeNode.parent
             ) return;
 
-            realtimeClassify();
+            considerRealtimeClassify();
         }, 400);
     }, [
         currentStateTreeNode,
         engine,
         settings.analysis.engineDepth,
         settings.analysis.engineLines
-    ]);
-
-    useEffect(() => {
-        if (classifyStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
-
-        if (analysisCaptchaError) {
-            setRealtimeClassifyError(analysisCaptchaError);
-            setClassifyStatus(AnalysisStatus.INACTIVE);
-
-            return;
-        }
-
-        realtimeClassify();
-    }, [
-        classifyStatus,
-        analysisSessionToken,
-        analysisCaptchaError
     ]);
 
     const displayedLineCount = useMemo(() => (

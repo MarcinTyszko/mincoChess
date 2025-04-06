@@ -101,7 +101,7 @@
             },
             "classifiedMoveCard": {
                 "errorMessage": "A classification could not be loaded.",
-                "insufficientData": "The move before this one must be evaluated with at least 2 engine lines for classification.",
+                "insufficientData": "The previous move must be evaluated to generate a classification.",
                 "classifications": {
                     "brilliant": "is brilliant",
                     "only": "is the only good move",
