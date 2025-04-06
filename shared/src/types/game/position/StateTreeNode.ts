@@ -56,8 +56,8 @@ export function deserializeNode(rootNode: StateTreeNode) {
 
 /**
  * @description Search recursively for a node that passes a given
- * predicate, starting from a root node. Returns the first passing
- * node or undefined if one cannot be found
+ * predicate, starting from and including a root node. Returns the
+ * first passing node or undefined if one cannot be found
  */
 export function findNodeRecursively(
     rootNode: StateTreeNode,

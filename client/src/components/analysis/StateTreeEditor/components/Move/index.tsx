@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
-import { getNodeChain } from "wintrchess";
+import { findNodeRecursively, getNodeChain } from "wintrchess";
 import { classificationImages } from "@constants/classifications";
 import ContextMenu from "@components/common/ContextMenu";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
@@ -45,8 +45,14 @@ function Move({ node, children }: MoveProps) {
             }
         }
 
-        // Select the parent node
-        if (currentStateTreeNode == node) {
+        // If the current node is a child of or is the deleted node
+        const deletedNodeCurrentChild = findNodeRecursively(
+            node,
+            searchNode => searchNode.id == currentStateTreeNode.id
+        );
+
+        // Then, set the current node to the parent of the deleted one
+        if (deletedNodeCurrentChild) {
             setCurrentStateTreeNode(node.parent);
         }
 
