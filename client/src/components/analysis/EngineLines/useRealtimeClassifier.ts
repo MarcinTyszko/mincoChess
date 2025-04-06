@@ -24,6 +24,18 @@ function useRealtimeClassifier(
     );
 
     async function realtimeClassify() {
+        const parentEngineLines = currentStateTreeNode.parent?.state.engineLines
+            || [];
+
+        if (parentEngineLines.length < 2) {
+            setClassifyStatus(AnalysisStatus.INACTIVE);
+            setRealtimeClassifyError(
+                t("pages.analysis.classifiedMoveCard.insufficientData")
+            );
+
+            return;
+        }
+
         const classificationResult = await classifyNode(currentStateTreeNode);
 
         if (classificationResult.status == StatusCodes.UNAUTHORIZED) {

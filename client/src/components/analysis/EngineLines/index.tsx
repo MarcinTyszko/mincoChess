@@ -53,17 +53,15 @@ function EngineLines({ style }: EngineLinesProps) {
 
     // Update displayed engine lines when move changed,
     // or when the real time lines update
-    useEffect(() => {
-        setDisplayedEngineLines(
-            getDisplayedLines(
-                currentStateTreeNode.state,
-                {
-                    targetSource: settings.analysis.engine,
-                    targetCount: settings.analysis.engineLines
-                }
-            ) || []
-        );
-    }, [
+    useEffect(() => setDisplayedEngineLines(
+        getDisplayedLines(
+            currentStateTreeNode.state,
+            {
+                targetSource: settings.analysis.engine,
+                targetCount: settings.analysis.engineLines
+            }
+        ) || []
+    ), [
         currentStateTreeNode,
         realtimeEngineLines
     ]);
@@ -92,6 +90,8 @@ function EngineLines({ style }: EngineLinesProps) {
 
     // Queue an evaluation & classification if it may be required
     useEffect(() => {
+        setRealtimeClassifyError();
+
         if (!engine) return;
 
         engine.stopEvaluation();
@@ -110,7 +110,13 @@ function EngineLines({ style }: EngineLinesProps) {
             }
         );
         
-        if (cacheLines) return;
+        if (cacheLines) {
+            if (currentStateTreeNode.state.classification == undefined) {
+                realtimeClassify();
+            }
+
+            return;
+        }
 
         setRealtimeEngineLines([]);
 
@@ -144,7 +150,7 @@ function EngineLines({ style }: EngineLinesProps) {
                 }
             );
 
-            // If depth fully reached, node does not already have a classification
+            // If depth fully reached, and node does not already have a classification
             // and it is not a root node with no parent, generate a classification
             if (
                 (
