@@ -110,6 +110,9 @@ function ArticleEditor() {
             <Button
                 highlighted={articleFormat == "edit"}
                 onClick={() => setArticleFormat("edit")}
+                style={{
+                    backgroundColor: 'var(--ui-shade-4)'
+                }}
             >
                 Edit
             </Button>
@@ -117,6 +120,9 @@ function ArticleEditor() {
             <Button
                 highlighted={articleFormat == "preview"}
                 onClick={() => setArticleFormat("preview")}
+                style={{
+                    backgroundColor: 'var(--ui-shade-4)'
+                }}
             >
                 Preview
             </Button>
