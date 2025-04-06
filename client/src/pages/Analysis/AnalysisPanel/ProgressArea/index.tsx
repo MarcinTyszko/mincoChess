@@ -9,7 +9,7 @@ import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
-import classifyStateTree from "@lib/stateTree/classify";
+import { classifyStateTree } from "@lib/stateTree/classify";
 import ProgressReporter from "@components/analysis/ProgressReporter";
 
 function getStatusTitle(status: AnalysisStatus) {

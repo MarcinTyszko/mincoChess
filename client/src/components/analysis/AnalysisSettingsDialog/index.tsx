@@ -27,7 +27,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 height={30}
             />
 
-            <span>
+            <span style={{ fontFamily: "Nunito" }}>
                 {t("pages.analysis.analysisSettings.title")}
             </span>
         </div>

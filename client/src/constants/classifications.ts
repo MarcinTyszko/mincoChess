@@ -28,6 +28,14 @@ export const classificationImages = {
     [Classification.RISKY]: require("@assets/img/classifications/risky.png")
 };
 
+export const loadingClassificationIcon = require(
+    "@assets/img/classifications/loading.png"
+);
+
+export const errorClassificationIcon = require(
+    "@assets/img/classifications/error.png"
+);
+
 export const classificationColours = {
     [Classification.BRILLIANT]: "#1baaa6",
     [Classification.ONLY]: "#5b8baf",

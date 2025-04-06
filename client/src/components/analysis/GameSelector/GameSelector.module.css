@@ -62,5 +62,7 @@
 
 .selectorButton {
     background-color: var(--ui-shade-5);
-    border-radius: 0 0 10px 10px
+    border-radius: 0 0 10px 10px;
+
+    overflow-wrap: anywhere;
 }

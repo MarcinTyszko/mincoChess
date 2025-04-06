@@ -2,33 +2,23 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import {
-    Classification,
     addChildMove,
+    Classification,
     getTopEngineLine
 } from "wintrchess";
 import {
     classificationColours,
     classificationImages,
+    loadingClassificationIcon,
+    errorClassificationIcon,
     inalterableClassifications
 } from "@constants/classifications";
 import playBoardSound from "@lib/boardSounds";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
+import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
+import ErrorMessage from "@components/common/ErrorMessage";
 
 import * as styles from "./ClassifiedMoveCard.module.css";
-
-const classificationTitles = {
-    [Classification.BRILLIANT]: "brilliant",
-    [Classification.ONLY]: "the only good move",
-    [Classification.BEST]: "the best move",
-    [Classification.EXCELLENT]: "excellent",
-    [Classification.OKAY]: "an okay move",
-    [Classification.INACCURACY]: "an inaccuracy",
-    [Classification.MISTAKE]: "a mistake",
-    [Classification.BLUNDER]: "a blunder",
-    [Classification.FORCED]: "forced",
-    [Classification.THEORY]: "theory",
-    [Classification.RISKY]: "a risky idea"
-};
 
 function ClassifiedMoveCard() {
     const { t } = useTranslation();
@@ -38,39 +28,60 @@ function ClassifiedMoveCard() {
         setCurrentStateTreeNode
     } = useAnalysisBoardStore();
 
+    const realtimeClassifyError = useAnalysisProgressStore(
+        state => state.realtimeClassifyError
+    );
+
     const bestAlternativeMove = node.parent
         ? getTopEngineLine(node.parent.state)?.moves.at(0)
         : undefined;
 
     return <div className={styles.wrapper}>
         <div className={styles.classification}>
-            {
-                node.state.classification != undefined
-                && <img
-                    src={classificationImages[node.state.classification]}
-                    width={30}
-                    height={30}
-                />
-            }
+            <img
+                src={node.state.classification != undefined
+                    ? classificationImages[node.state.classification]
+                    : (realtimeClassifyError
+                        ? errorClassificationIcon
+                        : loadingClassificationIcon
+                    )
+                }
+                width={30}
+                height={30}
+            />
 
             <span
                 className={styles.classificationName}
                 style={{
                     color: node.state.classification != undefined
                         ? classificationColours[node.state.classification]
-                        : "white"
+                        : (realtimeClassifyError
+                            ? classificationColours[Classification.BLUNDER]
+                            : "white"
+                        )
                 }}
             >
-                {
-                    node.state.classification != undefined
-                        ? (
-                            `${node.state.move?.san} is `
-                            + classificationTitles[node.state.classification]
+                {node.state.classification != undefined
+                    ? (
+                        `${node.state.move?.san} `
+                        + t(
+                            "pages.analysis.classifiedMoveCard.classifications."
+                            + node.state.classification
                         )
-                        : t("loading")
+                    )
+                    : (realtimeClassifyError
+                        ? t("error") : t("loading")
+                    )
                 }
             </span>
         </div>
+
+        {
+            realtimeClassifyError
+            && <ErrorMessage style={{ marginTop: "5px" }}>
+                {realtimeClassifyError}
+            </ErrorMessage>
+        }
 
         {
             bestAlternativeMove && node.state.classification != undefined

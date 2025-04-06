@@ -2,11 +2,11 @@
     "loading": "Loading...",
     "back": "Back",
     "settings": "Settings",
+    "error": "Error",
     "navigationBar": {
         "support": "Support",
         "tooltips": {
             "support": "Support us ❤",
-            "youtube": "YouTube Channel",
             "help": "Help Center"
         }
     },
@@ -98,6 +98,22 @@
             },
             "accuraciesCard": {
                 "title": "Accuracies"
+            },
+            "classifiedMoveCard": {
+                "errorMessage": "A classification could not be loaded.",
+                "classifications": {
+                    "brilliant": "is brilliant",
+                    "only": "is the only good move",
+                    "best": "is the best move",
+                    "excellent": "is excellent",
+                    "okay": "is an okay move",
+                    "inaccuracy": "is an inaccuracy",
+                    "mistake": "is a mistake",
+                    "blunder": "is a blunder",
+                    "forced": "is forced",
+                    "theory": "is theory",
+                    "risky": "is a risky idea"
+                }
             }
         },
         "news": {

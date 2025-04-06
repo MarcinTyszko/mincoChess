@@ -2,14 +2,18 @@ import { create } from "zustand";
 
 import AnalysisStatus from "@constants/AnalysisStatus";
 
+// Analysis = evaluating & classifying entire game
+// Classify = classification for single, manual move
 interface AnalysisProgressStore {
     evaluationProgress: number;
     analysisStatus: AnalysisStatus;
     analysisError?: string;
+    realtimeClassifyError?: string;
 
     setEvaluationProgress: (progress: number) => void;
     setAnalysisStatus: (status: AnalysisStatus) => void;
     setAnalysisError: (error?: string) => void;
+    setRealtimeClassifyError: (error?: string) => void;
 }
 
 const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
@@ -26,6 +30,10 @@ const useAnalysisProgressStore = create<AnalysisProgressStore>(set => ({
 
     setAnalysisError(error) {
         set({ analysisError: error });
+    },
+
+    setRealtimeClassifyError(error) {
+        set({ realtimeClassifyError: error });
     }
 }));
 
