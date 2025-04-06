@@ -1,5 +1,4 @@
 import React from "react";
-import { useShallow } from "zustand/react/shallow";
 
 import playBoardSound from "@lib/boardSounds";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
@@ -12,27 +11,24 @@ function GameAnalysis() {
     const { analysisGame } = useAnalysisGameStore();
 
     const {
+        currentStateTreeNode,
         setCurrentStateTreeNode,
         setAutoplayEnabled
-    } = useAnalysisBoardStore(
-        useShallow(state => ({
-            setCurrentStateTreeNode: state.setCurrentStateTreeNode,
-            setAutoplayEnabled: state.setAutoplayEnabled
-        }))
-    );
+    } = useAnalysisBoardStore();
     
-    return <>
-        <StateTreeEditor
-            className={styles.stateTreeEditor}
-            stateTreeRootNode={analysisGame.stateTree}
-            onMoveClick={node => {
-                setCurrentStateTreeNode(node);
+    return <StateTreeEditor
+        className={styles.stateTreeEditor}
+        stateTreeRootNode={analysisGame.stateTree}
+        onMoveClick={node => {
+            setCurrentStateTreeNode(node);
+        
+            if (node != currentStateTreeNode) {
                 playBoardSound(node);
+            }
 
-                setAutoplayEnabled(false);
-            }}
-        />
-    </>;
+            setAutoplayEnabled(false);
+        }}
+    />;
 }
 
 export default GameAnalysis;

@@ -96,7 +96,7 @@ function AnalysisPanel() {
         {
             gameAnalysisOpen
             && currentStateTreeNode.parent
-            && <ClassifiedMoveCard node={currentStateTreeNode} />
+            && <ClassifiedMoveCard/>
         }
 
         {

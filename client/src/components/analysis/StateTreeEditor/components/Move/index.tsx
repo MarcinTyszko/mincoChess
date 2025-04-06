@@ -18,7 +18,8 @@ function Move({ node, children }: MoveProps) {
 
     const {
         currentStateTreeNode,
-        setCurrentStateTreeNode
+        setCurrentStateTreeNode,
+        dispatchCurrentNodeUpdate
     } = useAnalysisBoardStore();
 
     const {
@@ -45,7 +46,11 @@ function Move({ node, children }: MoveProps) {
         }
 
         // Select the parent node
-        setCurrentStateTreeNode(node.parent);
+        if (currentStateTreeNode == node) {
+            setCurrentStateTreeNode(node.parent);
+        }
+
+        dispatchCurrentNodeUpdate();
     }
 
     function promoteNode() {

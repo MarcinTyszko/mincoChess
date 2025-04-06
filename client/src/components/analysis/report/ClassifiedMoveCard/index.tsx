@@ -14,7 +14,6 @@ import {
 import playBoardSound from "@lib/boardSounds";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 
-import ClassifiedMoveCardProps from "./ClassifiedMoveCardProps";
 import * as styles from "./ClassifiedMoveCard.module.css";
 
 const classificationTitles = {
@@ -31,10 +30,13 @@ const classificationTitles = {
     [Classification.RISKY]: "a risky idea"
 };
 
-function ClassifiedMoveCard({ node }: ClassifiedMoveCardProps) {
+function ClassifiedMoveCard() {
     const { t } = useTranslation();
 
-    const { setCurrentStateTreeNode } = useAnalysisBoardStore();
+    const {
+        currentStateTreeNode: node,
+        setCurrentStateTreeNode
+    } = useAnalysisBoardStore();
 
     const bestAlternativeMove = node.parent
         ? getTopEngineLine(node.parent.state)?.moves.at(0)

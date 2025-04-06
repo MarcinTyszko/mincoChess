@@ -12,6 +12,10 @@ interface ClassificationResult {
     gameAnalysis?: GameAnalysis;
 }
 
+/**
+ * @description Does not require given root node to be
+ * serialized.
+ */
 async function classifyStateTree(
     rootNode: StateTreeNode
 ): Promise<ClassificationResult> {

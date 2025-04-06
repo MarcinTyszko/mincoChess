@@ -16,6 +16,7 @@
     box-shadow: 0 3px 0 #24262b;
 
     transform: translateY(0px);
+    overflow-wrap: anywhere;
 
     transition: all 0.3s ease;
 }

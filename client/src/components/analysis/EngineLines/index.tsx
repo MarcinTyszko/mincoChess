@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { clone, range } from "lodash";
 import { Chess } from "chess.js";
-import { range } from "lodash";
+import { StatusCodes } from "http-status-codes";
 
 import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useRealtimeEngineStore from "@stores/RealtimeEngineStore";
 import Engine from "@lib/engine";
+import classifyStateTree from "@lib/stateTree/classify";
 
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
@@ -19,7 +21,10 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const { settings } = useSettingsStore();
 
-    const { currentStateTreeNode } = useAnalysisBoardStore();
+    const {
+        currentStateTreeNode,
+        dispatchCurrentNodeUpdate
+    } = useAnalysisBoardStore();
 
     const {
         displayedEngineLines,
@@ -50,6 +55,8 @@ function EngineLines({ style }: EngineLinesProps) {
         realtimeEngineLines
     ]);
 
+    // When engine version changed or engine is toggled,
+    // terminate old engine and potentially initialise new one
     useEffect(() => {
         engine?.terminate();
 
@@ -68,7 +75,7 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const evaluationDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Queue an evaluation if it may be required
+    // Queue an evaluation & classification if it may be required
     useEffect(() => {
         if (!engine) return;
 
@@ -78,6 +85,7 @@ function EngineLines({ style }: EngineLinesProps) {
             clearTimeout(evaluationDelayRef.current);
         }
 
+        // If cache for this node is sufficient, do not evaluate locally
         const cacheLines = getDisplayedLines(
             currentStateTreeNode.state,
             {
@@ -91,13 +99,18 @@ function EngineLines({ style }: EngineLinesProps) {
 
         setRealtimeEngineLines([]);
 
-        evaluationDelayRef.current = setTimeout(() => {
+        // Queue local evaluation
+        evaluationDelayRef.current = setTimeout(async () => {
             engine.setPosition(currentStateTreeNode.state.fen);
             engine.setLineCount(settings.analysis.engineLines);
 
-            engine.evaluate(
+            let reachedDepth = 0;
+
+            await engine.evaluate(
                 settings.analysis.engineDepth,
                 line => {
+                    reachedDepth = Math.max(reachedDepth, line.depth);
+
                     const engineLines = currentStateTreeNode.state.engineLines;
 
                     setRealtimeEngineLines(prev => [ ...prev, line ]);
@@ -115,6 +128,34 @@ function EngineLines({ style }: EngineLinesProps) {
                     currentStateTreeNode.state.engineLines.push(line);
                 }
             );
+
+            // If depth fully reached, node does not already have a classification
+            // and it is not a root node with no parent, generate a classification
+            if (
+                reachedDepth < settings.analysis.engineDepth
+                || currentStateTreeNode.state.classification != undefined
+                || !currentStateTreeNode.parent
+            ) return;
+
+            const childlessNode = clone(currentStateTreeNode);
+            childlessNode.children = [];
+
+            const parentNode = clone(currentStateTreeNode.parent);
+            parentNode.children = [childlessNode];
+
+            const classificationResult = await classifyStateTree(parentNode);
+            const classifiedNode = classificationResult.gameAnalysis?.stateTree.children[0];
+
+            if (
+                classificationResult.status != StatusCodes.OK
+                || !classifiedNode
+            ) {
+                return console.log("unable to classify");
+            }
+
+            currentStateTreeNode.state.classification = classifiedNode.state.classification;
+
+            dispatchCurrentNodeUpdate();
         }, 400);
     }, [
         currentStateTreeNode,

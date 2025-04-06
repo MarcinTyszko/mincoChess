@@ -6,6 +6,7 @@ import { StateTreeNode, defaultRootNode } from "wintrchess";
 
 interface AnalysisBoardStore {
     currentStateTreeNode: StateTreeNode;
+    currentStateTreeNodeUpdate: boolean;
     boardFlipped: boolean;
     autoplayEnabled: boolean;
 
@@ -15,6 +16,7 @@ interface AnalysisBoardStore {
     highlightedSquares: Square[];
 
     setCurrentStateTreeNode: Dispatch<SetStateAction<StateTreeNode>>;
+    dispatchCurrentNodeUpdate: () => void;
     setBoardFlipped: (flipped: boolean) => void;
     setAutoplayEnabled: (enabled: boolean) => void;
 
@@ -26,6 +28,7 @@ interface AnalysisBoardStore {
 
 const useAnalysisBoardStore = create<AnalysisBoardStore>(set => ({
     currentStateTreeNode: defaultRootNode,
+    currentStateTreeNodeUpdate: false,
     boardFlipped: false,
     autoplayEnabled: false,
 
@@ -41,6 +44,12 @@ const useAnalysisBoardStore = create<AnalysisBoardStore>(set => ({
         }
         
         set({ currentStateTreeNode: node });
+    },
+
+    dispatchCurrentNodeUpdate() {
+        set(state => ({
+            currentStateTreeNodeUpdate: !state.currentStateTreeNodeUpdate
+        }));
     },
 
     setBoardFlipped(flipped) {
