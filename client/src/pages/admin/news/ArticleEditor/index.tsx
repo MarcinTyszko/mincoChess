@@ -111,7 +111,7 @@ function ArticleEditor() {
                 highlighted={articleFormat == "edit"}
                 onClick={() => setArticleFormat("edit")}
                 style={{
-                    backgroundColor: 'var(--ui-shade-4)'
+                    backgroundColor: "var(--ui-shade-4)"
                 }}
             >
                 Edit
@@ -121,7 +121,7 @@ function ArticleEditor() {
                 highlighted={articleFormat == "preview"}
                 onClick={() => setArticleFormat("preview")}
                 style={{
-                    backgroundColor: 'var(--ui-shade-4)'
+                    backgroundColor: "var(--ui-shade-4)"
                 }}
             >
                 Preview
