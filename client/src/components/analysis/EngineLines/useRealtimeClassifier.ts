@@ -4,15 +4,18 @@ import { useTurnstile } from "react-turnstile";
 import { StatusCodes } from "http-status-codes";
 
 import AnalysisStatus from "@constants/AnalysisStatus";
+import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
-import { classifyNode } from "@lib/stateTree/classify";
+import { classifyNode, classifyStateTree } from "@lib/stateTree/classify";
 
 function useRealtimeClassifier() {
     const { t } = useTranslation();
 
     const turnstile = useTurnstile();
+
+    const { analysisGame } = useAnalysisGameStore();
 
     const {
         currentStateTreeNode,
@@ -71,10 +74,16 @@ function useRealtimeClassifier() {
             return;
         }
 
-        const classificationResult = await classifyNode(currentStateTreeNode);
+        // Classify node and classify whole tree again for accuracies
+        // CHANGE THIS LATER WHEN ACCURACIES IS SEPARATE ALGORITHM
+        const classifyNodeResult = await classifyNode(currentStateTreeNode);
+        const classifyTreeResult = await classifyStateTree(analysisGame.stateTree);
 
         // If session is invalid, await a new CAPTCHA solve
-        if (classificationResult.status == StatusCodes.UNAUTHORIZED) {
+        if (
+            classifyNodeResult.status == StatusCodes.UNAUTHORIZED
+            || classifyTreeResult.status == StatusCodes.UNAUTHORIZED
+        ) {
             turnstile.reset();
             setClassifyStatus(AnalysisStatus.AWAITING_CAPTCHA);
 
@@ -83,8 +92,10 @@ function useRealtimeClassifier() {
 
         // For other, unknown errors, return an unknown error message
         if (
-            !classificationResult.classification
-            || classificationResult.status != StatusCodes.OK
+            !classifyNodeResult.classification
+            || !classifyTreeResult.gameAnalysis
+            || classifyNodeResult.status != StatusCodes.OK
+            || classifyTreeResult.status != StatusCodes.OK
         ) {
             setClassifyStatus(AnalysisStatus.INACTIVE);
             setRealtimeClassifyError(
@@ -95,7 +106,8 @@ function useRealtimeClassifier() {
         }
 
         // Apply classification and deactivate classifier
-        currentStateTreeNode.state.classification = classificationResult.classification;
+        currentStateTreeNode.state.classification = classifyNodeResult.classification;
+        analysisGame.accuracies = classifyTreeResult.gameAnalysis.accuracies;
 
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError();
