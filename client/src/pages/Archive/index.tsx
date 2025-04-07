@@ -6,7 +6,15 @@ import * as styles from "./Archive.module.css";
 function Archive() {
     return <div className={styles.wrapper}>
         <div className={styles.messageContent}>
-            <h1>Archive is coming soon</h1>
+            <img
+                src={require("@assets/img/logo.svg")}
+                height={70}
+                draggable={false}
+            />
+
+            <h1 style={{ margin: 0 }}>
+                Archive is coming soon
+            </h1>
 
             <span>
                 The archive page is where you will store your analysed
