@@ -4,16 +4,20 @@ import { useTurnstile } from "react-turnstile";
 import { StatusCodes } from "http-status-codes";
 
 import AnalysisStatus from "@constants/AnalysisStatus";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useAnalysisProgressStore from "@stores/analysis/AnalysisProgressStore";
 import useAnalysisSessionStore from "@stores/analysis/AnalysisSessionStore";
 import { classifyNode, classifyStateTree } from "@lib/stateTree/classify";
+import { getTopEngineLine } from "wintrchess";
 
 function useRealtimeClassifier() {
     const { t } = useTranslation();
 
     const turnstile = useTurnstile();
+
+    const { settings } = useSettingsStore();
 
     const { analysisGame } = useAnalysisGameStore();
 
@@ -55,23 +59,31 @@ function useRealtimeClassifier() {
         analysisCaptchaError
     ]);
 
+    function cancelClassify(errorMessage?: string) {
+        setClassifyStatus(AnalysisStatus.INACTIVE);
+        setRealtimeClassifyError(errorMessage);
+    }
+
     async function considerRealtimeClassify() {
         // Do not classify a move that already has a classification
-        if (currentStateTreeNode.state.classification != undefined) {
+        if (
+            currentStateTreeNode.state.classification != undefined
+            || !currentStateTreeNode.parent
+        ) {
             return;
         }
 
         // If there is not enough data for a centipawn comparison
-        const parentEngineLines = currentStateTreeNode.parent?.state.engineLines
-            || [];
+        const parentState = currentStateTreeNode.parent.state;
+        const parentTopLineDepth = getTopEngineLine(parentState)?.depth || 0;
 
-        if (parentEngineLines.length == 0) {
-            setClassifyStatus(AnalysisStatus.INACTIVE);
-            setRealtimeClassifyError(
-                t("pages.analysis.classifiedMoveCard.insufficientData")
+        if (
+            parentState.engineLines.length == 0
+            || parentTopLineDepth < settings.analysis.engineDepth
+        ) {
+            return cancelClassify(
+                t("pages.analysis.classifiedMoveCard.insufficientLines")
             );
-
-            return;
         }
 
         // Classify node and classify whole tree again for accuracies
@@ -97,9 +109,8 @@ function useRealtimeClassifier() {
             || classifyNodeResult.status != StatusCodes.OK
             || classifyTreeResult.status != StatusCodes.OK
         ) {
-            setClassifyStatus(AnalysisStatus.INACTIVE);
-            setRealtimeClassifyError(
-                t("pages.analysis.classifiedMoveCard.errorMessage")
+            return cancelClassify(
+                t("pages.analysis.classifiedMoveCard.unknownError")
             );
 
             return;
@@ -111,6 +122,7 @@ function useRealtimeClassifier() {
 
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError();
+
         dispatchCurrentNodeUpdate();
     }
 

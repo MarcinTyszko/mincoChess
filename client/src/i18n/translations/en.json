@@ -100,8 +100,8 @@
                 "title": "Accuracies"
             },
             "classifiedMoveCard": {
-                "errorMessage": "A classification could not be loaded.",
-                "insufficientData": "The previous move must be evaluated to generate a classification.",
+                "unknownError": "A classification could not be loaded.",
+                "insufficientLines": "Make sure the previous move is fully evaluated for a classification.",
                 "classifications": {
                     "brilliant": "is brilliant",
                     "only": "is the only good move",
