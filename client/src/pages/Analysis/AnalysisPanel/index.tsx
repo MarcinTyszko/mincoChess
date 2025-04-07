@@ -84,14 +84,17 @@ function AnalysisPanel() {
 
         <ProgressArea/>
 
-        <EngineLines
-            style={{
-                display: (
-                    activeTab == AnalysisTab.REPORT
-                    || !engineEnabled
-                ) ? "none" : undefined
-            }}
-        />
+        {
+            gameAnalysisOpen
+            && <EngineLines
+                style={{
+                    display: (
+                        activeTab == AnalysisTab.REPORT
+                        || !engineEnabled
+                    ) ? "none" : undefined
+                }}
+            />
+        }
 
         {
             gameAnalysisOpen
