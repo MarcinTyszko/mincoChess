@@ -35,7 +35,7 @@ function SidebarTab({
         style={{
             ...style,
             backdropFilter: isTabActive ? "brightness(1.2)" : "",
-            boxShadow: isTabActive ? "inset 0 -2px 0 0 #467de8" : undefined
+            boxShadow: isTabActive ? "inset 0 -2px 0 0 var(--ui-blue)" : undefined
         }}
     >
         {
