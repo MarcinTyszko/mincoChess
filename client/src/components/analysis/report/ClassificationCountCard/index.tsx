@@ -13,6 +13,7 @@ import {
     classificationNames,
     classificationColours
 } from "@constants/classifications";
+import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 
 import ClassificationCountCardProps from "./ClassificationCountCardProps";
 import * as styles from "./ClassificationCountCard.module.css";
@@ -23,6 +24,8 @@ const excludedClassifications = [
 ];
 
 function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps) {
+    useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
+
     const nodeChain = getNodeChain(analysisGame.stateTree);
 
     function getClassificationCount(
