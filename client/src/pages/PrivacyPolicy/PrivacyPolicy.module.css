@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.messageContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    padding: 20px;
+    width: min(100%, 800px);
+    height: 100%;
+    text-align: center;
+
+    color: white;
+}

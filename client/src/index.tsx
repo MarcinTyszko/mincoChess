@@ -11,7 +11,11 @@ const Archive = lazy(() => import("@pages/Archive"));
 const NewsArticleList = lazy(() => import("@pages/news/ArticleList"));
 const NewsArticle = lazy(() => import("@pages/news/Article"));
 const Settings = lazy(() => import("@pages/Settings"));
+
 const HelpCenter = lazy(() => import("@pages/HelpCenter"));
+
+const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy"));
+
 const Unfound = lazy(() => import("@pages/Unfound"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
@@ -43,6 +47,8 @@ root.render(<BrowserRouter>
                     <Route path="/settings" element={<Settings/>} />
 
                     <Route path="/help" element={<HelpCenter/>} />
+
+                    <Route path="/privacy" element={<PrivacyPolicy/>} />
 
                     <Route path="*" element={<Unfound/>} />
 
