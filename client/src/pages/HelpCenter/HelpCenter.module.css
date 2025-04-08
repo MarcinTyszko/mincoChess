@@ -35,6 +35,9 @@
     padding: 20px;
 
     background-color: var(--ui-shade-2);
+
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .importantValue {
