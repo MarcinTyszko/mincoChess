@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { findNodeRecursively, getNodeChain } from "wintrchess";
 import { classificationImages } from "@constants/classifications";
 import ContextMenu from "@components/common/ContextMenu";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 import useContextMenu from "@hooks/useContextMenu";
 
@@ -15,6 +16,10 @@ function Move({ node, children }: MoveProps) {
     const { t } = useTranslation();
 
     const onMoveClick = useContext(MoveClickEventContext);
+
+    const classificationsHidden = useSettingsStore(
+        state => state.settings.analysis.hideClassifications
+    );
 
     const {
         currentStateTreeNode,
@@ -78,6 +83,7 @@ function Move({ node, children }: MoveProps) {
     return <>
         {
             node?.state.classification != undefined
+            && !classificationsHidden
             && <img
                 src={classificationImages[node.state.classification]}
                 width={20}

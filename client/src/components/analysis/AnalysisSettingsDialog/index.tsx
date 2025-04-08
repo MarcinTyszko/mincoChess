@@ -106,6 +106,20 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
+            <span>{t("pages.analysis.analysisSettings.hideClassifications")}</span>
+
+            <CheckboxSetting
+                getInitialValue={() => settings.analysis.hideClassifications}
+                onChange={checked => {
+                    setSettings(settings => {
+                        settings.analysis.hideClassifications = checked;
+                        return settings;
+                    });
+                }}
+            />
+        </div>
+
+        <div className={styles.setting}>
             <span>{t("pages.analysis.analysisSettings.suggestionArrows")}</span>
 
             <CheckboxSetting

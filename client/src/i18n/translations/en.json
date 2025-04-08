@@ -31,6 +31,7 @@
                 "engine": "Engine",
                 "engineDepth": "Engine Depth",
                 "engineLines": "Engine Lines",
+                "hideClassifications": "Hide Classifications",
                 "suggestionArrows": "Suggestion Arrows",
                 "includeClassifications": "Include Classifications",
                 "brilliant": "Brilliant",

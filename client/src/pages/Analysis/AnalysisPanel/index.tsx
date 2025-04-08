@@ -1,5 +1,6 @@
 import React, { lazy, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useShallow } from "zustand/react/shallow";
 
 import AnalysisTab from "@constants/AnalysisTab";
 import useSettingsStore from "@stores/SettingsStore";
@@ -24,8 +25,14 @@ const OptionsToolbar = lazy(() => import("@components/analysis/OptionsToolbar"))
 function AnalysisPanel() {
     const { t } = useTranslation();
 
-    const engineEnabled = useSettingsStore(
-        state => state.settings.analysis.engineEnabled
+    const {
+        engineEnabled,
+        classificationsHidden
+    } = useSettingsStore(
+        useShallow(state => ({
+            engineEnabled: state.settings.analysis.engineEnabled,
+            classificationsHidden: state.settings.analysis.hideClassifications
+        }))
     );
 
     const {
@@ -99,6 +106,11 @@ function AnalysisPanel() {
         {
             gameAnalysisOpen
             && currentStateTreeNode.parent
+            && !classificationsHidden
+            && !(
+                !engineEnabled
+                && currentStateTreeNode.state.classification == undefined
+            )
             && <ClassifiedMoveCard/>
         }
 

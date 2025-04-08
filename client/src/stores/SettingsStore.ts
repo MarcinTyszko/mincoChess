@@ -10,6 +10,7 @@ interface Settings {
         engine: EngineVersion;
         engineDepth: number;
         engineLines: number;
+        hideClassifications: boolean;
         suggestionArrows: boolean;
         includedClassifications: {
             brilliant: boolean;
@@ -30,6 +31,7 @@ const defaultSettings: Settings = {
         engine: EngineVersion.STOCKFISH_16_1_LITE,
         engineDepth: 18,
         engineLines: 3,
+        hideClassifications: false,
         suggestionArrows: false,
         includedClassifications: {
             brilliant: true,

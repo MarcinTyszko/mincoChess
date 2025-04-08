@@ -10,6 +10,7 @@ import {
     classificationColours,
     classificationImages
 } from "@constants/classifications";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@stores/analysis/AnalysisBoardStore";
 
 import * as styles from "./AnalysisBoard.module.css";
@@ -17,6 +18,10 @@ import * as styles from "./AnalysisBoard.module.css";
 function useSquareRenderer() {
     return forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
+            const classificationsHidden = useSettingsStore(
+                state => state.settings.analysis.hideClassifications
+            );
+
             const { currentStateTreeNode } = useAnalysisBoardStore();
     
             const {
@@ -41,8 +46,9 @@ function useSquareRenderer() {
 
             const classification = currentStateTreeNode.state.classification;
 
-            const classificationColour = classification != undefined
-                ? classificationColours[classification] : "#ffff33";
+            const classificationColour = (
+                classification != undefined && !classificationsHidden
+            ) ? classificationColours[classification] : "#ffff33";
         
             return <div
                 style={{ ...style, position: "relative" }}
@@ -103,7 +109,9 @@ function useSquareRenderer() {
 
                 {/* Classification icon */}
                 {
-                    classification != undefined && square == playedMove?.to
+                    classification != undefined
+                    && square == playedMove?.to
+                    && !classificationsHidden
                     && <img
                         src={classificationImages[classification]}
                         style={{
