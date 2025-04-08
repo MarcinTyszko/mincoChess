@@ -32,7 +32,7 @@ async function gameReport(stateTree: StateTreeNode) {
 
         boardStates.push({
             fen: node.state.fen,
-            move: {
+            move: node.state.move || {
                 san: "e4",
                 uci: "e2e4"
             },

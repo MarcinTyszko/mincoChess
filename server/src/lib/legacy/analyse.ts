@@ -293,9 +293,14 @@ async function analyse(positions: EvaluatedPosition[]): Promise<Report> {
     }
 
     // Apply book moves for cloud evaluations and named positions
-    let positiveClassifs = Object.keys(classificationValues)
-        .slice(4, 8)
-        .map(key => parseInt(key));
+    let positiveClassifs = [
+        Classification.BEST,
+        Classification.EXCELLENT,
+        Classification.ONLY,
+        Classification.BRILLIANT,
+        Classification.FORCED
+    ];
+
     for (let position of positions.slice(1)) {
         if (
             (position.worker == "cloud" && positiveClassifs.includes(position.classification!))
