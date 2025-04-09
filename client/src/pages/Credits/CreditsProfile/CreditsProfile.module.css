@@ -1,0 +1,37 @@
+.image {
+    width: 80px;
+
+    border-radius: 20px;
+}
+
+.profile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profileInfo > * {
+    flex-grow: 1;
+}
+
+.connections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.connectionIcon {
+    transition-duration: 0.3s;
+}
+
+.connectionIcon:hover {
+    filter: brightness(0.8);
+}

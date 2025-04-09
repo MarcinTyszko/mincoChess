@@ -17,6 +17,7 @@ const HelpCenter = lazy(() => import("@pages/HelpCenter"));
 const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy"));
 
 const Unfound = lazy(() => import("@pages/Unfound"));
+const Credits = lazy(() => import("@pages/Credits"));
 
 const Login = lazy(() => import("@pages/admin/Login"));
 const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
@@ -45,6 +46,7 @@ root.render(<BrowserRouter>
                     <Route path="/news" element={<NewsArticleList/>} />
                     <Route path="/news/:articleId" element={<NewsArticle/>} />
                     <Route path="/settings" element={<Settings/>} />
+                    <Route path="/credits" element={<Credits/>} />
 
                     <Route path="/help" element={<HelpCenter/>} />
 

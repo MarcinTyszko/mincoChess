@@ -10,6 +10,7 @@ import {
     getTopEngineLine,
     addChildMove
 } from "wintrchess";
+import AnalysisTab from "@constants/AnalysisTab";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@stores/analysis/AnalysisGameStore";
@@ -22,7 +23,6 @@ import useSquareRenderer from "./SquareRenderer";
 import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
-import AnalysisTab from "@constants/AnalysisTab";
 
 function AnalysisBoard({
     topProfile,

@@ -141,6 +141,11 @@
                 "part4": "You can enter any game using its PGN. If you would like, you can also select a game from your Chess.com or Lichess account if you provide your username. You will need to click the \"Search Games\" button to browse the games on your account, and can select any of them just by clicking them. Lastly, you can enter a single FEN position. In any case, you will be able to add moves manually after you import a game, which will all be evaluated and classified on the fly.",
                 "part5": "After you've selected a game, just click the \"Analyse\" button to begin the analysis. You can also just move a piece on the board if you'd like to begin from the starting position."
             }
+        },
+        "credits": {
+            "leadDeveloper": "Lead Developer",
+            "developer": "Developer",
+            "artist": "Digital Artist"
         }
     },
     "gameListing": {
