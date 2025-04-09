@@ -29,8 +29,6 @@ class Engine {
 
         this.worker.postMessage("uci");
         this.setPosition(this.position);
-
-        this.onMessage(console.log);
     }
 
     private consumeLogs(

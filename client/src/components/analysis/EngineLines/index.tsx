@@ -51,7 +51,8 @@ function EngineLines({ style }: EngineLinesProps) {
         ) || []
     ), [
         currentStateTreeNode,
-        realtimeEngineLines
+        realtimeEngineLines,
+        settings.analysis.engineLines
     ]);
 
     // When engine version changed or engine is toggled,
@@ -159,7 +160,10 @@ function EngineLines({ style }: EngineLinesProps) {
             new Chess(currentStateTreeNode.state.fen).moves().length,
             settings.analysis.engineLines
         )
-    ), [currentStateTreeNode]);
+    ), [
+        currentStateTreeNode,
+        settings.analysis.engineLines
+    ]);
 
     return <div
         className={styles.wrapper}

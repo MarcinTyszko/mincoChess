@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { produce } from "immer";
 import { merge } from "lodash";
 
 import { EngineVersion } from "wintrchess";
@@ -70,7 +71,7 @@ const useSettingsStore = create<SettingsStore>((set, get) => ({
     settings: fetchSettings(),
 
     setSettings(updater) {
-        const newSettings = updater(get().settings);
+        const newSettings = produce(get().settings, updater);
 
         set({ settings: newSettings });
 
