@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 import { Game, getColourPlayed } from "wintrchess";
-import GameSource from "@constants/GameSource";
+import { GameSourceData } from "@constants/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/errors";
@@ -18,15 +18,15 @@ import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
 
 async function fetchGames(
-    gameSource: GameSource,
+    gameSource: GameSourceData,
     username: string,
     month: number,
     year: number
 ) {
     switch (gameSource.key) {
-        case "chessCom":
+        case "CHESS_COM":
             return await getChessComGames(username, month, year);
-        case "lichess":
+        case "LICHESS":
             return await getLichessGames(username, month, year);
         default:
             return [];

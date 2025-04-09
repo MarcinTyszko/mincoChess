@@ -3,13 +3,13 @@ export enum GameSelectorButton {
     UPLOAD_FILE
 }
 
-type GameSourceType = "PGN"
+export type GameSourceType = "PGN"
     | "FEN"
     | "CHESS_COM"
     | "LICHESS";
 
 export interface GameSourceData {
-    key: string;
+    key: GameSourceType;
     title: string;
     expandField: boolean;
     selectorButton?: GameSelectorButton;
@@ -17,24 +17,24 @@ export interface GameSourceData {
 
 export const GameSource: Record<GameSourceType, GameSourceData> = {
     PGN: {
-        key: "pgn",
+        key: "PGN",
         title: "PGN",
         expandField: true,
         selectorButton: GameSelectorButton.UPLOAD_FILE
     },
     FEN: {
-        key: "fen",
+        key: "FEN",
         title: "FEN",
         expandField: false
     },
     CHESS_COM: {
-        key: "chessCom",
+        key: "CHESS_COM",
         title: "Chess.com",
         expandField: false,
         selectorButton: GameSelectorButton.SEARCH_GAMES
     },
     LICHESS: {
-        key: "lichess",
+        key: "LICHESS",
         title: "Lichess",
         expandField: false,
         selectorButton: GameSelectorButton.SEARCH_GAMES

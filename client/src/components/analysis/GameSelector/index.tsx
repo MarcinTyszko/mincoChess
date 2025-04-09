@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Game } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
 import useLocalStorage from "@hooks/useLocalStorage";
-import { GameSelectorButton, GameSource } from "@constants/GameSource";
+import { GameSelectorButton, GameSource, GameSourceType } from "@constants/GameSource";
 import Button from "@components/common/Button";
 import GameSearchMenu from "../GameSearchMenu";
 import parsePgn from "@lib/games/pgn";
@@ -12,6 +12,13 @@ import parseFenString from "@lib/games/fen";
 
 import GameSelectorProps from "./GameSelectorProps";
 import * as styles from "./GameSelector.module.css";
+
+const sourcePlaceholderKeys: Record<GameSourceType, string> = {
+    PGN: "pgn",
+    FEN: "fen",
+    CHESS_COM: "chessCom",
+    LICHESS: "lichess"
+};
 
 function GameSelector({
     style,
@@ -155,9 +162,10 @@ function GameSelector({
 
         <textarea
             className={styles.selectorField}
-            placeholder={
-                t(`pages.analysis.gameSelector.sourcePlaceholders.${gameSource.key}`)
-            }
+            placeholder={t(
+                "pages.analysis.gameSelector.sourcePlaceholders."
+                + sourcePlaceholderKeys[gameSource.key]
+            )}
             style={{
                 height: gameSource.expandField ? "170px" : "70px",
                 borderRadius: gameSource.selectorButton != undefined

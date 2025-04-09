@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
@@ -63,13 +63,13 @@ function cutUsername(profile: PlayerProfile) {
 }
 
 function GameListing({
-    game, 
+    game,
     perspective,
     onClick
 }: GameListingProps) {
     const { t } = useTranslation();
 
-    function getDisplayResult() {
+    const displayResult = useMemo(() => {
         if (!game.players.white.result) return;
 
         return perspective
@@ -78,13 +78,7 @@ function GameListing({
                 perspective
             )
             : game.players.white.result;
-    }
-
-    const [ displayResult, setDisplayResult ] = useState(getDisplayResult());
-
-    useEffect(() => {
-        setDisplayResult(getDisplayResult());
-    });
+    }, [game, perspective]);
 
     return <div
         className={
@@ -94,7 +88,7 @@ function GameListing({
     >
         {
             game.timeControl
-            && <div style={{width: "30px"}}>
+            && <div style={{ width: "30px" }}>
                 <img
                     className={styles.timeControlIcon}
                     src={timeControlIcons[game.timeControl]}
@@ -103,25 +97,24 @@ function GameListing({
             </div>
         }
 
-        <div style={{width: "250px"}}>
-            {
-                Object.values(game.players)
-                    .map(player => <div className={styles.playerProfile}>
-                        {
-                            player.title
-                            && <span className={styles.playerTitle}>
-                                {player.title}
-                            </span>
-                        }
-        
-                        <span>
-                            {cutUsername(player)}
+        <div style={{ width: "250px" }}>
+            {Object.values(game.players)
+                .map(player => <div className={styles.playerProfile}>
+                    {
+                        player.title
+                        && <span className={styles.playerTitle}>
+                            {player.title}
                         </span>
-        
-                        <span style={{color: "grey"}}>
-                            ({player.rating || "?"})
-                        </span>
-                    </div>)
+                    }
+    
+                    <span>
+                        {cutUsername(player)}
+                    </span>
+    
+                    <span style={{color: "grey"}}>
+                        ({player.rating || "?"})
+                    </span>
+                </div>)
             }
         </div>
 
@@ -141,7 +134,7 @@ function GameListing({
 
         {
             displayResult
-            && <div style={{width: "20px"}}>
+            && <div style={{ width: "20px" }}>
                 <img
                     src={
                         perspective
@@ -153,7 +146,7 @@ function GameListing({
                         + (perspective ? "opinionated." : "unopinionated.")
                         + gameResultTooltipCodes[displayResult]
                     )}
-                    style={{width: "100%"}}
+                    style={{ width: "100%" }}
                 />
             </div>
         }
