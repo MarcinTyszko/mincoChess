@@ -85,7 +85,7 @@ async function analyse(positions: EvaluatedPosition[]): Promise<Report> {
         evalLoss = Math.min(evalLoss, cutoffEvalLoss, lastLineEvalLoss);
 
         // If this move was the only legal one, apply forced
-        if (!secondTopMove) {
+        if (new Chess(lastPosition.fen).moves().length <= 1) {
             position.classification = Classification.FORCED;
             continue;
         }
@@ -155,7 +155,11 @@ async function analyse(positions: EvaluatedPosition[]): Promise<Report> {
             // Must be winning for the side that played the brilliancy
             let winningAnyways = (
                 absoluteSecondEvaluation >= 700 && topMove.evaluation.type == "cp"
-                || (topMove.evaluation.type == "mate" && secondTopMove.evaluation.type == "mate")
+                || (
+                    secondTopMove
+                    && topMove.evaluation.type == "mate"
+                    && secondTopMove.evaluation.type == "mate"
+                )
             );
 
             if (absoluteEvaluation >= 0 && !winningAnyways && !position.move.san.includes("=")) {
@@ -260,6 +264,7 @@ async function analyse(positions: EvaluatedPosition[]): Promise<Report> {
                     noMate
                     && position.classification != Classification.BRILLIANT
                     && lastPosition.classification == Classification.BLUNDER
+                    && secondTopMove
                     && Math.abs(topMove.evaluation.value - secondTopMove.evaluation.value) >= 150
                     && !isPieceHanging(lastPosition.fen, position.fen, position.move.uci.slice(2, 4) as Square)
                 ) {
