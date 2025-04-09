@@ -21,7 +21,7 @@ function HelpCenter() {
 
         <div className={styles.section}>
             <Header
-                image={require("@assets/img/mail.png")}
+                image={require("@assets/img/helpCenter/mail.png")}
                 size="1.3rem"
             >
                 {t("pages.helpCenter.contact.title")}
@@ -54,7 +54,7 @@ function HelpCenter() {
 
         <div className={styles.section}>
             <Header
-                image={require("@assets/img/analysis.png")}
+                image={require("@assets/img/helpCenter/analysis.png")}
                 size="1.3rem"
             >
                 {t("pages.helpCenter.analysis.title")}
