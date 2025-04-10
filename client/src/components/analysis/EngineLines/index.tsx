@@ -100,7 +100,10 @@ function EngineLines({ style }: EngineLinesProps) {
         );
         
         if (cacheLines) {
-            considerRealtimeClassify();
+            if (currentStateTreeNode.state.classification == undefined) {
+                considerRealtimeClassify();
+            }
+            
             return;
         }
 
@@ -136,7 +139,7 @@ function EngineLines({ style }: EngineLinesProps) {
                 }
             );
 
-            // If depth fully reached, and node does not already have a classification
+            // If depth fully reached
             // If game is in terminal position, don't consider depth 0
             if (
                 (

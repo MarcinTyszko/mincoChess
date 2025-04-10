@@ -65,13 +65,8 @@ function useRealtimeClassifier() {
     }
 
     async function considerRealtimeClassify() {
-        // Do not classify a move that already has a classification
-        if (
-            currentStateTreeNode.state.classification != undefined
-            || !currentStateTreeNode.parent
-        ) {
-            return;
-        }
+        // Do not classify a root node
+        if (!currentStateTreeNode.parent) return;
 
         // If there is not enough data for a centipawn comparison
         const parentState = currentStateTreeNode.parent.state;
@@ -82,7 +77,9 @@ function useRealtimeClassifier() {
             || parentTopLineDepth < settings.analysis.engineDepth
         ) {
             return cancelClassify(
-                t("pages.analysis.classifiedMoveCard.insufficientLines")
+                currentStateTreeNode.state.classification == undefined
+                    ? t("pages.analysis.classifiedMoveCard.insufficientLines")
+                    : undefined
             );
         }
 
@@ -112,8 +109,6 @@ function useRealtimeClassifier() {
             return cancelClassify(
                 t("pages.analysis.classifiedMoveCard.unknownError")
             );
-
-            return;
         }
 
         // Apply classification and deactivate classifier
