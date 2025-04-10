@@ -21,7 +21,8 @@ const winnerColourCodes: Record<string, PieceColour | undefined> = {
 const timeControlCodes: Record<string, TimeControl | undefined> = {
     ultraBullet: TimeControl.BULLET,
     bullet: TimeControl.BULLET,
-    blitz: TimeControl.RAPID,
+    blitz: TimeControl.BLITZ,
+    rapid: TimeControl.RAPID,
     classical: TimeControl.CLASSICAL,
     correspondence: TimeControl.CORRESPONDENCE
 };
