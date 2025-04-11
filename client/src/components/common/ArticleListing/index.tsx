@@ -35,33 +35,39 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
         className={styles.wrapper}
         onClick={() => navigate(`/news/${article.id}`)}
     >
-        <div className={styles.imageBackground}>
+        <div className={styles.thumbnailContainer}>
             {article.thumbnail
-                ? <img src={article.thumbnail} className={styles.thumbnail} />
-                : <div className={styles.noImage}>
-                    <img src={require("@assets/img/logo.png")} />
-                </div>
+                ? <img
+                    className={styles.thumbnail}
+                    src={article.thumbnail}
+                />
+                : <img
+                    src={require("@assets/img/logo.png")}
+                    style={{
+                        width: "25%",
+                        filter: "brightness(0.3)"
+                    }}
+                />
             }
         </div>
 
-        <span className={styles.articleName}>{article.title}</span>
+        <span className={styles.articleTitle}>
+            {article.title}
+        </span>
 
         <span className={styles.date}>
             {formatDate(new Date(article.timestamp))}
         </span>
 
-        <div className={styles.metadata}>
-            <span
-                className={styles.category}
-                style={{
-                    backgroundColor: article.tag.colour && `${article.tag.colour}4c`,
-                    borderColor: `${article.tag.colour}ab`
-                }}
-            >
-                {article.tag.name}
-            </span>
-
-        </div>
+        <span
+            className={styles.tag}
+            style={{
+                backgroundColor: article.tag.colour && `${article.tag.colour}4c`,
+                borderColor: `${article.tag.colour}ab`
+            }}
+        >
+            {article.tag.name}
+        </span>
 
         {
             editable
