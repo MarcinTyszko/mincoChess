@@ -35,6 +35,19 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
         className={styles.wrapper}
         onClick={() => navigate(`/news/${article.id}`)}
     >
+        {article.thumbnail
+            ? <img src={article.thumbnail} />
+            : <div className={styles.noImage}>
+                <img src={require("@assets/img/logo.png")} />
+            </div>
+        }
+
+        {article.title}
+
+        <span className={styles.date}>
+            {formatDate(new Date(article.timestamp))}
+        </span>
+
         <div className={styles.metadata}>
             <span
                 className={styles.category}
@@ -46,12 +59,7 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
                 {article.tag.name}
             </span>
 
-            <span className={styles.date}>
-                {formatDate(new Date(article.timestamp))}
-            </span>
         </div>
-
-        {article.title}
 
         {
             editable

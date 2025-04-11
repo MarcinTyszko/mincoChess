@@ -1,6 +1,7 @@
 interface NewsArticle {
     id: string;
     title: string;
+    thumbnail?: any;
     tag: {
         name: string;
         colour: string;
