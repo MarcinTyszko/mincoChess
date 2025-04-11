@@ -32,15 +32,8 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-@media (max-width: 800px) {
-    .articles {
-        width: 100%;
-    }
 }
 
 .pageButtons {
