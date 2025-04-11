@@ -23,7 +23,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
     >
         <div className={styles.settingsTitle}>
             <img
-                src={require("@assets/img/processor.svg")}
+                src={require("@assets/img/engine.png")}
                 height={30}
             />
 
