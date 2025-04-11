@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
 import { formatDate } from "wintrchess";
+import ErrorMessage from "@components/common/ErrorMessage";
 import { getNewsArticle } from "@lib/newsArticles";
 import Unfound from "@pages/Unfound";
 
@@ -39,9 +40,9 @@ function Article() {
 
         {
             status == "error"
-            && <span className={styles.error}>
+            && <ErrorMessage>
                 {t("pages.news.article.error")}
-            </span>
+            </ErrorMessage>
         }
 
         {

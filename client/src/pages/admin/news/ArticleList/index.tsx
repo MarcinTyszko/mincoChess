@@ -3,11 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash";
 
+import useProtectedRoute from "@hooks/useProtectedRoute";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ArticleListing from "@components/common/ArticleListing";
+import ErrorMessage from "@components/common/ErrorMessage";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
-import useProtectedRoute from "@hooks/useProtectedRoute";
 
 import * as styles from "./ArticleList.module.css";
 
@@ -77,7 +78,9 @@ function ArticleList() {
 
             {
                 status == "error"
-                && error.message
+                && <ErrorMessage>
+                    {error.message}
+                </ErrorMessage>
             }
         </div>
 

@@ -8,6 +8,7 @@ import ArticleListing from "@components/common/ArticleListing";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
+import ErrorMessage from "@components/common/ErrorMessage";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
@@ -84,7 +85,7 @@ function News() {
             </div>
 
             <div className={styles.titleDescription}>
-                Get the latest updates on the WintrChess platform
+                {t("pages.news.titleDescription")}
             </div>
         </div>  
 
@@ -98,9 +99,9 @@ function News() {
 
             {
                 status == "error"
-                && <span className={styles.error}>
+                && <ErrorMessage>
                     {t("pages.news.error")}
-                </span>
+                </ErrorMessage>
             }
         </div>
 
