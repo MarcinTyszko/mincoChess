@@ -5,11 +5,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash";
 
 import ArticleListing from "@components/common/ArticleListing";
+import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
-import * as styles from "./News.module.css";
+import * as styles from "./ArticleList.module.css";
 
 function News() {
     const { t } = useTranslation();
@@ -55,12 +56,36 @@ function News() {
     }, [pageRef.current]);
 
     return <div className={styles.wrapper}>
-        <div className={styles.title}>
-            <img src={require("@assets/img/news.png")} height="50"/>
+        <div className={styles.titleSection}>
+            <div className={styles.title}>
+                <BlurredNoiseBackground
+                    width={400}
+                    height={67}
+                    density={10}
+                    colours={[
+                        "var(--ui-blue)",
+                        "var(--ui-lavender)"
+                    ]}
+                />
 
-            <span>
-                {t("pages.news.title")}
-            </span>
+                <img
+                    src={require("@assets/img/news.png")}
+                    height={45}
+                    style={{ zIndex: 1 }}
+                />
+
+                <span style={{
+                    fontSize: "2rem",
+                    zIndex: 1,
+                    overflowWrap: "anywhere"
+                }}>
+                    {t("pages.news.title")}
+                </span>
+            </div>
+
+            <div className={styles.titleDescription}>
+                Get the latest updates on the WintrChess platform
+            </div>
         </div>  
 
         <div className={styles.articles}>

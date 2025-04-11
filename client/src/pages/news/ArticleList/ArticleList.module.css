@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
     text-align: center;
     box-sizing: border-box;
     width: 100%;
@@ -18,14 +17,39 @@
     }
 }
 
-.title {
+.titleSection {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    width: min(100%, 420px);
+
+    border: 1px solid var(--ui-shade-4);
+    border-radius: 10px;
 }
 
-.title span {
-    font-size: 2rem;
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+
+    border-radius: 10px 10px 0 0;
+    background-color: var(--ui-shade-2);
+
+    overflow: hidden;
+}
+
+.titleDescription {
+    padding: 5px;
+    box-sizing: border-box;
+    width: 100%;
+
+    border-top: 1px solid var(--ui-shade-4);
+    border-radius: 0 0 10px 10px;
+    background-color: var(--ui-shade-3);
 }
 
 .articles {
