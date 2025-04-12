@@ -4,12 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
 import { NewsArticle } from "wintrchess";
+import useProtectedRoute from "@hooks/useProtectedRoute";
 import Button from "@components/common/Button";
 import ColourSwatch from "@components/common/ColourSwatch";
 import ButtonColour from "@constants/ButtonColour";
 import TextField from "@components/common/TextField";
+import { getDataURL, FileUploader } from "@components/common/FileUploader";
 import ConfirmDialog from "@components/common/ConfirmDialog";
-import useProtectedRoute from "@hooks/useProtectedRoute";
 
 import * as styles from "./ArticleEditor.module.css";
 
@@ -23,9 +24,13 @@ function ArticleEditor() {
 
     // Article details
     const [ articleTitle, setArticleTitle ] = useState("");
+
+    const [ thumbnailFile, setThumbnailFile ] = useState<File | undefined>();
+
     const [ tagName, setTagName ] = useState("");
     const [ tagColourPickerOpen, setTagColourPickerOpen ] = useState(false);
     const [ tagColour, setTagColour ] = useState("#000000");
+
     const [ articleContent, setArticleContent ] = useState("");
 
     // Edit or preview mode setting
@@ -59,6 +64,7 @@ function ArticleEditor() {
     async function publishArticle() {
         const article: NewsArticle = {
             id: queryParams.get("id") || undefined,
+            thumbnail: thumbnailFile && await getDataURL(thumbnailFile),
             title: articleTitle,
             tag: {
                 name: tagName,
@@ -106,6 +112,28 @@ function ArticleEditor() {
                     setOpen={setTagColourPickerOpen}
                 />
             </div>
+
+            <FileUploader
+                extensions={[".png"]}
+                onFilesUpload={files => {
+                    const file = files.item(0);
+                    if (!file) return;
+
+                    setThumbnailFile(file);
+                }}
+            >
+                <div className={styles.thumbnailUploader}>
+                    <Button style={{
+                        backgroundColor: "var(--ui-shade-4)"
+                    }}>
+                        Upload Thumbnail
+                    </Button>
+
+                    <span style={{ overflowWrap: "anywhere" }}>
+                        {thumbnailFile?.name}
+                    </span>
+                </div>
+            </FileUploader>
         </div>
 
         <div className={styles.formatSelector}>

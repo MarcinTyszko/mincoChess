@@ -27,6 +27,13 @@
     position: relative;
 }
 
+.thumbnailUploader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .formatSelector {
     display: flex;
     gap: 10px;

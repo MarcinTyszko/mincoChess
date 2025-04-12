@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Game } from "wintrchess";
-import LocalStorageKey from "@constants/LocalStorageKey";
 import useLocalStorage from "@hooks/useLocalStorage";
+import LocalStorageKey from "@constants/LocalStorageKey";
 import { GameSelectorButton, GameSource, GameSourceType } from "@constants/GameSource";
 import Button from "@components/common/Button";
+import FileUploader from "@components/common/FileUploader";
 import GameSearchMenu from "../GameSearchMenu";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
@@ -44,8 +45,6 @@ function GameSelector({
     const [ selectedServiceGame, setSelectedServiceGame ] = useState<Game>();
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
-
-    const pgnFileUploadRef = useRef<HTMLInputElement>(null);
 
     // When selected game changes
     useEffect(() => {
@@ -189,31 +188,23 @@ function GameSelector({
 
         {
             gameSource.selectorButton == GameSelectorButton.UPLOAD_FILE
-            && <>
+            && <FileUploader
+                extensions={[".pgn"]}
+                onFilesUpload={async files => {
+                    const pgn = await files.item(0)?.text();
+                    if (!pgn) return;
+
+                    setFieldInput(pgn);
+                }}
+            >
                 <Button
                     className={styles.selectorButton}
                     icon={require("@assets/img/upload.svg")}
                     iconSize="25px"
-                    onClick={() => pgnFileUploadRef.current?.click()}
                 >
                     {t("pages.analysis.gameSelector.uploadPGNButton")}
                 </Button>
-
-                <input
-                    ref={pgnFileUploadRef}
-                    type="file"
-                    accept=".pgn"
-                    style={{ display: "none" }}
-                    onChange={async () => {
-                        if (!pgnFileUploadRef.current) return;
-
-                        const file = pgnFileUploadRef.current.files?.[0];
-                        if (!file) return;
-
-                        setFieldInput(await file.text());
-                    }}
-                />
-            </>
+            </FileUploader>
         }
         
         {
