@@ -1,10 +1,8 @@
-import React from "react";
-
 interface ColourSwatchProps {
     colour?: string;
-    setColour?: React.Dispatch<React.SetStateAction<string>>;
+    onColourChange?: (colour: string) => void;
     open?: boolean;
-    setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    onToggle?: (open: boolean) => void;
 }
 
 export default ColourSwatchProps;

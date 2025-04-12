@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
+import { produce } from "immer";
 
 import { NewsArticle } from "wintrchess";
 import useProtectedRoute from "@hooks/useProtectedRoute";
@@ -23,15 +24,18 @@ function ArticleEditor() {
     const [ queryParams ] = useSearchParams();
 
     // Article details
-    const [ articleTitle, setArticleTitle ] = useState("");
+    const [ article, setArticle ] = useState<NewsArticle>({
+        title: "",
+        content: "",
+        timestamp: Date.now(),
+        tag: {
+            name: "Article",
+            colour: "var(--ui-shade-5)"
+        }
+    });
 
-    const [ thumbnailFile, setThumbnailFile ] = useState<File | undefined>();
-
-    const [ tagName, setTagName ] = useState("");
     const [ tagColourPickerOpen, setTagColourPickerOpen ] = useState(false);
-    const [ tagColour, setTagColour ] = useState("#000000");
-
-    const [ articleContent, setArticleContent ] = useState("");
+    const [ thumbnailFile, setThumbnailFile ] = useState<File | undefined>();
 
     // Edit or preview mode setting
     const [ articleFormat, setArticleFormat ] = useState<ArticleFormat>("edit");
@@ -52,28 +56,12 @@ function ArticleEditor() {
             const article: NewsArticle = await articleResponse.json();
             if (!article) return;
 
-            // Update interface with article details
-            setArticleTitle(article.title);
-            setTagName(article.tag.name);
-            setTagColour(article.tag.colour);
-            setArticleContent(article.content);
+            setArticle(article);
         },
         refetchOnWindowFocus: false
     });
 
     async function publishArticle() {
-        const article: NewsArticle = {
-            id: queryParams.get("id") || undefined,
-            thumbnail: thumbnailFile && await getDataURL(thumbnailFile),
-            title: articleTitle,
-            tag: {
-                name: tagName,
-                colour: tagColour
-            },
-            timestamp: Date.now(),
-            content: articleContent
-        };
-
         await fetch("/internal/news/publish", {
             method: "POST",
             headers: {
@@ -89,51 +77,88 @@ function ArticleEditor() {
         className={styles.wrapper}
         onClick={() => setTagColourPickerOpen(false)}
     >
+        {
+            article?.thumbnail
+            && <div className={styles.thumbnailPreview}>
+                <img
+                    className={styles.thumbnail}
+                    src={article.thumbnail}
+                />
+            </div>
+        }
+
         <div className={styles.metadata}>
             <TextField
                 placeholder="Article title..."
-                value={articleTitle}
-                onChange={setArticleTitle}
+                value={article?.title}
+                onChange={title => {
+                    setArticle(produce(article, draft => {
+                        draft.title = title;
+                        return draft;
+                    }));
+                }}
                 style={{ height: "45px" }}
             />
 
             <div className={styles.tagMetadata}>
                 <TextField
                     placeholder="Tag name..."
-                    value={tagName}
-                    onChange={setTagName}
+                    value={article.tag.name}
+                    onChange={tagName => {
+                        setArticle(produce(article, draft => {
+                            draft.tag.name = tagName;
+                            return draft;
+                        }));
+                    }}
                     style={{ height: "45px" }}
                 />
 
                 <ColourSwatch
-                    colour={tagColour}
-                    setColour={setTagColour}
+                    colour={article.tag.colour}
+                    onColourChange={tagColour => {
+                        setArticle(produce(article, draft => {
+                            draft.tag.colour = tagColour;
+                            return draft;
+                        }));
+                    }}
                     open={tagColourPickerOpen}
-                    setOpen={setTagColourPickerOpen}
+                    onToggle={setTagColourPickerOpen}
                 />
             </div>
 
-            <FileUploader
-                extensions={[".png"]}
-                onFilesUpload={files => {
-                    const file = files.item(0);
-                    if (!file) return;
+            <div className={styles.thumbnailUploader}>
+                <FileUploader
+                    extensions={[".png"]}
+                    onFilesUpload={async files => {
+                        const file = files.item(0);
+                        if (!file) return;
 
-                    setThumbnailFile(file);
-                }}
-            >
-                <div className={styles.thumbnailUploader}>
+                        setThumbnailFile(file);
+
+                        const thumbnailURL = await getDataURL(file);
+                        if (!thumbnailURL) return;
+
+                        setArticle(produce(article, draft => {
+                            draft.thumbnail = thumbnailURL;
+                            return draft;
+                        }));
+                    }}
+                >
                     <Button style={{
                         backgroundColor: "var(--ui-shade-4)"
                     }}>
                         Upload Thumbnail
                     </Button>
+                </FileUploader>
 
-                    <span style={{ overflowWrap: "anywhere" }}>
-                        {thumbnailFile?.name}
-                    </span>
-                </div>
-            </FileUploader>
+                <span style={{ overflowWrap: "anywhere" }}>
+                    {thumbnailFile?.name}
+                </span>
+            </div>
+
+            <i style={{ color: "gray" }}>
+                File limit: 10 MB
+            </i>
         </div>
 
         <div className={styles.formatSelector}>
@@ -163,8 +188,13 @@ function ArticleEditor() {
                 articleFormat == "edit"
                 && <textarea
                     className={styles.editorContent}
-                    onChange={event => setArticleContent(event.target.value)}
-                    value={articleContent}
+                    onChange={event => {
+                        setArticle(produce(article, draft => {
+                            draft.content = event.target.value;
+                            return draft;
+                        }));
+                    }}
+                    value={article.content}
                     placeholder="Markdown..."
                 ></textarea>
             }
@@ -172,7 +202,7 @@ function ArticleEditor() {
             {
                 articleFormat == "preview"
                 && <ReactMarkdown className={styles.editorContent}>
-                    {articleContent}
+                    {article.content}
                 </ReactMarkdown>
             }
         </div>

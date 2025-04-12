@@ -4,7 +4,12 @@ import { HexColorPicker } from "react-colorful";
 import ColourSwatchProps from "./ColourSwatchProps";
 import * as styles from "./ColourSwatch.module.css";
 
-function ColourSwatch({ colour, setColour, open, setOpen }: ColourSwatchProps) {
+function ColourSwatch({
+    colour,
+    onColourChange,
+    open,
+    onToggle
+}: ColourSwatchProps) {
     return <div className={styles.wrapper}>
         <div
             className={styles.swatch}
@@ -12,7 +17,7 @@ function ColourSwatch({ colour, setColour, open, setOpen }: ColourSwatchProps) {
                 backgroundColor: colour || "white"
             }}
             onClick={event => {
-                setOpen?.(!open);
+                onToggle?.(!open);
                 event.stopPropagation();
             }}
         ></div>
@@ -27,7 +32,7 @@ function ColourSwatch({ colour, setColour, open, setOpen }: ColourSwatchProps) {
                     zIndex: 1
                 }}
                 color={colour}
-                onChange={setColour}
+                onChange={onColourChange}
                 onClick={event => event.stopPropagation()}
             />
         }
