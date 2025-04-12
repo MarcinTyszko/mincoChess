@@ -19,12 +19,12 @@ const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy"));
 const Unfound = lazy(() => import("@pages/Unfound"));
 const Credits = lazy(() => import("@pages/Credits"));
 
-const Login = lazy(() => import("@pages/admin/Login"));
-const Dashboard = lazy(() => import("@pages/admin/Dashboard"));
-const Analytics = lazy(() => import("@pages/admin/Analytics"));
-const ArticleList = lazy(() => import("@pages/admin/news/ArticleList"));
-const ArticleEditor = lazy(() => import("@pages/admin/news/ArticleEditor"));
-const AnnouncementEditor = lazy(() => import("@pages/admin/AnnouncementEditor"));
+const Login = lazy(() => import("@pages/internal/Login"));
+const Dashboard = lazy(() => import("@pages/internal/Dashboard"));
+const Analytics = lazy(() => import("@pages/internal/Analytics"));
+const ArticleList = lazy(() => import("@pages/internal/news/ArticleList"));
+const ArticleEditor = lazy(() => import("@pages/internal/news/ArticleEditor"));
+const AnnouncementEditor = lazy(() => import("@pages/internal/AnnouncementEditor"));
 
 import "./i18n";
 import "./index.css";

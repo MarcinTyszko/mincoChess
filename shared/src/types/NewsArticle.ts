@@ -1,5 +1,5 @@
 interface NewsArticle {
-    id: string;
+    id?: string;
     title: string;
     thumbnail?: any;
     tag: {

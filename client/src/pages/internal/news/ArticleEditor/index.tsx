@@ -57,21 +57,23 @@ function ArticleEditor() {
     });
 
     async function publishArticle() {
+        const article: NewsArticle = {
+            id: queryParams.get("id") || undefined,
+            title: articleTitle,
+            tag: {
+                name: tagName,
+                colour: tagColour
+            },
+            timestamp: Date.now(),
+            content: articleContent
+        };
+
         await fetch("/internal/news/publish", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                id: queryParams.get("id") || undefined,
-                title: articleTitle,
-                tag: {
-                    name: tagName,
-                    colour: tagColour
-                },
-                timestamp: Date.now(),
-                content: articleContent
-            })
+            body: JSON.stringify(article)
         });
 
         navigate("/internal/dashboard/news");
@@ -85,7 +87,7 @@ function ArticleEditor() {
             <TextField
                 placeholder="Article title..."
                 value={articleTitle}
-                onChange={value => setArticleTitle(value)}
+                onChange={setArticleTitle}
                 style={{ height: "45px" }}
             />
 
@@ -93,7 +95,7 @@ function ArticleEditor() {
                 <TextField
                     placeholder="Tag name..."
                     value={tagName}
-                    onChange={value => setTagName(value)}
+                    onChange={setTagName}
                     style={{ height: "45px" }}
                 />
 

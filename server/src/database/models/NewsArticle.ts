@@ -5,6 +5,7 @@ import Collection from "@constants/Collection";
 const newsArticleSchema = new Schema({
     id: { type: String, required: true },
     title: { type: String, required: true },
+    thumbnail: { type: String },
     tag: {
         name: { type: String, required: true },
         colour: { type: String, required: true }
