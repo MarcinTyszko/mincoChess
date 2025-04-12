@@ -1,26 +1,27 @@
-import { Router } from "express";
-import { connection as database } from "mongoose";
+import express, { Router } from "express";
 
 import { Announcement } from "wintrchess";
-import Collection from "@constants/Collection";
+import AnnouncementModel from "@database/models/Announcement";
+
+const path = "/internal/announcement/publish";
 
 const router = Router();
 
-router.post("/internal/announcement/publish", async (req, res) => {
+router.use(path, express.json());
+
+router.post(path, async (req, res) => {
     const { colour, content }: Announcement = req.body;
 
-    await database
-        .collection(Collection.ANNOUNCEMENT)
-        .updateOne(
-            {},
-            {
-                $set: {
-                    colour,
-                    content
-                }
-            },
-            { upsert: true }
-        );
+    await AnnouncementModel.updateOne(
+        {},
+        {
+            $set: {
+                colour,
+                content
+            }
+        },
+        { upsert: true }
+    );
 
     res.sendStatus(200);
 });

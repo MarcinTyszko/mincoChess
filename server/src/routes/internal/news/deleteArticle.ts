@@ -1,6 +1,8 @@
-import { Router } from "express";
+import express, { Router } from "express";
 
 import NewsArticle from "@database/models/NewsArticle";
+
+const path = "/internal/news/delete";
 
 const router = Router();
 
@@ -8,7 +10,9 @@ interface DeleteArticleRequest {
     id?: string;
 }
 
-router.post("/internal/news/delete", async (req, res) => {
+router.use(path, express.json());
+
+router.post(path, async (req, res) => {
     const { id }: DeleteArticleRequest = req.body;
 
     if (!id) {

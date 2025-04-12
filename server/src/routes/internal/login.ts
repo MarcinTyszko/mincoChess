@@ -1,9 +1,11 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { Cookie } from "wintrchess";
 import { signInternalJWT } from "@lib/authentication";
 import { verifyCaptchaToken } from "@lib/captcha";
+
+const path = "/internal/login";
 
 const router = Router();
 
@@ -12,7 +14,9 @@ interface LoginRequest {
     captchaToken?: string;
 }
 
-router.post("/internal/login", async (req, res) => {
+router.use(path, express.json());
+
+router.post(path, async (req, res) => {
     const { password, captchaToken }: LoginRequest = req.body;
 
     // If parameters are missing

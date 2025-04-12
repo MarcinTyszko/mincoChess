@@ -11,9 +11,6 @@ import { apiRouter, internalRouter } from "./routes";
 
 const app = express();
 
-app.use(
-    express.json({ limit: "1mb" })
-);
 app.use(cookieParser());
 
 app.use((req, res, next) => {

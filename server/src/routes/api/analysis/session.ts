@@ -1,10 +1,12 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
 
 import { Cookie } from "wintrchess";
 import { verifyCaptchaToken } from "@lib/captcha";
 import AnalysisSession from "@database/models/AnalysisSession";
+
+const path = "/api/analysis/session";
 
 const router = Router();
 
@@ -14,7 +16,9 @@ interface SessionRequest {
 
 const defaultSessionActions = 80;
 
-router.post("/api/analysis/session", async (req, res) => {
+router.use(path, express.json());
+
+router.post(path, async (req, res) => {
     const { token }: SessionRequest = req.body;
 
     // If token missing

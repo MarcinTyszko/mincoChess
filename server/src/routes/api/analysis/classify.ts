@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import {
@@ -8,9 +8,16 @@ import {
 } from "wintrchess";
 import legacyGameReport from "@lib/legacy/gameReporter";
 
+const path = "/api/analysis/classify";
+
 const router = Router();
 
-router.post("/api/analysis/classify", async (req, res) => {
+router.use(
+    path,
+    express.json({ limit: "1mb" })
+);
+
+router.post(path, async (req, res) => {
     // Verify existence of game analysis in request
     let stateTree: StateTreeNode | undefined = req.body;
 

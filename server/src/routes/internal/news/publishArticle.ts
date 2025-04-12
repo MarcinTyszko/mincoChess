@@ -1,8 +1,10 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
 import NewsArticle from "@database/models/NewsArticle";
+
+const path = "/internal/news/publish";
 
 const router = Router();
 
@@ -18,7 +20,12 @@ const requestSchema = z.object({
     content: z.string()
 });
 
-router.post("/internal/news/publish", async (req, res) => {
+router.use(
+    path,
+    express.json({ limit: "10mb" })
+);
+
+router.post(path, async (req, res) => {
     const article: z.infer<typeof requestSchema> = req.body;
 
     if (!requestSchema.safeParse(article).success) {
