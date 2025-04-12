@@ -128,7 +128,7 @@ function ArticleEditor() {
 
             <div className={styles.thumbnailUploader}>
                 <FileUploader
-                    extensions={[".png"]}
+                    extensions={[".png", ".jpg", ".jpeg", ".webp"]}
                     onFilesUpload={async files => {
                         const file = files.item(0);
                         if (!file) return;
@@ -144,9 +144,13 @@ function ArticleEditor() {
                         }));
                     }}
                 >
-                    <Button style={{
-                        backgroundColor: "var(--ui-shade-4)"
-                    }}>
+                    <Button
+                        icon={require("@assets/img/upload.svg")}
+                        iconSize="25px"
+                        style={{
+                            backgroundColor: "var(--ui-shade-4)"
+                        }}
+                    >
                         Upload Thumbnail
                     </Button>
                 </FileUploader>
