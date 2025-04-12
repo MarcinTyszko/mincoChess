@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    padding: 0 200px;
+    padding: 20px 200px;
     box-sizing: border-box;
 
     width: 100%;
@@ -20,6 +20,10 @@
 @media (max-width: 800px) {
     .articles {
         width: 100%;
+    }
+
+    .wrapper {
+        padding: 20px;
     }
 }
 
