@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash";
 
-import ArticleListing from "@components/common/ArticleListing";
-import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
+import Loader from "@components/common/Loader";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ErrorMessage from "@components/common/ErrorMessage";
+import ArticleListing from "@components/common/ArticleListing";
+import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
 import SocialLink from "./SocialLink";
@@ -107,6 +108,11 @@ function News() {
         <hr className={styles.separator} />
 
         <div className={styles.articles}>
+            {
+                status == "pending"
+                && <Loader style={{ margin: "20px 0" }} />
+            }
+
             {
                 status == "success"
                 && newsArticles.map(
