@@ -99,8 +99,21 @@ function News() {
             <div className={styles.socialsContainer}>
                 <SocialLink
                     icon={require("@assets/img/credits/connections/youtube.png")}
-                    username="wintrcat"
-                    url="https://youtube.com/@wintrcat"
+                    title="WINTR"
+                    url="https://www.youtube.com/@wintrchess"
+                />
+
+                <SocialLink
+                    icon={require("@assets/img/credits/connections/youtube.png")}
+                    title="wintrcat"
+                    url="https://www.youtube.com/@wintrcat"
+                />
+
+                <SocialLink
+                    icon={require("@assets/img/credits/connections/chesscom.png")}
+                    iconSize="23px"
+                    title="WintrChess Club"
+                    url="https://www.chess.com/club/wintrchess/join"
                 />
             </div>
         </div>

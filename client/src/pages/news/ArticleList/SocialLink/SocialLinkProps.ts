@@ -1,6 +1,7 @@
 interface SocialLinkProps {
     icon?: any;
-    username: string;
+    iconSize?: string;
+    title: string;
     url: string;
 }
 

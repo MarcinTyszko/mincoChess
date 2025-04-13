@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import SocialLinkProps from "./SocialLinkProps";
 import * as styles from "./SocialLink.module.css";
 
-function SocialLink({ icon, username, url }: SocialLinkProps) {
+function SocialLink({ icon, iconSize, title, url }: SocialLinkProps) {
     return <Link
         to={url}
         target="_blank"
@@ -12,10 +12,16 @@ function SocialLink({ icon, username, url }: SocialLinkProps) {
         style={{ textDecoration: "none" }}
     >
         <div className={styles.wrapper}>
-            {icon && <img src={icon} />}
+            {
+                icon
+                && <img
+                    src={icon}
+                    height={iconSize || "30px"}
+                />
+            }
 
             <span className={styles.username}>
-                {username}
+                {title}
             </span>
         </div>
     </Link>;
