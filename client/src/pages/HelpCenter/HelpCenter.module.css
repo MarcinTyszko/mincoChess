@@ -20,13 +20,6 @@
     color: white;
 }
 
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
 .section {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import * as styles from "./HelpCenter.module.css";
+import * as styles from "./Header.module.css";
 
 interface HeaderProps {
     image?: string;

@@ -131,8 +131,7 @@
             "title": "Help Center",
             "contact": {
                 "title": "Contact Us",
-                "support": "If you need help using WintrChess features, or have found an issue you'd like to report to us, you can contact support at:",
-                "letters": "If you have a business related enquiry you need to get to us, or have some cool suggestions for how we can improve the WintrChess platform, send an email to:"
+                "message": "If you need to contact us, you can send an email to:"
             },
             "analysis": {
                 "title": "Analysing a game",

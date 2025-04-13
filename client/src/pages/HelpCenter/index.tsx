@@ -28,27 +28,14 @@ function HelpCenter() {
             </Header>
 
             <span>
-                {t("pages.helpCenter.contact.support")}
+                {t("pages.helpCenter.contact.message")}
             </span>
 
             <a
                 className={styles.importantValue}
-                href="mailto:support@wintrchess.com"
+                href="mailto:contact@wintrchess.com"
             >
-                <b>support@wintrcat.uk</b>
-            </a>
-
-            <hr style={{ width: "100%" }} />
-
-            <span>
-                {t("pages.helpCenter.contact.letters")}
-            </span>
-
-            <a
-                className={styles.importantValue}
-                href="mailto:letters@wintrchess.com"
-            >
-                <b>letters@wintrcat.uk</b>
+                <b>contact@wintrchess.com</b>
             </a>
         </div>
 

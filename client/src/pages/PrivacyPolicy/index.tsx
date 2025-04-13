@@ -88,7 +88,7 @@ function PrivacyPolicy() {
             </span>
 
             <b>
-                support@wintrchess.com
+                contact@wintrchess.com
             </b>
         </div>
     </div>;
