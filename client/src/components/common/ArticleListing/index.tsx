@@ -62,7 +62,7 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
         <span
             className={styles.tag}
             style={{
-                backgroundColor: article.tag.colour && `${article.tag.colour}4c`,
+                backgroundColor: `${article.tag.colour}4c`,
                 borderColor: `${article.tag.colour}ab`
             }}
         >

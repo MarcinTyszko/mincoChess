@@ -13,6 +13,7 @@ import * as styles from "./Article.module.css";
 
 function Article() {
     const { t } = useTranslation();
+
     const { articleId } = useParams();
 
     const { data: article, status } = useQuery({
@@ -23,7 +24,22 @@ function Article() {
     return <div className={styles.wrapper}>
         {
             article
-            && <>
+            && <div className={styles.articleContainer}>
+                <div
+                    className={styles.tag}
+                    style={{
+                        backgroundColor: `${article.tag.colour}4c`,
+                        borderColor: `${article.tag.colour}ab`
+                    }}
+                >
+                    {article.tag.name}
+                </div>
+
+                {
+                    article.thumbnail
+                    && <img src={article.thumbnail} />
+                }
+
                 <span className={styles.title}>
                     {article.title}
                 </span>
@@ -32,10 +48,12 @@ function Article() {
                     {formatDate(new Date(article.timestamp))}
                 </span>
 
+                <hr className={styles.separator}/>
+
                 <ReactMarkdown className={styles.content}>
                     {article.content}
                 </ReactMarkdown>
-            </>
+            </div>
         }
 
         {
