@@ -11,6 +11,7 @@ import ButtonColour from "@constants/ButtonColour";
 import ErrorMessage from "@components/common/ErrorMessage";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
+import SocialLink from "./SocialLink";
 import * as styles from "./ArticleList.module.css";
 
 function News() {
@@ -87,7 +88,23 @@ function News() {
             <div className={styles.titleDescription}>
                 {t("pages.news.titleDescription")}
             </div>
-        </div>  
+        </div>
+
+        <div className={styles.socialsSection}>
+            <h2 style={{ margin: 0 }}>
+                Socials
+            </h2>
+
+            <div className={styles.socialsContainer}>
+                <SocialLink
+                    icon={require("@assets/img/credits/connections/youtube.png")}
+                    username="wintrcat"
+                    url="https://youtube.com/@wintrcat"
+                />
+            </div>
+        </div>
+
+        <hr className={styles.separator} />
 
         <div className={styles.articles}>
             {

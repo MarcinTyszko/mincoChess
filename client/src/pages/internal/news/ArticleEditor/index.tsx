@@ -172,7 +172,16 @@ function ArticleEditor() {
                     className={styles.thumbnail}
                     src={article.thumbnail}
                 />
-                : <div className={`${styles.thumbnail} ${styles.thumbnailLoader}`}>
+                : (status != "pending"
+                    && <i className={styles.missingThumbnailMessage}>
+                        No Thumbnail
+                    </i>
+                )
+            }
+
+            {
+                status == "pending"
+                && <div className={`${styles.thumbnail} ${styles.thumbnailLoader}`}>
                     <Loader/>
                 </div>
             }
