@@ -11,7 +11,7 @@ const router = Router();
 const requestSchema = z.object({
     id: z.string().optional(),
     title: z.string(),
-    thumbnail: z.string(),
+    thumbnail: z.string().optional(),
     tag: z.object({
         name: z.string(),
         colour: z.string()
