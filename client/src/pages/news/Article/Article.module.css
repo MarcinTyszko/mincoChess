@@ -65,10 +65,12 @@
 .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     width: 100%;
 }
 
 .content * {
+    text-align: start;
+
     color: white;
 }
