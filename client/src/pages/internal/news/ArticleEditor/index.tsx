@@ -37,7 +37,7 @@ function ArticleEditor() {
         timestamp: Date.now(),
         tag: {
             name: "Article",
-            colour: "var(--ui-shade-5)"
+            colour: "#3b3e43"
         }
     });
 
