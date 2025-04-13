@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash";
 
 import useProtectedRoute from "@hooks/useProtectedRoute";
+import Loader from "@components/common/Loader";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ArticleListing from "@components/common/ArticleListing";
@@ -69,6 +70,11 @@ function ArticleList() {
         </Button>
 
         <div className={styles.articles}>
+            {
+                status == "pending"
+                && <Loader style={{ margin: "20px 0" }} />
+            }
+
             {
                 status == "success"
                 && newsArticles.map(article => (
