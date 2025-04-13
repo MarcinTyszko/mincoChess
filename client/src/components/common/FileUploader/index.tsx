@@ -46,6 +46,8 @@ export function FileUploader({
                 if (!fileUploadRef.current?.files) return;
 
                 onFilesUpload?.(fileUploadRef.current.files);
+
+                fileUploadRef.current.value = "";
             }}
         />
     </>;

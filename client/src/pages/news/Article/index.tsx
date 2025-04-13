@@ -21,6 +21,8 @@ function Article() {
         queryFn: () => getNewsArticle(articleId || "")
     });
 
+    console.log(article?.content);
+
     return <div className={styles.wrapper}>
         {
             article
@@ -50,7 +52,10 @@ function Article() {
 
                 <hr className={styles.separator}/>
 
-                <ReactMarkdown className={styles.content}>
+                <ReactMarkdown
+                    className={styles.content}
+                    urlTransform={value => value}
+                >
                     {article.content}
                 </ReactMarkdown>
             </div>

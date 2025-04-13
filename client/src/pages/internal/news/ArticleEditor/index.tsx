@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
+import { uniqueId, replace } from "lodash";
 import { produce } from "immer";
 
 import { NewsArticle } from "wintrchess";
 import useProtectedRoute from "@hooks/useProtectedRoute";
+import ButtonColour from "@constants/ButtonColour";
 import Button from "@components/common/Button";
 import ColourSwatch from "@components/common/ColourSwatch";
-import ButtonColour from "@constants/ButtonColour";
 import TextField from "@components/common/TextField";
 import { getDataURL, FileUploader } from "@components/common/FileUploader";
 import ConfirmDialog from "@components/common/ConfirmDialog";
@@ -16,6 +17,11 @@ import ConfirmDialog from "@components/common/ConfirmDialog";
 import * as styles from "./ArticleEditor.module.css";
 
 type ArticleFormat = "edit" | "preview";
+
+interface UploadedImage {
+    id: string;
+    url: string;
+}
 
 function ArticleEditor() {
     useProtectedRoute();
@@ -37,11 +43,15 @@ function ArticleEditor() {
     const [ tagColourPickerOpen, setTagColourPickerOpen ] = useState(false);
     const [ thumbnailFile, setThumbnailFile ] = useState<File | undefined>();
 
+    const [ images, setImages ] = useState<UploadedImage[]>([]);
+
     // Edit or preview mode setting
     const [ articleFormat, setArticleFormat ] = useState<ArticleFormat>("edit");
 
     // Is publish confirmation dialog open
     const [ publishConfirmOpen, setPublishConfirmOpen ] = useState(false);
+
+    const editorRef = useRef<HTMLTextAreaElement | null>(null);
 
     useQuery({
         queryKey: ["editedArticle"],
@@ -56,18 +66,96 @@ function ArticleEditor() {
             const article: NewsArticle = await articleResponse.json();
             if (!article) return;
 
+            const uploadedImages: UploadedImage[] = [];
+
+            // Replace data URLs with image IDs
+            const imageMatches = article.content.matchAll(/!\[Image\]\((.+)\)/g);
+
+            for (const match of imageMatches) {
+                const imageURL = match.at(1);
+                if (!imageURL) continue;
+
+                const imageId = uniqueId();
+
+                article.content = article.content.replace(
+                    match[0],
+                    `{%upload_cache_${imageId}%}`
+                );
+
+                uploadedImages.push({
+                    id: imageId,
+                    url: imageURL
+                });
+            }
+
+            setImages(uploadedImages);
             setArticle(article);
         },
         refetchOnWindowFocus: false
     });
 
+    async function addImage(file: File) {
+        const fileURL = await getDataURL(file);
+        if (!fileURL) return;
+
+        const imageId = uniqueId();
+
+        setImages([
+            ...images,
+            {
+                id: imageId,
+                url: fileURL
+            }
+        ]);
+
+        setArticle(produce(article, draft => {
+            const leftContent = draft.content.slice(
+                0, editorRef.current?.selectionStart
+            );
+
+            const rightContent = draft.content.slice(
+                editorRef.current?.selectionStart || 0
+            );
+
+            draft.content = (
+                leftContent
+                + `{%upload_${file.name}_${imageId}%}`
+                + rightContent
+            );
+
+            return draft;
+        }));
+    }
+
     async function publishArticle() {
+        const tagRegex = /{%upload_.+_(\d+)%}/;
+
+        const bakedArticleContent = replace(
+            article.content,
+            new RegExp(tagRegex.source, "g"),
+            fileTag => {
+                const imageId = fileTag.match(tagRegex)?.at(1);
+                if (!imageId) return "";
+
+                console.log(images);
+
+                const imageURL = images.find(img => img.id == imageId)?.url;
+
+                return imageURL ? `![Image](${imageURL})` : "";
+            }
+        );
+
         await fetch("/internal/news/publish", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(article)
+            body: JSON.stringify(
+                produce(article, draft => {
+                    draft.content = bakedArticleContent;
+                    return draft;
+                })
+            )
         });
 
         navigate("/internal/dashboard/news");
@@ -190,7 +278,31 @@ function ArticleEditor() {
         <div className={styles.editor}>
             {
                 articleFormat == "edit"
+                && <FileUploader
+                    extensions={[".png", ".jpg", ".jpeg", ".webp"]}
+                    onFilesUpload={async files => {
+                        const file = files.item(0);
+                        if (!file) return;
+
+                        addImage(file);
+                    }}
+                >
+                    <Button
+                        icon={require("@assets/img/upload.svg")}
+                        iconSize="25px"
+                        style={{
+                            backgroundColor: "var(--ui-shade-4)"
+                        }}
+                    >
+                        Add Image
+                    </Button>
+                </FileUploader>
+            }
+
+            {
+                articleFormat == "edit"
                 && <textarea
+                    ref={editorRef}
                     className={styles.editorContent}
                     onChange={event => {
                         setArticle(produce(article, draft => {
@@ -205,7 +317,10 @@ function ArticleEditor() {
             
             {
                 articleFormat == "preview"
-                && <ReactMarkdown className={styles.editorContent}>
+                && <ReactMarkdown
+                    className={styles.editorContent}
+                    urlTransform={value => value}
+                >
                     {article.content}
                 </ReactMarkdown>
             }
