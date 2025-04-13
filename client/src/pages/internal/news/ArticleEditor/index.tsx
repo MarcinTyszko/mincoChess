@@ -54,7 +54,7 @@ function ArticleEditor() {
 
     const editorRef = useRef<HTMLTextAreaElement | null>(null);
 
-    const { fetchStatus } = useQuery({
+    const { status } = useQuery({
         queryKey: ["editedArticle"],
         queryFn: async () => {
             // Get existing article ID from URL
@@ -314,7 +314,7 @@ function ArticleEditor() {
                         }));
                     }}
                     value={article.content}
-                    placeholder={fetchStatus == "fetching"
+                    placeholder={status == "pending"
                         ? "Loading..." : "Markdown..."
                     }
                 ></textarea>

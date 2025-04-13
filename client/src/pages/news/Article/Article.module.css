@@ -19,6 +19,15 @@
     color: white;
 }
 
+.articleLoaderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    width: 100%;
+}
+
 .articleContainer img {
     max-width: 100%;
 }
