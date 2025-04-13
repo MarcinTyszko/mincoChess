@@ -7,6 +7,7 @@ import { produce } from "immer";
 
 import { NewsArticle } from "wintrchess";
 import useProtectedRoute from "@hooks/useProtectedRoute";
+import Loader from "@components/common/Loader";
 import ButtonColour from "@constants/ButtonColour";
 import Button from "@components/common/Button";
 import ColourSwatch from "@components/common/ColourSwatch";
@@ -53,7 +54,7 @@ function ArticleEditor() {
 
     const editorRef = useRef<HTMLTextAreaElement | null>(null);
 
-    useQuery({
+    const { fetchStatus } = useQuery({
         queryKey: ["editedArticle"],
         queryFn: async () => {
             // Get existing article ID from URL
@@ -165,15 +166,17 @@ function ArticleEditor() {
         className={styles.wrapper}
         onClick={() => setTagColourPickerOpen(false)}
     >
-        {
-            article?.thumbnail
-            && <div className={styles.thumbnailPreview}>
-                <img
+        <div className={styles.thumbnailPreview}>
+            {article.thumbnail
+                ? <img
                     className={styles.thumbnail}
                     src={article.thumbnail}
                 />
-            </div>
-        }
+                : <div className={`${styles.thumbnail} ${styles.thumbnailLoader}`}>
+                    <Loader/>
+                </div>
+            }
+        </div>
 
         <div className={styles.metadata}>
             <TextField
@@ -311,7 +314,9 @@ function ArticleEditor() {
                         }));
                     }}
                     value={article.content}
-                    placeholder="Markdown..."
+                    placeholder={fetchStatus == "fetching"
+                        ? "Loading..." : "Markdown..."
+                    }
                 ></textarea>
             }
             

@@ -15,6 +15,12 @@
     background-color: var(--ui-shade-3);
 }
 
+.thumbnailLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .thumbnail {
     width: 100%;
     aspect-ratio: 16 / 9;
