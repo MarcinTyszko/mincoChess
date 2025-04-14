@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import useSidebarStore from "@stores/SidebarStore";
+import useSidebarStore from "@apps/training/stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
 import useDelayedEffect from "@hooks/useDelayedEffect";
 

@@ -9,7 +9,11 @@ import ConfirmDialog from "@components/common/ConfirmDialog";
 import ArticleListingProps from "./ArticleListingProps";
 import * as styles from "./ArticleListing.module.css";
 
-function ArticleListing({ article, editable }: ArticleListingProps) {
+function ArticleListing({
+    article,
+    editable,
+    hardReload
+}: ArticleListingProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
@@ -33,7 +37,13 @@ function ArticleListing({ article, editable }: ArticleListingProps) {
 
     return <div
         className={styles.wrapper}
-        onClick={() => navigate(`/news/${article.id}`)}
+        onClick={() => {
+            if (hardReload) {
+                location.href = `/news/${article.id}`;
+            } else {
+                navigate(`/news/${article.id}`);
+            }
+        }}
     >
         <div className={styles.thumbnailContainer}>
             {article.thumbnail

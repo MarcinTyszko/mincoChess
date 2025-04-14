@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import useSidebarStore from "@stores/SidebarStore";
+import useSidebarStore from "@apps/training/stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
 
 import SidebarTabProps from "./SidebarTabProps";

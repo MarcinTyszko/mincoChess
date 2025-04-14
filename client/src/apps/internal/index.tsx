@@ -1,0 +1,49 @@
+import React, { lazy, Suspense } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
+
+const Login = lazy(() => import("./pages/Login"));
+
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const AnnouncementEditor = lazy(() => import("./pages/AnnouncementEditor"));
+
+const ArticleList = lazy(() => import("./pages/news/ArticleList"));
+const ArticleEditor = lazy(() => import("./pages/news/ArticleEditor"));
+
+const Unfound = lazy(() => import("@pages/Unfound"));
+
+import "../../index.css";
+
+const root = ReactDOM.createRoot(
+    document.querySelector(".root")!
+);
+
+const queryClient = new QueryClient();
+
+root.render(<BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+        <Suspense fallback={
+            <LoadingPlaceholder style={{ height: "100vh" }} />
+        }>
+            <Routes>
+                <Route path="/internal/login" element={<Login/>} />
+
+                <Route path="/internal/dashboard" element={<Dashboard/>}>
+                    <Route index element={<Analytics/>} />
+
+                    <Route path="analytics" element={<Analytics/>} />
+                    <Route path="announcement" element={<AnnouncementEditor/>} />
+
+                    <Route path="news" element={<ArticleList/>} />
+                    <Route path="news/edit" element={<ArticleEditor/>} />
+                </Route>
+
+                <Route path="*" element={<Unfound/>} />
+            </Routes>
+        </Suspense>
+    </QueryClientProvider>
+</BrowserRouter>);

@@ -12,14 +12,18 @@ const nodeEnv = process.env.NODE_ENV || "production";
  * @type {Configuration}
  */
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: {
+        training: "./src/apps/training/index.tsx",
+        internal: "./src/apps/internal/index.tsx"
+    },
     output: {
-        filename: "bundle.js",
+        filename: "[name].bundle.js",
         path: resolve("./dist")
     },
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         alias: {
+            "@apps": resolve("./src/apps"),
             "@pages": resolve("./src/pages"),
             "@components": resolve("./src/components"),
             "@hooks": resolve("./src/hooks"),

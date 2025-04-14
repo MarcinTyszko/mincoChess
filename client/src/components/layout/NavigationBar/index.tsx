@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import useSidebarStore from "@stores/SidebarStore";
+import useSidebarStore from "@apps/training/stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
 import Button from "@components/common/Button";
 import LanguageSwitcher from "@components/common/LanguageSwitcher";

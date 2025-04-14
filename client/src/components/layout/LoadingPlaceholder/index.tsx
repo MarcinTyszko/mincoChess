@@ -3,12 +3,16 @@ import { useTranslation } from "react-i18next";
 
 import Loader from "@components/common/Loader";
 
+import LoadingPlaceholderProps from "./LoadingPlaceholderProps";
 import * as styles from "./LoadingPlaceholder.module.css";
 
-function LoadingPlaceholder() {
+function LoadingPlaceholder({ style }: LoadingPlaceholderProps) {
     const { t } = useTranslation();
 
-    return <div className={styles.wrapper}>
+    return <div
+        className={styles.wrapper}
+        style={style}
+    >
         <Loader/>
 
         <span className={styles.message}>
