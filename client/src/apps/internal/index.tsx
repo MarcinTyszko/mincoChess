@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
@@ -42,6 +42,9 @@ root.render(<BrowserRouter>
                     <Route path="news/edit" element={<ArticleEditor/>} />
                 </Route>
 
+                <Route path="/internal" element={
+                    <Navigate to={"/internal/login"} />
+                } />
                 <Route path="*" element={<Unfound/>} />
             </Routes>
         </Suspense>

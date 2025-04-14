@@ -24,7 +24,7 @@ app.use("/",
 app.use("/", apiRouter);
 app.use("/", internalRouter);
 
-app.get("/internal/*", async (req, res) => {
+app.get("/internal*", async (req, res) => {
     res.sendFile(
         path.resolve("client/public/apps/internal.html")
     );
