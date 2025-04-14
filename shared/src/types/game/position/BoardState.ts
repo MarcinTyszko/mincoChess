@@ -2,9 +2,9 @@ import { Chess } from "chess.js";
 import { maxBy, uniq, uniqWith } from "lodash";
 
 import { EngineLine, isEngineLineEqual } from "./EngineLine";
-import EngineVersion from "../../../constants/game/EngineVersion";
-import Classification from "../../../constants/Classification";
-import PieceColour from "../../../constants/PieceColour";
+import EngineVersion from "@constants/game/EngineVersion";
+import Classification from "@constants/Classification";
+import PieceColour from "@constants/PieceColour";
 import Move from "./Move";
 
 export interface BoardState {

@@ -1,8 +1,8 @@
 import { uniqueId } from "lodash";
 
-import startingLines from "../../resources/startingLines.json";
-import { StateTreeNode } from "../types/game/position/StateTreeNode";
-import { EngineLine } from "../types/game/position/EngineLine";
+import startingLines from "@resources/startingLines.json";
+import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
+import { EngineLine } from "@ctypes/game/position/EngineLine";
 
 export const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 

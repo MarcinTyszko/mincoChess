@@ -2,7 +2,7 @@ import { Chess } from "chess.js";
 import { round, clone, uniqueId } from "lodash";
 
 import { BoardState } from "./BoardState";
-import PieceColour from "../../../constants/PieceColour";
+import PieceColour from "@constants/PieceColour";
 
 export interface StateTreeNode {
     id: string;

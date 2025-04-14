@@ -1,7 +1,7 @@
-import TimeControl from "../../constants/game/TimeControl";
-import Variant from "../../constants/game/Variant";
+import TimeControl from "@constants/game/TimeControl";
+import Variant from "@constants/game/Variant";
 import GamePlayerProfile from "./GamePlayerProfile";
-import PieceColour from "../../constants/PieceColour";
+import PieceColour from "@constants/PieceColour";
 
 export function getColourPlayed(game: Game, username: string) {
     return game.players.white.username?.toLowerCase() == username.toLowerCase()

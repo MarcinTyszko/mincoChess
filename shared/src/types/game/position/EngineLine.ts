@@ -1,4 +1,4 @@
-import EngineVersion from "../../../constants/game/EngineVersion";
+import EngineVersion from "@constants/game/EngineVersion";
 import Evaluation from "./Evaluation";
 import Move from "./Move";
 
