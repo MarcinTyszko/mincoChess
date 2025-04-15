@@ -12,6 +12,8 @@ export * from "./constants/utils";
 export * from "./lib/date";
 export * from "./lib/moveNotation";
 
+export * from "./lib/reporter/expectedPoints";
+
 export * from "./types/game/Game";
 export * from "./types/game/GameAnalysis";
 export { default as AnalysedGame } from "./types/game/AnalysedGame";
