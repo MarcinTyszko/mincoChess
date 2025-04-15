@@ -45,7 +45,13 @@ function NavigationBar() {
             </span>
         </div>
 
-        <div className={styles.navigationBarSection}>
+        <div className={styles.navigationBarSection}
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap"
+            }}
+        >
             <a 
                 href="https://ko-fi.com/wintrcat"
                 target="_blank" 
