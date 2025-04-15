@@ -3,8 +3,7 @@ import PieceColour from "@constants/PieceColour";
 
 interface ExpectedPointsOptions {
     moveColour?: PieceColour;
-    mateStrictness?: number;
-    centipawnStrictness?: number;
+    centipawnGradient?: number;
 }
 
 /**
@@ -17,7 +16,6 @@ export function getExpectedPoints(
 ) {
     const opts = {
         moveColour: PieceColour.WHITE,
-        mateGradient: 0.05,
         centipawnGradient: 0.0035,
         ...options
     };
@@ -27,14 +25,7 @@ export function getExpectedPoints(
             return Number(opts.moveColour == PieceColour.WHITE);
         }
 
-        const winProbability = Math.max(
-            0.5,
-            -opts.mateGradient * Math.abs(evaluation.value) + 1
-        );
-
-        return evaluation.value > 0
-            ? winProbability
-            : 1 - winProbability;
+        return Number(evaluation.value > 0);
     } else {
         return 1 / (1 + Math.pow(
             Math.E,

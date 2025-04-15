@@ -78,17 +78,28 @@ export function findNodeRecursively(
 }
 
 /**
- * @description Returns a list of the given node plus its entire
- * line of priority children.
+ * @description Returns a list of the given node and its entire line
+ * of priority children, or all children unordered if `expand` is true.
  */
-export function getNodeChain(rootNode: StateTreeNode) {
-    const chain: StateTreeNode[] = [rootNode];
+export function getNodeChain(
+    rootNode: StateTreeNode,
+    expand?: boolean
+) {
+    const chain: StateTreeNode[] = [];
 
-    let current: StateTreeNode = rootNode;
+    const frontier: StateTreeNode[] = [rootNode];
 
-    while (current.children.length > 0) {
-        current = current.children[0];
+    while (frontier.length > 0) {
+        const current = frontier.pop();
+        if (!current) break;
+
         chain.push(current);
+
+        for (const child of current.children) {
+            frontier.push(child);
+            
+            if (!expand) break;
+        }
     }
 
     return chain;
