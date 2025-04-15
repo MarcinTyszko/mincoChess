@@ -1,8 +1,8 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { pointLossClassify } from "./classification/pointLoss";
-import Classification from "@constants/Classification";
-import { considerBrilliantClassification } from "./classification/brilliant";
 import { getTopEngineLine } from "@ctypes/game/position/BoardState";
+import Classification from "@constants/Classification";
+import { pointLossClassify } from "./classification/pointLoss";
+import { considerBrilliantClassification } from "./classification/brilliant";
 
 interface ClassifyOptions {
     includeBrilliant?: boolean;
@@ -17,10 +17,10 @@ export function classify(
         throw new Error("no parent node exists to compare with.");
     }
 
-    const previousEvaluation = getTopEngineLine(node.parent.state)?.evaluation;
-    const currentEvaluation = getTopEngineLine(node.state)?.evaluation;
+    const previousTopLine = getTopEngineLine(node.parent.state);
+    const currentTopLine = getTopEngineLine(node.state);
 
-    if (!previousEvaluation || !currentEvaluation) {
+    if (!previousTopLine?.evaluation || !currentTopLine?.evaluation) {
         throw new Error("engine lines missing from current or previous node.");
     }
 
@@ -31,15 +31,15 @@ export function classify(
     };
 
     let classification = pointLossClassify(
-        previousEvaluation,
-        currentEvaluation,
+        previousTopLine.evaluation,
+        currentTopLine.evaluation,
         node.state.moveColour
     );
 
     if (
         classification == Classification.BEST
         && opts.includeBrilliant
-        && considerBrilliantClassification(node.parent.state, node.state, 1)
+        && considerBrilliantClassification(node.parent.state, node.state)
     ) {
         classification = Classification.BRILLIANT;
     }
