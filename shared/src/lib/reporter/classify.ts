@@ -1,24 +1,50 @@
-import { getTopEngineLine } from "@ctypes/game/position/BoardState";
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { pointLossClassify } from "./classification/pointLoss";
+import Classification from "@constants/Classification";
+import { considerBrilliantClassification } from "./classification/brilliant";
+import { getTopEngineLine } from "@ctypes/game/position/BoardState";
 
-export function classify(node: StateTreeNode) {
+interface ClassifyOptions {
+    includeBrilliant?: boolean;
+    includeTheory?: boolean;
+}
+
+export function classify(
+    node: StateTreeNode,
+    options?: ClassifyOptions
+) {
     if (!node.parent || !node.state.moveColour) {
         throw new Error("no parent node exists to compare with.");
     }
 
-    const currentTopLine = getTopEngineLine(node.state);
-    const previousTopLine = getTopEngineLine(node.parent.state);
+    const previousEvaluation = getTopEngineLine(node.parent.state)?.evaluation;
+    const currentEvaluation = getTopEngineLine(node.state)?.evaluation;
 
-    if (!currentTopLine || !previousTopLine) {
-        throw new Error("engine lines missing from node or its parent.");
+    if (!previousEvaluation || !currentEvaluation) {
+        throw new Error("engine lines missing from current or previous node.");
     }
 
-    return pointLossClassify(
-        previousTopLine.evaluation,
-        currentTopLine.evaluation,
+    const opts: ClassifyOptions = {
+        includeBrilliant: true,
+        includeTheory: true,
+        ...options
+    };
+
+    let classification = pointLossClassify(
+        previousEvaluation,
+        currentEvaluation,
         node.state.moveColour
     );
+
+    if (
+        classification == Classification.BEST
+        && opts.includeBrilliant
+        && considerBrilliantClassification(node.parent.state, node.state, 1)
+    ) {
+        classification = Classification.BRILLIANT;
+    }
+
+    return classification;
 }
 
 export function classifyTree(rootNode: StateTreeNode) {

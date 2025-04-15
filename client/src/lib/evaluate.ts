@@ -172,10 +172,7 @@ async function evaluateMoves(
                 }
             ).then(result => {
                 currentStateTreeNode.state.engineLines.push(
-                    ...result.lines.filter(line => (
-                        line.depth == options.engineDepth
-                        || line.depth == 3
-                    ))
+                    ...result.lines
                 );
 
                 evaluateNextPosition(engine);
