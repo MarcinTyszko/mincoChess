@@ -4,6 +4,7 @@
     align-items: center;
     gap: 10px;
     padding: 30px;
+    width: 100%;
 }
 
 .missingThumbnailMessage {
@@ -86,7 +87,7 @@
     background-color: var(--ui-shade-3);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
     .editor {
         width: 100%;
     }
