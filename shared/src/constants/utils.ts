@@ -1,3 +1,4 @@
+import { PieceSymbol } from "chess.js";
 import { uniqueId } from "lodash";
 
 import startingLines from "@resources/startingLines.json";
@@ -14,4 +15,13 @@ export const defaultRootNode: StateTreeNode = {
         fen: STARTING_FEN,
         engineLines: startingLines as EngineLine[]
     }
+};
+
+export const pieceValues: Record<PieceSymbol, number> = {
+    k: Infinity,
+    p: 1,
+    n: 3,
+    b: 3,
+    r: 5,
+    q: 9
 };

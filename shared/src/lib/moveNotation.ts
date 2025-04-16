@@ -26,3 +26,12 @@ export function adaptPieceColour(
 ): Color {
     return colour == PieceColour.WHITE ? "w" : "b";
 }
+
+export function flipPieceColour(colour: PieceColour) {
+    return colour == PieceColour.WHITE
+        ? PieceColour.BLACK : PieceColour.WHITE;
+}
+
+export function flipAdaptedPieceColour(colour: Color) {
+    return colour == "w" ? "b" : "w";
+}

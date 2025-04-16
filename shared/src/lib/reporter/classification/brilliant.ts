@@ -1,28 +1,20 @@
-import { Square, PieceSymbol } from "chess.js";
+import { Square, KING, PAWN } from "chess.js";
 
 import { adaptPieceColour, parseUciMove } from "@lib/moveNotation";
 import ExtractedNode from "../utils/types/ExtractedNode";
+import { pieceValues } from "@constants/utils";
 import { getPieceSafety } from "../utils/pieceSafety";
-
-const pieceValues: Record<PieceSymbol, number> = {
-    k: Infinity,
-    p: 1,
-    n: 3,
-    b: 3,
-    r: 5,
-    q: 9
-};
 
 /**
  * @description Consider brilliant classification based on a
- * state. Returns whether brilliant is recommended.
+ * state. Returns whether brilliant is recommended
  */
 export function considerBrilliantClassification(
     previous: ExtractedNode,
     current: ExtractedNode
 ) {
     // Disallow brilliants for highly winning positions where
-    // critical moves are not needed to move towards checkmate.
+    // critical moves are not needed to move towards checkmate
     if (
         current.evaluation.type == "centipawn"
         && current.subjectiveEvaluation.value >= 700
@@ -54,8 +46,8 @@ export function considerBrilliantClassification(
         .reduce((acc, val) => acc.concat(val))
         .filter(piece => (
             piece?.color == adaptPieceColour(current.moveColour)
-            && piece.type != "k"
-            && piece.type != "p"
+            && piece.type != KING
+            && piece.type != PAWN
             && pieceValues[piece.type] > capturedPieceValue
         ));
 
