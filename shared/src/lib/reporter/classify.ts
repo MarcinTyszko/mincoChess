@@ -1,8 +1,8 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import Classification from "@constants/Classification";
 import { pointLossClassify } from "./classification/pointLoss";
 import { considerBrilliantClassification } from "./classification/brilliant";
-import { extractStateTreeNode } from "./extractNode";
+import { extractStateTreeNode } from "./utils/extractNode";
+import Classification from "@constants/Classification";
 
 interface ClassifyOptions {
     includeBrilliant?: boolean;

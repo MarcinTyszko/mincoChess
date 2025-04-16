@@ -1,3 +1,7 @@
+import { Color } from "chess.js";
+
+import PieceColour from "@constants/PieceColour";
+
 export function parseSanMove(san: string) {
     return {
         castling: san.includes("O"),
@@ -15,4 +19,10 @@ export function parseUciMove(uci: string) {
         to: uci.slice(2, 4),
         promotion: uci.charAt(4) || undefined
     };
+}
+
+export function adaptPieceColour(
+    colour: PieceColour
+): Color {
+    return colour == PieceColour.WHITE ? "w" : "b";
 }

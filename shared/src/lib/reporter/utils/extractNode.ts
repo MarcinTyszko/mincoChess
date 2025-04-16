@@ -1,21 +1,9 @@
 import { Chess } from "chess.js";
 
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { BoardState, getTopEngineLine } from "@ctypes/game/position/BoardState";
-import { EngineLine } from "@ctypes/game/position/EngineLine";
-import Move from "@ctypes/game/position/Move";
-import Evaluation from "@ctypes/game/position/Evaluation";
+import { getTopEngineLine } from "@ctypes/game/position/BoardState";
+import ExtractedNode from "./types/ExtractedNode";
 import PieceColour from "@constants/PieceColour";
-
-export interface ExtractedNode {
-    board: Chess;
-    state: BoardState;
-    topLine: EngineLine;
-    topMove: Move;
-    evaluation: Evaluation;
-    playedMove: Move;
-    moveColour: PieceColour;
-}
 
 /**
  * @description Extract analysis information from a node. Returns an object
@@ -36,12 +24,21 @@ export function extractStateTreeNode(
     const moveColour = node.state.moveColour;
     if (!moveColour) return null;
 
+    const subjectiveEvaluationValue = (
+        topLine.evaluation.value
+        * (moveColour == PieceColour.WHITE ? 1 : -1)
+    );
+
     return {
         board: new Chess(node.state.fen),
         state: node.state,
         topLine: topLine,
         topMove: topMove,
         evaluation: topLine.evaluation,
+        subjectiveEvaluation: {
+            type: topLine.evaluation.type,
+            value: subjectiveEvaluationValue
+        },
         playedMove: playedMove,
         moveColour: moveColour
     };
