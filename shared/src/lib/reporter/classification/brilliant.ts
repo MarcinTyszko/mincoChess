@@ -1,12 +1,12 @@
-import { BoardState } from "@ctypes/game/position/BoardState";
+import { ExtractedNode } from "../extractNode";
 
 /**
  * @description Consider brilliant classification based on a
  * state. Returns whether brilliant is recommended.
  */
 export function considerBrilliantClassification(
-    previousState: BoardState,
-    currentState: BoardState
+    previous: ExtractedNode,
+    current: ExtractedNode
 ) {
     return false;
 }

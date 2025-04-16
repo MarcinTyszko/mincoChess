@@ -44,9 +44,9 @@ export function pointLossClassify(
 
     if (pointLoss < 0.005) {
         return Classification.BEST;
-    } else if (pointLoss < 0.02) {
+    } else if (pointLoss < 0.045) {
         return Classification.EXCELLENT;
-    } else if (pointLoss < 0.06) {
+    } else if (pointLoss < 0.08) {
         return Classification.OKAY;
     } else if (pointLoss < 0.12) {
         return Classification.INACCURACY;

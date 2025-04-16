@@ -1,8 +1,8 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { getTopEngineLine } from "@ctypes/game/position/BoardState";
 import Classification from "@constants/Classification";
 import { pointLossClassify } from "./classification/pointLoss";
 import { considerBrilliantClassification } from "./classification/brilliant";
+import { extractStateTreeNode } from "./extractNode";
 
 interface ClassifyOptions {
     includeBrilliant?: boolean;
@@ -13,15 +13,15 @@ export function classify(
     node: StateTreeNode,
     options?: ClassifyOptions
 ) {
-    if (!node.parent || !node.state.moveColour) {
+    if (!node.parent) {
         throw new Error("no parent node exists to compare with.");
     }
 
-    const previousTopLine = getTopEngineLine(node.parent.state);
-    const currentTopLine = getTopEngineLine(node.state);
+    const previous = extractStateTreeNode(node.parent);
+    const current = extractStateTreeNode(node);
 
-    if (!previousTopLine?.evaluation || !currentTopLine?.evaluation) {
-        throw new Error("engine lines missing from current or previous node.");
+    if (!previous || !current) {
+        throw new Error("information missing from current or previous node.");
     }
 
     const opts: ClassifyOptions = {
@@ -30,16 +30,28 @@ export function classify(
         ...options
     };
 
-    let classification = pointLossClassify(
-        previousTopLine.evaluation,
-        currentTopLine.evaluation,
-        node.state.moveColour
-    );
+    // Consider forced classification
+    if (previous.board.moves().length <= 1) {
+        return Classification.FORCED;
+    }
 
+    // Consider theory classification
+    // ...
+
+    // Point loss classify
+    let classification = previous.topMove == current.playedMove
+        ? Classification.BEST
+        : pointLossClassify(
+            previous.evaluation,
+            current.evaluation,
+            current.moveColour
+        );
+
+    // Consider brilliant classification
     if (
         classification == Classification.BEST
         && opts.includeBrilliant
-        && considerBrilliantClassification(node.parent.state, node.state)
+        && considerBrilliantClassification(previous, current)
     ) {
         classification = Classification.BRILLIANT;
     }
