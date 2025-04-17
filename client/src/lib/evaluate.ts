@@ -45,11 +45,15 @@ async function evaluateMoves(
     // Apply cloud evaluations where possible
     for (const stateTreeNode of stateTreeNodes) {
         // Fetch cloud evaluation from Lichess servers
-        const cloudEvaluationResponse = await fetch(
-            "https://lichess.org/api/cloud-eval"
-                + `?fen=${stateTreeNode.state.fen}`
-                + `&multiPv=${Math.max(2, options.cloudEngineLines || 2)}`
-        );
+        try {
+            var cloudEvaluationResponse = await fetch(
+                "https://lichess.org/api/cloud-eval"
+                    + `?fen=${stateTreeNode.state.fen}`
+                    + `&multiPv=${Math.max(2, options.cloudEngineLines || 2)}`
+            );
+        } catch {
+            break;
+        }
 
         if (options.verbose) {
             console.log(`sending cloud evaluation request for: ${stateTreeNode.state.fen}`);
@@ -57,7 +61,7 @@ async function evaluateMoves(
 
         // If no evaluations or found / other error, skip to local
         if (!cloudEvaluationResponse.ok) {
-            break; 
+            break;
         }
 
         const cloudEvaluation = await cloudEvaluationResponse.json();
