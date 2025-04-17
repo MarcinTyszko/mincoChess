@@ -1,4 +1,4 @@
-import { Color } from "chess.js";
+import { Color, Square } from "chess.js";
 
 import PieceColour from "@constants/PieceColour";
 
@@ -15,8 +15,8 @@ export function parseSanMove(san: string) {
 
 export function parseUciMove(uci: string) {
     return {
-        from: uci.slice(0, 2),
-        to: uci.slice(2, 4),
+        from: uci.slice(0, 2) as Square,
+        to: uci.slice(2, 4) as Square,
         promotion: uci.charAt(4) || undefined
     };
 }
@@ -32,6 +32,10 @@ export function flipPieceColour(colour: PieceColour) {
         ? PieceColour.BLACK : PieceColour.WHITE;
 }
 
-export function flipAdaptedPieceColour(colour: Color) {
+export function flipAdaptedPieceColour(colour: Color): Color {
     return colour == "w" ? "b" : "w";
+}
+
+export function setFenTurn(fen: string, colour: Color) {
+    return fen.replace(/(?<= )([wb])(?= )/g, colour);
 }

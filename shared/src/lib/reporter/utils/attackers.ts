@@ -2,7 +2,7 @@ import { Chess, Square, KING } from "chess.js";
 import { isEqual, xorWith } from "lodash";
 
 import BoardPiece from "./types/BoardPiece";
-import { flipAdaptedPieceColour } from "@lib/moveNotation";
+import { flipAdaptedPieceColour, setFenTurn } from "@lib/moveNotation";
 
 interface TransitiveAttacker {
     fen: string;
@@ -10,6 +10,11 @@ interface TransitiveAttacker {
 }
 
 function directAttackers(board: Chess, piece: BoardPiece): BoardPiece[] {
+    // Set turn to attacker's side (opposite of piece)
+    board = new Chess(
+        setFenTurn(board.fen(), flipAdaptedPieceColour(piece.color))
+    );
+
     const legalMoves = board.moves({ verbose: true });
 
     return board
@@ -49,16 +54,22 @@ export function getAttackers(
         const transitiveAttacker = frontier.pop();
         if (!transitiveAttacker) break;
 
-        // Remove the attacker from the current board
+        // A king cannot be at the front of a battery
         const transitiveBoard = new Chess(transitiveAttacker.fen);
-        const oldLegalAttackers = directAttackers(transitiveBoard, piece);
+
+        if (transitiveBoard.get(transitiveAttacker.square)?.type == KING) {
+            continue;
+        }
+
+        // Remove the piece at the front of the battery
+        const oldDirectAttackers = directAttackers(transitiveBoard, piece);
 
         transitiveBoard.remove(transitiveAttacker.square);
 
         // Find revealed attackers as a XOR between old (removed piece excluded)
-        // and new attackers list
-        const revealedAttackers = xorWith(
-            oldLegalAttackers.filter(
+        // and new direct attackers list
+        const revealedDirectAttackers = xorWith(
+            oldDirectAttackers.filter(
                 attacker => attacker.square != transitiveAttacker.square
             ),
             directAttackers(transitiveBoard, piece),
@@ -66,11 +77,11 @@ export function getAttackers(
         );
 
         // Record revealed attackers in final list
-        attackers.push(...revealedAttackers);
+        attackers.push(...revealedDirectAttackers);
 
         // Queue revealed attackers for further recursion
         frontier.push(
-            ...revealedAttackers.map(attacker => ({
+            ...revealedDirectAttackers.map(attacker => ({
                 fen: transitiveBoard.fen(),
                 square: attacker.square
             }))

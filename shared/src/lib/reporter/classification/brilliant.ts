@@ -1,7 +1,10 @@
-import { Square, KING, PAWN } from "chess.js";
+import { KING, PAWN } from "chess.js";
 
 import { adaptPieceColour, parseUciMove } from "@lib/moveNotation";
-import ExtractedNode from "../utils/types/ExtractedNode";
+import {
+    ExtractedPreviousNode,
+    ExtractedCurrentNode
+} from "../utils/types/ExtractedNode";
 import { pieceValues } from "@constants/utils";
 import { getPieceSafety } from "../utils/pieceSafety";
 
@@ -10,8 +13,8 @@ import { getPieceSafety } from "../utils/pieceSafety";
  * state. Returns whether brilliant is recommended
  */
 export function considerBrilliantClassification(
-    previous: ExtractedNode,
-    current: ExtractedNode
+    previous: ExtractedPreviousNode,
+    current: ExtractedCurrentNode
 ) {
     // Disallow brilliants for highly winning positions where
     // critical moves are not needed to move towards checkmate
@@ -38,7 +41,7 @@ export function considerBrilliantClassification(
     }
 
     // Scan current board for hanging pieces
-    const capturedPiece = previous.board.get(parsedPlayedMove.to as Square);
+    const capturedPiece = previous.board.get(parsedPlayedMove.to);
     const capturedPieceValue = capturedPiece
         ? pieceValues[capturedPiece.type] : 0;
 

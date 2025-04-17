@@ -1,7 +1,10 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { pointLossClassify } from "./classification/pointLoss";
 import { considerBrilliantClassification } from "./classification/brilliant";
-import { extractStateTreeNode } from "./utils/extractNode";
+import {
+    extractPreviousStateTreeNode,
+    extractCurrentStateTreeNode
+} from "./utils/extractNode";
 import Classification from "@constants/Classification";
 
 interface ClassifyOptions {
@@ -17,8 +20,8 @@ export function classify(
         throw new Error("no parent node exists to compare with.");
     }
 
-    const previous = extractStateTreeNode(node.parent);
-    const current = extractStateTreeNode(node);
+    const previous = extractPreviousStateTreeNode(node.parent);
+    const current = extractCurrentStateTreeNode(node);
 
     if (!previous || !current) {
         throw new Error("information missing from current or previous node.");
@@ -44,7 +47,7 @@ export function classify(
         : pointLossClassify(
             previous.evaluation,
             current.evaluation,
-            current.moveColour
+            current.moveColour!
         );
 
     // Consider brilliant classification
@@ -65,7 +68,9 @@ export function classifyTree(rootNode: StateTreeNode) {
     for (const node of treeNodes) {
         try {
             node.state.classification = classify(node);
-        } catch {
+        } catch (err) {
+            console.log(err);
+
             node.state.classification = undefined;
         }
     }

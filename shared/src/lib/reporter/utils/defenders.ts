@@ -11,10 +11,16 @@ export function getDefenders(
 ) {
     const defenderBoard = new Chess(board.fen());
 
-    defenderBoard.put({
+    const flippedPiece = {
         type: piece.type,
         color: flipAdaptedPieceColour(piece.color)
-    }, piece.square);
+    };
 
-    return getAttackers(defenderBoard, piece, transitive);
+    defenderBoard.put(flippedPiece, piece.square);
+
+    return getAttackers(
+        defenderBoard,
+        { ...flippedPiece, square: piece.square },
+        transitive
+    );
 }

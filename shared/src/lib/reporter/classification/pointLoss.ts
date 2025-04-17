@@ -23,7 +23,16 @@ export function pointLossClassify(
             * (moveColour == PieceColour.WHITE ? 1 : -1)
         );
 
-        if (mateLoss < 0) {
+        // For the losing side, making a move that keeps the mate the same
+        // is best. Only the winning side expects a mate loss of -1.
+        const subjectiveMate = currentEvaluation.value * (
+            (moveColour == PieceColour.WHITE ? 1 : -1)
+        );
+
+        if (
+            mateLoss < 0
+            || (mateLoss == 0 && subjectiveMate < 0)
+        ) {
             return Classification.BEST;
         } else if (mateLoss < 2) {
             return Classification.EXCELLENT;
