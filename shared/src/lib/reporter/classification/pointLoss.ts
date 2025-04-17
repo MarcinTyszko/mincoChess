@@ -51,7 +51,7 @@ export function pointLossClassify(
         * (moveColour == PieceColour.WHITE ? 1 : -1)
     );
 
-    if (pointLoss < 0.005) {
+    if (pointLoss < 0.01) {
         return Classification.BEST;
     } else if (pointLoss < 0.045) {
         return Classification.EXCELLENT;

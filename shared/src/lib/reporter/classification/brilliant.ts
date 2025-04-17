@@ -1,12 +1,15 @@
-import { KING, PAWN } from "chess.js";
+import { Chess, QUEEN } from "chess.js";
 
-import { adaptPieceColour, parseUciMove } from "@lib/moveNotation";
+import { parseUciMove } from "@lib/moveNotation";
 import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../utils/types/ExtractedNode";
 import { pieceValues } from "@constants/utils";
-import { getPieceSafety } from "../utils/pieceSafety";
+import { getBoardPieces } from "../utils/boardPieces";
+import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
+import { getAttackers } from "../utils/attackers";
+import BoardPiece from "../utils/types/BoardPiece";
 
 /**
  * @description Consider brilliant classification based on a
@@ -23,11 +26,6 @@ export function considerBrilliantClassification(
         && current.subjectiveEvaluation.value >= 700
     ) return false;
 
-    // Disallow brilliants if player is losing
-    if (current.subjectiveEvaluation.value < 0) {
-        return false;
-    }
-
     // Disallow promotions as brilliants
     const parsedPlayedMove = parseUciMove(current.playedMove.uci);
 
@@ -40,21 +38,59 @@ export function considerBrilliantClassification(
         return false;
     }
 
-    // Scan current board for hanging pieces
+    // Scan current board for unsafe pieces
     const capturedPiece = previous.board.get(parsedPlayedMove.to);
-    const capturedPieceValue = capturedPiece
-        ? pieceValues[capturedPiece.type] : 0;
 
-    const boardPieces = current.board.board()
-        .reduce((acc, val) => acc.concat(val))
-        .filter(piece => (
-            piece?.color == adaptPieceColour(current.moveColour)
-            && piece.type != KING
-            && piece.type != PAWN
-            && pieceValues[piece.type] > capturedPieceValue
-        ));
+    const capturedBoardPiece: BoardPiece | undefined = capturedPiece
+        ? { ...capturedPiece, square: parsedPlayedMove.to }
+        : undefined;
 
-    return boardPieces.some(
-        piece => !getPieceSafety(current.board, piece!)
+    const unsafePieces = getUnsafePieces(
+        current.board,
+        current.moveColour,
+        capturedBoardPiece
     );
+
+    // Moving a piece to safety (less unsafe pieces than in previous position)
+    // disallows a brilliant
+    const previousUnsafePieces = getUnsafePieces(
+        previous.board,
+        current.moveColour
+    );
+
+    if (unsafePieces.length < previousUnsafePieces.length) {
+        return false;
+    }
+
+    // Detect equal or greater counterthreats (danger levels) or relative pins
+    const dangerLevelsProtected = unsafePieces.every(unsafePiece => {
+        const attackers = getAttackers(current.board, unsafePiece, false);
+
+        // Check if every attacker's capture would leave one of their side's
+        // pieces of greater or equal value unsafe.
+        return attackers.every(attacker => {
+            const captureBoard = new Chess(current.state.fen);
+
+            try {
+                captureBoard.move({
+                    from: attacker.square,
+                    to: unsafePiece.square,
+                    promotion: QUEEN
+                });
+            } catch {
+                return true;
+            }
+
+            return getBoardPieces(captureBoard)
+                .filter(piece => piece.color == attacker.color)
+                .some(piece => (
+                    pieceValues[piece.type] >= pieceValues[unsafePiece.type]
+                    && !getPieceSafety(captureBoard, piece, capturedBoardPiece)
+                ));
+        });
+    });
+
+    if (dangerLevelsProtected) return false;
+
+    return unsafePieces.length > 0;
 }
