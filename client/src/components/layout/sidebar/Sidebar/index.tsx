@@ -71,7 +71,7 @@ function Sidebar({ style }: SidebarProps) {
 
             <SidebarTab
                 navigateTo="/settings"
-                icon={require("@assets/img/settings.svg")}
+                icon={require("@assets/img/settings.png")}
                 style={{ width: "100%" }}
             >
                 {t("settings")}

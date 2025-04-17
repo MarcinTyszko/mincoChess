@@ -44,7 +44,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/settings.svg")}
+                icon={require("@assets/img/settings.png")}
                 iconSize={"35px"}
                 tooltip={t("settings")}
                 onClick={() => setSettingsOpen(true)}

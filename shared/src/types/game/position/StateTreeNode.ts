@@ -1,7 +1,7 @@
 import { Chess } from "chess.js";
 import { round, clone, uniqueId } from "lodash";
 
-import { BoardState } from "./BoardState";
+import { BoardState, getTopEngineLine } from "./BoardState";
 import PieceColour from "@constants/PieceColour";
 
 export interface StateTreeNode {
@@ -19,6 +19,12 @@ export interface StateTreeNode {
 export function serializeNode(rootNode: StateTreeNode) {
     function serializePart(part: StateTreeNode) {
         part.parent = undefined;
+
+        const topLine = getTopEngineLine(part.state);
+
+        part.state.engineLines = part.state.engineLines.filter(
+            line => line.depth == topLine?.depth
+        );
 
         part.children = part.children.map(
             child => serializePart(clone(child))
