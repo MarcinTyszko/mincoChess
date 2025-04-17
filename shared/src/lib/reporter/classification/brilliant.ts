@@ -5,11 +5,12 @@ import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../utils/types/ExtractedNode";
+import BoardPiece from "../utils/types/BoardPiece";
 import { pieceValues } from "@constants/utils";
 import { getBoardPieces } from "../utils/boardPieces";
-import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
 import { getAttackers } from "../utils/attackers";
-import BoardPiece from "../utils/types/BoardPiece";
+import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
+import { getPieceTrapped } from "../utils/pieceTrapped";
 
 /**
  * @description Consider brilliant classification based on a
@@ -91,6 +92,14 @@ export function considerBrilliantClassification(
     });
 
     if (dangerLevelsProtected) return false;
+
+    // If all unsafe pieces in the previous position were trapped, do not allow
+    // a desperado move to be considered brilliant
+    const unsafePiecesTrapped = previousUnsafePieces.every(
+        unsafePiece => getPieceTrapped(previous.board, unsafePiece)
+    );
+
+    if (unsafePiecesTrapped) return false;
 
     return unsafePieces.length > 0;
 }
