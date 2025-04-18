@@ -1,11 +1,13 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { pointLossClassify } from "./classification/pointLoss";
-import { considerBrilliantClassification } from "./classification/brilliant";
+import Classification from "@constants/Classification";
 import {
     extractPreviousStateTreeNode,
     extractCurrentStateTreeNode
 } from "./utils/extractNode";
-import Classification from "@constants/Classification";
+import { pointLossClassify } from "./classification/pointLoss";
+import { considerBrilliantClassification } from "./classification/brilliant";
+
+import openings from "@resources/openings.json";
 
 interface ClassifyOptions {
     includeBrilliant?: boolean;
@@ -39,7 +41,15 @@ export function classify(
     }
 
     // Consider theory classification
-    // ...
+    const openingName = (openings as any)[
+        node.state.fen.split(" ")[0]
+    ];
+
+    if (opts.includeTheory && openingName) {
+        node.state.opening = openingName;
+
+        return Classification.THEORY;
+    }
 
     // Point loss classify
     let classification = previous.topMove.san == current.playedMove.san

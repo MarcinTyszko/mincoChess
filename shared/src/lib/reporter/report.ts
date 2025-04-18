@@ -13,6 +13,7 @@ import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 export function getGameReport(rootNode: StateTreeNode): GameAnalysis {
     const treeNodes = getNodeChain(rootNode);
     
+    // Apply classifications and accuracies to moves
     for (const node of treeNodes) {
         try {
             node.state.classification = classify(node);

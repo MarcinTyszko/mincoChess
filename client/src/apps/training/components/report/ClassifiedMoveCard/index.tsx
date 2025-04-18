@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
     addChildMove,
     Classification,
+    getNearestOpening,
     getTopEngineLine
 } from "wintrchess";
 import {
@@ -36,74 +37,88 @@ function ClassifiedMoveCard() {
         ? getTopEngineLine(node.parent.state)?.moves.at(0)
         : undefined;
 
+    const nearestOpeningName = getNearestOpening(node);
+
     return <div className={styles.wrapper}>
-        <div className={styles.classification}>
-            <img
-                src={node.state.classification != undefined
+        <div
+            className={styles.classificationSection}
+            style={nearestOpeningName
+                ? { borderRadius: "10px 10px 0 0" }
+                : undefined
+            }
+        >
+            <div className={styles.classification}>
+                <img src={node.state.classification != undefined
                     ? classificationImages[node.state.classification]
                     : (realtimeClassifyError
                         ? errorClassificationIcon
                         : loadingClassificationIcon
                     )
-                }
-                width={30}
-                height={30}
-            />
+                }/>
 
-            <span
-                className={styles.classificationName}
-                style={{
-                    color: node.state.classification != undefined
-                        ? classificationColours[node.state.classification]
+                <span
+                    className={styles.classificationName}
+                    style={{
+                        color: node.state.classification != undefined
+                            ? classificationColours[node.state.classification]
+                            : (realtimeClassifyError
+                                ? classificationColours[Classification.BLUNDER]
+                                : "white"
+                            )
+                    }}
+                >
+                    {node.state.classification != undefined
+                        ? (
+                            `${node.state.move?.san} `
+                            + t(
+                                "pages.analysis.classifiedMoveCard.classifications."
+                                + node.state.classification
+                            )
+                        )
                         : (realtimeClassifyError
-                            ? classificationColours[Classification.BLUNDER]
-                            : "white"
+                            ? t("error") : t("loading")
                         )
-                }}
-            >
-                {node.state.classification != undefined
-                    ? (
-                        `${node.state.move?.san} `
-                        + t(
-                            "pages.analysis.classifiedMoveCard.classifications."
-                            + node.state.classification
-                        )
-                    )
-                    : (realtimeClassifyError
-                        ? t("error") : t("loading")
-                    )
-                }
-            </span>
+                    }
+                </span>
+            </div>
+
+            {
+                realtimeClassifyError
+                && <ErrorMessage style={{ marginTop: "5px" }}>
+                    {realtimeClassifyError}
+                </ErrorMessage>
+            }
+
+            {
+                bestAlternativeMove
+                && node.state.classification != undefined
+                && bestAlternativeMove.san != node.state.move?.san
+                && !inalterableClassifications.includes(node.state.classification)
+                && <span className={styles.bestAlternativeComment}>
+                    <span>The best move was</span>
+
+                    <span
+                        className={styles.bestAlternativeMove}
+                        onClick={() => {
+                            if (!node.parent) return;
+
+                            const createdNode = addChildMove(node.parent, bestAlternativeMove.san);
+
+                            setCurrentStateTreeNode(createdNode);
+                            playBoardSound(createdNode);
+                        }}
+                    >
+                        {bestAlternativeMove.san}
+                    </span>
+                </span>
+            }
         </div>
 
         {
-            realtimeClassifyError
-            && <ErrorMessage style={{ marginTop: "5px" }}>
-                {realtimeClassifyError}
-            </ErrorMessage>
-        }
-
-        {
-            bestAlternativeMove && node.state.classification != undefined
-            && bestAlternativeMove.san != node.state.move?.san
-            && !inalterableClassifications.includes(node.state.classification)
-            && <span className={styles.bestAlternativeComment}>
-                <span>The best move was</span>
-
-                <span
-                    className={styles.bestAlternativeMove}
-                    onClick={() => {
-                        if (!node.parent) return;
-
-                        const createdNode = addChildMove(node.parent, bestAlternativeMove.san);
-
-                        setCurrentStateTreeNode(createdNode);
-                        playBoardSound(createdNode);
-                    }}
-                >
-                    {bestAlternativeMove.san}
-                </span>
-            </span>
+            nearestOpeningName
+            && <div className={styles.opening}>
+                {nearestOpeningName}
+            </div>
         }
     </div>;
 }

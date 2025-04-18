@@ -188,3 +188,17 @@ export function addChildMove(node: StateTreeNode, san: string) {
 
     return existingNode || createdNode;
 }
+
+/**
+ * @description Recurses up the tree and returns the nearest opening
+ * name
+ */
+export function getNearestOpening(node: StateTreeNode) {
+    let current = node;
+
+    while (current.parent && !current.state.opening) {
+        current = current.parent;
+    }
+
+    return current.state.opening;
+}

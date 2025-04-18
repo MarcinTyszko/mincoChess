@@ -20,8 +20,6 @@ export function considerBrilliantClassification(
     previous: ExtractedPreviousNode,
     current: ExtractedCurrentNode
 ) {
-    console.log(`considering brilliant for: ${current.playedMove.san}`);
-
     // Disallow brilliants for highly winning positions where
     // critical moves are not needed to move towards checkmate
     if (
@@ -53,8 +51,6 @@ export function considerBrilliantClassification(
         current.moveColour,
         capturedBoardPiece
     );
-
-    console.log(`unsafe pieces: ${unsafePieces.map(piece => `${piece.color}${piece.type} on ${piece.square}`)}`);
 
     // Moving a piece to safety (less unsafe pieces than in previous position)
     // disallows a brilliant
@@ -95,8 +91,6 @@ export function considerBrilliantClassification(
         });
     });
 
-    console.log(`all unsafe pieces protected by danger levels: ${dangerLevelsProtected}`);
-
     if (dangerLevelsProtected) return false;
 
     // If moved piece was trapped in previous position, do not allow
@@ -105,8 +99,6 @@ export function considerBrilliantClassification(
         ...current.playedPiece,
         square: parsedPlayedMove.from
     });
-
-    console.log(`was moved piece trapped before: ${pieceTrapped}`);
 
     if (pieceTrapped) return false;
 

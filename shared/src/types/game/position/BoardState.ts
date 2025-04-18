@@ -14,6 +14,7 @@ export interface BoardState {
     engineLines: EngineLine[];
     classification?: Classification;
     accuracy?: number;
+    opening?: string;
 }
 
 /**

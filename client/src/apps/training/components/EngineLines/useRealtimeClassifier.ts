@@ -106,6 +106,7 @@ function useRealtimeClassifier() {
 
         currentState.classification = analysedState.classification;
         currentState.accuracy = analysedState.accuracy;
+        currentState.opening = analysedState.opening;
 
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError();
