@@ -5,6 +5,7 @@ import { EngineLine } from "@ctypes/game/position/EngineLine";
 import Move from "@ctypes/game/position/Move";
 import Evaluation from "@ctypes/game/position/Evaluation";
 import PieceColour from "@constants/PieceColour";
+import BoardPiece from "./BoardPiece";
 
 export interface ExtractedPreviousNode {
     board: Chess;
@@ -15,6 +16,7 @@ export interface ExtractedPreviousNode {
     subjectiveEvaluation?: Evaluation;
     playedMove?: Move;
     moveColour?: PieceColour;
+    playedPiece?: BoardPiece;
 }
 
 export interface ExtractedCurrentNode {
@@ -26,4 +28,5 @@ export interface ExtractedCurrentNode {
     subjectiveEvaluation: Evaluation;
     playedMove: Move;
     moveColour: PieceColour;
+    playedPiece: BoardPiece;
 }

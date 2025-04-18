@@ -136,8 +136,14 @@ function EngineLines({ style }: EngineLinesProps) {
                     }
 
                     currentStateTreeNode.state.engineLines.push(line);
+
+                    console.log(line);
                 }
             );
+
+            console.log("local engine finished evaluating.");
+
+            console.log(currentStateTreeNode.state.engineLines);
 
             // If depth fully reached
             // If game is in terminal position, don't consider depth 0

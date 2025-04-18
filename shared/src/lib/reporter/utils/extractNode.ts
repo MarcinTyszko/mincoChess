@@ -7,6 +7,8 @@ import {
     ExtractedPreviousNode
 } from "./types/ExtractedNode";
 import PieceColour from "@constants/PieceColour";
+import { parseUciMove } from "@lib/moveNotation";
+import BoardPiece from "./types/BoardPiece";
 
 export function extractPreviousStateTreeNode(
     node: StateTreeNode
@@ -19,6 +21,17 @@ export function extractPreviousStateTreeNode(
 
     const playedMove = node.state.move;
     const moveColour = node.state.moveColour;
+
+    let playedPiece: BoardPiece | undefined;
+
+    if (playedMove) {
+        const parsedPlayedMove = parseUciMove(playedMove.uci);
+        const piece = new Chess(node.state.fen).get(parsedPlayedMove.to);
+
+        playedPiece = piece
+            ? { ...piece, square: parsedPlayedMove.to }
+            : undefined;
+    }
 
     const subjectiveEvaluationValue = (
         topLine.evaluation.value
@@ -38,7 +51,8 @@ export function extractPreviousStateTreeNode(
             }
             : undefined,
         playedMove: playedMove,
-        moveColour: moveColour
+        moveColour: moveColour,
+        playedPiece: playedPiece
     };
 }
 
@@ -60,6 +74,15 @@ export function extractCurrentStateTreeNode(
     const moveColour = node.state.moveColour;
     if (!moveColour) return null;
 
+    const parsedPlayedMove = parseUciMove(playedMove.uci);
+    const piece = new Chess(node.state.fen).get(parsedPlayedMove.to);
+    if (!piece) return null;
+
+    const playedPiece: BoardPiece = {
+        ...piece,
+        square: parsedPlayedMove.to
+    };
+
     const subjectiveEvaluationValue = (
         topLine.evaluation.value
         * (moveColour == PieceColour.WHITE ? 1 : -1)
@@ -76,6 +99,7 @@ export function extractCurrentStateTreeNode(
             value: subjectiveEvaluationValue
         },
         playedMove: playedMove,
-        moveColour: moveColour
+        moveColour: moveColour,
+        playedPiece: playedPiece
     };
 }

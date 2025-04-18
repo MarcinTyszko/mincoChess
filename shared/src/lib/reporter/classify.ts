@@ -44,11 +44,7 @@ export function classify(
     // Point loss classify
     let classification = previous.topMove.san == current.playedMove.san
         ? Classification.BEST
-        : pointLossClassify(
-            previous.evaluation,
-            current.evaluation,
-            current.moveColour!
-        );
+        : pointLossClassify(previous, current);
 
     // Consider brilliant classification
     if (

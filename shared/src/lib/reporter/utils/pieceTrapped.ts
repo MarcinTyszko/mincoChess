@@ -6,12 +6,16 @@ import { getPieceSafety } from "./pieceSafety";
 
 export function getPieceTrapped(board: Chess, piece: BoardPiece) {
     const pieceSafety = getPieceSafety(board, piece);
-    const pieceMoves = board.moves({ square: piece.square });
+    
+    const pieceMoves = board.moves({
+        square: piece.square,
+        verbose: true
+    });
 
-    const allMovesUnsafe = pieceMoves.every(moveSan => {
+    const allMovesUnsafe = pieceMoves.every(move => {
         const escapeBoard = new Chess(board.fen());
         
-        const escapeMove = escapeBoard.move(moveSan);
+        const escapeMove = escapeBoard.move(move.lan);
 
         return !getPieceSafety(
             escapeBoard,

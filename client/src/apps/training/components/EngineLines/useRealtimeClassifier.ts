@@ -80,8 +80,6 @@ function useRealtimeClassifier() {
             );
         }
 
-        // Classify node and classify whole tree again for accuracies
-        // CHANGE THIS LATER WHEN ACCURACIES IS SEPARATE ALGORITHM
         const classifyNodeResult = await classifyNode(currentStateTreeNode);
 
         // If session is invalid, await a new CAPTCHA solve
@@ -103,7 +101,11 @@ function useRealtimeClassifier() {
         }
 
         // Apply classification and deactivate classifier
-        currentStateTreeNode.state = classifyNodeResult.node.state;
+        const currentState = currentStateTreeNode.state;
+        const analysedState = classifyNodeResult.node.state;
+
+        currentState.classification = analysedState.classification;
+        currentState.accuracy = analysedState.accuracy;
 
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError();
