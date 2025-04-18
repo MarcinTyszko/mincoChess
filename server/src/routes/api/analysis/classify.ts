@@ -3,10 +3,9 @@ import { StatusCodes } from "http-status-codes";
 
 import {
     StateTreeNode,
-    GameAnalysis,
     serializeNode,
     deserializeNode,
-    classifyTree
+    getGameReport
 } from "wintrchess";
 
 const path = "/api/analysis/classify";
@@ -19,26 +18,20 @@ router.use(
 );
 
 router.post(path, async (req, res) => {
-    let stateTree: StateTreeNode | undefined = req.body;
+    const serializedStateTree: StateTreeNode | undefined = req.body;
 
-    if (!stateTree) {
+    if (!serializedStateTree) {
         return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
-    stateTree = deserializeNode(stateTree);
+    const stateTree = deserializeNode(serializedStateTree);
 
     try {
-        classifyTree(stateTree);
-    
-        const analysis: GameAnalysis = {
-            accuracies: {
-                white: 50,
-                black: 75
-            },
-            stateTree: serializeNode(stateTree)
-        };
+        const gameReport = getGameReport(stateTree);
+        
+        gameReport.stateTree = serializeNode(gameReport.stateTree);
 
-        res.json(analysis);
+        res.json(gameReport);
     } catch {
         res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }

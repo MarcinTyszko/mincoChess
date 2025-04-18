@@ -1,5 +1,6 @@
 import React from "react";
 
+import { getGameAccuracy } from "wintrchess";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import AccuraciesCard from "@apps/training/components/report/AccuraciesCard";
@@ -10,10 +11,7 @@ function GameReport() {
 
     useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
 
-    const accuracies = analysisGame.accuracies || {
-        white: 0,
-        black: 0
-    };
+    const accuracies = getGameAccuracy(analysisGame.stateTree);
     
     return <>
         <AccuraciesCard

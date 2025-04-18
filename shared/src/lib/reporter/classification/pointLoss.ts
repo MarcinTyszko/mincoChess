@@ -1,7 +1,7 @@
 import Classification from "@constants/Classification";
 import PieceColour from "@constants/PieceColour";
 import Evaluation from "@ctypes/game/position/Evaluation";
-import { getExpectedPoints } from "../expectedPoints";
+import { getExpectedPointsLoss } from "../expectedPoints";
 
 /**
  * @description Classify using two evaluations and a move colour,
@@ -43,12 +43,10 @@ export function pointLossClassify(
         }
     }
 
-    const pointLoss = Math.max(0,
-        (
-            getExpectedPoints(previousEvaluation)
-            - getExpectedPoints(currentEvaluation)
-        )
-        * (moveColour == PieceColour.WHITE ? 1 : -1)
+    const pointLoss = getExpectedPointsLoss(
+        previousEvaluation,
+        currentEvaluation,
+        moveColour
     );
 
     if (pointLoss < 0.01) {

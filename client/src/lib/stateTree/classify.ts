@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { clone } from "lodash";
 
 import {
-    Classification,
     GameAnalysis,
     StateTreeNode,
     serializeNode,
@@ -16,7 +15,7 @@ interface ClassifyTreeResult {
 
 interface ClassifyNodeResult {
     status: StatusCodes;
-    classification?: Classification;
+    node?: StateTreeNode;
 }
 
 /**
@@ -69,15 +68,8 @@ export async function classifyNode(
     const classificationResult = await classifyStateTree(parentNode);
     const classifiedNode = classificationResult.gameAnalysis?.stateTree.children[0];
 
-    if (
-        classificationResult.status != StatusCodes.OK
-        || !classifiedNode 
-    ) {
-        return { status: classificationResult.status };
-    }
-
     return {
         status: classificationResult.status,
-        classification: classifiedNode.state.classification
+        node: classifiedNode
     };
 }

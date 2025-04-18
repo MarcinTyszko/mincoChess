@@ -13,6 +13,7 @@ export interface BoardState {
     moveColour?: PieceColour;
     engineLines: EngineLine[];
     classification?: Classification;
+    accuracy?: number;
 }
 
 /**

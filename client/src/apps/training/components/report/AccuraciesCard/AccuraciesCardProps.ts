@@ -1,7 +1,10 @@
 import { GameAnalysis } from "wintrchess";
 
 interface AccuraciesCardProps {
-    accuracies: NonNullable<GameAnalysis["accuracies"]>;
+    accuracies: {
+        white: number;
+        black: number;
+    };
     estimatedRatings?: GameAnalysis["estimatedRatings"];
 }
 

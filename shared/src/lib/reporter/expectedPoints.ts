@@ -6,10 +6,6 @@ interface ExpectedPointsOptions {
     centipawnGradient?: number;
 }
 
-/**
- * @description Returns white's probability of winning
- * (expected points) given an evaluation and move colour
- */
 export function getExpectedPoints(
     evaluation: Evaluation,
     options?: ExpectedPointsOptions
@@ -27,9 +23,22 @@ export function getExpectedPoints(
 
         return Number(evaluation.value > 0);
     } else {
-        return 1 / (1 + Math.pow(
-            Math.E,
+        return 1 / (1 + Math.exp(
             -opts.centipawnGradient * evaluation.value
         ));
     }
+}
+
+export function getExpectedPointsLoss(
+    previousEvaluation: Evaluation,
+    currentEvaluation: Evaluation,
+    moveColour: PieceColour
+) {
+    return Math.max(0,
+        (
+            getExpectedPoints(previousEvaluation)
+            - getExpectedPoints(currentEvaluation)
+        )
+        * (moveColour == PieceColour.WHITE ? 1 : -1)
+    );
 }

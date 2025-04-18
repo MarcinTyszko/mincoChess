@@ -101,7 +101,7 @@ function ProgressArea() {
                 }
 
                 return findNodeRecursively(
-                    classifyResult.gameAnalysis?.stateTree,
+                    classifyResult.gameAnalysis.stateTree,
                     node => node.id == prev.id
                 ) || prev;
             });

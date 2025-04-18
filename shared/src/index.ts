@@ -12,9 +12,9 @@ export * from "./constants/utils";
 export * from "./lib/date";
 export * from "./lib/moveNotation";
 
+export * from "./lib/reporter/report";
+export * from "./lib/reporter/accuracy/gameAccuracy";
 export * from "./lib/reporter/expectedPoints";
-export * from "./lib/reporter/classify";
-export * from "./lib/reporter/classification/pointLoss";
 
 export * from "./types/game/Game";
 export * from "./types/game/GameAnalysis";
