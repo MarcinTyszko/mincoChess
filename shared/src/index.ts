@@ -5,7 +5,7 @@ export { default as Classification } from "./constants/Classification";
 export * from "./constants/game/GameResult";
 export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";
-export { default as EngineVersion } from "./constants/game/EngineVersion";
+export { default as EngineVersion } from "./constants/EngineVersion";
 
 export * from "./constants/utils";
 

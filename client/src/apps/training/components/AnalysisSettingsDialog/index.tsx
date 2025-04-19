@@ -55,11 +55,19 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <DropdownSetting
                 options={[
                     {
-                        label: "Stockfish 16",
+                        label: "Stockfish 17",
+                        value: EngineVersion.STOCKFISH_17
+                    },
+                    {
+                        label: "Stockfish 17 Lite",
+                        value: EngineVersion.STOCKFISH_17_LITE
+                    },
+                    {
+                        label: "Stockfish 16.1",
                         value: EngineVersion.STOCKFISH_16_1
                     },
                     {
-                        label: "Stockfish 16 Lite",
+                        label: "Stockfish 16.1 Lite",
                         value: EngineVersion.STOCKFISH_16_1_LITE
                     }
                 ]}

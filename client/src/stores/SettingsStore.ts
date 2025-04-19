@@ -29,7 +29,7 @@ type SettingsReducer = (settings: Settings) => Settings;
 const defaultSettings: Settings = {
     analysis: {
         engineEnabled: true,
-        engine: EngineVersion.STOCKFISH_16_1_LITE,
+        engine: EngineVersion.STOCKFISH_17_LITE,
         engineDepth: 18,
         engineLines: 3,
         hideClassifications: false,

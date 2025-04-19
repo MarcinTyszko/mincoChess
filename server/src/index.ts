@@ -13,14 +13,24 @@ const app = express();
 
 app.use(cookieParser());
 
+// Authentication and security
 app.use("/internal", internalAuthenticator);
 app.use("/api/analysis", analysisAuthenticator);
 
+app.use("/engines", (req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+
+    next();
+});
+
+// Static assets
 app.use("/",
     express.static("client/dist"),
     express.static("client/public")
 );
 
+// Normal endpoints
 app.use("/", apiRouter);
 app.use("/", internalRouter);
 
@@ -31,9 +41,6 @@ app.get("/internal*", async (req, res) => {
 });
 
 app.get("/*", async (req, res) => {
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-
     res.sendFile(
         path.resolve("client/public/apps/training.html")
     );
