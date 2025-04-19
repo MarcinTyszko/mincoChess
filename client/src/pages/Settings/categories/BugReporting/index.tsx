@@ -27,11 +27,11 @@ function BugReporting() {
             </span>
 
             <CheckboxSetting
-                getInitialValue={() => settings.openBeta.bugReportingMode}
+                getInitialValue={() => settings.bugReportingMode}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.openBeta.bugReportingMode = checked;
+                            draft.bugReportingMode = checked;
                             return draft;
                         })
                     ));

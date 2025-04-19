@@ -29,9 +29,7 @@ const settingsSchema = z.object({
         }),
         piece: z.string()
     }),
-    openBeta: z.object({
-        bugReportingMode: z.boolean()
-    })
+    bugReportingMode: z.boolean()
 });
 
 type Settings = z.infer<typeof settingsSchema>;
@@ -58,9 +56,7 @@ export const defaultSettings: Settings = {
         },
         piece: ""
     },
-    openBeta: {
-        bugReportingMode: false
-    }
+    bugReportingMode: false
 };
 
 function fetchSettings() {

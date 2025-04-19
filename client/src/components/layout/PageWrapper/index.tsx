@@ -16,7 +16,7 @@ import * as styles from "./PageWrapper.module.css";
 
 function PageWrapper({ children }: PageWrapperProps) {
     const bugReportingMode = useSettingsStore(
-        state => state.settings.openBeta.bugReportingMode
+        state => state.settings.bugReportingMode
     );
 
     const {
