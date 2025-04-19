@@ -19,6 +19,7 @@ import ClassificationCountCardProps from "./ClassificationCountCardProps";
 import * as styles from "./ClassificationCountCard.module.css";
 
 const excludedClassifications = [
+    Classification.ONLY,
     Classification.FORCED,
     Classification.RISKY
 ];
