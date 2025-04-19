@@ -21,9 +21,7 @@ export function getGameReport(
     for (const node of treeNodes) {
         try {
             node.state.classification = classify(node, options);
-        } catch (err) {
-            console.log(err);
-
+        } catch {
             node.state.classification = undefined;
         }
 
