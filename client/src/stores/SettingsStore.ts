@@ -6,33 +6,6 @@ import z from "zod";
 import { EngineVersion } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
 
-interface Settings {
-    analysis: {
-        engineEnabled: boolean;
-        engine: EngineVersion;
-        engineDepth: number;
-        engineLines: number;
-        hideClassifications: boolean;
-        suggestionArrows: boolean;
-        includedClassifications: {
-            brilliant: boolean;
-            theory: boolean;
-        };
-    };
-    themes: {
-        board: {
-            lightSquareColour: string;
-            darkSquareColour: string;
-        };
-        piece: string;
-    };
-    openBeta: {
-        bugReportingMode: boolean;
-    };
-}
-
-type SettingsReducer = (settings: Settings) => Settings;
-
 const settingsSchema = z.object({
     analysis: z.object({
         engineEnabled: z.boolean(),
@@ -60,6 +33,10 @@ const settingsSchema = z.object({
         bugReportingMode: z.boolean()
     })
 });
+
+type Settings = z.infer<typeof settingsSchema>;
+
+type SettingsReducer = (settings: Settings) => Settings;
 
 export const defaultSettings: Settings = {
     analysis: {
