@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { cloneDeep, merge } from "lodash";
+import { cloneDeep, mergeWith } from "lodash";
 
 import { EngineVersion } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
@@ -67,9 +67,22 @@ function fetchSettings() {
     }
 
     try {
-        return merge(
+        function recursiveMerge(objectValue: any, sourceValue: any) {
+            if (typeof objectValue == "object") {
+                if (typeof sourceValue != "object") {
+                    return objectValue;
+                }
+
+                return mergeWith(objectValue, sourceValue, recursiveMerge);
+            }
+
+            return sourceValue;
+        }
+
+        return mergeWith(
             defaultSettingsCopy,
-            JSON.parse(value)
+            JSON.parse(value),
+            recursiveMerge
         );
     } catch {
         return defaultSettingsCopy;
