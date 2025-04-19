@@ -1,26 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ReactMarkdown from "react-markdown";
 import { ToastContainer } from "react-toastify";
 
+import useSettingsStore from "@stores/SettingsStore";
+import useLayoutStore from "@stores/LayoutStore";
 import getAnnouncement from "@lib/announcement";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
 import AnnouncementBanner from "../Announcement";
-import useLayoutStore from "@stores/LayoutStore";
+import BugReportingWidget from "@components/BugReportingWidget";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
 
 function PageWrapper({ children }: PageWrapperProps) {
-    const [ announcementOpen, setAnnouncementOpen ] = useState(true);
+    const bugReportingMode = useSettingsStore(
+        state => state.settings.openBeta.bugReportingMode
+    );
 
     const {
         topSectionHeight,
         setTopSectionHeight,
         setContentSectionHeight
     } = useLayoutStore();
+
+    const [ announcementOpen, setAnnouncementOpen ] = useState(true);
 
     const topSectionRef = useRef<HTMLDivElement>(null);
     const contentSectionRef = useRef<HTMLDivElement>(null);
@@ -86,8 +91,9 @@ function PageWrapper({ children }: PageWrapperProps) {
             </div>
         </div>
 
+        {bugReportingMode && <BugReportingWidget/>}
+
         <ToastContainer/>
-        <ReactQueryDevtools/>
     </div>;
 }
 

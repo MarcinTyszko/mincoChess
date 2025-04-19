@@ -25,6 +25,9 @@ interface Settings {
         };
         piece: string;
     };
+    openBeta: {
+        bugReportingMode: boolean;
+    };
 }
 
 type SettingsReducer = (settings: Settings) => Settings;
@@ -48,6 +51,9 @@ export const defaultSettings: Settings = {
             lightSquareColour: "#f0d9b5"
         },
         piece: ""
+    },
+    openBeta: {
+        bugReportingMode: false
     }
 };
 

@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import BoardAndPieces from "./categories/BoardAndPieces";
+import OpenBeta from "./categories/BugReporting";
 
 import CategoryTab from "./CategoryTab";
 import * as styles from "./Settings.module.css";
 
 enum SettingsCategory {
     BOARD_AND_PIECES,
+    OPEN_BETA,
     CONTACT
 }
 
@@ -32,7 +34,15 @@ function Settings() {
 
         <div className={styles.settingsContainer}>
             <div>
-                <BoardAndPieces/>
+                {
+                    openCategory == SettingsCategory.BOARD_AND_PIECES
+                    && <BoardAndPieces/>
+                }
+
+                {
+                    openCategory == SettingsCategory.OPEN_BETA
+                    && <OpenBeta/>
+                }
             </div>
 
             <div className={styles.categories}>
@@ -43,6 +53,15 @@ function Settings() {
                     )}
                 >
                     {t("pages.settings.categories.boardAndPieces.title")}
+                </CategoryTab>
+
+                <CategoryTab
+                    active={openCategory == SettingsCategory.OPEN_BETA}
+                    onClick={() => (
+                        setOpenCategory(SettingsCategory.OPEN_BETA)
+                    )}
+                >
+                    {t("pages.settings.categories.bugReporting.title")}
                 </CategoryTab>
 
                 <hr className={styles.separator} />

@@ -72,7 +72,7 @@ function GameSearchMenu({
 
     function selectListing(game: Game) {
         toast.success(
-            "Game selected!",
+            t("pages.analysis.gameSearchMenu.selectedToast"),
             {
                 position: "bottom-left",
                 theme: "dark",

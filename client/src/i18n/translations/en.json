@@ -59,7 +59,8 @@
                 "loadingLong": "This is taking a while, please wait...",
                 "userNotFound": "We couldn't find an account with this username.",
                 "noGamesFound": "We couldn't find any games for this month.",
-                "ratelimited": "You were ratelimited, please wait..."
+                "ratelimited": "You were ratelimited, please wait...",
+                "selectedToast": "Game selected!"
             },
             "analyseButton": "Analyse",
             "analysisError": "Analysis failed; it may be an issue with your browser.",
@@ -159,6 +160,11 @@
                         "ice": "Ice",
                         "marshmallow": "Marshmallow"
                     }
+                },
+                "bugReporting": {
+                    "title": "Bug Reporting",
+                    "bugReportingMode": "Bug Reporting Mode",
+                    "bugReportingModeDescription": "Help us find and fix bugs. Bug Reporting Mode activates a small widget in the bottom corner of your screen which you can click to copy console logs."
                 }
             }
         },
@@ -191,5 +197,9 @@
                 "unknown": "Unknown"
             }
         }
+    },
+    "bugReportWidget": {
+        "tooltip": "Copy Console Logs",
+        "toast": "Copied Console Logs!"
     }
 }
