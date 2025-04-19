@@ -26,7 +26,7 @@ function Dashboard() {
 
             <SidebarTab
                 navigateTo="/internal/dashboard/news"
-                icon={require("@assets/img/news-icon.svg")}
+                icon={require("@assets/img/news.svg")}
             >
                 News Articles
             </SidebarTab>

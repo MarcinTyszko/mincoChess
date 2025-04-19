@@ -24,7 +24,7 @@ function Announcement({
             setOpen
             && <div className={styles.closeButton}>
                 <Button 
-                    icon={require("@assets/img/close.svg")}
+                    icon={require("@assets/img/interface/close.svg")}
                     iconSize="40px"
                     style={{
                         backgroundColor: colour || "#ff3535",

@@ -78,7 +78,7 @@ function EngineLine({ line }: EngineLineProps) {
         <div className={styles.expandArrowContainer}>
             <img
                 className={styles.expandArrow}
-                src={require("@assets/img/expandarrow.svg")}
+                src={require("@assets/img/interface/expandarrow.svg")}
                 width={20}
                 onClick={() => setExpanded(!expanded)}
                 style={{

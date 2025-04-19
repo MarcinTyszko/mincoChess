@@ -102,7 +102,7 @@ function GameSearchMenu({
         <span className={styles.sourceTitle}>
             {gameSource.title}
 
-            <img src={require("@assets/img/rightchevron.svg")} />
+            <img src={require("@assets/img/interface/rightchevron.svg")} />
 
             {username}
         </span>

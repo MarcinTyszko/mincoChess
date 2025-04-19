@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import GameSelector from "@apps/training/components/GameSelector";
-import Button from "@components/common/Button";
 import ErrorMessage from "@components/common/ErrorMessage";
 
 import useImportGame from "../../useImportGame";
 import useEvaluateGame from "../../useEvaluateGame";
-import * as styles from "./GameSelection.module.css";
+import AnalyseButton from "./AnalyseButton";
 
 function GameSelection() {
-    const { t } = useTranslation();
-
     const {
         setSelectedGame,
         setGameSelectorError
@@ -49,14 +45,7 @@ function GameSelection() {
             setError={setGameSelectorError}
         />
 
-        <Button
-            className={styles.analyseButton}
-            icon={require("@assets/img/analysis.svg")}
-            iconSize="30px"
-            onClick={onAnalyseClick}
-        >
-            {t("pages.analysis.analyseButton")}
-        </Button>
+        <AnalyseButton onClick={onAnalyseClick} />
 
         {
             importError

@@ -15,7 +15,7 @@ function ErrorMessage({
         {
             includeIcon
             && <img
-                src={require("@assets/img/error.svg")}
+                src={require("@assets/img/interface/error.svg")}
                 height={25}
             />
         }

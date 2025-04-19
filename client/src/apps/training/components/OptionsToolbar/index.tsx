@@ -26,7 +26,7 @@ function OptionsToolbar() {
             {
                 gameAnalysisOpen
                 && <Button
-                    icon={require("@assets/img/back.svg")}
+                    icon={require("@assets/img/interface/back.svg")}
                     iconSize={"40px"}
                     className={styles.backButton}
                     tooltip={t("back")}
@@ -36,7 +36,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/flip.svg")}
+                icon={require("@assets/img/interface/flip.svg")}
                 iconSize={"40px"}
                 tooltip={t("pages.analysis.options.flipBoard")}
                 onClick={() => setBoardFlipped(!boardFlipped)}
@@ -44,7 +44,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/settings.png")}
+                icon={require("@assets/img/interface/settings.svg")}
                 iconSize={"35px"}
                 tooltip={t("settings")}
                 onClick={() => setSettingsOpen(true)}
@@ -52,7 +52,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/share.svg")}
+                icon={require("@assets/img/interface/share.svg")}
                 iconSize={"35px"}
                 tooltip={t("pages.analysis.options.share")}
                 onClick={() => toast.info(

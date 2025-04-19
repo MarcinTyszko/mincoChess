@@ -2,8 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import Button from "@components/common/Button";
 import GameSelector from "@apps/training/components/GameSelector";
+import AnalyseButton from "../Analysis/AnalysisPanel/GameSelection/AnalyseButton";
 
 import Header from "./Header";
 import * as styles from "./HelpCenter.module.css";
@@ -13,7 +13,7 @@ function HelpCenter() {
 
     return <div className={styles.wrapper}>
         <Header
-            image={require("@assets/img/help.svg")}
+            image={require("@assets/img/interface/help.svg")}
             size="1.7rem"
         >
             {t("pages.helpCenter.title")}
@@ -61,7 +61,7 @@ function HelpCenter() {
                 </span>
             </div>
 
-            <GameSelector style={{ width: "min(320px, 100%)" }}/>
+            <GameSelector style={{ width: "min(365px, 100%)" }}/>
 
             <span>
                 {t("pages.helpCenter.analysis.part4")}
@@ -71,16 +71,7 @@ function HelpCenter() {
                 {t("pages.helpCenter.analysis.part5")}
             </span>
 
-            <Button
-                icon={require("@assets/img/analysis.svg")}
-                iconSize="30px"
-                style={{
-                    width: "min(320px, 100%)",
-                    fontSize: "1.1rem"
-                }}
-            >
-                {t("pages.analysis.analyseButton")}
-            </Button>
+            <AnalyseButton style={{ width: "min(365px, 100%)" }} />
         </div>
     </div>;
 }

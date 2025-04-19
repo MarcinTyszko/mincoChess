@@ -242,7 +242,7 @@ function ArticleEditor() {
                     }}
                 >
                     <Button
-                        icon={require("@assets/img/upload.svg")}
+                        icon={require("@assets/img/interface/upload.svg")}
                         iconSize="25px"
                         style={{
                             backgroundColor: "var(--ui-shade-4)"
@@ -297,7 +297,7 @@ function ArticleEditor() {
                     }}
                 >
                     <Button
-                        icon={require("@assets/img/upload.svg")}
+                        icon={require("@assets/img/interface/upload.svg")}
                         iconSize="25px"
                         style={{
                             backgroundColor: "var(--ui-shade-4)"
@@ -338,7 +338,7 @@ function ArticleEditor() {
         </div>
 
         <Button
-            icon={require("@assets/img/edit.svg")}
+            icon={require("@assets/img/interface/edit.svg")}
             style={{
                 gap: "5px",
                 backgroundColor: ButtonColour.BLUE

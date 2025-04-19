@@ -153,7 +153,7 @@ function GameListing({
 
         <Button
             className={styles.copyButton}
-            icon={require("@assets/img/copy.svg")}
+            icon={require("@assets/img/interface/copy.svg")}
             tooltip={t("gameListing.copyPGN")}
             onClick={event => {
                 event.stopPropagation();

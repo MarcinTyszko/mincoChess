@@ -123,7 +123,7 @@ function AnnouncementEditor() {
 
         <div className={styles.buttonBar}>
             <Button
-                icon={require("@assets/img/edit.svg")}
+                icon={require("@assets/img/interface/edit.svg")}
                 style={{
                     gap: "5px",
                     backgroundColor: ButtonColour.BLUE
@@ -134,7 +134,7 @@ function AnnouncementEditor() {
             </Button>
 
             <Button
-                icon={require("@assets/img/delete.svg")}
+                icon={require("@assets/img/interface/delete.svg")}
                 style={{
                     gap: "5px",
                     backgroundColor: ButtonColour.RED

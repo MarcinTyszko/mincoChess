@@ -84,14 +84,14 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
 
     return <div className={styles.wrapper} style={style}>
         <img
-            src={require("@assets/img/start.svg")}
+            src={require("@assets/img/interface/start.svg")}
             width={50}
             onClick={traverseToBeginning}
             title={t("pages.analysis.stateTreeTraverser.beginning")}
         />
 
         <img
-            src={require("@assets/img/back.svg")}
+            src={require("@assets/img/interface/back.svg")}
             width={50}
             onClick={traverseBackwards}
             title={t("pages.analysis.stateTreeTraverser.back")}
@@ -107,20 +107,26 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
         >
             {
                 autoplayEnabled
-                    ? <img src={require("@assets/img/pause.svg")} width={50} />
-                    : <img src={require("@assets/img/play.svg")} width={50} />
+                    ? <img
+                        src={require("@assets/img/interface/pause.svg")}
+                        width={50}
+                    />
+                    : <img
+                        src={require("@assets/img/interface/play.svg")}
+                        width={50}
+                    />
             }
         </div>
 
         <img
-            src={require("@assets/img/next.svg")}
+            src={require("@assets/img/interface/next.svg")}
             width={50}
             onClick={traverseForwards}
             title={t("pages.analysis.stateTreeTraverser.next")}
         />
 
         <img
-            src={require("@assets/img/end.svg")}
+            src={require("@assets/img/interface/end.svg")}
             width={50}
             onClick={traverseToEnd}
             title={t("pages.analysis.stateTreeTraverser.end")}

@@ -22,7 +22,7 @@ function NavigationBar() {
                 innerWidth <= Breakpoints.RETRACT_SIDEBAR
                 && <img
                     className={styles.menuButton}
-                    src={require("@assets/img/menu.svg")}
+                    src={require("@assets/img/interface/menu.svg")}
                     height={35}
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                 />
@@ -72,7 +72,7 @@ function NavigationBar() {
             <LanguageSwitcher/>
 
             <Button
-                icon={require("@assets/img/help.svg")}
+                icon={require("@assets/img/interface/help.svg")}
                 style={{
                     width: "52px",
                     padding: "5px"

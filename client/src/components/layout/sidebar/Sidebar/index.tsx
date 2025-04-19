@@ -44,7 +44,7 @@ function Sidebar({ style }: SidebarProps) {
         <div className={styles.tabs}>
             <SidebarTab
                 navigateTo="/" 
-                icon={require("@assets/img/analysis.svg")}
+                icon={require("@assets/img/icons/analysis.png")}
                 style={{ width: "100%" }}
             >
                 {t("sidebar.analysis")}
@@ -52,7 +52,7 @@ function Sidebar({ style }: SidebarProps) {
 
             <SidebarTab
                 navigateTo="/archive" 
-                icon={require("@assets/img/archive.svg")} 
+                icon={require("@assets/img/icons/archive.png")} 
                 iconSize="20px"
                 style={{ width: "100%" }}
             >
@@ -63,7 +63,7 @@ function Sidebar({ style }: SidebarProps) {
         <div className={styles.footer}>
             <SidebarTab
                 navigateTo="/news"
-                icon={require("@assets/img/news-icon.svg")}
+                icon={require("@assets/img/icons/news.png")}
                 style={{ width: "100%" }}
             >
                 {t("sidebar.news")}
@@ -71,7 +71,7 @@ function Sidebar({ style }: SidebarProps) {
 
             <SidebarTab
                 navigateTo="/settings"
-                icon={require("@assets/img/settings.png")}
+                icon={require("@assets/img/icons/settings.png")}
                 style={{ width: "100%" }}
             >
                 {t("settings")}

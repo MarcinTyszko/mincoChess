@@ -18,7 +18,7 @@ function Unfound() {
 
         <Link to="/">
             <Button
-                icon={require("@assets/img/back.svg")}
+                icon={require("@assets/img/interface/back.svg")}
                 iconSize="30px"
                 style={{
                     backgroundColor: ButtonColour.BLUE,

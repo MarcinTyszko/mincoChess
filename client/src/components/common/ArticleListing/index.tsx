@@ -52,7 +52,7 @@ function ArticleListing({
                     src={article.thumbnail}
                 />
                 : <img
-                    src={require("@assets/img/logo.png")}
+                    src={require("@assets/img/logo.svg")}
                     style={{
                         width: "25%",
                         filter: "brightness(0.3)"
@@ -83,7 +83,7 @@ function ArticleListing({
             editable
             && <div className={styles.toolbar}>
                 <Button
-                    icon={require("@assets/img/delete.svg")}
+                    icon={require("@assets/img/interface/delete.svg")}
                     onClick={event => {
                         event.stopPropagation();
                         setDeleteConfirmOpen(true);
@@ -91,7 +91,7 @@ function ArticleListing({
                 />
 
                 <Button
-                    icon={require("@assets/img/edit.svg")}
+                    icon={require("@assets/img/interface/edit.svg")}
                     onClick={event => {
                         event.stopPropagation();
                         navigate(`/internal/dashboard/news/edit?id=${article.id}`);

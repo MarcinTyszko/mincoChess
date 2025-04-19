@@ -44,7 +44,7 @@ function MonthSelector({
     return <div className={styles.wrapper}>
         <Button
             className={styles.selectorButton}
-            icon={require("@assets/img/back.svg")}
+            icon={require("@assets/img/interface/back.svg")}
             iconSize="30px"
             onClick={() => incrementMonth(-1)}
         />
@@ -53,7 +53,7 @@ function MonthSelector({
 
         <Button
             className={styles.selectorButton}
-            icon={require("@assets/img/next.svg")}
+            icon={require("@assets/img/interface/next.svg")}
             iconSize="30px"
             onClick={() => incrementMonth(1)}
         />

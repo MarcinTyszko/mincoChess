@@ -110,17 +110,17 @@ function Move({ node, children }: MoveProps) {
                 position={contextMenuPosition}
                 options={[
                     {
-                        icon: require("@assets/img/delete.svg"),
+                        icon: require("@assets/img/interface/delete.svg"),
                         label: t("pages.analysis.stateTreeEditor.moveContextMenu.delete"),
                         onSelect: deleteNode
                     },
                     {
-                        icon: require("@assets/img/up.svg"),
+                        icon: require("@assets/img/interface/up.svg"),
                         label: t("pages.analysis.stateTreeEditor.moveContextMenu.promote"),
                         onSelect: promoteNode
                     },
                     {
-                        icon: require("@assets/img/help.svg"),
+                        icon: require("@assets/img/interface/help.svg"),
                         label: "Log state tree node",
                         onSelect: () => console.log(node)
                     }

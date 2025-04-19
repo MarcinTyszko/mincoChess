@@ -178,7 +178,7 @@ function GameSelector({
             gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
             && <Button
                 className={styles.selectorButton}
-                icon={require("@assets/img/search.svg")}
+                icon={require("@assets/img/interface/search.svg")}
                 iconSize="25px"
                 onClick={openGameSearchMenu}
             >
@@ -199,7 +199,7 @@ function GameSelector({
             >
                 <Button
                     className={styles.selectorButton}
-                    icon={require("@assets/img/upload.svg")}
+                    icon={require("@assets/img/interface/upload.svg")}
                     iconSize="25px"
                 >
                     {t("pages.analysis.gameSelector.uploadPGNButton")}

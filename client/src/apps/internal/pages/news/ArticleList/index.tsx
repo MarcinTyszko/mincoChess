@@ -57,7 +57,7 @@ function ArticleList() {
 
     return <div className={styles.wrapper}>
         <Button
-            icon={require("@assets/img/add.svg")}
+            icon={require("@assets/img/interface/add.svg")}
             style={{
                 backgroundColor: ButtonColour.BLUE
             }}
@@ -96,7 +96,7 @@ function ArticleList() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/back.svg")}
+                icon={require("@assets/img/interface/back.svg")}
                 onClick={() => switchPage(-1)}
             />
 
@@ -108,7 +108,7 @@ function ArticleList() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/next.svg")}
+                icon={require("@assets/img/interface/next.svg")}
                 onClick={() => switchPage(1)}
             />
         </div>

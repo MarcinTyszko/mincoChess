@@ -72,7 +72,7 @@ function News() {
                 />
 
                 <img
-                    src={require("@assets/img/news.png")}
+                    src={require("@assets/img/icons/news.png")}
                     height={45}
                     style={{ zIndex: 1 }}
                 />
@@ -146,7 +146,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/back.svg")}
+                icon={require("@assets/img/interface/back.svg")}
                 onClick={() => switchPage(-1)}
             />
 
@@ -158,7 +158,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/next.svg")}
+                icon={require("@assets/img/interface/next.svg")}
                 onClick={() => switchPage(1)}
             />
         </div>

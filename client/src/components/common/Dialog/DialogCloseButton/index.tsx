@@ -8,7 +8,7 @@ import * as styles from "./DialogCloseButton.module.css";
 function DialogCloseButton({ onClick, style }: DialogCloseButtonProps) {
     return <Button
         className={styles.closeButton}
-        icon={require("@assets/img/close.svg")}
+        icon={require("@assets/img/interface/close.svg")}
         iconSize="30px"
         style={style}
         onClick={onClick}

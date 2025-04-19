@@ -24,7 +24,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
     >
         <div className={`${styles.header} ${styles.title}`}>
             <img
-                src={require("@assets/img/engine.png")}
+                src={require("@assets/img/icons/engine.png")}
                 height={30}
             />
 
