@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { cloneDeep, mergeWith } from "lodash";
+import { cloneDeep, merge } from "lodash";
+import z from "zod";
 
 import { EngineVersion } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
@@ -31,6 +32,34 @@ interface Settings {
 }
 
 type SettingsReducer = (settings: Settings) => Settings;
+
+const settingsSchema = z.object({
+    analysis: z.object({
+        engineEnabled: z.boolean(),
+        engine: z.enum([
+            EngineVersion.STOCKFISH_17,
+            EngineVersion.STOCKFISH_17_LITE
+        ]),
+        engineDepth: z.number().min(10).max(99),
+        engineLines: z.number().min(1).max(5),
+        hideClassifications: z.boolean(),
+        suggestionArrows: z.boolean(),
+        includedClassifications: z.object({
+            brilliant: z.boolean(),
+            theory: z.boolean()
+        })
+    }),
+    themes: z.object({
+        board: z.object({
+            darkSquareColour: z.string().regex(/^#.{6}$/),
+            lightSquareColour: z.string().regex(/^#.{6}$/)
+        }),
+        piece: z.string()
+    }),
+    openBeta: z.object({
+        bugReportingMode: z.boolean()
+    })
+});
 
 export const defaultSettings: Settings = {
     analysis: {
@@ -67,23 +96,11 @@ function fetchSettings() {
     }
 
     try {
-        function recursiveMerge(objectValue: any, sourceValue: any) {
-            if (typeof objectValue == "object") {
-                if (typeof sourceValue != "object") {
-                    return objectValue;
-                }
+        const fetchedSettings = JSON.parse(value);
 
-                return mergeWith(objectValue, sourceValue, recursiveMerge);
-            }
+        settingsSchema.parse(fetchedSettings);
 
-            return sourceValue;
-        }
-
-        return mergeWith(
-            defaultSettingsCopy,
-            JSON.parse(value),
-            recursiveMerge
-        );
+        return merge(defaultSettingsCopy, fetchedSettings);
     } catch {
         return defaultSettingsCopy;
     }
