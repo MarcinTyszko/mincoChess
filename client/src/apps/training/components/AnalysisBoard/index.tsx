@@ -230,6 +230,12 @@ function AnalysisBoard({
 
                         setUserArrows(prev => [ ...prev, ...newUserArrows ]);
                     }}
+                    customLightSquareStyle={{
+                        backgroundColor: settings.themes.board.lightSquareColour
+                    }}
+                    customDarkSquareStyle={{
+                        backgroundColor: settings.themes.board.darkSquareColour
+                    }}
                     customSquare={squareRenderer}
                     customArrows={[ ...userArrows, ...suggestionArrows ]}
                     promotionDialogVariant="vertical"

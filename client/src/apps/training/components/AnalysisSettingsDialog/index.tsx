@@ -6,9 +6,9 @@ import { clamp } from "lodash";
 import { EngineVersion } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
 import Dialog from "@components/common/Dialog";
-import DropdownSetting from "@components/common/settings/DropdownSetting";
-import NumberSetting from "@components/common/settings/NumberSetting";
-import CheckboxSetting from "@components/common/settings/CheckboxSetting";
+import DropdownSetting from "@components/settings/DropdownSetting";
+import NumberSetting from "@components/settings/NumberSetting";
+import CheckboxSetting from "@components/settings/CheckboxSetting";
 
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
 import * as styles from "./AnalysisSettingsDialog.module.css";

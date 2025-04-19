@@ -20,7 +20,7 @@ function ColourSwatch({
                 onToggle?.(!open);
                 event.stopPropagation();
             }}
-        ></div>
+        />
 
         {
             open

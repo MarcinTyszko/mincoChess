@@ -11,15 +11,22 @@ const defaultIconSize = "30px";
 
 function SidebarTab({ 
     children,
+    className,
     style,
+    active,
     navigateTo,
     icon,
-    iconSize
+    iconSize,
+    onClick
 }: SidebarTabProps) {
     const navigate = useNavigate();
     const { setSidebarOpen } = useSidebarStore();
 
     function handleClick() {
+        onClick?.();
+
+        if (!navigateTo) return;
+
         navigate(navigateTo);
         
         if (window.innerWidth < Breakpoints.RETRACT_SIDEBAR) {
@@ -27,10 +34,10 @@ function SidebarTab({
         }
     }
 
-    const isTabActive = location.pathname == navigateTo;
+    const isTabActive = active ?? (location.pathname == navigateTo);
 
     return <button 
-        className={styles.sidebarTab} 
+        className={`${styles.sidebarTab} ${className}`} 
         onClick={handleClick}
         style={{
             ...style,

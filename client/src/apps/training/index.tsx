@@ -10,7 +10,7 @@ const Analysis = lazy(() => import("./pages/Analysis"));
 const Archive = lazy(() => import("./pages/Archive"));
 const NewsArticleList = lazy(() => import("./pages/news/ArticleList"));
 const NewsArticle = lazy(() => import("./pages/news/Article"));
-const Settings = lazy(() => import("./pages/Settings"));
+const Settings = lazy(() => import("../../pages/Settings"));
 
 const HelpCenter = lazy(() => import("./pages/HelpCenter"));
 

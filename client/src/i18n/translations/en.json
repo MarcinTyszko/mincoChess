@@ -3,6 +3,7 @@
     "back": "Back",
     "settings": "Settings",
     "error": "Error",
+    "reset": "Reset",
     "navigationBar": {
         "support": "Support",
         "tooltips": {
@@ -142,10 +143,35 @@
                 "part5": "After you've selected a game, just click the \"Analyse\" button to begin the analysis. You can also just move a piece on the board if you'd like to begin from the starting position."
             }
         },
+        "settings": {
+            "title": "Preferences",
+            "categories": {
+                "boardAndPieces": {
+                    "title": "Board and Pieces",
+                    "boardColour": "Board Colour",
+                    "lightSquareColour": "Light Square Colour",
+                    "darkSquareColour": "Dark Square Colour",
+                    "presetsTitle": "Presets",
+                    "presets": {
+                        "wooden": "Wooden",
+                        "tournament": "Tournament",
+                        "blue": "Blue",
+                        "ice": "Ice",
+                        "marshmallow": "Marshmallow"
+                    }
+                }
+            }
+        },
         "credits": {
             "leadDeveloper": "Lead Developer",
             "developer": "Developer",
-            "artist": "Digital Artist"
+            "artist": "Digital Artist",
+            "translators": "Translators",
+            "languages": {
+                "hindi": "Hindi",
+                "german": "German",
+                "french": "French"
+            }
         }
     },
     "gameListing": {

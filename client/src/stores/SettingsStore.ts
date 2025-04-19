@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { merge } from "lodash";
+import { cloneDeep, merge } from "lodash";
 
 import { EngineVersion } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
@@ -19,14 +19,17 @@ interface Settings {
         };
     };
     themes: {
-        board: string;
+        board: {
+            lightSquareColour: string;
+            darkSquareColour: string;
+        };
         piece: string;
     };
 }
 
 type SettingsReducer = (settings: Settings) => Settings;
 
-const defaultSettings: Settings = {
+export const defaultSettings: Settings = {
     analysis: {
         engineEnabled: true,
         engine: EngineVersion.STOCKFISH_17_LITE,
@@ -40,7 +43,10 @@ const defaultSettings: Settings = {
         }
     },
     themes: {
-        board: "",
+        board: {
+            darkSquareColour: "#b58863",
+            lightSquareColour: "#f0d9b5"
+        },
         piece: ""
     }
 };
@@ -48,17 +54,19 @@ const defaultSettings: Settings = {
 function fetchSettings() {
     const value = localStorage.getItem(LocalStorageKey.SETTINGS);
 
+    const defaultSettingsCopy = cloneDeep(defaultSettings);
+
     if (value == null) {
-        return defaultSettings;
+        return defaultSettingsCopy;
     }
 
     try {
         return merge(
-            defaultSettings,
+            defaultSettingsCopy,
             JSON.parse(value)
         );
     } catch {
-        return defaultSettings;
+        return defaultSettingsCopy;
     }
 }
 
