@@ -4,7 +4,7 @@ import { AnalysedGame } from "wintrchess";
 import useGameSelectorStore from "@stores/GameSelectorStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
-import getStateTree from "@lib/stateTree/parse";
+import parseStateTree from "@lib/gameStateTree";
 import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
 
 function useImportGame() {
@@ -37,7 +37,7 @@ function useImportGame() {
         // Set analysis game to the selected one
         const analysisGame: AnalysedGame = {
             ...selectedGame,
-            stateTree: getStateTree(selectedGame)
+            stateTree: parseStateTree(selectedGame)
         };
 
         setAnalysisGame(analysisGame);

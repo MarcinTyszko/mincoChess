@@ -1,4 +1,5 @@
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
+import ReportOptions from "./types/ReportOptions";
 import Classification from "@constants/Classification";
 import {
     extractPreviousStateTreeNode,
@@ -9,14 +10,9 @@ import { considerBrilliantClassification } from "./classification/brilliant";
 
 import openings from "@resources/openings.json";
 
-interface ClassifyOptions {
-    includeBrilliant?: boolean;
-    includeTheory?: boolean;
-}
-
 export function classify(
     node: StateTreeNode,
-    options?: ClassifyOptions
+    options?: ReportOptions
 ) {
     if (!node.parent) {
         throw new Error("no parent node exists to compare with.");
@@ -29,7 +25,7 @@ export function classify(
         throw new Error("information missing from current or previous node.");
     }
 
-    const opts: ClassifyOptions = {
+    const opts: ReportOptions = {
         includeBrilliant: true,
         includeTheory: true,
         ...options

@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { produce } from "immer";
 import { clamp } from "lodash";
 
 import { EngineVersion } from "wintrchess";
@@ -21,33 +22,35 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         className={styles.settingsDialog}
         setOpen={setOpen}
     >
-        <div className={styles.settingsTitle}>
+        <div className={`${styles.header} ${styles.title}`}>
             <img
                 src={require("@assets/img/engine.png")}
                 height={30}
             />
 
             <span style={{ fontFamily: "Nunito" }}>
-                {t("pages.analysis.analysisSettings.title")}
+                {t("pages.analysis.settings.title")}
             </span>
         </div>
 
         <span className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.engineEnabled")}</span>
+            <span>{t("pages.analysis.settings.engineEnabled")}</span>
 
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.engineEnabled}
                 onChange={checked => {
-                    setSettings(settings => {
-                        settings.analysis.engineEnabled = checked;
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.engineEnabled = checked;
+                            return draft;
+                        })
+                    ));
                 }}
             />
         </span>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.engine")}</span>
+            <span>{t("pages.analysis.settings.engine")}</span>
 
             <DropdownSetting
                 options={[
@@ -62,110 +65,136 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 ]}
                 getInitialValue={() => settings.analysis.engine}
                 onSelect={value => {
-                    setSettings(settings => {
-                        settings.analysis.engine = value as EngineVersion;
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.engine = value as EngineVersion;
+                            return draft;
+                        })
+                    ));
                 }}
                 style={{ width: "180px" }}
             />
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.engineDepth")}</span>
+            <span>{t("pages.analysis.settings.engineDepth")}</span>
 
             <NumberSetting
                 min={10}
                 max={99}
                 getInitialValue={() => settings.analysis.engineDepth}
                 onChange={value => {
-                    setSettings(settings => {
-                        settings.analysis.engineDepth = clamp(value, 10, 99);
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.engineDepth = clamp(value, 10, 99);
+                            return draft;
+                        })
+                    ));
                 }}
                 style={{ width: "180px" }}
             />
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.engineLines")}</span>
+            <span>{t("pages.analysis.settings.engineLines")}</span>
 
             <NumberSetting
                 min={0}
                 max={5}
                 getInitialValue={() => settings.analysis.engineLines}
                 onChange={value => {
-                    setSettings(settings => {
-                        settings.analysis.engineLines = clamp(value, 0, 5);
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.engineLines = clamp(value, 1, 5);
+                            return draft;
+                        })
+                    ));
                 }}
                 style={{ width: "180px" }}
             />
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.hideClassifications")}</span>
+            <span>{t("pages.analysis.settings.hideClassifications")}</span>
 
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.hideClassifications}
                 onChange={checked => {
-                    setSettings(settings => {
-                        settings.analysis.hideClassifications = checked;
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.hideClassifications = checked;
+                            return draft;
+                        })
+                    ));
                 }}
             />
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.suggestionArrows")}</span>
+            <span>{t("pages.analysis.settings.suggestionArrows")}</span>
 
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.suggestionArrows}
                 onChange={checked => {
-                    setSettings(settings => {
-                        settings.analysis.suggestionArrows = checked;
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.suggestionArrows = checked;
+                            return draft;
+                        })
+                    ));
                 }}
             />
         </div>
 
-        {/* <span style={{ color: "white" }}>
-            {t("pages.analysis.analysisSettings.includeClassifications")}
+        <span className={styles.header}>
+            {t("pages.analysis.settings.includeClassifications")}
         </span>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.brilliant")}</span>
+            <div className={styles.settingName}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/brilliant.png")}
+                />
+
+                <span>{t("pages.analysis.settings.brilliant")}</span>
+            </div>
 
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.includedClassifications.brilliant}
                 onChange={checked => {
-                    setSettings(settings => {
-                        settings.analysis.includedClassifications.brilliant = checked;
-
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.includedClassifications.brilliant = checked;
+                            return draft;
+                        })
+                    ));
                 }}
             />
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.analysisSettings.theory")}</span>
+            <div className={styles.settingName}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/theory.png")}
+                />
+
+                <span>{t("pages.analysis.settings.theory")}</span>
+            </div>
 
             <CheckboxSetting
                 getInitialValue={() => settings.analysis.includedClassifications.theory}
                 onChange={checked => {
-                    setSettings(settings => {
-                        settings.analysis.includedClassifications.theory = checked;
-
-                        return settings;
-                    });
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.includedClassifications.theory = checked;
+                            return draft;
+                        })
+                    ));
                 }}
             />
-        </div> */}
+        </div>
     </Dialog>;
 }
 

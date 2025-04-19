@@ -1,7 +1,7 @@
 import { Chess, KING, PAWN, ROOK } from "chess.js";
 import { minBy } from "lodash";
 
-import BoardPiece from "./types/BoardPiece";
+import BoardPiece from "../types/BoardPiece";
 import PieceColour from "@constants/PieceColour";
 import { pieceValues } from "@constants/utils";
 import { adaptPieceColour } from "@lib/moveNotation";

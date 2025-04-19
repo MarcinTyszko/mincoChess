@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import BoardPiece from "./types/BoardPiece";
+import BoardPiece from "../types/BoardPiece";
 
 export function getBoardPieces(board: Chess): BoardPiece[] {
     return board

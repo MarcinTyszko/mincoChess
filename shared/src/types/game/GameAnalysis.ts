@@ -1,7 +1,7 @@
 import { StateTreeNode } from "./position/StateTreeNode";
 
 export interface GameAnalysis {
-    estimatedRatings: {
+    estimatedRatings?: {
         white: number;
         black: number;
     };

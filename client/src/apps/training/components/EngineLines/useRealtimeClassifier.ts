@@ -8,7 +8,7 @@ import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { classifyNode } from "@lib/stateTree/classify";
+import { analyseNode } from "@apps/training/lib/analysis";
 import { getTopEngineLine } from "wintrchess";
 
 function useRealtimeClassifier() {
@@ -16,7 +16,7 @@ function useRealtimeClassifier() {
 
     const turnstile = useTurnstile();
 
-    const { settings } = useSettingsStore();
+    const settings = useSettingsStore(state => state.settings.analysis);
 
     const {
         currentStateTreeNode,
@@ -71,7 +71,7 @@ function useRealtimeClassifier() {
 
         if (
             parentState.engineLines.length == 0
-            || parentTopLineDepth < settings.analysis.engineDepth
+            || parentTopLineDepth < settings.engineDepth
         ) {
             return cancelClassify(
                 currentStateTreeNode.state.classification == undefined
@@ -80,10 +80,13 @@ function useRealtimeClassifier() {
             );
         }
 
-        const classifyNodeResult = await classifyNode(currentStateTreeNode);
+        const analyseNodeResult = await analyseNode(currentStateTreeNode, {
+            includeBrilliant: settings.includedClassifications.brilliant,
+            includeTheory: settings.includedClassifications.theory
+        });
 
         // If session is invalid, await a new CAPTCHA solve
-        if (classifyNodeResult.status == StatusCodes.UNAUTHORIZED) {
+        if (analyseNodeResult.status == StatusCodes.UNAUTHORIZED) {
             turnstile.reset();
             setClassifyStatus(AnalysisStatus.AWAITING_CAPTCHA);
 
@@ -92,8 +95,8 @@ function useRealtimeClassifier() {
 
         // For other, unknown errors, return an unknown error message
         if (
-            !classifyNodeResult.node
-            || classifyNodeResult.status != StatusCodes.OK
+            !analyseNodeResult.node
+            || analyseNodeResult.status != StatusCodes.OK
         ) {
             return cancelClassify(
                 t("pages.analysis.classifiedMoveCard.unknownError")
@@ -102,7 +105,7 @@ function useRealtimeClassifier() {
 
         // Apply classification and deactivate classifier
         const currentState = currentStateTreeNode.state;
-        const analysedState = classifyNodeResult.node.state;
+        const analysedState = analyseNodeResult.node.state;
 
         currentState.classification = analysedState.classification;
         currentState.accuracy = analysedState.accuracy;

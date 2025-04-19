@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import BoardPiece from "./types/BoardPiece";
+import BoardPiece from "../types/BoardPiece";
 import { flipAdaptedPieceColour } from "@lib/moveNotation";
 import { getPieceSafety } from "./pieceSafety";
 

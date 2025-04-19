@@ -8,17 +8,18 @@
     width: min(400px, 90%);
 }
 
-.settingsTitle {
+.header {
     display: flex;
     align-items: center;
     gap: 10px;
 
     color: white;
+    font-family: "Nunito";
     font-weight: 700;
 }
 
 @media (max-width: 400px) {
-    .settingsTitle {
+    .title {
         margin-top: 30px;
     }
 }
@@ -30,8 +31,18 @@
     gap: 10px;
     width: 100%;
 
-    font-family: "JetBrains Mono";
     color: white;
 
     overflow-wrap: anywhere;
+}
+
+.settingName {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settingIcon {
+    width: 25px;
+    height: 25px
 }

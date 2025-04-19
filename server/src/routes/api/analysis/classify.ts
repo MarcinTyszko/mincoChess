@@ -8,7 +8,7 @@ import {
     getGameReport
 } from "wintrchess";
 
-const path = "/api/analysis/classify";
+const path = "/api/analysis/report";
 
 const router = Router();
 
@@ -27,7 +27,10 @@ router.post(path, async (req, res) => {
     const stateTree = deserializeNode(serializedStateTree);
 
     try {
-        const gameReport = getGameReport(stateTree);
+        const gameReport = getGameReport(stateTree, {
+            includeBrilliant: req.query.brilliant == "true",
+            includeTheory: req.query.theory == "true"
+        });
         
         gameReport.stateTree = serializeNode(gameReport.stateTree);
 

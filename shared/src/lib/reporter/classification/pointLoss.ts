@@ -1,7 +1,7 @@
 import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
-} from "../utils/types/ExtractedNode";
+} from "../types/ExtractedNode";
 import Classification from "@constants/Classification";
 import PieceColour from "@constants/PieceColour";
 import { getExpectedPointsLoss } from "../expectedPoints";

@@ -21,12 +21,12 @@ function useEvaluateGame() {
 
         // Generate evaluations for each position
         try {
-            const evaluatedStates = await evaluateMoves(
+            await evaluateMoves(
                 analysisGame,
                 {
                     engineVersion: settings.analysis.engine,
                     engineDepth: settings.analysis.engineDepth,
-                    cloudEngineLines: settings.analysis.engineLines,
+                    cloudEngineLines: Math.max(2, settings.analysis.engineLines),
                     maxEngineCount: 4,
                     engineConfig: engine => {
                         engine.setLineCount(2);
@@ -37,8 +37,6 @@ function useEvaluateGame() {
             );
 
             setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
-
-            console.log(evaluatedStates);
         } catch {
             setAnalysisStatus(AnalysisStatus.INACTIVE);
 

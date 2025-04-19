@@ -1,7 +1,7 @@
 import { Chess, QUEEN } from "chess.js";
 import { minBy } from "lodash";
 
-import BoardPiece from "./types/BoardPiece";
+import BoardPiece from "../types/BoardPiece";
 import { flipAdaptedPieceColour } from "@lib/moveNotation";
 import { getAttackers } from "./attackers";
 

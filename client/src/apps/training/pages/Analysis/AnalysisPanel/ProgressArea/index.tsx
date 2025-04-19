@@ -5,11 +5,12 @@ import { StatusCodes } from "http-status-codes";
 
 import { findNodeRecursively } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { classifyStateTree } from "@lib/stateTree/classify";
+import { analyseGame } from "@apps/training/lib/analysis";
 import ProgressReporter from "@apps/training/components/ProgressReporter";
 
 function getStatusTitle(status: AnalysisStatus) {
@@ -25,6 +26,8 @@ function ProgressArea() {
     const { t } = useTranslation();
 
     const turnstile = useTurnstile();
+
+    const settings = useSettingsStore(state => state.settings.analysis);
 
     const {
         analysisGame,
@@ -73,35 +76,38 @@ function ProgressArea() {
                 return setAnalysisError(analysisCaptchaError);
             }
 
-            const classifyResult = await classifyStateTree(analysisGame.stateTree);
+            const analyseResult = await analyseGame(analysisGame.stateTree, {
+                includeBrilliant: settings.includedClassifications.brilliant,
+                includeTheory: settings.includedClassifications.theory
+            });
 
             // For any errors, display message or reset CAPTCHA
-            if (classifyResult.status == StatusCodes.UNAUTHORIZED) {
+            if (analyseResult.status == StatusCodes.UNAUTHORIZED) {
                 return turnstile.reset();
-            } else if (classifyResult.status != StatusCodes.OK) {
+            } else if (analyseResult.status != StatusCodes.OK) {
                 return setAnalysisError(
                     t("pages.analysis.progressReporter.classifyFailed")
                 );
             }
 
-            if (!classifyResult.gameAnalysis) {
+            if (!analyseResult.gameAnalysis) {
                 return setAnalysisStatus(AnalysisStatus.INACTIVE);
             }
 
             // Update analysed game with new analysis object
             setAnalysisGame({
                 ...analysisGame,
-                ...classifyResult.gameAnalysis
+                ...analyseResult.gameAnalysis
             });
 
             // Set current state tree node to equivalent in new tree
             setCurrentStateTreeNode(prev => {
-                if (!classifyResult.gameAnalysis) {
+                if (!analyseResult.gameAnalysis) {
                     return prev;
                 }
 
                 return findNodeRecursively(
-                    classifyResult.gameAnalysis.stateTree,
+                    analyseResult.gameAnalysis.stateTree,
                     node => node.id == prev.id
                 ) || prev;
             });

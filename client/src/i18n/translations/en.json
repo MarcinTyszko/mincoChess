@@ -25,7 +25,7 @@
                 "share": "Share Game",
                 "sharingSoon": "Sharing will be added soon!"
             },
-            "analysisSettings": {
+            "settings": {
                 "title": "Analysis Settings",
                 "engineEnabled": "Engine Enabled",
                 "engine": "Engine",

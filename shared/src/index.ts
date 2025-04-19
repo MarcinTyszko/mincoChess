@@ -13,6 +13,7 @@ export * from "./lib/date";
 export * from "./lib/moveNotation";
 
 export * from "./lib/reporter/report";
+export { default as ReportOptions } from "./lib/reporter/types/ReportOptions";
 export * from "./lib/reporter/accuracy/gameAccuracy";
 export * from "./lib/reporter/expectedPoints";
 

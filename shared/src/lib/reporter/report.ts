@@ -2,6 +2,7 @@ import {
     StateTreeNode,
     getNodeChain
 } from "@ctypes/game/position/StateTreeNode";
+import ReportOptions from "./types/ReportOptions";
 import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode
@@ -10,13 +11,16 @@ import { getMoveAccuracy } from "./accuracy/moveAccuracy";
 import { classify } from "./classify";
 import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 
-export function getGameReport(rootNode: StateTreeNode): GameAnalysis {
+export function getGameReport(
+    rootNode: StateTreeNode,
+    options?: ReportOptions
+): GameAnalysis {
     const treeNodes = getNodeChain(rootNode);
     
     // Apply classifications and accuracies to moves
     for (const node of treeNodes) {
         try {
-            node.state.classification = classify(node);
+            node.state.classification = classify(node, options);
         } catch (err) {
             console.log(err);
 

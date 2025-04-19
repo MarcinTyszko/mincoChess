@@ -15,7 +15,7 @@ interface EvaluateMovesOptions {
     engineVersion: EngineVersion;
     maxEngineCount?: number;
     engineDepth: number;
-    cloudEngineLines?: number;
+    cloudEngineLines: number;
     engineConfig?: (engine: Engine) => void;
     onProgress?: (progress: number) => void;
     verbose?: boolean;
@@ -68,6 +68,11 @@ async function evaluateMoves(
 
         // Depth must be at least as configured by user
         if (cloudEvaluation.depth < options.engineDepth) {
+            break;
+        }
+
+        // Line count must be at least as configured by user
+        if (cloudEvaluation.pvs.length < options.cloudEngineLines) {
             break;
         }
 

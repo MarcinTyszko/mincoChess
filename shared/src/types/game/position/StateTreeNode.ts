@@ -1,7 +1,7 @@
 import { Chess } from "chess.js";
-import { round, clone, uniqueId } from "lodash";
+import { round, clone, uniqueId, cloneDeep } from "lodash";
 
-import { BoardState, getTopEngineLine } from "./BoardState";
+import { BoardState, getDisplayedLines } from "./BoardState";
 import PieceColour from "@constants/PieceColour";
 
 export interface StateTreeNode {
@@ -15,17 +15,22 @@ export interface StateTreeNode {
 /**
  * @description Remove parent from node, and recurse through all
  * children to remove their parents, to remove cyclic references.
+ * Strips unnecessary engine lines from moves for compression.
  */
 export function serializeNode(rootNode: StateTreeNode) {
     function serializePart(part: StateTreeNode) {
         part.parent = undefined;
 
-        const topLine = getTopEngineLine(part.state);
+        // Deep copy board state and strip engine lines
+        const stateCopy = cloneDeep(part.state);
 
-        part.state.engineLines = part.state.engineLines.filter(
-            line => line.depth == topLine?.depth
-        );
+        stateCopy.engineLines = getDisplayedLines(stateCopy, {
+            targetCount: 2
+        }) || [];
 
+        part.state = stateCopy;
+
+        // Recursively serialize children
         part.children = part.children.map(
             child => serializePart(clone(child))
         );
@@ -37,27 +42,37 @@ export function serializeNode(rootNode: StateTreeNode) {
 }
 
 /**
- * @description Recurses through children of a node N, setting
- * their parents back to N.
+ * @description Recurses through children of a node N, setting their parents
+ * back to N. Restores data stripped in compression from a client-held node
  */
-export function deserializeNode(rootNode: StateTreeNode) {
-    function deserializeNode(node: StateTreeNode, parent?: StateTreeNode) {
+export function deserializeNode(
+    serializedRoot: StateTreeNode,
+    restoreRoot?: StateTreeNode
+) {
+    function deserializePart(node: StateTreeNode, parent?: StateTreeNode) {
         const deserializedNode: StateTreeNode = {
-            id: node.id,
+            ...node,
             parent: parent,
-            children: [],
-            state: node.state,
-            mainline: node.mainline
+            children: []
         };
 
+        // Restore engine lines from the client-held tree
+        if (restoreRoot) {
+            deserializedNode.state.engineLines = findNodeRecursively(
+                restoreRoot,
+                restoreNode => restoreNode.id == node.id
+            )?.state.engineLines || [];
+        }
+
+        // Recursively deserialize children
         deserializedNode.children = node.children.map(
-            child => deserializeNode(child, deserializedNode)
+            child => deserializePart(child, deserializedNode)
         );
 
         return deserializedNode;
     }
 
-    return deserializeNode(rootNode);
+    return deserializePart(serializedRoot);
 }
 
 /**

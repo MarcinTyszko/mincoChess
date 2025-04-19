@@ -1,7 +1,7 @@
 import { Chess, Square, KING } from "chess.js";
 import { isEqual, xorWith } from "lodash";
 
-import BoardPiece from "./types/BoardPiece";
+import BoardPiece from "../types/BoardPiece";
 import { flipAdaptedPieceColour, setFenTurn } from "@lib/moveNotation";
 
 interface TransitiveAttacker {

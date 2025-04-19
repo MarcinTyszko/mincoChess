@@ -4,8 +4,8 @@ import { parseUciMove } from "@lib/moveNotation";
 import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
-} from "../utils/types/ExtractedNode";
-import BoardPiece from "../utils/types/BoardPiece";
+} from "../types/ExtractedNode";
+import BoardPiece from "../types/BoardPiece";
 import { pieceValues } from "@constants/utils";
 import { getBoardPieces } from "../utils/boardPieces";
 import { getAttackers } from "../utils/attackers";
