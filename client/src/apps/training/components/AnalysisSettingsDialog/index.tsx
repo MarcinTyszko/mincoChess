@@ -61,14 +61,6 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                     {
                         label: "Stockfish 17 Lite",
                         value: EngineVersion.STOCKFISH_17_LITE
-                    },
-                    {
-                        label: "Stockfish 16.1",
-                        value: EngineVersion.STOCKFISH_16_1
-                    },
-                    {
-                        label: "Stockfish 16.1 Lite",
-                        value: EngineVersion.STOCKFISH_16_1_LITE
                     }
                 ]}
                 getInitialValue={() => settings.analysis.engine}
