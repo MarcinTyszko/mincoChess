@@ -27,6 +27,11 @@ export function considerBrilliantClassification(
         && current.subjectiveEvaluation.value >= 700
     ) return false;
 
+    // Disallow brilliants in losing positions
+    if (current.subjectiveEvaluation.value < 0) {
+        return false;
+    }
+
     // Disallow promotions as brilliants
     const parsedPlayedMove = parseUciMove(current.playedMove.uci);
 
