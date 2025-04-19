@@ -44,7 +44,15 @@ function BoardAndPieces() {
         ));
     }
 
-    return <div className={categoryStyles.wrapper}>
+    return <div
+        className={categoryStyles.wrapper}
+        onClick={event => {
+            setLightSquareColourSwatchOpen(false);
+            setDarkSquareColourSwatchOpen(false);
+
+            event.stopPropagation();
+        }}
+    >
         <b className={categoryStyles.header}>
             {t("pages.settings.categories.boardAndPieces.boardColour")}
         </b>
