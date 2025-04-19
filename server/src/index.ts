@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import connectDatabase from "@database/connect";
+import crossOriginIsolate from "@lib/isolate";
 import { analysisAuthenticator, internalAuthenticator } from "@lib/authentication";
 
 import { apiRouter, internalRouter } from "./routes";
@@ -17,12 +18,7 @@ app.use(cookieParser());
 app.use("/internal", internalAuthenticator);
 app.use("/api/analysis", analysisAuthenticator);
 
-app.use("/engines", (req, res, next) => {
-    res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-
-    next();
-});
+app.use("/engines", crossOriginIsolate);
 
 // Static assets
 app.use("/",
@@ -40,11 +36,14 @@ app.get("/internal*", async (req, res) => {
     );
 });
 
-app.get("/*", async (req, res) => {
-    res.sendFile(
-        path.resolve("client/public/apps/training.html")
-    );
-});
+app.get("/*",
+    crossOriginIsolate,
+    async (req, res) => {
+        res.sendFile(
+            path.resolve("client/public/apps/training.html")
+        );
+    }
+);
 
 const port = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";
