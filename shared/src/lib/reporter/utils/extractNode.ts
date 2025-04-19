@@ -14,11 +14,9 @@ export function extractPreviousStateTreeNode(
     node: StateTreeNode
 ): ExtractedPreviousNode | null {
     const topLine = getTopEngineLine(node.state);
-    console.log("top line missing from a previous node");
     if (!topLine) return null;
 
     const topMove = topLine.moves.at(0);
-    console.log("top move missing from a previous node");
     if (!topMove) return null;
 
     const playedMove = node.state.move;
@@ -66,22 +64,18 @@ export function extractCurrentStateTreeNode(
     node: StateTreeNode
 ): ExtractedCurrentNode | null {
     const topLine = getTopEngineLine(node.state);
-    console.log("top line missing from a current node");
     if (!topLine) return null;
 
     const topMove = topLine.moves.at(0);
 
     const playedMove = node.state.move;
-    console.log("played move missing from a current node");
     if (!playedMove) return null;
 
     const moveColour = node.state.moveColour;
-    console.log("move colour missing from a current node");
     if (!moveColour) return null;
 
     const parsedPlayedMove = parseUciMove(playedMove.uci);
     const piece = new Chess(node.state.fen).get(parsedPlayedMove.to);
-    console.log("piece at to-square missing from a current node");
     if (!piece) return null;
 
     const playedPiece: BoardPiece = {

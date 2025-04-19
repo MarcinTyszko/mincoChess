@@ -82,7 +82,8 @@ export function deserializeNode(
  */
 export function findNodeRecursively(
     rootNode: StateTreeNode,
-    predicate: (node: StateTreeNode) => boolean
+    predicate: (node: StateTreeNode) => boolean,
+    backwards?: boolean
 ) {
     const frontier: StateTreeNode[] = [rootNode];
 
@@ -92,6 +93,14 @@ export function findNodeRecursively(
 
         if (predicate(node)) {
             return node;
+        }
+
+        if (backwards) {
+            if (node.parent) {
+                frontier.push(node.parent);
+            }
+
+            continue;
         }
 
         frontier.push(...node.children);
@@ -202,18 +211,4 @@ export function addChildMove(node: StateTreeNode, san: string) {
     }
 
     return existingNode || createdNode;
-}
-
-/**
- * @description Recurses up the tree and returns the nearest opening
- * name
- */
-export function getNearestOpening(node: StateTreeNode) {
-    let current = node;
-
-    while (current.parent && !current.state.opening) {
-        current = current.parent;
-    }
-
-    return current.state.opening;
 }

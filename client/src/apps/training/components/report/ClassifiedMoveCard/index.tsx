@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
     addChildMove,
     Classification,
-    getNearestOpening,
+    findNodeRecursively,
     getTopEngineLine
 } from "wintrchess";
 import {
@@ -37,7 +37,11 @@ function ClassifiedMoveCard() {
         ? getTopEngineLine(node.parent.state)?.moves.at(0)
         : undefined;
 
-    const nearestOpeningName = getNearestOpening(node);
+    const nearestOpeningName = findNodeRecursively(
+        node,
+        searchNode => !!searchNode.state.opening,
+        true
+    )?.state.opening;
 
     return <div className={styles.wrapper}>
         <div
