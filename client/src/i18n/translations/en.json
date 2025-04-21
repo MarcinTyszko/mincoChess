@@ -172,12 +172,7 @@
             "leadDeveloper": "Lead Developer",
             "developer": "Developer",
             "artist": "Digital Artist",
-            "translators": "Translators",
-            "languages": {
-                "hindi": "Hindi",
-                "german": "German",
-                "french": "French"
-            }
+            "translators": "Translators"
         }
     },
     "gameListing": {
