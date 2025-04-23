@@ -1,10 +1,10 @@
 import { CSSProperties } from "react";
 
 interface NumberSettingProps {
+    defaultValue?: number;
+    onChange?: (value: number) => void;
     min?: number;
     max?: number;
-    getInitialValue: () => number;
-    onChange: (value: number) => void;
     style?: CSSProperties;
 }
 

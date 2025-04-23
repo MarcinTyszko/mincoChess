@@ -37,7 +37,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.settings.engineEnabled")}</span>
 
             <CheckboxSetting
-                getInitialValue={() => settings.analysis.engineEnabled}
+                defaultChecked={settings.analysis.engineEnabled}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -63,16 +63,21 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                         value: EngineVersion.STOCKFISH_17_LITE
                     }
                 ]}
-                getInitialValue={() => settings.analysis.engine}
-                onSelect={value => {
+                defaultValue={{
+                    label: "Stockfish 17 Lite",
+                    value: EngineVersion.STOCKFISH_17_LITE
+                }}
+                onSelect={option => {
+                    if (!option) return;
+
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.analysis.engine = value as EngineVersion;
+                            draft.analysis.engine = option.value;
                             return draft;
                         })
                     ));
                 }}
-                style={{ width: "180px" }}
+                dropdownStyle={{ width: "180px" }}
             />
         </div>
 
@@ -82,7 +87,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <NumberSetting
                 min={10}
                 max={99}
-                getInitialValue={() => settings.analysis.engineDepth}
+                defaultValue={settings.analysis.engineDepth}
                 onChange={value => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -101,7 +106,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <NumberSetting
                 min={0}
                 max={5}
-                getInitialValue={() => settings.analysis.engineLines}
+                defaultValue={settings.analysis.engineLines}
                 onChange={value => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -118,7 +123,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.settings.hideClassifications")}</span>
 
             <CheckboxSetting
-                getInitialValue={() => settings.analysis.hideClassifications}
+                defaultChecked={settings.analysis.hideClassifications}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -134,7 +139,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.settings.suggestionArrows")}</span>
 
             <CheckboxSetting
-                getInitialValue={() => settings.analysis.suggestionArrows}
+                defaultChecked={settings.analysis.suggestionArrows}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -161,7 +166,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             </div>
 
             <CheckboxSetting
-                getInitialValue={() => settings.analysis.includedClassifications.brilliant}
+                defaultChecked={settings.analysis.includedClassifications.brilliant}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {
@@ -184,7 +189,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             </div>
 
             <CheckboxSetting
-                getInitialValue={() => settings.analysis.includedClassifications.theory}
+                defaultChecked={settings.analysis.includedClassifications.theory}
                 onChange={checked => {
                     setSettings(settings => (
                         produce(settings, draft => {

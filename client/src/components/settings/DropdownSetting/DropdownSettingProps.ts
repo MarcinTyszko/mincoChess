@@ -1,15 +1,31 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
-interface DropdownOption {
+interface WidthConstraint {
+    width?: string;
+}
+
+export interface BaseDropdownOption {
     label: string;
-    value: string;
 }
 
-interface DropdownSettingProps {
-    options: DropdownOption[];
-    getInitialValue: () => string;
-    onSelect: (value: string) => void;
-    style?: CSSProperties;
-}
+export interface DropdownSettingProps<Option extends BaseDropdownOption> {
+    options: Option[];
+    defaultValue?: Option;
+    onSelect?: (value?: Option) => void;
+    searchable?: boolean;
 
-export default DropdownSettingProps;
+    dropdownStyle?: CSSProperties & WidthConstraint;
+    dropdownClassName?: string;
+
+    dropdownArrowStyle?: CSSProperties & WidthConstraint;
+    dropdownArrowClassName?: string;
+
+    menuAlignment?: "left" | "center" | "right";
+    menuStyle?: CSSProperties;
+    menuClassName?: string;
+
+    optionStyle?: CSSProperties;
+    optionClassName?: string;
+    
+    dropdownLabelRenderer?: (value: Option) => ReactNode;
+}

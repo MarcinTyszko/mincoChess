@@ -9,10 +9,7 @@ import LocalStorageKey from "@constants/LocalStorageKey";
 const settingsSchema = z.object({
     analysis: z.object({
         engineEnabled: z.boolean(),
-        engine: z.enum([
-            EngineVersion.STOCKFISH_17,
-            EngineVersion.STOCKFISH_17_LITE
-        ]),
+        engine: z.nativeEnum(EngineVersion),
         engineDepth: z.number().min(10).max(99),
         engineLines: z.number().min(1).max(5),
         hideClassifications: z.boolean(),
@@ -40,8 +37,8 @@ export const defaultSettings: Settings = {
     analysis: {
         engineEnabled: true,
         engine: EngineVersion.STOCKFISH_17_LITE,
-        engineDepth: 18,
-        engineLines: 3,
+        engineDepth: 16,
+        engineLines: 2,
         hideClassifications: false,
         suggestionArrows: false,
         includedClassifications: {

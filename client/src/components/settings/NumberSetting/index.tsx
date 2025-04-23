@@ -6,7 +6,7 @@ import * as styles from "../Setting.module.css";
 function NumberSetting({
     min,
     max,
-    getInitialValue,
+    defaultValue,
     onChange,
     style
 }: NumberSettingProps) {
@@ -16,8 +16,8 @@ function NumberSetting({
         type="number"
         min={min}
         max={max}
-        defaultValue={getInitialValue()}
-        onChange={event => onChange(
+        defaultValue={defaultValue}
+        onChange={event => onChange?.(
             parseInt(event.target.value)
         )}
     />;

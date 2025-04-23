@@ -1,9 +1,6 @@
-import { CSSProperties } from "react";
-
 interface CheckboxSettingProps {
-    getInitialValue: () => boolean;
+    defaultChecked: boolean;
     onChange: (checked: boolean) => void;
-    style?: CSSProperties;
 }
 
 export default CheckboxSettingProps;

@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import Switch from "react-switch";
 
 import CheckboxSettingProps from "./CheckboxSettingProps";
-import * as styles from "../Setting.module.css";
 
 function CheckboxSetting({
-    getInitialValue,
-    onChange,
-    style
+    defaultChecked,
+    onChange
 }: CheckboxSettingProps) {
-    return <input
-        className={styles.settingsField}
-        type="checkbox"
-        defaultChecked={getInitialValue()}
-        onChange={event => onChange(event.target.checked)}
-        style={{ ...style, margin: 0 }}
+    const [ checked, setChecked ] = useState(defaultChecked);
+
+    return <Switch
+        checked={checked}
+        onChange={newChecked => {
+            setChecked(newChecked);
+            onChange(newChecked);
+        }}
+        height={25}
+        onColor="#467de8"
+        offColor="#2c2f35"
+        uncheckedIcon={false}
+        checkedIcon={false}
     />;
 }
 
