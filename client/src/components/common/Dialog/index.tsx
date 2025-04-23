@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import DialogCloseButton from "./DialogCloseButton";
 import DialogProps from "./DialogProps";
@@ -11,6 +11,14 @@ function Dialog({
     style,
     closeButtonStyle
 }: DialogProps) {
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, []);
+
     return <div
         className={styles.wrapper}
         onClick={event => event.stopPropagation()}
