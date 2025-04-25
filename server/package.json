@@ -4,6 +4,7 @@
         "check": "tsc --noEmit"
     },
     "dependencies": {
+        "altcha-lib": "^1.2.0",
         "chess.js": "^1.1.0",
         "cookie-parser": "^1.4.6",
         "dotenv": "^16.4.5",

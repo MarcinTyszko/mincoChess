@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useTurnstile } from "react-turnstile";
 import { StatusCodes } from "http-status-codes";
 
 import { findNodeRecursively } from "wintrchess";
+import { useAltcha } from "@hooks/useAltcha";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { analyseGame } from "@apps/training/lib/analysis";
+import { analyseGame } from "@apps/training/lib/reporter";
 import ProgressReporter from "@apps/training/components/ProgressReporter";
 
 function getStatusTitle(status: AnalysisStatus) {
@@ -25,7 +25,7 @@ function getStatusTitle(status: AnalysisStatus) {
 function ProgressArea() {
     const { t } = useTranslation();
 
-    const turnstile = useTurnstile();
+    const executeCaptcha = useAltcha();
 
     const settings = useSettingsStore(state => state.settings.analysis);
 
@@ -83,7 +83,7 @@ function ProgressArea() {
 
             // For any errors, display message or reset CAPTCHA
             if (analyseResult.status == StatusCodes.UNAUTHORIZED) {
-                return turnstile.reset();
+                return executeCaptcha();
             } else if (analyseResult.status != StatusCodes.OK) {
                 return setAnalysisError(
                     t("pages.analysis.progressReporter.classifyFailed")

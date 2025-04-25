@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useTurnstile } from "react-turnstile";
 import { StatusCodes } from "http-status-codes";
 
+import { getTopEngineLine } from "wintrchess";
+import { useAltcha } from "@hooks/useAltcha";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { analyseNode } from "@apps/training/lib/analysis";
-import { getTopEngineLine } from "wintrchess";
+import { analyseNode } from "@apps/training/lib/reporter";
 
 function useRealtimeClassifier() {
     const { t } = useTranslation();
 
-    const turnstile = useTurnstile();
+    const executeCaptcha = useAltcha();
 
     const settings = useSettingsStore(state => state.settings.analysis);
 
@@ -87,7 +87,7 @@ function useRealtimeClassifier() {
 
         // If session is invalid, await a new CAPTCHA solve
         if (analyseNodeResult.status == StatusCodes.UNAUTHORIZED) {
-            turnstile.reset();
+            executeCaptcha();
             setClassifyStatus(AnalysisStatus.AWAITING_CAPTCHA);
 
             return;

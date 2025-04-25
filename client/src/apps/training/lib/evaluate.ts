@@ -8,8 +8,8 @@ import {
     EngineVersion,
     getNodeChain
 } from "wintrchess";
-import Engine from "./engine";
-import { EvaluateMovesError } from "./errors";
+import Engine from "@lib/engine";
+import { EvaluateMovesError } from "@lib/errors";
 
 interface EvaluateMovesOptions {
     engineVersion: EngineVersion;

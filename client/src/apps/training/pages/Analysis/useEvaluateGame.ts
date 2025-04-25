@@ -4,7 +4,7 @@ import { AnalysedGame } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
-import evaluateMoves from "@lib/evaluate";
+import evaluateMoves from "@apps/training/lib/evaluate";
 
 function useEvaluateGame() {
     const { t } = useTranslation();

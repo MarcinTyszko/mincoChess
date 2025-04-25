@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Turnstile, { useTurnstile } from "react-turnstile";
 
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
@@ -12,13 +11,9 @@ import * as styles from "./Login.module.css";
 function Login() {
     const navigate = useNavigate();
 
-    const turnstile = useTurnstile();
-
     const [ password, setPassword ] = useState("");
 
     const [ error, setError ] = useState("");
-
-    const [ captchaToken, setCaptchaToken ] = useState<string | null>(null);
 
     async function login() {
         const loginResponse = await fetch("/internal/login", {
@@ -26,15 +21,11 @@ function Login() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                password,
-                captchaToken
-            })
+            body: JSON.stringify({ password })
         });
 
         if (!loginResponse.ok) {
             setError(await loginResponse.text());
-            turnstile.reset();
 
             return;
         }
@@ -59,15 +50,6 @@ function Login() {
             password
             onChange={setPassword}
         />
-
-        {
-            process.env.TURNSTILE_INTERNAL_SITE_KEY
-            && <Turnstile
-                sitekey={process.env.TURNSTILE_INTERNAL_SITE_KEY}
-                theme="dark"
-                onSuccess={setCaptchaToken}
-            />
-        }
 
         <Button
             style={{

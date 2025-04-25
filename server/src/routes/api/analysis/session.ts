@@ -1,43 +1,46 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
+import { verifySolution } from "altcha-lib";
+import { Payload } from "altcha-lib/types";
 
 import { Cookie } from "wintrchess";
-import { verifyCaptchaToken } from "@lib/captcha";
 import AnalysisSession from "@database/models/AnalysisSession";
 
 const path = "/api/analysis/session";
 
 const router = Router();
 
-interface SessionRequest {
-    token?: string;
-}
-
 const defaultSessionActions = 80;
 
 router.use(path, express.json());
 
 router.post(path, async (req, res) => {
-    const { token }: SessionRequest = req.body;
+    const payload: Payload | undefined = req.body;
 
     // If token missing
-    if (!token) {
+    if (!payload) {
         return res
             .status(StatusCodes.UNAUTHORIZED)
-            .send("CAPTCHA Token required.");
+            .send("CAPTCHA Payload required.");
     }
 
     // Verify captcha token
-    const captchaTokenValid = await verifyCaptchaToken(
-        token,
-        process.env.TURNSTILE_ANALYSIS_SECRET_KEY
+    if (!process.env.ALTCHA_KEY) {
+        return res
+            .status(StatusCodes.SERVICE_UNAVAILABLE)
+            .send("Analysis sessions not available.");
+    }
+
+    const captchaSolutionValid = await verifySolution(
+        payload,
+        process.env.ALTCHA_KEY
     );
 
-    if (!captchaTokenValid) {
+    if (!captchaSolutionValid) {
         return res
             .status(StatusCodes.UNAUTHORIZED)
-            .send("CAPTCHA Token invalid.");
+            .send("CAPTCHA Payload invalid.");
     }
 
     // Do not replace existing valid session
