@@ -17,7 +17,7 @@
     position: fixed;
     left: 0;
     width: 170px;
-    z-index: 1000;
+    z-index: 999;
 
     background-color: var(--ui-shade-3);
     color: white;
