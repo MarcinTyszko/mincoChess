@@ -2,6 +2,12 @@ import LanguageOption from "@ctypes/LanguageOption";
 
 const languages: LanguageOption[] = [
     {
+        id: "en",
+        label: "English",
+        flag: require("@assets/img/flags/GB.png"),
+        translations: require("./translations/en.json")
+    },
+    {
         id: "hi",
         label: "हिन्दी",
         flag: require("@assets/img/flags/IN.png"),
@@ -11,12 +17,6 @@ const languages: LanguageOption[] = [
         id: "mr",
         label: "मराठी",
         flag: require("@assets/img/flags/IN.png"),
-        translations: require("./translations/en.json")
-    },
-    {
-        id: "en",
-        label: "English",
-        flag: require("@assets/img/flags/GB.png"),
         translations: require("./translations/en.json")
     },
     {
