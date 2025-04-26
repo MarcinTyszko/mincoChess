@@ -9,18 +9,18 @@ import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
 const Analysis = lazy(() => import("./pages/Analysis"));
 const Archive = lazy(() => import("./pages/Archive"));
-const NewsArticleList = lazy(() => import("./pages/news/ArticleList"));
-const NewsArticle = lazy(() => import("./pages/news/Article"));
-const Settings = lazy(() => import("../../pages/Settings"));
+const NewsArticleList = lazy(() => import("../../pages/news/ArticleList"));
+const NewsArticle = lazy(() => import("../../pages/news/Article"));
+const Settings = lazy(() => import("@pages/Settings"));
 
-const HelpCenter = lazy(() => import("./pages/HelpCenter"));
+const HelpCenter = lazy(() => import("@pages/HelpCenter"));
 
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const Credits = lazy(() => import("./pages/Credits"));
+const PrivacyPolicy = lazy(() => import("@pages/PrivacyPolicy"));
+const Credits = lazy(() => import("../../pages/Credits"));
 
 const Unfound = lazy(() => import("@pages/Unfound"));
 
-import "../../i18n";
+import "@i18n";
 import "../../index.css";
 
 const root = ReactDOM.createRoot(

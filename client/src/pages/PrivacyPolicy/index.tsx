@@ -1,19 +1,23 @@
 import React from "react";
 
+import Separator from "@components/common/Separator";
+
 import * as styles from "./PrivacyPolicy.module.css";
 
 function PrivacyPolicy() {
     return <div className={styles.wrapper}>
         <div className={styles.messageContent}>
-            <img
-                src={require("@assets/img/logo.svg")}
-                height={70}
-                draggable={false}
-            />
-
             <h1 style={{ margin: 0 }}>
+                <img
+                    src={require("@assets/img/logo.svg")}
+                    height={70}
+                    draggable={false}
+                />
+
                 Privacy Policy
             </h1>
+
+            <Separator/>
 
             <span>
                 A full privacy policy will be written upon full release of the website.

@@ -42,9 +42,6 @@ function LanguageSwitcher() {
             src={selectedLanguage.flag}
             height={25}
         />}
-        focusedOptionStyle={{
-            backgroundColor: "var(--ui-blue)"
-        }}
     />;
 }
 

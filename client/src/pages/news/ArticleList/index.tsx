@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash";
 
 import Loader from "@components/common/Loader";
+import Separator from "@components/common/Separator";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ErrorMessage from "@components/common/ErrorMessage";
@@ -118,7 +119,7 @@ function News() {
             </div>
         </div>
 
-        <hr className={styles.separator} />
+        <Separator/>
 
         <div className={styles.articles}>
             {

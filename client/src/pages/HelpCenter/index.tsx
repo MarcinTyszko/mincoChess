@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import GameSelector from "@apps/training/components/GameSelector";
-import AnalyseButton from "../Analysis/AnalysisPanel/GameSelection/AnalyseButton";
+import AnalyseButton from "@apps/training/pages/Analysis/AnalysisPanel/GameSelection/AnalyseButton";
 
 import Header from "./Header";
 import * as styles from "./HelpCenter.module.css";
