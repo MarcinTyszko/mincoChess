@@ -1,8 +1,9 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { useAltcha } from "@hooks/useAltcha";
 import PageWrapper from "@components/layout/PageWrapper";
 import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 
@@ -28,26 +29,36 @@ const root = ReactDOM.createRoot(
 
 const queryClient = new QueryClient();
 
-root.render(<BrowserRouter>
-    <QueryClientProvider client={queryClient}>
-        <PageWrapper>
-            <Suspense fallback={<LoadingPlaceholder/>}>
-                <Routes>
-                    <Route path="/" element={<Analysis/>} />
-                    <Route path="/analysis" element={<Analysis/>} />
-                    <Route path="/archive" element={<Archive/>} />
-                    <Route path="/news" element={<NewsArticleList/>} />
-                    <Route path="/news/:articleId" element={<NewsArticle/>} />
-                    <Route path="/settings" element={<Settings/>} />
-                    <Route path="/credits" element={<Credits/>} />
+function App() {
+    const executeCaptcha = useAltcha();
 
-                    <Route path="/help" element={<HelpCenter/>} />
+    useEffect(() => {
+        executeCaptcha();
+    }, []);
 
-                    <Route path="/privacy" element={<PrivacyPolicy/>} />
+    return <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+            <PageWrapper>
+                <Suspense fallback={<LoadingPlaceholder/>}>
+                    <Routes>
+                        <Route path="/" element={<Analysis/>} />
+                        <Route path="/analysis" element={<Analysis/>} />
+                        <Route path="/archive" element={<Archive/>} />
+                        <Route path="/news" element={<NewsArticleList/>} />
+                        <Route path="/news/:articleId" element={<NewsArticle/>} />
+                        <Route path="/settings" element={<Settings/>} />
+                        <Route path="/credits" element={<Credits/>} />
 
-                    <Route path="*" element={<Unfound/>} />
-                </Routes>
-            </Suspense>
-        </PageWrapper>
-    </QueryClientProvider>
-</BrowserRouter>);
+                        <Route path="/help" element={<HelpCenter/>} />
+
+                        <Route path="/privacy" element={<PrivacyPolicy/>} />
+
+                        <Route path="*" element={<Unfound/>} />
+                    </Routes>
+                </Suspense>
+            </PageWrapper>
+        </QueryClientProvider>
+    </BrowserRouter>;
+}
+
+root.render(<App/>);
