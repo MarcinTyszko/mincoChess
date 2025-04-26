@@ -7,6 +7,7 @@ interface ProfileConnection {
 
 interface CreditsProfileProps {
     username: string;
+    subheader?: string;
     profileImage: any;
     connections: ProfileConnection[];
 }

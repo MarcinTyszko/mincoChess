@@ -22,6 +22,11 @@
     flex-grow: 1;
 }
 
+.profileText {
+    display: flex;
+    flex-direction: column;
+}
+
 .connections {
     display: flex;
     flex-wrap: wrap;
@@ -34,4 +39,11 @@
 
 .connectionIcon:hover {
     filter: brightness(0.8);
+}
+
+.subheader {
+    color: rgb(179, 179, 179);
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+    width: 250px;
 }
