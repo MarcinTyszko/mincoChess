@@ -1,19 +1,30 @@
 .wrapper {
     display: flex;
     justify-content: center;
-
+    padding: 20px 0;
     width: 100%;
 }
 
-.messageContent {
+.wrapper a {
+    color: white;
+}
+
+.content {
     display: flex;
     flex-direction: column;
     gap: 15px;
-
     padding: 20px;
     width: min(100%, 800px);
-    height: 100%;
-    text-align: center;
 
+    background-color: rgba(0, 0, 0, 0.15);
     color: white;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    width: 100%;
 }

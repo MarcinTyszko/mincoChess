@@ -6,11 +6,11 @@ import * as styles from "./PrivacyPolicy.module.css";
 
 function PrivacyPolicy() {
     return <div className={styles.wrapper}>
-        <div className={styles.messageContent}>
-            <h1 style={{ margin: 0 }}>
+        <div className={styles.content}>
+            <h1 className={styles.title}>
                 <img
                     src={require("@assets/img/logo.svg")}
-                    height={70}
+                    height={45}
                     draggable={false}
                 />
 
@@ -19,23 +19,18 @@ function PrivacyPolicy() {
 
             <Separator/>
 
-            <span>
-                A full privacy policy will be written upon full release of the website.
-            </span>
-
             <h3 style={{ margin: 0 }}>
                 Glossary
             </h3>
 
             <span>
-                The "Service" / the "Website" - the www.wintrchess.com website
-                and any service or tool that we provide that you use therein.
+                "The Service", "The Website", "We", "Our", "Us" - the wintrchess.com website
+                and any service that we provide that you use therein.
                 Also the entity that collects information from you.
             </span>
 
             <span>
-                The "User" / the "Data Subject" - you, when using the Service and
-                the entity from whom we collect information.
+                "The User" - The entity from whom we are collecting and or processing information.
             </span>
 
             <h3 style={{ margin: 0 }}>
@@ -44,20 +39,29 @@ function PrivacyPolicy() {
 
             <span>
                 IP Addresses are collected to establish a connection between
-                the User and the Website. They are also used to uphold security,
-                and to collect analytics that help improve the Service.
+                the User and the Website, and to uphold security practices. The website is
+                protected by Cloudflare; you can find the data they collect in their{" "}
+
+                <a href="https://www.cloudflare.com/en-gb/privacypolicy/">
+                    Privacy Policy
+                </a>
+
+                .
             </span>
 
             <span>
                 We use cookies to store a session token string. This keeps you from
                 needing to solve a CAPTCHA to access Chess game analysis and move
-                classifications. It is highly recommended to keep cookies on;
-                you may otherwise lose functionality.
+                classifications, but doesn't contain any personal information.
+                It is highly recommended to keep cookies on; you may otherwise lose
+                functionality. The CAPTCHA is proof-of-work based; it does not collect
+                any personal data.
             </span>
 
             <span>
-                In short, information that you explicitly provide to us. Any information
-                included in PGN files you upload is collected. This may include:
+                In short, we collect information that you explicitly provide to us. Any
+                information included in Chess games you review and PGN files you upload
+                is collected and sometimes retained. This may include:
             </span>
 
             <span>
@@ -66,13 +70,40 @@ function PrivacyPolicy() {
                 Lichess.org usernames and profile images
             </span>
 
+            <span>
+                Usernames for Chess services like Chess.com or Lichess will be collected
+                by those respective services when you search for games on your account.
+            </span>
+
             <h3 style={{ margin: 0 }}>
                 Children's Privacy
             </h3>
 
             <span>
-                We do not knowingly collect information from persons under the age of 13.
-                If you think that we have done so, please contact us.
+                We do not knowingly collect personal information from persons under the
+                age of 13. If you think that we have done so, please contact us.
+            </span>
+
+            <h3 style={{ margin: 0 }}>
+                Your Data Rights
+            </h3>
+
+            <span>
+                In accordance with the GDPR, you have the right to:
+            </span>
+
+            <span>
+                Request for a copy of the personal information we hold about you.
+            </span>
+
+            <span>
+                Request for the personal information we hold about you to be erased.
+                This will delete your account if you have one on the Website.
+            </span>
+
+            <span>
+                Be responded to within 30 days, or be given notice in advance if this
+                cannot be met.
             </span>
 
             <h3 style={{ margin: 0 }}>
