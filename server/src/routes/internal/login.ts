@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { Cookie } from "wintrchess";
-import { signInternalJWT } from "@lib/authentication";
+import { signInternalJWT } from "@lib/security/analysis";
 
 const path = "/internal/login";
 

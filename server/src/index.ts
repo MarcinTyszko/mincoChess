@@ -5,8 +5,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import connectDatabase from "@database/connect";
-import crossOriginIsolate from "@lib/isolate";
-import { analysisAuthenticator, internalAuthenticator } from "@lib/authentication";
+import crossOriginIsolate from "@lib/security/isolate";
+import { hostnameWhitelist } from "@lib/security/whitelist";
+import { analysisAuthenticator } from "@lib/security/analysis";
+import { internalAuthenticator } from "@lib/security/internal";
 
 import { apiRouter, internalRouter } from "./routes";
 
@@ -15,6 +17,7 @@ const app = express();
 app.use(cookieParser());
 
 // Authentication and security
+app.use(hostnameWhitelist);
 app.use("/internal", internalAuthenticator);
 app.use("/api/analysis", analysisAuthenticator);
 
