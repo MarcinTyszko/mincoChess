@@ -146,16 +146,15 @@ function GameSearchMenu({
 
             {
                 status == "success" && fetchStatus == "idle"
-                && (
-                    games.length > 0 ?
-                        games
-                            .slice()
-                            .map(game => <GameListing 
-                                game={game}
-                                perspective={getColourPlayed(game, username)}
-                                onClick={selectListing}
-                            />)
-                        : t("pages.analysis.gameSearchMenu.noGamesFound")
+                && (games.length > 0 ?
+                    games
+                        .slice()
+                        .map(game => <GameListing 
+                            game={game}
+                            perspective={getColourPlayed(game, username)}
+                            onClick={selectListing}
+                        />)
+                    : t("pages.analysis.gameSearchMenu.noGamesFound")
                 )
             }
         </div>

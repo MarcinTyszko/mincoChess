@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { trim } from "lodash";
 
 import { Game } from "wintrchess";
 import useLocalStorage from "@hooks/useLocalStorage";
@@ -210,7 +211,7 @@ function GameSelector({
         {
             searchMenuOpen
             && <GameSearchMenu
-                username={fieldInput}
+                username={trim(fieldInput)}
                 gameSource={gameSource}
                 setOpen={setSearchMenuOpen}
                 setSelectedGame={setSelectedServiceGame}
