@@ -1,0 +1,200 @@
+{
+    "loading": "Wczytywanie...",
+    "back": "Wstecz",
+    "settings": "Ustawienia",
+    "error": "Błąd",
+    "reset": "Zresetuj",
+    "navigationBar": {
+        "support": "Wsparcie",
+        "tooltips": {
+            "support": "Wspomóż nas ❤️",
+            "help": "Centrum pomocy"
+        }
+    },
+    "sidebar": {
+        "analysis": "Analiza",
+        "archive": "Archiwum",
+        "news": "Aktualności",
+        "privacyPolicy": "Polityka prywatności",
+        "credits": "Autorzy"
+    },
+    "pages": {
+        "analysis": {
+            "title": "Raport z gry",
+            "options": {
+                "flipBoard": "Odwróć szachownicę",
+                "share": "Udostępnij partię",
+                "sharingSoon": "Udostępnianie zostanie dodane wkrótce!"
+            },
+            "settings": {
+                "title": "Ustawienia analizy",
+                "engineEnabled": "Silnik włączony",
+                "engine": "Silnik",
+                "engineDepth": "Głębia silnika",
+                "engineLines": "Liczba wariantów",
+                "hideClassifications": "Ukryj klasyfikacje ruchów",
+                "suggestionArrows": "Strzałki sugestii",
+                "includeClassifications": "Pokaż klasyfikację",
+                "brilliant": "Genialny ruch",
+                "theory": "Ruch książkowy"
+            },
+            "gameSelector": {
+                "sourceLabel": "Załaduj grę z",
+                "sourcePlaceholders": {
+                    "pgn": "Wklej PGN...",
+                    "fen": "Ciąg FEN...",
+                    "chessCom": "Nazwa użytkownika Chess.com...",
+                    "lichess": "Nazwa użytkownika Lichess..."
+                },
+                "searchGamesButton": "Poszukaj gier",
+                "uploadPGNButton": "Prześlij plik PGN",
+                "errors": {
+                    "noGameSelected": "Musisz wybrać jakąś partię",
+                    "invalidGame": "Nie udało się przetworzyć nieprawidłowej gry."
+                }
+            },
+            "gameSearchMenu": {
+                "title": "Wybierz partię",
+                "loading": "Wyszukiwanie gier...",
+                "loadingLong": "To zajmuje chwilę, proszę czekać...",
+                "userNotFound": "Nie mogliśmy znaleźć konta o tej nazwie użytkownika.",
+                "noGamesFound": "Nie mogliśmy znaleźć żadnych gier w wybranym miesiącu.",
+                "ratelimited": "Zostałeś/aś chwilowo ograniczony; proszę czekać...",
+                "selectedToast": "Wybrano grę!"
+            },
+            "analyseButton": "Analizuj",
+            "analysisError": "Analiza się nie powiodła. Może to być problem z przeglądarką.",
+            "engineLines": {
+                "depth": "Głębia:",
+                "checkmate": "Mat"
+            },
+            "stateTreeEditor": {
+                "moveContextMenu": {
+                    "delete": "Usuń ruch",
+                    "promote": "Promuj ruch"
+                },
+                "addNodePrompt": "Zagraj kilka ruchów..."
+            },
+            "stateTreeTraverser": {
+                "beginning": "Przejdź do początku",
+                "back": "Ostatni ruch",
+                "play": "Odtwórz",
+                "pause": "Zapauzuj",
+                "next": "Następny ruch",
+                "end": "Przejdź na koniec"
+            },
+            "progressReporter": {
+                "evaluating": "Ocenianie...",
+                "awaitingCaptcha": "Rozwiązywanie CAPTCHA...",
+                "classifying": "Klasyfikowanie...",
+                "evaluatingTooltip": "Jeśli to zajmuje trochę czasu, możesz spróbować obniżyć głębokość silnika w ustawieniach.",
+                "captchaTooltip": "To może potrwać kilka sekund...",
+                "captchaVerifyFailed": "Nie udało się zweryfikować CAPTCHA; spróbuj odświeżyć stronę.",
+                "captchaLoadFailed": "Nie udało się załadować CAPTCHA. Twoja przeglądarka jest prawdopodobnie nieaktualna.",
+                "captchaUnknownError": "Nieznany błąd CAPTCHA; spróbuj odświeżyć stronę.",
+                "classifyFailed": "Nieznany błąd podczas generowania raportu gry; spróbuj odświeżyć stronę.",
+                "completeNotification": "Analiza zakończona"
+            },
+            "analysisTabBar": {
+                "report": "Przegląd",
+                "analysis": "Analiza"
+            },
+            "accuraciesCard": {
+                "title": "Dokładność"
+            },
+            "classifiedMoveCard": {
+                "unknownError": "Klasyfikacja nie mogła zostać załadowana.",
+                "insufficientLines": "Upewnij się, że poprzedni ruch jest w pełni oceniany pod kątem klasyfikacji.",
+                "classifications": {
+                    "brilliant": " to genialny ruch",
+                    "only": "to jedyny dobry ruch",
+                    "best": "to najlepszy ruch",
+                    "excellent": " to bardzo dobry ruch",
+                    "okay": "to dobry ruch",
+                    "inaccuracy": "to niedokładność",
+                    "mistake": "to błąd",
+                    "blunder": " to poważny błąd",
+                    "forced": "jest wymuszone",
+                    "theory": "to ruch książkowy",
+                    "risky": "to ryzykowny pomysł"
+                }
+            }
+        },
+        "news": {
+            "title": "Gazeta",
+            "titleDescription": "Uzyskaj najnowsze aktualizacje platformy WintrChess",
+            "error": "Wystąpił błąd podczas ładowania gazety.",
+            "article": {
+                "unfound": "Nie mogliśmy znaleźć tego artykułu.",
+                "error": "Wystąpił błąd podczas ładowania tego artykułu."
+            }
+        },
+        "helpCenter": {
+            "title": "Centrum pomocy",
+            "contact": {
+                "title": "Skontaktuj się z nami",
+                "message": "Jeśli chcesz się z nami skontaktować, możesz wysłać wiadomość e-mail na adres:"
+            },
+            "analysis": {
+                "title": "Analizowanie gry",
+                "part1": "Możesz analizować swoje gry w szachy",
+                "part2": "Strona analizy WintrChess",
+                "part3": ". Oceny magazynów, procenty dokładności i klasyfikacje przesuń - aby znaleźć swoje wspaniałości i błotności - są dostarczane nieodpłatnie. Na środku strony znajdziesz tablicę analityczną, gdzie możesz zobaczyć ruchy gry, którą wybrałeś. Aby wybrać grę, musisz użyć selektora gry, który dostarczyliśmy po prawej stronie paska bocznego. Wygląda tak:",
+                "part4": "Możesz wprowadzić dowolną grę używając jej PGN. Jeśli chcesz, możesz również wybrać grę ze swoich Chess. Jeśli podasz nazwę użytkownika, konto om lub Lichess. Musisz kliknąć przycisk \"Szukaj gry\", aby przeglądać gry na Twoim koncie, i może wybrać dowolny z nich, klikając na nią. Na koniec możesz wprowadzić jedną pozycję FEN. W każdym razie będziesz mógł dodawać ruchy ręcznie po zaimportowaniu gry, wszystkie zostaną ocenione i zaklasyfikowane w trakcie lotu.",
+                "part5": "Po wybraniu gry wystarczy kliknąć przycisk \"Analizuj\", aby rozpocząć analizę. Możesz również przesunąć element na płytce, jeśli chcesz zacząć od pozycji początkowej."
+            }
+        },
+        "settings": {
+            "title": "Preferencje",
+            "categories": {
+                "boardAndPieces": {
+                    "title": "Szachownica i figury",
+                    "boardColour": "Kolor tablicy",
+                    "lightSquareColour": "Jasny kwadrat",
+                    "darkSquareColour": "Ciemny kwadrat",
+                    "presetsTitle": "Szablony",
+                    "presets": {
+                        "wooden": "Drewniany",
+                        "tournament": "Turniej",
+                        "blue": "Niebieski",
+                        "ice": "Lód",
+                        "marshmallow": "Pianka"
+                    }
+                },
+                "bugReporting": {
+                    "title": "Zgłaszanie błędu",
+                    "bugReportingMode": "Tryb zgłaszania błędów",
+                    "bugReportingModeDescription": "Pomóż nam znaleźć i naprawić błędy. Tryb raportowania błędów aktywuje mały widżet w dolnym rogu ekranu, który możesz kliknąć, aby skopiować logi konsoli."
+                }
+            }
+        },
+        "credits": {
+            "leadDeveloper": "Główny programista",
+            "developer": "Deweloper",
+            "artist": "Artysta cyfrowy",
+            "translators": "Tłumacze"
+        }
+    },
+    "gameListing": {
+        "copyPGN": "Kopiuj PGN",
+        "copyPGNToast": "Skopiowano PGN!",
+        "gameResults": {
+            "unopinionated": {
+                "win": "Wygrana białych",
+                "draw": "Remis",
+                "lose": "Wygrana czarnych",
+                "unknown": "Nieznane"
+            },
+            "opinionated": {
+                "win": "Wygrana",
+                "draw": "Remis",
+                "lose": "Porażka",
+                "unknown": "Nieznane"
+            }
+        }
+    },
+    "bugReportWidget": {
+        "tooltip": "Kopiuj dzienniki konsoli",
+        "toast": "Skopiowano dzienniki konsoli!"
+    }
+}

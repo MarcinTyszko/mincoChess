@@ -1,0 +1,200 @@
+{
+    "loading": "Đang tải...",
+    "back": "Trở lại",
+    "settings": "Cài đặt",
+    "error": "Lỗi",
+    "reset": "Thiết lập lại",
+    "navigationBar": {
+        "support": "Hỗ trợ",
+        "tooltips": {
+            "support": "Hỗ trợ chúng tôi ❤",
+            "help": "Trung tâm Trợ giúp"
+        }
+    },
+    "sidebar": {
+        "analysis": "Phân tích",
+        "archive": "Lưu trữ",
+        "news": "Tin tức",
+        "privacyPolicy": "Chính sách riêng tư",
+        "credits": "Lời cảm ơn"
+    },
+    "pages": {
+        "analysis": {
+            "title": "Báo cáo ván đấu",
+            "options": {
+                "flipBoard": "Quay bàn cờ",
+                "share": "Chia sẻ ván cờ",
+                "sharingSoon": "Tính năng Chia sẻ sẽ được thêm vào sớm!"
+            },
+            "settings": {
+                "title": "Cài đặt Phân tích",
+                "engineEnabled": "Bật máy chơi cờ",
+                "engine": "Máy chơi cờ",
+                "engineDepth": "Độ sâu máy chơi cờ",
+                "engineLines": "Nước đi máy gợi ý",
+                "hideClassifications": "Ẩn phân loại nước đi",
+                "suggestionArrows": "Mũi tên gợi ý",
+                "includeClassifications": "Hiện phân loại nước đi",
+                "brilliant": "Thiên tài",
+                "theory": "Lý thuyết"
+            },
+            "gameSelector": {
+                "sourceLabel": "Tải ván đấu từ",
+                "sourcePlaceholders": {
+                    "pgn": "Dán PGN...",
+                    "fen": "Chuỗi FEN...",
+                    "chessCom": "Tên tài khoản chess.com...",
+                    "lichess": "Tên tài khoản Lichess..."
+                },
+                "searchGamesButton": "Tìm ván đấu",
+                "uploadPGNButton": "Tải file PGN",
+                "errors": {
+                    "noGameSelected": "Vui lòng chọn một ván đấu.",
+                    "invalidGame": "Không thể phân tích cú pháp ván đấu không hợp lệ."
+                }
+            },
+            "gameSearchMenu": {
+                "title": "Chọn một ván đấu",
+                "loading": "Đang tìm các ván đấu...",
+                "loadingLong": "Việc này sẽ mất thời gian một chút, xin hãy đợi...",
+                "userNotFound": "Chúng tôi không tìm được tài khoản nào với tên này.",
+                "noGamesFound": "Chúng tôi không tìm được ván nào trong tháng này.",
+                "ratelimited": "Bạn spam nhiều quá nên bị chặn tạm thời, hãy bình tĩnh...",
+                "selectedToast": "Đã chọn ván đấu!"
+            },
+            "analyseButton": "Phân tích",
+            "analysisError": "Phân tích thất bại; có lẽ trình duyệt của bạn đã gặp vấn đề.",
+            "engineLines": {
+                "depth": "Độ sâu:",
+                "checkmate": "Chiếu hết"
+            },
+            "stateTreeEditor": {
+                "moveContextMenu": {
+                    "delete": "Xóa nước đi",
+                    "promote": "Đưa lên làm nước đi chính"
+                },
+                "addNodePrompt": "Hãy đi một vài nước..."
+            },
+            "stateTreeTraverser": {
+                "beginning": "Đến đầu ván đấu",
+                "back": "Đến nước đi cuối cùng",
+                "play": "Chơi",
+                "pause": "Tạm dừng",
+                "next": "Nước tiếp theo",
+                "end": "Đến cuối"
+            },
+            "progressReporter": {
+                "evaluating": "Đang đánh giá...",
+                "awaitingCaptcha": "Đang giải CAPTCHA...",
+                "classifying": "Đang phân loại nước đi...",
+                "evaluatingTooltip": "Nếu việc này tốn nhiều thời gian, bạn có thể giảm độ sâu của máy trong cài đặt.",
+                "captchaTooltip": "Việc này có thể tốn vài giây...",
+                "captchaVerifyFailed": "Không thể xác minh CAPTCHA; hãy thử tải lại trang.",
+                "captchaLoadFailed": "Không thể tại CAPTCHA. Trình duyệt của bạn có thể đã lỗi thời.",
+                "captchaUnknownError": "Lỗi CAPTCHA không rõ; hãy thử tải lại trang.",
+                "classifyFailed": "Lỗi không rõ khi tạo ra báo cáo; hãy thử tải lại trang.",
+                "completeNotification": "Phân tích hoàn tất"
+            },
+            "analysisTabBar": {
+                "report": "Báo cáo",
+                "analysis": "Phân tích"
+            },
+            "accuraciesCard": {
+                "title": "Độ chính xác"
+            },
+            "classifiedMoveCard": {
+                "unknownError": "Không thể tải phân loại nước đi.",
+                "insufficientLines": "Chắc chắn rằng nước đi vừa rồi được đánh giá đầy đủ cho việc phân loại.",
+                "classifications": {
+                    "brilliant": "là nước đi thiên tài",
+                    "only": "là nước đi chuẩn duy nhất",
+                    "best": "là nước đi tốt nhất",
+                    "excellent": "là nước đi xuất sắc",
+                    "okay": "là nước đi ổn",
+                    "inaccuracy": "là nước đi không chuẩn",
+                    "mistake": "là nước đi sai lầm",
+                    "blunder": "là nước đi ngớ ngẩn",
+                    "forced": "là nước đi bắt buộc",
+                    "theory": "là nước đi lý thuyết",
+                    "risky": "là một ý định nguy hiểm"
+                }
+            }
+        },
+        "news": {
+            "title": "Tin tức",
+            "titleDescription": "Nhận bản cập nhật mới nhất từ nền tảng WintrChess",
+            "error": "Có lỗi khi tải tin tức.",
+            "article": {
+                "unfound": "Chúng tôi không tìm được bài viết này.",
+                "error": "Có lỗi khi tải bài viết này."
+            }
+        },
+        "helpCenter": {
+            "title": "Trung tâm Trợ giúp",
+            "contact": {
+                "title": "Liên hệ với chúng tôi",
+                "message": "Nếu bạn cần liên hệ với chúng tôi, bạn có thể gửi email đến địa chỉ:"
+            },
+            "analysis": {
+                "title": "Đang phân tích ván đấu",
+                "part1": "Bạn có thể phân tích ván đấu của bạn ở",
+                "part2": "Trang phân tích của WintrChess",
+                "part3": ". Với đánh giá của Stockfish, độ chính xác và phân loại nước đi - nên là bạn có thể tìm ra những nước đi thiên tài và ngớ ngẩn của bạn - được cung cấp miễn phí. Bạn sẽ thấy một cái bàn cờ phân tích ở giữa trang, đây là nơi bạn có thể xem những nước đi từ ván đấu bạn đã lựa chọn. Để chọn một ván đấu, bạn cần sử dụng bộ chọn ván đấu mà chúng tôi đã cung cấp ở thanh bên phải. Nó nhìn như này:",
+                "part4": "Bạn có thể nhập vào bất kỳ ván đấu nào bằng cách sử dụng PGN của nó. Nếu cần, bạn cũng có thể chọn một ván đấu từ tài khoản chess.com hoặc Lichess của bạn. Bạn sẽ cần nhấn vào nút \"Tìm kiếm ván đấu\" để duyệt qua những ván đấu từ tài khoản của bạn, và có thể chọn bất kỳ cái nào trong số đó bằng việc nhấn vào nó. Cuối cùng, bạn có thể nhập một chuỗi FEN duy nhất. Trong bất kỳ cách nào, bạn cũng sẽ có thể tự đi quân sau khi bạn nhập ván đấu vào, sau đó sẽ được tính toán và phân loại.",
+                "part5": "Sau khi chọn xong một ván đấu, đơn giản nhấn vào nút \"Phân tích\" để bắt đầu phân tích. Bạn cũng có thể đi quân trên bàn cờ nếu muốn khởi đầu từ vị trí bắt đầu."
+            }
+        },
+        "settings": {
+            "title": "Sở thích",
+            "categories": {
+                "boardAndPieces": {
+                    "title": "Quân cờ và Bàn cờ",
+                    "boardColour": "Màu bàn cờ",
+                    "lightSquareColour": "Ô trắng",
+                    "darkSquareColour": "Ô đen",
+                    "presetsTitle": "Có sẵn",
+                    "presets": {
+                        "wooden": "Gỗ",
+                        "tournament": "Giải đấu",
+                        "blue": "Xanh dương",
+                        "ice": "Băng",
+                        "marshmallow": "Kẹo dẻo"
+                    }
+                },
+                "bugReporting": {
+                    "title": "Báo lỗi",
+                    "bugReportingMode": "Chế độ báo lỗi",
+                    "bugReportingModeDescription": "Hãy giúp chúng tôi tìm và sửa lỗi. Chế độ báo lỗi kích hoạt một cửa sổ nhỏ ở góc dưới màn hình mà bạn có thể nhấn vào để sao chép nhật ký console."
+                }
+            }
+        },
+        "credits": {
+            "leadDeveloper": "Nhà phát triển hàng đầu",
+            "developer": "Nhà phát triển",
+            "artist": "Họa sĩ kỹ thuật số",
+            "translators": "Dịch giả"
+        }
+    },
+    "gameListing": {
+        "copyPGN": "Sao chép PGN",
+        "copyPGNToast": "Đã sao chép PGN!",
+        "gameResults": {
+            "unopinionated": {
+                "win": "Trắng thắng",
+                "draw": "Hòa",
+                "lose": "Đen thắng",
+                "unknown": "Không rõ"
+            },
+            "opinionated": {
+                "win": "Thắng",
+                "draw": "Hòa",
+                "lose": "Thua",
+                "unknown": "Không rõ"
+            }
+        }
+    },
+    "bugReportWidget": {
+        "tooltip": "Sao chép nhật ký console",
+        "toast": "Đã sao chép nhật ký console!"
+    }
+}
