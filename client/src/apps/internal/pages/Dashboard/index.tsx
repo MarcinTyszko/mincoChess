@@ -18,6 +18,7 @@ function Dashboard() {
 
         <div className={styles.tabs}>
             <SidebarTab
+                className={styles.tab}
                 navigateTo="/internal/dashboard/analytics"
                 icon={require("@assets/img/analytics.svg")}
             >
@@ -25,6 +26,7 @@ function Dashboard() {
             </SidebarTab>
 
             <SidebarTab
+                className={styles.tab}
                 navigateTo="/internal/dashboard/news"
                 icon={require("@assets/img/news.svg")}
             >
@@ -32,6 +34,7 @@ function Dashboard() {
             </SidebarTab>
 
             <SidebarTab
+                className={styles.tab}
                 navigateTo="/internal/dashboard/announcement"
                 icon={require("@assets/img/announcement.svg")}
             >
