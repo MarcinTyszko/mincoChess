@@ -13,6 +13,17 @@ import CheckboxSetting from "@components/settings/CheckboxSetting";
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
 import * as styles from "./AnalysisSettingsDialog.module.css";
 
+const engineOptions = [
+    {
+        label: "Stockfish 17",
+        value: EngineVersion.STOCKFISH_17
+    },
+    {
+        label: "Stockfish 17 Lite",
+        value: EngineVersion.STOCKFISH_17_LITE
+    }
+];
+
 function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
     const { t } = useTranslation();
 
@@ -53,20 +64,10 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.settings.engine")}</span>
 
             <DropdownSetting
-                options={[
-                    {
-                        label: "Stockfish 17",
-                        value: EngineVersion.STOCKFISH_17
-                    },
-                    {
-                        label: "Stockfish 17 Lite",
-                        value: EngineVersion.STOCKFISH_17_LITE
-                    }
-                ]}
-                defaultValue={{
-                    label: "Stockfish 17 Lite",
-                    value: EngineVersion.STOCKFISH_17_LITE
-                }}
+                options={engineOptions}
+                defaultValue={engineOptions.find(
+                    option => option.value == settings.analysis.engine
+                )}
                 onSelect={option => {
                     if (!option) return;
 
