@@ -17,9 +17,15 @@ function NumberSetting({
         min={min}
         max={max}
         defaultValue={defaultValue}
-        onChange={event => onChange?.(
-            parseInt(event.target.value)
-        )}
+        onChange={event => {
+            const value = parseInt(event.target.value);
+            if (isNaN(value)) return;
+
+            if (min != undefined && value < min) return;
+            if (max != undefined && value > max) return;
+
+            onChange?.(value);
+        }}
     />;
 }
 
