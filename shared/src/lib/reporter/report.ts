@@ -11,10 +11,10 @@ import { getMoveAccuracy } from "./accuracy/moveAccuracy";
 import { classify } from "./classify";
 import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 
-export function getGameReport(
+export async function getGameReport(
     rootNode: StateTreeNode,
     options?: ReportOptions
-): GameAnalysis {
+): Promise<GameAnalysis> {
     const treeNodes = getNodeChain(rootNode);
     
     // Apply classifications and accuracies to moves
