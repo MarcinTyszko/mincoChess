@@ -1,15 +1,22 @@
 import mongoose from "mongoose";
+import cluster from "cluster";
 
 async function connectDatabase() {
     if (!process.env.DATABASE_URL) return;
 
+    const firstWorker = (cluster.worker?.id || 1) == 1;
+
     try {
         await mongoose.connect(process.env.DATABASE_URL);
         
-        console.log("database connected successfully.");
+        if (firstWorker) {
+            console.log("database connected successfully.");
+        }
     } catch (err) {
-        console.log("database connection failed.");
-        console.log(err);
+        if (firstWorker) {
+            console.log("database connection failed.");
+            console.log(err);
+        }
     }
 }
 
