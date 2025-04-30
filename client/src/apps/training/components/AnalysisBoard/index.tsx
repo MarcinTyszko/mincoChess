@@ -48,6 +48,7 @@ function AnalysisBoard({
         currentStateTreeNode,
         setCurrentStateTreeNode,
         boardFlipped,
+        autoplayEnabled,
         setPlayableSquares,
         setCapturableSquares,
         setHighlightedSquares
@@ -56,6 +57,7 @@ function AnalysisBoard({
             currentStateTreeNode: state.currentStateTreeNode,
             setCurrentStateTreeNode: state.setCurrentStateTreeNode,
             boardFlipped: state.boardFlipped,
+            autoplayEnabled: state.autoplayEnabled,
             setPlayableSquares: state.setPlayableSquares,
             setCapturableSquares: state.setCapturableSquares,
             setHighlightedSquares: state.setHighlightedSquares
@@ -218,6 +220,7 @@ function AnalysisBoard({
             <div className={styles.board} ref={boardRef}>
                 <Chessboard
                     position={position}
+                    arePiecesDraggable={!autoplayEnabled}
                     onSquareClick={handleSquareClick}
                     onSquareRightClick={toggleSquareHighlight}
                     onPieceDragBegin={(piece, square) => {
