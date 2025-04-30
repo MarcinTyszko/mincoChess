@@ -93,6 +93,14 @@ async function getLichessGames(
             results[oppositePieceColour(winner)] = GameResult.LOSE;
         }
 
+        const whiteUsername = game.players.white.aiLevel
+            ? `AI Level ${game.players.white.aiLevel}`
+            : game.players.white.user?.name;
+
+        const blackUsername = game.players.black.aiLevel
+            ? `AI Level ${game.players.black.aiLevel}`
+            : game.players.black.user?.name;
+
         return {
             pgn: game.pgn,
             initialPosition: game.initialFen || STARTING_FEN,
@@ -103,20 +111,20 @@ async function getLichessGames(
             variant: variantCodes[game.variant] || Variant.STANDARD,
             players: {
                 white: {
-                    username: game.players.white.user.name,
+                    username: whiteUsername,
                     rating: game.players.white.rating,
-                    title: game.players.white.user.title,
+                    title: game.players.white.user?.title,
                     result: results[PieceColour.WHITE]
                 },
                 black: {
-                    username: game.players.black.user.name,
+                    username: blackUsername,
                     rating: game.players.black.rating,
-                    title: game.players.black.user.title,
+                    title: game.players.black.user?.title,
                     result: results[PieceColour.BLACK]
                 }
             },
             date: new Date(game.lastMoveAt)
-        };
+        } as Game;
     });
 }
 
