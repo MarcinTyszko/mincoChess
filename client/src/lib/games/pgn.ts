@@ -1,4 +1,5 @@
-import { Chess } from "chess.js";
+import { validateFen } from "chess.js";
+import { parseGame } from "@mliebelt/pgn-parser";
 
 import {
     Game,
@@ -18,50 +19,51 @@ function parseResultString(result: string, colour: PieceColour) {
 }
 
 function parsePgn(pgn: string): Game {
-    const parsedGame = new Chess();
-    parsedGame.loadPgn(pgn);
+    const sanitisedPGN = pgn.replace(/("])\n(\d+\.)/, "$1\n\n$2");
 
-    const parsedGameHeaders = parsedGame.getHeaders();
+    const game = parseGame(sanitisedPGN);
 
-    const parsedGameVariant = (
-        parsedGameHeaders["Variant"] == "Chess960"
+    const headers = game.tags as any;
+
+    const variant = (
+        headers["Variant"] == "Chess960"
             ? Variant.CHESS960
             : Variant.STANDARD
     );
 
-    let initialPosition = parsedGameHeaders["FEN"] || STARTING_FEN;
+    const initialPosition = (headers["FEN"] && validateFen(headers["FEN"]).ok)
+        ? headers["FEN"] : STARTING_FEN;
 
-    try {
-        new Chess(initialPosition);
-    } catch {
-        initialPosition = STARTING_FEN;
-    }
+    const ratings = {
+        white: parseInt(headers["WhiteElo"] || ""),
+        black: parseInt(headers["BlackElo"] || "")
+    };
 
     return {
-        pgn: pgn,
+        pgn: sanitisedPGN,
         players: {
             white: {
-                username: parsedGameHeaders["White"] || "White",
-                title: parsedGameHeaders["WhiteTitle"],
-                rating: parseInt(parsedGameHeaders["WhiteElo"]),
-                image: parsedGameHeaders["WhiteUrl"],
+                username: headers["White"] || "White",
+                title: headers["WhiteTitle"],
+                rating: isNaN(ratings.white) ? undefined : ratings.white,
+                image: headers["WhiteUrl"],
                 result: parseResultString(
-                    parsedGameHeaders["Result"],
+                    headers["Result"],
                     PieceColour.WHITE
                 )
             },
             black: {
-                username: parsedGameHeaders["Black"] || "Black",
-                title: parsedGameHeaders["BlackTitle"],
-                rating: parseInt(parsedGameHeaders["BlackElo"]),
-                image: parsedGameHeaders["BlackUrl"],
+                username: headers["Black"] || "Black",
+                title: headers["BlackTitle"],
+                rating: isNaN(ratings.black) ? undefined : ratings.black,
+                image: headers["BlackUrl"],
                 result: parseResultString(
-                    parsedGameHeaders["Result"],
+                    headers["Result"],
                     PieceColour.BLACK
                 )
             }
         },
-        variant: parsedGameVariant,
+        variant: variant,
         initialPosition: initialPosition
     };
 }

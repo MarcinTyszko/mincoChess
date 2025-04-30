@@ -25,8 +25,6 @@ function GameSelection() {
     function onAnalyseClick() {
         try {
             var analysisGame = importGame();
-
-            if (!analysisGame) return;
         } catch (err) {
             return setImportError((err as Error).message);
         }
