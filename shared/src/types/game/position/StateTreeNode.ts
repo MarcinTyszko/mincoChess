@@ -136,6 +136,23 @@ export function getNodeChain(
 }
 
 /**
+ * @description Returns a list of the given node plus all a chain
+ * of its parents until the root node (inclusive)
+ */
+export function getNodeParentChain(node: StateTreeNode) {
+    const chain: StateTreeNode[] = [];
+
+    let current: StateTreeNode | undefined = node;
+
+    while (current) {
+        chain.push(current);
+        current = current.parent;
+    }
+
+    return chain;
+}
+
+/**
  * @description Returns the move number of the given node.
  */
 export function getNodeMoveNumber(

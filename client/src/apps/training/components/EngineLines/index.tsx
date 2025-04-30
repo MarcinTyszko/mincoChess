@@ -3,12 +3,18 @@ import { useTranslation } from "react-i18next";
 import { range } from "lodash";
 import { Chess } from "chess.js";
 
-import { EngineLine, getDisplayedLines, isEngineLineEqual } from "wintrchess";
+import {
+    EngineLine,
+    getNodeParentChain,
+    getDisplayedLines,
+    isEngineLineEqual
+} from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
+import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useRealtimeEngineStore from "@apps/training/stores/RealtimeEngineStore";
-import Engine from "@lib/engine";
+import Engine from "@apps/training/lib/engine";
 
 import EngineLineInfo from "./EngineLine";
 import SkeletonLine from "./SkeletonLine";
@@ -21,6 +27,7 @@ function EngineLines({ style }: EngineLinesProps) {
 
     const { settings } = useSettingsStore();
 
+    const { analysisGame } = useAnalysisGameStore();
     const { currentStateTreeNode } = useAnalysisBoardStore();
 
     const setRealtimeClassifyError = useAnalysisProgressStore(
@@ -111,7 +118,12 @@ function EngineLines({ style }: EngineLinesProps) {
 
         // Queue local evaluation
         evaluationDelayRef.current = setTimeout(async () => {
-            engine.setPosition(currentStateTreeNode.state.fen);
+            const playedUciMoves = getNodeParentChain(currentStateTreeNode)
+                .reverse()
+                .filter(node => node.state.move)
+                .map(node => node.state.move!.uci);
+
+            engine.setPosition(analysisGame.initialPosition, playedUciMoves);
             engine.setLineCount(settings.analysis.engineLines);
 
             let reachedDepth = 0;
@@ -140,7 +152,6 @@ function EngineLines({ style }: EngineLinesProps) {
             );
 
             // If depth fully reached
-            // If game is in terminal position, don't consider depth 0
             if (
                 (
                     !new Chess(currentStateTreeNode.state.fen).isGameOver()

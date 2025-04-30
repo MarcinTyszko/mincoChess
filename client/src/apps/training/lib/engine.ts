@@ -110,6 +110,7 @@ class Engine {
 
             const board = new Chess(fen);
             for (const uciMove of uciMoves) {
+                console.log(uciMove);
                 board.move(uciMove);
             }
 
