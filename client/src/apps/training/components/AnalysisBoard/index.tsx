@@ -24,6 +24,8 @@ import EvaluationBarArea from "./EvaluationBarArea";
 import AnalysisBoardProps from "./AnalysisBoardProps";
 import * as styles from "./AnalysisBoard.module.css";
 
+const profileBorderRadius = "7px";
+
 function AnalysisBoard({
     topProfile,
     bottomProfile,
@@ -198,11 +200,17 @@ function AnalysisBoard({
         className={styles.wrapper}
         style={style}
     >
-        <PlayerProfile
-            profile={
+        <div 
+            className={styles.playerProfile}
+            style={{
+                borderTopLeftRadius: profileBorderRadius,
+                borderTopRightRadius: profileBorderRadius
+            }}
+        >
+            <PlayerProfile profile={
                 boardFlipped ? bottomProfile : topProfile
-            }
-        />
+            }/>
+        </div>
 
         <div className={styles.boardContainer}>
             <EvaluationBarArea/>
@@ -247,12 +255,17 @@ function AnalysisBoard({
             </div>
         </div>
 
-        <PlayerProfile
-            profile={
+        <div 
+            className={styles.playerProfile}
+            style={{
+                borderBottomLeftRadius: profileBorderRadius,
+                borderBottomRightRadius: profileBorderRadius
+            }}
+        >
+            <PlayerProfile profile={
                 boardFlipped ? topProfile : bottomProfile
-            }
-            bottom
-        />
+            }/>
+        </div>
     </div>;
 }
 

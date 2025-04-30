@@ -1,42 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PlayerProfileProps from "./PlayerProfileProps";
 import * as styles from "./PlayerProfile.module.css";
 
-const profileBorderRadius = "7px";
+function PlayerProfile({ profile }: PlayerProfileProps) {
+    const [ defaultImage, setDefaultImage ] = useState(false);
 
-function PlayerProfile({
-    profile,
-    bottom
-}: PlayerProfileProps) {
-    return <div 
-        className={styles.wrapper}
-        style={
-            bottom ?
-                {
-                    borderBottomLeftRadius: profileBorderRadius,
-                    borderBottomRightRadius: profileBorderRadius
-                }
-                : {
-                    borderTopLeftRadius: profileBorderRadius,
-                    borderTopRightRadius: profileBorderRadius
-                }
-        }
-    >
+    return <div className={styles.wrapper}>
         {
-            !!profile.image
+            profile.image
             && <img 
                 className={styles.profileImage} 
-                src={profile.image}
-                onError={event => {
-                    event.currentTarget.src = require("@assets/img/defaultprofileimage.png");
-                }}
+                src={defaultImage
+                    ? require("@assets/img/defaultprofileimage.png")
+                    : profile.image
+                }
+                onError={() => setDefaultImage(true)}
             />
         }
 
         {
-            !!profile.title
-            && <span className={styles.title}>{profile.title}</span>
+            profile.title
+            && <span className={styles.title}>
+                {profile.title}
+            </span>
         }
 
         <span className={styles.username}>
@@ -44,7 +31,7 @@ function PlayerProfile({
         </span>
 
         {
-            !!profile.rating
+            profile.rating != undefined
             && <span className={styles.rating}>
                 ({profile.rating})
             </span>
