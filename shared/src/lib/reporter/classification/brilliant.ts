@@ -1,14 +1,13 @@
 import { Chess, QUEEN } from "chess.js";
 
-import { parseUciMove } from "@lib/moveNotation";
 import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../types/ExtractedNode";
-import BoardPiece from "../types/BoardPiece";
+import { getBoardPieces, toBoardPiece } from "../types/BoardPiece";
 import { pieceValues } from "@constants/utils";
-import { getBoardPieces } from "../utils/boardPieces";
-import { getAttackers } from "../utils/attackers";
+import { adaptPieceColour } from "@lib/notation";
+import { getAttackingMoves } from "../utils/attackers";
 import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
 import { getPieceTrapped } from "../utils/pieceTrapped";
 
@@ -33,9 +32,7 @@ export function considerBrilliantClassification(
     }
 
     // Disallow promotions as brilliants
-    const parsedPlayedMove = parseUciMove(current.playedMove.uci);
-
-    if (parsedPlayedMove.promotion) {
+    if (current.playedMove.promotion) {
         return false;
     }
     
@@ -45,23 +42,17 @@ export function considerBrilliantClassification(
     }
 
     // Scan current board for unsafe pieces
-    const capturedPiece = previous.board.get(parsedPlayedMove.to);
-
-    const capturedBoardPiece: BoardPiece | undefined = capturedPiece
-        ? { ...capturedPiece, square: parsedPlayedMove.to }
-        : undefined;
-
     const unsafePieces = getUnsafePieces(
         current.board,
-        current.moveColour,
-        capturedBoardPiece
+        adaptPieceColour(current.playedMove.color),
+        current.playedMove
     );
 
     // Moving a piece to safety (less unsafe pieces than in previous position)
     // disallows a brilliant
     const previousUnsafePieces = getUnsafePieces(
         previous.board,
-        current.moveColour
+        adaptPieceColour(current.playedMove.color)
     );
 
     if (unsafePieces.length < previousUnsafePieces.length) {
@@ -70,7 +61,8 @@ export function considerBrilliantClassification(
 
     // Detect equal or greater counterthreats (danger levels) or relative pins
     const dangerLevelsProtected = unsafePieces.every(unsafePiece => {
-        const attackers = getAttackers(current.board, unsafePiece, false);
+        const attackers = getAttackingMoves(current.board, unsafePiece, false)
+            .map(toBoardPiece);
 
         // Check if every attacker's capture would leave one of their side's
         // pieces of greater or equal value unsafe.
@@ -91,7 +83,7 @@ export function considerBrilliantClassification(
                 .filter(piece => piece.color == attacker.color)
                 .some(piece => (
                     pieceValues[piece.type] >= pieceValues[unsafePiece.type]
-                    && !getPieceSafety(captureBoard, piece, capturedBoardPiece)
+                    && !getPieceSafety(captureBoard, piece, current.playedMove)
                 ));
         });
     });
@@ -101,8 +93,9 @@ export function considerBrilliantClassification(
     // If moved piece was trapped in previous position, do not allow
     // desperado to be considered brilliant
     const pieceTrapped = getPieceTrapped(previous.board, {
-        ...current.playedPiece,
-        square: parsedPlayedMove.from
+        type: current.playedMove.piece,
+        color: current.playedMove.color,
+        square: current.playedMove.from
     });
 
     if (pieceTrapped) return false;

@@ -1,38 +1,36 @@
-import { Chess, QUEEN } from "chess.js";
+import { Chess } from "chess.js";
 import { minBy } from "lodash";
 
-import BoardPiece from "../types/BoardPiece";
-import { flipAdaptedPieceColour } from "@lib/moveNotation";
-import { getAttackers } from "./attackers";
+import { BoardPiece } from "../types/BoardPiece";
+import { flipPieceColour } from "@lib/notation";
+import { safeMove } from "./safeMove";
+import { getAttackingMoves } from "./attackers";
 
-export function getDefenders(
+export function getDefendingMoves(
     board: Chess,
     piece: BoardPiece,
     transitive: boolean = true
 ) {
     const defenderBoard = new Chess(board.fen());
 
-    const attackers = getAttackers(defenderBoard, piece, false);
+    const attackingMoves = getAttackingMoves(defenderBoard, piece, false);
 
     // Where there are attackers, simulate taking the piece with each attacker
     // and record the minima of recaptures
     const smallestRecapturerSet = minBy(
-        attackers.map(attacker => {
+        attackingMoves.map(attackingMove => {
             const captureBoard = new Chess(defenderBoard.fen());
 
-            try {
-                captureBoard.move({
-                    from: attacker.square,
-                    to: piece.square,
-                    promotion: QUEEN
-                });
-            } catch {
-                return null;
-            }
+            const captureMove = safeMove(captureBoard.fen(), attackingMove);
+            if (!captureMove) return;
 
-            return getAttackers(
+            return getAttackingMoves(
                 captureBoard,
-                { ...attacker, square: piece.square },
+                {
+                    type: captureMove.piece,
+                    color: captureMove.color,
+                    square: captureMove.to
+                },
                 transitive
             );
         }).filter(
@@ -46,13 +44,13 @@ export function getDefenders(
     if (!smallestRecapturerSet) {
         const flippedPiece: BoardPiece = {
             type: piece.type,
-            color: flipAdaptedPieceColour(piece.color),
+            color: flipPieceColour(piece.color),
             square: piece.square
         };
 
         defenderBoard.put(flippedPiece, piece.square);
         
-        return getAttackers(defenderBoard, flippedPiece, transitive);
+        return getAttackingMoves(defenderBoard, flippedPiece, transitive);
     }
 
     return smallestRecapturerSet;

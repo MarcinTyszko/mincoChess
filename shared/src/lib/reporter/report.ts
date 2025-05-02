@@ -1,27 +1,29 @@
+import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 import {
     StateTreeNode,
     getNodeChain
 } from "@ctypes/game/position/StateTreeNode";
 import ReportOptions from "./types/ReportOptions";
+import { adaptPieceColour } from "@lib/notation";
 import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode
 } from "./utils/extractNode";
 import { getMoveAccuracy } from "./accuracy/moveAccuracy";
 import { classify } from "./classify";
-import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 
-export async function getGameReport(
+export function getGameReport(
     rootNode: StateTreeNode,
     options?: ReportOptions
-): Promise<GameAnalysis> {
+): GameAnalysis {
     const treeNodes = getNodeChain(rootNode);
     
     // Apply classifications and accuracies to moves
     for (const node of treeNodes) {
         try {
             node.state.classification = classify(node, options);
-        } catch {
+        } catch (err) {
+            console.log(err);
             node.state.classification = undefined;
         }
 
@@ -35,7 +37,7 @@ export async function getGameReport(
         node.state.accuracy = getMoveAccuracy(
             previous.evaluation,
             current.evaluation,
-            current.moveColour
+            adaptPieceColour(current.playedMove.color)
         );
     }
 

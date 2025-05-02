@@ -1,7 +1,6 @@
 import { Chess } from "chess.js";
 
-import BoardPiece from "../types/BoardPiece";
-import { flipAdaptedPieceColour } from "@lib/moveNotation";
+import { BoardPiece } from "../types/BoardPiece";
 import { getPieceSafety } from "./pieceSafety";
 
 export function getPieceTrapped(board: Chess, piece: BoardPiece) {
@@ -20,13 +19,7 @@ export function getPieceTrapped(board: Chess, piece: BoardPiece) {
         return !getPieceSafety(
             escapeBoard,
             { ...piece, square: escapeMove.to },
-            escapeMove.captured
-                ? {
-                    color: flipAdaptedPieceColour(piece.color),
-                    type: escapeMove.captured,
-                    square: escapeMove.to
-                }
-                : undefined
+            escapeMove
         );
     });
 

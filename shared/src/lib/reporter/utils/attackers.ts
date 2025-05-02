@@ -1,52 +1,76 @@
 import { Chess, Square, KING } from "chess.js";
 import { isEqual, xorWith } from "lodash";
 
-import BoardPiece from "../types/BoardPiece";
-import { flipAdaptedPieceColour, setFenTurn } from "@lib/moveNotation";
+import { BoardPiece } from "../types/BoardPiece";
+import RawMove from "../types/RawMove";
+import {
+    adaptPieceColour,
+    flipPieceColour,
+    setFenTurn
+} from "@lib/notation";
 
 interface TransitiveAttacker {
-    fen: string;
+    directFen: string;
     square: Square;
 }
 
-function directAttackers(board: Chess, piece: BoardPiece): BoardPiece[] {
+function directAttackingMoves(
+    board: Chess,
+    piece: BoardPiece
+): RawMove[] {
     // Set turn to attacker's side (opposite of piece)
-    board = new Chess(
-        setFenTurn(board.fen(), flipAdaptedPieceColour(piece.color))
+    const attackerBoard = new Chess(
+        setFenTurn(
+            board.fen(),
+            adaptPieceColour(flipPieceColour(piece.color))
+        )
     );
 
-    const legalMoves = board.moves({ verbose: true });
+    const attackingMoves: RawMove[] = attackerBoard
+        .moves({ verbose: true })
+        .filter(move => {
+            if (move.isEnPassant()) {
+                const captureSquare = move.to[0] + move.from[1];
+                
+                return captureSquare == piece.square;
+            }
 
-    return board
-        .attackers(piece.square, flipAdaptedPieceColour(piece.color))
-        .filter(attackerSquare => (
-            legalMoves.some(move => (
-                move.from == attackerSquare
-                && move.to == piece.square
-            ))
-            || board.get(attackerSquare)?.type == KING
-        ))
-        .map(attackerSquare => ({
-            square: attackerSquare,
-            ...board.get(attackerSquare)!
-        }));
+            return move.to == piece.square;
+        });
+
+    const kingAttackerSquare = attackerBoard
+        .attackers(piece.square)
+        .find(attackerSquare => (
+            attackerBoard.get(attackerSquare)?.type == KING
+        ));
+
+    if (kingAttackerSquare) {
+        attackingMoves.push({
+            piece: KING,
+            color: flipPieceColour(piece.color),
+            from: kingAttackerSquare,
+            to: piece.square
+        });
+    }
+
+    return attackingMoves;
 }
 
-export function getAttackers(
+export function getAttackingMoves(
     board: Chess,
     piece: BoardPiece,
     transitive: boolean = true
-) {
-    const attackers = directAttackers(board, piece);
+): RawMove[] {
+    const attackingMoves = directAttackingMoves(board, piece);
     
-    if (!transitive) return attackers;
+    if (!transitive) return attackingMoves;
 
     // Keep a record of each transitive attacker and the FEN on
     // which they are considered a direct attacker
-    const frontier: TransitiveAttacker[] = attackers.map(
-        attacker => ({
-            fen: board.fen(),
-            square: attacker.square
+    const frontier: TransitiveAttacker[] = attackingMoves.map(
+        attackingMove => ({
+            directFen: board.fen(),
+            square: attackingMove.from
         })
     );
 
@@ -54,39 +78,39 @@ export function getAttackers(
         const transitiveAttacker = frontier.pop();
         if (!transitiveAttacker) break;
 
-        // A king cannot be at the front of a battery
-        const transitiveBoard = new Chess(transitiveAttacker.fen);
+        const transitiveBoard = new Chess(transitiveAttacker.directFen);
 
+        // A king cannot be at the front of a battery
         if (transitiveBoard.get(transitiveAttacker.square)?.type == KING) {
             continue;
         }
 
         // Remove the piece at the front of the battery
-        const oldDirectAttackers = directAttackers(transitiveBoard, piece);
+        const oldAttackingMoves = directAttackingMoves(transitiveBoard, piece);
 
         transitiveBoard.remove(transitiveAttacker.square);
 
         // Find revealed attackers as a XOR between old (removed piece excluded)
         // and new direct attackers list
-        const revealedDirectAttackers = xorWith(
-            oldDirectAttackers.filter(
-                attacker => attacker.square != transitiveAttacker.square
+        const revealedAttackingMoves = xorWith(
+            oldAttackingMoves.filter(
+                attackingMove => attackingMove.from != transitiveAttacker.square
             ),
-            directAttackers(transitiveBoard, piece),
+            directAttackingMoves(transitiveBoard, piece),
             isEqual
         );
 
         // Record revealed attackers in final list
-        attackers.push(...revealedDirectAttackers);
+        attackingMoves.push(...revealedAttackingMoves);
 
         // Queue revealed attackers for further recursion
         frontier.push(
-            ...revealedDirectAttackers.map(attacker => ({
-                fen: transitiveBoard.fen(),
-                square: attacker.square
+            ...revealedAttackingMoves.map(attackingMove => ({
+                directFen: transitiveBoard.fen(),
+                square: attackingMove.from
             }))
         );
     }
 
-    return attackers;
+    return attackingMoves;
 }

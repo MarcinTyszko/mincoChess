@@ -1,9 +1,11 @@
+import { WHITE } from "chess.js";
+
 import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
 import Classification from "@constants/Classification";
-import PieceColour from "@constants/PieceColour";
+import { adaptPieceColour } from "@lib/notation";
 import { getExpectedPointsLoss } from "../expectedPoints";
 
 /**
@@ -15,7 +17,7 @@ export function pointLossClassify(
     current: ExtractedCurrentNode
 ) {
     const previousSubjectiveValue = previous.evaluation.value * (
-        (current.moveColour == PieceColour.WHITE ? 1 : -1)
+        (current.playedMove.color == WHITE ? 1 : -1)
     );
 
     const subjectiveValue = current.subjectiveEvaluation.value;
@@ -36,7 +38,7 @@ export function pointLossClassify(
         // is best. Only the winning side expects a mate loss of -1.
         const mateLoss = (
             (current.evaluation.value - previous.evaluation.value)
-            * (current.moveColour == PieceColour.WHITE ? 1 : -1)
+            * (current.playedMove.color == WHITE ? 1 : -1)
         );
 
         if (mateLoss < 0 || (mateLoss == 0 && subjectiveValue < 0)) {
@@ -88,7 +90,7 @@ export function pointLossClassify(
     const pointLoss = getExpectedPointsLoss(
         previous.evaluation,
         current.evaluation,
-        current.moveColour
+        adaptPieceColour(current.playedMove.color)
     );
 
     if (pointLoss < 0.01) {

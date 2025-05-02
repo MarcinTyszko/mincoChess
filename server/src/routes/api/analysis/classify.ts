@@ -27,7 +27,7 @@ router.post(path, async (req, res) => {
     const stateTree = deserializeNode(serializedStateTree);
 
     try {
-        const gameReport = await getGameReport(stateTree, {
+        const gameReport = getGameReport(stateTree, {
             includeBrilliant: req.query.brilliant == "true",
             includeTheory: req.query.theory == "true"
         });

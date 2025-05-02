@@ -1,4 +1,4 @@
-import { Chess } from "chess.js";
+import { Chess, WHITE } from "chess.js";
 
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { getTopEngineLine } from "@ctypes/game/position/BoardState";
@@ -6,36 +6,29 @@ import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import PieceColour from "@constants/PieceColour";
-import { parseUciMove } from "@lib/moveNotation";
-import BoardPiece from "../types/BoardPiece";
+import { safeMove } from "./safeMove";
 
 export function extractPreviousStateTreeNode(
     node: StateTreeNode
 ): ExtractedPreviousNode | null {
+    // Get top engine line and move in this position
     const topLine = getTopEngineLine(node.state);
     if (!topLine) return null;
 
-    const topMove = topLine.moves.at(0);
+    const topMoveSan = topLine.moves.at(0)?.san;
+    if (!topMoveSan) return null;
+
+    const topMove = safeMove(node.state.fen, topMoveSan);
     if (!topMove) return null;
 
-    const playedMove = node.state.move;
-    const moveColour = node.state.moveColour;
-
-    let playedPiece: BoardPiece | undefined;
-
-    if (playedMove) {
-        const parsedPlayedMove = parseUciMove(playedMove.uci);
-        const piece = new Chess(node.state.fen).get(parsedPlayedMove.to);
-
-        playedPiece = piece
-            ? { ...piece, square: parsedPlayedMove.to }
-            : undefined;
-    }
+    // Get played move in this position
+    const playedMove = node.parent
+        && node.state.move
+        && safeMove(node.parent.state.fen, node.state.move.san);
 
     const subjectiveEvaluationValue = (
         topLine.evaluation.value
-        * (moveColour == PieceColour.WHITE ? 1 : -1)
+        * (playedMove?.color == WHITE ? 1 : -1)
     );
 
     return {
@@ -44,15 +37,13 @@ export function extractPreviousStateTreeNode(
         topLine: topLine,
         topMove: topMove,
         evaluation: topLine.evaluation,
-        subjectiveEvaluation: moveColour
+        subjectiveEvaluation: playedMove?.color
             ? {
                 type: topLine.evaluation.type,
                 value: subjectiveEvaluationValue
             }
             : undefined,
-        playedMove: playedMove,
-        moveColour: moveColour,
-        playedPiece: playedPiece
+        playedMove: playedMove
     };
 }
 
@@ -63,29 +54,28 @@ export function extractPreviousStateTreeNode(
 export function extractCurrentStateTreeNode(
     node: StateTreeNode
 ): ExtractedCurrentNode | null {
+    if (!node.parent) return null;
+
+    // Get top engine line and move in this position
     const topLine = getTopEngineLine(node.state);
     if (!topLine) return null;
 
-    const topMove = topLine.moves.at(0);
+    const topMoveSan = topLine.moves.at(0)?.san;
+    if (!topMoveSan) return null;
 
-    const playedMove = node.state.move;
+    const topMove = safeMove(node.state.fen, topMoveSan);
+
+    // Get played move in this position
+    const playedMoveSan = node.state.move?.san;
+    if (!playedMoveSan) return null;
+
+    const playedMove = safeMove(node.parent.state.fen, playedMoveSan);
     if (!playedMove) return null;
 
-    const moveColour = node.state.moveColour;
-    if (!moveColour) return null;
-
-    const parsedPlayedMove = parseUciMove(playedMove.uci);
-    const piece = new Chess(node.state.fen).get(parsedPlayedMove.to);
-    if (!piece) return null;
-
-    const playedPiece: BoardPiece = {
-        ...piece,
-        square: parsedPlayedMove.to
-    };
-
+    // Get subjective evaluation
     const subjectiveEvaluationValue = (
         topLine.evaluation.value
-        * (moveColour == PieceColour.WHITE ? 1 : -1)
+        * (playedMove.color == WHITE ? 1 : -1)
     );
 
     return {
@@ -98,8 +88,6 @@ export function extractCurrentStateTreeNode(
             type: topLine.evaluation.type,
             value: subjectiveEvaluationValue
         },
-        playedMove: playedMove,
-        moveColour: moveColour,
-        playedPiece: playedPiece
+        playedMove: playedMove
     };
 }

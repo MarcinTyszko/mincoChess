@@ -1,27 +1,27 @@
-import { Chess, KING, PAWN, ROOK } from "chess.js";
+import { Chess, Move, PAWN, ROOK, KING } from "chess.js";
 import { minBy } from "lodash";
 
-import BoardPiece from "../types/BoardPiece";
+import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
 import PieceColour from "@constants/PieceColour";
 import { pieceValues } from "@constants/utils";
-import { adaptPieceColour } from "@lib/moveNotation";
-import { getAttackers } from "./attackers";
-import { getDefenders } from "./defenders";
-import { getBoardPieces } from "./boardPieces";
+import { adaptPieceColour } from "@lib/notation";
+import { toBoardPiece } from "../types/BoardPiece";
+import { getAttackingMoves } from "./attackers";
+import { getDefendingMoves } from "./defenders";
 
 export function getPieceSafety(
     board: Chess,
     piece: BoardPiece,
-    capturedPiece?: BoardPiece
+    playedMove?: Move
 ) {
-    const attackers = getAttackers(board, piece);
-    const defenders = getDefenders(board, piece);
+    const attackers = getAttackingMoves(board, piece).map(toBoardPiece);
+    const defenders = getDefendingMoves(board, piece).map(toBoardPiece);
 
     // Favourable, decimal sacrifices (rook for 2 pieces etc.) are safe
     if (
-        capturedPiece
+        playedMove?.captured
         && piece.type == ROOK
-        && pieceValues[capturedPiece.type] == 3
+        && pieceValues[playedMove.captured] == 3
         && attackers.length == 1
         && pieceValues[attackers[0].type] == 3
     ) {
@@ -66,17 +66,16 @@ export function getPieceSafety(
 export function getUnsafePieces(
     board: Chess,
     colour: PieceColour,
-    capturedPiece?: BoardPiece
+    playedMove?: Move
 ) {
-    const capturedPieceValue = capturedPiece
-        ? pieceValues[capturedPiece.type] : 0;
+    const capturedPieceValue = playedMove?.captured
+        ? pieceValues[playedMove.captured] : 0;
 
-    return getBoardPieces(board)
-        .filter(piece => (
-            piece?.color == adaptPieceColour(colour)
-            && piece.type != KING
-            && piece.type != PAWN
-            && pieceValues[piece.type] > capturedPieceValue
-            && !getPieceSafety(board, piece, capturedPiece)
-        ));
+    return getBoardPieces(board).filter(piece => (
+        piece?.color == adaptPieceColour(colour)
+        && piece.type != PAWN
+        && piece.type != KING
+        && pieceValues[piece.type] > capturedPieceValue
+        && !getPieceSafety(board, piece, playedMove)
+    ));
 }
