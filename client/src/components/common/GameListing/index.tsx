@@ -106,7 +106,14 @@ function GameListing({
                             {player.title}
                         </span>
                     }
-    
+                    
+                    <div 
+                        className={styles.usersColour} 
+                        style={{
+                            backgroundColor: player === game.players.white ? "whitesmoke" : "black"
+                        }} 
+                    />
+
                     <span>
                         {cutUsername(player)}
                     </span>
