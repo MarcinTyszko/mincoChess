@@ -1,12 +1,12 @@
-import { Chess, QUEEN } from "chess.js";
+import { Chess } from "chess.js";
 
 import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../types/ExtractedNode";
-import { getBoardPieces, toBoardPiece } from "../types/BoardPiece";
+import { getBoardPieces } from "../types/BoardPiece";
 import { pieceValues } from "@constants/utils";
-import { adaptPieceColour } from "@lib/notation";
+import { adaptPieceColour, parseSanMove } from "@lib/notation";
 import { getAttackingMoves } from "../utils/attackers";
 import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
 import { getPieceTrapped } from "../utils/pieceTrapped";
@@ -59,32 +59,34 @@ export function considerBrilliantClassification(
         return false;
     }
 
-    // Detect equal or greater counterthreats (danger levels) or relative pins
+    // Detect equal or greater counterthreats when unsafe piece is taken
     const dangerLevelsProtected = unsafePieces.every(unsafePiece => {
-        const attackers = getAttackingMoves(current.board, unsafePiece, false)
-            .map(toBoardPiece);
+        const attackingMoves = getAttackingMoves(current.board, unsafePiece, false);
 
-        // Check if every attacker's capture would leave one of their side's
-        // pieces of greater or equal value unsafe.
-        return attackers.every(attacker => {
+        return attackingMoves.every(attackingMove => {
             const captureBoard = new Chess(current.state.fen);
 
             try {
-                captureBoard.move({
-                    from: attacker.square,
-                    to: unsafePiece.square,
-                    promotion: QUEEN
-                });
+                captureBoard.move(attackingMove);
             } catch {
                 return true;
             }
 
-            return getBoardPieces(captureBoard)
-                .filter(piece => piece.color == attacker.color)
+            // Sacrifice that if taken leads to greater value being lost
+            const relativeMaterialPin = getBoardPieces(captureBoard)
+                .filter(piece => piece.color == attackingMove.color)
                 .some(piece => (
                     pieceValues[piece.type] >= pieceValues[unsafePiece.type]
                     && !getPieceSafety(captureBoard, piece, current.playedMove)
                 ));
+
+            // Minor piece sacrifice that if taken leads to mate
+            const lowValueCheckmatePin = pieceValues[unsafePiece.type] < 5
+                && captureBoard.moves().some(
+                    move => parseSanMove(move).checkmate
+                );
+
+            return relativeMaterialPin || lowValueCheckmatePin;
         });
     });
 

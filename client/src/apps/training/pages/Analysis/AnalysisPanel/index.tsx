@@ -20,7 +20,7 @@ import GameReport from "./GameReport";
 import GameAnalysis from "./GameAnalysis";
 import * as styles from "./AnalysisPanel.module.css";
 
-const OptionsToolbar = lazy(() => import("../../../components/OptionsToolbar"));
+const OptionsToolbar = lazy(() => import("@apps/training/components/OptionsToolbar"));
 
 function AnalysisPanel() {
     const { t } = useTranslation();

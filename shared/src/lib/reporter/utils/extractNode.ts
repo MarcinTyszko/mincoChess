@@ -2,11 +2,21 @@ import { Chess, WHITE } from "chess.js";
 
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { getTopEngineLine } from "@ctypes/game/position/BoardState";
+import { RawMove } from "../types/RawMove";
 import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import { safeMove } from "./safeMove";
+
+type PieceMovement = Pick<RawMove, "from" | "to" | "promotion">;
+
+function safeMove(fen: string, move: string | PieceMovement) {
+    try {
+        return new Chess(fen).move(move);
+    } catch {
+        return undefined;
+    }
+}
 
 export function extractPreviousStateTreeNode(
     node: StateTreeNode

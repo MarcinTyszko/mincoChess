@@ -3,7 +3,6 @@ import { minBy } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { adaptPieceColour, flipPieceColour, setFenTurn } from "@lib/notation";
-import { safeMove } from "./safeMove";
 import { getAttackingMoves } from "./attackers";
 
 export function getDefendingMoves(
@@ -26,17 +25,18 @@ export function getDefendingMoves(
                 )
             );
 
-            const captureMove = safeMove(captureBoard.fen(), attackingMove);
-            if (!captureMove) return;
-
-            captureBoard.move(captureMove);
+            try {
+                captureBoard.move(attackingMove);
+            } catch {
+                return;
+            }
 
             return getAttackingMoves(
                 captureBoard,
                 {
-                    type: captureMove.piece,
-                    color: captureMove.color,
-                    square: captureMove.to
+                    type: attackingMove.piece,
+                    color: attackingMove.color,
+                    square: attackingMove.to
                 },
                 transitive
             );
