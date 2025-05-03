@@ -2,7 +2,7 @@ import { Chess } from "chess.js";
 import { minBy } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
-import { flipPieceColour } from "@lib/notation";
+import { adaptPieceColour, flipPieceColour, setFenTurn } from "@lib/notation";
 import { safeMove } from "./safeMove";
 import { getAttackingMoves } from "./attackers";
 
@@ -19,10 +19,17 @@ export function getDefendingMoves(
     // and record the minima of recaptures
     const smallestRecapturerSet = minBy(
         attackingMoves.map(attackingMove => {
-            const captureBoard = new Chess(defenderBoard.fen());
+            const captureBoard = new Chess(
+                setFenTurn(
+                    defenderBoard.fen(),
+                    adaptPieceColour(flipPieceColour(piece.color))
+                )
+            );
 
             const captureMove = safeMove(captureBoard.fen(), attackingMove);
             if (!captureMove) return;
+
+            captureBoard.move(captureMove);
 
             return getAttackingMoves(
                 captureBoard,

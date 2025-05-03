@@ -1,8 +1,8 @@
-import { Chess, Square, KING } from "chess.js";
+import { Chess, Square, PieceSymbol, KING } from "chess.js";
 import { isEqual, xorWith } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
-import RawMove from "../types/RawMove";
+import { RawMove, toRawMove } from "../types/RawMove";
 import {
     adaptPieceColour,
     flipPieceColour,
@@ -12,6 +12,7 @@ import {
 interface TransitiveAttacker {
     directFen: string;
     square: Square;
+    type: PieceSymbol;
 }
 
 function directAttackingMoves(
@@ -36,7 +37,8 @@ function directAttackingMoves(
             }
 
             return move.to == piece.square;
-        });
+        })
+        .map(toRawMove);
 
     const kingAttackerSquare = attackerBoard
         .attackers(piece.square)
@@ -44,7 +46,12 @@ function directAttackingMoves(
             attackerBoard.get(attackerSquare)?.type == KING
         ));
 
-    if (kingAttackerSquare) {
+    if (
+        kingAttackerSquare
+        && !attackingMoves.some(
+            attackingMove => attackingMove.piece == KING
+        )
+    ) {
         attackingMoves.push({
             piece: KING,
             color: flipPieceColour(piece.color),
@@ -70,7 +77,8 @@ export function getAttackingMoves(
     const frontier: TransitiveAttacker[] = attackingMoves.map(
         attackingMove => ({
             directFen: board.fen(),
-            square: attackingMove.from
+            square: attackingMove.from,
+            type: attackingMove.piece
         })
     );
 
@@ -81,7 +89,7 @@ export function getAttackingMoves(
         const transitiveBoard = new Chess(transitiveAttacker.directFen);
 
         // A king cannot be at the front of a battery
-        if (transitiveBoard.get(transitiveAttacker.square)?.type == KING) {
+        if (transitiveAttacker.type == KING) {
             continue;
         }
 
@@ -107,7 +115,8 @@ export function getAttackingMoves(
         frontier.push(
             ...revealedAttackingMoves.map(attackingMove => ({
                 directFen: transitiveBoard.fen(),
-                square: attackingMove.from
+                square: attackingMove.from,
+                type: attackingMove.piece
             }))
         );
     }

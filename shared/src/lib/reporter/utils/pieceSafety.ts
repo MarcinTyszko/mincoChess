@@ -23,10 +23,9 @@ export function getPieceSafety(
         && piece.type == ROOK
         && pieceValues[playedMove.captured] == 3
         && attackers.length == 1
+        && defenders.length > 0
         && pieceValues[attackers[0].type] == 3
-    ) {
-        return true;
-    }
+    ) return true;
 
     // A piece with an attacker of lower value than itself cannot be safe
     const hasLowerValueAttacker = attackers.some(

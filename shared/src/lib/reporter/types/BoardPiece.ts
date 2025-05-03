@@ -1,6 +1,6 @@
 import { Chess, Square, PieceSymbol, Color } from "chess.js";
 
-import RawMove from "./RawMove";
+import { RawMove } from "./RawMove";
 
 export interface BoardPiece {
     square: Square;
