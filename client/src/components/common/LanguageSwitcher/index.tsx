@@ -37,6 +37,7 @@ function LanguageSwitcher() {
             width: "52px",
             height: "42px"
         }}
+        dropdownLabelStyle={{ justifyContent: "center" }}
         dropdownArrowStyle={{ display: "none" }}
         dropdownLabelRenderer={selectedLanguage => <img
             src={selectedLanguage.flag}

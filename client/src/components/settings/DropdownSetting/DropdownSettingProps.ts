@@ -17,15 +17,17 @@ export interface DropdownSettingProps<Option extends BaseDropdownOption> {
     dropdownStyle?: CSSProperties & WidthConstraint;
     dropdownClassName?: string;
 
-    dropdownArrowStyle?: CSSProperties & WidthConstraint;
+    dropdownLabelStyle?: CSSProperties;
+    dropdownLabelClassName?: string;
+    dropdownLabelRenderer?: (value: Option) => ReactNode;
+
+    dropdownArrowStyle?: CSSProperties;
     dropdownArrowClassName?: string;
 
     menuAlignment?: "left" | "center" | "right";
-    menuStyle?: CSSProperties;
+    menuStyle?: CSSProperties & WidthConstraint;
     menuClassName?: string;
 
     optionStyle?: CSSProperties;
     optionClassName?: string;
-    
-    dropdownLabelRenderer?: (value: Option) => ReactNode;
 }

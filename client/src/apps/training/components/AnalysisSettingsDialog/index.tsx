@@ -21,6 +21,10 @@ const engineOptions = [
     {
         label: "Stockfish 17 Lite",
         value: EngineVersion.STOCKFISH_17_LITE
+    },
+    {
+        label: "Stockfish 17 (Compatibility)",
+        value: EngineVersion.STOCKFISH_17_ASM
     }
 ];
 

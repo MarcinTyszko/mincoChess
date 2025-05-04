@@ -65,9 +65,9 @@ function DropdownSetting<Option extends BaseDropdownOption>(
             singleValue: baseStyles => ({
                 ...baseStyles,
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
-                color: "white"
+                color: "white",
+                ...props.dropdownLabelStyle
             }),
             menu: baseStyles => ({
                 ...baseStyles,
@@ -93,7 +93,10 @@ function DropdownSetting<Option extends BaseDropdownOption>(
                     className={props.dropdownArrowClassName}
                 />,
             SingleValue: selectedValueProps => (
-                <components.SingleValue {...selectedValueProps}>
+                <components.SingleValue
+                    {...selectedValueProps}
+                    className={props.dropdownLabelClassName}
+                >
                     {props.dropdownLabelRenderer
                         ? props.dropdownLabelRenderer?.(selectedValueProps.data)
                         : selectedValueProps.data.label
