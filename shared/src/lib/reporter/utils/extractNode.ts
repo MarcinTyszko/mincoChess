@@ -71,9 +71,10 @@ export function extractCurrentStateTreeNode(
     if (!topLine) return null;
 
     const topMoveSan = topLine.moves.at(0)?.san;
-    if (!topMoveSan) return null;
 
-    const topMove = safeMove(node.state.fen, topMoveSan);
+    const topMove = topMoveSan
+        ? safeMove(node.state.fen, topMoveSan)
+        : undefined;
 
     // Get played move in this position
     const playedMoveSan = node.state.move?.san;
