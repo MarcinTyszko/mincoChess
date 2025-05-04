@@ -25,12 +25,12 @@ const languages: LanguageOption[] = [
         flag: require("@assets/img/flags/VN.png"),
         translations: require("./translations/vi.json")
     },
-    // {
-    //     id: "es",
-    //     label: "Español",
-    //     flag: require("@assets/img/flags/ES.png"),
-    //     translations: require("./translations/en.json")
-    // },
+    {
+        id: "es",
+        label: "Español",
+        flag: require("@assets/img/flags/ES.png"),
+        translations: require("./translations/es.json")
+    },
     // {
     //     id: "fil",
     //     label: "Filipino",
