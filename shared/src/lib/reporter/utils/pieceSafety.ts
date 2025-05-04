@@ -9,7 +9,7 @@ import { toBoardPiece } from "../types/BoardPiece";
 import { getAttackingMoves } from "./attackers";
 import { getDefendingMoves } from "./defenders";
 
-export function getPieceSafety(
+export function isPieceSafe(
     board: Chess,
     piece: BoardPiece,
     playedMove?: Move
@@ -75,6 +75,6 @@ export function getUnsafePieces(
         && piece.type != PAWN
         && piece.type != KING
         && pieceValues[piece.type] > capturedPieceValue
-        && !getPieceSafety(board, piece, playedMove)
+        && !isPieceSafe(board, piece, playedMove)
     ));
 }

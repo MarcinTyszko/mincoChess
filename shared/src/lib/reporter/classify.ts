@@ -22,10 +22,6 @@ export function classify(
     const current = extractCurrentStateTreeNode(node);
 
     if (!previous || !current) {
-        console.log("previous node:");
-        console.log(previous);
-        console.log("current node:");
-        console.log(current);
         throw new Error("information missing from current or previous node.");
     }
 

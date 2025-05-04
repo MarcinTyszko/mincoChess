@@ -1,27 +1,48 @@
 import { Chess } from "chess.js";
 
 import { BoardPiece } from "../types/BoardPiece";
-import { getPieceSafety } from "./pieceSafety";
+import { isPieceSafe } from "./pieceSafety";
+import { moveCreatesGreaterThreat } from "./dangerLevels";
+import { adaptPieceColour, setFenTurn } from "@lib/notation";
 
-export function getPieceTrapped(board: Chess, piece: BoardPiece) {
-    const pieceSafety = getPieceSafety(board, piece);
+/**
+ * @description Returns whether a piece is trapped. If a piece is unsafe on its
+ * current square and also in every square it can move to, it is trapped. If
+ * danger levels is enabled, it is also trapped if moving it allows the
+ * opponent a larger counterthreat.
+ */
+export function isPieceTrapped(
+    board: Chess,
+    piece: BoardPiece,
+    dangerLevels: boolean = true
+) {
+    const calibratedBoard = new Chess(
+        setFenTurn(board.fen(), adaptPieceColour(piece.color))
+    );
+
+    const standingPieceSafety = isPieceSafe(calibratedBoard, piece);
     
-    const pieceMoves = board.moves({
+    const pieceMoves = calibratedBoard.moves({
         square: piece.square,
         verbose: true
     });
 
     const allMovesUnsafe = pieceMoves.every(move => {
-        const escapeBoard = new Chess(board.fen());
-        
-        const escapeMove = escapeBoard.move(move.lan);
+        const escapeBoard = new Chess(calibratedBoard.fen());
 
-        return !getPieceSafety(
+        const escapeMoveDangerLevels = dangerLevels
+            && moveCreatesGreaterThreat(escapeBoard, piece, move);
+
+        const escapeMove = escapeBoard.move(move);
+
+        const escapedPieceSafety = isPieceSafe(
             escapeBoard,
             { ...piece, square: escapeMove.to },
             escapeMove
         );
+
+        return !escapedPieceSafety || escapeMoveDangerLevels;
     });
 
-    return !pieceSafety && allMovesUnsafe;
+    return !standingPieceSafety && allMovesUnsafe;
 }

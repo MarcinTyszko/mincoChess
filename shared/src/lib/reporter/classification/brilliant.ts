@@ -1,15 +1,12 @@
-import { Chess } from "chess.js";
-
 import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../types/ExtractedNode";
-import { getBoardPieces } from "../types/BoardPiece";
-import { pieceValues } from "@constants/utils";
-import { adaptPieceColour, parseSanMove } from "@lib/notation";
+import { adaptPieceColour } from "@lib/notation";
+import { getUnsafePieces } from "../utils/pieceSafety";
+import { hasDangerLevels } from "../utils/dangerLevels";
+import { isPieceTrapped } from "../utils/pieceTrapped";
 import { getAttackingMoves } from "../utils/attackers";
-import { getPieceSafety, getUnsafePieces } from "../utils/pieceSafety";
-import { getPieceTrapped } from "../utils/pieceTrapped";
 
 /**
  * @description Consider brilliant classification based on a
@@ -60,47 +57,29 @@ export function considerBrilliantClassification(
     }
 
     // Detect equal or greater counterthreats when unsafe piece is taken
-    const dangerLevelsProtected = unsafePieces.every(unsafePiece => {
-        const attackingMoves = getAttackingMoves(current.board, unsafePiece, false);
-
-        return attackingMoves.every(attackingMove => {
-            const captureBoard = new Chess(current.state.fen);
-
-            try {
-                captureBoard.move(attackingMove);
-            } catch {
-                return true;
-            }
-
-            // Sacrifice that if taken leads to greater value being lost
-            const relativeMaterialPin = getBoardPieces(captureBoard)
-                .filter(piece => piece.color == attackingMove.color)
-                .some(piece => (
-                    pieceValues[piece.type] >= pieceValues[unsafePiece.type]
-                    && !getPieceSafety(captureBoard, piece, current.playedMove)
-                ));
-
-            // Minor piece sacrifice that if taken leads to mate
-            const lowValueCheckmatePin = pieceValues[unsafePiece.type] < 5
-                && captureBoard.moves().some(
-                    move => parseSanMove(move).checkmate
-                );
-
-            return relativeMaterialPin || lowValueCheckmatePin;
-        });
-    });
+    const dangerLevelsProtected = unsafePieces.every(unsafePiece => (
+        hasDangerLevels(
+            current.board,
+            unsafePiece,
+            getAttackingMoves(current.board, unsafePiece, false)
+        )
+    ));
 
     if (dangerLevelsProtected) return false;
 
-    // If moved piece was trapped in previous position, do not allow
-    // desperado to be considered brilliant
-    const pieceTrapped = getPieceTrapped(previous.board, {
+    // If all unsafe pieces are trapped or if the moved one was previously
+    // trapped, do not allow brilliant
+    const allUnsafePiecesTrapped = unsafePieces.every(
+        unsafePiece => isPieceTrapped(current.board, unsafePiece)
+    );
+
+    const movedPieceTrapped = isPieceTrapped(previous.board, {
         type: current.playedMove.piece,
         color: current.playedMove.color,
         square: current.playedMove.from
     });
 
-    if (pieceTrapped) return false;
+    if (allUnsafePiecesTrapped || movedPieceTrapped) return false;
 
     return unsafePieces.length > 0;
 }
