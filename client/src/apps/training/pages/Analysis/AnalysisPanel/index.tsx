@@ -14,7 +14,7 @@ import ClassifiedMoveCard from "@apps/training/components/report/ClassifiedMoveC
 import StateTreeTraverser from "@apps/training/components/StateTreeTraverser";
 
 import AnalysisTabBar from "./AnalysisTabBar";
-import ProgressArea from "./ProgressArea";
+import AnalysisProgress from "./AnalysisProgress";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import GameAnalysis from "./GameAnalysis";
@@ -84,28 +84,23 @@ function AnalysisPanel() {
 
         <OptionsToolbar/>
 
-        {
-            gameAnalysisOpen
-            && <AnalysisTabBar/>
-        }
+        {gameAnalysisOpen && <AnalysisTabBar/>}
 
-        <ProgressArea/>
+        <AnalysisProgress/>
 
         {
             gameAnalysisOpen
-            && <EngineLines
-                style={{
-                    display: (
-                        activeTab == AnalysisTab.REPORT
-                        || !engineEnabled
-                    ) ? "none" : undefined
-                }}
-            />
+            && <EngineLines style={{
+                display: (
+                    activeTab == AnalysisTab.REPORT
+                    || !engineEnabled
+                ) ? "none" : undefined
+            }}/>
         }
 
         {
             gameAnalysisOpen
-            && currentStateTreeNode.parent
+            && currentStateTreeNode.state.move
             && !classificationsHidden
             && !(
                 !engineEnabled
@@ -114,13 +109,12 @@ function AnalysisPanel() {
             && <ClassifiedMoveCard/>
         }
 
-        {
-            gameAnalysisOpen
-                ? (activeTab == AnalysisTab.REPORT
-                    ? <GameReport/>
-                    : <GameAnalysis/>
-                )
-                : <GameSelection/>
+        {gameAnalysisOpen
+            ? (activeTab == AnalysisTab.REPORT
+                ? <GameReport/>
+                : <GameAnalysis/>
+            )
+            : <GameSelection/>
         }
 
         <StateTreeTraverser

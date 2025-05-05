@@ -13,7 +13,8 @@ function useEvaluateGame() {
 
     const {
         setAnalysisStatus,
-        setEvaluationProgress
+        setEvaluationProgress,
+        setAnalysisError
     } = useAnalysisProgressStore();
 
     async function evaluateGame(analysisGame: AnalysedGame) {
@@ -38,9 +39,7 @@ function useEvaluateGame() {
 
             setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
         } catch {
-            setAnalysisStatus(AnalysisStatus.INACTIVE);
-
-            throw new Error(
+            setAnalysisError(
                 t("pages.analysis.analysisError")
             );
         }

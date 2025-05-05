@@ -6,7 +6,7 @@ import { clamp } from "lodash";
 import Loader from "@components/common/Loader";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
-import ArticleListing from "@components/common/ArticleListing";
+import ArticleListing from "@components/ArticleListing";
 import ErrorMessage from "@components/common/ErrorMessage";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 

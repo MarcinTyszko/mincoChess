@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useSidebarStore from "@apps/training/stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
 import Button from "@components/common/Button";
-import LanguageSwitcher from "@components/common/LanguageSwitcher";
+import LanguageSwitcher from "@components/LanguageSwitcher";
 
 import * as styles from "./NavigationBar.module.css";
 

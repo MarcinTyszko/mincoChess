@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import useGameSelectorStore from "@stores/GameSelectorStore";
-import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import GameSelector from "@apps/training/components/GameSelector";
 import ErrorMessage from "@components/common/ErrorMessage";
 
@@ -15,8 +14,6 @@ function GameSelection() {
         setGameSelectorError
     } = useGameSelectorStore();
 
-    const { setAnalysisError } = useAnalysisProgressStore();
-
     const [ importError, setImportError ] = useState<string | null>(null);
 
     const importGame = useImportGame();
@@ -24,16 +21,12 @@ function GameSelection() {
 
     function onAnalyseClick() {
         try {
-            var analysisGame = importGame();
+            var importedGame = importGame();
         } catch (err) {
             return setImportError((err as Error).message);
         }
 
-        try {
-            evaluateGame(analysisGame);
-        } catch (err) {
-            setAnalysisError((err as Error).message);
-        }
+        evaluateGame(importedGame);
     }
     
     return <>

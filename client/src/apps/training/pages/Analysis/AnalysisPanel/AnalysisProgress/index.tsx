@@ -22,7 +22,7 @@ function getStatusTitle(status: AnalysisStatus) {
     return statusTitles[status];
 }
 
-function ProgressArea() {
+function AnalysisProgress() {
     const { t } = useTranslation();
 
     const executeCaptcha = useAltcha();
@@ -138,4 +138,4 @@ function ProgressArea() {
     </>;
 }
 
-export default ProgressArea;
+export default AnalysisProgress;

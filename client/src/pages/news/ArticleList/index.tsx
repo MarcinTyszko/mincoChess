@@ -9,7 +9,7 @@ import Separator from "@components/common/Separator";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ErrorMessage from "@components/common/ErrorMessage";
-import ArticleListing from "@components/common/ArticleListing";
+import ArticleListing from "@components/ArticleListing";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
