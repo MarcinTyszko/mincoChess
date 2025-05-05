@@ -91,9 +91,6 @@ async function evaluateMoves(
                 }
 
                 try {
-                    console.log(`current fen: ${variationBoard.fen()}`);
-                    console.log(`added move: ${uciMove}`);
-
                     const parsedMove = variationBoard.move(uciMove);
 
                     lineMoves.push({
