@@ -38,7 +38,9 @@ function useEvaluateGame() {
             );
 
             setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
-        } catch {
+        } catch (err) {
+            console.error(err);
+
             setAnalysisError(
                 t("pages.analysis.analysisError")
             );

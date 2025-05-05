@@ -6,7 +6,8 @@ import {
     AnalysedGame,
     StateTreeNode,
     EngineVersion,
-    getNodeChain
+    getNodeChain,
+    Move
 } from "wintrchess";
 import Engine from "@apps/training/lib/engine";
 import { EvaluateMovesError } from "@lib/errors";
@@ -21,7 +22,7 @@ interface EvaluateMovesOptions {
     verbose?: boolean;
 }
 
-const LICHESS_CASTLING_MOVES: Record<string, string> = {
+const lichessCastlingMoves: Record<string, string> = {
     e8h8: "e8g8",
     e1h1: "e1g1",
     e8a8: "e8c8",
@@ -82,6 +83,28 @@ async function evaluateMoves(
         for (const variation of cloudEvaluation.pvs) {
             const variationBoard = new Chess(stateTreeNode.state.fen);
 
+            const lineMoves: Move[] = [];
+
+            for (let uciMove of variation.moves.split(" ")) {
+                if (Object.keys(lichessCastlingMoves).includes(uciMove)) {
+                    uciMove = lichessCastlingMoves[uciMove];
+                }
+
+                try {
+                    console.log(`current fen: ${variationBoard.fen()}`);
+                    console.log(`added move: ${uciMove}`);
+
+                    const parsedMove = variationBoard.move(uciMove);
+
+                    lineMoves.push({
+                        san: parsedMove.san,
+                        uci: parsedMove.lan
+                    });
+                } catch {
+                    break;
+                }
+            }
+
             engineLines.push({
                 evaluation: {
                     type: (variation.cp == undefined) ? "mate" : "centipawn",
@@ -90,26 +113,7 @@ async function evaluateMoves(
                 source: EngineVersion.LICHESS_CLOUD,
                 depth: parseInt(cloudEvaluation.depth),
                 index: parseInt(cloudEvaluation.pvs.indexOf(variation)) + 1,
-                moves: variation.moves
-                    .split(" ")
-                    .map((uciMove: string) => {
-                        if (Object.keys(LICHESS_CASTLING_MOVES).includes(uciMove)) {
-                            uciMove = LICHESS_CASTLING_MOVES[uciMove];
-                        }
-
-                        try {
-                            const parsedMove = variationBoard.move(uciMove);
-
-                            return {
-                                san: parsedMove.san,
-                                uci: parsedMove.lan
-                            };
-                        } catch {
-                            throw new EvaluateMovesError(
-                                "error with temp board for loading cloud variations."
-                            );
-                        }
-                    })
+                moves: lineMoves
             });
         }
 
