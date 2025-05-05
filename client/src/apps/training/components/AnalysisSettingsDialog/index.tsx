@@ -15,7 +15,7 @@ import * as styles from "./AnalysisSettingsDialog.module.css";
 
 const engineOptions = [
     {
-        label: "Stockfish 17",
+        label: "Stockfish 17 (68 MB)",
         value: EngineVersion.STOCKFISH_17
     },
     {
