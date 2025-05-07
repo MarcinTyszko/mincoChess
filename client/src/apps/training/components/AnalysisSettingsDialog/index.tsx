@@ -125,6 +125,25 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
+            <span>{t("pages.analysis.settings.engineThreadCount")}</span>
+
+            <NumberSetting
+                min={1}
+                max={64}
+                defaultValue={settings.analysis.engineThreadCount}
+                onChange={value => {
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.engineThreadCount = clamp(value, 1, 64);
+                            return draft;
+                        })
+                    ));
+                }}
+                style={{ width: "180px" }}
+            />
+        </div>
+
+        <div className={styles.setting}>
             <span>{t("pages.analysis.settings.hideClassifications")}</span>
 
             <CheckboxSetting

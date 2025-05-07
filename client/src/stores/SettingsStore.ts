@@ -12,6 +12,7 @@ const settingsSchema = z.object({
         engine: z.nativeEnum(EngineVersion),
         engineDepth: z.number().min(10).max(99),
         engineLines: z.number().min(1).max(5),
+        engineThreadCount: z.number().min(1).max(64),
         hideClassifications: z.boolean(),
         suggestionArrows: z.boolean(),
         includedClassifications: z.object({
@@ -39,6 +40,7 @@ export const defaultSettings: Settings = {
         engine: EngineVersion.STOCKFISH_17_LITE,
         engineDepth: 16,
         engineLines: 2,
+        engineThreadCount: 4,
         hideClassifications: false,
         suggestionArrows: false,
         includedClassifications: {

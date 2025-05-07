@@ -124,7 +124,9 @@ function EngineLines({ style }: EngineLinesProps) {
                 .map(node => node.state.move!.uci);
 
             engine.setPosition(analysisGame.initialPosition, playedUciMoves);
+            
             engine.setLineCount(settings.analysis.engineLines);
+            engine.setThreadCount(settings.analysis.engineThreadCount);
 
             let reachedDepth = 0;
 

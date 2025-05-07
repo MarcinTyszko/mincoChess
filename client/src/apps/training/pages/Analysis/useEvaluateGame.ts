@@ -30,8 +30,8 @@ function useEvaluateGame() {
                     cloudEngineLines: Math.max(2, settings.analysis.engineLines),
                     maxEngineCount: 4,
                     engineConfig: engine => {
-                        engine.setLineCount(2);
-                        engine.setThreadCount(4);
+                        engine.setLineCount(settings.analysis.engineLines);
+                        engine.setThreadCount(settings.analysis.engineThreadCount);
                     },
                     onProgress: setEvaluationProgress
                 }
