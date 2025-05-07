@@ -1,4 +1,4 @@
-import { Chess } from "chess.js";
+import { Chess, KING } from "chess.js";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { isPieceSafe } from "./pieceSafety";
@@ -28,6 +28,8 @@ export function isPieceTrapped(
     });
 
     const allMovesUnsafe = pieceMoves.every(move => {
+        if (move.captured == KING) return false;
+
         const escapeBoard = new Chess(calibratedBoard.fen());
 
         const escapeMoveDangerLevels = dangerLevels
