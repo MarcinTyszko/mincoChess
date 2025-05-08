@@ -82,7 +82,11 @@ function GameSelector({
                 t("pages.analysis.gameSelector.errors.invalidGame")
             );
         }
-    }, [gameSource, fieldInput, selectedServiceGame]);
+    }, [
+        gameSource,
+        fieldInput,
+        selectedServiceGame
+    ]);
 
     // Load saved values from cookies
     useEffect(() => {
@@ -174,7 +178,15 @@ function GameSelector({
             value={fieldInput}
             onChange={handleFieldInputChange}
             onKeyDown={event => {
-                if (event.key == "Enter") openGameSearchMenu();
+                if (event.key != "Enter") return;
+                if (
+                    gameSource.selectorButton
+                    != GameSelectorButton.SEARCH_GAMES
+                ) return;
+
+                event.preventDefault();
+
+                openGameSearchMenu();
             }}
         ></textarea>
 
