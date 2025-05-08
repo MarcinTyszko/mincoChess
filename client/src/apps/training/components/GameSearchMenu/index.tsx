@@ -45,7 +45,7 @@ function GameSearchMenu({
     const [ month, setMonth ] = useState(new Date().getMonth() + 1);
     const [ year, setYear ] = useState(new Date().getFullYear());
 
-    const longFetchTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const longFetchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [ isLongFetch, setIsLongFetch ] = useState(false);
 
     const { data: games, status, fetchStatus, error } = useQuery({ 

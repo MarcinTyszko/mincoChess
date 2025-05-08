@@ -38,6 +38,8 @@ const gameResultCodes: Record<string, GameResult | undefined> = {
     timevsinsufficient: GameResult.DRAW
 };
 
+const futureFetchError = "Date cannot be set in the future";
+
 async function getChessComGames(
     username: string,
     month: number,
@@ -49,6 +51,18 @@ async function getChessComGames(
     );
 
     if (gamesResponse.status == 404) {
+        try {
+            const error = await gamesResponse.json();
+
+            if (error.message == futureFetchError) {
+                return [];
+            }
+        } catch {
+            throw new Error(
+                "pages.analysis.gameSearchMenu.unknownError"
+            );
+        }
+
         throw new UserNotFoundError(
             "pages.analysis.gameSearchMenu.userNotFound"
         );
