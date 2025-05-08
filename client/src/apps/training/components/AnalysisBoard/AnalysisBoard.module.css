@@ -19,6 +19,18 @@
     color: white;
 }
 
+@media (max-width: 900px) {
+    .playerProfile {
+        width: 100%;
+    }
+}
+
+@media (max-width: 650px) {
+    .playerProfile {
+        border-radius: 0 !important;
+    }
+}
+
 /* Contains eval bar and board */
 .boardContainer {
     display: flex;
