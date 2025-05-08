@@ -72,13 +72,13 @@ const languages: LanguageOption[] = [
         label: "Deutsch",
         flag: require("@assets/img/flags/DE.png"),
         translations: require("./translations/de.json")
+    },
+    {
+        id: "zh",
+        label: "中文",
+        flag: require("@assets/img/flags/CN.png"),
+        translations: require("./translations/zh.json")
     }
-    // {
-    //     id: "zh",
-    //     label: "中文",
-    //     flag: require("@assets/img/flags/CN.png"),
-    //     translations: require("./translations/en.json")
-    // }
 ];
 
 export default languages;

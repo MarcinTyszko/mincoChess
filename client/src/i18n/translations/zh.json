@@ -1,0 +1,200 @@
+{
+    "loading": "正在加载……",
+    "back": "返回",
+    "settings": "设置",
+    "error": "错误",
+    "reset": "重置",
+    "navigationBar": {
+        "support": "支持",
+        "tooltips": {
+            "support": "支持我们❤",
+            "help": "帮助中心"
+        }
+    },
+    "sidebar": {
+        "analysis": "复盘分析",
+        "archive": "存档",
+        "news": "新闻",
+        "privacyPolicy": "隐私",
+        "credits": "鸣谢"
+    },
+    "pages": {
+        "analysis": {
+            "title": "棋局报告",
+            "options": {
+                "flipBoard": "翻页板",
+                "share": "分享棋局",
+                "sharingSoon": "分享功能即将推出！"
+            },
+            "settings": {
+                "title": "复盘分析设置",
+                "engineEnabled": "引擎已开启",
+                "engine": "引擎",
+                "engineDepth": "引擎深度",
+                "engineLines": "引擎线数",
+                "hideClassifications": "隐藏分级",
+                "suggestionArrows": "提示箭头",
+                "includeClassifications": "包括分级",
+                "brilliant": "精彩",
+                "theory": "理论着法"
+            },
+            "gameSelector": {
+                "sourceLabel": "加载棋局自",
+                "sourcePlaceholders": {
+                    "pgn": "粘贴PGN……",
+                    "fen": "FEN字符串……",
+                    "chessCom": "Chess.com用户名……",
+                    "lichess": "Lichess用户名……"
+                },
+                "searchGamesButton": "搜索棋局",
+                "uploadPGNButton": "上传PGN文件",
+                "errors": {
+                    "noGameSelected": "请选择国际象棋棋局。",
+                    "invalidGame": "解析无效棋局失败。"
+                }
+            },
+            "gameSearchMenu": {
+                "title": "选择棋局",
+                "loading": "搜索棋局……",
+                "loadingLong": "这将花费一点时间，请等待……",
+                "userNotFound": "我们未能找到这个用户名的账户。",
+                "noGamesFound": "我们未能找到这个月的任何棋局。",
+                "ratelimited": "你被限速，请等待……",
+                "selectedToast": "棋局已选择！"
+            },
+            "analyseButton": "复盘分析",
+            "analysisError": "复盘分析失败；可能是你的浏览器的问题。",
+            "engineLines": {
+                "depth": "深度：",
+                "checkmate": "将杀"
+            },
+            "stateTreeEditor": {
+                "moveContextMenu": {
+                    "delete": "删除着法",
+                    "promote": "升变着法"
+                },
+                "addNodePrompt": "走棋……"
+            },
+            "stateTreeTraverser": {
+                "beginning": "到开头",
+                "back": "上一步",
+                "play": "下棋",
+                "pause": "暂停",
+                "next": "下一步",
+                "end": "到末尾"
+            },
+            "progressReporter": {
+                "evaluating": "正在评估……",
+                "awaitingCaptcha": "正在解决CAPTCHA……",
+                "classifying": "正在分级……",
+                "evaluatingTooltip": "如果这需要一点时间，你可以尝试在设置中减少引擎深度。",
+                "captchaTooltip": "这可能花费几秒钟……",
+                "captchaVerifyFailed": "未能验证CAPTCHA；尝试刷新页面。",
+                "captchaLoadFailed": "未能加载CAPTCHA。你的浏览器很可能过时了。",
+                "captchaUnknownError": "未知CAPTCHA错误；尝试刷新页面。",
+                "classifyFailed": "生成棋局报告时的未知错误；尝试刷新页面。",
+                "completeNotification": "复盘分析完成"
+            },
+            "analysisTabBar": {
+                "report": "报告",
+                "analysis": "复盘分析"
+            },
+            "accuraciesCard": {
+                "title": "准确度"
+            },
+            "classifiedMoveCard": {
+                "unknownError": "分级未能被加载。",
+                "insufficientLines": "确保上一步被完全评估以分级。",
+                "classifications": {
+                    "brilliant": "精彩",
+                    "only": "是唯一好着",
+                    "best": "是最佳着法",
+                    "excellent": "优秀",
+                    "okay": "是不错的着法",
+                    "inaccuracy": "是不准确的着法",
+                    "mistake": "是错着",
+                    "blunder": "是漏着",
+                    "forced": "别无选择",
+                    "theory": "是理论着法",
+                    "risky": "是冒险的想法"
+                }
+            }
+        },
+        "news": {
+            "title": "报纸",
+            "titleDescription": "在WintrChess平台上获取最新更新",
+            "error": "加载报纸时出错。",
+            "article": {
+                "unfound": "我们未能找到这篇文章。",
+                "error": "加载这篇文章时出错。"
+            }
+        },
+        "helpCenter": {
+            "title": "帮助中心",
+            "contact": {
+                "title": "联系我们",
+                "message": "如果你需要联系我们，你可以发送电子邮件至："
+            },
+            "analysis": {
+                "title": "复盘分析棋局",
+                "part1": "你可以复盘你的国际象棋棋局在",
+                "part2": "WintrChess复盘分析页面上",
+                "part3": "。Stockfish评估、准确度百分比和着法分级——你可以用来找出你的好棋和臭棋——是免费提供的。你会在页面的中心找到分析棋盘，在上面你可以查看你选择的棋局的棋步。要选择棋局，你需要使用我们提供的棋局选择器，在右手边的边注栏上。看上去像这样：",
+                "part4": "你可以使用任何棋局的PGN来开始分析它。如果你愿意的话，你也可以从你的Chess.com或Lichess账户选择一盘棋局。你需要点击“搜索棋局”按钮来浏览你的账户上的棋局，然后点击它们即可选择其中任何一盘。最后，你可以输入某一个FEN局面。无论如何，你可以在导入棋局后手动添加棋步，它们都会立即被评估和分级。",
+                "part5": "在你选择棋局之后，只需点击“复盘分析”按钮就可以开始复盘。如果你想要从起始局面开始，你也可以仅移动棋盘上的棋子。"
+            }
+        },
+        "settings": {
+            "title": "偏好",
+            "categories": {
+                "boardAndPieces": {
+                    "title": "棋盘和棋子",
+                    "boardColour": "棋盘颜色",
+                    "lightSquareColour": "白格颜色",
+                    "darkSquareColour": "黑格颜色",
+                    "presetsTitle": "预设",
+                    "presets": {
+                        "wooden": "木制",
+                        "tournament": "锦标赛",
+                        "blue": "蓝色",
+                        "ice": "冰",
+                        "marshmallow": "棉花糖"
+                    }
+                },
+                "bugReporting": {
+                    "title": "缺陷报告",
+                    "bugReportingMode": "缺陷报告模式",
+                    "bugReportingModeDescription": "帮助我们找到和修复缺陷。缺陷报告模式激活你的屏幕下方角落里的一个小部件，你可以点击它来复制控制台日志。"
+                }
+            }
+        },
+        "credits": {
+            "leadDeveloper": "首席开发者",
+            "developer": "开发者",
+            "artist": "数字艺术家",
+            "translators": "翻译"
+        }
+    },
+    "gameListing": {
+        "copyPGN": "复制PGN",
+        "copyPGNToast": "PGN已复制！",
+        "gameResults": {
+            "unopinionated": {
+                "win": "白方获胜",
+                "draw": "和棋",
+                "lose": "黑方获胜",
+                "unknown": "未知"
+            },
+            "opinionated": {
+                "win": "获胜",
+                "draw": "和棋",
+                "lose": "落败",
+                "unknown": "未知的"
+            }
+        }
+    },
+    "bugReportWidget": {
+        "tooltip": "复制控制台日志",
+        "toast": "控制台日志已复制！"
+    }
+}
