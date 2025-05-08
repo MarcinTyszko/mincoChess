@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
+import { uniqueId } from "lodash";
 
 import {
     GameResult,
@@ -79,6 +81,8 @@ function GameListing({
             )
             : game.players.white.result;
     }, [game, perspective]);
+
+    const drawId = uniqueId();
 
     return <div
         className={
@@ -161,7 +165,7 @@ function GameListing({
         <Button
             className={styles.copyButton}
             icon={require("@assets/img/interface/copy.svg")}
-            tooltip={t("gameListing.copyPGN")}
+            tooltipId={`game-listing-copy-${drawId}`}
             onClick={event => {
                 event.stopPropagation();
 
@@ -181,6 +185,12 @@ function GameListing({
                     }
                 );
             }}
+        />
+
+        <Tooltip
+            id={`game-listing-copy-${drawId}`}
+            content={t("gameListing.copyPGN")}
+            delayShow={500}
         />
 
         {

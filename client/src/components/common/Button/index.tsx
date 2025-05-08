@@ -8,7 +8,7 @@ function Button({
     icon,
     iconSize,
     highlighted,
-    tooltip,
+    tooltipId,
     className,
     style,
     onClick
@@ -20,7 +20,7 @@ function Button({
             ...style
         }}
         onClick={onClick}
-        title={tooltip}
+        data-tooltip-id={tooltipId}
     >
         {
             icon

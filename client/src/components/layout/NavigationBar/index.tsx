@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 import useSidebarStore from "@apps/training/stores/SidebarStore";
 import Breakpoints from "@constants/Breakpoints";
@@ -55,7 +56,7 @@ function NavigationBar() {
             <a 
                 href="https://ko-fi.com/wintrcat"
                 target="_blank" 
-                title={t("navigationBar.tooltips.support")}
+                data-tooltip-id="navigation-bar-support"
             >
                 <Button
                     style={{
@@ -69,6 +70,12 @@ function NavigationBar() {
                 </Button>
             </a>
 
+            <Tooltip
+                id="navigation-bar-support"
+                content={t("navigationBar.tooltips.support")}
+                delayShow={500}
+            />
+
             <LanguageSwitcher/>
 
             <Button
@@ -78,8 +85,14 @@ function NavigationBar() {
                     padding: "5px"
                 }}
                 iconSize="32px"
-                tooltip={t("navigationBar.tooltips.help")}
+                tooltipId={"navigation-bar-help-center"}
                 onClick={() => navigate("/help")}
+            />
+
+            <Tooltip
+                id="navigation-bar-help-center"
+                content={t("navigationBar.tooltips.help")}
+                delayShow={500}
             />
         </div>
     </div>;

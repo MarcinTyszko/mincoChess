@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
 
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
@@ -29,32 +30,50 @@ function OptionsToolbar() {
                     icon={require("@assets/img/interface/back.svg")}
                     iconSize={"40px"}
                     className={styles.backButton}
-                    tooltip={t("back")}
+                    tooltipId={"options-toolbar-back"}
                     onClick={() => location.reload()}
                 />
             }
+
+            <Tooltip
+                id="options-toolbar-back"
+                content={t("back")}
+                delayShow={500}
+            />
 
             <Button
                 className={styles.optionButton}
                 icon={require("@assets/img/interface/flip.svg")}
                 iconSize={"40px"}
-                tooltip={t("pages.analysis.options.flipBoard")}
+                tooltipId={"options-toolbar-flip"}
                 onClick={() => setBoardFlipped(!boardFlipped)}
+            />
+
+            <Tooltip
+                id="options-toolbar-flip"
+                content={t("pages.analysis.options.flipBoard")}
+                delayShow={500}
             />
 
             <Button
                 className={styles.optionButton}
                 icon={require("@assets/img/interface/settings.svg")}
                 iconSize={"35px"}
-                tooltip={t("settings")}
+                tooltipId={"options-toolbar-settings"}
                 onClick={() => setSettingsOpen(true)}
+            />
+
+            <Tooltip
+                id="options-toolbar-settings"
+                content={t("settings")}
+                delayShow={500}
             />
 
             <Button
                 className={styles.optionButton}
                 icon={require("@assets/img/interface/share.svg")}
                 iconSize={"35px"}
-                tooltip={t("pages.analysis.options.share")}
+                tooltipId={"options-toolbar-share"}
                 onClick={() => toast.info(
                     t("pages.analysis.options.sharingSoon"),
                     {
@@ -69,6 +88,12 @@ function OptionsToolbar() {
                         }
                     }
                 )}
+            />
+
+            <Tooltip
+                id="options-toolbar-share"
+                content={t("pages.analysis.options.share")}
+                delayShow={500}
             />
         </div>
 
