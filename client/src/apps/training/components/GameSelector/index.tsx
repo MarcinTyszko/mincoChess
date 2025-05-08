@@ -173,6 +173,9 @@ function GameSelector({
             }}
             value={fieldInput}
             onChange={handleFieldInputChange}
+            onKeyDown={event => {
+                if (event.key == "Enter") openGameSearchMenu();
+            }}
         ></textarea>
 
         {
