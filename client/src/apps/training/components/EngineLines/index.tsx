@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { range } from "lodash";
 import { Chess } from "chess.js";
+import { range } from "lodash";
 
 import {
     EngineLine,
@@ -130,9 +130,12 @@ function EngineLines({ style }: EngineLinesProps) {
 
             let reachedDepth = 0;
 
-            await engine.evaluate(
-                settings.analysis.engineDepth,
-                line => {
+            await engine.evaluate({
+                depth: settings.analysis.engineDepth,
+                maxTime: settings.analysis.engineLimitTime
+                    ? (settings.analysis.engineMoveTime * 1000)
+                    : undefined,
+                onEngineLine: line => {
                     reachedDepth = Math.max(reachedDepth, line.depth);
 
                     const engineLines = currentStateTreeNode.state.engineLines;
@@ -145,22 +148,16 @@ function EngineLines({ style }: EngineLinesProps) {
 
                     if (duplicateLine) {
                         currentStateTreeNode.state.engineLines = engineLines.filter(
-                            line => line != duplicateLine
+                            line => !isEngineLineEqual(line, duplicateLine)
                         );
                     }
 
                     currentStateTreeNode.state.engineLines.push(line);
                 }
-            );
+            });
 
-            // If depth fully reached
-            if (
-                (
-                    !new Chess(currentStateTreeNode.state.fen).isGameOver()
-                    && reachedDepth < settings.analysis.engineDepth
-                )
-                || !currentStateTreeNode.parent
-            ) return;
+            // Do not classify root node with no parent to compare
+            if (!currentStateTreeNode.parent) return;
 
             considerRealtimeClassify();
         }, 400);

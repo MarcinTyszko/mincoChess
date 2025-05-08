@@ -11,6 +11,7 @@ export * from "./constants/utils";
 
 export * from "./lib/date";
 export * from "./lib/notation";
+export * from "./lib/zodSchema";
 
 export * from "./lib/reporter/report";
 export { default as ReportOptions } from "./lib/reporter/types/ReportOptions";

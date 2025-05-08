@@ -18,7 +18,7 @@ function NumberSetting({
         max={max}
         defaultValue={defaultValue}
         onChange={event => {
-            const value = parseInt(event.target.value);
+            const value = parseFloat(event.target.value);
             if (isNaN(value)) return;
 
             if (min != undefined && value < min) return;

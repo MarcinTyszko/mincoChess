@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { produce } from "immer";
-import { clamp } from "lodash";
+import { clamp, floor } from "lodash";
 
 import { EngineVersion } from "wintrchess";
 import useSettingsStore from "@stores/SettingsStore";
@@ -19,7 +19,7 @@ const engineOptions = [
         value: EngineVersion.STOCKFISH_17
     },
     {
-        label: "Stockfish 17 Lite",
+        label: "Stockfish 17 Lite (Recommended)",
         value: EngineVersion.STOCKFISH_17_LITE
     },
     {
@@ -48,8 +48,12 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             </span>
         </div>
 
+        <span className={styles.header}>
+            {t("pages.analysis.settings.engine.title")}
+        </span>
+
         <span className={styles.setting}>
-            <span>{t("pages.analysis.settings.engineEnabled")}</span>
+            <span>{t("enabled")}</span>
 
             <CheckboxSetting
                 defaultChecked={settings.analysis.engineEnabled}
@@ -65,7 +69,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </span>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.engine")}</span>
+            <span>{t("pages.analysis.settings.engine.version")}</span>
 
             <DropdownSetting
                 options={engineOptions}
@@ -87,7 +91,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.engineDepth")}</span>
+            <span>{t("pages.analysis.settings.engine.depth")}</span>
 
             <NumberSetting
                 min={10}
@@ -96,7 +100,9 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={value => {
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.analysis.engineDepth = clamp(value, 10, 99);
+                            draft.analysis.engineDepth = floor(
+                                clamp(value, 10, 99)
+                            );
                             return draft;
                         })
                     ));
@@ -106,7 +112,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.engineLines")}</span>
+            <span>{t("pages.analysis.settings.engine.lines")}</span>
 
             <NumberSetting
                 min={0}
@@ -115,7 +121,9 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={value => {
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.analysis.engineLines = clamp(value, 1, 5);
+                            draft.analysis.engineLines = floor(
+                                clamp(value, 1, 5)
+                            );
                             return draft;
                         })
                     ));
@@ -125,7 +133,41 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.engineThreadCount")}</span>
+            <span>{t("pages.analysis.settings.engine.timeLimit")}</span>
+
+            <div className={styles.subsetting}>
+                <CheckboxSetting
+                    defaultChecked={settings.analysis.engineLimitTime}
+                    onChange={checked => {
+                        setSettings(settings => (
+                            produce(settings, draft => {
+                                draft.analysis.engineLimitTime = checked;
+                                return draft;
+                            })
+                        ));
+                    }}
+                />
+
+                <NumberSetting
+                    min={0.01}
+                    defaultValue={settings.analysis.engineMoveTime}
+                    onChange={value => {
+                        setSettings(settings => (
+                            produce(settings, draft => {
+                                draft.analysis.engineMoveTime = floor(
+                                    Math.max(0.01, value), 2
+                                );
+                                return draft;
+                            })
+                        ));
+                    }}
+                    style={{ width: "180px" }}
+                />
+            </div>
+        </div>
+
+        <div className={styles.setting}>
+            <span>{t("pages.analysis.settings.engine.threadCount")}</span>
 
             <NumberSetting
                 min={1}
@@ -134,7 +176,9 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
                 onChange={value => {
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.analysis.engineThreadCount = clamp(value, 1, 64);
+                            draft.analysis.engineThreadCount = floor(
+                                clamp(value, 1, 64)
+                            );
                             return draft;
                         })
                     ));
@@ -144,23 +188,7 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.hideClassifications")}</span>
-
-            <CheckboxSetting
-                defaultChecked={settings.analysis.hideClassifications}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.hideClassifications = checked;
-                            return draft;
-                        })
-                    ));
-                }}
-            />
-        </div>
-
-        <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.suggestionArrows")}</span>
+            <span>{t("pages.analysis.settings.engine.suggestionArrows")}</span>
 
             <CheckboxSetting
                 defaultChecked={settings.analysis.suggestionArrows}
@@ -176,17 +204,35 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <span className={styles.header}>
-            {t("pages.analysis.settings.includeClassifications")}
+            {t("pages.analysis.settings.classifications.title")}
         </span>
 
         <div className={styles.setting}>
-            <div className={styles.settingName}>
+            <span>{t("pages.analysis.settings.classifications.hide")}</span>
+
+            <CheckboxSetting
+                defaultChecked={settings.analysis.hideClassifications}
+                onChange={checked => {
+                    setSettings(settings => (
+                        produce(settings, draft => {
+                            draft.analysis.hideClassifications = checked;
+                            return draft;
+                        })
+                    ));
+                }}
+            />
+        </div>
+
+        <div className={styles.setting}>
+            <div className={styles.subsetting}>
                 <img
                     className={styles.settingIcon}
                     src={require("@assets/img/classifications/brilliant.png")}
                 />
 
-                <span>{t("pages.analysis.settings.brilliant")}</span>
+                <span>
+                    {t("pages.analysis.settings.classifications.brilliant")}
+                </span>
             </div>
 
             <CheckboxSetting
@@ -203,13 +249,15 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         </div>
 
         <div className={styles.setting}>
-            <div className={styles.settingName}>
+            <div className={styles.subsetting}>
                 <img
                     className={styles.settingIcon}
                     src={require("@assets/img/classifications/theory.png")}
                 />
 
-                <span>{t("pages.analysis.settings.theory")}</span>
+                <span>
+                    {t("pages.analysis.settings.classifications.theory")}
+                </span>
             </div>
 
             <CheckboxSetting

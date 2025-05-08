@@ -25,3 +25,10 @@ export const pieceValues: Record<PieceSymbol, number> = {
     r: 5,
     q: 9
 };
+
+export const lichessCastlingMoves: Record<string, string> = {
+    e8h8: "e8g8",
+    e1h1: "e1g1",
+    e8a8: "e8c8",
+    e1a1: "e1c1"
+};

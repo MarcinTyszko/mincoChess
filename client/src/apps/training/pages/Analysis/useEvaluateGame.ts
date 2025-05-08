@@ -27,6 +27,9 @@ function useEvaluateGame() {
                 {
                     engineVersion: settings.analysis.engine,
                     engineDepth: settings.analysis.engineDepth,
+                    engineMoveTime: settings.analysis.engineLimitTime
+                        ? settings.analysis.engineMoveTime
+                        : undefined,
                     cloudEngineLines: Math.max(2, settings.analysis.engineLines),
                     maxEngineCount: 4,
                     engineConfig: engine => {

@@ -3,7 +3,7 @@ import { produce } from "immer";
 import { cloneDeep, merge } from "lodash";
 import z from "zod";
 
-import { EngineVersion } from "wintrchess";
+import { EngineVersion, deepPartialify } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
 
 const settingsSchema = z.object({
@@ -11,6 +11,8 @@ const settingsSchema = z.object({
         engineEnabled: z.boolean(),
         engine: z.nativeEnum(EngineVersion),
         engineDepth: z.number().min(10).max(99),
+        engineLimitTime: z.boolean(),
+        engineMoveTime: z.number().min(0.01),
         engineLines: z.number().min(1).max(5),
         engineThreadCount: z.number().min(1).max(64),
         hideClassifications: z.boolean(),
@@ -30,6 +32,8 @@ const settingsSchema = z.object({
     bugReportingMode: z.boolean()
 });
 
+const partialSettingsSchema = deepPartialify(settingsSchema);
+
 type Settings = z.infer<typeof settingsSchema>;
 
 type SettingsReducer = (settings: Settings) => Settings;
@@ -40,6 +44,8 @@ export const defaultSettings: Settings = {
         engine: EngineVersion.STOCKFISH_17_LITE,
         engineDepth: 16,
         engineLines: 2,
+        engineLimitTime: false,
+        engineMoveTime: 1,
         engineThreadCount: 4,
         hideClassifications: false,
         suggestionArrows: false,
@@ -70,7 +76,7 @@ function fetchSettings() {
     try {
         const fetchedSettings = JSON.parse(value);
 
-        settingsSchema.parse(fetchedSettings);
+        partialSettingsSchema.parse(fetchedSettings);
 
         return merge(defaultSettingsCopy, fetchedSettings);
     } catch {

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusCodes } from "http-status-codes";
 
-import { getTopEngineLine } from "wintrchess";
 import { useAltcha } from "@hooks/useAltcha";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
@@ -67,12 +66,8 @@ function useRealtimeClassifier() {
 
         // If there is not enough data for a centipawn comparison
         const parentState = currentStateTreeNode.parent.state;
-        const parentTopLineDepth = getTopEngineLine(parentState)?.depth || 0;
 
-        if (
-            parentState.engineLines.length == 0
-            || parentTopLineDepth < settings.engineDepth
-        ) {
+        if (parentState.engineLines.length == 0) {
             return cancelClassify(
                 currentStateTreeNode.state.classification == undefined
                     ? t("pages.analysis.classifiedMoveCard.insufficientLines")

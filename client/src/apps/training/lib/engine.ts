@@ -124,16 +124,20 @@ class Engine {
         return this;
     }
 
-    async evaluate(
-        depth: number,
-        onEngineLine?: (line: EngineLine) => void
-    ): Promise<EvaluationResult> {
+    async evaluate(options: {
+        depth: number;
+        maxTime?: number;
+        onEngineLine?: (line: EngineLine) => void;
+    }): Promise<EvaluationResult> {
         const startTime = Date.now();
 
         let engineLines: EngineLine[] = [];
 
+        const maxTimeArgument = options.maxTime
+            ? `movetime ${options.maxTime}` : "";
+
         await this.consumeLogs(
-            `go depth ${depth}`,
+            `go depth ${options.depth} ${maxTimeArgument}`,
             log => (
                 log.startsWith("bestmove")
                 || log.includes("depth 0")
@@ -197,7 +201,7 @@ class Engine {
 
                 engineLines.push(newEngineLine);
 
-                onEngineLine?.(newEngineLine);
+                options.onEngineLine?.(newEngineLine);
             }
         );
 

@@ -4,6 +4,8 @@
     "settings": "Settings",
     "error": "Error",
     "reset": "Reset",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
     "navigationBar": {
         "support": "Support",
         "tooltips": {
@@ -28,16 +30,21 @@
             },
             "settings": {
                 "title": "Analysis Settings",
-                "engineEnabled": "Engine Enabled",
-                "engine": "Engine",
-                "engineDepth": "Engine Depth",
-                "engineLines": "Engine Lines",
-                "engineThreadCount": "Engine Threads",
-                "hideClassifications": "Hide Classifications",
-                "suggestionArrows": "Suggestion Arrows",
-                "includeClassifications": "Include Classifications",
-                "brilliant": "Brilliant",
-                "theory": "Theory"
+                "engine": {
+                    "title": "Engine",
+                    "version": "Version",
+                    "depth": "Depth",
+                    "lines": "Number of Lines",
+                    "timeLimit": "Time Limit (seconds)",
+                    "threadCount": "Threads",
+                    "suggestionArrows": "Suggestion Arrows"
+                },
+                "classifications": {
+                    "title": "Classifications",
+                    "hide": "Hide Classifications",
+                    "brilliant": "Brilliant",
+                    "theory": "Theory"
+                }
             },
             "gameSelector": {
                 "sourceLabel": "Load game from",

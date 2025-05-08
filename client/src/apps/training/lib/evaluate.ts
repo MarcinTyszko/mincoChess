@@ -1,13 +1,14 @@
 import { Chess } from "chess.js";
-import { sum, sumBy, round } from "lodash";
+import { sum, round } from "lodash";
 
 import {
     EngineLine,
     AnalysedGame,
     StateTreeNode,
     EngineVersion,
+    Move,
     getNodeChain,
-    Move
+    lichessCastlingMoves
 } from "wintrchess";
 import Engine from "@apps/training/lib/engine";
 import { EvaluateMovesError } from "@lib/errors";
@@ -16,18 +17,12 @@ interface EvaluateMovesOptions {
     engineVersion: EngineVersion;
     maxEngineCount?: number;
     engineDepth: number;
+    engineMoveTime?: number;
     cloudEngineLines: number;
     engineConfig?: (engine: Engine) => void;
     onProgress?: (progress: number) => void;
     verbose?: boolean;
 }
-
-const lichessCastlingMoves: Record<string, string> = {
-    e8h8: "e8g8",
-    e1h1: "e1g1",
-    e8a8: "e8c8",
-    e1a1: "e1c1"
-};
 
 /**
  * @throws {EvaluateMovesError}
@@ -114,9 +109,7 @@ async function evaluateMoves(
             });
         }
 
-        stateTreeNode.state.engineLines.push(
-            ...engineLines
-        );
+        stateTreeNode.state.engineLines.push(...engineLines);
 
         progresses.push(1);
         options.onProgress?.(progress());
@@ -126,12 +119,11 @@ async function evaluateMoves(
 
     // Maximum engine count or however many are needed for each
     // remaining position, add 1 for cutoff for last cloud evaluated state
-    const evaluatedStateCount = sumBy(
-        stateTreeNodes,
+    const evaluatedStateCount = stateTreeNodes.filter(
         node => node.state.engineLines.some(
             line => line.source == EngineVersion.LICHESS_CLOUD
-        ) ? 1 : 0
-    );
+        )
+    ).length;
 
     const engineCount = Math.min(
         options.maxEngineCount || 1,
@@ -165,9 +157,12 @@ async function evaluateMoves(
                     .map(node => node.state.move!.uci)
             );
 
-            engine.evaluate(
-                options.engineDepth,
-                line => {
+            engine.evaluate({
+                depth: options.engineDepth,
+                maxTime: options.engineMoveTime
+                    ? options.engineMoveTime * 1000
+                    : undefined,
+                onEngineLine: line => {
                     // Depth 0 is given for states with no legal moves
                     const localProgress = line.depth == 0
                         ? 1 : line.depth / options.engineDepth;
@@ -180,7 +175,9 @@ async function evaluateMoves(
 
                     options.onProgress?.(progress());
                 }
-            ).then(result => {
+            }).then(result => {
+                progresses[currentStateTreeNodeIndex] = 1;
+
                 currentStateTreeNode.state.engineLines.push(
                     ...result.lines
                 );
