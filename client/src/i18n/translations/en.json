@@ -31,6 +31,18 @@
             "settings": {
                 "title": "Analysis Settings",
                 "engine": {
+                    "descriptions": {
+                        "version": "The Chess engine that will be analysing your moves.",
+                        "depth": "The number of moves that the engine looks ahead when analysing moves.",
+                        "lines": "The number of variations that the engine will consider. Must be at least 2 for some classifications.",
+                        "timeLimit": "The maximum amount of time the engine is allowed to analyse a single move.",
+                        "threadCount": "The number of threads to run the engine with. Optimally this will be the number of CPU cores you have available.",
+                        "suggestionArrows": {
+                            "disabled": "Disabled: Do not show engine arrows",
+                            "continuation": "Top Continuation: Show an arrow for the top move in this position",
+                            "alternative": "Top Alternative: Show an arrow for the top move in the previous position"
+                        }
+                    },
                     "title": "Engine",
                     "version": "Version",
                     "depth": "Depth",

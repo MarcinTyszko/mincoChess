@@ -48,3 +48,8 @@
     width: 25px;
     height: 25px
 }
+
+.settingDescription {
+    position: fixed;
+    max-width: 250px;
+}
