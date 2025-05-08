@@ -4,6 +4,7 @@ import { produce } from "immer";
 import { clamp, floor } from "lodash";
 
 import { EngineVersion } from "wintrchess";
+import EngineArrowType from "@constants/EngineArrowType";
 import useSettingsStore from "@stores/SettingsStore";
 import Dialog from "@components/common/Dialog";
 import DropdownSetting from "@components/settings/DropdownSetting";
@@ -13,7 +14,7 @@ import CheckboxSetting from "@components/settings/CheckboxSetting";
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
 import * as styles from "./AnalysisSettingsDialog.module.css";
 
-const engineOptions = [
+const engineVersionOptions = [
     {
         label: "Stockfish 17 (68 MB)",
         value: EngineVersion.STOCKFISH_17
@@ -25,6 +26,21 @@ const engineOptions = [
     {
         label: "Stockfish 17 (Compatibility)",
         value: EngineVersion.STOCKFISH_17_ASM
+    }
+];
+
+const engineArrowsOptions = [
+    {
+        label: "Disabled",
+        value: EngineArrowType.DISABLED
+    },
+    {
+        label: "Top Continuation",
+        value: EngineArrowType.TOP_CONTINUATION
+    },
+    {
+        label: "Top Alternative",
+        value: EngineArrowType.TOP_ALTERNATIVE
     }
 ];
 
@@ -72,8 +88,8 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
             <span>{t("pages.analysis.settings.engine.version")}</span>
 
             <DropdownSetting
-                options={engineOptions}
-                defaultValue={engineOptions.find(
+                options={engineVersionOptions}
+                defaultValue={engineVersionOptions.find(
                     option => option.value == settings.analysis.engine
                 )}
                 onSelect={option => {
@@ -190,16 +206,22 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         <div className={styles.setting}>
             <span>{t("pages.analysis.settings.engine.suggestionArrows")}</span>
 
-            <CheckboxSetting
-                defaultChecked={settings.analysis.suggestionArrows}
-                onChange={checked => {
+            <DropdownSetting
+                defaultValue={engineArrowsOptions.find(
+                    option => option.value == settings.analysis.engineArrows
+                )}
+                options={engineArrowsOptions}
+                onSelect={option => {
+                    if (!option) return;
+
                     setSettings(settings => (
                         produce(settings, draft => {
-                            draft.analysis.suggestionArrows = checked;
+                            draft.analysis.engineArrows = option.value;
                             return draft;
                         })
                     ));
                 }}
+                dropdownStyle={{ width: "180px" }}
             />
         </div>
 

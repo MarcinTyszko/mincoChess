@@ -11,6 +11,7 @@ import {
     addChildMove
 } from "wintrchess";
 import AnalysisTab from "@constants/AnalysisTab";
+import EngineArrowType from "@constants/EngineArrowType";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
@@ -80,11 +81,23 @@ function AnalysisBoard({
     }, [currentStateTreeNode]);
 
     useEffect(() => {
-        if (!settings.analysis.suggestionArrows) {
+        const engineArrowsType = settings.analysis.engineArrows;
+
+        if (!engineArrowsType) {
             return setSuggestionArrows([]);
         }
 
-        const topLine = getTopEngineLine(currentStateTreeNode.state);
+        if (
+            engineArrowsType == EngineArrowType.TOP_ALTERNATIVE
+            && !currentStateTreeNode.parent
+        ) return;
+
+        const topLine = getTopEngineLine(
+            engineArrowsType == EngineArrowType.TOP_ALTERNATIVE
+                ? currentStateTreeNode.parent!.state
+                : currentStateTreeNode.state
+        );
+
         if (!topLine?.moves.length) return;
 
         const uciMove = parseUciMove(topLine.moves[0].uci);
@@ -98,7 +111,7 @@ function AnalysisBoard({
         ]);
     }, [
         currentStateTreeNode,
-        settings.analysis.suggestionArrows
+        settings.analysis.engineArrows
     ]);
 
     const boardRef = useRef<HTMLDivElement>(null);
