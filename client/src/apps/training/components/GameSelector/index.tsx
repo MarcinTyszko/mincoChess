@@ -188,7 +188,7 @@ function GameSelector({
 
                 openGameSearchMenu();
             }}
-        ></textarea>
+        />
 
         {
             gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
