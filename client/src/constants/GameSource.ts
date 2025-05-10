@@ -40,3 +40,15 @@ export const GameSource: Record<GameSourceType, GameSourceData> = {
         selectorButton: GameSelectorButton.SEARCH_GAMES
     }
 };
+
+export function getGameSource(
+    key: string,
+    defaultKey: GameSourceType = GameSource.PGN.key
+) {
+    return (
+        Object.values(GameSource).find(
+            source => source.key == key
+        )
+        || GameSource[defaultKey]
+    );
+}

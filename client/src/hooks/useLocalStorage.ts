@@ -1,27 +1,85 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { create } from "zustand";
 
 import LocalStorageKey from "@constants/LocalStorageKey";
 
-function useLocalStorage<ValueType>(key: LocalStorageKey) {
-    const [ , setLocalValue ] = useState<string>();
+interface ItemController<ValueType> {
+    value?: string;
+    parsedValue: Partial<ValueType>;
+    set: (value: Partial<ValueType>) => void;
+}
 
-    function get() {
-        return localStorage.getItem(key);
+interface LocalStorageStore {
+    storage: Record<string, string>;
+
+    getLocalItem: (key: string) => string | undefined;
+    setLocalItem: (key: string, value: string) => void;
+}
+
+const useLocalStorageStore = create<LocalStorageStore>((set, get) => ({
+    storage: {},
+
+    getLocalItem(key) {
+        return get().storage[key];
+    },
+
+    setLocalItem(key, value) {
+        localStorage.setItem(key, value);
+
+        set(state => ({
+            storage: {
+                ...state.storage,
+                [key]: value
+            }
+        }));
     }
+}));
+
+function serialise(value: any) {
+    return typeof value == "object"
+        ? JSON.stringify(value)
+        : String(value);
+}
+
+function useLocalStorage<ValueType>(
+    key: LocalStorageKey
+): ItemController<ValueType>;
+
+function useLocalStorage<ValueType>(
+    key: LocalStorageKey,
+    defaultValue: ValueType
+): ItemController<ValueType> & { value: string };
+
+function useLocalStorage<ValueType>(
+    key: LocalStorageKey,
+    defaultValue?: ValueType 
+) {
+    const {
+        storage,
+        getLocalItem,
+        setLocalItem
+    } = useLocalStorageStore();
+
+    const value = useMemo(() => {
+        const localItem = getLocalItem(key);
+        const savedItem = localStorage.getItem(key) || (
+            defaultValue != undefined
+                ? serialise(defaultValue)
+                : undefined
+        );
+
+        if (!localItem && savedItem) {
+            setLocalItem(key, savedItem);
+        }
+
+        return localItem || savedItem;
+    }, [storage]);
 
     function set(value: Partial<ValueType>) {
-        const newValue = typeof value == "object"
-            ? JSON.stringify(value)
-            : String(value);
-
-        localStorage.setItem(key, newValue);
-
-        setLocalValue(newValue);
+        setLocalItem(key, serialise(value));
     }
 
     function parse(): Partial<ValueType> {
-        const value = get();
-
         if (value == null) return {};
 
         try {
@@ -32,7 +90,7 @@ function useLocalStorage<ValueType>(key: LocalStorageKey) {
     }
 
     return {
-        value: get(),
+        value: value,
         parsedValue: parse(),
         set: set
     };

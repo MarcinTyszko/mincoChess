@@ -1,11 +1,11 @@
 import { Game } from "wintrchess";
-import GameSource from "@constants/GameSource";
+import { GameSourceData } from "@constants/GameSource";
 
 interface GameSearchMenuProps {
     username: string;
-    gameSource: GameSource;
+    gameSource: GameSourceData;
     setOpen: (open: boolean) => void;
-    setSelectedGame?: (game: Game) => void;
+    onGameSelect?: (game: Game) => void;
 }
 
 export default GameSearchMenuProps;

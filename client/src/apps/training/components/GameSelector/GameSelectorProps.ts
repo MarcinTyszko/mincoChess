@@ -4,9 +4,8 @@ import { Game } from "wintrchess";
 
 interface GameSelectorProps {
     style?: CSSProperties;
-    saveCookies?: boolean;
-    onChange?: (game: Game) => void;
-    setError?: (message?: string) => void;
+    saveLocalStorage?: boolean;
+    onGameSelect?: (game: Game | string | null) => void;
 }
 
 export default GameSelectorProps;

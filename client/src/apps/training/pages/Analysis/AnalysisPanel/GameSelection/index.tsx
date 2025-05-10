@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import useGameSelectorStore from "@stores/GameSelectorStore";
+import useGameSelector from "@hooks/useGameSelector";
 import GameSelector from "@apps/training/components/GameSelector";
 import ErrorMessage from "@components/common/ErrorMessage";
 
@@ -9,19 +9,16 @@ import useEvaluateGame from "../../useEvaluateGame";
 import AnalyseButton from "./AnalyseButton";
 
 function GameSelection() {
-    const {
-        setSelectedGame,
-        setGameSelectorError
-    } = useGameSelectorStore();
+    const { setSelectedGame } = useGameSelector();
 
     const [ importError, setImportError ] = useState<string | null>(null);
 
-    const importGame = useImportGame();
+    const importSelectedGame = useImportGame();
     const evaluateGame = useEvaluateGame();
 
-    function onAnalyseClick() {
+    async function onAnalyseClick() {
         try {
-            var importedGame = importGame();
+            var importedGame = await importSelectedGame();
         } catch (err) {
             return setImportError((err as Error).message);
         }
@@ -31,15 +28,13 @@ function GameSelection() {
     
     return <>
         <GameSelector
-            saveCookies
-            onChange={setSelectedGame}
-            setError={setGameSelectorError}
+            saveLocalStorage
+            onGameSelect={setSelectedGame}
         />
 
         <AnalyseButton onClick={onAnalyseClick} />
 
-        {
-            importError
+        {importError
             && <ErrorMessage>
                 {importError}
             </ErrorMessage>

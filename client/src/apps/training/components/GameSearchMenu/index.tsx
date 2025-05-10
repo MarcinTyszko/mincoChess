@@ -37,7 +37,7 @@ function GameSearchMenu({
     username,
     gameSource,
     setOpen,
-    setSelectedGame
+    onGameSelect
 }: GameSearchMenuProps) {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
@@ -87,7 +87,7 @@ function GameSearchMenu({
             }
         );
 
-        setSelectedGame?.(game);
+        onGameSelect?.(game);
         setOpen?.(false);
     }
 

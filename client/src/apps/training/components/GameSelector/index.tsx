@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trim } from "lodash";
 
 import { Game } from "wintrchess";
-import useLocalStorage from "@hooks/useLocalStorage";
-import LocalStorageKey from "@constants/LocalStorageKey";
-import { GameSelectorButton, GameSource, GameSourceType } from "@constants/GameSource";
+import {
+    GameSource,
+    GameSourceType,
+    GameSelectorButton
+} from "@constants/GameSource";
+import useGameSelector from "@hooks/useGameSelector";
 import Button from "@components/common/Button";
 import FileUploader from "@components/common/FileUploader";
 import GameSearchMenu from "../GameSearchMenu";
-import parsePgn from "@lib/games/pgn";
-import parseFenString from "@lib/games/fen";
 
 import GameSelectorProps from "./GameSelectorProps";
 import * as styles from "./GameSelector.module.css";
@@ -24,123 +25,64 @@ const sourcePlaceholderKeys: Record<GameSourceType, string> = {
 
 function GameSelector({
     style,
-    saveCookies,
-    onChange,
-    setError
+    saveLocalStorage,
+    onGameSelect
 }: GameSelectorProps) {
     const { t } = useTranslation();
 
     const {
-        value: savedGameSourceKey,
-        set: setSavedGameSourceKey
-    } = useLocalStorage<string>(LocalStorageKey.LAST_GAME_SELECTOR_SOURCE);
+        savedGameSource,
+        setSavedGameSource,
+        savedFieldInputs,
+        setSavedFieldInput
+    } = useGameSelector();
 
-    const {
-        parsedValue: savedFieldInputs,
-        set: setSavedFieldInputs
-    } = useLocalStorage<Record<string, string>>(LocalStorageKey.LAST_GAME_SELECTOR_INPUTS);
+    const [ gameSource, setGameSource ] = useState(
+        saveLocalStorage ? savedGameSource : GameSource.PGN
+    );
 
-    const [ gameSource, setGameSource ] = useState(GameSource.PGN);
-    const [ fieldInput, setFieldInput ] = useState("");
+    const [
+        fieldInputs,
+        setFieldInputs
+    ] = useState(saveLocalStorage ? savedFieldInputs : {});
 
-    const [ selectedServiceGame, setSelectedServiceGame ] = useState<Game>();
+    const currentFieldInput = useMemo(() => (
+        fieldInputs[gameSource.key] || ""
+    ), [gameSource.key, fieldInputs]);
+
+    const [
+        serviceGames,
+        setServiceGames
+    ] = useState<Record<string, Game | null>>({
+        [GameSource.CHESS_COM.key]: null,
+        [GameSource.LICHESS.key]: null
+    });
 
     const [ searchMenuOpen, setSearchMenuOpen ] = useState(false);
 
-    // When selected game changes
+    // Emit selected game when it updates
     useEffect(() => {
         if (gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES) {
-            if (selectedServiceGame) {
-                onChange?.(selectedServiceGame);
-                setError?.();
-            } else {
-                setError?.(
-                    t("pages.analysis.gameSelector.errors.noGameSelected")
-                );
-            }
-
-            return;
+            return onGameSelect?.(serviceGames[gameSource.key]);
         }
 
-        if (fieldInput.length == 0) {
-            return setError?.(
-                t("pages.analysis.gameSelector.errors.noGameSelected")
-            );
-        }
+        onGameSelect?.(currentFieldInput || null);
+    }, [currentFieldInput, serviceGames]);
 
-        try {
-            // Attempt to emit parsed PGN or FEN
-            onChange?.(
-                gameSource == GameSource.PGN
-                    ? parsePgn(fieldInput)
-                    : parseFenString(fieldInput)
-            );
+    function updateFieldInput(value: string) {
+        const updatedFieldInputs = {
+            ...fieldInputs,
+            [gameSource.key]: value
+        };
 
-            setError?.();
-        } catch (err) {
-            setError?.(
-                t("pages.analysis.gameSelector.errors.invalidGame")
-            );
-        }
-    }, [
-        gameSource,
-        fieldInput,
-        selectedServiceGame
-    ]);
+        setFieldInputs(updatedFieldInputs);
 
-    // Load saved values from cookies
-    useEffect(() => {
-        if (!saveCookies) return;
-
-        // Load last game source from cookies
-        const savedSource = Object.values(GameSource)
-            .find(source => source.key == savedGameSourceKey);
-
-        if (!savedSource) return;
-
-        setGameSource(savedSource);
-
-        // Load last selector input from cookies
-        const savedFieldInput = savedFieldInputs[savedSource.key];
-        
-        if (!savedFieldInput) return;
-        
-        setFieldInput(savedFieldInput);
-    }, []);
-
-    function handleGameSourceChange(event: React.ChangeEvent<HTMLSelectElement>) {
-        // Get the selected game source from the dropdown
-        const selectedSource = Object.values(GameSource)
-            .find(source => source.key == event.target.value);
-        
-        if (!selectedSource) return;
-
-        // Save the selected game source choice in state
-        setGameSource(selectedSource);
-
-        if (saveCookies) {
-            // Save the selected game source choice in cookies
-            setSavedGameSourceKey(selectedSource.key);
-
-            // Put the saved selector input from cookies into the text area
-            setFieldInput(savedFieldInputs[selectedSource.key] || "");
-        }  
-    }
-
-    function handleFieldInputChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        setFieldInput(event.target.value);
-
-        // Save the input field contents in cookies
-        if (!saveCookies) return;
-
-        setSavedFieldInputs({
-            ...savedFieldInputs,
-            [gameSource.key]: event.target.value
-        });
+        if (!saveLocalStorage) return;
+        setSavedFieldInput(gameSource.key, value);
     }
 
     function openGameSearchMenu() {
-        if (fieldInput.length == 0) return;
+        if (currentFieldInput.length == 0) return;
 
         setSearchMenuOpen(true);
     }
@@ -151,9 +93,18 @@ function GameSelector({
                 {t("pages.analysis.gameSelector.sourceLabel")}
             </div>
 
-            <select 
+            <select
                 className={styles.gameSourceSelector}
-                onChange={handleGameSourceChange}
+                onChange={event => {
+                    const newGameSource = Object.values(GameSource).find(
+                        source => source.key == event.target.value
+                    ) || GameSource.PGN;
+
+                    setGameSource(newGameSource);
+
+                    if (!saveLocalStorage) return;
+                    setSavedGameSource(newGameSource.key);
+                }}
                 value={gameSource.key}
             >
                 {Object.values(GameSource)
@@ -175,8 +126,8 @@ function GameSelector({
                 borderRadius: gameSource.selectorButton != undefined
                     ? undefined : "0 0 10px 10px"
             }}
-            value={fieldInput}
-            onChange={handleFieldInputChange}
+            value={currentFieldInput}
+            onChange={event => updateFieldInput(event.target.value)}
             onKeyDown={event => {
                 if (event.key != "Enter") return;
                 if (
@@ -185,13 +136,11 @@ function GameSelector({
                 ) return;
 
                 event.preventDefault();
-
                 openGameSearchMenu();
             }}
         />
 
-        {
-            gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
+        {gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
             && <Button
                 className={styles.selectorButton}
                 icon={require("@assets/img/interface/search.svg")}
@@ -202,15 +151,14 @@ function GameSelector({
             </Button>
         }
 
-        {
-            gameSource.selectorButton == GameSelectorButton.UPLOAD_FILE
+        {gameSource.selectorButton == GameSelectorButton.UPLOAD_FILE
             && <FileUploader
                 extensions={[".pgn"]}
                 onFilesUpload={async files => {
                     const pgn = await files.item(0)?.text();
                     if (!pgn) return;
 
-                    setFieldInput(pgn);
+                    updateFieldInput(pgn);
                 }}
             >
                 <Button
@@ -223,13 +171,17 @@ function GameSelector({
             </FileUploader>
         }
         
-        {
-            searchMenuOpen
+        {searchMenuOpen
             && <GameSearchMenu
-                username={trim(fieldInput)}
+                username={trim(currentFieldInput)}
                 gameSource={gameSource}
                 setOpen={setSearchMenuOpen}
-                setSelectedGame={setSelectedServiceGame}
+                onGameSelect={game => {
+                    setServiceGames({
+                        ...serviceGames,
+                        [gameSource.key]: game
+                    });
+                }}
             />
         }
     </div>;

@@ -1,19 +1,33 @@
 import { useTranslation } from "react-i18next";
 
 import { AnalysedGame } from "wintrchess";
-import useGameSelectorStore from "@stores/GameSelectorStore";
+import { GameSelectorButton, GameSource } from "@constants/GameSource";
+import useGameSelector, { SelectedGame } from "@hooks/useGameSelector";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import parseStateTree from "@lib/gameStateTree";
-import { getChessComProfileImages, isGameFromChessCom } from "@lib/profileImages";
+import {
+    getChessComProfileImages,
+    isGameFromChessCom
+} from "@lib/profileImages";
+import getChessComGames from "@lib/games/chessCom";
+import getLichessGames from "@lib/games/lichess";
+import parsePgn from "@lib/games/pgn";
+import parseFenString from "@lib/games/fen";
+
+const errorStrings = {
+    noGameSelected: "pages.analysis.gameSelector.errors.noGameSelected",
+    invalidGame: "pages.analysis.gameSelector.errors.invalidGame"
+};
 
 function useImportGame() {
     const { t } = useTranslation();
 
     const {
         selectedGame,
-        gameSelectorError
-    } = useGameSelectorStore();
+        savedGameSource,
+        savedCurrentFieldInput
+    } = useGameSelector();
 
     const {
         setAnalysisGame,
@@ -22,22 +36,70 @@ function useImportGame() {
 
     const { setCurrentStateTreeNode } = useAnalysisBoardStore();
 
-    function importSelectedGame() {
-        // Ensure a valid game has been selected
-        if (gameSelectorError) {
-            throw new Error(gameSelectorError);
+    function convertSelectedGame(selectedGame: SelectedGame) {
+        if (typeof selectedGame == "string") {
+            if (selectedGame.length == 0) return null;
+
+            try {
+                if (savedGameSource.key == GameSource.PGN.key) {
+                    return parsePgn(selectedGame);
+                } else if (savedGameSource.key == GameSource.FEN.key) {
+                    return parseFenString(selectedGame);
+                }
+            } catch {
+                throw new Error(t(errorStrings.invalidGame));
+            }
+        } else {
+            return selectedGame;
         }
 
-        if (!selectedGame) {
-            throw new Error(
-                t("pages.analysis.gameSelector.errors.noGameSelected")
-            );
+        return null;
+    }
+
+    async function importSelectedGame() {
+        let importedGame = convertSelectedGame(selectedGame);
+
+        if (!importedGame) {
+            if (
+                savedGameSource.selectorButton
+                != GameSelectorButton.SEARCH_GAMES
+            ) {
+                throw new Error(t(errorStrings.noGameSelected));
+            }
+
+            const date = new Date();
+
+            try {
+                var games = savedGameSource.key == GameSource.CHESS_COM.key
+                    ? await getChessComGames(
+                        savedCurrentFieldInput,
+                        date.getMonth() + 1,
+                        date.getFullYear()
+                    )
+                    : await getLichessGames(
+                        savedCurrentFieldInput,
+                        date.getMonth() + 1,
+                        date.getFullYear()
+                    );
+            } catch (err) {
+                throw new Error(
+                    t((err as Error).message)
+                );
+            }
+
+            const latestGame = games.at(0);
+
+            if (!latestGame) {
+                throw new Error(t(errorStrings.noGameSelected));
+            }
+
+            importedGame = latestGame;
         }
 
         // Set analysis game to the selected one
         const analysisGame: AnalysedGame = {
-            ...selectedGame,
-            stateTree: parseStateTree(selectedGame)
+            ...importedGame,
+            stateTree: parseStateTree(importedGame)
         };
 
         setAnalysisGame(analysisGame);
@@ -45,8 +107,8 @@ function useImportGame() {
         setGameAnalysisOpen(true);
 
         // Load profile images from Chess.com if it is possible
-        if (isGameFromChessCom(selectedGame)) {
-            getChessComProfileImages(selectedGame).then(images => {
+        if (isGameFromChessCom(importedGame)) {
+            getChessComProfileImages(importedGame).then(images => {
                 analysisGame.players.white.image = images.white;
                 analysisGame.players.black.image = images.black;
 
