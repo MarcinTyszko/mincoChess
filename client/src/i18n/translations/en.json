@@ -56,6 +56,13 @@
                     "hide": "Hide Classifications",
                     "brilliant": "Brilliant",
                     "theory": "Theory"
+                },
+                "other": {
+                    "title": "Other",
+                    "simpleNotation": "Simple Move Notation",
+                    "descriptions": {
+                        "simpleNotation": "Show simple descriptions of Chess moves instead of standard notation. Example: Kxf4 -> King on e3 takes f4"
+                    }
                 }
             },
             "gameSelector": {

@@ -1,10 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Chess } from "chess.js";
 
 import {
-    addChildMove,
+    StateTreeNode,
     Classification,
+    addChildMove,
     findNodeRecursively,
+    getSimpleNotation,
     getTopEngineLine
 } from "wintrchess";
 import {
@@ -14,15 +17,27 @@ import {
     errorClassificationIcon,
     inalterableClassifications
 } from "@constants/classifications";
-import playBoardSound from "@lib/boardSounds";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import ErrorMessage from "@components/common/ErrorMessage";
+import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./ClassifiedMoveCard.module.css";
 
+function getPlayedMove(currentNode: StateTreeNode) {
+    if (!currentNode.parent) return;
+    if (!currentNode.state.move) return;
+
+    const previousBoard = new Chess(currentNode.parent.state.fen);
+
+    return previousBoard.move(currentNode.state.move.san);
+}
+
 function ClassifiedMoveCard() {
     const { t } = useTranslation();
+
+    const { settings } = useSettingsStore();
 
     const {
         currentStateTreeNode: node,
@@ -42,6 +57,8 @@ function ClassifiedMoveCard() {
         searchNode => !!searchNode.state.opening,
         true
     )?.state.opening;
+
+    const playedMove = getPlayedMove(node);
 
     return <div className={styles.wrapper}>
         <div
@@ -73,7 +90,11 @@ function ClassifiedMoveCard() {
                 >
                     {node.state.classification != undefined
                         ? (
-                            `${node.state.move?.san} `
+                            (settings.analysis.simpleNotation && playedMove
+                                ? getSimpleNotation(playedMove)
+                                : node.state.move?.san
+                            )
+                            + " "
                             + t(
                                 "pages.analysis.classifiedMoveCard.classifications."
                                 + node.state.classification
@@ -86,8 +107,7 @@ function ClassifiedMoveCard() {
                 </span>
             </div>
 
-            {
-                realtimeClassifyError
+            {realtimeClassifyError
                 && <ErrorMessage style={{ marginTop: "5px" }}>
                     {realtimeClassifyError}
                 </ErrorMessage>

@@ -5,6 +5,8 @@ import Dialog from "@components/common/Dialog";
 
 import EngineOptionsArea from "./EngineOptionsArea";
 import ClassificationOptionsArea from "./ClassificationOptionsArea";
+import OtherOptionsArea from "./OtherOptionsArea";
+
 import AnalysisSettingsDialogProps from "./AnalysisSettingsDialogProps";
 import * as styles from "./AnalysisSettingsDialog.module.css";
 
@@ -29,6 +31,8 @@ function AnalysisSettingsDialog({ setOpen }: AnalysisSettingsDialogProps) {
         <EngineOptionsArea/>
 
         <ClassificationOptionsArea/>
+
+        <OtherOptionsArea/>
     </Dialog>;
 }
 

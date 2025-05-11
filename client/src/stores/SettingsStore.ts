@@ -21,7 +21,8 @@ const settingsSchema = z.object({
         includedClassifications: z.object({
             brilliant: z.boolean(),
             theory: z.boolean()
-        })
+        }),
+        simpleNotation: z.boolean()
     }),
     themes: z.object({
         board: z.object({
@@ -53,7 +54,8 @@ export const defaultSettings: Settings = {
         includedClassifications: {
             brilliant: true,
             theory: true
-        }
+        },
+        simpleNotation: false
     },
     themes: {
         board: {

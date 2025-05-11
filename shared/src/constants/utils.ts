@@ -17,13 +17,22 @@ export const defaultRootNode: StateTreeNode = {
     }
 };
 
-export const pieceValues: Record<PieceSymbol, number> = {
-    k: Infinity,
+export const pieceNames: Record<PieceSymbol, string> = {
+    p: "Pawn",
+    n: "Knight",
+    b: "Bishop",
+    r: "Rook",
+    q: "Queen",
+    k: "King"
+};
+
+export const pieceValues: Record<PieceSymbol, number> = { 
     p: 1,
     n: 3,
     b: 3,
     r: 5,
-    q: 9
+    q: 9,
+    k: Infinity
 };
 
 export const lichessCastlingMoves: Record<string, string> = {

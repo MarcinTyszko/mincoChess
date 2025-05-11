@@ -1,5 +1,6 @@
-import { Color, Square, WHITE, BLACK } from "chess.js";
+import { Move, Color, Square, WHITE, BLACK } from "chess.js";
 
+import { pieceNames } from "@constants/utils";
 import PieceColour from "@constants/PieceColour";
 
 export function parseFen(fen: string) {
@@ -92,4 +93,36 @@ export function flipPieceColour(colour: PieceColour | Color) {
         case BLACK:
             return WHITE;
     }
+}
+
+export function getSimpleNotation(move: Move) {
+    if (move.isKingsideCastle()) {
+        return "Short castles";
+    }
+
+    if (move.isQueensideCastle()) {
+        return "Long castles";
+    }
+
+    const pieceName = pieceNames[move.piece];
+
+    const result = [
+        pieceName,
+        move.captured ? "on" : "from",
+        move.from,
+        move.captured ? "takes" : "to",
+        move.to
+    ];
+
+    if (move.san.includes("#")) {
+        result.push("checkmate");
+    } else if (move.san.includes("+")) {
+        result.push("check");
+    }
+
+    if (move.promotion) {
+        result.push(`(${pieceNames[move.promotion]})`);
+    }
+
+    return result.join(" ");
 }
