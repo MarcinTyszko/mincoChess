@@ -7,18 +7,20 @@ import ErrorMessage from "@components/common/ErrorMessage";
 import useImportGame from "../../useImportGame";
 import useEvaluateGame from "../../useEvaluateGame";
 import AnalyseButton from "./AnalyseButton";
+import * as styles from "./GameSelection.module.css";
 
 function GameSelection() {
     const { setSelectedGame } = useGameSelector();
 
-    const [ importError, setImportError ] = useState<string | null>(null);
+    const [ statusMessage, setStatusMessage ] = useState<string>();
+    const [ importError, setImportError ] = useState<string>();
 
     const importSelectedGame = useImportGame();
     const evaluateGame = useEvaluateGame();
 
     async function onAnalyseClick() {
         try {
-            var importedGame = await importSelectedGame();
+            var importedGame = await importSelectedGame(setStatusMessage);
         } catch (err) {
             return setImportError((err as Error).message);
         }
@@ -33,6 +35,12 @@ function GameSelection() {
         />
 
         <AnalyseButton onClick={onAnalyseClick} />
+
+        {statusMessage
+            && <i className={styles.statusMessage}>
+                {statusMessage}
+            </i>
+        }
 
         {importError
             && <ErrorMessage>

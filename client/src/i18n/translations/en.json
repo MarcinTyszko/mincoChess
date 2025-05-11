@@ -68,6 +68,9 @@
                 },
                 "searchGamesButton": "Search Games",
                 "uploadPGNButton": "Upload PGN File",
+                "statusMessages": {
+                    "fetchingLatest": "Loading the latest game..."
+                },
                 "errors": {
                     "noGameSelected": "Please select a Chess game.",
                     "invalidGame": "Failed to parse invalid game."

@@ -15,7 +15,8 @@ import getLichessGames from "@lib/games/lichess";
 import parsePgn from "@lib/games/pgn";
 import parseFenString from "@lib/games/fen";
 
-const errorStrings = {
+const messages = {
+    fetchingLatest: "pages.analysis.gameSelector.statusMessages.fetchingLatest",
     noGameSelected: "pages.analysis.gameSelector.errors.noGameSelected",
     invalidGame: "pages.analysis.gameSelector.errors.invalidGame"
 };
@@ -47,7 +48,7 @@ function useImportGame() {
                     return parseFenString(selectedGame);
                 }
             } catch {
-                throw new Error(t(errorStrings.invalidGame));
+                throw new Error(t(messages.invalidGame));
             }
         } else {
             return selectedGame;
@@ -56,7 +57,9 @@ function useImportGame() {
         return null;
     }
 
-    async function importSelectedGame() {
+    async function importSelectedGame(
+        onStatusMessage?: (message?: string) => void
+    ) {
         let importedGame = convertSelectedGame(selectedGame);
 
         if (!importedGame) {
@@ -64,8 +67,10 @@ function useImportGame() {
                 savedGameSource.selectorButton
                 != GameSelectorButton.SEARCH_GAMES
             ) {
-                throw new Error(t(errorStrings.noGameSelected));
+                throw new Error(t(messages.noGameSelected));
             }
+
+            onStatusMessage?.(t(messages.fetchingLatest));
 
             const date = new Date();
 
@@ -85,12 +90,14 @@ function useImportGame() {
                 throw new Error(
                     t((err as Error).message)
                 );
+            } finally {
+                onStatusMessage?.();
             }
 
             const latestGame = games.at(0);
 
             if (!latestGame) {
-                throw new Error(t(errorStrings.noGameSelected));
+                throw new Error(t(messages.noGameSelected));
             }
 
             importedGame = latestGame;
