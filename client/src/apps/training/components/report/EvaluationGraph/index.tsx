@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
     ResponsiveContainer,
     XAxis,
@@ -18,12 +18,12 @@ import {
     PieceColour,
     StateTreeNode
 } from "wintrchess";
+import { classificationColours } from "@constants/classifications";
 
 import EvaluationGraphPoint from "./Point";
 import TooltipRenderer from "./TooltipRenderer";
 import EvaluationGraphProps from "./EvaluationGraphProps";
 import * as styles from "./EvaluationGraph.module.css";
-import { classificationColours } from "@constants/classifications";
 
 function getGraphY(
     node: StateTreeNode,
@@ -52,16 +52,7 @@ function EvaluationGraph({
     nodes,
     onPointClick
 }: EvaluationGraphProps) {
-    const [
-        selectedPoint,
-        setSelectedPoint
-    ] = useState<EvaluationGraphPoint>();
-
-    const selectedPointColour = useMemo(() => (
-        selectedPoint?.state.classification
-            ? classificationColours[selectedPoint.state.classification]
-            : "gray"
-    ), [selectedPoint]);
+    const [ selectedPointIndex, setSelectedPointIndex ] = useState(0);
 
     const absoluteHighestValue = max(
         nodes.map(node => Math.abs(
@@ -86,6 +77,12 @@ function EvaluationGraph({
         } as EvaluationGraphPoint;
     });
 
+    const selectedPoint = dataPoints[selectedPointIndex];
+
+    const selectedPointColour = selectedPoint?.state.classification
+        ? classificationColours[selectedPoint.state.classification]
+        : "gray";
+
     return <div className={styles.wrapper}>
         <ResponsiveContainer
             width={style?.width || "100%"}
@@ -101,7 +98,7 @@ function EvaluationGraph({
 
                     const graphPoint = payload as EvaluationGraphPoint;
 
-                    setSelectedPoint(graphPoint);
+                    setSelectedPointIndex(graphPoint.x);
                     onPointClick?.(graphPoint);
                 }}
             >
