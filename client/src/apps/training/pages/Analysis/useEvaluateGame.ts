@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AnalysedGame } from "wintrchess";
 import AnalysisStatus from "@constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
+import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import evaluateMoves from "@apps/training/lib/evaluate";
 
@@ -10,6 +11,10 @@ function useEvaluateGame() {
     const { t } = useTranslation();
 
     const { settings } = useSettingsStore();
+
+    const dispatchCurrentNodeUpdate = useAnalysisBoardStore(
+        state => state.dispatchCurrentNodeUpdate
+    );
 
     const {
         setAnalysisStatus,
@@ -36,7 +41,10 @@ function useEvaluateGame() {
                         engine.setLineCount(settings.analysis.engineLines);
                         engine.setThreadCount(settings.analysis.engineThreadCount);
                     },
-                    onProgress: setEvaluationProgress
+                    onProgress: progress => {
+                        setEvaluationProgress(progress);
+                        dispatchCurrentNodeUpdate();
+                    }
                 }
             );
 
