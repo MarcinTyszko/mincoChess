@@ -4,7 +4,7 @@ import { minBy } from "lodash";
 import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
 import PieceColour from "@constants/PieceColour";
 import { pieceValues } from "@constants/utils";
-import { adaptPieceColour } from "@lib/notation";
+import { adaptPieceColour } from "@lib/chessUtils";
 import { toBoardPiece } from "../types/BoardPiece";
 import { getAttackingMoves } from "./attackers";
 import { getDefendingMoves } from "./defenders";

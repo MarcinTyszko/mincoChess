@@ -1,5 +1,6 @@
 import { Move, Color, Square, WHITE, BLACK } from "chess.js";
 
+import Evaluation from "@ctypes/game/position/Evaluation";
 import { pieceNames } from "@constants/utils";
 import PieceColour from "@constants/PieceColour";
 
@@ -125,4 +126,32 @@ export function getSimpleNotation(move: Move) {
     }
 
     return result.join(" ");
+}
+
+export function stringifyEvaluation(
+    evaluation: Evaluation,
+    forceSign = false,
+    precision = 2
+) {
+    const roundedValue = (evaluation.value / 100).toFixed(precision);
+
+    if (evaluation.type == "centipawn") {
+        if (forceSign && evaluation.value >= 0) {
+            return "+" + roundedValue;
+        }
+
+        return roundedValue;
+    }
+
+    if (!forceSign) {
+        return "M" + Math.abs(evaluation.value);
+    }
+
+    if (evaluation.value > 0) {
+        return `+M${evaluation.value}`;
+    } else if (evaluation.value < 0) {
+        return `-M${Math.abs(evaluation.value)}`;
+    }
+
+    return "M0";
 }

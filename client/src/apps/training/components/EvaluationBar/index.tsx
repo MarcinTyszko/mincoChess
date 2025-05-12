@@ -1,7 +1,7 @@
 import React from "react";
 import { clamp } from "lodash";
 
-import { PieceColour } from "wintrchess";
+import { PieceColour, stringifyEvaluation } from "wintrchess";
 import EvaluationBarProps from "./EvaluationBarProps";
 import * as styles from "./EvaluationBar.module.css";
 
@@ -76,13 +76,10 @@ function EvaluationBar({
                             fontFamily: "sans-serif"
                         }}
                     >
-                        {
-                            evaluation.type == "mate"
-                                ? `M${Math.abs(evaluation.value)}`
-                                : (Math.abs(evaluation.value) / 100).toFixed(
-                                    evaluation.value >= 1000 ? 0 : 1
-                                )
-                        }
+                        {stringifyEvaluation({
+                            ...evaluation,
+                            value: Math.abs(evaluation.value)
+                        }, false, 1)}
                     </text>
                 </>
             }

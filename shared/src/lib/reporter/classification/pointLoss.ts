@@ -5,7 +5,7 @@ import {
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
 import Classification from "@constants/Classification";
-import { adaptPieceColour } from "@lib/notation";
+import { adaptPieceColour } from "@lib/chessUtils";
 import { getExpectedPointsLoss } from "../expectedPoints";
 
 /**

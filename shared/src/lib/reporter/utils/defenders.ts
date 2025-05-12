@@ -2,7 +2,7 @@ import { Chess } from "chess.js";
 import { minBy } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
-import { adaptPieceColour, flipPieceColour, setFenTurn } from "@lib/notation";
+import { adaptPieceColour, flipPieceColour, setFenTurn } from "@lib/chessUtils";
 import { getAttackingMoves } from "./attackers";
 
 export function getDefendingMoves(

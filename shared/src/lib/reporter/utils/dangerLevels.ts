@@ -3,7 +3,7 @@ import { Chess, ROOK } from "chess.js";
 import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
 import { pieceValues } from "@constants/utils";
-import { parseSanMove } from "@lib/notation";
+import { parseSanMove } from "@lib/chessUtils";
 import { isPieceSafe } from "./pieceSafety";
 
 /**

@@ -10,7 +10,7 @@ export { default as EngineVersion } from "./constants/EngineVersion";
 export * from "./constants/utils";
 
 export * from "./lib/date";
-export * from "./lib/notation";
+export * from "./lib/chessUtils";
 export * from "./lib/zodSchema";
 
 export * from "./lib/reporter/report";

@@ -7,7 +7,7 @@ import {
     adaptPieceColour,
     flipPieceColour,
     setFenTurn
-} from "@lib/notation";
+} from "@lib/chessUtils";
 
 interface TransitiveAttacker {
     directFen: string;

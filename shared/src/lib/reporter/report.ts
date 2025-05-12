@@ -4,7 +4,7 @@ import {
     getNodeChain
 } from "@ctypes/game/position/StateTreeNode";
 import ReportOptions from "./types/ReportOptions";
-import { adaptPieceColour } from "@lib/notation";
+import { adaptPieceColour } from "@lib/chessUtils";
 import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode
