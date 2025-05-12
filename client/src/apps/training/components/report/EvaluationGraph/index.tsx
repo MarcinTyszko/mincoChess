@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
     ResponsiveContainer,
     XAxis,
@@ -6,7 +6,8 @@ import {
     AreaChart,
     Area,
     Tooltip,
-    ReferenceLine
+    ReferenceLine,
+    ReferenceDot
 } from "recharts";
 import { max } from "lodash";
 
@@ -22,6 +23,7 @@ import EvaluationGraphPoint from "./Point";
 import TooltipRenderer from "./TooltipRenderer";
 import EvaluationGraphProps from "./EvaluationGraphProps";
 import * as styles from "./EvaluationGraph.module.css";
+import { classificationColours } from "@constants/classifications";
 
 function getGraphY(
     node: StateTreeNode,
@@ -50,6 +52,17 @@ function EvaluationGraph({
     nodes,
     onPointClick
 }: EvaluationGraphProps) {
+    const [
+        selectedPoint,
+        setSelectedPoint
+    ] = useState<EvaluationGraphPoint>();
+
+    const selectedPointColour = useMemo(() => (
+        selectedPoint?.state.classification
+            ? classificationColours[selectedPoint.state.classification]
+            : "gray"
+    ), [selectedPoint]);
+
     const absoluteHighestValue = max(
         nodes.map(node => Math.abs(
             getTopEngineLine(node.state)?.evaluation.value || 0
@@ -83,10 +96,13 @@ function EvaluationGraph({
                 margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                 data={dataPoints}
                 onClick={event => {
-                    const point = event.activePayload?.at(0)?.payload;
-                    if (!point) return;
+                    const payload = event.activePayload?.at(0)?.payload;
+                    if (!payload) return;
 
-                    onPointClick?.(point as EvaluationGraphPoint);
+                    const graphPoint = payload as EvaluationGraphPoint;
+
+                    setSelectedPoint(graphPoint);
+                    onPointClick?.(graphPoint);
                 }}
             >
                 <XAxis hide dataKey="x"/>
@@ -109,6 +125,24 @@ function EvaluationGraph({
                     strokeOpacity={0.5}
                     strokeWidth={2}
                 />
+
+                {selectedPoint
+                    && <>
+                        <ReferenceLine
+                            x={selectedPoint.x}
+                            stroke={selectedPointColour}
+                            strokeWidth={2}
+                        />
+
+                        <ReferenceDot
+                            x={selectedPoint.x}
+                            y={selectedPoint.y}
+                            r={4}
+                            fill={selectedPointColour}
+                            strokeWidth={0}
+                        />
+                    </>
+                }
 
                 <Tooltip content={({ label }) => {
                     const point = typeof label == "number"
