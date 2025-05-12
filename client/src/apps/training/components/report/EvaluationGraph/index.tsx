@@ -16,7 +16,8 @@ import {
     defaultEvaluation,
     getTopEngineLine,
     PieceColour,
-    StateTreeNode
+    StateTreeNode,
+    Classification
 } from "wintrchess";
 import { classificationColours } from "@constants/classifications";
 
@@ -24,6 +25,13 @@ import EvaluationGraphPoint from "./Point";
 import TooltipRenderer from "./TooltipRenderer";
 import EvaluationGraphProps from "./EvaluationGraphProps";
 import * as styles from "./EvaluationGraph.module.css";
+
+const highlightedClassifications: Classification[] = [
+    Classification.BRILLIANT,
+    Classification.ONLY,
+    Classification.MISTAKE,
+    Classification.BLUNDER
+];
 
 function getGraphY(
     node: StateTreeNode,
@@ -76,6 +84,13 @@ function EvaluationGraph({
             y: getGraphY(node, evaluation, graphHeight)
         } as EvaluationGraphPoint;
     });
+
+    const highlightedPoints = dataPoints.filter(point => (
+        point.state.classification
+        && highlightedClassifications.includes(
+            point.state.classification
+        )
+    ));
 
     const selectedPoint = dataPoints[selectedPointIndex];
 
@@ -140,6 +155,14 @@ function EvaluationGraph({
                         />
                     </>
                 }
+
+                {highlightedPoints.map(point => <ReferenceDot
+                    x={point.x}
+                    y={point.y}
+                    r={3}
+                    fill={classificationColours[point.state.classification!]}
+                    strokeWidth={0}
+                />)}
 
                 <Tooltip content={({ label }) => {
                     const point = typeof label == "number"
