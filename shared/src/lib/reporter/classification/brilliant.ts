@@ -69,17 +69,23 @@ export function considerBrilliantClassification(
 
     // If all unsafe pieces are trapped or if the moved one was previously
     // trapped, do not allow brilliant
-    const allUnsafePiecesTrapped = unsafePieces.every(
+    const trappedPieces = unsafePieces.filter(
         unsafePiece => isPieceTrapped(current.board, unsafePiece)
     );
 
-    const movedPieceTrapped = isPieceTrapped(previous.board, {
-        type: current.playedMove.piece,
-        color: current.playedMove.color,
-        square: current.playedMove.from
-    });
+    const previousTrappedPieces = previousUnsafePieces.filter(
+        unsafePiece => isPieceTrapped(previous.board, unsafePiece)
+    );
 
-    if (allUnsafePiecesTrapped || movedPieceTrapped) return false;
+    const movedPieceTrapped = previousTrappedPieces.some(
+        trappedPiece => trappedPiece.square == current.playedMove.from
+    );
+
+    if (
+        trappedPieces.length == unsafePieces.length
+        || movedPieceTrapped
+        || trappedPieces.length < previousTrappedPieces.length
+    ) return false;
 
     return unsafePieces.length > 0;
 }
