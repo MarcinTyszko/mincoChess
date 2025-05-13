@@ -22,13 +22,15 @@ interface AnalyseNodeResult {
 /**
  * @description Does not require given root node to be serialized
  */
-export async function analyseGame(
+export async function analyseStateTree(
     rootNode: StateTreeNode,
     options?: ReportOptions
 ): Promise<AnalyseGameResult> {
     const reportURL = "/api/analysis/report"
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&theory=${String(options?.includeTheory)}`;
+
+    console.log(rootNode);
 
     const reportResponse = await fetch(reportURL, {
         method: "POST",
@@ -74,7 +76,7 @@ export async function analyseNode(
     const parentNode = clone(node.parent);
     parentNode.children = [childlessNode];
 
-    const reportResult = await analyseGame(parentNode, options);
+    const reportResult = await analyseStateTree(parentNode, options);
     const classifiedNode = reportResult.gameAnalysis?.stateTree.children[0];
 
     return {

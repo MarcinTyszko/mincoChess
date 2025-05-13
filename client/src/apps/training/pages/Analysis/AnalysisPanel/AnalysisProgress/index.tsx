@@ -10,7 +10,7 @@ import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { analyseGame } from "@apps/training/lib/reporter";
+import { analyseStateTree } from "@apps/training/lib/reporter";
 import ProgressReporter from "@apps/training/components/ProgressReporter";
 
 function getStatusTitle(status: AnalysisStatus) {
@@ -76,7 +76,7 @@ function AnalysisProgress() {
                 return setAnalysisError(analysisCaptchaError);
             }
 
-            const analyseResult = await analyseGame(analysisGame.stateTree, {
+            const analyseResult = await analyseStateTree(analysisGame.stateTree, {
                 includeBrilliant: settings.includedClassifications.brilliant,
                 includeTheory: settings.includedClassifications.theory
             });

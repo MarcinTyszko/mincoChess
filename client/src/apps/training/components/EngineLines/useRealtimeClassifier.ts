@@ -104,14 +104,12 @@ function useRealtimeClassifier() {
         currentState.opening = analysedState.opening;
 
         if (analysedState.classification == undefined) {
-            return setRealtimeClassifyError(
+            return cancelClassify(
                 "pages.analysis.classifiedMoveCard.unknownError"
             );
         }
 
-        setClassifyStatus(AnalysisStatus.INACTIVE);
-        setRealtimeClassifyError();
-
+        cancelClassify();
         dispatchCurrentNodeUpdate();
     }
 
