@@ -148,7 +148,8 @@
                     "forced": "is forced",
                     "theory": "is theory",
                     "risky": "is a risky idea"
-                }
+                },
+                "alternative": "The best move was"
             }
         },
         "news": {

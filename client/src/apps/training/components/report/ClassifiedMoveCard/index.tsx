@@ -59,6 +59,27 @@ function ClassifiedMoveCard() {
     )?.state.opening;
 
     const playedMove = getPlayedMove(node);
+    const playedMoveMessage = (
+        (settings.analysis.simpleNotation && playedMove
+            ? getSimpleNotation(playedMove)
+            : node.state.move?.san
+        )
+        + " "
+        + t(
+            "pages.analysis.classifiedMoveCard.classifications."
+            + node.state.classification
+        )
+    );
+
+    function playTopAlternative() {
+        if (!node.parent) return;
+        if (!bestAlternativeMove) return;
+
+        const createdNode = addChildMove(node.parent, bestAlternativeMove.san);
+
+        setCurrentStateTreeNode(createdNode);
+        playBoardSound(createdNode);
+    }
 
     return <div className={styles.wrapper}>
         <div
@@ -89,17 +110,7 @@ function ClassifiedMoveCard() {
                     }}
                 >
                     {node.state.classification != undefined
-                        ? (
-                            (settings.analysis.simpleNotation && playedMove
-                                ? getSimpleNotation(playedMove)
-                                : node.state.move?.san
-                            )
-                            + " "
-                            + t(
-                                "pages.analysis.classifiedMoveCard.classifications."
-                                + node.state.classification
-                            )
-                        )
+                        ? playedMoveMessage
                         : (realtimeClassifyError
                             ? t("error") : t("loading")
                         )
@@ -119,18 +130,13 @@ function ClassifiedMoveCard() {
                 && bestAlternativeMove.san != node.state.move?.san
                 && !inalterableClassifications.includes(node.state.classification)
                 && <span className={styles.bestAlternativeComment}>
-                    <span>The best move was</span>
+                    <span>
+                        {t("pages.analysis.classifiedMoveCard.alternative")}
+                    </span>
 
                     <span
                         className={styles.bestAlternativeMove}
-                        onClick={() => {
-                            if (!node.parent) return;
-
-                            const createdNode = addChildMove(node.parent, bestAlternativeMove.san);
-
-                            setCurrentStateTreeNode(createdNode);
-                            playBoardSound(createdNode);
-                        }}
+                        onClick={playTopAlternative}
                     >
                         {bestAlternativeMove.san}
                     </span>
@@ -138,8 +144,7 @@ function ClassifiedMoveCard() {
             }
         </div>
 
-        {
-            nearestOpeningName
+        {nearestOpeningName
             && <div className={styles.opening}>
                 {nearestOpeningName}
             </div>
