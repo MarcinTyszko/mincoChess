@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { StatusCodes } from "http-status-codes";
 
 import { useAltcha } from "@hooks/useAltcha";
@@ -11,8 +10,6 @@ import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore"
 import { analyseNode } from "@apps/training/lib/reporter";
 
 function useRealtimeClassifier() {
-    const { t } = useTranslation();
-
     const executeCaptcha = useAltcha();
 
     const settings = useSettingsStore(state => state.settings.analysis);
@@ -55,9 +52,9 @@ function useRealtimeClassifier() {
         analysisCaptchaError
     ]);
 
-    function cancelClassify(errorMessage?: string) {
+    function cancelClassify(errorString?: string) {
         setClassifyStatus(AnalysisStatus.INACTIVE);
-        setRealtimeClassifyError(errorMessage);
+        setRealtimeClassifyError(errorString);
     }
 
     async function considerRealtimeClassify() {
@@ -70,7 +67,7 @@ function useRealtimeClassifier() {
         if (parentState.engineLines.length == 0) {
             return cancelClassify(
                 currentStateTreeNode.state.classification == undefined
-                    ? t("pages.analysis.classifiedMoveCard.insufficientLines")
+                    ? "pages.analysis.classifiedMoveCard.insufficientLines"
                     : undefined
             );
         }
@@ -94,7 +91,7 @@ function useRealtimeClassifier() {
             || analyseNodeResult.status != StatusCodes.OK
         ) {
             return cancelClassify(
-                t("pages.analysis.classifiedMoveCard.unknownError")
+                "pages.analysis.classifiedMoveCard.unknownError"
             );
         }
 
@@ -105,6 +102,12 @@ function useRealtimeClassifier() {
         currentState.classification = analysedState.classification;
         currentState.accuracy = analysedState.accuracy;
         currentState.opening = analysedState.opening;
+
+        if (analysedState.classification == undefined) {
+            return setRealtimeClassifyError(
+                "pages.analysis.classifiedMoveCard.unknownError"
+            );
+        }
 
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError();

@@ -109,7 +109,7 @@ function ClassifiedMoveCard() {
 
             {realtimeClassifyError
                 && <ErrorMessage style={{ marginTop: "5px" }}>
-                    {realtimeClassifyError}
+                    {t(realtimeClassifyError)}
                 </ErrorMessage>
             }
 
