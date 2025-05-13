@@ -34,6 +34,24 @@ function getPlayedMove(currentNode: StateTreeNode) {
     return previousBoard.move(currentNode.state.move.san);
 }
 
+function getTopAlternativeMove(currentNode: StateTreeNode) {
+    if (!currentNode.parent) return;
+
+    const bestAlternativeUci = getTopEngineLine(
+        currentNode.parent.state
+    )?.moves.at(0)?.uci;
+
+    if (!bestAlternativeUci) return;
+
+    const previousBoard = new Chess(currentNode.parent.state.fen);
+
+    try {
+        return previousBoard.move(bestAlternativeUci);
+    } catch {
+        return;
+    }
+}
+
 function ClassifiedMoveCard() {
     const { t } = useTranslation();
 
@@ -47,10 +65,6 @@ function ClassifiedMoveCard() {
     const realtimeClassifyError = useAnalysisProgressStore(
         state => state.realtimeClassifyError
     );
-
-    const bestAlternativeMove = node.parent
-        ? getTopEngineLine(node.parent.state)?.moves.at(0)
-        : undefined;
 
     const nearestOpeningName = findNodeRecursively(
         node,
@@ -71,11 +85,13 @@ function ClassifiedMoveCard() {
         )
     );
 
+    const topAlternativeMove = getTopAlternativeMove(node);
+
     function playTopAlternative() {
         if (!node.parent) return;
-        if (!bestAlternativeMove) return;
+        if (!topAlternativeMove) return;
 
-        const createdNode = addChildMove(node.parent, bestAlternativeMove.san);
+        const createdNode = addChildMove(node.parent, topAlternativeMove.san);
 
         setCurrentStateTreeNode(createdNode);
         playBoardSound(createdNode);
@@ -125,9 +141,9 @@ function ClassifiedMoveCard() {
             }
 
             {
-                bestAlternativeMove
+                topAlternativeMove
                 && node.state.classification != undefined
-                && bestAlternativeMove.san != node.state.move?.san
+                && topAlternativeMove.san != node.state.move?.san
                 && !inalterableClassifications.includes(node.state.classification)
                 && <span className={styles.bestAlternativeComment}>
                     <span>
@@ -138,7 +154,10 @@ function ClassifiedMoveCard() {
                         className={styles.bestAlternativeMove}
                         onClick={playTopAlternative}
                     >
-                        {bestAlternativeMove.san}
+                        {settings.analysis.simpleNotation
+                            ? getSimpleNotation(topAlternativeMove)
+                            : topAlternativeMove.san
+                        }
                     </span>
                 </span>
             }
