@@ -15,6 +15,11 @@ function useRealtimeClassifier() {
     const settings = useSettingsStore(state => state.settings.analysis);
 
     const {
+        analysisSessionToken,
+        analysisCaptchaError
+    } = useAnalysisSessionStore();
+
+    const {
         currentStateTreeNode,
         dispatchCurrentNodeUpdate
     } = useAnalysisBoardStore();
@@ -23,26 +28,22 @@ function useRealtimeClassifier() {
         state => state.setRealtimeClassifyError
     );
 
-    const {
-        analysisSessionToken,
-        analysisCaptchaError
-    } = useAnalysisSessionStore();
-
     const [
         classifyStatus,
         setClassifyStatus
     ] = useState(AnalysisStatus.INACTIVE);
 
-    // Reattempt classification that is awaiting a captcha when
-    // Turnstile status changes
+    function cancelClassify(errorString?: string) {
+        setClassifyStatus(AnalysisStatus.INACTIVE);
+        setRealtimeClassifyError(errorString);
+    }
+
+    // Reattempt classification when CAPTCHA token updates
     useEffect(() => {
         if (classifyStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
         if (analysisCaptchaError) {
-            setRealtimeClassifyError(analysisCaptchaError);
-            setClassifyStatus(AnalysisStatus.INACTIVE);
-
-            return;
+            return cancelClassify(analysisCaptchaError);
         }
 
         considerRealtimeClassify();
@@ -52,29 +53,25 @@ function useRealtimeClassifier() {
         analysisCaptchaError
     ]);
 
-    function cancelClassify(errorString?: string) {
-        setClassifyStatus(AnalysisStatus.INACTIVE);
-        setRealtimeClassifyError(errorString);
-    }
-
     async function considerRealtimeClassify() {
-        // Do not classify a root node
         if (!currentStateTreeNode.parent) return;
 
         // If there is not enough data for a centipawn comparison
         const parentState = currentStateTreeNode.parent.state;
 
         if (parentState.engineLines.length == 0) {
+            if (currentStateTreeNode.state.classification != undefined) {
+                return;
+            }
+
             return cancelClassify(
-                currentStateTreeNode.state.classification == undefined
-                    ? "pages.analysis.classifiedMoveCard.insufficientLines"
-                    : undefined
+                "pages.analysis.classifiedMoveCard.insufficientLines"
             );
         }
 
         const analyseNodeResult = await analyseNode(currentStateTreeNode, {
-            includeBrilliant: settings.includedClassifications.brilliant,
-            includeTheory: settings.includedClassifications.theory
+            includeBrilliant: settings.classifications.included.brilliant,
+            includeTheory: settings.classifications.included.theory
         });
 
         // If session is invalid, await a new CAPTCHA solve
@@ -85,11 +82,7 @@ function useRealtimeClassifier() {
             return;
         }
 
-        // For other, unknown errors, return an unknown error message
-        if (
-            !analyseNodeResult.node
-            || analyseNodeResult.status != StatusCodes.OK
-        ) {
+        if (!analyseNodeResult.node) {
             return cancelClassify(
                 "pages.analysis.classifiedMoveCard.unknownError"
             );

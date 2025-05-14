@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { ToastContainer } from "react-toastify";
 
+import useResizeObserver from "@hooks/useResizeObserver";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import getAnnouncement from "@lib/announcement";
@@ -30,19 +31,13 @@ function PageWrapper({ children }: PageWrapperProps) {
     const topSectionRef = useRef<HTMLDivElement>(null);
     const contentSectionRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (!topSectionRef.current || !contentSectionRef.current) return;
+    useResizeObserver(topSectionRef, size => (
+        setTopSectionHeight(size.fullHeight)
+    ));
 
-        const topSectionResizeObserver = new ResizeObserver(entries => {
-            setTopSectionHeight(entries[0].target.clientHeight);
-        });
-        topSectionResizeObserver.observe(topSectionRef.current);
-
-        const contentSectionResizeObserver = new ResizeObserver(entries => {
-            setContentSectionHeight(entries[0].target.clientHeight);
-        });
-        contentSectionResizeObserver.observe(contentSectionRef.current);
-    }, []);
+    useResizeObserver(contentSectionRef, size => (
+        setContentSectionHeight(size.fullHeight)
+    ));
 
     const { data: announcement, status } = useQuery({
         queryKey: ["announcement"],

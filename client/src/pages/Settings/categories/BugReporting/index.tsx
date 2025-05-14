@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { produce } from "immer";
 
 import useSettingsStore from "@stores/SettingsStore";
 import CheckboxSetting from "@components/settings/CheckboxSetting";
@@ -27,15 +26,13 @@ function BugReporting() {
             </span>
 
             <CheckboxSetting
-                getInitialValue={() => settings.bugReportingMode}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.bugReportingMode = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultChecked={settings.bugReportingMode}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.bugReportingMode = checked;
+                        return draft;
+                    })
+                )}
             />
         </div>
     </div>;

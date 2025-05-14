@@ -12,6 +12,7 @@ import {
 } from "wintrchess";
 import AnalysisTab from "@constants/AnalysisTab";
 import EngineArrowType from "@constants/EngineArrowType";
+import useResizeObserver from "@hooks/useResizeObserver";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
@@ -81,7 +82,7 @@ function AnalysisBoard({
     }, [currentStateTreeNode]);
 
     useEffect(() => {
-        const engineArrowsType = settings.analysis.engineArrows;
+        const engineArrowsType = settings.analysis.engine.suggestionArrows;
 
         if (!engineArrowsType) {
             return setSuggestionArrows([]);
@@ -111,20 +112,14 @@ function AnalysisBoard({
         ]);
     }, [
         currentStateTreeNode,
-        settings.analysis.engineArrows
+        settings.analysis.engine.suggestionArrows
     ]);
 
     const boardRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (!boardRef.current) return;
-
-        const boardResizeObserver = new ResizeObserver(entries => {
-            setAnalysisBoardWidth(entries[0].target.clientWidth);
-        });
-
-        boardResizeObserver.observe(boardRef.current);
-    }, []);
+    useResizeObserver(boardRef, size => (
+        setAnalysisBoardWidth(size.fullWidth)
+    ));
 
     const generatePlayableSquares = useCallback((square: Square) => {
         const legalMoves = new Chess(currentStateTreeNode.state.fen)

@@ -6,13 +6,8 @@ import {
     STARTING_FEN
 } from "wintrchess";
 
-interface EvaluationResult {
-    elapsedTime: number;
-    lines: EngineLine[];
-}
-
 // Convert UCI evaluation types to our ones
-const UCI_EVALUATION_TYPES: Record<string, string | undefined> = {
+const uciEvaluationTypes: Record<string, string | undefined> = {
     cp: "centipawn",
     mate: "mate"
 };
@@ -22,6 +17,7 @@ class Engine {
     private version: EngineVersion;
 
     private position = STARTING_FEN;
+    private evaluating = false;
 
     constructor(version: EngineVersion) {
         this.worker = new Worker("engines/" + version);
@@ -41,7 +37,7 @@ class Engine {
         const worker = this.worker;
         const logMessages: string[] = [];
 
-        return new Promise((resolve, reject) => {
+        return new Promise((res, rej) => {
             function onMessageReceived(event: MessageEvent) {
                 const message = String(event.data);
 
@@ -51,14 +47,14 @@ class Engine {
     
                 if (endCondition(message)) {
                     worker.removeEventListener("message", onMessageReceived);
-                    worker.removeEventListener("error", reject);
+                    worker.removeEventListener("error", rej);
 
-                    resolve(logMessages);
+                    res(logMessages);
                 }
             }
 
             this.worker.addEventListener("message", onMessageReceived);
-            this.worker.addEventListener("error", reject);
+            this.worker.addEventListener("error", rej);
         });
     }
 
@@ -115,7 +111,7 @@ class Engine {
 
             this.position = board.fen();
 
-            return;
+            return this;
         }
 
         this.worker.postMessage(`position fen ${fen}`);
@@ -126,15 +122,15 @@ class Engine {
 
     async evaluate(options: {
         depth: number;
-        maxTime?: number;
+        timeLimit?: number;
         onEngineLine?: (line: EngineLine) => void;
-    }): Promise<EvaluationResult> {
-        const startTime = Date.now();
+    }): Promise<EngineLine[]> {
+        const engineLines: EngineLine[] = [];
 
-        let engineLines: EngineLine[] = [];
+        const maxTimeArgument = options.timeLimit
+            ? `movetime ${options.timeLimit}` : "";
 
-        const maxTimeArgument = options.maxTime
-            ? `movetime ${options.maxTime}` : "";
+        this.evaluating = true;
 
         await this.consumeLogs(
             `go depth ${options.depth} ${maxTimeArgument}`,
@@ -155,7 +151,7 @@ class Engine {
                 // Extract evaluation type and score
                 const scoreMatches = log.match(/ score (cp|mate) (-?\d+)/);
 
-                const evaluationType = UCI_EVALUATION_TYPES[scoreMatches?.[1] || ""];
+                const evaluationType = uciEvaluationTypes[scoreMatches?.[1] || ""];
                 if (
                     evaluationType != "centipawn"
                     && evaluationType != "mate"
@@ -181,10 +177,6 @@ class Engine {
                 }
 
                 // Remove old duplicate line and add new one
-                engineLines = engineLines.filter(line => (
-                    line.depth != depth || line.index != index
-                ));
-
                 const newEngineLine: EngineLine = {
                     depth: depth,
                     index: index,
@@ -200,19 +192,25 @@ class Engine {
                 };
 
                 engineLines.push(newEngineLine);
-
                 options.onEngineLine?.(newEngineLine);
             }
         );
 
-        return {
-            elapsedTime: Date.now() - startTime,
-            lines: engineLines 
-        };
+        this.evaluating = false;
+
+        return engineLines;
     }
 
-    stopEvaluation() {
+    async stopEvaluation() {
         this.worker.postMessage("stop");
+
+        if (this.evaluating) {
+            await this.consumeLogs(
+                "", log => log.includes("bestmove")
+            );
+        }
+
+        this.evaluating = false;
     }
 }
 

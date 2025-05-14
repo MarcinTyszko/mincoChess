@@ -19,7 +19,7 @@ function useSquareRenderer() {
     return forwardRef<HTMLDivElement, CustomSquareProps>(
         ({ style, children, square }, ref) => {
             const classificationsHidden = useSettingsStore(
-                state => state.settings.analysis.hideClassifications
+                state => state.settings.analysis.classifications.hide
             );
 
             const { currentStateTreeNode } = useAnalysisBoardStore();

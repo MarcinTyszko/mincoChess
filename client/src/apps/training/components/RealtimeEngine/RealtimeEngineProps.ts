@@ -1,0 +1,23 @@
+import { CSSProperties } from "react";
+
+import { EngineLine, EngineVersion } from "wintrchess";
+
+interface RealtimeEngineProps {
+    className?: string;
+    style?: CSSProperties;
+    position: string;
+    playedUciMoves?: string[];
+    config: {
+        version: EngineVersion;
+        depth: number;
+        lines?: number;
+        threads?: number;
+        timeLimit?: number;
+    };
+    cachedEngineLines?: EngineLine[];
+    onEngineLines?: (lines: EngineLine[]) => void;
+    onEvaluationStart?: () => void;
+    onEvaluationComplete?: (lines: EngineLine[]) => void;
+}
+
+export default RealtimeEngineProps;

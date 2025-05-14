@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import AccuraciesCardProps from "./AccuraciesCardProps";
 import * as styles from "./AccuraciesCard.module.css";
 
-function AccuraciesCard({ accuracies, estimatedRatings }: AccuraciesCardProps) {
+function AccuraciesCard({ accuracies }: AccuraciesCardProps) {
     const { t } = useTranslation();
 
     return <div className={styles.wrapper}>

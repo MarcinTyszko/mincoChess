@@ -9,7 +9,7 @@ import EvaluationBar from "../../EvaluationBar";
 
 function EvaluationBarArea() {
     const engineEnabled = useSettingsStore(
-        state => state.settings.analysis.engineEnabled
+        state => state.settings.analysis.engine.enabled
     );
 
     const { analysisBoardWidth } = useLayoutStore();

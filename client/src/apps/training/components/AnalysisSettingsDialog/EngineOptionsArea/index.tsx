@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import { produce } from "immer";
 import { floor, clamp } from "lodash";
 
 import { EngineVersion } from "wintrchess";
@@ -57,15 +56,13 @@ function EngineOptionsArea() {
             <span>{t("enabled")}</span>
 
             <CheckboxSetting
-                defaultChecked={settings.analysis.engineEnabled}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engineEnabled = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultChecked={settings.analysis.engine.enabled}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.engine.enabled = checked;
+                        return draft;
+                    })
+                )}
             />
         </span>
 
@@ -84,17 +81,15 @@ function EngineOptionsArea() {
             <DropdownSetting
                 options={engineVersionOptions}
                 defaultValue={engineVersionOptions.find(
-                    option => option.value == settings.analysis.engine
+                    option => option.value == settings.analysis.engine.version
                 )}
                 onSelect={option => {
                     if (!option) return;
 
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engine = option.value;
-                            return draft;
-                        })
-                    ));
+                    setSettings(draft => {
+                        draft.analysis.engine.version = option.value;
+                        return draft;
+                    });
                 }}
                 dropdownStyle={{ width: "180px" }}
             />
@@ -115,17 +110,15 @@ function EngineOptionsArea() {
             <NumberSetting
                 min={10}
                 max={99}
-                defaultValue={settings.analysis.engineDepth}
-                onChange={value => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engineDepth = floor(
-                                clamp(value, 10, 99)
-                            );
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultValue={settings.analysis.engine.depth}
+                onChange={value => (
+                    setSettings(draft => {
+                        draft.analysis.engine.depth = floor(
+                            clamp(value, 10, 99)
+                        );
+                        return draft;
+                    })
+                )}
                 style={{ width: "180px" }}
             />
         </div>
@@ -145,17 +138,15 @@ function EngineOptionsArea() {
             <NumberSetting
                 min={0}
                 max={5}
-                defaultValue={settings.analysis.engineLines}
-                onChange={value => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engineLines = floor(
-                                clamp(value, 1, 5)
-                            );
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultValue={settings.analysis.engine.lines}
+                onChange={value => (
+                    setSettings(draft => {
+                        draft.analysis.engine.lines = floor(
+                            clamp(value, 1, 5)
+                        );
+                        return draft;
+                    })
+                )}
                 style={{ width: "180px" }}
             />
         </div>
@@ -174,30 +165,26 @@ function EngineOptionsArea() {
 
             <div className={styles.subsetting}>
                 <CheckboxSetting
-                    defaultChecked={settings.analysis.engineLimitTime}
-                    onChange={checked => {
-                        setSettings(settings => (
-                            produce(settings, draft => {
-                                draft.analysis.engineLimitTime = checked;
-                                return draft;
-                            })
-                        ));
-                    }}
+                    defaultChecked={settings.analysis.engine.timeLimitEnabled}
+                    onChange={checked => (
+                        setSettings(draft => {
+                            draft.analysis.engine.timeLimitEnabled = checked;
+                            return draft;
+                        })
+                    )}
                 />
 
                 <NumberSetting
                     min={0.01}
-                    defaultValue={settings.analysis.engineMoveTime}
-                    onChange={value => {
-                        setSettings(settings => (
-                            produce(settings, draft => {
-                                draft.analysis.engineMoveTime = floor(
-                                    Math.max(0.01, value), 2
-                                );
-                                return draft;
-                            })
-                        ));
-                    }}
+                    defaultValue={settings.analysis.engine.timeLimit}
+                    onChange={value => (
+                        setSettings(draft => {
+                            draft.analysis.engine.timeLimit = floor(
+                                Math.max(0.01, value), 2
+                            );
+                            return draft;
+                        })
+                    )}
                     style={{ width: "180px" }}
                 />
             </div>
@@ -218,17 +205,15 @@ function EngineOptionsArea() {
             <NumberSetting
                 min={1}
                 max={64}
-                defaultValue={settings.analysis.engineThreadCount}
-                onChange={value => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engineThreadCount = floor(
-                                clamp(value, 1, 64)
-                            );
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultValue={settings.analysis.engine.threads}
+                onChange={value => (
+                    setSettings(draft => {
+                        draft.analysis.engine.threads = floor(
+                            clamp(value, 1, 64)
+                        );
+                        return draft;
+                    })
+                )}
                 style={{ width: "180px" }}
             />
         </div>
@@ -251,19 +236,17 @@ function EngineOptionsArea() {
             </Tooltip>
 
             <DropdownSetting
-                defaultValue={engineArrowsOptions.find(
-                    option => option.value == settings.analysis.engineArrows
-                )}
+                defaultValue={engineArrowsOptions.find(option => (
+                    option.value == settings.analysis.engine.suggestionArrows
+                ))}
                 options={engineArrowsOptions}
                 onSelect={option => {
                     if (!option) return;
 
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.engineArrows = option.value;
-                            return draft;
-                        })
-                    ));
+                    setSettings(draft => {
+                        draft.analysis.engine.suggestionArrows = option.value;
+                        return draft;
+                    });
                 }}
                 dropdownStyle={{ width: "180px" }}
             />

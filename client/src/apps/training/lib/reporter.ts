@@ -30,8 +30,6 @@ export async function analyseStateTree(
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&theory=${String(options?.includeTheory)}`;
 
-    console.log(rootNode);
-
     const reportResponse = await fetch(reportURL, {
         method: "POST",
         headers: {
@@ -46,16 +44,16 @@ export async function analyseStateTree(
         return { status: reportResponse.status };
     }
 
-    const processedAnalysis: GameAnalysis = await reportResponse.json();
+    const gameAnalysis: GameAnalysis = await reportResponse.json();
 
-    processedAnalysis.stateTree = deserializeNode(
-        processedAnalysis.stateTree,
+    gameAnalysis.stateTree = deserializeNode(
+        gameAnalysis.stateTree,
         rootNode
     );
 
     return {
         status: reportResponse.status,
-        gameAnalysis: processedAnalysis
+        gameAnalysis: gameAnalysis
     };
 }
 
@@ -77,10 +75,10 @@ export async function analyseNode(
     parentNode.children = [childlessNode];
 
     const reportResult = await analyseStateTree(parentNode, options);
-    const classifiedNode = reportResult.gameAnalysis?.stateTree.children[0];
+    const analysedNode = reportResult.gameAnalysis?.stateTree.children.at(0);
 
     return {
         status: reportResult.status,
-        node: classifiedNode
+        node: analysedNode
     };
 }

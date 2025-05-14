@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import { produce } from "immer";
 
 import useSettingsStore from "@stores/SettingsStore";
 import CheckboxSetting from "@components/settings/CheckboxSetting";
@@ -33,14 +32,12 @@ function OtherOptionsArea() {
 
             <CheckboxSetting
                 defaultChecked={settings.analysis.simpleNotation}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.simpleNotation = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.simpleNotation = checked;
+                        return draft;
+                    })
+                )}
             />
         </div>
     </>;

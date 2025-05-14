@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useShallow } from "zustand/react/shallow";
 import { Chess } from "chess.js";
 
 import {
@@ -62,9 +63,17 @@ function ClassifiedMoveCard() {
         setCurrentStateTreeNode
     } = useAnalysisBoardStore();
 
-    const realtimeClassifyError = useAnalysisProgressStore(
-        state => state.realtimeClassifyError
+    const {
+        realtimeClassifyError,
+        setRealtimeClassifyError
+    } = useAnalysisProgressStore(
+        useShallow(state => ({
+            realtimeClassifyError: state.realtimeClassifyError,
+            setRealtimeClassifyError: state.setRealtimeClassifyError
+        }))
     );
+
+    useEffect(() => setRealtimeClassifyError(), [node]);
 
     const nearestOpeningName = findNodeRecursively(
         node,
@@ -140,8 +149,7 @@ function ClassifiedMoveCard() {
                 </ErrorMessage>
             }
 
-            {
-                topAlternativeMove
+            {topAlternativeMove
                 && node.state.classification != undefined
                 && topAlternativeMove.san != node.state.move?.san
                 && !inalterableClassifications.includes(node.state.classification)

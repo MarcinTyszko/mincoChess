@@ -17,7 +17,7 @@ interface EvaluateMovesOptions {
     engineVersion: EngineVersion;
     maxEngineCount?: number;
     engineDepth: number;
-    engineMoveTime?: number;
+    engineTimeLimit?: number;
     cloudEngineLines: number;
     engineConfig?: (engine: Engine) => void;
     onProgress?: (progress: number) => void;
@@ -109,7 +109,10 @@ async function evaluateMoves(
             });
         }
 
-        stateTreeNode.state.engineLines.push(...engineLines);
+        stateTreeNode.state.engineLines = [
+            ...stateTreeNode.state.engineLines,
+            ...engineLines
+        ];
 
         progresses.push(1);
         options.onProgress?.(progress());
@@ -159,8 +162,8 @@ async function evaluateMoves(
 
             engine.evaluate({
                 depth: options.engineDepth,
-                maxTime: options.engineMoveTime
-                    ? options.engineMoveTime * 1000
+                timeLimit: options.engineTimeLimit
+                    ? options.engineTimeLimit * 1000
                     : undefined,
                 onEngineLine: line => {
                     // Depth 0 is given for states with no legal moves
@@ -175,12 +178,13 @@ async function evaluateMoves(
 
                     options.onProgress?.(progress());
                 }
-            }).then(result => {
+            }).then(lines => {
                 progresses[currentStateTreeNodeIndex] = 1;
 
-                currentStateTreeNode.state.engineLines.push(
-                    ...result.lines
-                );
+                currentStateTreeNode.state.engineLines = [
+                    ...currentStateTreeNode.state.engineLines,
+                    ...lines
+                ];
 
                 evaluateNextPosition(engine);
             });

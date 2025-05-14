@@ -1,8 +1,9 @@
 import { Chess } from "chess.js";
 import { round, clone, uniqueId, cloneDeep } from "lodash";
 
-import { BoardState, getDisplayedLines } from "./BoardState";
+import { BoardState } from "./BoardState";
 import PieceColour from "@constants/PieceColour";
+import { pickEngineLines } from "./EngineLine";
 
 export interface StateTreeNode {
     id: string;
@@ -24,7 +25,10 @@ export function serializeNode(rootNode: StateTreeNode) {
         // Deep copy board state and strip engine lines
         const stateCopy = cloneDeep(part.state);
 
-        stateCopy.engineLines = getDisplayedLines(stateCopy) || [];
+        stateCopy.engineLines = pickEngineLines(
+            stateCopy.engineLines,
+            { count: 1 }
+        ) || [];
 
         part.state = stateCopy;
 

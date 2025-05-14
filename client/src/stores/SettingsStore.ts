@@ -9,18 +9,22 @@ import LocalStorageKey from "@constants/LocalStorageKey";
 
 const settingsSchema = z.object({
     analysis: z.object({
-        engineEnabled: z.boolean(),
-        engine: z.nativeEnum(EngineVersion),
-        engineDepth: z.number().min(10).max(99),
-        engineLimitTime: z.boolean(),
-        engineMoveTime: z.number().min(0.01),
-        engineLines: z.number().min(1).max(5),
-        engineThreadCount: z.number().min(1).max(64),
-        hideClassifications: z.boolean(),
-        engineArrows: z.nativeEnum(EngineArrowType),
-        includedClassifications: z.object({
-            brilliant: z.boolean(),
-            theory: z.boolean()
+        engine: z.object({
+            enabled: z.boolean(),
+            version: z.nativeEnum(EngineVersion),
+            depth: z.number().min(10).max(99),
+            timeLimitEnabled: z.boolean(),
+            timeLimit: z.number().min(0.01),
+            lines: z.number().min(1).max(5),
+            threads: z.number().min(1).max(64),
+            suggestionArrows: z.nativeEnum(EngineArrowType)
+        }),
+        classifications: z.object({
+            hide: z.boolean(),
+            included: z.object({
+                brilliant: z.boolean(),
+                theory: z.boolean()
+            })
         }),
         simpleNotation: z.boolean()
     }),
@@ -42,18 +46,22 @@ type SettingsReducer = (settings: Settings) => Settings;
 
 export const defaultSettings: Settings = {
     analysis: {
-        engineEnabled: true,
-        engine: EngineVersion.STOCKFISH_17_LITE,
-        engineDepth: 16,
-        engineLines: 2,
-        engineLimitTime: false,
-        engineMoveTime: 1,
-        engineThreadCount: 4,
-        hideClassifications: false,
-        engineArrows: EngineArrowType.DISABLED,
-        includedClassifications: {
-            brilliant: true,
-            theory: true
+        engine: {
+            enabled: true,
+            version: EngineVersion.STOCKFISH_17_LITE,
+            depth: 16,
+            lines: 2,
+            timeLimitEnabled: false,
+            timeLimit: 1,
+            threads: 4,
+            suggestionArrows: EngineArrowType.DISABLED
+        },
+        classifications: {
+            hide: false,
+            included: {
+                brilliant: true,
+                theory: true
+            }
         },
         simpleNotation: false
     },

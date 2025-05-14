@@ -18,7 +18,7 @@ function Move({ node, children }: MoveProps) {
     const onMoveClick = useContext(MoveClickEventContext);
 
     const classificationsHidden = useSettingsStore(
-        state => state.settings.analysis.hideClassifications
+        state => state.settings.analysis.classifications.hide
     );
 
     const {

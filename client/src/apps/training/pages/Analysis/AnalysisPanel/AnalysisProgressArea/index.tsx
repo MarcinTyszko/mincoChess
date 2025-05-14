@@ -22,7 +22,7 @@ function getStatusTitle(status: AnalysisStatus) {
     return statusTitles[status];
 }
 
-function AnalysisProgress() {
+function AnalysisProgressArea() {
     const { t } = useTranslation();
 
     const executeCaptcha = useAltcha();
@@ -77,8 +77,8 @@ function AnalysisProgress() {
             }
 
             const analyseResult = await analyseStateTree(analysisGame.stateTree, {
-                includeBrilliant: settings.includedClassifications.brilliant,
-                includeTheory: settings.includedClassifications.theory
+                includeBrilliant: settings.classifications.included.brilliant,
+                includeTheory: settings.classifications.included.theory
             });
 
             // For any errors, display message or reset CAPTCHA
@@ -111,8 +111,7 @@ function AnalysisProgress() {
                     node => node.id == prev.id
                 ) || prev;
             });
-
-            // Return to inactive analysis state
+            
             setAnalysisStatus(AnalysisStatus.INACTIVE);
         }
 
@@ -122,8 +121,7 @@ function AnalysisProgress() {
     const statusTitle = getStatusTitle(analysisStatus);
 
     return <>
-        {
-            analysisStatus != AnalysisStatus.INACTIVE
+        {analysisStatus != AnalysisStatus.INACTIVE
             && <ProgressReporter
                 progress={evaluationProgress}
                 title={statusTitle ? t(statusTitle) : undefined}
@@ -138,4 +136,4 @@ function AnalysisProgress() {
     </>;
 }
 
-export default AnalysisProgress;
+export default AnalysisProgressArea;

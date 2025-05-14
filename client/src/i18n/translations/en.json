@@ -95,9 +95,10 @@
             },
             "analyseButton": "Analyse",
             "analysisError": "Analysis failed; your device or browser could be outdated.",
-            "engineLines": {
+            "realtimeEngine": {
                 "depth": "Depth:",
-                "checkmate": "Checkmate"
+                "checkmate": "Checkmate",
+                "error": "Failed to evaluate position."
             },
             "stateTreeEditor": {
                 "moveContextMenu": {

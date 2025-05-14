@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { produce } from "immer";
 
 import useSettingsStore from "@stores/SettingsStore";
 import CheckboxSetting from "@components/settings/CheckboxSetting";
@@ -21,15 +20,13 @@ function ClassificationOptionsArea() {
             <span>{t("pages.analysis.settings.classifications.hide")}</span>
 
             <CheckboxSetting
-                defaultChecked={settings.analysis.hideClassifications}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.hideClassifications = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultChecked={settings.analysis.classifications.hide}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.hide = checked;
+                        return draft;
+                    })
+                )}
             />
         </div>
 
@@ -46,15 +43,15 @@ function ClassificationOptionsArea() {
             </div>
 
             <CheckboxSetting
-                defaultChecked={settings.analysis.includedClassifications.brilliant}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.includedClassifications.brilliant = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultChecked={
+                    settings.analysis.classifications.included.brilliant
+                }
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.brilliant = checked;
+                        return draft;
+                    })
+                )}
             />
         </div>
 
@@ -71,15 +68,13 @@ function ClassificationOptionsArea() {
             </div>
 
             <CheckboxSetting
-                defaultChecked={settings.analysis.includedClassifications.theory}
-                onChange={checked => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.analysis.includedClassifications.theory = checked;
-                            return draft;
-                        })
-                    ));
-                }}
+                defaultChecked={settings.analysis.classifications.included.theory}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.theory = checked;
+                        return draft;
+                    })
+                )}
             />
         </div>
     </>;

@@ -30,16 +30,16 @@ function useEvaluateGame() {
             await evaluateMoves(
                 analysisGame,
                 {
-                    engineVersion: settings.analysis.engine,
-                    engineDepth: settings.analysis.engineDepth,
-                    engineMoveTime: settings.analysis.engineLimitTime
-                        ? settings.analysis.engineMoveTime
+                    engineVersion: settings.analysis.engine.version,
+                    engineDepth: settings.analysis.engine.depth,
+                    engineTimeLimit: settings.analysis.engine.timeLimitEnabled
+                        ? settings.analysis.engine.timeLimit
                         : undefined,
-                    cloudEngineLines: Math.max(2, settings.analysis.engineLines),
+                    cloudEngineLines: Math.max(2, settings.analysis.engine.lines),
                     maxEngineCount: 4,
                     engineConfig: engine => {
-                        engine.setLineCount(settings.analysis.engineLines);
-                        engine.setThreadCount(settings.analysis.engineThreadCount);
+                        engine.setLineCount(settings.analysis.engine.lines);
+                        engine.setThreadCount(settings.analysis.engine.threads);
                     },
                     onProgress: progress => {
                         setEvaluationProgress(progress);
