@@ -103,6 +103,7 @@ function RealtimeEngine({
         queueEvaluation();
     }, [
         position,
+        playedUciMoves,
         engine,
         hydratedConfig.depth,
         hydratedConfig.lines

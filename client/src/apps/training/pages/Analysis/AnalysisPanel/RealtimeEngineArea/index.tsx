@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { uniqWith } from "lodash";
 
@@ -37,13 +37,16 @@ function RealtimeEngineArea() {
 
     const considerRealtimeClassify = useRealtimeClassifier();
 
-    return <RealtimeEngine
-        position={initialPosition}
-        playedUciMoves={getNodeParentChain(currentStateTreeNode)
+    const playedUciMoves = useMemo(() => (
+        getNodeParentChain(currentStateTreeNode)
             .reverse()
             .filter(node => node.state.move)
             .map(node => node.state.move!.uci)
-        }
+    ), [currentStateTreeNode]);
+
+    return <RealtimeEngine
+        position={initialPosition}
+        playedUciMoves={playedUciMoves}
         config={{
             ...settings.analysis.engine,
             timeLimit: settings.analysis.engine.timeLimitEnabled
