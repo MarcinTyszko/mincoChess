@@ -26,6 +26,7 @@ export function serializeNode(rootNode: StateTreeNode) {
         const stateCopy = cloneDeep(part.state);
 
         stateCopy.engineLines = pickEngineLines(
+            stateCopy.fen,
             stateCopy.engineLines,
             { count: 1 }
         ) || [];

@@ -3,10 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Chess } from "chess.js";
 import { range } from "lodash";
 
-import {
-    EngineLine,
-    pickEngineLines
-} from "wintrchess";
+import { EngineLine, pickEngineLines } from "wintrchess";
 import ErrorMessage from "@components/common/ErrorMessage";
 import Engine from "@apps/training/lib/engine";
 
@@ -47,34 +44,20 @@ function RealtimeEngine({
 
     const evaluationDelayRef = useRef<Timeout>();
 
-    async function evaluatePosition() {
-        if (!engine) return;
+    const finalPosition = useMemo(() => {
+        const board = new Chess(position);
+        if (!playedUciMoves) return position;
 
-        engine.setPosition(position, playedUciMoves);
-        engine.setLineCount(hydratedConfig.lines);
-        engine.setThreadCount(hydratedConfig.threads);
-
-        try {
-            onEvaluationStart?.();
-
-            const lines = await engine.evaluate({
-                depth: hydratedConfig.depth,
-                timeLimit: (
-                    hydratedConfig.timeLimit
-                    && (hydratedConfig.timeLimit * 1000)
-                ),
-                onEngineLine: line => {
-                    setRealtimeEngineLines(prev => [ ...prev, line ]);
-                }
-            });
-
-            onEvaluationComplete?.(lines);
-        } catch {
-            setEvaluationError(
-                t("pages.analysis.realtimeEngine.error")
-            );
+        for (const uciMove of playedUciMoves) {
+            try {
+                board.move(uciMove);
+            } catch {
+                return position;
+            }
         }
-    }
+
+        return board.fen();
+    }, [position, playedUciMoves]);
 
     // Instantiate new engine when version changes
     useEffect(() => {
@@ -102,21 +85,51 @@ function RealtimeEngine({
 
         queueEvaluation();
     }, [
-        position,
-        playedUciMoves,
+        finalPosition,
         engine,
         hydratedConfig.depth,
         hydratedConfig.lines
     ]);
 
+    async function evaluatePosition() {
+        if (!engine) return;
+
+        engine.setPosition(position, playedUciMoves);
+        engine.setLineCount(hydratedConfig.lines);
+        engine.setThreadCount(hydratedConfig.threads);
+
+        try {
+            setEvaluationError(undefined);
+            onEvaluationStart?.();
+
+            const lines = await engine.evaluate({
+                depth: hydratedConfig.depth,
+                timeLimit: (
+                    hydratedConfig.timeLimit
+                    && (hydratedConfig.timeLimit * 1000)
+                ),
+                onEngineLine: line => {
+                    setRealtimeEngineLines(prev => [ ...prev, line ]);
+                }
+            });
+
+            onEvaluationComplete?.(lines);
+        } catch {
+            setEvaluationError(
+                t("pages.analysis.realtimeEngine.error")
+            );
+        }
+    }
+
     const expectedLineCount = useMemo(() => Math.min(
-        new Chess(position).moves().length,
+        new Chess(finalPosition).moves().length,
         hydratedConfig.lines
-    ), [position, hydratedConfig.lines]);
+    ), [finalPosition, hydratedConfig.lines]);
 
     const displayedLines = useMemo(() => {
         if (cachedEngineLines) {
             const displayedCacheLines = pickEngineLines(
+                finalPosition,
                 cachedEngineLines,
                 {
                     count: hydratedConfig.lines,
@@ -128,10 +141,14 @@ function RealtimeEngine({
             if (displayedCacheLines) return displayedCacheLines;
         }
 
-        return pickEngineLines(realtimeEngineLines, {
-            count: hydratedConfig.lines,
-            source: hydratedConfig.version
-        }) || [];
+        return pickEngineLines(
+            finalPosition,
+            realtimeEngineLines,
+            {
+                count: hydratedConfig.lines,
+                source: hydratedConfig.version
+            }
+        ) || [];
     }, [realtimeEngineLines]);
 
     useEffect(

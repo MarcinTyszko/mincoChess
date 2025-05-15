@@ -58,7 +58,7 @@ function EngineLine({ line }: EngineLineProps) {
                     ? Math.abs(line.evaluation.value / 100).toFixed(2)
                     : (
                         line.evaluation.value == 0
-                            ? t("pages.analysis.engineLines.checkmate")
+                            ? t("pages.analysis.realtimeEngine.checkmate")
                             : `M${Math.abs(line.evaluation.value)}`
                     )
             }

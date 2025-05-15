@@ -1,4 +1,5 @@
-import { uniq } from "lodash";
+import { Chess } from "chess.js";
+import { uniq, maxBy } from "lodash";
 
 import EngineVersion from "@constants/EngineVersion";
 import Evaluation from "./Evaluation";
@@ -27,6 +28,7 @@ export function isEngineLineEqual(line: EngineLine, other: EngineLine) {
  * lines are NOT copied!
  */
 export function pickEngineLines(
+    fen: string,
     lines: EngineLine[],
     targets?: {
         count?: number;
@@ -34,14 +36,21 @@ export function pickEngineLines(
         source?: EngineVersion;
     }
 ) {
-    const {
-        count: targetCount = Infinity,
+    let {
+        count: targetCount,
         depth: targetDepth = 0,
         source: targetSource
     } = targets || {};
 
+    if (targetCount) {
+        targetCount = Math.min(
+            Math.max(new Chess(fen).moves().length, 1),
+            targetCount
+        );
+    }
+
     const depths = uniq(lines
-        .filter(line => line.depth >= targetDepth)
+        .filter(line => line.depth >= targetDepth || line.depth == 0)
         .map(line => line.depth)
         .sort((a, b) => b - a)
     );
@@ -49,7 +58,7 @@ export function pickEngineLines(
     function findLineSet(depth: number, source: EngineVersion) {
         const lineSet: EngineLine[] = [];
 
-        while (lineSet.length < targetCount) {
+        while (!targetCount || lineSet.length < targetCount) {
             const nextLine = lines.find(line => (
                 line.depth == depth
                 && line.source == source
@@ -71,13 +80,14 @@ export function pickEngineLines(
             ))
             .map(source => findLineSet(depth, source));
 
-        const qualifyingLineSet = lineSets.find(
-            lineSet => lineSet.length == targetCount
+        const qualifyingLineSet = maxBy(
+            lineSets, lineSet => lineSet.length
         );
 
-        if (qualifyingLineSet) {
-            return qualifyingLineSet.sort((a, b) => a.index - b.index);
-        }
+        if (
+            qualifyingLineSet
+            && (!targetCount || qualifyingLineSet.length >= targetCount)
+        ) return qualifyingLineSet.sort((a, b) => a.index - b.index);
     }
 
     return null;

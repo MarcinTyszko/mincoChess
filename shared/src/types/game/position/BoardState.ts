@@ -1,9 +1,9 @@
 import { maxBy } from "lodash";
 
 import { EngineLine } from "./EngineLine";
+import Move from "./Move";
 import Classification from "@constants/Classification";
 import PieceColour from "@constants/PieceColour";
-import Move from "./Move";
 
 export interface BoardState {
     fen: string;
