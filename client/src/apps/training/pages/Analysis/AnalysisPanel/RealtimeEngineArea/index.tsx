@@ -45,7 +45,7 @@ function RealtimeEngineArea() {
     ), [currentStateTreeNode]);
 
     return <RealtimeEngine
-        position={initialPosition}
+        initialPosition={initialPosition}
         playedUciMoves={playedUciMoves}
         config={{
             ...settings.analysis.engine,
