@@ -119,11 +119,14 @@ function Move({ node, children }: MoveProps) {
                         label: t("pages.analysis.stateTreeEditor.moveContextMenu.promote"),
                         onSelect: promoteNode
                     },
-                    {
-                        icon: require("@assets/img/interface/help.svg"),
-                        label: "Log state tree node",
-                        onSelect: () => console.log(node)
-                    }
+                    ...(process.env.NODE_ENV == "development"
+                        ? [{
+                            icon: require("@assets/img/interface/help.svg"),
+                            label: "Log state tree node",
+                            onSelect: () => console.log(node)
+                        }]
+                        : []
+                    )
                 ]}
             />
         }

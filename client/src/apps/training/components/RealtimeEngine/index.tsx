@@ -110,7 +110,7 @@ function RealtimeEngine({
     async function evaluatePosition() {
         if (!engine) return;
 
-        engine.setPosition(position, playedUciMoves);
+        engine.setPosition(initialPosition, playedUciMoves);
         engine.setLineCount(hydratedConfig.lines);
         engine.setThreadCount(hydratedConfig.threads);
 
