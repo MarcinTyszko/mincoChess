@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     ResponsiveContainer,
     XAxis,
@@ -59,10 +59,9 @@ function EvaluationGraph({
     className,
     style,
     nodes,
+    selectedIndex,
     onPointClick
 }: EvaluationGraphProps) {
-    const [ selectedPointIndex, setSelectedPointIndex ] = useState(0);
-
     const absoluteHighestValue = max(
         nodes.map(node => Math.abs(
             getTopEngineLine(node.state.engineLines)?.evaluation.value || 0
@@ -93,7 +92,7 @@ function EvaluationGraph({
         )
     ));
 
-    const selectedPoint = dataPoints[selectedPointIndex];
+    const selectedPoint = dataPoints[selectedIndex];
 
     const selectedPointColour = selectedPoint?.state.classification
         ? classificationColours[selectedPoint.state.classification]
@@ -112,10 +111,7 @@ function EvaluationGraph({
                     const payload = event.activePayload?.at(0)?.payload;
                     if (!payload) return;
 
-                    const graphPoint = payload as EvaluationGraphPoint;
-
-                    setSelectedPointIndex(graphPoint.x);
-                    onPointClick?.(graphPoint);
+                    onPointClick?.(payload as EvaluationGraphPoint);
                 }}
             >
                 <XAxis hide dataKey="x"/>

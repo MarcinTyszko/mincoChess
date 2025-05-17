@@ -7,6 +7,7 @@ interface EvaluationGraphProps {
     className?: string;
     style?: CSSProperties;
     nodes: StateTreeNode[];
+    selectedIndex: number;
     onPointClick?: (point: EvaluationGraphPoint) => void;
 }
 
