@@ -12,7 +12,9 @@ function EvaluationBarArea() {
         state => state.settings.analysis.engine.enabled
     );
 
-    const { analysisBoardWidth } = useLayoutStore();
+    const analysisBoardWidth = useLayoutStore(
+        state => state.analysisBoardWidth
+    );
 
     const {
         currentStateTreeNode,

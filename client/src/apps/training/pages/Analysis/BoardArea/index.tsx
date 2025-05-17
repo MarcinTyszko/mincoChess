@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import useResizeObserver from "@hooks/useResizeObserver";
 import useLayoutStore from "@stores/LayoutStore";
@@ -13,7 +14,13 @@ function BoardArea() {
         contentSectionHeight,
         analysisBoardContainerWidth,
         setAnalysisBoardContainerWidth
-    } = useLayoutStore();
+    } = useLayoutStore(
+        useShallow(state => ({
+            contentSectionHeight: state.contentSectionHeight,
+            analysisBoardContainerWidth: state.analysisBoardContainerWidth,
+            setAnalysisBoardContainerWidth: state.setAnalysisBoardContainerWidth
+        }))
+    );
 
     const { analysisGame } = useAnalysisGameStore();
 

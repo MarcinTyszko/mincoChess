@@ -37,7 +37,9 @@ function AnalysisBoard({
     
     const { settings } = useSettingsStore();
 
-    const { setAnalysisBoardWidth } = useLayoutStore();
+    const setAnalysisBoardWidth = useLayoutStore(
+        state => state.setAnalysisBoardWidth
+    );
 
     const {
         gameAnalysisOpen,

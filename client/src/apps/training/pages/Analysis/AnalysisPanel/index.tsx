@@ -1,11 +1,12 @@
 import React, { lazy, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useShallow } from "zustand/react/shallow";
 
 import Breakpoints from "@constants/Breakpoints";
 import AnalysisTab from "@constants/AnalysisTab";
 import useResizeObserver from "@hooks/useResizeObserver";
-import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisTabStore from "@apps/training/stores/AnalysisTabStore";
@@ -25,15 +26,23 @@ const OptionsToolbar = lazy(() => import("@apps/training/components/OptionsToolb
 function AnalysisPanel() {
     const { t } = useTranslation();
 
-    const { settings } = useSettingsStore();
-
     const {
         contentSectionHeight,
         analysisPanelScrollable,
         setAnalysisPanelScrollable
-    } = useLayoutStore();
+    } = useLayoutStore(
+        useShallow(state => ({
+            contentSectionHeight: state.contentSectionHeight,
+            analysisPanelScrollable: state.analysisPanelScrollable,
+            setAnalysisPanelScrollable: state.setAnalysisPanelScrollable
+        }))
+    );
 
-    const { gameAnalysisOpen } = useAnalysisGameStore();
+    const { settings } = useSettingsStore();
+
+    const gameAnalysisOpen = useAnalysisGameStore(
+        state => state.gameAnalysisOpen
+    );
 
     const currentStateTreeNode = useAnalysisBoardStore(
         state => state.currentStateTreeNode

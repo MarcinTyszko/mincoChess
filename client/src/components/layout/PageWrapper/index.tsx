@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { ToastContainer } from "react-toastify";
+import { useShallow } from "zustand/react/shallow";
 
 import useResizeObserver from "@hooks/useResizeObserver";
 import useSettingsStore from "@stores/SettingsStore";
@@ -24,7 +25,13 @@ function PageWrapper({ children }: PageWrapperProps) {
         topSectionHeight,
         setTopSectionHeight,
         setContentSectionHeight
-    } = useLayoutStore();
+    } = useLayoutStore(
+        useShallow(state => ({
+            topSectionHeight: state.topSectionHeight,
+            setTopSectionHeight: state.setTopSectionHeight,
+            setContentSectionHeight: state.setContentSectionHeight
+        }))
+    );
 
     const [ announcementOpen, setAnnouncementOpen ] = useState(true);
 
