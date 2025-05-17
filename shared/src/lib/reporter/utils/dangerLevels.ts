@@ -1,28 +1,33 @@
 import { Chess, Move, ROOK } from "chess.js";
+import { isEqual } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
 import { pieceValues } from "@constants/utils";
+import PieceColour from "@constants/PieceColour";
 import { adaptPieceColour, parseSanMove } from "@lib/chessUtils";
 import { getUnsafePieces } from "./pieceSafety";
-import PieceColour from "@constants/PieceColour";
+import { getAttackingMoves } from "./attackers";
 
 /**
- * @description Returns a list of pieces of higher or equal value to the
- * threatened piece that are unsafe in this position.
+ * @description Returns a list of attacking moves of unsafe pieces of a
+ * given colour that are higher or equal in value to the threatened piece.
  */
-function getRelativeUnsafePieces(
-    threatenedPiece: BoardPiece,
+function relativeUnsafePieceAttacks(
     actionBoard: Chess,
+    threatenedPiece: BoardPiece,
     colour: PieceColour,
     playedMove?: Move
 ) {
-    return getUnsafePieces(
-        actionBoard, colour, playedMove
-    ).filter(piece => (
-        piece.square != threatenedPiece.square
-        && pieceValues[piece.type] >= pieceValues[threatenedPiece.type]
-    ));
+    return getUnsafePieces(actionBoard, colour, playedMove)
+        .filter(unsafePiece => (
+            unsafePiece.square != threatenedPiece.square
+            && pieceValues[unsafePiece.type] >= pieceValues[threatenedPiece.type]
+        ))
+        .map(unsafePiece => (
+            getAttackingMoves(actionBoard, unsafePiece, false)
+        ))
+        .reduce((acc, val) => acc.concat(val), []);
 }
 
 /**
@@ -38,11 +43,13 @@ export function moveCreatesGreaterThreat(
 ) {
     const actionBoard = new Chess(board.fen());
 
-    const previousRelativeUnsafePieces = getRelativeUnsafePieces(
-        threatenedPiece,
+    // Pieces of the acting colour, >= in value to the threatened piece
+    // that are already unsafe even before the acting move is played
+    const previousRelativeAttacks = relativeUnsafePieceAttacks(
         actionBoard,
+        threatenedPiece,
         adaptPieceColour(actingMove.color)
-    ).length;
+    );
 
     try {
         var bakedMove = actionBoard.move(actingMove);
@@ -50,26 +57,30 @@ export function moveCreatesGreaterThreat(
         return true;
     }
 
-    // Sacrifice that if taken leads to greater value being lost
-    const relativeUnsafePieces = getRelativeUnsafePieces(
-        threatenedPiece,
+    // Attacks on unsafe pieces >= in value to threatened piece that
+    // now exist after the acting move has been played
+    const newRelativeAttacks = relativeUnsafePieceAttacks(
         actionBoard,
+        threatenedPiece,
         adaptPieceColour(actingMove.color),
         bakedMove
-    ).length;
+    ).filter(attack => (
+        !previousRelativeAttacks.some(
+            previousAttack => isEqual(previousAttack, attack)
+        )
+    ));
+
+    if (newRelativeAttacks.length > 0) return true;
 
     // Minor piece sacrifice that if taken leads to mate
-    const threatenedPieceValue = pieceValues[threatenedPiece.type];
-
-    const lowValueCheckmatePin = threatenedPieceValue < pieceValues[ROOK]
+    const lowValueCheckmatePin = (
+        pieceValues[threatenedPiece.type] < pieceValues[ROOK]
         && actionBoard.moves().some(
             move => parseSanMove(move).checkmate
-        );
-
-    return (
-        (relativeUnsafePieces > previousRelativeUnsafePieces)
-        || lowValueCheckmatePin
+        )
     );
+
+    return lowValueCheckmatePin;
 }
 
 /**
