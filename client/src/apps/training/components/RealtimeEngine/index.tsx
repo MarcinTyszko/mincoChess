@@ -69,28 +69,39 @@ function RealtimeEngine({
         return () => newEngine.terminate();
     }, [hydratedConfig.version]);
 
-    // Evaluate position when settings or position change
-    useEffect(() => {
-        async function queueEvaluation() {
-            await engine?.stopEvaluation();
-
-            if (evaluationDelayRef.current) {
-                clearTimeout(evaluationDelayRef.current);
-            }
-
-            setRealtimeEngineLines([]);
-
-            evaluationDelayRef.current = setTimeout(evaluatePosition, 400);
-        }
-
-        queueEvaluation();
-    }, [
-        finalPosition,
-        engine,
-        hydratedConfig.depth,
+    // Get number of lines expected to appear
+    const expectedLineCount = useMemo(() => Math.min(
+        new Chess(finalPosition).moves().length,
         hydratedConfig.lines
-    ]);
+    ), [finalPosition, hydratedConfig.lines]);
 
+    // Calculate which lines should be displayed
+    const displayedCacheLines = useMemo(() => pickEngineLines(
+        finalPosition,
+        cachedEngineLines || [],
+        {
+            count: hydratedConfig.lines,
+            depth: hydratedConfig.depth,
+            source: hydratedConfig.version
+        }
+    ), [finalPosition, cachedEngineLines]);
+
+    const displayedLocalLines = useMemo(() => pickEngineLines(
+        finalPosition,
+        realtimeEngineLines,
+        {
+            count: hydratedConfig.lines,
+            source: hydratedConfig.version
+        }
+    ) || [], [realtimeEngineLines]);
+
+    const displayedLines = displayedCacheLines || displayedLocalLines;
+
+    useEffect(() => (
+        onEngineLines?.(displayedLines)
+    ), [displayedLines]);
+
+    // Evaluate position when settings or position change
     async function evaluatePosition() {
         if (!engine) return;
 
@@ -121,40 +132,28 @@ function RealtimeEngine({
         }
     }
 
-    const expectedLineCount = useMemo(() => Math.min(
-        new Chess(finalPosition).moves().length,
-        hydratedConfig.lines
-    ), [finalPosition, hydratedConfig.lines]);
+    useEffect(() => {
+        if (displayedCacheLines) return;
 
-    const displayedLines = useMemo(() => {
-        if (cachedEngineLines) {
-            const displayedCacheLines = pickEngineLines(
-                finalPosition,
-                cachedEngineLines,
-                {
-                    count: hydratedConfig.lines,
-                    depth: hydratedConfig.depth,
-                    source: hydratedConfig.version
-                }
-            );
+        async function queueEvaluation() {
+            await engine?.stopEvaluation();
 
-            if (displayedCacheLines) return displayedCacheLines;
+            if (evaluationDelayRef.current) {
+                clearTimeout(evaluationDelayRef.current);
+            }
+
+            setRealtimeEngineLines([]);
+
+            evaluationDelayRef.current = setTimeout(evaluatePosition, 400);
         }
 
-        return pickEngineLines(
-            finalPosition,
-            realtimeEngineLines,
-            {
-                count: hydratedConfig.lines,
-                source: hydratedConfig.version
-            }
-        ) || [];
-    }, [realtimeEngineLines]);
-
-    useEffect(
-        () => onEngineLines?.(displayedLines),
-        [displayedLines]
-    );
+        queueEvaluation();
+    }, [
+        finalPosition,
+        engine,
+        hydratedConfig.depth,
+        hydratedConfig.lines
+    ]);
 
     return <div
         className={`${styles.wrapper} ${className}`}

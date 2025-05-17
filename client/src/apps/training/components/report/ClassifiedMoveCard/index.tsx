@@ -39,7 +39,7 @@ function getTopAlternativeMove(currentNode: StateTreeNode) {
     if (!currentNode.parent) return;
 
     const bestAlternativeUci = getTopEngineLine(
-        currentNode.parent.state
+        currentNode.parent.state.engineLines
     )?.moves.at(0)?.uci;
 
     if (!bestAlternativeUci) return;

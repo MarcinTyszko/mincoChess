@@ -28,7 +28,8 @@ import * as styles from "./EvaluationGraph.module.css";
 
 const highlightedClassifications: Classification[] = [
     Classification.BRILLIANT,
-    Classification.ONLY,
+    Classification.CRITICAL,
+    Classification.INACCURACY,
     Classification.MISTAKE,
     Classification.BLUNDER
 ];
@@ -64,14 +65,14 @@ function EvaluationGraph({
 
     const absoluteHighestValue = max(
         nodes.map(node => Math.abs(
-            getTopEngineLine(node.state)?.evaluation.value || 0
+            getTopEngineLine(node.state.engineLines)?.evaluation.value || 0
         ))
     ) || 0;
 
     const yAxisPadding = absoluteHighestValue * 0.2;
 
     const dataPoints = nodes.map((node, index) => {
-        const evaluation = getTopEngineLine(node.state)?.evaluation
+        const evaluation = getTopEngineLine(node.state.engineLines)?.evaluation
             || defaultEvaluation;
 
         const graphHeight = (absoluteHighestValue + yAxisPadding) * 2;

@@ -1,12 +1,13 @@
 import { Chess, WHITE } from "chess.js";
 
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { getTopEngineLine } from "@ctypes/game/position/BoardState";
+import { EngineLine, getLineGroupSibling, getTopEngineLine } from "@ctypes/game/position/EngineLine";
 import { RawMove } from "../types/RawMove";
 import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
+import { adaptPieceColour, getSubjectiveEvaluation } from "@lib/chessUtils";
 
 type PieceMovement = Pick<RawMove, "from" | "to" | "promotion">;
 
@@ -18,11 +19,38 @@ function safeMove(fen: string, move: string | PieceMovement) {
     }
 }
 
+function extractSecondTopMove(node: StateTreeNode, topLine: EngineLine) {
+    const secondTopLine = getLineGroupSibling(
+        node.state.engineLines,
+        topLine,
+        2
+    );
+
+    const secondTopMoveSan = secondTopLine?.moves.at(0)?.san;
+
+    const secondTopMove = secondTopMoveSan
+        ? safeMove(node.state.fen, secondTopMoveSan)
+        : undefined;
+
+    const secondSubjectiveEvaluation = secondTopLine?.evaluation
+        && secondTopMove
+        && getSubjectiveEvaluation(
+            secondTopLine.evaluation,
+            adaptPieceColour(secondTopMove.color)
+        );
+
+    return {
+        secondTopLine,
+        secondTopMove,
+        secondSubjectiveEvaluation
+    };
+}
+
 export function extractPreviousStateTreeNode(
     node: StateTreeNode
 ): ExtractedPreviousNode | null {
     // Get top engine line and move in this position
-    const topLine = getTopEngineLine(node.state);
+    const topLine = getTopEngineLine(node.state.engineLines);
     if (!topLine) return null;
 
     const topMoveSan = topLine.moves.at(0)?.san;
@@ -36,9 +64,9 @@ export function extractPreviousStateTreeNode(
         && node.state.move
         && safeMove(node.parent.state.fen, node.state.move.san);
 
-    const subjectiveEvaluationValue = (
-        topLine.evaluation.value
-        * (playedMove?.color == WHITE ? 1 : -1)
+    const subjectiveEvaluation = getSubjectiveEvaluation(
+        topLine.evaluation,
+        adaptPieceColour(playedMove?.color || WHITE)
     );
 
     return {
@@ -46,13 +74,9 @@ export function extractPreviousStateTreeNode(
         state: node.state,
         topLine: topLine,
         topMove: topMove,
+        ...extractSecondTopMove(node, topLine),
         evaluation: topLine.evaluation,
-        subjectiveEvaluation: playedMove?.color
-            ? {
-                type: topLine.evaluation.type,
-                value: subjectiveEvaluationValue
-            }
-            : undefined,
+        subjectiveEvaluation: subjectiveEvaluation,
         playedMove: playedMove
     };
 }
@@ -67,7 +91,7 @@ export function extractCurrentStateTreeNode(
     if (!node.parent) return null;
 
     // Get top engine line and move in this position
-    const topLine = getTopEngineLine(node.state);
+    const topLine = getTopEngineLine(node.state.engineLines);
     if (!topLine) return null;
 
     const topMoveSan = topLine.moves.at(0)?.san;
@@ -83,10 +107,9 @@ export function extractCurrentStateTreeNode(
     const playedMove = safeMove(node.parent.state.fen, playedMoveSan);
     if (!playedMove) return null;
 
-    // Get subjective evaluation
-    const subjectiveEvaluationValue = (
-        topLine.evaluation.value
-        * (playedMove.color == WHITE ? 1 : -1)
+    const subjectiveEvaluation = getSubjectiveEvaluation(
+        topLine.evaluation,
+        adaptPieceColour(playedMove?.color || WHITE)
     );
 
     return {
@@ -94,11 +117,9 @@ export function extractCurrentStateTreeNode(
         state: node.state,
         topLine: topLine,
         topMove: topMove,
+        ...extractSecondTopMove(node, topLine),
         evaluation: topLine.evaluation,
-        subjectiveEvaluation: {
-            type: topLine.evaluation.type,
-            value: subjectiveEvaluationValue
-        },
+        subjectiveEvaluation: subjectiveEvaluation,
         playedMove: playedMove
     };
 }

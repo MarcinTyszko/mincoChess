@@ -1,6 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import { Classification } from "wintrchess";
+import { classificationNames } from "@constants/classifications";
 import useSettingsStore from "@stores/SettingsStore";
 import CheckboxSetting from "@components/settings/CheckboxSetting";
 
@@ -38,7 +40,7 @@ function ClassificationOptionsArea() {
                 />
 
                 <span>
-                    {t("pages.analysis.settings.classifications.brilliant")}
+                    {t(classificationNames[Classification.BRILLIANT])}
                 </span>
             </div>
 
@@ -49,6 +51,31 @@ function ClassificationOptionsArea() {
                 onChange={checked => (
                     setSettings(draft => {
                         draft.analysis.classifications.included.brilliant = checked;
+                        return draft;
+                    })
+                )}
+            />
+        </div>
+
+        <div className={styles.setting}>
+            <div className={styles.subsetting}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/critical.png")}
+                />
+
+                <span>
+                    {t(classificationNames[Classification.CRITICAL])}
+                </span>
+            </div>
+
+            <CheckboxSetting
+                defaultChecked={
+                    settings.analysis.classifications.included.critical
+                }
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.critical = checked;
                         return draft;
                     })
                 )}

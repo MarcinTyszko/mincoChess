@@ -1,6 +1,6 @@
-enum Classification {
+export enum Classification {
     BRILLIANT = "brilliant",
-    ONLY = "only",
+    CRITICAL = "critical",
     BEST = "best",
     EXCELLENT = "excellent",
     OKAY = "okay",
@@ -12,4 +12,16 @@ enum Classification {
     RISKY = "risky"
 }
 
-export default Classification;
+export const classifValues: Record<Classification, number> = {
+    [Classification.BLUNDER]: 0,
+    [Classification.MISTAKE]: 1,
+    [Classification.INACCURACY]: 2,
+    [Classification.RISKY]: 2,
+    [Classification.OKAY]: 3,
+    [Classification.EXCELLENT]: 4,
+    [Classification.BEST]: 5,
+    [Classification.CRITICAL]: 5,
+    [Classification.BRILLIANT]: 5,
+    [Classification.FORCED]: 5,
+    [Classification.THEORY]: 5
+};

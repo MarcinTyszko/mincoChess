@@ -6,7 +6,8 @@ import { RawMove, toRawMove } from "../types/RawMove";
 import {
     adaptPieceColour,
     flipPieceColour,
-    setFenTurn
+    setFenTurn,
+    getCaptureSquare
 } from "@lib/chessUtils";
 
 interface TransitiveAttacker {
@@ -29,15 +30,7 @@ function directAttackingMoves(
 
     const attackingMoves: RawMove[] = attackerBoard
         .moves({ verbose: true })
-        .filter(move => {
-            if (move.isEnPassant()) {
-                const captureSquare = move.to[0] + move.from[1];
-                
-                return captureSquare == piece.square;
-            }
-
-            return move.to == piece.square;
-        })
+        .filter(move => getCaptureSquare(move) == piece.square)
         .map(toRawMove);
 
     const kingAttackerSquare = attackerBoard

@@ -11,6 +11,7 @@ import {
 } from "./utils/extractNode";
 import { getMoveAccuracy } from "./accuracy/moveAccuracy";
 import { classify } from "./classify";
+import { getOpeningName } from "./utils/opening";
 
 export function getGameReport(
     rootNode: StateTreeNode,
@@ -18,7 +19,6 @@ export function getGameReport(
 ): GameAnalysis {
     const treeNodes = getNodeChain(rootNode);
     
-    // Apply classifications and accuracies to moves
     for (const node of treeNodes) {
         try {
             node.state.classification = classify(node, options);
@@ -26,6 +26,8 @@ export function getGameReport(
             console.log(err);
             node.state.classification = undefined;
         }
+
+        node.state.opening = getOpeningName(node.state.fen);
 
         if (!node.parent) continue;
 

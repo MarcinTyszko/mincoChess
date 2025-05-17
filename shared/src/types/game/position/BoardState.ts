@@ -1,8 +1,6 @@
-import { maxBy } from "lodash";
-
 import { EngineLine } from "./EngineLine";
 import Move from "./Move";
-import Classification from "@constants/Classification";
+import { Classification } from "@constants/Classification";
 import PieceColour from "@constants/PieceColour";
 
 export interface BoardState {
@@ -13,14 +11,4 @@ export interface BoardState {
     classification?: Classification;
     accuracy?: number;
     opening?: string;
-}
-
-/**
- * @description Returns the line with the highest depth and lowest index.
- */
-export function getTopEngineLine(state: BoardState) {
-    return maxBy(
-        state.engineLines,
-        line => line.depth - line.index
-    );
 }

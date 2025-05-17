@@ -1,4 +1,7 @@
-import { PieceSymbol } from "chess.js";
+import {
+    PieceSymbol,
+    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
+} from "chess.js";
 import { uniqueId } from "lodash";
 
 import startingLines from "@resources/startingLines.json";
@@ -24,21 +27,21 @@ export const defaultEvaluation: Evaluation = {
 };
 
 export const pieceNames: Record<PieceSymbol, string> = {
-    p: "Pawn",
-    n: "Knight",
-    b: "Bishop",
-    r: "Rook",
-    q: "Queen",
-    k: "King"
+    [PAWN]: "Pawn",
+    [KNIGHT]: "Knight",
+    [BISHOP]: "Bishop",
+    [ROOK]: "Rook",
+    [QUEEN]: "Queen",
+    [KING]: "King"
 };
 
 export const pieceValues: Record<PieceSymbol, number> = { 
-    p: 1,
-    n: 3,
-    b: 3,
-    r: 5,
-    q: 9,
-    k: Infinity
+    [PAWN]: 1,
+    [KNIGHT]: 3,
+    [BISHOP]: 3,
+    [ROOK]: 5,
+    [QUEEN]: 9,
+    [KING]: Infinity
 };
 
 export const lichessCastlingMoves: Record<string, string> = {

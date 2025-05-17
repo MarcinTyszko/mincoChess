@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { sumBy } from "lodash";
 
 import {
@@ -8,7 +9,6 @@ import {
     getNodeChain
 } from "wintrchess";
 import {
-    classifications,
     classificationImages,
     classificationNames,
     classificationColours
@@ -19,12 +19,13 @@ import ClassificationCountCardProps from "./ClassificationCountCardProps";
 import * as styles from "./ClassificationCountCard.module.css";
 
 const excludedClassifications = [
-    Classification.ONLY,
     Classification.FORCED,
     Classification.RISKY
 ];
 
 function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps) {
+    const { t } = useTranslation();
+
     useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
 
     const nodeChain = getNodeChain(analysisGame.stateTree);
@@ -56,16 +57,18 @@ function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps)
                 </th>
             </thead>
 
-            {classifications
+            {Object.values(Classification)
                 .filter(classif => !excludedClassifications.includes(classif))
                 .map(classif => (
                     <tr style={{ color: classificationColours[classif] }}>
                         <td className={styles.classificationNameCell}>
-                            {classificationNames[classif]}
+                            {t(classificationNames[classif])}
                         </td>
     
                         <td className={styles.classificationCountCell}>
-                            {getClassificationCount(nodeChain, PieceColour.WHITE, classif)}
+                            {getClassificationCount(
+                                nodeChain, PieceColour.WHITE, classif
+                            )}
                         </td>
     
                         <td>
@@ -77,7 +80,9 @@ function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps)
                         </td>
     
                         <td className={styles.classificationCountCell}>
-                            {getClassificationCount(nodeChain, PieceColour.BLACK, classif)}
+                            {getClassificationCount(
+                                nodeChain, PieceColour.BLACK, classif
+                            )}
                         </td>
                     </tr>
                 ))

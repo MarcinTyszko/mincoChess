@@ -1,4 +1,4 @@
-import { Chess, Move, PAWN, ROOK, KING } from "chess.js";
+import { Chess, Move, PAWN, KNIGHT, ROOK, KING } from "chess.js";
 import { minBy } from "lodash";
 
 import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
@@ -21,10 +21,10 @@ export function isPieceSafe(
     if (
         playedMove?.captured
         && piece.type == ROOK
-        && pieceValues[playedMove.captured] == 3
+        && pieceValues[playedMove.captured] == pieceValues[KNIGHT]
         && attackers.length == 1
         && defenders.length > 0
-        && pieceValues[attackers[0].type] == 3
+        && pieceValues[attackers[0].type] == pieceValues[KNIGHT]
     ) return true;
 
     // A piece with an attacker of lower value than itself cannot be safe

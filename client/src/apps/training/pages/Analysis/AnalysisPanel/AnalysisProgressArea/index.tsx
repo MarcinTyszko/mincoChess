@@ -1,17 +1,12 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusCodes } from "http-status-codes";
 
-import { findNodeRecursively } from "wintrchess";
-import { useAltcha } from "@hooks/useAltcha";
 import AnalysisStatus from "@constants/AnalysisStatus";
-import useSettingsStore from "@stores/SettingsStore";
-import useAnalysisGameStore from "@apps/training/stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/training/stores/AnalysisSessionStore";
-import { analyseStateTree } from "@apps/training/lib/reporter";
 import ProgressReporter from "@apps/training/components/ProgressReporter";
+
+import useAnalyseGame from "../../useAnalyseGame";
 
 function getStatusTitle(status: AnalysisStatus) {
     const statusTitles: Record<string, string | undefined> = {
@@ -25,23 +20,9 @@ function getStatusTitle(status: AnalysisStatus) {
 function AnalysisProgressArea() {
     const { t } = useTranslation();
 
-    const executeCaptcha = useAltcha();
-
-    const settings = useSettingsStore(state => state.settings.analysis);
-
-    const {
-        analysisGame,
-        setAnalysisGame
-    } = useAnalysisGameStore();
-
-    const setCurrentStateTreeNode = useAnalysisBoardStore(
-        state => state.setCurrentStateTreeNode
-    );
-
     const {
         evaluationProgress,
         analysisStatus,
-        setAnalysisStatus,
         analysisError,
         setAnalysisError
     } = useAnalysisProgressStore();
@@ -50,6 +31,8 @@ function AnalysisProgressArea() {
         analysisSessionToken,
         analysisCaptchaError
     } = useAnalysisSessionStore();
+
+    const analyseGame = useAnalyseGame();
 
     // Tab notification for complete analysis
     useEffect(() => {
@@ -69,54 +52,18 @@ function AnalysisProgressArea() {
 
     // Attempt to classify generated evaluations
     useEffect(() => {
-        async function effect() {
-            if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
+        if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
-            if (analysisCaptchaError) {
-                return setAnalysisError(analysisCaptchaError);
-            }
-
-            const analyseResult = await analyseStateTree(analysisGame.stateTree, {
-                includeBrilliant: settings.classifications.included.brilliant,
-                includeTheory: settings.classifications.included.theory
-            });
-
-            // For any errors, display message or reset CAPTCHA
-            if (analyseResult.status == StatusCodes.UNAUTHORIZED) {
-                return executeCaptcha();
-            } else if (analyseResult.status != StatusCodes.OK) {
-                return setAnalysisError(
-                    t("pages.analysis.progressReporter.classifyFailed")
-                );
-            }
-
-            if (!analyseResult.gameAnalysis) {
-                return setAnalysisStatus(AnalysisStatus.INACTIVE);
-            }
-
-            // Update analysed game with new analysis object
-            setAnalysisGame({
-                ...analysisGame,
-                ...analyseResult.gameAnalysis
-            });
-
-            // Set current state tree node to equivalent in new tree
-            setCurrentStateTreeNode(prev => {
-                if (!analyseResult.gameAnalysis) {
-                    return prev;
-                }
-
-                return findNodeRecursively(
-                    analyseResult.gameAnalysis.stateTree,
-                    node => node.id == prev.id
-                ) || prev;
-            });
-            
-            setAnalysisStatus(AnalysisStatus.INACTIVE);
+        if (analysisCaptchaError) {
+            return setAnalysisError(analysisCaptchaError);
         }
 
-        effect();
-    }, [analysisSessionToken, analysisStatus]);
+        analyseGame();
+    }, [
+        analysisSessionToken,
+        analysisStatus,
+        analysisCaptchaError
+    ]);
 
     const statusTitle = getStatusTitle(analysisStatus);
 
@@ -125,10 +72,9 @@ function AnalysisProgressArea() {
             && <ProgressReporter
                 progress={evaluationProgress}
                 title={statusTitle ? t(statusTitle) : undefined}
-                tooltip={
-                    analysisStatus == AnalysisStatus.EVALUATING
-                        ? t("pages.analysis.progressReporter.evaluatingTooltip")
-                        : t("pages.analysis.progressReporter.captchaTooltip")
+                tooltip={analysisStatus == AnalysisStatus.EVALUATING
+                    ? t("pages.analysis.progressReporter.evaluatingTooltip")
+                    : t("pages.analysis.progressReporter.captchaTooltip")
                 }
                 error={analysisError}
             />

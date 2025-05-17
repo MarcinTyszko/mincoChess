@@ -1,6 +1,6 @@
 export { default as Cookie } from "./constants/Cookie";
 export * from "./constants/PieceColour";
-export { default as Classification } from "./constants/Classification";
+export * from "./constants/Classification";
 
 export * from "./constants/game/GameResult";
 export { default as Variant } from "./constants/game/Variant";

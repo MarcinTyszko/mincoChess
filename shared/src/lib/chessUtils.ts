@@ -155,3 +155,21 @@ export function stringifyEvaluation(
 
     return "M0";
 }
+
+export function getCaptureSquare(move: Move) {
+    return move.isEnPassant()
+        ? (move.to[0] + move.from[1]) as Square
+        : move.to;
+}
+
+export function getSubjectiveEvaluation(
+    evaluation: Evaluation,
+    colour: PieceColour
+): Evaluation {
+    return {
+        type: evaluation.type,
+        value: evaluation.value * (
+            colour == PieceColour.WHITE ? 1 : -1
+        )
+    };
+}

@@ -1,10 +1,29 @@
-import { Chess, ROOK } from "chess.js";
+import { Chess, Move, ROOK } from "chess.js";
 
-import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
+import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
 import { pieceValues } from "@constants/utils";
-import { parseSanMove } from "@lib/chessUtils";
-import { isPieceSafe } from "./pieceSafety";
+import { adaptPieceColour, parseSanMove } from "@lib/chessUtils";
+import { getUnsafePieces } from "./pieceSafety";
+import PieceColour from "@constants/PieceColour";
+
+/**
+ * @description Returns a list of pieces of higher or equal value to the
+ * threatened piece that are unsafe in this position.
+ */
+function getRelativeUnsafePieces(
+    threatenedPiece: BoardPiece,
+    actionBoard: Chess,
+    colour: PieceColour,
+    playedMove?: Move
+) {
+    return getUnsafePieces(
+        actionBoard, colour, playedMove
+    ).filter(piece => (
+        piece.square != threatenedPiece.square
+        && pieceValues[piece.type] >= pieceValues[threatenedPiece.type]
+    ));
+}
 
 /**
  * @description Assuming that a given piece is under threat, act on the threat
@@ -19,6 +38,12 @@ export function moveCreatesGreaterThreat(
 ) {
     const actionBoard = new Chess(board.fen());
 
+    const previousRelativeUnsafePieces = getRelativeUnsafePieces(
+        threatenedPiece,
+        actionBoard,
+        adaptPieceColour(actingMove.color)
+    ).length;
+
     try {
         var bakedMove = actionBoard.move(actingMove);
     } catch {
@@ -26,12 +51,12 @@ export function moveCreatesGreaterThreat(
     }
 
     // Sacrifice that if taken leads to greater value being lost
-    const relativeMaterialPin = getBoardPieces(actionBoard)
-        .filter(piece => piece.color == actingMove.color)
-        .some(piece => (
-            pieceValues[piece.type] >= pieceValues[threatenedPiece.type]
-            && !isPieceSafe(actionBoard, piece, bakedMove)
-        ));
+    const relativeUnsafePieces = getRelativeUnsafePieces(
+        threatenedPiece,
+        actionBoard,
+        adaptPieceColour(actingMove.color),
+        bakedMove
+    ).length;
 
     // Minor piece sacrifice that if taken leads to mate
     const threatenedPieceValue = pieceValues[threatenedPiece.type];
@@ -41,7 +66,10 @@ export function moveCreatesGreaterThreat(
             move => parseSanMove(move).checkmate
         );
 
-    return relativeMaterialPin || lowValueCheckmatePin;
+    return (
+        (relativeUnsafePieces > previousRelativeUnsafePieces)
+        || lowValueCheckmatePin
+    );
 }
 
 /**

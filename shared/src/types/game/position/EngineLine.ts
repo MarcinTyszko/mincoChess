@@ -22,6 +22,29 @@ export function isEngineLineEqual(line: EngineLine, other: EngineLine) {
 }
 
 /**
+ * @description Finds an engine line in a list of lines that is the same
+ * as the reference line but has a specified index.
+ */
+export function getLineGroupSibling(
+    lines: EngineLine[],
+    referenceLine: EngineLine,
+    index: number
+) {
+    return lines.find(line => (
+        line.depth == referenceLine.depth
+        && line.source == referenceLine.source
+        && line.index == index
+    ));
+}
+
+/**
+ * @description Returns the line with the highest depth and lowest index.
+ */
+export function getTopEngineLine(lines: EngineLine[]) {
+    return maxBy(lines, line => line.depth - line.index);
+}
+
+/**
  * @description Returns the best set of engine lines that meet all given
  * criteria, or null if any of the criteria cannot be met. Regardless of
  * target source, Lichess cloud lines will be returned if found. Returned

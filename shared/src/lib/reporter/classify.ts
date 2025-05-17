@@ -1,14 +1,15 @@
-import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import ReportOptions from "./types/ReportOptions";
-import Classification from "@constants/Classification";
+import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
+import { Classification, classifValues } from "@constants/Classification";
 import {
     extractPreviousStateTreeNode,
     extractCurrentStateTreeNode
 } from "./utils/extractNode";
+
+import { getOpeningName } from "./utils/opening";
 import { pointLossClassify } from "./classification/pointLoss";
 import { considerBrilliantClassification } from "./classification/brilliant";
-
-import openings from "@resources/openings.json";
+import { considerCriticalClassification } from "./classification/critical";
 
 export function classify(
     node: StateTreeNode,
@@ -25,8 +26,9 @@ export function classify(
         throw new Error("information missing from current or previous node.");
     }
 
-    const opts: ReportOptions = {
+    const opts: Required<ReportOptions> = {
         includeBrilliant: true,
+        includeCritical: true,
         includeTheory: true,
         ...options
     };
@@ -37,43 +39,31 @@ export function classify(
     }
 
     // Consider theory classification
-    const openingName = (openings as any)[
-        node.state.fen.split(" ")[0]
-    ];
+    const openingName = getOpeningName(current.state.fen);
 
     if (opts.includeTheory && openingName) {
-        node.state.opening = openingName;
-
         return Classification.THEORY;
     }
 
+    const topMovePlayed = previous.topMove.san == current.playedMove.san;
+
     // Point loss classify
-    let classification = previous.topMove.san == current.playedMove.san
+    let classification = topMovePlayed
         ? Classification.BEST
         : pointLossClassify(previous, current);
 
-    // Consider brilliant classification
+    // Consider only and brilliant classification
     if (
-        classification == Classification.BEST
-        && opts.includeBrilliant
+        opts.includeCritical
+        && topMovePlayed
+        && considerCriticalClassification(previous, current)
+    ) classification = Classification.CRITICAL;
+
+    if (
+        opts.includeBrilliant
+        && classifValues[classification] >= classifValues[Classification.BEST]
         && considerBrilliantClassification(previous, current)
-    ) {
-        classification = Classification.BRILLIANT;
-    }
+    ) classification = Classification.BRILLIANT;
 
     return classification;
-}
-
-export function classifyTree(rootNode: StateTreeNode) {
-    const treeNodes = getNodeChain(rootNode, true);
-
-    for (const node of treeNodes) {
-        try {
-            node.state.classification = classify(node);
-        } catch (err) {
-            console.log(err);
-
-            node.state.classification = undefined;
-        }
-    }
 }

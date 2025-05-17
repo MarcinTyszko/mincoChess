@@ -25,11 +25,12 @@ export function serializeNode(rootNode: StateTreeNode) {
         // Deep copy board state and strip engine lines
         const stateCopy = cloneDeep(part.state);
 
-        stateCopy.engineLines = pickEngineLines(
-            stateCopy.fen,
-            stateCopy.engineLines,
-            { count: 1 }
-        ) || [];
+        stateCopy.engineLines = (
+            pickEngineLines(
+                stateCopy.fen,
+                stateCopy.engineLines
+            ) || []
+        ).slice(0, 2);
 
         part.state = stateCopy;
 

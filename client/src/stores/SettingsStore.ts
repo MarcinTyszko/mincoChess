@@ -23,6 +23,7 @@ const settingsSchema = z.object({
             hide: z.boolean(),
             included: z.object({
                 brilliant: z.boolean(),
+                critical: z.boolean(),
                 theory: z.boolean()
             })
         }),
@@ -60,6 +61,7 @@ export const defaultSettings: Settings = {
             hide: false,
             included: {
                 brilliant: true,
+                critical: true,
                 theory: true
             }
         },

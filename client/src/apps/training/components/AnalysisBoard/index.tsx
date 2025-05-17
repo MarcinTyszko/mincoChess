@@ -95,8 +95,8 @@ function AnalysisBoard({
 
         const topLine = getTopEngineLine(
             engineArrowsType == EngineArrowType.TOP_ALTERNATIVE
-                ? currentStateTreeNode.parent!.state
-                : currentStateTreeNode.state
+                ? currentStateTreeNode.parent!.state.engineLines
+                : currentStateTreeNode.state.engineLines
         );
 
         if (!topLine?.moves.length) return;

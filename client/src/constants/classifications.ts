@@ -1,22 +1,8 @@
 import { Classification } from "wintrchess";
 
-export const classifications = [
-    Classification.BRILLIANT,
-    Classification.ONLY,
-    Classification.BEST,
-    Classification.EXCELLENT,
-    Classification.OKAY,
-    Classification.INACCURACY,
-    Classification.MISTAKE,
-    Classification.BLUNDER,
-    Classification.FORCED,
-    Classification.THEORY,
-    Classification.RISKY
-];
-
 export const classificationImages = {
     [Classification.BRILLIANT]: require("@assets/img/classifications/brilliant.png"),
-    [Classification.ONLY]: require("@assets/img/classifications/only.png"),
+    [Classification.CRITICAL]: require("@assets/img/classifications/critical.png"),
     [Classification.BEST]: require("@assets/img/classifications/best.png"),
     [Classification.EXCELLENT]: require("@assets/img/classifications/excellent.png"),
     [Classification.OKAY]: require("@assets/img/classifications/okay.png"),
@@ -38,7 +24,7 @@ export const errorClassificationIcon = require(
 
 export const classificationColours = {
     [Classification.BRILLIANT]: "#1baaa6",
-    [Classification.ONLY]: "#5b8baf",
+    [Classification.CRITICAL]: "#5b8baf",
     [Classification.BEST]: "#98bc49",
     [Classification.EXCELLENT]: "#98bc49",
     [Classification.OKAY]: "#97af8b",
@@ -51,22 +37,22 @@ export const classificationColours = {
 };
 
 export const classificationNames = {
-    [Classification.BRILLIANT]: "Brilliant",
-    [Classification.ONLY]: "Only Move",
-    [Classification.BEST]: "Best",
-    [Classification.EXCELLENT]: "Excellent",
-    [Classification.OKAY]: "Okay",
-    [Classification.INACCURACY]: "Inaccuracy",
-    [Classification.MISTAKE]: "Mistake",
-    [Classification.BLUNDER]: "Blunder",
-    [Classification.FORCED]: "Forced",
-    [Classification.THEORY]: "Theory",
-    [Classification.RISKY]: "Risky"
+    [Classification.BRILLIANT]: "pages.analysis.classifications.brilliant",
+    [Classification.CRITICAL]: "pages.analysis.classifications.critical",
+    [Classification.BEST]: "pages.analysis.classifications.best",
+    [Classification.EXCELLENT]: "pages.analysis.classifications.excellent",
+    [Classification.OKAY]: "pages.analysis.classifications.okay",
+    [Classification.INACCURACY]: "pages.analysis.classifications.inaccuracy",
+    [Classification.MISTAKE]: "pages.analysis.classifications.mistake",
+    [Classification.BLUNDER]: "pages.analysis.classifications.blunder",
+    [Classification.FORCED]: "pages.analysis.classifications.forced",
+    [Classification.THEORY]: "pages.analysis.classifications.theory",
+    [Classification.RISKY]: "pages.analysis.classifications.risky"
 };
 
 export const inalterableClassifications = [
     Classification.BRILLIANT,
-    Classification.ONLY,
+    Classification.CRITICAL,
     Classification.BEST,
     Classification.FORCED,
     Classification.THEORY

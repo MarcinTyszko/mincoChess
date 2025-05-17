@@ -28,6 +28,7 @@ export async function analyseStateTree(
 ): Promise<AnalyseGameResult> {
     const reportURL = "/api/analysis/report"
         + `?brilliant=${String(options?.includeBrilliant)}`
+        + `&critical=${String(options?.includeCritical)}`
         + `&theory=${String(options?.includeTheory)}`;
 
     const reportResponse = await fetch(reportURL, {

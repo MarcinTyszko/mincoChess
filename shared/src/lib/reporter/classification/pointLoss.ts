@@ -4,7 +4,7 @@ import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import Classification from "@constants/Classification";
+import { Classification } from "@constants/Classification";
 import { adaptPieceColour } from "@lib/chessUtils";
 import { getExpectedPointsLoss } from "../expectedPoints";
 
@@ -101,7 +101,7 @@ export function pointLossClassify(
         return Classification.OKAY;
     } else if (pointLoss < 0.12) {
         return Classification.INACCURACY;
-    } else if (pointLoss < 0.24) {
+    } else if (pointLoss < 0.22) {
         return Classification.MISTAKE;
     } else {
         return Classification.BLUNDER;

@@ -32,8 +32,10 @@ export function isPieceTrapped(
 
         const escapeBoard = new Chess(calibratedBoard.fen());
 
-        const escapeMoveDangerLevels = dangerLevels
-            && moveCreatesGreaterThreat(escapeBoard, piece, move);
+        if (
+            dangerLevels
+            && moveCreatesGreaterThreat(escapeBoard, piece, move)
+        ) return true;
 
         const escapeMove = escapeBoard.move(move);
 
@@ -43,7 +45,7 @@ export function isPieceTrapped(
             escapeMove
         );
 
-        return !escapedPieceSafety || escapeMoveDangerLevels;
+        return !escapedPieceSafety;
     });
 
     return !standingPieceSafety && allMovesUnsafe;

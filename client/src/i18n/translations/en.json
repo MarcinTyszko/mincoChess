@@ -124,7 +124,7 @@
                 "captchaVerifyFailed": "Could not verify the CAPTCHA; try refreshing the page.",
                 "captchaLoadFailed": "Could not load the CAPTCHA. Your browser is likely outdated.",
                 "captchaUnknownError": "Unknown CAPTCHA error; try refreshing the page.",
-                "classifyFailed": "Unknown error while generating the game report; try refreshing the page.",
+                "reportFailed": "Unknown error while generating the game report; try refreshing the page.",
                 "completeNotification": "Analysis Complete"
             },
             "analysisTabBar": {
@@ -139,7 +139,7 @@
                 "insufficientLines": "Make sure the previous move is fully evaluated for a classification.",
                 "classifications": {
                     "brilliant": "is brilliant",
-                    "only": "is the only good move",
+                    "critical": "is the only good move",
                     "best": "is the best move",
                     "excellent": "is excellent",
                     "okay": "is an okay move",
@@ -151,6 +151,19 @@
                     "risky": "is a risky idea"
                 },
                 "alternative": "The best move was"
+            },
+            "classifications": {
+                "brilliant": "Brilliant",
+                "critical": "Critical",
+                "best": "Best",
+                "excellent": "Excellent",
+                "okay": "Okay",
+                "inaccuracy": "Inaccuracy",
+                "mistake": "Mistake",
+                "blunder": "Blunder",
+                "forced": "Forced",
+                "theory": "Theory",
+                "risky": "Risky"
             }
         },
         "news": {

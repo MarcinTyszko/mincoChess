@@ -29,6 +29,7 @@ router.post(path, async (req, res) => {
     try {
         const gameReport = getGameReport(stateTree, {
             includeBrilliant: req.query.brilliant == "true",
+            includeCritical: req.query.critical == "true",
             includeTheory: req.query.theory == "true"
         });
         
