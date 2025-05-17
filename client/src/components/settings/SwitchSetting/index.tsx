@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Switch from "react-switch";
 
-import CheckboxSettingProps from "./CheckboxSettingProps";
+import SwitchSettingProps from "./SwitchSettingProps";
 
-function CheckboxSetting({
+function SwitchSetting({
     defaultChecked,
+    disabled,
     onChange
-}: CheckboxSettingProps) {
+}: SwitchSettingProps) {
     const [ checked, setChecked ] = useState(defaultChecked);
 
     return <Switch
@@ -20,7 +21,8 @@ function CheckboxSetting({
         offColor="#2c2f35"
         uncheckedIcon={false}
         checkedIcon={false}
+        disabled={disabled}
     />;
 }
 
-export default CheckboxSetting;
+export default SwitchSetting;

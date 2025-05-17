@@ -8,7 +8,7 @@ import Loader from "@components/common/Loader";
 import Separator from "@components/common/Separator";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import ArticleListing from "@components/ArticleListing";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
@@ -122,23 +122,20 @@ function News() {
         <Separator/>
 
         <div className={styles.articles}>
-            {
-                status == "pending"
+            {status == "pending"
                 && <Loader style={{ margin: "20px 0" }} />
             }
 
-            {
-                status == "success"
+            {status == "success"
                 && newsArticles.map(
                     article => <ArticleListing article={article}/>
                 )
             }
 
-            {
-                status == "error"
-                && <ErrorMessage>
+            {status == "error"
+                && <LogMessage>
                     {t("pages.news.error")}
-                </ErrorMessage>
+                </LogMessage>
             }
         </div>
 

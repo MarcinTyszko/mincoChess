@@ -6,9 +6,10 @@ import { floor, clamp } from "lodash";
 import { EngineVersion } from "wintrchess";
 import EngineArrowType from "@constants/EngineArrowType";
 import useSettingsStore from "@stores/SettingsStore";
+import LogMessage from "@components/common/LogMessage";
 import DropdownSetting from "@components/settings/DropdownSetting";
 import NumberSetting from "@components/settings/NumberSetting";
-import CheckboxSetting from "@components/settings/CheckboxSetting";
+import SwitchSetting from "@components/settings/SwitchSetting";
 
 import * as styles from "../AnalysisSettingsDialog.module.css";
 
@@ -55,7 +56,7 @@ function EngineOptionsArea() {
         <span className={styles.setting}>
             <span>{t("enabled")}</span>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={settings.analysis.engine.enabled}
                 onChange={checked => (
                     setSettings(draft => {
@@ -151,6 +152,12 @@ function EngineOptionsArea() {
             />
         </div>
 
+        {settings.analysis.engine.lines < 2
+            && <LogMessage theme="warn">
+                {t("pages.analysis.settings.engine.linesWarning")}
+            </LogMessage>
+        }
+
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-time-limit">
                 {t("pages.analysis.settings.engine.timeLimit")}
@@ -164,7 +171,7 @@ function EngineOptionsArea() {
             />
 
             <div className={styles.subsetting}>
-                <CheckboxSetting
+                <SwitchSetting
                     defaultChecked={settings.analysis.engine.timeLimitEnabled}
                     onChange={checked => (
                         setSettings(draft => {

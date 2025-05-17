@@ -4,7 +4,7 @@ import { Chess } from "chess.js";
 import { range } from "lodash";
 
 import { EngineLine, pickEngineLines } from "wintrchess";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import Engine from "@apps/training/lib/engine";
 
 import EngineLineInfo from "./EngineLine";
@@ -187,9 +187,9 @@ function RealtimeEngine({
         }
 
         {evaluationError
-            && <ErrorMessage>
+            && <LogMessage>
                 {evaluationError}
-            </ErrorMessage>
+            </LogMessage>
         }
     </div>;
 }

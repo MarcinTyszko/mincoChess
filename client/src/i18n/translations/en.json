@@ -47,6 +47,7 @@
                     "version": "Version",
                     "depth": "Depth",
                     "lines": "Number of Lines",
+                    "linesWarning": "At least 2 lines are required for Critical and some Brilliant moves.",
                     "timeLimit": "Time Limit (seconds)",
                     "threadCount": "Threads",
                     "suggestionArrows": "Suggestion Arrows"

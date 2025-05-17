@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 
 import useSettingsStore from "@stores/SettingsStore";
-import CheckboxSetting from "@components/settings/CheckboxSetting";
+import SwitchSetting from "@components/settings/SwitchSetting";
 
 import * as styles from "../AnalysisSettingsDialog.module.css";
 
@@ -30,7 +30,7 @@ function OtherOptionsArea() {
                 {t("pages.analysis.settings.other.descriptions.simpleNotation")}
             </Tooltip>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={settings.analysis.simpleNotation}
                 onChange={checked => (
                     setSettings(draft => {

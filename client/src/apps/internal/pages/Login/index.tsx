@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
+import Button from "@components/common/Button";
 import TextField from "@components/common/TextField";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 
 import * as styles from "./Login.module.css";
 
@@ -52,21 +52,16 @@ function Login() {
         />
 
         <Button
-            style={{
-                backgroundColor: ButtonColour.BLUE
-            }}
+            style={{ backgroundColor: ButtonColour.BLUE }}
             onClick={login}
         >
             Login
         </Button>
 
-        {
-            error
-            && <ErrorMessage
-                style={{ maxWidth: "400px" }}
-            >
+        {error
+            && <LogMessage style={{ maxWidth: "400px" }}>
                 {error}
-            </ErrorMessage>
+            </LogMessage>
         }
     </div>;
 }

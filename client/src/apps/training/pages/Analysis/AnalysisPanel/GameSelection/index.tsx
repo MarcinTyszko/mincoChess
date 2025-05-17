@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import useGameSelector from "@hooks/useGameSelector";
 import GameSelector from "@apps/training/components/GameSelector";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 
 import useImportGame from "../../useImportGame";
 import useEvaluateGame from "../../useEvaluateGame";
@@ -43,9 +43,9 @@ function GameSelection() {
         }
 
         {importError
-            && <ErrorMessage>
+            && <LogMessage>
                 {importError}
-            </ErrorMessage>
+            </LogMessage>
         }
     </>;
 }

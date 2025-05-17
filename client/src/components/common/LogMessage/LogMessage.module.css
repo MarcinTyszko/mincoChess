@@ -1,13 +1,10 @@
 .wrapper {
     display: flex;
     gap: 5px;
-
-    padding: 5px;
+    padding: 5px 8px;
     text-align: center;
 
-    background-color: rgba(239, 65, 70, 0.4);
-    border-radius: 10px;
-    
+    border-radius: 10px;    
     color: white;
 }
 

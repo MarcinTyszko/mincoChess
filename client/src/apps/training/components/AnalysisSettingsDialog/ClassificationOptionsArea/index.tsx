@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Classification } from "wintrchess";
 import { classificationNames } from "@constants/classifications";
 import useSettingsStore from "@stores/SettingsStore";
-import CheckboxSetting from "@components/settings/CheckboxSetting";
+import SwitchSetting from "@components/settings/SwitchSetting";
 
 import * as styles from "../AnalysisSettingsDialog.module.css";
 
@@ -21,7 +21,7 @@ function ClassificationOptionsArea() {
         <div className={styles.setting}>
             <span>{t("pages.analysis.settings.classifications.hide")}</span>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={settings.analysis.classifications.hide}
                 onChange={checked => (
                     setSettings(draft => {
@@ -44,7 +44,7 @@ function ClassificationOptionsArea() {
                 </span>
             </div>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={
                     settings.analysis.classifications.included.brilliant
                 }
@@ -69,10 +69,11 @@ function ClassificationOptionsArea() {
                 </span>
             </div>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={
                     settings.analysis.classifications.included.critical
                 }
+                disabled={settings.analysis.engine.lines < 2}
                 onChange={checked => (
                     setSettings(draft => {
                         draft.analysis.classifications.included.critical = checked;
@@ -94,7 +95,7 @@ function ClassificationOptionsArea() {
                 </span>
             </div>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={settings.analysis.classifications.included.theory}
                 onChange={checked => (
                     setSettings(draft => {

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import useSettingsStore from "@stores/SettingsStore";
-import CheckboxSetting from "@components/settings/CheckboxSetting";
+import SwitchSetting from "@components/settings/SwitchSetting";
 
 import * as categoryStyles from "../Category.module.css";
 
@@ -25,7 +25,7 @@ function BugReporting() {
                 {t("pages.settings.categories.bugReporting.bugReportingMode")}
             </span>
 
-            <CheckboxSetting
+            <SwitchSetting
                 defaultChecked={settings.bugReportingMode}
                 onChange={checked => (
                     setSettings(draft => {

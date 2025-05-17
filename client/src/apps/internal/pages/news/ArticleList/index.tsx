@@ -7,7 +7,7 @@ import Loader from "@components/common/Loader";
 import Button from "@components/common/Button";
 import ButtonColour from "@constants/ButtonColour";
 import ArticleListing from "@components/ArticleListing";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
@@ -67,13 +67,11 @@ function ArticleList() {
         </Button>
 
         <div className={styles.articles}>
-            {
-                status == "pending"
+            {status == "pending"
                 && <Loader style={{ margin: "20px 0" }} />
             }
 
-            {
-                status == "success"
+            {status == "success"
                 && newsArticles.map(article => (
                     <ArticleListing
                         article={article}
@@ -83,11 +81,10 @@ function ArticleList() {
                 ))
             }
 
-            {
-                status == "error"
-                && <ErrorMessage>
+            {status == "error"
+                && <LogMessage>
                     {error.message}
-                </ErrorMessage>
+                </LogMessage>
             }
         </div>
 

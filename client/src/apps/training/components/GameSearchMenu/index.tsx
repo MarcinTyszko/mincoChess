@@ -10,7 +10,7 @@ import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/errors";
 import Dialog from "@components/common/Dialog";
 import Loader from "@components/common/Loader";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import MonthSelector from "@components/common/MonthSelector";
 import GameListing from "@components/common/GameListing";
 
@@ -119,15 +119,13 @@ function GameSearchMenu({
         />
 
         <div className={styles.list}>
-            {
-                status == "error" && fetchStatus == "idle"
-                && <ErrorMessage>
+            {status == "error" && fetchStatus == "idle"
+                && <LogMessage>
                     {t(error.message)}
-                </ErrorMessage>
+                </LogMessage>
             }
 
-            {
-                fetchStatus == "fetching"
+            {fetchStatus == "fetching"
                 && <div className={styles.loadingMessage}>
                     <Loader/>
                     
@@ -144,8 +142,7 @@ function GameSearchMenu({
                 </div>
             }
 
-            {
-                status == "success" && fetchStatus == "idle"
+            {status == "success" && fetchStatus == "idle"
                 && (games.length > 0 ?
                     games
                         .slice()

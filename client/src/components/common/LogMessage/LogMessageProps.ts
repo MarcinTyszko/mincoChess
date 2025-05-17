@@ -1,9 +1,12 @@
 import { CSSProperties, ReactNode } from "react";
 
-interface ErrorMessageProps {
+import LogMessageTheme from "./Theme";
+
+interface LogMessageProps {
     children?: ReactNode;
     style?: CSSProperties;
+    theme?: LogMessageTheme;
     includeIcon?: boolean;
 }
 
-export default ErrorMessageProps;
+export default LogMessageProps;

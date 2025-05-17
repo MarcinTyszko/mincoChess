@@ -21,7 +21,7 @@ import {
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/training/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/training/stores/AnalysisProgressStore";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./ClassifiedMoveCard.module.css";
@@ -144,9 +144,9 @@ function ClassifiedMoveCard() {
             </div>
 
             {realtimeClassifyError
-                && <ErrorMessage style={{ marginTop: "5px" }}>
+                && <LogMessage style={{ marginTop: "5px" }}>
                     {t(realtimeClassifyError)}
-                </ErrorMessage>
+                </LogMessage>
             }
 
             {topAlternativeMove

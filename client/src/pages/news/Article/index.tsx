@@ -7,7 +7,7 @@ import ReactMarkdown from "react-markdown";
 
 import { formatDate } from "wintrchess";
 import Loader from "@components/common/Loader";
-import ErrorMessage from "@components/common/ErrorMessage";
+import LogMessage from "@components/common/LogMessage";
 import { getNewsArticle } from "@lib/newsArticles";
 
 import * as styles from "./Article.module.css";
@@ -33,8 +33,7 @@ function Article() {
 
     return <div className={styles.wrapper}>
         <div className={styles.articleContainer}>
-            {
-                status == "pending"
+            {status == "pending"
                 && <div className={styles.articleLoaderContainer}>
                     <Loader/>
 
@@ -42,8 +41,7 @@ function Article() {
                 </div>
             }
 
-            {
-                article
+            {article
                 && <>
                     <div
                         className={styles.tag}
@@ -80,11 +78,10 @@ function Article() {
             }
         </div>
 
-        {
-            status == "error"
-            && <ErrorMessage>
+        {status == "error"
+            && <LogMessage>
                 {t("pages.news.article.error")}
-            </ErrorMessage>
+            </LogMessage>
         }
     </div>;
 }
