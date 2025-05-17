@@ -5,7 +5,7 @@ import { EngineLine, EngineVersion } from "wintrchess";
 interface RealtimeEngineProps {
     className?: string;
     style?: CSSProperties;
-    position: string;
+    initialPosition: string;
     playedUciMoves?: string[];
     config: {
         version: EngineVersion;

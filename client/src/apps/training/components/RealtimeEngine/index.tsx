@@ -17,7 +17,7 @@ type Timeout = ReturnType<typeof setTimeout>;
 function RealtimeEngine({
     className,
     style,
-    position,
+    initialPosition,
     playedUciMoves,
     config,
     cachedEngineLines,
@@ -44,20 +44,20 @@ function RealtimeEngine({
 
     const evaluationDelayRef = useRef<Timeout>();
 
-    const finalPosition = useMemo(() => {
-        const board = new Chess(position);
-        if (!playedUciMoves) return position;
+    const position = useMemo(() => {
+        const board = new Chess(initialPosition);
+        if (!playedUciMoves) return initialPosition;
 
         for (const uciMove of playedUciMoves) {
             try {
                 board.move(uciMove);
             } catch {
-                return position;
+                return initialPosition;
             }
         }
 
         return board.fen();
-    }, [position, playedUciMoves]);
+    }, [initialPosition, playedUciMoves]);
 
     // Instantiate new engine when version changes
     useEffect(() => {
@@ -71,23 +71,29 @@ function RealtimeEngine({
 
     // Get number of lines expected to appear
     const expectedLineCount = useMemo(() => Math.min(
-        new Chess(finalPosition).moves().length,
+        new Chess(position).moves().length,
         hydratedConfig.lines
-    ), [finalPosition, hydratedConfig.lines]);
+    ), [position, hydratedConfig.lines]);
 
     // Calculate which lines should be displayed
     const displayedCacheLines = useMemo(() => pickEngineLines(
-        finalPosition,
+        position,
         cachedEngineLines || [],
         {
             count: hydratedConfig.lines,
             depth: hydratedConfig.depth,
             source: hydratedConfig.version
         }
-    ), [finalPosition, cachedEngineLines]);
+    ), [
+        position,
+        cachedEngineLines,
+        hydratedConfig.lines,
+        hydratedConfig.depth,
+        hydratedConfig.version
+    ]);
 
     const displayedLocalLines = useMemo(() => pickEngineLines(
-        finalPosition,
+        position,
         realtimeEngineLines,
         {
             count: hydratedConfig.lines,
@@ -101,7 +107,6 @@ function RealtimeEngine({
         onEngineLines?.(displayedLines)
     ), [displayedLines]);
 
-    // Evaluate position when settings or position change
     async function evaluatePosition() {
         if (!engine) return;
 
@@ -132,6 +137,7 @@ function RealtimeEngine({
         }
     }
 
+    // Evaluate position when settings or position change
     useEffect(() => {
         if (displayedCacheLines) return;
 
@@ -149,7 +155,7 @@ function RealtimeEngine({
 
         queueEvaluation();
     }, [
-        finalPosition,
+        position,
         engine,
         hydratedConfig.depth,
         hydratedConfig.lines
