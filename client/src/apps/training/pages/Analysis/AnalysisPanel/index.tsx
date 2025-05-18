@@ -1,6 +1,5 @@
 import React, { lazy, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useShallow } from "zustand/react/shallow";
 
 import Breakpoints from "@constants/Breakpoints";
 import AnalysisTab from "@constants/AnalysisTab";
@@ -30,13 +29,7 @@ function AnalysisPanel() {
         contentSectionHeight,
         analysisPanelScrollable,
         setAnalysisPanelScrollable
-    } = useLayoutStore(
-        useShallow(state => ({
-            contentSectionHeight: state.contentSectionHeight,
-            analysisPanelScrollable: state.analysisPanelScrollable,
-            setAnalysisPanelScrollable: state.setAnalysisPanelScrollable
-        }))
-    );
+    } = useLayoutStore();
 
     const { settings } = useSettingsStore();
 
