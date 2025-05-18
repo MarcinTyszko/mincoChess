@@ -13,7 +13,7 @@ import ClassifiedMoveCard from "@apps/training/components/report/ClassifiedMoveC
 import StateTreeTraverser from "@apps/training/components/StateTreeTraverser";
 
 import AnalysisTabBar from "./AnalysisTabBar";
-import AnalysisProgressArea from "./AnalysisProgressArea";
+import AnalysisProgress from "./AnalysisProgress";
 import RealtimeEngineArea from "./RealtimeEngineArea";
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
@@ -70,7 +70,7 @@ function AnalysisPanel() {
 
         {gameAnalysisOpen && <AnalysisTabBar/>}
 
-        <AnalysisProgressArea/>
+        <AnalysisProgress/>
 
         {gameAnalysisOpen && <RealtimeEngineArea/>}
 
@@ -92,14 +92,19 @@ function AnalysisPanel() {
             : <GameSelection/>
         }
 
+        {/* <Advertisement
+            adUnitId="3904113611"
+            format={innerWidth > Breakpoints.MOBILE_LAYOUT
+                ? "rectangle" : "horizontal"
+            }
+        /> */}
+
         <StateTreeTraverser style={{
             position: "fixed",
             width: treeTraverserWidth,
             bottom: "10px",
             right: innerWidth > Breakpoints.MOBILE_LAYOUT
-                ? (
-                    analysisPanelScrollable ? "20px" : "10px"
-                )
+                ? (analysisPanelScrollable ? "20px" : "10px")
                 : `calc(50vw - (${treeTraverserWidth}px / 2))`
         }}/>
 

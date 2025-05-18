@@ -17,7 +17,7 @@ function getStatusTitle(status: AnalysisStatus) {
     return statusTitles[status];
 }
 
-function AnalysisProgressArea() {
+function AnalysisProgress() {
     const { t } = useTranslation();
 
     const {
@@ -67,19 +67,17 @@ function AnalysisProgressArea() {
 
     const statusTitle = getStatusTitle(analysisStatus);
 
-    return <>
-        {analysisStatus != AnalysisStatus.INACTIVE
-            && <ProgressReporter
-                progress={evaluationProgress}
-                title={statusTitle ? t(statusTitle) : undefined}
-                tooltip={analysisStatus == AnalysisStatus.EVALUATING
-                    ? t("pages.analysis.progressReporter.evaluatingTooltip")
-                    : t("pages.analysis.progressReporter.captchaTooltip")
-                }
-                error={analysisError}
-            />
+    if (analysisStatus == AnalysisStatus.INACTIVE) return null;
+
+    return <ProgressReporter
+        progress={evaluationProgress}
+        title={statusTitle ? t(statusTitle) : undefined}
+        tooltip={analysisStatus == AnalysisStatus.EVALUATING
+            ? t("pages.analysis.progressReporter.evaluatingTooltip")
+            : t("pages.analysis.progressReporter.captchaTooltip")
         }
-    </>;
+        error={analysisError}
+    />;
 }
 
-export default AnalysisProgressArea;
+export default AnalysisProgress;
