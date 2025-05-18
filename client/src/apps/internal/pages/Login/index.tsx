@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ButtonColour from "@constants/ButtonColour";
+import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
 import TextField from "@components/common/TextField";
 import LogMessage from "@components/common/LogMessage";

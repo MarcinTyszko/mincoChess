@@ -5,10 +5,10 @@ import { toast } from "react-toastify";
 
 import { Announcement } from "wintrchess";
 import fetchAnnouncement from "@lib/announcement";
-import AnnouncementBanner from "@components/layout/Announcement";
-import ColourSwatch from "@components/common/ColourSwatch";
+import AnnouncementBanner from "@components/Announcement";
+import ColourSwatch from "@components/settings/ColourSwatch";
 import Button from "@components/common/Button";
-import ButtonColour from "@constants/ButtonColour";
+import ButtonColour from "@components/common/Button/Colour";
 import ConfirmDialog from "@components/common/ConfirmDialog";
 import TextField from "@components/common/TextField";
 

@@ -86,3 +86,10 @@
     flex-wrap: wrap;
     padding: 0 5px;
 }
+
+.footerLink {
+    margin: 10px 0;
+
+    font-size: 0.85rem;
+    color: white;
+}

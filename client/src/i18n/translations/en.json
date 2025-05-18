@@ -222,6 +222,10 @@
             "translators": "Translators"
         }
     },
+    "confirmDialog": {
+        "yes": "Yes",
+        "no": "No"
+    },
     "gameListing": {
         "copyPGN": "Copy PGN",
         "copyPGNToast": "Copied PGN!",

@@ -13,7 +13,7 @@ function Loader({ size, colour, spinTime, style }: LoaderProps) {
             animationDuration: spinTime,
             ...style
         }}
-    ></div>;
+    />;
 }
 
 export default Loader;

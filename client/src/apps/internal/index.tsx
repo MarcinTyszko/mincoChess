@@ -14,8 +14,6 @@ const AnnouncementEditor = lazy(() => import("./pages/AnnouncementEditor"));
 const ArticleList = lazy(() => import("./pages/news/ArticleList"));
 const ArticleEditor = lazy(() => import("./pages/news/ArticleEditor"));
 
-const Unfound = lazy(() => import("@pages/Unfound"));
-
 import "../../index.css";
 
 const root = ReactDOM.createRoot(
@@ -44,8 +42,7 @@ root.render(<BrowserRouter>
 
                 <Route path="/internal" element={
                     <Navigate to={"/internal/login"} />
-                } />
-                <Route path="*" element={<Unfound/>} />
+                }/>
             </Routes>
         </Suspense>
     </QueryClientProvider>

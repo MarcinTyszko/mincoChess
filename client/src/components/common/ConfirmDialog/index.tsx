@@ -1,7 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../Button";
-import ButtonColour from "@constants/ButtonColour";
+import ButtonColour from "@components/common/Button/Colour";
 
 import ConfirmDialogProps from "./ConfirmDialogProps";
 import * as styles from "./ConfirmDialog.module.css";
@@ -13,6 +14,8 @@ function ConfirmDialog({
     dangerAction,
     onConfirm
 }: ConfirmDialogProps) {
+    const { t } = useTranslation();
+
     return <Dialog
         className={styles.dialog}
         setOpen={setDialogOpen}     
@@ -32,7 +35,7 @@ function ConfirmDialog({
                         : ButtonColour.BLUE
                 }}
             >
-                Yes
+                {t("confirmDialog.yes")}
             </Button>
 
             <Button
@@ -42,7 +45,7 @@ function ConfirmDialog({
                     backgroundColor: "#242424"
                 }}
             >
-                No
+                {t("confirmDialog.no")}
             </Button>
         </div>
     </Dialog>;

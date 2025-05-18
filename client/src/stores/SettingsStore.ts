@@ -4,7 +4,7 @@ import { cloneDeep, merge } from "lodash";
 import z from "zod";
 
 import { EngineVersion, deepPartialify } from "wintrchess";
-import EngineArrowType from "@constants/EngineArrowType";
+import EngineArrowType from "@apps/analysis/constants/EngineArrowType";
 import LocalStorageKey from "@constants/LocalStorageKey";
 
 const settingsSchema = z.object({

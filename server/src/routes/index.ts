@@ -12,22 +12,22 @@ import deleteNewsArticleRouter from "./internal/news/deleteArticle";
 import publishNewsArticleRouter from "./internal/news/publishArticle";
 import publishAnnouncementRouter from "./internal/publishAnnouncement";
 
-export const apiRouter = Router();
+export { default as pagesRouter } from "./pages";
 
-apiRouter.use("/",
-    captchaRouter,
-    newsArticlesRouter,
-    newsArticlesPagesRouter,
-    announcementRouter,
-    analysisSessionRouter,
-    classifyRouter
-);
+export const apiRouter = Router()
+    .use("/",
+        captchaRouter,
+        newsArticlesRouter,
+        newsArticlesPagesRouter,
+        announcementRouter,
+        analysisSessionRouter,
+        classifyRouter
+    );
 
-export const internalRouter = Router();
-
-internalRouter.use("/",
-    loginRouter,
-    deleteNewsArticleRouter,
-    publishNewsArticleRouter,
-    publishAnnouncementRouter
-);
+export const internalRouter = Router()
+    .use("/",
+        loginRouter,
+        deleteNewsArticleRouter,
+        publishNewsArticleRouter,
+        publishAnnouncementRouter
+    );

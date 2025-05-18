@@ -13,8 +13,15 @@ const nodeEnv = process.env.NODE_ENV || "production";
  */
 module.exports = {
     entry: {
-        training: "./src/apps/training/index.tsx",
-        internal: "./src/apps/internal/index.tsx"
+        helpCenter: "./src/apps/helpCenter/index.tsx",
+        analysis: "./src/apps/analysis/index.tsx",
+        archive: "./src/apps/archive/index.tsx",
+        news: "./src/apps/news/index.tsx",
+        settings: "./src/apps/settings/index.tsx",
+        privacyPolicy: "./src/apps/privacyPolicy/index.tsx",
+        credits: "./src/apps/credits/index.tsx",
+        internal: "./src/apps/internal/index.tsx",
+        unfound: "./src/apps/unfound/index.tsx"
     },
     output: {
         filename: "[name].bundle.js",

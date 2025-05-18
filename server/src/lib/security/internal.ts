@@ -22,7 +22,9 @@ export function signInternalJWT() {
     );
 }
 
-export const internalAuthenticator: RequestHandler = async (req, res, next) => {
+export const internalAuthenticator: RequestHandler = async (
+    req, res, next
+) => {
     // Allow unauthenticated login page requests
     if (req.path == "/login") {
         return next();

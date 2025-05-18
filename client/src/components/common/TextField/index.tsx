@@ -4,6 +4,7 @@ import TextFieldProps from "./TextFieldProps";
 import * as styles from "./TextField.module.css";
 
 function TextField({
+    className,
     style,
     placeholder,
     value,
@@ -11,7 +12,7 @@ function TextField({
     onChange
 }: TextFieldProps) {
     return <input
-        className={styles.field}
+        className={`${styles.field} ${className}`}
         type={password ? "password" : "text"}
         placeholder={placeholder}
         style={style}

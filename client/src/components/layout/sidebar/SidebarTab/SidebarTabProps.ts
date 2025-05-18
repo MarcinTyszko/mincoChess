@@ -5,10 +5,9 @@ interface SidebarTabProps {
     className?: string;
     style?: CSSProperties;
     active?: boolean;
-    navigateTo?: string;
+    url?: string;
     icon?: string;
     iconSize?: string;
-    onClick?: () => void;
 }
 
 export default SidebarTabProps;

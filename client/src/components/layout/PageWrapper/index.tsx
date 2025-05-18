@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { ToastContainer } from "react-toastify";
@@ -7,11 +7,12 @@ import { useShallow } from "zustand/react/shallow";
 import useResizeObserver from "@hooks/useResizeObserver";
 import useSettingsStore from "@stores/SettingsStore";
 import useLayoutStore from "@stores/LayoutStore";
-import getAnnouncement from "@lib/announcement";
+import LoadingPlaceholder from "../LoadingPlaceholder";
 import NavigationBar from "../NavigationBar";
 import Sidebar from "../sidebar/Sidebar";
-import AnnouncementBanner from "../Announcement";
+import AnnouncementBanner from "../../Announcement";
 import BugReportingWidget from "@components/BugReportingWidget";
+import getAnnouncement from "@lib/announcement";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
@@ -53,12 +54,8 @@ function PageWrapper({ children }: PageWrapperProps) {
     });
 
     return <div>
-        <div 
-            className={styles.topSection} 
-            ref={topSectionRef}
-        >
-            {
-                announcementOpen
+        <div className={styles.topSection} ref={topSectionRef}>
+            {announcementOpen
                 && status == "success"
                 && announcement.content
                 && <AnnouncementBanner
@@ -82,14 +79,14 @@ function PageWrapper({ children }: PageWrapperProps) {
             }}
             ref={contentSectionRef}
         >
-            <Sidebar
-                style={{
-                    height: `calc(100vh - ${topSectionHeight}px)`
-                }}
-            />
+            <Sidebar style={{
+                height: `calc(100vh - ${topSectionHeight}px)`
+            }}/>
 
             <div className={styles.content}>
-                {children}
+                <Suspense fallback={<LoadingPlaceholder/>}>
+                    {children}
+                </Suspense>
             </div>
         </div>
 

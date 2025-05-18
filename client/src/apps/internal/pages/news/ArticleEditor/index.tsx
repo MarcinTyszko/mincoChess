@@ -7,9 +7,9 @@ import { produce } from "immer";
 
 import { NewsArticle } from "wintrchess";
 import Loader from "@components/common/Loader";
-import ButtonColour from "@constants/ButtonColour";
+import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
-import ColourSwatch from "@components/common/ColourSwatch";
+import ColourSwatch from "@components/settings/ColourSwatch";
 import TextField from "@components/common/TextField";
 import { getDataURL, FileUploader } from "@components/common/FileUploader";
 import ConfirmDialog from "@components/common/ConfirmDialog";

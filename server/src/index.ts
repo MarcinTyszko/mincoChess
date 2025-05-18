@@ -1,7 +1,6 @@
 import express from "express";
 import cluster from "cluster";
 import os from "os";
-import path from "path";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
@@ -11,7 +10,7 @@ import { hostnameWhitelist } from "@lib/security/whitelist";
 import { analysisAuthenticator } from "@lib/security/analysis";
 import { internalAuthenticator } from "@lib/security/internal";
 
-import { apiRouter, internalRouter } from "./routes";
+import { pagesRouter, apiRouter, internalRouter } from "./routes";
 
 dotenv.config();
 
@@ -35,10 +34,10 @@ function main() {
 
     // Authentication and security
     app.use(hostnameWhitelist);
+    app.use("/engines", crossOriginIsolate);
+
     app.use("/internal", internalAuthenticator);
     app.use("/api/analysis", analysisAuthenticator);
-
-    app.use("/engines", crossOriginIsolate);
 
     // Static assets
     app.use("/",
@@ -47,26 +46,15 @@ function main() {
     );
 
     // Normal endpoints
-    app.use("/", apiRouter);
-    app.use("/", internalRouter);
-
-    app.get("/internal*", async (req, res) => {
-        res.sendFile(
-            path.resolve("client/public/apps/internal.html")
-        );
-    });
-
-    app.get("/*",
-        crossOriginIsolate,
-        async (req, res) => {
-            res.sendFile(
-                path.resolve("client/public/apps/training.html")
-            );
-        }
+    app.use("/",
+        internalRouter,
+        apiRouter,
+        pagesRouter
     );
 
+    // Start listening for requests
     app.listen(port, () => {
-        if ((cluster.worker?.id || 1) != 1) return;
+        if (!cluster.worker || cluster.worker.id != 1) return;
 
         console.log(
             `server running on port ${port} `

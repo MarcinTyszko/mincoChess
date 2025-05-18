@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 import { Game } from "wintrchess";
 import LocalStorageKey from "@constants/LocalStorageKey";
-import { GameSource, GameSourceType, getGameSource } from "@constants/GameSource";
+import { GameSource, GameSourceType, getGameSource } from "@apps/analysis/components/GameSelector/GameSource";
 import useLocalStorage from "./useLocalStorage";
 
 export type SelectedGame = Game | string | null;

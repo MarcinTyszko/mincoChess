@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-import DialogCloseButton from "./DialogCloseButton";
+import Button from "../Button";
+
 import DialogProps from "./DialogProps";
 import * as styles from "./Dialog.module.css";
 
@@ -27,10 +28,13 @@ function Dialog({
             className={`${styles.menu} ${className}`}
             style={style}
         >
-            <DialogCloseButton
-                onClick={() => setOpen(false)}
+            <Button
+                className={styles.closeButton}
+                icon={require("@assets/img/interface/close.svg")}
+                iconSize="30px"
                 style={closeButtonStyle}
-            />
+                onClick={() => setOpen(false)}
+            />;
 
             {children}
         </div>

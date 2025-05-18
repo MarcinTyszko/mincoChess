@@ -1,0 +1,111 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+import { Classification } from "wintrchess";
+import { classificationNames } from "@apps/analysis/constants/classifications";
+import useSettingsStore from "@stores/SettingsStore";
+import SwitchSetting from "@components/settings/SwitchSetting";
+
+import * as styles from "../AnalysisSettingsDialog.module.css";
+
+function ClassificationOptionsArea() {
+    const { t } = useTranslation();
+
+    const { settings, setSettings } = useSettingsStore();
+
+    return <>
+        <span className={styles.header}>
+            {t("pages.analysis.settings.classifications.title")}
+        </span>
+
+        <div className={styles.setting}>
+            <span>{t("pages.analysis.settings.classifications.hide")}</span>
+
+            <SwitchSetting
+                defaultChecked={settings.analysis.classifications.hide}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.hide = checked;
+                        return draft;
+                    })
+                )}
+            />
+        </div>
+
+        <div className={styles.setting}>
+            <div className={styles.subsetting}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/brilliant.png")}
+                />
+
+                <span>
+                    {t(classificationNames[Classification.BRILLIANT])}
+                </span>
+            </div>
+
+            <SwitchSetting
+                defaultChecked={
+                    settings.analysis.classifications.included.brilliant
+                }
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.brilliant = checked;
+                        return draft;
+                    })
+                )}
+            />
+        </div>
+
+        <div className={styles.setting}>
+            <div className={styles.subsetting}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/critical.png")}
+                />
+
+                <span>
+                    {t(classificationNames[Classification.CRITICAL])}
+                </span>
+            </div>
+
+            <SwitchSetting
+                defaultChecked={
+                    settings.analysis.classifications.included.critical
+                }
+                disabled={settings.analysis.engine.lines < 2}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.critical = checked;
+                        return draft;
+                    })
+                )}
+            />
+        </div>
+
+        <div className={styles.setting}>
+            <div className={styles.subsetting}>
+                <img
+                    className={styles.settingIcon}
+                    src={require("@assets/img/classifications/theory.png")}
+                />
+
+                <span>
+                    {t("pages.analysis.settings.classifications.theory")}
+                </span>
+            </div>
+
+            <SwitchSetting
+                defaultChecked={settings.analysis.classifications.included.theory}
+                onChange={checked => (
+                    setSettings(draft => {
+                        draft.analysis.classifications.included.theory = checked;
+                        return draft;
+                    })
+                )}
+            />
+        </div>
+    </>;
+}
+
+export default ClassificationOptionsArea;

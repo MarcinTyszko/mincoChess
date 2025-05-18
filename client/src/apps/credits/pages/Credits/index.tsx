@@ -1,0 +1,86 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+import ProfileConnectionIcon from "../../components/CreditsProfile/ProfileConnectionIcon";
+import CreditsProfile from "../../components/CreditsProfile";
+import * as wintrchessStyle from "@components/layout/NavigationBar/NavigationBar.module.css";
+import * as styles from "./Credits.module.css";
+
+function Credits() {
+    const { t } = useTranslation();
+
+    return <div className={styles.wrapper}>
+        <h1 className={styles.title}>
+            The{" "}
+
+            <span className={wintrchessStyle.title}>
+                Wintr
+
+                <b style={{ letterSpacing: 0 }}>
+                    Chess
+                </b>
+            </span>
+
+            {" "}Team
+        </h1>
+
+        <h2>
+            {t("pages.credits.leadDeveloper")}
+        </h2>
+
+        <CreditsProfile
+            username="Wilson Crunden (wintrcat)"
+            profileImage={require("@assets/img/credits/profiles/wintrcat.png")}
+            connections={[
+                {
+                    icon: ProfileConnectionIcon.DOMAIN,
+                    url: "https://wintrcat.uk/"
+                },
+                {
+                    icon: ProfileConnectionIcon.GITHUB,
+                    url: "https://github.com/wintrcat/"
+                },
+                {
+                    icon: ProfileConnectionIcon.YOUTUBE,
+                    url: "https://youtube.com/@wintrcat"
+                }
+            ]}
+        />
+
+        <h2>
+            {t("pages.credits.developer")}
+        </h2>
+
+        <CreditsProfile
+            username="Matthew Roberts (hetbet)"
+            profileImage={require("@assets/img/credits/profiles/hetbet.png")}
+            connections={[
+                {
+                    icon: ProfileConnectionIcon.GITHUB,
+                    url: "https://github.com/hetbet/"
+                }
+            ]}
+        />
+
+        <h2>
+            {t("pages.credits.artist")}
+        </h2>
+
+        <CreditsProfile
+            username="Simona (0nlinegirl3)"
+            profileImage={require("@assets/img/credits/profiles/simona.png")}
+            connections={[
+                {
+                    icon: ProfileConnectionIcon.INSTAGRAM,
+                    url: "https://www.instagram.com/0nlinegirl3"
+                },
+                {
+                    icon: ProfileConnectionIcon.YOUTUBE,
+                    url: "https://youtube.com/@0nlinegrl3"
+                }
+            ]}
+        />
+    </div>;
+}
+
+export default Credits;

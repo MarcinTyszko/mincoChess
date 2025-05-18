@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
-import useSidebarStore from "@apps/training/stores/SidebarStore";
+import useSidebarStore from "@apps/analysis/stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
 import useDelayedEffect from "@hooks/useDelayedEffect";
 
@@ -32,10 +31,9 @@ function Sidebar({ style }: SidebarProps) {
     return <div
         className={(
             `${styles.sidebar} `
-            + (
-                sidebarOpen
-                    ? styles.sidebarOpenStatic
-                    : styles.sidebarClosedStatic
+            + (sidebarOpen
+                ? styles.sidebarOpenStatic
+                : styles.sidebarClosedStatic
             )
         )}
         style={style}
@@ -43,7 +41,7 @@ function Sidebar({ style }: SidebarProps) {
     >
         <div className={styles.tabs}>
             <SidebarTab
-                navigateTo="/" 
+                url="/analysis" 
                 icon={require("@assets/img/icons/analysis.png")}
                 style={{ width: "100%" }}
             >
@@ -51,7 +49,7 @@ function Sidebar({ style }: SidebarProps) {
             </SidebarTab>
 
             <SidebarTab
-                navigateTo="/archive" 
+                url="/archive" 
                 icon={require("@assets/img/icons/archive.png")} 
                 iconSize="20px"
                 style={{ width: "100%" }}
@@ -62,7 +60,7 @@ function Sidebar({ style }: SidebarProps) {
 
         <div className={styles.footer}>
             <SidebarTab
-                navigateTo="/news"
+                url="/news"
                 icon={require("@assets/img/icons/news.png")}
                 style={{ width: "100%" }}
             >
@@ -70,7 +68,7 @@ function Sidebar({ style }: SidebarProps) {
             </SidebarTab>
 
             <SidebarTab
-                navigateTo="/settings"
+                url="/settings"
                 icon={require("@assets/img/icons/settings.png")}
                 style={{ width: "100%" }}
             >
@@ -78,27 +76,13 @@ function Sidebar({ style }: SidebarProps) {
             </SidebarTab>
 
             <div className={styles.footerLinks}>
-                <Link
-                    to="/privacy"
-                    style={{
-                        color: "white",
-                        margin: "10px 0",
-                        fontSize: "0.85rem"
-                    }}
-                >
+                <a href="/privacy" className={styles.footerLink}>
                     {t("sidebar.privacyPolicy")}
-                </Link>
+                </a>
 
-                <Link
-                    to="/credits"
-                    style={{
-                        color: "white",
-                        margin: "10px 0",
-                        fontSize: "0.85rem"
-                    }}
-                >
+                <a href="/credits" className={styles.footerLink}>
                     {t("sidebar.credits")}
-                </Link>
+                </a>
             </div>
         </div>
     </div>;

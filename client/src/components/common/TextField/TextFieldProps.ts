@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
 interface TextFieldProps {
+    className?: string;
     style?: CSSProperties;
     placeholder?: string;
     value?: string;
