@@ -10,14 +10,16 @@ import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import useAnalysisTabStore from "@apps/analysis/stores/AnalysisTabStore";
 import ClassifiedMoveCard from "@apps/analysis/components/report/ClassifiedMoveCard";
-import StateTreeTraverser from "@apps/analysis/components/StateTreeTraverser";
+import StateTreeTraverser from "@components/chess/StateTreeTraverser";
 
 import AnalysisTabBar from "./AnalysisTabBar";
 import AnalysisProgress from "./AnalysisProgress";
 import RealtimeEngineArea from "./RealtimeEngineArea";
+
 import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import GameAnalysis from "./GameAnalysis";
+
 import * as styles from "./AnalysisPanel.module.css";
 
 const OptionsToolbar = lazy(() => import("@apps/analysis/components/OptionsToolbar"));

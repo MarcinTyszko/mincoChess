@@ -88,7 +88,6 @@ function fetchSettings() {
 
     try {
         const fetchedSettings = JSON.parse(value);
-
         partialSettingsSchema.parse(fetchedSettings);
 
         return merge(defaultSettingsCopy, fetchedSettings);

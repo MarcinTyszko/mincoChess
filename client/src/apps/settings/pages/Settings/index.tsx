@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import CategoryTab from "@apps/settings/components/CategoryTab";
 import BoardAndPieces from "./categories/BoardAndPieces";
 import OpenBeta from "./categories/BugReporting";
 
-import CategoryTab from "./CategoryTab";
 import * as styles from "./Settings.module.css";
 
 enum SettingsCategory {

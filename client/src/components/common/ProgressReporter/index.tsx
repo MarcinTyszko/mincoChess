@@ -25,8 +25,7 @@ function ProgressReporter({
             value={progress}
         />
 
-        {
-            tooltip
+        {tooltip
             && <span className={styles.tooltip}>
                 {tooltip}
             </span>

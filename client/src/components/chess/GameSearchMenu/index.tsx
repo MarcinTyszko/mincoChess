@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 import { Game, getColourPlayed } from "wintrchess";
-import { GameSourceData } from "@apps/analysis/components/GameSelector/GameSource";
+import { GameSourceData } from "@components/chess/GameSelector/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";
 import { UserNotFoundError } from "@lib/errors";

@@ -1,5 +1,5 @@
 import { Game } from "wintrchess";
-import { GameSourceData } from "@apps/analysis/components/GameSelector/GameSource";
+import { GameSourceData } from "@components/chess/GameSelector/GameSource";
 
 interface GameSearchMenuProps {
     username: string;

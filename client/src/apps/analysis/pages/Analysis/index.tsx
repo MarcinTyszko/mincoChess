@@ -1,7 +1,8 @@
 import React from "react";
 
+import AnalysisPanel from "@apps/analysis/components/AnalysisPanel";
+
 import BoardArea from "./BoardArea";
-import AnalysisPanel from "./AnalysisPanel";
 import * as styles from "./Analysis.module.css";
 
 function Analysis() {

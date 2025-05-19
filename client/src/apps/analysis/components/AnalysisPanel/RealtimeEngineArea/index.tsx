@@ -4,12 +4,12 @@ import { uniqWith } from "lodash";
 
 import { getNodeParentChain, isEngineLineEqual } from "wintrchess";
 import AnalysisTab from "@apps/analysis/constants/AnalysisTab";
+import useRealtimeAnalyser from "@apps/analysis/hooks/useRealtimeAnalyser";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisTabStore from "@apps/analysis/stores/AnalysisTabStore";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import useRealtimeEngineStore from "@apps/analysis/stores/RealtimeEngineStore";
-import useRealtimeClassifier from "./useRealtimeClassifier";
 import RealtimeEngine from "@apps/analysis/components/RealtimeEngine";
 
 function RealtimeEngineArea() {
@@ -35,7 +35,7 @@ function RealtimeEngineArea() {
         state => state.setDisplayedEngineLines
     );
 
-    const considerRealtimeClassify = useRealtimeClassifier();
+    const considerRealtimeAnalyse = useRealtimeAnalyser();
 
     const playedUciMoves = useMemo(() => (
         getNodeParentChain(currentStateTreeNode)
@@ -61,7 +61,7 @@ function RealtimeEngineArea() {
                 isEngineLineEqual
             );
 
-            considerRealtimeClassify();
+            considerRealtimeAnalyse();
         }}
         style={{
             display: (

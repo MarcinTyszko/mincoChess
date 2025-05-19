@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import GameSelector from "@apps/analysis/components/GameSelector";
+import GameSelector from "@components/chess/GameSelector";
 import AnalyseButton from "@apps/analysis/pages/Analysis/AnalysisPanel/GameSelection/AnalyseButton";
 
 import Header from "../../components/Header";

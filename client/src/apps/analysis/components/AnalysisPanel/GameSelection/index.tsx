@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import useGameSelector from "@hooks/useGameSelector";
-import GameSelector from "@apps/analysis/components/GameSelector";
+import GameSelector from "@components/chess/GameSelector";
 import LogMessage from "@components/common/LogMessage";
 
-import useImportGame from "../../useImportGame";
-import useEvaluateGame from "../../useEvaluateGame";
-import AnalyseButton from "./AnalyseButton";
+import useImportGame from "@apps/analysis/hooks/useImportGame";
+import useEvaluateGame from "@apps/analysis/hooks/useEvaluateGame";
+import AnalyseButton from "../../AnalyseButton";
 import * as styles from "./GameSelection.module.css";
 
 function GameSelection() {

@@ -9,11 +9,11 @@ import Separator from "@components/common/Separator";
 import Button from "@components/common/Button";
 import ButtonColour from "@components/common/Button/Colour";
 import LogMessage from "@components/common/LogMessage";
-import ArticleListing from "@apps/news/components/ArticleListing";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
+import SocialLink from "@apps/news/components/SocialLink";
+import ArticleListing from "@apps/news/components/ArticleListing";
 import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
 
-import SocialLink from "./SocialLink";
 import * as styles from "./ArticleList.module.css";
 
 function News() {

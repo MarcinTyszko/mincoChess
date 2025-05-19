@@ -19,7 +19,7 @@ import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisTabStore from "@apps/analysis/stores/AnalysisTabStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
-import PlayerProfile from "../PlayerProfile";
+import PlayerProfile from "../../../../components/chess/PlayerProfile";
 
 import useSquareRenderer from "./SquareRenderer";
 import EvaluationBarArea from "./EvaluationBarArea";

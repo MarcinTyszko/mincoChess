@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { AnalysedGame } from "wintrchess";
-import { GameSelectorButton, GameSource } from "@apps/analysis/components/GameSelector/GameSource";
+import { GameSelectorButton, GameSource } from "@components/chess/GameSelector/GameSource";
 import useGameSelector, { SelectedGame } from "@hooks/useGameSelector";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";

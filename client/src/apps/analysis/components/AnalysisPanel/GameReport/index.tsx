@@ -17,10 +17,7 @@ function GameReport() {
     return <>
         <EvaluationGraphArea/>
 
-        <AccuraciesCard
-            accuracies={accuracies}
-            estimatedRatings={analysisGame.estimatedRatings}
-        />
+        <AccuraciesCard accuracies={accuracies} />
 
         <ClassificationCountCard analysisGame={analysisGame} />
     </>;

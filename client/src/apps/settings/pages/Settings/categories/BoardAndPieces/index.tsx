@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { produce } from "immer";
 
 import useSettingsStore, { defaultSettings } from "@stores/SettingsStore";
+import BoardColourPreset from "@apps/settings/components/BoardColourPreset";
 import ColourSwatch from "@components/settings/ColourSwatch";
 import Button from "@components/common/Button";
 
-import BoardColourPreset from "./BoardColourPreset";
 import * as categoryStyles from "../Category.module.css";
 import * as styles from "./BoardAndPieces.module.css";
 

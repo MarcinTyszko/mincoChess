@@ -9,7 +9,7 @@ import useAnalysisProgressStore from "@apps/analysis/stores/AnalysisProgressStor
 import useAnalysisSessionStore from "@apps/analysis/stores/AnalysisSessionStore";
 import { analyseNode } from "@apps/analysis/lib/reporter";
 
-function useRealtimeClassifier() {
+function useRealtimeAnalyser() {
     const executeCaptcha = useAltcha();
 
     const settings = useSettingsStore(state => state.settings.analysis);
@@ -33,7 +33,7 @@ function useRealtimeClassifier() {
         setClassifyStatus
     ] = useState(AnalysisStatus.INACTIVE);
 
-    function cancelClassify(errorString?: string) {
+    function cancelAnalyse(errorString?: string) {
         setClassifyStatus(AnalysisStatus.INACTIVE);
         setRealtimeClassifyError(errorString);
     }
@@ -43,17 +43,17 @@ function useRealtimeClassifier() {
         if (classifyStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
         if (analysisCaptchaError) {
-            return cancelClassify(analysisCaptchaError);
+            return cancelAnalyse(analysisCaptchaError);
         }
 
-        considerRealtimeClassify();
+        considerRealtimeAnalyse();
     }, [
         classifyStatus,
         analysisSessionToken,
         analysisCaptchaError
     ]);
 
-    async function considerRealtimeClassify() {
+    async function considerRealtimeAnalyse() {
         if (!currentStateTreeNode.parent) return;
 
         // If there is not enough data for a centipawn comparison
@@ -64,7 +64,7 @@ function useRealtimeClassifier() {
                 return;
             }
 
-            return cancelClassify(
+            return cancelAnalyse(
                 "pages.analysis.classifiedMoveCard.insufficientLines"
             );
         }
@@ -83,7 +83,7 @@ function useRealtimeClassifier() {
         }
 
         if (!analyseNodeResult.node) {
-            return cancelClassify(
+            return cancelAnalyse(
                 "pages.analysis.classifiedMoveCard.unknownError"
             );
         }
@@ -97,16 +97,16 @@ function useRealtimeClassifier() {
         currentState.opening = analysedState.opening;
 
         if (analysedState.classification == undefined) {
-            return cancelClassify(
+            return cancelAnalyse(
                 "pages.analysis.classifiedMoveCard.unknownError"
             );
         }
 
-        cancelClassify();
+        cancelAnalyse();
         dispatchCurrentNodeUpdate();
     }
 
-    return considerRealtimeClassify;
+    return considerRealtimeAnalyse;
 }
 
-export default useRealtimeClassifier;
+export default useRealtimeAnalyser;

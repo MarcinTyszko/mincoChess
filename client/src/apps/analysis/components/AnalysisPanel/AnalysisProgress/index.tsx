@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import AnalysisStatus from "@apps/analysis/constants/AnalysisStatus";
 import useAnalysisProgressStore from "@apps/analysis/stores/AnalysisProgressStore";
 import useAnalysisSessionStore from "@apps/analysis/stores/AnalysisSessionStore";
-import ProgressReporter from "@apps/analysis/components/ProgressReporter";
+import ProgressReporter from "@components/common/ProgressReporter";
 
-import useAnalyseGame from "../../useAnalyseGame";
+import useAnalyseGame from "@apps/analysis/hooks/useAnalyseGame";
 
 function getStatusTitle(status: AnalysisStatus) {
     const statusTitles: Record<string, string | undefined> = {
