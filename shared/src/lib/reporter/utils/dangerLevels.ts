@@ -54,7 +54,7 @@ export function moveCreatesGreaterThreat(
     try {
         var bakedMove = actionBoard.move(actingMove);
     } catch {
-        return true;
+        return false;
     }
 
     // Attacks on unsafe pieces >= in value to threatened piece that
@@ -83,16 +83,55 @@ export function moveCreatesGreaterThreat(
     return lowValueCheckmatePin;
 }
 
+export function moveLeavesGreaterThreat(
+    board: Chess,
+    threatenedPiece: BoardPiece,
+    actingMove: RawMove
+) {
+    const actionBoard = new Chess(board.fen());
+
+    try {
+        var bakedMove = actionBoard.move(actingMove);
+    } catch {
+        return false;
+    }
+
+    // Attacks on unsafe pieces >= in value to threatened piece after move
+    const relativeAttacks = relativeUnsafePieceAttacks(
+        actionBoard,
+        threatenedPiece,
+        adaptPieceColour(actingMove.color),
+        bakedMove
+    );
+
+    if (relativeAttacks.length > 0) return true;
+
+    // Minor piece sacrifice that if taken leads to mate
+    const lowValueCheckmatePin = (
+        pieceValues[threatenedPiece.type] < pieceValues[ROOK]
+        && actionBoard.moves().some(
+            move => parseSanMove(move).checkmate
+        )
+    );
+
+    return lowValueCheckmatePin;
+}
+
 /**
  * @description Returns whether all acting moves create a threat larger than
- * that imposed on the threatened piece.
+ * that imposed on the threatened piece. Equality strategies are `creates`
+ * when relative threats after the move must be a direct result of thereof,
+ * and `leaves` when it should only check for the existence of them at all.
  */
 export function hasDangerLevels(
     board: Chess,
     threatenedPiece: BoardPiece,
-    actingMoves: RawMove[]
+    actingMoves: RawMove[],
+    equalityStrategy: "creates" | "leaves" = "leaves"
 ) {
     return actingMoves.every(actingMove => (
-        moveCreatesGreaterThreat(board, threatenedPiece, actingMove)
+        equalityStrategy == "creates"
+            ? moveCreatesGreaterThreat(board, threatenedPiece, actingMove)
+            : moveLeavesGreaterThreat(board, threatenedPiece, actingMove)
     ));
 }

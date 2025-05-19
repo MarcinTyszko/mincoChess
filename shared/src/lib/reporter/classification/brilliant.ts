@@ -22,6 +22,11 @@ export function considerBrilliantClassification(
     // Promotions cannot be brilliant
     if (current.playedMove.promotion) return false;
 
+    const previousUnsafePieces = getUnsafePieces(
+        previous.board,
+        adaptPieceColour(current.playedMove.color)
+    );
+
     const unsafePieces = getUnsafePieces(
         current.board,
         adaptPieceColour(current.playedMove.color),
@@ -30,11 +35,6 @@ export function considerBrilliantClassification(
 
     // Moving a piece to safety (less unsafe pieces than in previous position)
     // disallows a brilliant
-    const previousUnsafePieces = getUnsafePieces(
-        previous.board,
-        adaptPieceColour(current.playedMove.color)
-    );
-
     if (
         !current.board.isCheck()
         && unsafePieces.length < previousUnsafePieces.length
