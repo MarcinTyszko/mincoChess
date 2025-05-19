@@ -1,6 +1,8 @@
+import { CSSProperties } from "react";
+
 interface AdvertisementProps {
+    style?: CSSProperties;
     adUnitId: string;
-    format: "rectangle" | "horizontal";
 }
 
 export default AdvertisementProps;

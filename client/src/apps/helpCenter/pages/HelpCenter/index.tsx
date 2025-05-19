@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import GameSelector from "@components/chess/GameSelector";
-import AnalyseButton from "@apps/analysis/pages/Analysis/AnalysisPanel/GameSelection/AnalyseButton";
+import AnalyseButton from "@apps/analysis/components/AnalyseButton";
 
 import Header from "../../components/Header";
 import * as styles from "./HelpCenter.module.css";

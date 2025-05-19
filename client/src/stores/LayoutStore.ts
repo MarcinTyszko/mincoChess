@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface LayoutStore {
     topSectionHeight: number;
+    contentSectionWidth: number;
     contentSectionHeight: number;
 
     analysisBoardContainerWidth: number;
@@ -10,6 +11,7 @@ interface LayoutStore {
     analysisPanelScrollable: boolean;
 
     setTopSectionHeight: (height: number) => void;
+    setContentSectionWidth: (width: number) => void;
     setContentSectionHeight: (height: number) => void;
 
     setAnalysisBoardContainerWidth: (width: number) => void;
@@ -20,6 +22,7 @@ interface LayoutStore {
 
 const useLayoutStore = create<LayoutStore>(set => ({
     topSectionHeight: 0,
+    contentSectionWidth: 0,
     contentSectionHeight: 0,
 
     analysisBoardContainerWidth: 0,
@@ -29,6 +32,10 @@ const useLayoutStore = create<LayoutStore>(set => ({
 
     setTopSectionHeight(height) {
         set({ topSectionHeight: height });
+    },
+
+    setContentSectionWidth(width) {
+        set({ contentSectionWidth: width });
     },
 
     setContentSectionHeight(height) {

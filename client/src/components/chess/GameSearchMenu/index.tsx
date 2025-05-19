@@ -12,7 +12,7 @@ import Dialog from "@components/common/Dialog";
 import Loader from "@components/common/Loader";
 import LogMessage from "@components/common/LogMessage";
 import MonthSelector from "@components/settings/MonthSelector";
-import GameListing from "@components/GameListing";
+import GameListing from "@components/chess/GameListing";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";

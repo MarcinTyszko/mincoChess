@@ -24,12 +24,14 @@ function PageWrapper({ children }: PageWrapperProps) {
 
     const {
         topSectionHeight,
+        setContentSectionWidth,
         setTopSectionHeight,
         setContentSectionHeight
     } = useLayoutStore(
         useShallow(state => ({
             topSectionHeight: state.topSectionHeight,
             setTopSectionHeight: state.setTopSectionHeight,
+            setContentSectionWidth: state.setContentSectionWidth,
             setContentSectionHeight: state.setContentSectionHeight
         }))
     );
@@ -43,9 +45,10 @@ function PageWrapper({ children }: PageWrapperProps) {
         setTopSectionHeight(size.fullHeight)
     ));
 
-    useResizeObserver(contentSectionRef, size => (
-        setContentSectionHeight(size.fullHeight)
-    ));
+    useResizeObserver(contentSectionRef, size => {
+        setContentSectionWidth(size.fullWidth);
+        setContentSectionHeight(size.fullHeight);
+    });
 
     const { data: announcement, status } = useQuery({
         queryKey: ["announcement"],
@@ -83,7 +86,12 @@ function PageWrapper({ children }: PageWrapperProps) {
                 height: `calc(100vh - ${topSectionHeight}px)`
             }}/>
 
-            <div className={styles.content}>
+            <div
+                className={styles.content}
+                style={{
+                    height: `calc(100vh - ${topSectionHeight}px)`
+                }}
+            >
                 <Suspense fallback={<LoadingPlaceholder/>}>
                     {children}
                 </Suspense>

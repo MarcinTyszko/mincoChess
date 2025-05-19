@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import AdvertisementProps from "./AdvertisementProps";
 
 function Advertisement({
-    adUnitId,
-    format
+    style,
+    adUnitId
 }: AdvertisementProps) {
     useEffect(() => {
         window.adsbygoogle ??= [];
@@ -15,11 +15,9 @@ function Advertisement({
 
     return <ins
         className="adsbygoogle"
-        style={{ display: "block" }}
+        style={{ display: "block", ...style }}
         data-ad-client={process.env.ADS_PUBLISHER_ID}
         data-ad-slot={adUnitId}
-        data-ad-format={format}
-        data-full-width-responsive="true"
     />;
 }
 

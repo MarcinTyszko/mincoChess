@@ -11,7 +11,7 @@ import {
     TimeControl,
     formatDate
 } from "wintrchess";
-import Button from "../common/Button";
+import Button from "@components/common/Button";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";

@@ -8,15 +8,18 @@ import Button from "@components/common/Button";
 import LanguageSwitcher from "@components/settings/LanguageSwitcher";
 
 import * as styles from "./NavigationBar.module.css";
+import useLayoutStore from "@stores/LayoutStore";
 
 function NavigationBar() {
     const { t } = useTranslation();
+    
+    const pageWidth = useLayoutStore(state => state.contentSectionWidth);
 
     const { sidebarOpen, setSidebarOpen } = useSidebarStore();
 
     return <div className={styles.navigationBar}>
         <div className={styles.navigationBarSection}>
-            {innerWidth <= Breakpoints.RETRACT_SIDEBAR
+            {pageWidth <= Breakpoints.RETRACT_SIDEBAR
                 && <img
                     className={styles.menuButton}
                     src={require("@assets/img/interface/menu.svg")}

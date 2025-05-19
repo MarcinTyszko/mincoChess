@@ -28,6 +28,7 @@ function AnalysisPanel() {
     const { t } = useTranslation();
 
     const {
+        contentSectionWidth,
         contentSectionHeight,
         analysisPanelScrollable,
         setAnalysisPanelScrollable
@@ -58,7 +59,7 @@ function AnalysisPanel() {
     return <div
         className={styles.wrapper}
         style={{
-            height: innerWidth > Breakpoints.MOBILE_LAYOUT
+            height: contentSectionWidth > Breakpoints.MOBILE_LAYOUT
                 ? `${contentSectionHeight}px`
                 : undefined
         }}
@@ -93,13 +94,6 @@ function AnalysisPanel() {
             )
             : <GameSelection/>
         }
-
-        {/* <Advertisement
-            adUnitId="3904113611"
-            format={innerWidth > Breakpoints.MOBILE_LAYOUT
-                ? "rectangle" : "horizontal"
-            }
-        /> */}
 
         <StateTreeTraverser style={{
             position: "fixed",
