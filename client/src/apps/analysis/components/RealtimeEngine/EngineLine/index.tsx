@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
-import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
-
-import * as styles from "./EngineLine.module.css";
-import EngineLineProps from "./EngineLineProps";
 import { addChildMove } from "wintrchess";
+import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
+import playBoardSound from "@lib/boardSounds";
+
+import EngineLineProps from "./EngineLineProps";
+import * as styles from "./EngineLine.module.css";
 
 function EngineLine({ line }: EngineLineProps) {
     const { t } = useTranslation();

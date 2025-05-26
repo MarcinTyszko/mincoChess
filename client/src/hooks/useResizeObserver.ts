@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 /**
  * @description The inner width / height does not include border or scrollbar.
@@ -7,20 +7,22 @@ import { RefObject, useEffect } from "react";
  */
 function useResizeObserver<ElementType extends HTMLElement>(
     elementRef: RefObject<ElementType>,
-    onResize: (size: {
-        innerWidth: number;
-        innerHeight: number;
-        fullWidth: number;
-        fullHeight: number;
-    }) => void
+    defaultSizes = 0
 ) {
+    const [ size, setSize ] = useState({
+        innerWidth: defaultSizes,
+        innerHeight: defaultSizes,
+        fullWidth: defaultSizes,
+        fullHeight: defaultSizes
+    });
+
     useEffect(() => {
         if (!elementRef.current) return;
 
         const observer = new ResizeObserver(entries => {
             const element = entries[0].target as ElementType;
 
-            onResize({
+            setSize({
                 innerWidth: element.clientWidth,
                 innerHeight: element.clientHeight,
                 fullWidth: element.offsetWidth,
@@ -32,6 +34,8 @@ function useResizeObserver<ElementType extends HTMLElement>(
 
         return () => observer.disconnect();
     }, []);
+
+    return size;
 }
 
 export default useResizeObserver;

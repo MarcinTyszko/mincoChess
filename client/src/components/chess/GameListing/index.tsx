@@ -48,7 +48,7 @@ const gameResultTooltipCodes = {
     [GameResult.UNKNOWN]: "unknown"
 };
 
-const MAX_PROFILE_LENGTH = 19;
+const maxProfileLength = 19;
 
 function cutUsername(profile: PlayerProfile) {
     const titleLength = profile.title
@@ -59,8 +59,8 @@ function cutUsername(profile: PlayerProfile) {
 
     const username = profile.username || "Unknown";
 
-    return profileLength > MAX_PROFILE_LENGTH
-        ? username.slice(0, MAX_PROFILE_LENGTH - titleLength - 3) + "..."
+    return profileLength > maxProfileLength
+        ? username.slice(0, maxProfileLength - titleLength - 3) + "..."
         : username;
 }
 
@@ -82,7 +82,25 @@ function GameListing({
             : game.players.white.result;
     }, [game, perspective]);
 
-    const drawId = uniqueId();
+    const listingId = useMemo(uniqueId, []);
+
+    function copyPGN() {
+        navigator.clipboard.writeText(game.pgn);
+
+        toast.success(
+            t("gameListing.copyPGNToast"),
+            {
+                position: "bottom-left",
+                theme: "dark",
+                pauseOnHover: false,
+                closeOnClick: true,
+                closeButton: false,
+                style: {
+                    fontFamily: "JetBrains Mono"
+                }
+            }
+        );
+    }
 
     return <div
         className={
@@ -90,37 +108,27 @@ function GameListing({
         }
         onClick={() => onClick?.(game)}
     >
-        {
-            game.timeControl
-            && <div style={{ width: "30px" }}>
-                <img
-                    className={styles.timeControlIcon}
-                    src={timeControlIcons[game.timeControl]}
-                    title={game.timeControl}
-                />
-            </div>
-        }
+        {game.timeControl && <div style={{ width: "30px" }}>
+            <img
+                className={styles.timeControlIcon}
+                src={timeControlIcons[game.timeControl]}
+                title={game.timeControl}
+            />
+        </div>}
 
         <div style={{ width: "250px" }}>
             {Object.values(game.players)
                 .map(player => <div className={styles.playerProfile}>
-                    {
-                        player.title
-                        && <span className={styles.playerTitle}>
-                            {player.title}
-                        </span>
-                    }
+                    {player.title && <span className={styles.playerTitle}>
+                        {player.title}
+                    </span>}
                     
-                    <div 
-                        className={styles.usersColour} 
-                        style={{
-                            backgroundColor: player === game.players.white ? "whitesmoke" : "black"
-                        }} 
-                    />
+                    <div className={styles.usersColour} style={{
+                        backgroundColor: player === game.players.white
+                            ? "whitesmoke" : "black"
+                    }}/>
 
-                    <span>
-                        {cutUsername(player)}
-                    </span>
+                    <span>{cutUsername(player)}</span>
     
                     <span style={{color: "grey"}}>
                         ({player.rating || "?"})
@@ -137,71 +145,44 @@ function GameListing({
             </div>
         } */}
 
-        <div style={{width: "110px"}}>
+        <div style={{ width: "110px" }}>
             <span title={game.date?.toLocaleString()}>
-                {game.date ? formatDate(game.date) : "Unknown"}
+                {game.date ? formatDate(game.date) : t(
+                    "gameListing.gameResults.opinionated.unknown"
+                )}
             </span>
         </div>
 
-        {
-            displayResult
-            && <div style={{ width: "20px" }}>
-                <img
-                    src={
-                        perspective
-                            ? gameResultIcons.opinionated[displayResult]
-                            : gameResultIcons.unopinionated[displayResult]
-                    }
-                    title={t(
-                        "gameListing.gameResults."
-                        + (perspective ? "opinionated." : "unopinionated.")
-                        + gameResultTooltipCodes[displayResult]
-                    )}
-                    style={{ width: "100%" }}
-                />
-            </div>
-        }
+        {displayResult && <div style={{ width: "20px" }}>
+            <img
+                src={perspective
+                    ? gameResultIcons.opinionated[displayResult]
+                    : gameResultIcons.unopinionated[displayResult]
+                }
+                title={t(
+                    "gameListing.gameResults."
+                    + (perspective ? "opinionated." : "unopinionated.")
+                    + gameResultTooltipCodes[displayResult]
+                )}
+                style={{ width: "100%" }}
+            />
+        </div>}
 
         <Button
             className={styles.copyButton}
             icon={require("@assets/img/interface/copy.svg")}
-            tooltipId={`game-listing-copy-${drawId}`}
+            tooltipId={`game-listing-copy-${listingId}`}
             onClick={event => {
                 event.stopPropagation();
-
-                navigator.clipboard.writeText(game.pgn);
-
-                toast.success(
-                    t("gameListing.copyPGNToast"),
-                    {
-                        position: "bottom-left",
-                        theme: "dark",
-                        pauseOnHover: false,
-                        closeOnClick: true,
-                        closeButton: false,
-                        style: {
-                            fontFamily: "JetBrains Mono"
-                        }
-                    }
-                );
+                copyPGN();
             }}
         />
 
         <Tooltip
-            id={`game-listing-copy-${drawId}`}
+            id={`game-listing-copy-${listingId}`}
             content={t("gameListing.copyPGN")}
             delayShow={500}
         />
-
-        {
-            onClick
-            && <div>
-                <input
-                    type="checkbox"
-                    onClick={event => event.stopPropagation()}
-                />
-            </div>
-        }
     </div>;
 }
 

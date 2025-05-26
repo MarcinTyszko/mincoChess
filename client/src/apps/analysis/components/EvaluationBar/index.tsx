@@ -1,89 +1,66 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { clamp } from "lodash";
 
 import { PieceColour, stringifyEvaluation } from "wintrchess";
+
 import EvaluationBarProps from "./EvaluationBarProps";
 import * as styles from "./EvaluationBar.module.css";
 
-const width = 40;
-
 function EvaluationBar({
-    disabled,
-    height,
+    className,
+    style,
     evaluation,
     moveColour,
-    flipped
+    flipped = false
 }: EvaluationBarProps) {
-    let blackHeight: number;
+    const evaluationText = useMemo(() => (
+        stringifyEvaluation({
+            ...evaluation,
+            value: Math.abs(evaluation.value)
+        }, false, 1)
+    ), [evaluation]);
 
-    if (evaluation.type == "centipawn") {
-        blackHeight = clamp(
-            (height / 2) - (evaluation.value * (0.5 - (1 / 16))),
-            height / 16,
-            height - (height / 16)
-        );
-    } else {
-        if (evaluation.value == 0) {
-            blackHeight = moveColour == PieceColour.WHITE
-                ? 0
-                : height;
+    const overBarHeight = useMemo(() => {
+        if (evaluation.type == "centipawn") {
+            return clamp(
+                50 - (evaluation.value / 20),
+                5, 95
+            );
         } else {
-            blackHeight = evaluation.value > 0
-                ? 0
-                : height;
+            return evaluation.value == 0
+                ? (moveColour == PieceColour.WHITE ? 0 : 100)
+                : (evaluation.value > 0 ? 0 : 100);
         }
-    }
+    }, [evaluation]);
 
-    const textY = (blackHeight > (height / 2) == flipped)
-        ? height - 12 : 20;
-
-    const textColour = (blackHeight > (height / 2))
-        ? "#fff" : "#000";
+    const textBottom = overBarHeight > 50 == flipped;
 
     return <div
-        className={styles.evaluationBar}
+        className={`${styles.evaluationBar} ${className}`}
         style={{
-            height: height,
-            backgroundColor: flipped ? "#0c0c0c" : "#fff"
+            backgroundColor: flipped ? "#0c0c0c" : "#fff",
+            ...style
         }}
     >
-        <svg viewBox={`0 0 ${width} ${height}`}>
-            {disabled
-                ? <rect
-                    fill="#a5a5a5"
-                    x={0}
-                    y={0}
-                    width={width}
-                    height={height}
-                />
-                : <>
-                    <rect
-                        className={styles.overBar}
-                        fill={flipped ? "#fff" : "#0c0c0c"}
-                        x={0}
-                        y={0}
-                        width={width}
-                        height={flipped ? (height - blackHeight) : blackHeight}
-                    />
+        <div
+            className={styles.overBar}
+            style={{
+                backgroundColor: flipped ? "#fff" : "#0c0c0c",
+                height: flipped
+                    ? `calc(100% - ${overBarHeight}%)`
+                    : `${overBarHeight}%`
+            }}
+        />
 
-                    <text
-                        textAnchor="middle"
-                        x={20}
-                        y={textY}
-                        fontSize={14}
-                        fill={textColour}
-                        style={{
-                            fontFamily: "sans-serif"
-                        }}
-                    >
-                        {stringifyEvaluation({
-                            ...evaluation,
-                            value: Math.abs(evaluation.value)
-                        }, false, 1)}
-                    </text>
-                </>
-            }
-        </svg>
+        <span
+            className={styles.evaluationText}
+            style={{
+                [textBottom ? "bottom" : "top"]: "7px",
+                color: overBarHeight > 50 ? "#fff" : "#000"
+            }}
+        >
+            {evaluationText}
+        </span>
     </div>;
 }
 

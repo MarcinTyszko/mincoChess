@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAltcha } from "@hooks/useAltcha";
 import PageWrapper from "@components/layout/PageWrapper";
 
+import * as styles from "./index.module.css";
+
 const Analysis = lazy(() => import("./pages/Analysis"));
 
 import "@i18n";
@@ -24,7 +26,10 @@ function App() {
     }, []);
 
     return <QueryClientProvider client={queryClient}>
-        <PageWrapper>
+        <PageWrapper
+            className={styles.wrapper}
+            footerClassName={styles.footer}
+        >
             <Analysis/>
         </PageWrapper>
     </QueryClientProvider>;

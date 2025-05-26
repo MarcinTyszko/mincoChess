@@ -6,13 +6,6 @@
     color: white;
 }
 
-@media (max-width: 900px) {
-    .wrapper {
-        border-radius: 0 !important;
-        width: 100%;
-    }
-}
-
 .profileImage {
     width: 40px;
     height: 40px;

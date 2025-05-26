@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
 interface StateTreeTraverserProps {
+    className?: string;
     style?: CSSProperties;
 }
 

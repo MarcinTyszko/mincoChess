@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 
 import AdvertisementProps from "./AdvertisementProps";
+import * as styles from "./Advertisement.module.css";
 
 function Advertisement({
+    className,
     style,
     adUnitId
 }: AdvertisementProps) {
@@ -13,12 +15,17 @@ function Advertisement({
 
     if (!process.env.ADS_PUBLISHER_ID) return null;
 
-    return <ins
-        className="adsbygoogle"
-        style={{ display: "block", ...style }}
-        data-ad-client={process.env.ADS_PUBLISHER_ID}
-        data-ad-slot={adUnitId}
-    />;
+    const devStyles = process.env.NODE_ENV == "development"
+        ? styles.dev : "";
+
+    return <div className={className} style={style}>
+        <ins
+            className={`adsbygoogle ${devStyles}`}
+            style={{ display: "block" }}
+            data-ad-client={process.env.ADS_PUBLISHER_ID}
+            data-ad-slot={adUnitId}
+        />
+    </div>;
 }
 
 export default Advertisement;

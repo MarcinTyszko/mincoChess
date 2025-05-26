@@ -7,9 +7,11 @@ import * as styles from "./Analysis.module.css";
 
 function Analysis() {
     return <div className={styles.wrapper}>
-        <BoardArea/>
+        <div className={styles.analysisSection}>
+            <BoardArea/>
 
-        <AnalysisPanel/>
+            <AnalysisPanel className={styles.panel} />
+        </div>
     </div>;
 }
 

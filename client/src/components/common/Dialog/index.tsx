@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import BlurBackground from "@components/layout/BlurBackground";
 import Button from "../Button";
 
 import DialogProps from "./DialogProps";
@@ -20,10 +21,7 @@ function Dialog({
         };
     }, []);
 
-    return <div
-        className={styles.wrapper}
-        onClick={event => event.stopPropagation()}
-    >
+    return <BlurBackground className={styles.wrapper}>
         <div
             className={`${styles.menu} ${className}`}
             style={style}
@@ -34,11 +32,11 @@ function Dialog({
                 iconSize="30px"
                 style={closeButtonStyle}
                 onClick={() => setOpen(false)}
-            />;
+            />
 
             {children}
         </div>
-    </div>;
+    </BlurBackground>;
 }
 
 export default Dialog;

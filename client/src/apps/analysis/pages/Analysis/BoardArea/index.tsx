@@ -1,52 +1,77 @@
-import React, { useRef } from "react";
-import { useShallow } from "zustand/react/shallow";
+import React from "react";
+import { Move } from "chess.js";
 
-import useResizeObserver from "@hooks/useResizeObserver";
-import useLayoutStore from "@stores/LayoutStore";
+import { addChildMove } from "wintrchess";
+import AnalysisTab from "@apps/analysis/constants/AnalysisTab";
+import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
-import Breakpoints from "@constants/Breakpoints";
-import AnalysisBoard from "@apps/analysis/components/AnalysisBoard";
+import useAnalysisTabStore from "@apps/analysis/stores/AnalysisTabStore";
+import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
+import Board from "@apps/analysis/components/Board";
+import playBoardSound from "@lib/boardSounds";
 
+import useEvaluation from "./useEvaluation";
+import useSuggestionArrows from "./useSuggestionArrows";
 import * as styles from "./BoardArea.module.css";
 
 function BoardArea() {
+    const settings = useSettingsStore(state => state.settings.analysis);
+    const theme = useSettingsStore(state => state.settings.themes);
+
     const {
-        contentSectionHeight,
-        analysisBoardContainerWidth,
-        setAnalysisBoardContainerWidth
-    } = useLayoutStore(
-        useShallow(state => ({
-            contentSectionHeight: state.contentSectionHeight,
-            analysisBoardContainerWidth: state.analysisBoardContainerWidth,
-            setAnalysisBoardContainerWidth: state.setAnalysisBoardContainerWidth
-        }))
-    );
+        analysisGame,
+        gameAnalysisOpen,
+        setGameAnalysisOpen
+    } = useAnalysisGameStore();
 
-    const { analysisGame } = useAnalysisGameStore();
+    const setActiveTab = useAnalysisTabStore(state => state.setActiveTab);
 
-    const boardContainerRef = useRef<HTMLDivElement>(null);
+    const {
+        currentStateTreeNode,
+        setCurrentStateTreeNode,
+        autoplayEnabled,
+        boardFlipped
+    } = useAnalysisBoardStore();
 
-    useResizeObserver(boardContainerRef, size => (
-        setAnalysisBoardContainerWidth(size.fullWidth)
-    ));
+    const evaluation = useEvaluation();
+    const suggestionArrows = useSuggestionArrows();
 
-    return <div
-        className={styles.boardContainer}
-        ref={boardContainerRef}
-    >
-        <AnalysisBoard
-            topProfile={analysisGame.players.black}
-            bottomProfile={analysisGame.players.white}
-            style={{
-                width: innerWidth > Breakpoints.MOBILE_LAYOUT
-                    ? (
-                        `min(${contentSectionHeight - 110}px, `
-                        + `${analysisBoardContainerWidth - 40}px)`
-                    )
-                    : undefined
-            }}
-        />
-    </div>;
+    function addMove(move: Move) {
+        if (!gameAnalysisOpen) {
+            setGameAnalysisOpen(true);
+            setActiveTab(AnalysisTab.ANALYSIS);
+        }
+
+        setCurrentStateTreeNode(prev => {
+            const createdNode = addChildMove(prev, move.san);
+            playBoardSound(createdNode);
+
+            return createdNode;
+        });
+
+        return true;
+    }
+
+    return <Board
+        className={styles.board}
+        style={{
+            maxWidth: `calc(100vh - ${evaluation ? 195 : 235}px)`
+        }}
+        profileClassName={styles.boardProfile}
+        whiteProfile={analysisGame.players.black}
+        blackProfile={analysisGame.players.white}
+        theme={{
+            lightSquareColour: theme.board.lightSquareColour,
+            darkSquareColour: theme.board.darkSquareColour
+        }}
+        node={currentStateTreeNode}
+        flipped={boardFlipped}
+        evaluation={evaluation}
+        arrows={suggestionArrows}
+        piecesDraggable={!autoplayEnabled}
+        enableClassifications={!settings.classifications.hide}
+        onAddMove={addMove}
+    />;
 }
 
 export default BoardArea;

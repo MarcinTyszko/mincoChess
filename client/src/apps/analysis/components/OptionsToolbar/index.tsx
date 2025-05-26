@@ -6,7 +6,7 @@ import { Tooltip } from "react-tooltip";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import Button from "@components/common/Button";
-import AnalysisSettingsDialog from "../AnalysisSettingsDialog";
+import SettingsDialog from "../SettingsDialog";
 
 import * as styles from "./OptionsToolbar.module.css";
 
@@ -15,25 +15,19 @@ function OptionsToolbar() {
 
     const { gameAnalysisOpen } = useAnalysisGameStore();
 
-    const {
-        boardFlipped,
-        setBoardFlipped
-    } = useAnalysisBoardStore();
+    const { boardFlipped, setBoardFlipped } = useAnalysisBoardStore();
 
     const [ settingsOpen, setSettingsOpen ] = useState(false);
 
     return <>
         <div className={styles.wrapper}>
-            {
-                gameAnalysisOpen
-                && <Button
-                    icon={require("@assets/img/interface/back.svg")}
-                    iconSize={"40px"}
-                    className={styles.backButton}
-                    tooltipId={"options-toolbar-back"}
-                    onClick={() => location.reload()}
-                />
-            }
+            {gameAnalysisOpen && <Button
+                icon={require("@assets/img/interface/back.svg")}
+                iconSize={"40px"}
+                className={styles.backButton}
+                tooltipId={"options-toolbar-back"}
+                onClick={() => location.reload()}
+            />}
 
             <Tooltip
                 id="options-toolbar-back"
@@ -97,9 +91,8 @@ function OptionsToolbar() {
             />
         </div>
 
-        {
-            settingsOpen
-            && <AnalysisSettingsDialog setOpen={setSettingsOpen} />
+        {settingsOpen
+            && <SettingsDialog setOpen={setSettingsOpen} />
         }
     </>;
 }

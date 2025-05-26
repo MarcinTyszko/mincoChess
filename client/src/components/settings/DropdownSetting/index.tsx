@@ -113,6 +113,7 @@ function DropdownSetting<Option extends BaseDropdownOption>(
             />
         }}
         maxMenuHeight={400}
+        menuPosition="fixed"
     />;
 }
 

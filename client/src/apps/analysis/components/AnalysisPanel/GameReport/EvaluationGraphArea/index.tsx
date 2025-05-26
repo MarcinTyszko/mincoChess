@@ -6,7 +6,7 @@ import { getNodeChain } from "wintrchess";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import EvaluationGraph from "@apps/analysis/components/report/EvaluationGraph";
-import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
+import playBoardSound from "@lib/boardSounds";
 
 function EvaluationGraphArea() {
     const analysisGame = useAnalysisGameStore(state => state.analysisGame);

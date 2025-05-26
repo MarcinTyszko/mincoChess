@@ -25,6 +25,8 @@
     flex-direction: column;
     justify-content: center;
     gap: 2px;
+
+    overflow-x: hidden;
 }
 
 .timeControlIcon {

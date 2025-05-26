@@ -1,16 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useHotkeys } from "react-hotkeys-hook";
+import { Options as HotkeyOptions, useHotkeys } from "react-hotkeys-hook";
 
 import { getNodeChain } from "wintrchess";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
-import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
+import playBoardSound from "@lib/boardSounds";
 
 import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";
 
-function StateTreeTraverser({ style }: StateTreeTraverserProps) {
+type Interval = ReturnType<typeof setInterval>;
+
+const hotkeyConfig: HotkeyOptions = { preventDefault: true };
+
+function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
     const { t } = useTranslation();
 
     const { analysisGame } = useAnalysisGameStore();
@@ -22,7 +26,7 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
         setAutoplayEnabled
     } = useAnalysisBoardStore();
 
-    const autoplayIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>();
+    const autoplayIntervalRef = useRef<Interval>();
 
     useEffect(() => {
         if (autoplayEnabled) {
@@ -36,7 +40,6 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
 
     function traverseToBeginning() {
         setCurrentStateTreeNode(analysisGame.stateTree);
-
         setAutoplayEnabled(false);
     }
 
@@ -45,19 +48,15 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
             || analysisGame.stateTree;
 
         setCurrentStateTreeNode(finalNode);
-
         playBoardSound(finalNode);
-
         setAutoplayEnabled(false);
     }
 
     function traverseBackwards() {
-        setCurrentStateTreeNode(
-            currentStateTreeNode.parent || analysisGame.stateTree
-        );
+        if (!currentStateTreeNode.parent) return;
 
+        setCurrentStateTreeNode(currentStateTreeNode.parent);
         playBoardSound(currentStateTreeNode);
-
         setAutoplayEnabled(false);
     }
 
@@ -77,12 +76,12 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
         });
     }
 
-    useHotkeys("up, shift+left", traverseToBeginning);
-    useHotkeys("down, shift+right", traverseToEnd);
-    useHotkeys("left", traverseBackwards);
-    useHotkeys("right", traverseForwards);
+    useHotkeys("up, shift+left", traverseToBeginning, hotkeyConfig);
+    useHotkeys("down, shift+right", traverseToEnd, hotkeyConfig);
+    useHotkeys("left", traverseBackwards, hotkeyConfig);
+    useHotkeys("right", traverseForwards, hotkeyConfig);
 
-    return <div className={styles.wrapper} style={style}>
+    return <div className={`${styles.wrapper} ${className}`} style={style}>
         <img
             src={require("@assets/img/interface/start.svg")}
             width={50}
@@ -105,17 +104,10 @@ function StateTreeTraverser({ style }: StateTreeTraverserProps) {
                 : t("pages.analysis.stateTreeTraverser.play")
             }
         >
-            {
-                autoplayEnabled
-                    ? <img
-                        src={require("@assets/img/interface/pause.svg")}
-                        width={50}
-                    />
-                    : <img
-                        src={require("@assets/img/interface/play.svg")}
-                        width={50}
-                    />
-            }
+            <img width={50} src={autoplayEnabled
+                ? require("@assets/img/interface/pause.svg")
+                : require("@assets/img/interface/play.svg")
+            }/>
         </div>
 
         <img

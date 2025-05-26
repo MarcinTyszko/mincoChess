@@ -18,12 +18,11 @@ function StateTreeEditor({
 
     return <div className={className} style={style}>
         <MoveClickEventContext.Provider value={onMoveClick}>
-            {
-                treeView.length > 0
-                    ? treeView
-                    : <i className={styles.addNodePrompt}>
-                        {t("pages.analysis.stateTreeEditor.addNodePrompt")}
-                    </i>
+            {treeView.length > 0
+                ? treeView
+                : <i className={styles.addNodePrompt}>
+                    {t("pages.analysis.stateTreeEditor.addNodePrompt")}
+                </i>
             }
         </MoveClickEventContext.Provider>
     </div>;

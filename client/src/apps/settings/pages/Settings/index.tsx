@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import CategoryTab from "@apps/settings/components/CategoryTab";
 import BoardAndPieces from "./categories/BoardAndPieces";
-import OpenBeta from "./categories/BugReporting";
+import BugReporting from "./categories/BugReporting";
 
 import * as styles from "./Settings.module.css";
 
@@ -35,7 +35,7 @@ function Settings() {
                 }
 
                 {openCategory == SettingsCategory.BUG_REPORTING
-                    && <OpenBeta/>
+                    && <BugReporting/>
                 }
             </div>
 
@@ -51,8 +51,8 @@ function Settings() {
 
                 <CategoryTab
                     active={openCategory == SettingsCategory.BUG_REPORTING}
-                    onClick={() => (
-                        setOpenCategory(SettingsCategory.BUG_REPORTING)
+                    onClick={() => setOpenCategory(
+                        SettingsCategory.BUG_REPORTING
                     )}
                 >
                     {t("pages.settings.categories.bugReporting.title")}

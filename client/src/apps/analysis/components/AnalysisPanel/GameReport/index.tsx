@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import { getGameAccuracy } from "wintrchess";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import AccuraciesCard from "@apps/analysis/components/report/AccuraciesCard";
 import ClassificationCountCard from "@apps/analysis/components/report/ClassificationCountCard";
 
@@ -10,9 +11,9 @@ import EvaluationGraphArea from "./EvaluationGraphArea";
 function GameReport() {
     const analysisGame = useAnalysisGameStore(state => state.analysisGame);
 
-    const accuracies = useMemo(() => (
-        getGameAccuracy(analysisGame.stateTree)
-    ), [analysisGame]);
+    useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
+
+    const accuracies = getGameAccuracy(analysisGame.stateTree);
     
     return <>
         <EvaluationGraphArea/>

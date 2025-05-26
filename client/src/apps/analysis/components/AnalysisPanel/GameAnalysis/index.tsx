@@ -1,9 +1,9 @@
 import React from "react";
 
-import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import StateTreeEditor from "@components/chess/StateTreeEditor";
+import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./GameAnalysis.module.css";
 

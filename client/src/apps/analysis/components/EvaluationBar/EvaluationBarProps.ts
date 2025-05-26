@@ -1,8 +1,9 @@
+import { CSSProperties } from "react";
 import { Evaluation, PieceColour } from "wintrchess";
 
 interface EvaluationBarProps {
-    disabled?: boolean;
-    height: number;
+    className?: string;
+    style?: CSSProperties;
     evaluation: Evaluation;
     moveColour?: PieceColour;
     flipped?: boolean;

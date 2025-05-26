@@ -6,9 +6,7 @@
     padding: 5px;
     z-index: 2;
 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background-color: #0f1114;
-    border-radius: 10px;
 }
 
 .wrapper img {
@@ -22,11 +20,7 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 400px) {
-    .wrapper {
-        width: 280px;
-    }
-
+@media (max-width: 350px) {
     .wrapper img {
         width: 30px !important;
     }

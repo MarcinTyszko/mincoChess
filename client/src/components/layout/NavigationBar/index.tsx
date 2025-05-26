@@ -1,68 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 
-import useSidebarStore from "@apps/analysis/stores/SidebarStore";
-import Breakpoints from "@constants/Breakpoints";
+import Typography from "@components/Typography";
 import Button from "@components/common/Button";
 import LanguageSwitcher from "@components/settings/LanguageSwitcher";
+import BlurBackground from "@components/layout/BlurBackground";
+import Sidebar from "@components/layout/sidebar/Sidebar";
 
+import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
-import useLayoutStore from "@stores/LayoutStore";
 
 function NavigationBar() {
     const { t } = useTranslation();
-    
-    const pageWidth = useLayoutStore(state => state.contentSectionWidth);
 
-    const { sidebarOpen, setSidebarOpen } = useSidebarStore();
+    const [ sidebarOpen, setSidebarOpen ] = useState(false);
 
-    return <div className={styles.navigationBar}>
-        <div className={styles.navigationBarSection}>
-            {pageWidth <= Breakpoints.RETRACT_SIDEBAR
-                && <img
+    return <div className={styles.wrapper}>
+        <div className={styles.section}>
+            <div className={styles.section}>
+                <img
                     className={styles.menuButton}
                     src={require("@assets/img/interface/menu.svg")}
                     height={35}
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    onClick={() => setSidebarOpen(true)}
                 />
-            }
 
-            <img
-                src={require("@assets/img/logo.svg")}
-                title="WINTR"
-                height={40}
-                draggable={false}
-            />
+                <Typography
+                    textClassName={styles.typographyText}
+                    includeIcon
+                />
+            </div>
 
-            <span className={styles.title}>
-                Wintr
+            <div className={styles.tabs}>
+                <HoverDropdown
+                    icon={require("@assets/img/icons/analysis.png")}
+                    url="/analysis"
+                >
+                    {t("sidebar.analysis")}
+                </HoverDropdown>
 
-                <b style={{ letterSpacing: 0 }}>
-                    Chess
-                </b>
-            </span>
+                <HoverDropdown
+                    icon={require("@assets/img/icons/archive.png")}
+                    url="/archive"
+                >
+                    {t("sidebar.archive")}
+                </HoverDropdown>
+
+                <HoverDropdown
+                    icon={require("@assets/img/icons/news.png")}
+                    url="/news"
+                >
+                    {t("sidebar.news")}
+                </HoverDropdown>
+            </div>
         </div>
 
-        <div className={styles.navigationBarSection}
-            style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap"
-            }}
-        >
+        <div className={styles.section}>
+            <LanguageSwitcher/>
+
             <a href="https://ko-fi.com/wintrcat" target="_blank">
                 <Button
-                    style={{
-                        background: "linear-gradient(-225deg,"
-                            + "#22E1FF 0%, #1D8FE1 48%, #625EB1 100%)",
-                        fontFamily: "Nunito"
-                    }}
+                    className={styles.support}
                     icon={require("@assets/img/kofi.svg")}
                     tooltipId="navigation-bar-support"
-                >
-                    {t("navigationBar.support")}
-                </Button>
+                />
             </a>
 
             <Tooltip
@@ -71,26 +73,43 @@ function NavigationBar() {
                 delayShow={500}
             />
 
-            <LanguageSwitcher/>
+            {/* <Button
+                className={styles.signIn}
+                icon={require("@assets/img/interface/signin.svg")}
+                iconSize="28px"
+            >
+                {t("navigationBar.signIn")}
+            </Button> */}
 
-            <a href="/help">
+            <a href="/settings">
                 <Button
-                    icon={require("@assets/img/interface/help.svg")}
-                    style={{
-                        width: "52px",
-                        padding: "5px"
-                    }}
-                    iconSize="32px"
-                    tooltipId={"navigation-bar-help-center"}
+                    className={styles.settings}
+                    icon={require("@assets/img/icons/settings.png")}
+                    iconSize="28px"
+                    tooltipId="navigation-bar-settings"
                 />
             </a>
 
             <Tooltip
-                id="navigation-bar-help-center"
-                content={t("navigationBar.tooltips.help")}
+                id="navigation-bar-settings"
+                content={t("settings")}
                 delayShow={500}
             />
         </div>
+
+        {sidebarOpen && <BlurBackground
+            style={{ zIndex: 1000 }}
+            onClick={() => setSidebarOpen(false)}
+        />}
+
+        <Sidebar
+            style={{
+                zIndex: 1001,
+                transition: "left 0.3s ease",
+                left: sidebarOpen ? "0" : "-320px"
+            }}
+            onClose={() => setSidebarOpen(false)}
+        />
     </div>;
 }
 

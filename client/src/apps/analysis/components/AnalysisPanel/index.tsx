@@ -1,10 +1,7 @@
-import React, { lazy, useRef } from "react";
+import React, { lazy } from "react";
 import { useTranslation } from "react-i18next";
 
-import Breakpoints from "@constants/Breakpoints";
 import AnalysisTab from "@apps/analysis/constants/AnalysisTab";
-import useResizeObserver from "@hooks/useResizeObserver";
-import useLayoutStore from "@stores/LayoutStore";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
@@ -12,7 +9,7 @@ import useAnalysisTabStore from "@apps/analysis/stores/AnalysisTabStore";
 import ClassifiedMoveCard from "@apps/analysis/components/report/ClassifiedMoveCard";
 import StateTreeTraverser from "@components/chess/StateTreeTraverser";
 
-import AnalysisTabBar from "./AnalysisTabBar";
+import TabBar from "./TabBar";
 import AnalysisProgress from "./AnalysisProgress";
 import RealtimeEngineArea from "./RealtimeEngineArea";
 
@@ -20,91 +17,70 @@ import GameSelection from "./GameSelection";
 import GameReport from "./GameReport";
 import GameAnalysis from "./GameAnalysis";
 
+import AnalysisPanelProps from "./AnalysisPanelProps";
 import * as styles from "./AnalysisPanel.module.css";
 
 const OptionsToolbar = lazy(() => import("@apps/analysis/components/OptionsToolbar"));
 
-function AnalysisPanel() {
+function AnalysisPanel({
+    className,
+    style
+}: AnalysisPanelProps) {
     const { t } = useTranslation();
 
-    const {
-        contentSectionWidth,
-        contentSectionHeight,
-        analysisPanelScrollable,
-        setAnalysisPanelScrollable
-    } = useLayoutStore();
-
-    const { settings } = useSettingsStore();
+    const settings = useSettingsStore(state => state.settings.analysis);
 
     const gameAnalysisOpen = useAnalysisGameStore(
         state => state.gameAnalysisOpen
     );
 
-    const currentStateTreeNode = useAnalysisBoardStore(
+    const currentNode = useAnalysisBoardStore(
         state => state.currentStateTreeNode
     );
 
     const { activeTab } = useAnalysisTabStore();
-
-    const analysisPanelRef = useRef<HTMLDivElement>(null);
-
-    useResizeObserver(analysisPanelRef, size => (
-        setAnalysisPanelScrollable(size.fullWidth != size.innerWidth)
-    ));
-
-    const treeTraverserWidth = innerWidth > Breakpoints.MOBILE_LAYOUT
-        ? (analysisPanelScrollable ? 355 : 365)
-        : (innerWidth > 400 ? 365 : 280);
     
     return <div
-        className={styles.wrapper}
-        style={{
-            height: contentSectionWidth > Breakpoints.MOBILE_LAYOUT
-                ? `${contentSectionHeight}px`
-                : undefined
-        }}
-        ref={analysisPanelRef}
+        className={`${styles.wrapper} ${className}`}
+        style={style}
     >
-        <div className={styles.title}>
-            {t("pages.analysis.title")}
+        <div className={styles.components}>
+            <div className={styles.title}>
+                {t("pages.analysis.title")}
+            </div>
+
+            <OptionsToolbar/>
+
+            {gameAnalysisOpen && <TabBar/>}
+
+            <AnalysisProgress/>
+
+            {(gameAnalysisOpen && settings.engine.enabled)
+                && <RealtimeEngineArea/>
+            }
+
+            {gameAnalysisOpen
+                && currentNode.state.move
+                && !settings.classifications.hide
+                && !(
+                    !settings.engine.enabled
+                    && currentNode.state.classification == undefined
+                )
+                && <ClassifiedMoveCard/>
+            }
+
+            {gameAnalysisOpen
+                ? (activeTab == AnalysisTab.REPORT
+                    ? <GameReport/>
+                    : <GameAnalysis/>
+                )
+                : <GameSelection/>
+            }
         </div>
 
-        <OptionsToolbar/>
-
-        {gameAnalysisOpen && <AnalysisTabBar/>}
-
-        <AnalysisProgress/>
-
-        {gameAnalysisOpen && <RealtimeEngineArea/>}
-
-        {gameAnalysisOpen
-            && currentStateTreeNode.state.move
-            && !settings.analysis.classifications.hide
-            && !(
-                !settings.analysis.engine.enabled
-                && currentStateTreeNode.state.classification == undefined
-            )
-            && <ClassifiedMoveCard/>
-        }
-
-        {gameAnalysisOpen
-            ? (activeTab == AnalysisTab.REPORT
-                ? <GameReport/>
-                : <GameAnalysis/>
-            )
-            : <GameSelection/>
-        }
-
-        <StateTreeTraverser style={{
-            position: "fixed",
-            width: treeTraverserWidth,
-            bottom: "10px",
-            right: innerWidth > Breakpoints.MOBILE_LAYOUT
-                ? (analysisPanelScrollable ? "20px" : "10px")
-                : `calc(50vw - (${treeTraverserWidth}px / 2))`
-        }}/>
-
-        <div className={styles.stateTreeTraverserPlaceholder} />
+        <div className={styles.traverserContainer}>
+            <StateTreeTraverser className={styles.traverser} />
+        </div>
     </div>;
 }
 

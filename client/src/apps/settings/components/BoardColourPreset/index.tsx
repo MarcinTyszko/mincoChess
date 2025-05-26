@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { Tooltip } from "react-tooltip";
+import { uniqueId } from "lodash";
 
 import BoardColourPresetProps from "./BoardColourPresetProps";
 import * as styles from "./BoardColourPreset.module.css";
@@ -10,34 +12,39 @@ function BoardColourPreset({
     selected,
     onClick
 }: BoardColourPresetProps) {
-    return <div
-        className={styles.wrapper}
-        style={{
-            border: selected
+    const tooltipId = useMemo(uniqueId, []);
+
+    return <>
+        <div
+            className={styles.wrapper}
+            style={{ border: selected
                 ? "2px solid var(--ui-blue)"
                 : undefined
-        }}
-        title={title}
-        onClick={onClick}
-    >
-        <div style={{ backgroundColor: lightSquareColour }}>
-            <img
-                src={require("@assets/img/pieces/standard/black_king.svg")}
-                style={{ width: "100%" }}
-            />
+            }}
+            data-tooltip-id={tooltipId}
+            onClick={onClick}
+        >
+            <div style={{ backgroundColor: lightSquareColour }}>
+                <img
+                    src={require("@assets/img/pieces/standard/black_king.svg")}
+                    style={{ width: "100%" }}
+                />
+            </div>
+
+            <div style={{ backgroundColor: darkSquareColour }} />
+
+            <div style={{ backgroundColor: darkSquareColour }} />
+
+            <div style={{ backgroundColor: lightSquareColour }}>
+                <img
+                    src={require("@assets/img/pieces/standard/white_king.svg")}
+                    style={{ width: "100%" }}
+                />
+            </div>
         </div>
 
-        <div style={{ backgroundColor: darkSquareColour }} />
-
-        <div style={{ backgroundColor: darkSquareColour }} />
-
-        <div style={{ backgroundColor: lightSquareColour }}>
-            <img
-                src={require("@assets/img/pieces/standard/white_king.svg")}
-                style={{ width: "100%" }}
-            />
-        </div>
-    </div>;
+        <Tooltip id={tooltipId} content={title} />
+    </>;
 }
 
 export default BoardColourPreset;

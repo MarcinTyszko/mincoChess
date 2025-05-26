@@ -22,7 +22,7 @@ import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import useAnalysisProgressStore from "@apps/analysis/stores/AnalysisProgressStore";
 import LogMessage from "@components/common/LogMessage";
-import playBoardSound from "@apps/analysis/components/AnalysisBoard/boardSounds";
+import playBoardSound from "@lib/boardSounds";
 
 import * as styles from "./ClassifiedMoveCard.module.css";
 

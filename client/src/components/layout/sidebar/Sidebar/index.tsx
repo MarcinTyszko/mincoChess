@@ -1,88 +1,71 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
-import useSidebarStore from "@apps/analysis/stores/SidebarStore";
 import SidebarTab from "../SidebarTab";
-import useDelayedEffect from "@hooks/useDelayedEffect";
+import Separator from "@components/common/Separator";
+import Typography from "@components/Typography";
 
 import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";
 
-function Sidebar({ style }: SidebarProps) {
+function Sidebar({ style, onClose }: SidebarProps) {
     const { t } = useTranslation();
 
-    const { sidebarOpen } = useSidebarStore();
-
-    const sidebarRef = useRef<HTMLDivElement>(null);
-
-    useDelayedEffect(() => {
-        if (!sidebarRef.current) return;
-
-        sidebarRef.current.className = styles.sidebar;
-
-        // Reset animation by forcing rerender of sidebar
-        void sidebarRef.current.offsetWidth;
-
-        sidebarRef.current.classList.add(
-            sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
-        );  
-    }, [sidebarOpen]);
-
     return <div
-        className={(
-            `${styles.sidebar} `
-            + (sidebarOpen
-                ? styles.sidebarOpenStatic
-                : styles.sidebarClosedStatic
-            )
-        )}
+        className={styles.sidebar}
         style={style}
-        ref={sidebarRef}
+        onClick={event => event.stopPropagation()}
     >
-        <div className={styles.tabs}>
-            <SidebarTab
-                url="/analysis" 
-                icon={require("@assets/img/icons/analysis.png")}
-                style={{ width: "100%" }}
-            >
-                {t("sidebar.analysis")}
-            </SidebarTab>
+        <div className={styles.titleSection}>
+            <img
+                className={styles.closeButton}
+                src={require("@assets/img/interface/close.svg")}
+                onClick={onClose}
+            />
 
-            <SidebarTab
-                url="/archive" 
-                icon={require("@assets/img/icons/archive.png")} 
-                iconSize="20px"
-                style={{ width: "100%" }}
-            >
-                {t("sidebar.archive")}
-            </SidebarTab>
+            <Typography className={styles.title} includeIcon/>
         </div>
 
-        <div className={styles.footer}>
-            <SidebarTab
-                url="/news"
-                icon={require("@assets/img/icons/news.png")}
-                style={{ width: "100%" }}
-            >
-                {t("sidebar.news")}
-            </SidebarTab>
+        <div style={{ padding: "0 10px" }}>
+            <Separator style={{ margin: 0 }} />
+        </div>
 
-            <SidebarTab
-                url="/settings"
-                icon={require("@assets/img/icons/settings.png")}
-                style={{ width: "100%" }}
-            >
-                {t("settings")}
-            </SidebarTab>
+        <div className={styles.tabs}>
+            <div className={styles.tabSection}>
+                <SidebarTab
+                    url="/analysis" 
+                    icon={require("@assets/img/icons/analysis.png")}
+                    style={{ width: "100%" }}
+                >
+                    {t("sidebar.analysis")}
+                </SidebarTab>
 
-            <div className={styles.footerLinks}>
-                <a href="/privacy" className={styles.footerLink}>
-                    {t("sidebar.privacyPolicy")}
-                </a>
+                <SidebarTab
+                    url="/archive" 
+                    icon={require("@assets/img/icons/archive.png")} 
+                    iconSize="20px"
+                    style={{ width: "100%" }}
+                >
+                    {t("sidebar.archive")}
+                </SidebarTab>
 
-                <a href="/credits" className={styles.footerLink}>
-                    {t("sidebar.credits")}
-                </a>
+                <SidebarTab
+                    url="/news"
+                    icon={require("@assets/img/icons/news.png")}
+                    style={{ width: "100%" }}
+                >
+                    {t("sidebar.news")}
+                </SidebarTab>
+            </div>
+
+            <div className={styles.tabSection}>
+                <SidebarTab
+                    url="/settings"
+                    icon={require("@assets/img/icons/settings.png")}
+                    style={{ width: "100%" }}
+                >
+                    {t("settings")}
+                </SidebarTab>
             </div>
         </div>
     </div>;
