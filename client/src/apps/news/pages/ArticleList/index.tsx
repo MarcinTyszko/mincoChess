@@ -9,6 +9,7 @@ import Separator from "@components/common/Separator";
 import Button from "@components/common/Button";
 import ButtonColour from "@components/common/Button/Colour";
 import LogMessage from "@components/common/LogMessage";
+import Advertisement from "@components/Advertisement";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import SocialLink from "@apps/news/components/SocialLink";
 import ArticleListing from "@apps/news/components/ArticleListing";
@@ -120,6 +121,10 @@ function News() {
         </div>
 
         <Separator/>
+
+        <Advertisement adUnitId="3904113611" style={{
+            width: "100%"
+        }}/>
 
         <div className={styles.articles}>
             {status == "pending"
