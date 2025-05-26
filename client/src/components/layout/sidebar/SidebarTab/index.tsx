@@ -27,12 +27,10 @@ function SidebarTab({
             boxShadow: isTabActive ? "inset 0 -2px 0 0 var(--ui-blue)" : undefined
         }}
     >
-        {icon
-            && <img
-                src={icon}
-                height={iconSize || defaultIconSize}
-            />
-        }
+        {icon && <img
+            src={icon}
+            height={iconSize || defaultIconSize}
+        />}
 
         {children}
     </button>;
