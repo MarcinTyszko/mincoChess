@@ -6,26 +6,30 @@ import * as styles from "./Advertisement.module.css";
 function Advertisement({
     className,
     style,
+    publisherId,
     adUnitId
 }: AdvertisementProps) {
     useEffect(() => {
-        window.adsbygoogle ??= [];
-        window.adsbygoogle.push({});
+        try {
+            window.adsbygoogle ??= [];
+            window.adsbygoogle.push({});
+        } catch {
+            console.warn("advertisement duplicate load cancelled.");
+        }
     }, []);
 
-    if (!process.env.ADS_PUBLISHER_ID) return null;
+    const pubId = publisherId || process.env.ADS_PUBLISHER_ID;
+    if (!pubId) return null;
 
-    const devStyles = process.env.NODE_ENV == "development"
+    const devClassName = process.env.NODE_ENV == "development"
         ? styles.dev : "";
 
-    return <div className={className} style={style}>
-        <ins
-            className={`adsbygoogle ${devStyles}`}
-            style={{ display: "block" }}
-            data-ad-client={process.env.ADS_PUBLISHER_ID}
-            data-ad-slot={adUnitId}
-        />
-    </div>;
+    return <ins
+        className={`adsbygoogle ${className} ${devClassName}`}
+        style={{ display: "block", ...style }}
+        data-ad-client={pubId}
+        data-ad-slot={adUnitId}
+    />;
 }
 
 export default Advertisement;

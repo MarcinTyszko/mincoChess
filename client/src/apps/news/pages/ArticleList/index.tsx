@@ -123,7 +123,7 @@ function News() {
         <Separator/>
 
         <Advertisement adUnitId="3904113611" style={{
-            width: "100%"
+            width: "100%", height: "100px"
         }}/>
 
         <div className={styles.articles}>
@@ -137,11 +137,9 @@ function News() {
                 )
             }
 
-            {status == "error"
-                && <LogMessage>
-                    {t("pages.news.error")}
-                </LogMessage>
-            }
+            {status == "error" && <LogMessage>
+                {t("pages.news.error")}
+            </LogMessage>}
         </div>
 
         <div className={styles.pageButtons} ref={pageButtonsRef}>

@@ -14,9 +14,11 @@ function Analysis() {
             <AnalysisPanel className={styles.panel} />
         </div>
 
-        <Advertisement adUnitId="7734244071" style={{
-            padding: "30px", paddingTop: 0
-        }}/>
+        <div style={{ padding: "0 30px" }}>
+            <Advertisement adUnitId="7734244071" style={{
+                height: "100px"
+            }}/>
+        </div>
     </div>;
 }
 
