@@ -3,14 +3,14 @@ import { StatusCodes } from "http-status-codes";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const whitelistedHostnames = [
+const whitelistedHostnames = [
     /.*\.?wintrchess\.com/,
     ...(process.env.NODE_ENV == "development"
         ? [/localhost/] : []
     )
 ];
 
-export const hostnameWhitelist: RequestHandler = (req, res, next) => {
+const hostnameWhitelist: RequestHandler = (req, res, next) => {
     const hostWhitelisted = whitelistedHostnames.some(
         hostnameRegex => hostnameRegex.test(req.hostname)
     );
@@ -21,3 +21,5 @@ export const hostnameWhitelist: RequestHandler = (req, res, next) => {
 
     next();
 };
+
+export default hostnameWhitelist;

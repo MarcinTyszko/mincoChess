@@ -32,12 +32,14 @@ function News() {
 
     const { data: newsArticles, status } = useQuery({
         queryKey: ["newsArticles"],
-        queryFn: () => getNewsArticles(pageRef.current)
+        queryFn: () => getNewsArticles(pageRef.current),
+        refetchOnWindowFocus: false
     });
 
     const { data: pageCount } = useQuery({
         queryKey: ["newsArticlesPages"],
-        queryFn: getNewsArticlesPages
+        queryFn: getNewsArticlesPages,
+        refetchOnWindowFocus: false
     });
 
     async function switchPage(increment: number) {

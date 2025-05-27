@@ -16,7 +16,7 @@ function Analysis() {
 
         <div style={{ padding: "0 30px" }}>
             <Advertisement adUnitId="7734244071" style={{
-                height: "100px"
+                width: "100%", height: "100px"
             }}/>
         </div>
     </div>;

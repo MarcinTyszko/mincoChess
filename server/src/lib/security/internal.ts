@@ -10,16 +10,12 @@ export function signInternalJWT() {
         throw new Error("couldn't find JWT secret in environment variables.");
     }
 
-    return jwt.sign(
-        {
-            exp: Math.floor(Date.now() / 1000)
-                + (
-                    Number(process.env.INTERNAL_JWT_EXPIRY)
-                    || defaultSessionExpiry
-                )
-        },
-        process.env.INTERNAL_JWT_SECRET
-    );
+    return jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + (
+            Number(process.env.INTERNAL_JWT_EXPIRY)
+            || defaultSessionExpiry
+        )
+    }, process.env.INTERNAL_JWT_SECRET);
 }
 
 export const internalAuthenticator: RequestHandler = async (

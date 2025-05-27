@@ -1,9 +1,7 @@
 import { RequestHandler, Router } from "express";
 import path from "path";
 
-import crossOriginIsolate from "@lib/security/isolate";
-
-function pageFileRouter(filename: string): RequestHandler {
+function appRouter(filename: string): RequestHandler {
     return async (req, res) => res.sendFile(
         path.resolve(`client/public/apps/${filename}`)
     );
@@ -11,25 +9,23 @@ function pageFileRouter(filename: string): RequestHandler {
 
 const router = Router();
 
-router.get("/help", pageFileRouter("helpCenter.html"));
+router.get("/help", appRouter("helpCenter.html"));
 
-router.get("/analysis",
-    crossOriginIsolate,
-    pageFileRouter("analysis.html")
-);
-router.get("/archive", pageFileRouter("archive.html"));
+router.get("/analysis", appRouter("analysis.html"));
+router.get("/archive", appRouter("archive.html"));
 
-router.get("/news*", pageFileRouter("news.html"));
-router.get("/settings", pageFileRouter("settings.html"));
-router.get("/privacy", pageFileRouter("privacyPolicy.html"));
-router.get("/credits", pageFileRouter("credits.html"));
+router.get("/news*", appRouter("news.html"));
+router.get("/settings", appRouter("settings.html"));
 
-router.get("/internal*", pageFileRouter("internal.html"));
+router.get("/privacy", appRouter("privacyPolicy.html"));
+router.get("/credits", appRouter("credits.html"));
+
+router.get("/internal*", appRouter("internal.html"));
 
 router.get("/", async (req, res) => {
     res.redirect("/analysis");
 });
 
-router.get("/*", pageFileRouter("unfound.html"));
+router.get("/*", appRouter("unfound.html"));
 
 export default router;
