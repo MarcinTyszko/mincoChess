@@ -25,11 +25,7 @@ function RealtimeEngine({
     onEvaluationStart,
     onEvaluationComplete
 }: RealtimeEngineProps) {
-    const hydratedConfig = {
-        ...config,
-        lines: config.lines || 1,
-        threads: config.threads || 1
-    };
+    const hydratedConfig = { ...config, lines: config.lines || 1 };
 
     const { t } = useTranslation();
 
@@ -112,7 +108,6 @@ function RealtimeEngine({
 
         engine.setPosition(initialPosition, playedUciMoves);
         engine.setLineCount(hydratedConfig.lines);
-        engine.setThreadCount(hydratedConfig.threads);
 
         try {
             setEvaluationError(undefined);

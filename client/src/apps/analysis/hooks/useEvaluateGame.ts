@@ -10,7 +10,9 @@ import evaluateMoves from "@apps/analysis/lib/evaluate";
 function useEvaluateGame() {
     const { t } = useTranslation();
 
-    const { settings } = useSettingsStore();
+    const settings = useSettingsStore(
+        state => state.settings.analysis.engine
+    );
 
     const dispatchCurrentNodeUpdate = useAnalysisBoardStore(
         state => state.dispatchCurrentNodeUpdate
@@ -25,36 +27,25 @@ function useEvaluateGame() {
     async function evaluateGame(analysisGame: AnalysedGame) {
         setAnalysisStatus(AnalysisStatus.EVALUATING);
 
-        // Generate evaluations for each position
         try {
-            await evaluateMoves(
-                analysisGame,
-                {
-                    engineVersion: settings.analysis.engine.version,
-                    engineDepth: settings.analysis.engine.depth,
-                    engineTimeLimit: settings.analysis.engine.timeLimitEnabled
-                        ? settings.analysis.engine.timeLimit
-                        : undefined,
-                    cloudEngineLines: Math.max(2, settings.analysis.engine.lines),
-                    maxEngineCount: 4,
-                    engineConfig: engine => {
-                        engine.setLineCount(settings.analysis.engine.lines);
-                        engine.setThreadCount(settings.analysis.engine.threads);
-                    },
-                    onProgress: progress => {
-                        setEvaluationProgress(progress);
-                        dispatchCurrentNodeUpdate();
-                    }
+            await evaluateMoves(analysisGame, {
+                engineVersion: settings.version,
+                engineDepth: settings.depth,
+                engineTimeLimit: settings.timeLimitEnabled
+                    ? settings.timeLimit : undefined,
+                cloudEngineLines: settings.lines,
+                maxEngineCount: 4,
+                engineConfig: engine => engine.setLineCount(settings.lines),
+                onProgress: progress => {
+                    setEvaluationProgress(progress);
+                    dispatchCurrentNodeUpdate();
                 }
-            );
+            });
 
             setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
         } catch (err) {
             console.error(err);
-
-            setAnalysisError(
-                t("pages.analysis.analysisError")
-            );
+            setAnalysisError(t("pages.analysis.analysisError"));
         }
     }
 
