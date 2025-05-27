@@ -81,7 +81,7 @@ function Article() {
             </LogMessage>
         }
 
-        <Advertisement adUnitId="2270224474" style={{
+        <Advertisement adUnitId="6069259870" style={{
             width: "min(800px, 100%)", height: "100px"
         }}/>
     </div>;
