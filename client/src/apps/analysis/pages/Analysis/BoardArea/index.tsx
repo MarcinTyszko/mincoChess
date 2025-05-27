@@ -58,8 +58,8 @@ function BoardArea() {
             maxWidth: `calc(100vh - ${evaluation ? 195 : 235}px)`
         }}
         profileClassName={styles.boardProfile}
-        whiteProfile={analysisGame.players.black}
-        blackProfile={analysisGame.players.white}
+        whiteProfile={analysisGame.players.white}
+        blackProfile={analysisGame.players.black}
         theme={{
             lightSquareColour: theme.board.lightSquareColour,
             darkSquareColour: theme.board.darkSquareColour
