@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import { formatDate } from "wintrchess";
 import Loader from "@components/common/Loader";
 import LogMessage from "@components/common/LogMessage";
+import Advertisement from "@components/Advertisement";
 import { getNewsArticle } from "@lib/newsArticles";
 
 import * as styles from "./Article.module.css";
@@ -32,6 +33,10 @@ function Article() {
     }, [status]);
 
     return <div className={styles.wrapper}>
+        <Advertisement adUnitId="2270224474" style={{
+            width: "min(800px, 100%)", height: "100px"
+        }}/>
+
         <div className={styles.articleContainer}>
             {status == "pending"
                 && <div className={styles.articleLoaderContainer}>
@@ -41,41 +46,33 @@ function Article() {
                 </div>
             }
 
-            {article
-                && <>
-                    <div
-                        className={styles.tag}
-                        style={{
-                            backgroundColor: `${article.tag.colour}4c`,
-                            borderColor: `${article.tag.colour}ab`
-                        }}
-                    >
-                        {article.tag.name}
-                    </div>
+            {article && <>
+                <div className={styles.tag} style={{
+                    backgroundColor: `${article.tag.colour}4c`,
+                    borderColor: `${article.tag.colour}ab`
+                }}>
+                    {article.tag.name}
+                </div>
 
-                    {
-                        article.thumbnail
-                        && <img src={article.thumbnail} />
-                    }
+                {article.thumbnail && <img src={article.thumbnail} />}
 
-                    <span className={styles.title}>
-                        {article.title}
-                    </span>
+                <span className={styles.title}>
+                    {article.title}
+                </span>
 
-                    <span className={styles.date}>
-                        {formatDate(new Date(article.timestamp))}
-                    </span>
+                <span className={styles.date}>
+                    {formatDate(new Date(article.timestamp))}
+                </span>
 
-                    <hr className={styles.separator}/>
+                <hr className={styles.separator} />
 
-                    <ReactMarkdown
-                        className={styles.content}
-                        urlTransform={value => value}
-                    >
-                        {article.content}
-                    </ReactMarkdown>
-                </>
-            }
+                <ReactMarkdown
+                    className={styles.content}
+                    urlTransform={value => value}
+                >
+                    {article.content}
+                </ReactMarkdown>
+            </>}
         </div>
 
         {status == "error"
@@ -83,6 +80,10 @@ function Article() {
                 {t("pages.news.article.error")}
             </LogMessage>
         }
+
+        <Advertisement adUnitId="2270224474" style={{
+            width: "min(800px, 100%)", height: "100px"
+        }}/>
     </div>;
 }
 

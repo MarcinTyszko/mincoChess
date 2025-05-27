@@ -8,6 +8,12 @@ import * as styles from "./Analysis.module.css";
 
 function Analysis() {
     return <div className={styles.wrapper}>
+        <div style={{ padding: "0 30px" }}>
+            <Advertisement adUnitId="6032766700" style={{
+                width: "100%", height: "100px"
+            }}/>
+        </div>
+
         <div className={styles.analysisSection}>
             <BoardArea/>
 
