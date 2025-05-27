@@ -1,14 +1,12 @@
 import { CSSProperties, ReactNode } from "react";
 
+import BaseDropdownOption from "./BaseDropdownOption";
+
 interface WidthConstraint {
     width?: string;
 }
 
-export interface BaseDropdownOption {
-    label: string;
-}
-
-export interface DropdownSettingProps<Option extends BaseDropdownOption> {
+interface DropdownSettingProps<Option extends BaseDropdownOption> {
     options: Option[];
     defaultValue?: Option;
     onSelect?: (value?: Option) => void;
@@ -31,3 +29,5 @@ export interface DropdownSettingProps<Option extends BaseDropdownOption> {
     optionStyle?: CSSProperties;
     optionClassName?: string;
 }
+
+export default DropdownSettingProps;

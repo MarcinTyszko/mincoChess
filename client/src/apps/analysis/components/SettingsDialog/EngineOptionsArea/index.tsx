@@ -30,15 +30,15 @@ const engineVersionOptions = [
 
 const engineArrowsOptions = [
     {
-        label: "Disabled",
+        translabel: "disabled",
         value: EngineArrowType.DISABLED
     },
     {
-        label: "Top Continuation",
+        translabel: "pages.analysis.settings.engine.suggestionArrows.continuation",
         value: EngineArrowType.TOP_CONTINUATION
     },
     {
-        label: "Top Alternative",
+        translabel: "pages.analysis.settings.engine.suggestionArrows.alternative",
         value: EngineArrowType.TOP_ALTERNATIVE
     }
 ];
@@ -198,36 +198,8 @@ function EngineOptionsArea() {
         </div>
 
         <div className={styles.setting}>
-            <span data-tooltip-id="settings-engine-thread-count">
-                {t("pages.analysis.settings.engine.threadCount")}
-            </span>
-
-            <Tooltip
-                id="settings-engine-thread-count"
-                content={t("pages.analysis.settings.engine.descriptions.threadCount")}
-                delayShow={500}
-                className={styles.settingDescription}
-            />
-
-            <NumberSetting
-                min={1}
-                max={64}
-                defaultValue={settings.analysis.engine.threads}
-                onChange={value => (
-                    setSettings(draft => {
-                        draft.analysis.engine.threads = floor(
-                            clamp(value, 1, 64)
-                        );
-                        return draft;
-                    })
-                )}
-                style={{ width: "180px" }}
-            />
-        </div>
-
-        <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-suggestion-arrows">
-                {t("pages.analysis.settings.engine.suggestionArrows")}
+                {t("pages.analysis.settings.engine.suggestionArrows.title")}
             </span>
 
             <Tooltip

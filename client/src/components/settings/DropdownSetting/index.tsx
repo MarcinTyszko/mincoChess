@@ -1,10 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Select, { components } from "react-select";
 
-import {
-    BaseDropdownOption,
-    DropdownSettingProps
-} from "./DropdownSettingProps";
+import BaseDropdownOption from "./BaseDropdownOption";
+
+import DropdownSettingProps from "./DropdownSettingProps";
 import * as styles from "./DropdownSetting.module.css";
 
 const defaultStyles = {
@@ -31,6 +31,8 @@ const defaultStyles = {
 function DropdownSetting<Option extends BaseDropdownOption>(
     props: DropdownSettingProps<Option>
 ) {
+    const { t } = useTranslation();
+
     function getMenuOffset() {
         const dropdownWidth = (
             props.dropdownStyle?.width || defaultStyles.dropdown.width
@@ -46,9 +48,15 @@ function DropdownSetting<Option extends BaseDropdownOption>(
         }
     }
 
+    function getLabel(option: BaseDropdownOption) {
+        return option.translabel
+            ? t(option.translabel)
+            : (option.label || t("error"));
+    }
+
     return <Select
         options={props.options}
-        getOptionLabel={option => option.label}
+        getOptionLabel={getLabel}
         defaultValue={props.defaultValue}
         onChange={value => props.onSelect?.(value ?? undefined)}
         isSearchable={props.searchable || false}
@@ -99,7 +107,7 @@ function DropdownSetting<Option extends BaseDropdownOption>(
                 >
                     {props.dropdownLabelRenderer
                         ? props.dropdownLabelRenderer?.(selectedValueProps.data)
-                        : selectedValueProps.data.label
+                        : getLabel(selectedValueProps.data)
                     }
                 </components.SingleValue>
             ),
