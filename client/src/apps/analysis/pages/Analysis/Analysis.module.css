@@ -14,7 +14,7 @@
     padding: 0 30px;
     box-sizing: border-box;
     width: 100%;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 125px);
 }
 
 @media (max-width: 900px) {
