@@ -1,9 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import ProfileConnectionIcon from "../../components/CreditsProfile/ProfileConnectionIcon";
-import CreditsProfile from "../../components/CreditsProfile";
-import * as wintrchessStyle from "@components/layout/NavigationBar/NavigationBar.module.css";
+import Typography from "@components/Typography";
+import ProfileConnectionIcon from "@apps/credits/constants/ProfileConnectionIcon";
+import CreditsProfile from "@apps/credits/components/CreditsProfile";
+
 import * as styles from "./Credits.module.css";
 
 function Credits() {
@@ -13,20 +14,12 @@ function Credits() {
         <h1 className={styles.title}>
             The{" "}
 
-            <span className={wintrchessStyle.title}>
-                Wintr
-
-                <b style={{ letterSpacing: 0 }}>
-                    Chess
-                </b>
-            </span>
+            <Typography/>
 
             {" "}Team
         </h1>
 
-        <h2>
-            {t("pages.credits.leadDeveloper")}
-        </h2>
+        <h2>{t("pages.credits.leadDeveloper")}</h2>
 
         <CreditsProfile
             username="Wilson Crunden (wintrcat)"
@@ -47,9 +40,7 @@ function Credits() {
             ]}
         />
 
-        <h2>
-            {t("pages.credits.developer")}
-        </h2>
+        <h2>{t("pages.credits.developer")}</h2>
 
         <CreditsProfile
             username="Matthew Roberts (hetbet)"
@@ -62,9 +53,7 @@ function Credits() {
             ]}
         />
 
-        <h2>
-            {t("pages.credits.artist")}
-        </h2>
+        <h2>{t("pages.credits.artist")}</h2>
 
         <CreditsProfile
             username="Simona (0nlinegirl3)"

@@ -1,4 +1,4 @@
-import ProfileConnectionIcon from "./ProfileConnectionIcon";
+import ProfileConnectionIcon from "../../constants/ProfileConnectionIcon";
 
 interface ProfileConnection {
     url: string;

@@ -1,5 +1,6 @@
 import React from "react";
 
+import Advertisement from "@components/Advertisement";
 import AnalysisPanel from "@apps/analysis/components/AnalysisPanel";
 
 import BoardArea from "./BoardArea";
@@ -12,6 +13,10 @@ function Analysis() {
 
             <AnalysisPanel className={styles.panel} />
         </div>
+
+        <Advertisement adUnitId="7734244071" style={{
+            padding: "30px", paddingTop: 0
+        }}/>
     </div>;
 }
 

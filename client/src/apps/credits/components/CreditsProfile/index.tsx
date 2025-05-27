@@ -10,10 +10,7 @@ function CreditsProfile({
     connections
 }: CreditsProfileProps) {
     return <div className={styles.profile}>
-        <img 
-            className={styles.image}
-            src={profileImage} 
-        />
+        <img className={styles.image} src={profileImage} />
 
         <div className={styles.profileInfo}>
             <div className={styles.profileText}>
