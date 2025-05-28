@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { useAltcha } from "@hooks/useAltcha";
 import PageWrapper from "@components/layout/PageWrapper";
+import { removeDefaultConsentLink } from "@lib/consent";
 
 import * as styles from "./index.module.css";
 
@@ -22,6 +23,7 @@ function App() {
     const executeCaptcha = useAltcha();
 
     useEffect(() => {
+        removeDefaultConsentLink();
         executeCaptcha();
     }, []);
 

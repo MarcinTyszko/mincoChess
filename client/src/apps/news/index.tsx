@@ -1,9 +1,10 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import PageWrapper from "@components/layout/PageWrapper";
+import { removeDefaultConsentLink } from "@lib/consent";
 
 const ArticleList = lazy(() => import("./pages/ArticleList"));
 const Article = lazy(() => import("./pages/Article"));
@@ -18,6 +19,10 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 
 function App() {
+    useEffect(() => {
+        removeDefaultConsentLink();
+    }, []);
+
     return <BrowserRouter>
         <QueryClientProvider client={queryClient}>
             <PageWrapper>

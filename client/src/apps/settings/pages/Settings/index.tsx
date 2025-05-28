@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import CategoryTab from "@apps/settings/components/CategoryTab";
 import BoardAndPieces from "./categories/BoardAndPieces";
 import BugReporting from "./categories/BugReporting";
-import manageDataConsent from "@lib/consent";
+import { manageDataConsent } from "@lib/consent";
 
 import * as styles from "./Settings.module.css";
 

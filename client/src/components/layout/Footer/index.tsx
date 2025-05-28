@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import Typography from "@components/Typography";
-import manageDataConsent from "@lib/consent";
+import { manageDataConsent } from "@lib/consent";
 
 import FooterProps from "./FooterProps";
 import * as styles from "./Footer.module.css";
