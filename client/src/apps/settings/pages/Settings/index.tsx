@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import CategoryTab from "@apps/settings/components/CategoryTab";
 import BoardAndPieces from "./categories/BoardAndPieces";
 import BugReporting from "./categories/BugReporting";
+import manageDataConsent from "@lib/consent";
 
 import * as styles from "./Settings.module.css";
 
@@ -59,6 +60,10 @@ function Settings() {
                 </CategoryTab>
 
                 <hr className={styles.separator} />
+
+                <CategoryTab onClick={manageDataConsent}>
+                    {t("pages.settings.categories.privacy")}
+                </CategoryTab>
 
                 <CategoryTab onClick={() => {
                     location.href = "/help";

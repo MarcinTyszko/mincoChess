@@ -51,3 +51,7 @@ body {
 ::-webkit-scrollbar-corner {
     background-color: #919191;
 }
+
+.ipr-container {
+    display: none !important;
+}

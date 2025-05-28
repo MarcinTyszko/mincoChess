@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import Typography from "@components/Typography";
+import manageDataConsent from "@lib/consent";
 
 import FooterProps from "./FooterProps";
 import * as styles from "./Footer.module.css";
@@ -9,7 +10,10 @@ import * as styles from "./Footer.module.css";
 function Footer({ className, style }: FooterProps) {
     const { t } = useTranslation();
 
-    return <div className={`${styles.wrapper} ${className}`} style={style}>
+    return <footer
+        className={`${styles.wrapper} ${className}`}
+        style={style}
+    >
         <div className={styles.section}>
             <Typography
                 iconClassName={styles.typographyIcon}
@@ -29,8 +33,10 @@ function Footer({ className, style }: FooterProps) {
         <div className={styles.links}>
             <div className={styles.section}>
                 <a href="/help">{t("pages.helpCenter.title")}</a>
-                <a href="/news">{t("sidebar.news")}</a>
                 <a href="/settings">{t("settings")}</a>
+                <a className={styles.link} onClick={manageDataConsent}>
+                    {t("footer.manageConsent")}
+                </a>
             </div>
 
             <div className={styles.section}>
@@ -38,7 +44,7 @@ function Footer({ className, style }: FooterProps) {
                 <a href="/credits">{t("footer.credits")}</a>
             </div>
         </div>
-    </div>;
+    </footer>;
 }
 
 export default Footer;

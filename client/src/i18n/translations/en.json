@@ -20,6 +20,7 @@
         "news": "News"
     },
     "footer": {
+        "manageConsent": "Manage Consent",
         "privacyPolicy": "Privacy Policy",
         "credits": "Credits"
     },
@@ -218,7 +219,8 @@
                     "title": "Bug Reporting",
                     "bugReportingMode": "Bug Reporting Mode",
                     "bugReportingModeDescription": "Help us find and fix bugs. Bug Reporting Mode activates a small widget in the bottom corner of your screen which you can click to copy console logs."
-                }
+                },
+                "privacy": "Privacy"
             }
         },
         "credits": {
