@@ -41,24 +41,22 @@ export function considerBrilliantClassification(
     ) return false;
 
     // Detect equal or greater counterthreats when unsafe piece is taken
-    const dangerLevelsProtected = unsafePieces.every(unsafePiece => (
-        hasDangerLevels(
+    const dangerLevelsProtected = unsafePieces.every(
+        unsafePiece => hasDangerLevels(
             current.board,
             unsafePiece,
             getAttackingMoves(current.board, unsafePiece, false)
         )
-    ));
+    );
 
     if (dangerLevelsProtected) return false;
 
-    // If all unsafe pieces are trapped or if the moved one was previously
-    // trapped, do not allow brilliant
-    const trappedPieces = unsafePieces.filter(
-        unsafePiece => isPieceTrapped(current.board, unsafePiece)
-    );
-
     const previousTrappedPieces = previousUnsafePieces.filter(
         unsafePiece => isPieceTrapped(previous.board, unsafePiece)
+    );
+
+    const trappedPieces = unsafePieces.filter(
+        unsafePiece => isPieceTrapped(current.board, unsafePiece)
     );
 
     const movedPieceTrapped = previousTrappedPieces.some(

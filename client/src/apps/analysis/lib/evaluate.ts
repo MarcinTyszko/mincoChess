@@ -39,9 +39,13 @@ async function evaluateMoves(
 
     // Apply cloud evaluations where possible
     for (const stateTreeNode of stateTreeNodes) {
-        const cloudEngineLines = await getCloudEvaluation(
-            stateTreeNode.state.fen, options.cloudEngineLines
-        );
+        try {
+            var cloudEngineLines = await getCloudEvaluation(
+                stateTreeNode.state.fen, options.cloudEngineLines
+            );
+        } catch {
+            break;
+        }
 
         const topCloudLine = getTopEngineLine(cloudEngineLines);
         if (!topCloudLine) break;

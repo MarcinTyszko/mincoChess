@@ -1,5 +1,5 @@
 import { Chess, Move, ROOK } from "chess.js";
-import { isEqual } from "lodash";
+import { differenceWith, isEqual } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
@@ -19,13 +19,16 @@ function relativeUnsafePieceAttacks(
     colour: PieceColour,
     playedMove?: Move
 ) {
+    console.log(`in position: ${actionBoard.fen()} getting attacks on pieces higher than ${threatenedPiece.color}${threatenedPiece.type} on ${threatenedPiece.square}`);
+    console.log(getUnsafePieces(actionBoard, colour, playedMove));
+
     return getUnsafePieces(actionBoard, colour, playedMove)
         .filter(unsafePiece => (
             unsafePiece.square != threatenedPiece.square
             && pieceValues[unsafePiece.type] >= pieceValues[threatenedPiece.type]
         ))
-        .map(unsafePiece => (
-            getAttackingMoves(actionBoard, unsafePiece, false)
+        .map(unsafePiece => getAttackingMoves(
+            actionBoard, unsafePiece, false
         ))
         .reduce((acc, val) => acc.concat(val), []);
 }
@@ -59,16 +62,16 @@ export function moveCreatesGreaterThreat(
 
     // Attacks on unsafe pieces >= in value to threatened piece that
     // now exist after the acting move has been played
-    const newRelativeAttacks = relativeUnsafePieceAttacks(
+    const relativeAttacks = relativeUnsafePieceAttacks(
         actionBoard,
         threatenedPiece,
         adaptPieceColour(actingMove.color),
         bakedMove
-    ).filter(attack => (
-        !previousRelativeAttacks.some(
-            previousAttack => isEqual(previousAttack, attack)
-        )
-    ));
+    );
+
+    const newRelativeAttacks = differenceWith(
+        relativeAttacks, previousRelativeAttacks, isEqual
+    );
 
     if (newRelativeAttacks.length > 0) return true;
 
@@ -91,7 +94,7 @@ export function moveLeavesGreaterThreat(
     const actionBoard = new Chess(board.fen());
 
     try {
-        var bakedMove = actionBoard.move(actingMove);
+        actionBoard.move(actingMove);
     } catch {
         return false;
     }
@@ -100,8 +103,7 @@ export function moveLeavesGreaterThreat(
     const relativeAttacks = relativeUnsafePieceAttacks(
         actionBoard,
         threatenedPiece,
-        adaptPieceColour(actingMove.color),
-        bakedMove
+        adaptPieceColour(actingMove.color)
     );
 
     if (relativeAttacks.length > 0) return true;
