@@ -1,6 +1,9 @@
 export function removeDefaultConsentLink() {
     const observer = new MutationObserver(() => (
-        document.querySelector(".ipr-container")?.remove()
+        document.querySelector(
+            "div[style^=\"color-scheme: initial\"]"
+            + "[style$=\"z-index: initial !important;\"]"
+        )?.remove()
     ));
 
     observer.observe(document.body, { childList: true });
