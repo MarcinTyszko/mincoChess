@@ -45,6 +45,11 @@ export function classify(
         return Classification.THEORY;
     }
 
+    // Short-circuit checkmates with best
+    if (current.board.isCheckmate()) {
+        return Classification.BEST;
+    }
+
     const topMovePlayed = previous.topMove.san == current.playedMove.san;
 
     // Point loss classify

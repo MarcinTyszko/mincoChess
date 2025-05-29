@@ -41,9 +41,7 @@ function directAttackingMoves(
 
     if (
         kingAttackerSquare
-        && !attackingMoves.some(
-            attackingMove => attackingMove.piece == KING
-        )
+        && !attackingMoves.some(attack => attack.piece == KING)
     ) {
         attackingMoves.push({
             piece: KING,

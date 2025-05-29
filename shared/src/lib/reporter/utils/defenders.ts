@@ -40,9 +40,7 @@ export function getDefendingMoves(
                 },
                 transitive
             );
-        }).filter(
-            recapturers => !!recapturers
-        ),
+        }).filter(recapturers => !!recapturers),
         recapturers => recapturers.length
     );
 

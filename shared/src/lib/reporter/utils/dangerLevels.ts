@@ -19,9 +19,6 @@ function relativeUnsafePieceAttacks(
     colour: PieceColour,
     playedMove?: Move
 ) {
-    console.log(`in position: ${actionBoard.fen()} getting attacks on pieces higher than ${threatenedPiece.color}${threatenedPiece.type} on ${threatenedPiece.square}`);
-    console.log(getUnsafePieces(actionBoard, colour, playedMove));
-
     return getUnsafePieces(actionBoard, colour, playedMove)
         .filter(unsafePiece => (
             unsafePiece.square != threatenedPiece.square
