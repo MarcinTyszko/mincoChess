@@ -1,4 +1,4 @@
-import { Chess, Move, ROOK } from "chess.js";
+import { Chess, Move, QUEEN } from "chess.js";
 import { differenceWith, isEqual } from "lodash";
 
 import { BoardPiece } from "../types/BoardPiece";
@@ -72,9 +72,9 @@ export function moveCreatesGreaterThreat(
 
     if (newRelativeAttacks.length > 0) return true;
 
-    // Minor piece sacrifice that if taken leads to mate
+    // Lower value piece sacrifice that if taken leads to mate
     const lowValueCheckmatePin = (
-        pieceValues[threatenedPiece.type] < pieceValues[ROOK]
+        pieceValues[threatenedPiece.type] < pieceValues[QUEEN]
         && actionBoard.moves().some(
             move => parseSanMove(move).checkmate
         )
@@ -105,9 +105,9 @@ export function moveLeavesGreaterThreat(
 
     if (relativeAttacks.length > 0) return true;
 
-    // Minor piece sacrifice that if taken leads to mate
+    // Lower value piece sacrifice that if taken leads to mate
     const lowValueCheckmatePin = (
-        pieceValues[threatenedPiece.type] < pieceValues[ROOK]
+        pieceValues[threatenedPiece.type] < pieceValues[QUEEN]
         && actionBoard.moves().some(
             move => parseSanMove(move).checkmate
         )
@@ -119,7 +119,7 @@ export function moveLeavesGreaterThreat(
 /**
  * @description Returns whether all acting moves create a threat larger than
  * that imposed on the threatened piece. Equality strategies are `creates`
- * when relative threats after the move must be a direct result of thereof,
+ * when relative threats after the move must be a direct result thereof,
  * and `leaves` when it should only check for the existence of them at all.
  */
 export function hasDangerLevels(
@@ -128,9 +128,8 @@ export function hasDangerLevels(
     actingMoves: RawMove[],
     equalityStrategy: "creates" | "leaves" = "leaves"
 ) {
-    return actingMoves.every(actingMove => (
-        equalityStrategy == "creates"
-            ? moveCreatesGreaterThreat(board, threatenedPiece, actingMove)
-            : moveLeavesGreaterThreat(board, threatenedPiece, actingMove)
+    return actingMoves.every(actingMove => (equalityStrategy == "creates"
+        ? moveCreatesGreaterThreat(board, threatenedPiece, actingMove)
+        : moveLeavesGreaterThreat(board, threatenedPiece, actingMove)
     ));
 }
