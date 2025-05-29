@@ -6,6 +6,21 @@
     width: 100%;
 }
 
+.advertisement {
+    padding: 0 30px;
+}
+
+@media (max-width: 500px) {
+    .wrapper {
+        gap: 0;
+        padding: 0;
+    }
+
+    .advertisement {
+        padding: 0;
+    }
+}
+
 .analysisSection {
     display: flex;
     justify-content: space-evenly;

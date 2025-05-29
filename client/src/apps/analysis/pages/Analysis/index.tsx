@@ -8,7 +8,7 @@ import * as styles from "./Analysis.module.css";
 
 function Analysis() {
     return <div className={styles.wrapper}>
-        <div style={{ padding: "0 30px" }}>
+        <div className={styles.advertisement}>
             <Advertisement adUnitId="6032766700" style={{
                 width: "100%", height: "100px"
             }}/>
@@ -20,7 +20,7 @@ function Analysis() {
             <AnalysisPanel className={styles.panel} />
         </div>
 
-        <div style={{ padding: "0 30px" }}>
+        <div className={styles.advertisement}>
             <Advertisement adUnitId="7734244071" style={{
                 width: "100%", height: "100px"
             }}/>
