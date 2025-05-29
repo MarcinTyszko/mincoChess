@@ -1,4 +1,4 @@
-import { Move, Color, Square, WHITE, BLACK } from "chess.js";
+import { Move, Color, Square, WHITE, BLACK, PieceSymbol, PAWN } from "chess.js";
 
 import Evaluation from "@ctypes/game/position/Evaluation";
 import { pieceNames } from "@constants/utils";
@@ -62,6 +62,11 @@ export function parseUciMove(uci: string) {
         to: uci.slice(2, 4) as Square,
         promotion: uci.charAt(4) || undefined
     };
+}
+
+export function isMovePromotion(piece: PieceSymbol, to: Square) {
+    const rank = to.at(1);
+    return piece == PAWN && (rank == "8" || rank == "1");
 }
 
 export function adaptPieceColour(colour: PieceColour): Color;

@@ -6,7 +6,7 @@ import {
 } from "react-chessboard/dist/chessboard/types";
 import { Chess, Move, PieceSymbol } from "chess.js";
 
-import { defaultRootNode } from "wintrchess";
+import { defaultRootNode, isMovePromotion } from "wintrchess";
 import useResizeObserver from "@hooks/useResizeObserver";
 import PlayerProfile from "@components/chess/PlayerProfile";
 import EvaluationBar from "../EvaluationBar";
@@ -71,11 +71,10 @@ function Board({
             && !squares.capturable.includes(square)
         ) return;
 
-        const moves = new Chess(node.state.fen)
-            .moves({ square: squares.selected, verbose: true })
-            .filter(move => move.to == square);
+        const selectedPiece = new Chess(node.state.fen)
+            .get(squares.selected);
 
-        if (moves.some(move => move.promotion)) {
+        if (selectedPiece && isMovePromotion(selectedPiece.type, square)) {
             setHeldPromotion({
                 from: squares.selected,
                 to: square
@@ -88,13 +87,14 @@ function Board({
     function onPromotionPieceSelect(
         piece?: BoardPiece, from?: Square, to?: Square
     ) {
-        if (!piece || !heldPromotion || !to) return false;
+        if (!piece || !to) return false;
 
         setHeldPromotion(undefined);
+
+        const fromSquare = heldPromotion?.from || from;
+        if (!fromSquare) return false;
         
-        return addMove(
-            heldPromotion.from, heldPromotion.to, getPieceType(piece)
-        );
+        return addMove(fromSquare, to, getPieceType(piece));
     }
 
     function addMove(
