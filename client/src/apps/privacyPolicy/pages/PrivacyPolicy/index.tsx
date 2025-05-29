@@ -3,6 +3,7 @@ import React from "react";
 import Separator from "@components/common/Separator";
 
 import * as styles from "./PrivacyPolicy.module.css";
+import { manageDataConsent } from "@lib/consent";
 
 function PrivacyPolicy() {
     return <div className={styles.wrapper}>
@@ -59,20 +60,40 @@ function PrivacyPolicy() {
             </span>
 
             <span>
-                In short, we collect information that you explicitly provide to us. Any
-                information included in Chess games you review and PGN files you upload
-                is collected and sometimes retained. This may include:
+                We use Google AdSense on The Website to serve advertisements. Google LLC,
+                as a third-party vendor, uses cookies to serve personalised advertising.
+                If you would like to manage your consent to data collection in connection
+                to these services, click{" "}
+
+                <a className={styles.link} onClick={manageDataConsent}>
+                    Manage Consent
+                </a>
+
+                {" "}which is always located in the footer of the page. You may also read{" "}
+
+                <a href="https://policies.google.com/privacy">
+                    Google LLC's Privacy Policy.
+                </a>
+            </span>
+
+            <span>
+                Any information included in Chess games you review and PGN files you upload
+                is collected and sometimes retained for the purposes of improving the
+                website and fixing issues therewith. This may include:
             </span>
 
             <span>
                 Chess.com usernames and profile images
                 <br/>
-                Lichess.org usernames and profile images
+                Lichess.org usernames
             </span>
 
             <span>
                 Usernames for Chess services like Chess.com or Lichess will be collected
-                by those respective services when you search for games on your account.
+                by those services when you search for games on your account. Data is processed
+                by these services in the United States and France respectively, so by using
+                The Service to browse games on your account, you agree to have your username
+                collected and processed in these countries.
             </span>
 
             <h3 style={{ margin: 0 }}>

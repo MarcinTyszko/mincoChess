@@ -28,3 +28,8 @@
     margin: 0;
     width: 100%;
 }
+
+.link {
+    text-decoration: underline;
+    cursor: pointer;
+}
