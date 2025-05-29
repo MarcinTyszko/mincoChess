@@ -27,9 +27,9 @@ function getSquareElements(children: ReactNode) {
         isValidElement(element) && element.props.piece
     ));
 
-    const notations = squareElements.filter(
-        element => isValidElement(element) && element.props.col
-    );
+    const notations = squareElements.filter(element => (
+        isValidElement(element) && element.props.row != undefined
+    ));
 
     return [ piece, ...notations ];
 }
