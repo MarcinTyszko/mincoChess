@@ -27,10 +27,11 @@ export function isPieceSafe(
         && pieceValues[attackers[0].type] == pieceValues[KNIGHT]
     ) return true;
 
-    // A piece with an attacker of lower value than itself cannot be safe
-    const hasLowerValueAttacker = attackers.some(
-        attacker => pieceValues[attacker.type] < pieceValues[piece.type]
-    );
+    // A piece with a direct attacker of lower value than itself isn't safe
+    const hasLowerValueAttacker = getAttackingMoves(board, piece, false)
+        .some(attacker => (
+            pieceValues[attacker.piece] < pieceValues[piece.type]
+        ));
 
     if (hasLowerValueAttacker) return false;
 
