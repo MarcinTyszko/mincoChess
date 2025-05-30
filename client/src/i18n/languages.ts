@@ -4,32 +4,27 @@ const languages: LanguageOption[] = [
     {
         id: "en",
         label: "English",
-        flag: require("@assets/img/flags/GB.png"),
-        translations: require("./translations/en.json")
+        flag: "/img/flags/GB.png"
     },
     {
         id: "hi",
         label: "हिन्दी",
-        flag: require("@assets/img/flags/IN.png"),
-        translations: require("./translations/hi.json")
+        flag: "/img/flags/IN.png"
     },
     {
         id: "mr",
         label: "मराठी",
-        flag: require("@assets/img/flags/IN.png"),
-        translations: require("./translations/mr.json")
+        flag: "/img/flags/IN.png"
     },
     {
         id: "vi",
         label: "Tiếng Việt",
-        flag: require("@assets/img/flags/VN.png"),
-        translations: require("./translations/vi.json")
+        flag: "/img/flags/VN.png"
     },
     {
         id: "es",
         label: "Español",
-        flag: require("@assets/img/flags/ES.png"),
-        translations: require("./translations/es.json")
+        flag: "/img/flags/ES.png"
     },
     // {
     //     id: "fil",
@@ -43,17 +38,15 @@ const languages: LanguageOption[] = [
     //     flag: require("@assets/img/flags/SA.png"),
     //     translations: require("./translations/en.json")
     // },
-    // {
-    //     id: "pt",
-    //     label: "Português",
-    //     flag: require("@assets/img/flags/PT.png"),
-    //     translations: require("./translations/en.json")
-    // },
+    {
+        id: "pt",
+        label: "Português",
+        flag: "/img/flags/PT.png"
+    },
     {
         id: "pl",
         label: "Polski",
-        flag: require("@assets/img/flags/PL.png"),
-        translations: require("./translations/pl.json")
+        flag: "/img/flags/PL.png"
     },
     // {
     //     id: "id",
@@ -64,20 +57,22 @@ const languages: LanguageOption[] = [
     {
         id: "fr",
         label: "Français",
-        flag: require("@assets/img/flags/FR.png"),
-        translations: require("./translations/fr.json")
+        flag: "/img/flags/FR.png"
     },
     {
         id: "de",
         label: "Deutsch",
-        flag: require("@assets/img/flags/DE.png"),
-        translations: require("./translations/de.json")
+        flag: "/img/flags/DE.png"
+    },
+    {
+        id: "ru",
+        label: "русский",
+        flag: "/img/flags/RU.png"
     },
     {
         id: "zh",
         label: "中文",
-        flag: require("@assets/img/flags/CN.png"),
-        translations: require("./translations/zh.json")
+        flag: "/img/flags/CN.png"
     }
 ];
 

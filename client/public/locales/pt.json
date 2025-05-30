@@ -1,0 +1,221 @@
+{
+    "loading": "Carregando...",
+    "back": "Voltar",
+    "settings": "Configurações",
+    "error": "Erro",
+    "reset": "Restaurar",
+    "enabled": "Ativado",
+    "disabled": "Desativado",
+    "navigationBar": {
+        "support": "Suporte",
+        "tooltips": {
+            "support": "Nos apoie ❤️",
+            "help": "Central de Ajuda"
+        }
+    },
+    "sidebar": {
+        "analysis": "Análise",
+        "archive": "Arquivo",
+        "news": "Notícias"
+    },
+    "pages": {
+        "analysis": {
+            "title": "Relatório da Partida",
+            "options": {
+                "flipBoard": "Girar Tabuleiro",
+                "share": "Compartilhar jogo",
+                "sharingSoon": "A função de compartilhar será adicionada em breve!"
+            },
+            "settings": {
+                "title": "Configurações de análise",
+                "engine": {
+                    "descriptions": {
+                        "version": "O motor de xadrez que vai analisar os seus movimentos.",
+                        "depth": "O número de movimentos que o motor olhará no futuro quando analisa os movimentos.",
+                        "lines": "O número de linhas que o motor vai considerar. Deve ser de pelo menos 2 para algumas classificações.",
+                        "timeLimit": "O tempo máximo que o motor pode analisar um movimento.",
+                        "suggestionArrows": {
+                            "disabled": "Desativado: Não mostrar setas do motor",
+                            "continuation": "Melhor Continuação: Mostra uma seta para o melhor lance na posição atual.",
+                            "alternative": "Melhor Alternativa: Mostra uma seta para o melhor lance na posição anterior"
+                        }
+                    },
+                    "title": "Motor",
+                    "version": "Versão",
+                    "depth": "Profundidade",
+                    "lines": "Número de linhas",
+                    "timeLimit": "Limite de Tempo (segundos)"
+                },
+                "classifications": {
+                    "title": "Classificações",
+                    "hide": "Ocultar Classificações",
+                    "brilliant": "Brilhante",
+                    "theory": "Livro"
+                },
+                "other": {
+                    "title": "Outros",
+                    "simpleNotation": "Notação simples de movimentos",
+                    "descriptions": {
+                        "simpleNotation": "Mostra descrições simples dos movimentos de xadrez ao invés da notação padrão. Exemplo Kxf4 -> Rei em e3 captura f4"
+                    }
+                }
+            },
+            "gameSelector": {
+                "sourceLabel": "Carregar jogo de",
+                "sourcePlaceholders": {
+                    "pgn": "Colar PGN...",
+                    "fen": "String FEN...",
+                    "chessCom": "Nome de usuário Chess.com...",
+                    "lichess": "Nome de usuário Lichess..."
+                },
+                "searchGamesButton": "Pesquisar Jogos",
+                "uploadPGNButton": "Carregar arquivo PGN",
+                "statusMessages": {
+                    "fetchingLatest": "Carregando o jogo mais recente..."
+                },
+                "errors": {
+                    "noGameSelected": "Por favor, selecione um jogo de xadrez.",
+                    "invalidGame": "Falha ao analisar jogo inválido."
+                }
+            },
+            "gameSearchMenu": {
+                "title": "Escolha um jogo",
+                "loading": "Procurando jogos...",
+                "loadingLong": "Isto está demorando um pouco, por favor, aguarde...",
+                "userNotFound": "Não foi possível encontrar uma conta com esse nome de usuário",
+                "noGamesFound": "Não foi possível encontrar jogos para este mês.",
+                "unknownError": "Erro desconhecido enquanto procurava jogos.",
+                "ratelimited": "Você foi avaliado, por favor, aguarde...",
+                "selectedToast": "Jogo selecionado!"
+            },
+            "analyseButton": "Analisar",
+            "analysisError": "A análise falhou; seu dispositivo ou navegador pode estar desatualizado.",
+            "stateTreeEditor": {
+                "moveContextMenu": {
+                    "delete": "Remover o Lance",
+                    "promote": "Promover lance"
+                },
+                "addNodePrompt": "Jogue alguns movimentos..."
+            },
+            "stateTreeTraverser": {
+                "beginning": "Ir para o início",
+                "back": "Último movimento",
+                "play": "Reproduzir",
+                "pause": "Pausar",
+                "next": "Próximo lance",
+                "end": "Ir para o fim"
+            },
+            "progressReporter": {
+                "evaluating": "Avaliando...",
+                "awaitingCaptcha": "Resolvendo o CAPTCHA...",
+                "classifying": "Classificando...",
+                "evaluatingTooltip": "Se isso demorar um pouco, tente reduzir a profundidade do motor nas configurações.",
+                "captchaTooltip": "Isto pode demorar alguns segundos...",
+                "captchaVerifyFailed": "Não foi possível verificar o CAPTCHA; tente atualizar a página.",
+                "captchaLoadFailed": "Não foi possível carregar o CAPTCHA. Seu navegador provavelmente está desatualizado.",
+                "captchaUnknownError": "Erro CAPTCHA desconhecido; tente atualizar a página.",
+                "completeNotification": "Análise completa"
+            },
+            "analysisTabBar": {
+                "report": "Relatório",
+                "analysis": "Análise"
+            },
+            "accuraciesCard": {
+                "title": "Precisões"
+            },
+            "classifiedMoveCard": {
+                "unknownError": "A classificação não pode ser carregada.",
+                "insufficientLines": "Certifique-se de que o movimento anterior foi totalmente avaliado para uma classificação.",
+                "classifications": {
+                    "brilliant": " é brilhante",
+                    "best": "é o melhor lance",
+                    "excellent": "é excelente",
+                    "okay": "é um lance okay",
+                    "inaccuracy": "é uma imprecisão",
+                    "mistake": "é um erro",
+                    "blunder": "é uma gafe",
+                    "forced": " é forçado",
+                    "theory": "é um lance de livro",
+                    "risky": "é uma ideia arriscada"
+                },
+                "alternative": "O melhor lance era"
+            }
+        },
+        "news": {
+            "title": "Jornal",
+            "titleDescription": "Receba as últimas atualizações na plataforma WintrChess",
+            "error": "Houve um erro ao carregar o jornal.",
+            "article": {
+                "unfound": "Não conseguimos encontrar este artigo.",
+                "error": "Ocorreu um erro ao carregar este artigo."
+            }
+        },
+        "helpCenter": {
+            "title": "Central de Ajuda",
+            "contact": {
+                "title": "Contate-nos",
+                "message": "Se precisar entrar em contato conosco, pode enviar um e-mail para:"
+            },
+            "analysis": {
+                "title": "Analisando um jogo",
+                "part1": "Você pode analisar suas partidas de xadrez no",
+                "part2": "Página de análise WintrChess",
+                "part3": "As avaliações do Stockfish, as porcentagens de precisão e as classificações de movimentos - para que você possa encontrar os seus brilhantes e gafes - são fornecidos gratuitamente. Você encontrará um quadro de análise no centro da página, qual é onde você pode ver os movimentos do jogo que você selecionou. Para selecionar um jogo, você precisa usar o seletor de jogo que fornecemos na barra lateral da direita. Parece assim:",
+                "part4": "Você pode entrar em qualquer jogo usando o PGN. Se você quiser, você também pode selecionar um jogo da sua conta do Chess.com ou Lichess se você fornecer seu nome de usuário. Você precisará clicar no botão \"Pesquisar jogos\" para navegar pelos jogos na sua conta, e pode selecionar qualquer um deles apenas clicando sobre eles. Por último, você pode inserir uma única posição no FEN. De qualquer forma, você será capaz de adicionar movimentos manualmente após importar um jogo, que serão todos avaliados e classificados na mosca.",
+                "part5": "Após selecionar um jogo, basta clicar no botão \"Analisar\" para iniciar a análise. Também pode apenas mover uma peça no tabuleiro se quiser começar da posição inicial."
+            }
+        },
+        "settings": {
+            "title": "Preferências",
+            "categories": {
+                "boardAndPieces": {
+                    "title": "Tabuleiro e Peças",
+                    "boardColour": "Cor do tabuleiro",
+                    "lightSquareColour": "Cor do quadrado claro",
+                    "darkSquareColour": "Cor do quadrado escuro",
+                    "presetsTitle": "Predefinições",
+                    "presets": {
+                        "wooden": "Madeira",
+                        "tournament": "Torneio",
+                        "blue": "Azul",
+                        "ice": "Gelo",
+                        "marshmallow": "Marshmallow"
+                    }
+                },
+                "bugReporting": {
+                    "title": "Relatar erro",
+                    "bugReportingMode": "Modo Relatório de Erro",
+                    "bugReportingModeDescription": "Ajude-nos a encontrar e corrigir erros. O Modo Relatório de Erro ativa um pequeno widget no canto inferior da sua tela em que você pode clicar para copiar os logs do console."
+                }
+            }
+        },
+        "credits": {
+            "leadDeveloper": "Principal Desenvolvedor",
+            "developer": "Desenvolvedor",
+            "artist": "Artista Digital",
+            "translators": "Tradutores(as)"
+        }
+    },
+    "gameListing": {
+        "copyPGN": "Copiar PGN",
+        "copyPGNToast": "PGN copiado!",
+        "gameResults": {
+            "unopinionated": {
+                "win": "Brancas Vencem",
+                "draw": "Empate",
+                "lose": "Pretas Vencem",
+                "unknown": "Unknown"
+            },
+            "opinionated": {
+                "win": "Ganhou",
+                "draw": "Empate",
+                "lose": "Perdido",
+                "unknown": "Desconhecido"
+            }
+        }
+    },
+    "bugReportWidget": {
+        "tooltip": "Copiar Logs do Console",
+        "toast": "Registros dos Consoles Copiados!"
+    }
+}

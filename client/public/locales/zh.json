@@ -4,8 +4,11 @@
     "settings": "设置",
     "error": "错误",
     "reset": "重置",
+    "enabled": "已启用",
+    "disabled": "已禁用",
     "navigationBar": {
         "support": "支持",
+        "signIn": "登入",
         "tooltips": {
             "support": "支持我们❤",
             "help": "帮助中心"
@@ -14,8 +17,10 @@
     "sidebar": {
         "analysis": "复盘分析",
         "archive": "存档",
-        "news": "新闻",
-        "privacyPolicy": "隐私",
+        "news": "新闻"
+    },
+    "footer": {
+        "privacyPolicy": "隐私政策",
         "credits": "鸣谢"
     },
     "pages": {
@@ -28,15 +33,38 @@
             },
             "settings": {
                 "title": "复盘分析设置",
-                "engineEnabled": "引擎已开启",
-                "engine": "引擎",
-                "engineDepth": "引擎深度",
-                "engineLines": "引擎线数",
-                "hideClassifications": "隐藏分级",
-                "suggestionArrows": "提示箭头",
-                "includeClassifications": "包括分级",
-                "brilliant": "精彩",
-                "theory": "理论着法"
+                "engine": {
+                    "descriptions": {
+                        "version": "将会复盘分析您的着法的国际象棋引擎。",
+                        "depth": "引擎复盘分析时推演的着法数。",
+                        "lines": "引擎会考虑的变例数。某些分级必须最少2个。",
+                        "timeLimit": "允许引擎分析单一着法的最长时间。",
+                        "suggestionArrows": {
+                            "disabled": "已禁用：不显示引擎箭头",
+                            "continuation": "首选后续：箭头显示在当前局面下的首选着法",
+                            "alternative": "首选替代：箭头显示在先前局面下的首选着法"
+                        }
+                    },
+                    "title": "引擎",
+                    "version": "版本",
+                    "depth": "深度",
+                    "lines": "线数",
+                    "linesWarning": "关键和某些精彩着法需要至少2条线。",
+                    "timeLimit": "时限（秒）"
+                },
+                "classifications": {
+                    "title": "分级",
+                    "hide": "隐藏分级",
+                    "brilliant": "精彩",
+                    "theory": "谱着"
+                },
+                "other": {
+                    "title": "其它",
+                    "simpleNotation": "简单记谱法",
+                    "descriptions": {
+                        "simpleNotation": "显示国际象棋着法的简单描述而非标准记谱法。例如：Kxf4 → e3上的王吃掉f4上的棋子"
+                    }
+                }
             },
             "gameSelector": {
                 "sourceLabel": "加载棋局自",
@@ -48,6 +76,9 @@
                 },
                 "searchGamesButton": "搜索棋局",
                 "uploadPGNButton": "上传PGN文件",
+                "statusMessages": {
+                    "fetchingLatest": "正在载入最新棋局……"
+                },
                 "errors": {
                     "noGameSelected": "请选择国际象棋棋局。",
                     "invalidGame": "解析无效棋局失败。"
@@ -59,14 +90,16 @@
                 "loadingLong": "这将花费一点时间，请等待……",
                 "userNotFound": "我们未能找到这个用户名的账户。",
                 "noGamesFound": "我们未能找到这个月的任何棋局。",
+                "unknownError": "搜索棋局时发生未知错误。",
                 "ratelimited": "你被限速，请等待……",
                 "selectedToast": "棋局已选择！"
             },
             "analyseButton": "复盘分析",
-            "analysisError": "复盘分析失败；可能是你的浏览器的问题。",
-            "engineLines": {
+            "analysisError": "复盘分析失败；你的设备或浏览器可能已过时。",
+            "realtimeEngine": {
                 "depth": "深度：",
-                "checkmate": "将杀"
+                "checkmate": "将杀",
+                "error": "未能评估局面。"
             },
             "stateTreeEditor": {
                 "moveContextMenu": {
@@ -92,7 +125,7 @@
                 "captchaVerifyFailed": "未能验证CAPTCHA；尝试刷新页面。",
                 "captchaLoadFailed": "未能加载CAPTCHA。你的浏览器很可能过时了。",
                 "captchaUnknownError": "未知CAPTCHA错误；尝试刷新页面。",
-                "classifyFailed": "生成棋局报告时的未知错误；尝试刷新页面。",
+                "reportFailed": "生成棋局报告时发生位置错误；尝试刷新页面。",
                 "completeNotification": "复盘分析完成"
             },
             "analysisTabBar": {
@@ -107,7 +140,7 @@
                 "insufficientLines": "确保上一步被完全评估以分级。",
                 "classifications": {
                     "brilliant": "精彩",
-                    "only": "是唯一好着",
+                    "critical": "是唯一正着",
                     "best": "是最佳着法",
                     "excellent": "优秀",
                     "okay": "是不错的着法",
@@ -117,7 +150,21 @@
                     "forced": "别无选择",
                     "theory": "是理论着法",
                     "risky": "是冒险的想法"
-                }
+                },
+                "alternative": "最佳着法是"
+            },
+            "classifications": {
+                "brilliant": "精彩",
+                "critical": "关键",
+                "best": "最佳",
+                "excellent": "优秀",
+                "okay": "不错",
+                "inaccuracy": "不精确",
+                "mistake": "错着",
+                "blunder": "漏着",
+                "forced": "别无选择",
+                "theory": "谱着",
+                "risky": "险着"
             }
         },
         "news": {
@@ -158,7 +205,8 @@
                         "tournament": "锦标赛",
                         "blue": "蓝色",
                         "ice": "冰",
-                        "marshmallow": "棉花糖"
+                        "marshmallow": "棉花糖",
+                        "pillow": "枕头"
                     }
                 },
                 "bugReporting": {
@@ -174,6 +222,10 @@
             "artist": "数字艺术家",
             "translators": "翻译"
         }
+    },
+    "confirmDialog": {
+        "yes": "是",
+        "no": "否"
     },
     "gameListing": {
         "copyPGN": "复制PGN",

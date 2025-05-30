@@ -14,9 +14,7 @@
     "sidebar": {
         "analysis": "Analiza",
         "archive": "Archiwum",
-        "news": "Aktualności",
-        "privacyPolicy": "Polityka prywatności",
-        "credits": "Autorzy"
+        "news": "Aktualności"
     },
     "pages": {
         "analysis": {
@@ -27,16 +25,7 @@
                 "sharingSoon": "Udostępnianie zostanie dodane wkrótce!"
             },
             "settings": {
-                "title": "Ustawienia analizy",
-                "engineEnabled": "Silnik włączony",
-                "engine": "Silnik",
-                "engineDepth": "Głębia silnika",
-                "engineLines": "Liczba wariantów",
-                "hideClassifications": "Ukryj klasyfikacje ruchów",
-                "suggestionArrows": "Strzałki sugestii",
-                "includeClassifications": "Pokaż klasyfikację",
-                "brilliant": "Genialny ruch",
-                "theory": "Ruch książkowy"
+                "title": "Ustawienia analizy"
             },
             "gameSelector": {
                 "sourceLabel": "Załaduj grę z",
@@ -63,11 +52,6 @@
                 "selectedToast": "Wybrano grę!"
             },
             "analyseButton": "Analizuj",
-            "analysisError": "Analiza się nie powiodła. Może to być problem z przeglądarką.",
-            "engineLines": {
-                "depth": "Głębia:",
-                "checkmate": "Mat"
-            },
             "stateTreeEditor": {
                 "moveContextMenu": {
                     "delete": "Usuń ruch",
@@ -92,7 +76,6 @@
                 "captchaVerifyFailed": "Nie udało się zweryfikować CAPTCHA; spróbuj odświeżyć stronę.",
                 "captchaLoadFailed": "Nie udało się załadować CAPTCHA. Twoja przeglądarka jest prawdopodobnie nieaktualna.",
                 "captchaUnknownError": "Nieznany błąd CAPTCHA; spróbuj odświeżyć stronę.",
-                "classifyFailed": "Nieznany błąd podczas generowania raportu gry; spróbuj odświeżyć stronę.",
                 "completeNotification": "Analiza zakończona"
             },
             "analysisTabBar": {
@@ -107,7 +90,6 @@
                 "insufficientLines": "Upewnij się, że poprzedni ruch jest w pełni oceniany pod kątem klasyfikacji.",
                 "classifications": {
                     "brilliant": " to genialny ruch",
-                    "only": "to jedyny dobry ruch",
                     "best": "to najlepszy ruch",
                     "excellent": " to bardzo dobry ruch",
                     "okay": "to dobry ruch",

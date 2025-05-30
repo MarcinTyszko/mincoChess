@@ -16,9 +16,7 @@
     "sidebar": {
         "analysis": "Analyse",
         "archive": "Archiver",
-        "news": "Actualités",
-        "privacyPolicy": "Confidentialité",
-        "credits": "Crédits"
+        "news": "Actualités"
     },
     "pages": {
         "analysis": {
@@ -31,19 +29,36 @@
             "settings": {
                 "title": "Paramètres d'analyse",
                 "engine": {
+                    "descriptions": {
+                        "version": "Le moteur d'Échecs qui va analyser vos coups.",
+                        "depth": "Le nombre de coups que le moteur regarde en avant lors de l'analyse.",
+                        "lines": "Le nombre de variations que le moteur prendra en considération. Au minimum 2 pour certaines classifications.",
+                        "timeLimit": "La durée maximale de temps que le moteur est autorisé à analyser un coup unique.",
+                        "suggestionArrows": {
+                            "disabled": "Désactivé : Ne pas afficher les flèches du moteur",
+                            "continuation": "Meilleure continuation : Afficher une flèche pour le meilleur coup pour cette position",
+                            "alternative": "Meilleure alternative : Afficher une flèche pour le meilleur coup de la position précédente"
+                        }
+                    },
                     "title": "Moteur",
                     "version": "Version",
                     "depth": "Profondeur",
                     "lines": "Nombre de lignes",
-                    "timeLimit": "Limite de temps (en secondes)",
-                    "threadCount": "Threads",
-                    "suggestionArrows": "Flèche de suggestion"
+                    "linesWarning": "Au moins 2 lignes doivent être présentes pour les coups Critiques et Brillants.",
+                    "timeLimit": "Limite de temps (en secondes)"
                 },
                 "classifications": {
                     "title": "Classement",
                     "hide": "Masquer les classements",
                     "brilliant": "Brillant",
                     "theory": "Théorie"
+                },
+                "other": {
+                    "title": "Autre",
+                    "simpleNotation": "Notation Simple des coups",
+                    "descriptions": {
+                        "simpleNotation": "Afficher des descriptions simplifiées au lieu de la notation standardisée. Exemple : Kxf4 → Roi sur e3 prend f4"
+                    }
                 }
             },
             "gameSelector": {
@@ -56,6 +71,9 @@
                 },
                 "searchGamesButton": "Chercher des Parties",
                 "uploadPGNButton": "Charger un fichier PGN",
+                "statusMessages": {
+                    "fetchingLatest": "Chargement de la partie la plus récente..."
+                },
                 "errors": {
                     "noGameSelected": "Veuillez sélectionner une partie d'échecs.",
                     "invalidGame": "Impossible d'analyser la partie car elle est invalide."
@@ -67,14 +85,16 @@
                 "loadingLong": "Ça prend du temps, veuillez patienter...",
                 "userNotFound": "Impossible de trouver un compte avec ce nom.",
                 "noGamesFound": "Nous n'avons trouvé aucune partie ce mois-ci.",
+                "unknownError": "Erreur inconnue lors de la recherche des jeux.",
                 "ratelimited": "Vous envoyez trop de requêtes, veuillez patienter...",
                 "selectedToast": "Partie sélectionnée !"
             },
             "analyseButton": "Analyser",
             "analysisError": "Échec de l'analyse ; votre appareil ou votre navigateur web pourrait être obsolète.",
-            "engineLines": {
-                "depth": "Profondeur :",
-                "checkmate": "Échec et mat"
+            "realtimeEngine": {
+                "depth": "Profondeur:",
+                "checkmate": "Échec et mat",
+                "error": "Impossible d'évaluer la position."
             },
             "stateTreeEditor": {
                 "moveContextMenu": {
@@ -100,7 +120,7 @@
                 "captchaVerifyFailed": "Impossible de vérifier le CAPTCHA, essayez de recharger la page.",
                 "captchaLoadFailed": "Impossible de charger le CAPTCHA. Votre navigateur pourrait avoir besoin d'être mis à jour.",
                 "captchaUnknownError": "Erreur CAPTCHA inconnue, essayez de recharger la page.",
-                "classifyFailed": "Erreur inconnue lors de la génération du bilan de la partie, essayez de recharger la page.",
+                "reportFailed": "Erreur inconnue lors de la génération du bilan du jeu; essayez de rafraîchir la page.",
                 "completeNotification": "Analyse complétée"
             },
             "analysisTabBar": {
@@ -115,7 +135,7 @@
                 "insufficientLines": "Assurez-vous que le coup précédant a bien reçu une classification.",
                 "classifications": {
                     "brilliant": "est brillant",
-                    "only": "est le seul bon coup",
+                    "critical": "est le seul bon coup",
                     "best": "est le meilleur coup",
                     "excellent": "est excellent",
                     "okay": "est un coup correct",
@@ -125,7 +145,21 @@
                     "forced": "est forcé",
                     "theory": "est un coup théorique",
                     "risky": "est une idée risquée"
-                }
+                },
+                "alternative": "Le meilleur coup était"
+            },
+            "classifications": {
+                "brilliant": "Brillant",
+                "critical": "Critique",
+                "best": "Meilleur",
+                "excellent": "Excellent",
+                "okay": "Correct",
+                "inaccuracy": "Imprécision",
+                "mistake": "Erreur",
+                "blunder": "Gaffe",
+                "forced": "Forcé",
+                "theory": "Coup Théorique",
+                "risky": "Risqué"
             }
         },
         "news": {
@@ -182,6 +216,10 @@
             "artist": "Artiste numérique",
             "translators": "Traducteurs"
         }
+    },
+    "confirmDialog": {
+        "yes": "Oui",
+        "no": "Non"
     },
     "gameListing": {
         "copyPGN": "Copier le PGN",

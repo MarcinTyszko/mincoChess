@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
+import httpApi from "i18next-http-backend";
 
 import LocalStorageKey from "@constants/LocalStorageKey";
 
@@ -7,14 +8,12 @@ import languages from "./languages";
 
 i18next
     .use(initReactI18next)
+    .use(httpApi)
     .init({
         fallbackLng: "en",
-        resources: Object.fromEntries(
-            languages.map(lang => [
-                lang.id,
-                { translation: lang.translations }
-            ])
-        )
+        backend: {
+            loadPath: "/locales/{{lng}}.json"
+        }
     })
     .then(() => {
         const preferredLanguage = localStorage.getItem(

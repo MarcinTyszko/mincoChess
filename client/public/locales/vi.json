@@ -4,8 +4,11 @@
     "settings": "Cài đặt",
     "error": "Lỗi",
     "reset": "Thiết lập lại",
+    "enabled": "Bật",
+    "disabled": "Tắt",
     "navigationBar": {
         "support": "Hỗ trợ",
+        "signIn": "Đăng nhập",
         "tooltips": {
             "support": "Hỗ trợ chúng tôi ❤",
             "help": "Trung tâm Trợ giúp"
@@ -14,8 +17,11 @@
     "sidebar": {
         "analysis": "Phân tích",
         "archive": "Lưu trữ",
-        "news": "Tin tức",
-        "privacyPolicy": "Chính sách riêng tư",
+        "news": "Tin tức"
+    },
+    "footer": {
+        "manageConsent": "Quản lý sự đồng ý",
+        "privacyPolicy": "Chính sách về Quyền riêng tư",
         "credits": "Lời cảm ơn"
     },
     "pages": {
@@ -28,15 +34,43 @@
             },
             "settings": {
                 "title": "Cài đặt Phân tích",
-                "engineEnabled": "Bật máy chơi cờ",
-                "engine": "Máy chơi cờ",
-                "engineDepth": "Độ sâu máy chơi cờ",
-                "engineLines": "Nước đi máy gợi ý",
-                "hideClassifications": "Ẩn phân loại nước đi",
-                "suggestionArrows": "Mũi tên gợi ý",
-                "includeClassifications": "Hiện phân loại nước đi",
-                "brilliant": "Thiên tài",
-                "theory": "Lý thuyết"
+                "engine": {
+                    "descriptions": {
+                        "version": "Phầm mềm cờ vua sẽ được dùng để phân tích nước cờ của bạn.",
+                        "depth": "Số nước mà phần mềm cờ sẽ tính toán khi phân tích các nước đi.",
+                        "lines": "Số biến thể mà phần mềm cờ sẽ kiểm tra. Số biến thể ít nhất phải là 2 cho một số phân loại nước cờ.",
+                        "timeLimit": "Thời gian lớn nhất mà phần mềm cờ được dùng để phân tích một nước cờ.",
+                        "suggestionArrows": {
+                            "disabled": "Tắt: Không hiển thị mũi tên của phần mềm cờ",
+                            "continuation": "Nước đi tốt nhất để tiếp tục: Hiển thị một mũi tên cho nước đi tốt nhất trong thế cờ này",
+                            "alternative": "Nước đi tốt nhất thay thế: Hiển thị một mũi tên cho nước đi tốt nhất trong thế cờ trước"
+                        }
+                    },
+                    "title": "Phần mềm cờ",
+                    "version": "Phiên bản",
+                    "depth": "Số nước đi tính toán",
+                    "lines": "Số biến thể",
+                    "linesWarning": "Ít nhất 2 biến thể phải được bật cho các nước đi mạnh và một số nước đi rất mạnh.",
+                    "timeLimit": "Giới hạn thời gian (tính theo giây)",
+                    "suggestionArrows": {
+                        "title": "Mũi tên gợi ý",
+                        "continuation": "Nước đi nối tiếp tốt nhất",
+                        "alternative": "Nước đi thay thế tốt nhất"
+                    }
+                },
+                "classifications": {
+                    "title": "Phân loại",
+                    "hide": "Ẩn phân loại nước đi",
+                    "brilliant": "Nước đi rất mạnh",
+                    "theory": "Nước đi lý thuyết"
+                },
+                "other": {
+                    "title": "Khác",
+                    "simpleNotation": "Ký hiệu cờ vua đơn giản",
+                    "descriptions": {
+                        "simpleNotation": "Hiển thị các miêu tả đơn giản của các nước đi cờ vua thay vì các ký hiệu cờ vua đại chúng. VD: Vxf4 -> Vua từ e3 ăn f4"
+                    }
+                }
             },
             "gameSelector": {
                 "sourceLabel": "Tải ván đấu từ",
@@ -48,6 +82,9 @@
                 },
                 "searchGamesButton": "Tìm ván đấu",
                 "uploadPGNButton": "Tải file PGN",
+                "statusMessages": {
+                    "fetchingLatest": "Đang tải trò chơi mới nhất..."
+                },
                 "errors": {
                     "noGameSelected": "Vui lòng chọn một ván đấu.",
                     "invalidGame": "Không thể phân tích cú pháp ván đấu không hợp lệ."
@@ -59,14 +96,16 @@
                 "loadingLong": "Việc này sẽ mất thời gian một chút, xin hãy đợi...",
                 "userNotFound": "Chúng tôi không tìm được tài khoản nào với tên này.",
                 "noGamesFound": "Chúng tôi không tìm được ván nào trong tháng này.",
+                "unknownError": "Có một lỗi đã xảy ra trong khi đang tìm các trò chơi.",
                 "ratelimited": "Bạn spam nhiều quá nên bị chặn tạm thời, hãy bình tĩnh...",
                 "selectedToast": "Đã chọn ván đấu!"
             },
             "analyseButton": "Phân tích",
-            "analysisError": "Phân tích thất bại; có lẽ trình duyệt của bạn đã gặp vấn đề.",
-            "engineLines": {
-                "depth": "Độ sâu:",
-                "checkmate": "Chiếu hết"
+            "analysisError": "Không thể phân tích ván cờ; thiết bị hoặc trình duyệt của bạn có thể bị lỗi thời.",
+            "realtimeEngine": {
+                "depth": "Số nước đi đã tính toán:",
+                "checkmate": "Chiếu hết",
+                "error": "Không thể đánh giá nước đi."
             },
             "stateTreeEditor": {
                 "moveContextMenu": {
@@ -92,7 +131,7 @@
                 "captchaVerifyFailed": "Không thể xác minh CAPTCHA; hãy thử tải lại trang.",
                 "captchaLoadFailed": "Không thể tại CAPTCHA. Trình duyệt của bạn có thể đã lỗi thời.",
                 "captchaUnknownError": "Lỗi CAPTCHA không rõ; hãy thử tải lại trang.",
-                "classifyFailed": "Lỗi không rõ khi tạo ra báo cáo; hãy thử tải lại trang.",
+                "reportFailed": "Có một vấn đề đã xảy ra trong khi đang tạo ra báo cáo ván cờ; hảy thử tải lại trang.",
                 "completeNotification": "Phân tích hoàn tất"
             },
             "analysisTabBar": {
@@ -107,7 +146,7 @@
                 "insufficientLines": "Chắc chắn rằng nước đi vừa rồi được đánh giá đầy đủ cho việc phân loại.",
                 "classifications": {
                     "brilliant": "là nước đi thiên tài",
-                    "only": "là nước đi chuẩn duy nhất",
+                    "critical": "là nước đi tốt duy nhất",
                     "best": "là nước đi tốt nhất",
                     "excellent": "là nước đi xuất sắc",
                     "okay": "là nước đi ổn",
@@ -117,7 +156,21 @@
                     "forced": "là nước đi bắt buộc",
                     "theory": "là nước đi lý thuyết",
                     "risky": "là một ý định nguy hiểm"
-                }
+                },
+                "alternative": "Nước đi tốt nhất là"
+            },
+            "classifications": {
+                "brilliant": "Nước đi rất mạnh",
+                "critical": "Nước đi mạnh",
+                "best": "Nước đi tốt nhất",
+                "excellent": "Nước đi tốt",
+                "okay": "Nước đi khá",
+                "inaccuracy": "Nước đi không chính xác",
+                "mistake": "Nước đi yếu",
+                "blunder": "Nước đi sai lầm nghiêm trọng",
+                "forced": "Nước bắt buộc",
+                "theory": "Nước đi lý thuyết",
+                "risky": "Nước đi táo bạo"
             }
         },
         "news": {
@@ -158,14 +211,16 @@
                         "tournament": "Giải đấu",
                         "blue": "Xanh dương",
                         "ice": "Băng",
-                        "marshmallow": "Kẹo dẻo"
+                        "marshmallow": "Kẹo dẻo",
+                        "pillow": "Gối"
                     }
                 },
                 "bugReporting": {
                     "title": "Báo lỗi",
                     "bugReportingMode": "Chế độ báo lỗi",
                     "bugReportingModeDescription": "Hãy giúp chúng tôi tìm và sửa lỗi. Chế độ báo lỗi kích hoạt một cửa sổ nhỏ ở góc dưới màn hình mà bạn có thể nhấn vào để sao chép nhật ký console."
-                }
+                },
+                "privacy": "Quyền riêng tư"
             }
         },
         "credits": {
@@ -174,6 +229,10 @@
             "artist": "Họa sĩ kỹ thuật số",
             "translators": "Dịch giả"
         }
+    },
+    "confirmDialog": {
+        "yes": "Có",
+        "no": "Không"
     },
     "gameListing": {
         "copyPGN": "Sao chép PGN",

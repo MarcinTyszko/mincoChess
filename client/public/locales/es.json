@@ -5,7 +5,7 @@
     "error": "Error",
     "reset": "Restaurar",
     "navigationBar": {
-        "support": "Soporte",
+        "support": "Ayude",
         "tooltips": {
             "support": "Apoyanos ❤️",
             "help": "Centro de Ayuda"
@@ -14,9 +14,7 @@
     "sidebar": {
         "analysis": "Análisis",
         "archive": "Archivo",
-        "news": "Noticias",
-        "privacyPolicy": "Privacidad",
-        "credits": "Créditos"
+        "news": "Noticias"
     },
     "pages": {
         "analysis": {
@@ -27,16 +25,7 @@
                 "sharingSoon": "¡Compartir se añadirá pronto!"
             },
             "settings": {
-                "title": "Configuración de Análisis",
-                "engineEnabled": "Motor Activado",
-                "engine": "Motor",
-                "engineDepth": "Profundidad del Motor",
-                "engineLines": "Líneas del motor",
-                "hideClassifications": "Ocultar Clasificaciones",
-                "suggestionArrows": "Flechas de Sugerencia",
-                "includeClassifications": "Incluye Clasificaciones",
-                "brilliant": "Brillante",
-                "theory": "Teórica"
+                "title": "Configuración de Análisis"
             },
             "gameSelector": {
                 "sourceLabel": "Cargar partida desde",
@@ -63,11 +52,6 @@
                 "selectedToast": "¡Partida seleccionada!"
             },
             "analyseButton": "Analizar",
-            "analysisError": "Análisis fallido; puede ser un problema con su navegador.",
-            "engineLines": {
-                "depth": "Profundidad:",
-                "checkmate": "Jaque mate"
-            },
             "stateTreeEditor": {
                 "moveContextMenu": {
                     "delete": "Eliminar movimiento",
@@ -92,7 +76,6 @@
                 "captchaVerifyFailed": "No se pudo verificar el CAPTCHA; intente actualizar la página.",
                 "captchaLoadFailed": "No se pudo cargar el CAPTCHA. Su navegador probablemente esté desactualizado.",
                 "captchaUnknownError": "Error de CAPTCHA desconocido; intente actualizar la página.",
-                "classifyFailed": "Error desconocido mientras se generaba el informe del juego; intente actualizar la página.",
                 "completeNotification": "Análisis Completo"
             },
             "analysisTabBar": {
@@ -107,7 +90,6 @@
                 "insufficientLines": "Asegúrese de que la jugada anterior sea evaluada completamente para una clasificación.",
                 "classifications": {
                     "brilliant": " es brillante",
-                    "only": "es la única jugada buena ",
                     "best": "es la mejor jugada",
                     "excellent": "Es excelente",
                     "okay": "es una jugada correcta",
@@ -139,7 +121,7 @@
                 "title": "Analizando una partida",
                 "part1": "Puedes analizar tus partidas de ajedrez en el",
                 "part2": "Página de Análisis de WintrChess",
-                "part3": ". Las evaluaciones de Stockfish, los porcentajes de precisión y las clasificaciones de movimiento - para que usted pueda encontrar sus aciertos y errores - se proporcionan de forma gratuita. Encontrarás un tablero de análisis en el centro de la página, donde puedes ver los movimientos del juego que has seleccionado. Para seleccionar un juego, necesitas usar el selector de juego que hemos proporcionado en la barra lateral derecha. Se ve así:",
+                "part3": "Las evaluaciones de Stockfish, los porcentajes de precisión y las clasificaciones de movimiento - para que usted pueda encontrar sus aciertos y errores - se proporcionan de forma gratuita. Encontrarás un tablero de análisis en el centro de la página, donde puedes ver los movimientos del juego que has seleccionado. Para seleccionar un juego, necesitas usar el selector de juego que hemos proporcionado en la barra lateral derecha. Se ve así:",
                 "part4": "Puedes cargar cualquier juego usando su PGN. Si lo deseas, también puedes seleccionar un juego de tu  cuenta de Chess.com o Lichess proporcionando tu nombre de usuario. Necesitarás hacer clic en el botón \"Buscar juegos\" para navegar por los juegos en tu cuenta, y puede seleccionar cualquiera simplemente haciendo clic en ellos. Por último, puede cargar una  posición FEN específica. En cualquier caso, podrás añadir movimientos manualmente después de importar un juego, que serán evaluados y clasificados sobre la marcha.",
                 "part5": "Después de seleccionar una partida, simplemente haga clic en el botón \"Analizar\" para comenzar el análisis. También puedes mover una pieza en el tablero si quieres empezar desde la posición inicial."
             }
