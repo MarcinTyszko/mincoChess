@@ -128,6 +128,7 @@ function Board({
             {evaluation && <EvaluationBar
                 evaluation={evaluation}
                 moveColour={node.state.moveColour}
+                flipped={flipped}
             />}
 
             <SquaresContext.Provider value={squares}>
