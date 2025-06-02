@@ -2,8 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 15px;
     width: min(400px, 100%);
     max-height: min(600px, 100%);
 
@@ -14,16 +12,26 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
 
+    background-color: var(--ui-shade-2);
     color: white;
     font-family: "Nunito";
     font-weight: 700;
+
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 400px) {
-    .title {
-        margin-top: 30px;
-    }
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 15px;
+    width: 100%;
 }
 
 .setting {

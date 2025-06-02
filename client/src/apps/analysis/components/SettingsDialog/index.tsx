@@ -17,7 +17,7 @@ function SettingsDialog({ onClose }: SettingsDialogProps) {
         className={styles.settingsDialog}
         onClose={onClose}
     >
-        <div className={`${styles.header} ${styles.title}`}>
+        <div className={styles.header} style={{ paddingRight: "50px" }}>
             <img
                 src={require("@assets/img/icons/engine.png")}
                 height={30}
@@ -28,11 +28,13 @@ function SettingsDialog({ onClose }: SettingsDialogProps) {
             </span>
         </div>
 
-        <EngineOptionsArea/>
+        <div className={styles.content}>
+            <EngineOptionsArea/>
 
-        <ClassificationOptionsArea/>
+            <ClassificationOptionsArea/>
 
-        <OtherOptionsArea/>
+            <OtherOptionsArea/>
+        </div>
     </Dialog>;
 }
 
