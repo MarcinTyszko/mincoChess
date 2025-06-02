@@ -157,7 +157,8 @@ export function getNodeParentChain(node: StateTreeNode) {
 }
 
 /**
- * @description Returns the move number of the given node.
+ * @description Returns the move number of the given node. Can be decimal
+ * for black moves, as these end in 0.5
  */
 export function getNodeMoveNumber(
     node: StateTreeNode,

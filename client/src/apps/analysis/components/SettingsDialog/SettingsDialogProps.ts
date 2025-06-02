@@ -1,5 +1,5 @@
 interface SettingsDialogProps {
-    setOpen: (open: boolean) => void;
+    onClose: () => void;
 }
 
 export default SettingsDialogProps;

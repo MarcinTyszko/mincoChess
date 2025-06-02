@@ -1,15 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import Dialog from "../Dialog";
 import Button from "../Button";
 import ButtonColour from "@components/common/Button/Colour";
 
 import ConfirmDialogProps from "./ConfirmDialogProps";
 import * as styles from "./ConfirmDialog.module.css";
-import Dialog from "../Dialog";
 
 function ConfirmDialog({
-    setDialogOpen,
+    onClose,
     children,
     dangerAction,
     onConfirm
@@ -18,14 +18,14 @@ function ConfirmDialog({
 
     return <Dialog
         className={styles.dialog}
-        setOpen={setDialogOpen}     
+        onClose={onClose}     
     >
         {children}
 
         <div className={styles.options}>
             <Button
                 onClick={() => {
-                    setDialogOpen(false);
+                    onClose();
                     onConfirm();
                 }}
                 style={{
@@ -39,7 +39,7 @@ function ConfirmDialog({
             </Button>
 
             <Button
-                onClick={() => setDialogOpen(false)}
+                onClick={onClose}
                 style={{
                     padding: "10px 20px",
                     backgroundColor: "#242424"

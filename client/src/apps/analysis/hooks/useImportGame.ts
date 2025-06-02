@@ -5,7 +5,7 @@ import { GameSelectorButton, GameSource } from "@components/chess/GameSelector/G
 import useGameSelector, { SelectedGame } from "@hooks/useGameSelector";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
-import parseStateTree from "@lib/gameStateTree";
+import parseStateTree from "@lib/stateTree/parse";
 import {
     getChessComProfileImages,
     isGameFromChessCom

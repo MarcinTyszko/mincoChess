@@ -25,11 +25,8 @@ function parsePgn(pgn: string): Game {
 
     const headers = game.tags as any;
 
-    const variant = (
-        headers["Variant"] == "Chess960"
-            ? Variant.CHESS960
-            : Variant.STANDARD
-    );
+    const variant = headers["Variant"] == "Chess960"
+        ? Variant.CHESS960 : Variant.STANDARD;
 
     const initialPosition = (headers["FEN"] && validateFen(headers["FEN"]).ok)
         ? headers["FEN"] : STARTING_FEN;

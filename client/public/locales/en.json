@@ -29,8 +29,7 @@
             "title": "Game Report",
             "options": {
                 "flipBoard": "Flip Board",
-                "share": "Share Game",
-                "sharingSoon": "Sharing will be added soon!"
+                "share": "Share Game"
             },
             "settings": {
                 "title": "Analysis Settings",
@@ -234,9 +233,13 @@
         "yes": "Yes",
         "no": "No"
     },
-    "gameListing": {
+    "shareGame": {
+        "copyFEN": "Copy FEN",
+        "copyFENToast": "Copied FEN!",
         "copyPGN": "Copy PGN",
-        "copyPGNToast": "Copied PGN!",
+        "copyPGNToast": "Copied PGN!"
+    },
+    "gameListing": {
         "gameResults": {
             "unopinionated": {
                 "win": "White won",

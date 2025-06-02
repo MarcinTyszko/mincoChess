@@ -1,7 +1,7 @@
 interface ConfirmDialogProps {
-    setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
     children: React.ReactNode;
     dangerAction?: boolean;
+    onClose: () => void;
     onConfirm: () => void;
 }
 

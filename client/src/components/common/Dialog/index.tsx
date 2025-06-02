@@ -8,7 +8,7 @@ import * as styles from "./Dialog.module.css";
 
 function Dialog({
     children,
-    setOpen,
+    onClose,
     className,
     style,
     closeButtonStyle
@@ -22,16 +22,13 @@ function Dialog({
     }, []);
 
     return <BlurBackground className={styles.wrapper}>
-        <div
-            className={`${styles.menu} ${className}`}
-            style={style}
-        >
+        <div className={`${styles.menu} ${className}`} style={style}>
             <Button
                 className={styles.closeButton}
                 icon={require("@assets/img/interface/close.svg")}
                 iconSize="30px"
                 style={closeButtonStyle}
-                onClick={() => setOpen(false)}
+                onClick={onClose}
             />
 
             {children}

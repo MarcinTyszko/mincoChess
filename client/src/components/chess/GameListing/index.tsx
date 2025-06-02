@@ -87,19 +87,16 @@ function GameListing({
     function copyPGN() {
         navigator.clipboard.writeText(game.pgn);
 
-        toast.success(
-            t("gameListing.copyPGNToast"),
-            {
-                position: "bottom-left",
-                theme: "dark",
-                pauseOnHover: false,
-                closeOnClick: true,
-                closeButton: false,
-                style: {
-                    fontFamily: "JetBrains Mono"
-                }
+        toast.success(t("shareGame.copyPGNToast"), {
+            position: "bottom-left",
+            theme: "dark",
+            pauseOnHover: false,
+            closeOnClick: true,
+            closeButton: false,
+            style: {
+                fontFamily: "JetBrains Mono"
             }
-        );
+        });
     }
 
     return <div

@@ -57,3 +57,13 @@ export const inalterableClassifications = [
     Classification.FORCED,
     Classification.THEORY
 ];
+
+// https://en.wikipedia.org/wiki/Portable_Game_Notation#Standard_NAGs
+export const classificationNags: Record<string, string | undefined> = {
+    [Classification.BRILLIANT]: "$3",
+    [Classification.CRITICAL]: "$1",
+    [Classification.INACCURACY]: "$6",
+    [Classification.MISTAKE]: "$2",
+    [Classification.BLUNDER]: "$4",
+    [Classification.RISKY]: "$5"
+};

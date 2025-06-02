@@ -18,7 +18,7 @@ interface AnalysisGameStore {
 
 const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
     analysisGame: {
-        pgn: "",
+        pgn: "*",
         initialPosition: STARTING_FEN,
         players: {
             white: {

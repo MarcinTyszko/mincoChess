@@ -148,7 +148,7 @@ function AnnouncementEditor() {
         {
             publishConfirmOpen
             && <ConfirmDialog
-                setDialogOpen={setPublishConfirmOpen}
+                onClose={() => setPublishConfirmOpen(false)}
                 onConfirm={() => publishAnnouncement({
                     colour: bannerColour,
                     content: bannerContent
@@ -161,7 +161,7 @@ function AnnouncementEditor() {
         {
             clearConfirmOpen
             && <ConfirmDialog
-                setDialogOpen={setClearConfirmOpen}
+                onClose={() => setClearConfirmOpen(false)}
                 onConfirm={() => publishAnnouncement({})}
                 dangerAction
             >

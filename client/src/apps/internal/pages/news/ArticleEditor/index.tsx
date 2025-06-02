@@ -285,49 +285,42 @@ function ArticleEditor() {
         </div>
 
         <div className={styles.editor}>
-            {
-                articleFormat == "edit"
-                && <FileUploader
-                    extensions={[".png", ".jpg", ".jpeg", ".webp"]}
-                    onFilesUpload={async files => {
-                        const file = files.item(0);
-                        if (!file) return;
+            {articleFormat == "edit" && <FileUploader
+                extensions={[".png", ".jpg", ".jpeg", ".webp"]}
+                onFilesUpload={async files => {
+                    const file = files.item(0);
+                    if (!file) return;
 
-                        addImage(file);
+                    addImage(file);
+                }}
+            >
+                <Button
+                    icon={require("@assets/img/interface/upload.svg")}
+                    iconSize="25px"
+                    style={{
+                        backgroundColor: "var(--ui-shade-4)"
                     }}
                 >
-                    <Button
-                        icon={require("@assets/img/interface/upload.svg")}
-                        iconSize="25px"
-                        style={{
-                            backgroundColor: "var(--ui-shade-4)"
-                        }}
-                    >
-                        Add Image
-                    </Button>
-                </FileUploader>
-            }
+                    Add Image
+                </Button>
+            </FileUploader>}
 
-            {
-                articleFormat == "edit"
-                && <textarea
-                    ref={editorRef}
-                    className={styles.editorContent}
-                    onChange={event => {
-                        setArticle(produce(article, draft => {
-                            draft.content = event.target.value;
-                            return draft;
-                        }));
-                    }}
-                    value={article.content}
-                    placeholder={status == "pending"
-                        ? "Loading..." : "Markdown..."
-                    }
-                ></textarea>
-            }
+            {articleFormat == "edit" && <textarea
+                ref={editorRef}
+                className={styles.editorContent}
+                onChange={event => {
+                    setArticle(produce(article, draft => {
+                        draft.content = event.target.value;
+                        return draft;
+                    }));
+                }}
+                value={article.content}
+                placeholder={status == "pending"
+                    ? "Loading..." : "Markdown..."
+                }
+            ></textarea>}
             
-            {
-                articleFormat == "preview"
+            {articleFormat == "preview"
                 && <ReactMarkdown
                     className={styles.editorContent}
                     urlTransform={value => value}
@@ -351,7 +344,7 @@ function ArticleEditor() {
         {
             publishConfirmOpen
             && <ConfirmDialog
-                setDialogOpen={setPublishConfirmOpen}
+                onClose={() => setPublishConfirmOpen(false)}
                 onConfirm={publishArticle}
             >
                 Are you sure you want to publish this article?

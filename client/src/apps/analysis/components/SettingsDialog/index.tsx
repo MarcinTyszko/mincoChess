@@ -10,12 +10,12 @@ import OtherOptionsArea from "./OtherOptionsArea";
 import SettingsDialogProps from "./SettingsDialogProps";
 import * as styles from "./SettingsDialog.module.css";
 
-function SettingsDialog({ setOpen }: SettingsDialogProps) {
+function SettingsDialog({ onClose }: SettingsDialogProps) {
     const { t } = useTranslation();
 
     return <Dialog
         className={styles.settingsDialog}
-        setOpen={setOpen}
+        onClose={onClose}
     >
         <div className={`${styles.header} ${styles.title}`}>
             <img

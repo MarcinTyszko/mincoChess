@@ -175,7 +175,7 @@ function GameSelector({
             && <GameSearchMenu
                 username={trim(currentFieldInput)}
                 gameSource={gameSource}
-                setOpen={setSearchMenuOpen}
+                onClose={() => setSearchMenuOpen(false)}
                 onGameSelect={game => {
                     setServiceGames({
                         ...serviceGames,

@@ -1,6 +1,6 @@
-import { uniqueId } from "lodash";
-import { parseGame } from "@mliebelt/pgn-parser";
 import { Chess } from "chess.js";
+import { ParseTree, parseGame } from "@mliebelt/pgn-parser";
+import { uniqueId } from "lodash";
 
 import {
     Game,
@@ -8,10 +8,10 @@ import {
     StateTreeNode
 } from "wintrchess";
 
+type ParsedPGNMove = ParseTree["moves"][number];
+
 function parseStateTree(game: Game) {
     const parsedPGN = parseGame(game.pgn);
-
-    type ParsedPGNMove = typeof parsedPGN.moves[number];
 
     function addMovesToNode(
         node: StateTreeNode,

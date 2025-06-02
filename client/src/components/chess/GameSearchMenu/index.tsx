@@ -36,7 +36,7 @@ async function fetchGames(
 function GameSearchMenu({
     username,
     gameSource,
-    setOpen,
+    onClose,
     onGameSelect
 }: GameSearchMenuProps) {
     const { t } = useTranslation();
@@ -88,12 +88,12 @@ function GameSearchMenu({
         );
 
         onGameSelect?.(game);
-        setOpen?.(false);
+        onClose();
     }
 
     return <Dialog
         className={styles.dialog}
-        setOpen={setOpen}
+        onClose={onClose}
     >
         <span className={styles.title}>
             {t("pages.analysis.gameSearchMenu.title")}

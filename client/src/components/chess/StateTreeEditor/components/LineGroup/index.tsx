@@ -20,44 +20,32 @@ function LineGroup({
     const firstNode = nodes.at(0);
 
     return <div className={styles.wrapper}>
-        {
-            range(indentCount).map(index => (
-                <Indent
-                    style={{
-                        position: "absolute",
-                        top: "-3px",
-                        left: `${index * INDENT_GAP}px`
-                    }}
-                />
-            ))
-        }
-
-        <Text
+        {range(indentCount).map(index => <Indent
             style={{
-                marginLeft: `${indentCount * INDENT_GAP}px`
+                position: "absolute",
+                top: "-3px",
+                left: `${index * INDENT_GAP}px`
             }}
-        >
-            {
-                firstNode
-                    ? Math.trunc(
-                        getNodeMoveNumber(firstNode, initialPosition)
-                    )
-                    : 0
+        />)}
+
+        <Text style={{ marginLeft: `${indentCount * INDENT_GAP}px` }}>
+            {firstNode
+                ? Math.trunc(
+                    getNodeMoveNumber(firstNode, initialPosition)
+                )
+                : 0
             }
             
-            {
-                forceWhiteMoveNumber || firstNode?.state.moveColour == PieceColour.WHITE
-                    ? "."
-                    : "..."
-            }
+            {(
+                forceWhiteMoveNumber
+                || firstNode?.state.moveColour == PieceColour.WHITE
+            ) ? "." : "..."}
         </Text>
 
-        {
-            nodes.map(node => node
-                ? <Move node={node} />
-                : <Text>...</Text>
-            )
-        }
+        {nodes.map(node => node
+            ? <Move node={node} />
+            : <Text>...</Text>
+        )}
     </div>;
 }
 

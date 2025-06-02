@@ -103,7 +103,7 @@ function ArticleListing({
         {
             deleteConfirmOpen
             && <ConfirmDialog
-                setDialogOpen={setDeleteConfirmOpen}
+                onClose={() => setDeleteConfirmOpen(false)}
                 onConfirm={deleteArticle}
                 dangerAction
             >

@@ -4,7 +4,7 @@ import { GameSourceData } from "@components/chess/GameSelector/GameSource";
 interface GameSearchMenuProps {
     username: string;
     gameSource: GameSourceData;
-    setOpen: (open: boolean) => void;
+    onClose: () => void;
     onGameSelect?: (game: Game) => void;
 }
 
