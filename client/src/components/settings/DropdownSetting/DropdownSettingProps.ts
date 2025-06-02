@@ -25,6 +25,7 @@ interface DropdownSettingProps<Option extends BaseDropdownOption> {
     menuAlignment?: "left" | "center" | "right";
     menuStyle?: CSSProperties & WidthConstraint;
     menuClassName?: string;
+    menuPositionStrategy?: "absolute" | "fixed";
 
     optionStyle?: CSSProperties;
     optionClassName?: string;

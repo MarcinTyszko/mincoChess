@@ -43,6 +43,7 @@ function LanguageSwitcher() {
             src={selectedLanguage.flag}
             height={25}
         />}
+        menuPositionStrategy="fixed"
     />;
 }
 
