@@ -26,7 +26,7 @@
     },
     "pages": {
         "analysis": {
-            "title": "Game Report",
+            "title": "Game Analysis",
             "options": {
                 "flipBoard": "Flip Board",
                 "share": "Share Game"
