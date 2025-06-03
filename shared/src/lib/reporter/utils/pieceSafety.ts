@@ -14,6 +14,9 @@ export function isPieceSafe(
     piece: BoardPiece,
     playedMove?: Move
 ) {
+    const directAttackers = getAttackingMoves(board, piece, false)
+        .map(toBoardPiece);
+
     const attackers = getAttackingMoves(board, piece).map(toBoardPiece);
     const defenders = getDefendingMoves(board, piece).map(toBoardPiece);
 
@@ -28,10 +31,9 @@ export function isPieceSafe(
     ) return true;
 
     // A piece with a direct attacker of lower value than itself isn't safe
-    const hasLowerValueAttacker = getAttackingMoves(board, piece, false)
-        .some(attacker => (
-            pieceValues[attacker.piece] < pieceValues[piece.type]
-        ));
+    const hasLowerValueAttacker = directAttackers.some(attacker => (
+        pieceValues[attacker.type] < pieceValues[piece.type]
+    ));
 
     if (hasLowerValueAttacker) return false;
 
@@ -40,9 +42,9 @@ export function isPieceSafe(
         return true;
     }
 
-    // A piece lower in value than any attacker, and with any defender lower
-    // in value than all attackers, must be safe
-    const lowestValueAttacker = minBy(attackers,
+    // A piece lower in value than any direct attacker, and with any
+    // defender lower in value than all direct attackers, must be safe
+    const lowestValueAttacker = minBy(directAttackers,
         attacker => pieceValues[attacker.type]
     );
 
