@@ -9,9 +9,19 @@
     height: 100%;
 
     border: none;
+    outline-color: transparent;
+    outline-width: 0px;
+    outline-style: outset;
     background-color: var(--ui-shade-2);
     font-size: 1.1rem;
     color: white;
+
+    transition: outline-color 0.3s ease;
+}
+
+.field:focus {
+    outline-width: 1px;
+    outline-color: var(--ui-blue);
 }
 
 .copyWrapper {

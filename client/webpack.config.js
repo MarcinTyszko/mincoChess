@@ -17,6 +17,7 @@ module.exports = {
         analysis: "./src/apps/analysis/index.tsx",
         archive: "./src/apps/archive/index.tsx",
         news: "./src/apps/news/index.tsx",
+        signin: "./src/apps/signin/index.tsx",
         settings: "./src/apps/settings/index.tsx",
         privacyPolicy: "./src/apps/privacyPolicy/index.tsx",
         credits: "./src/apps/credits/index.tsx",

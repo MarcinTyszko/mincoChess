@@ -85,7 +85,8 @@
 
 .signIn {
     gap: 5px;
-    padding: 7px 10px 7px 7px;
+    padding: 7px;
+    padding-right: 10px;
 
     font-family: "Nunito";
 }

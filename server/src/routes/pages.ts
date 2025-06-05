@@ -13,8 +13,9 @@ router.get("/help", appRouter("helpCenter.html"));
 
 router.get("/analysis", appRouter("analysis.html"));
 router.get("/archive", appRouter("archive.html"));
-
 router.get("/news*", appRouter("news.html"));
+
+router.get(/^\/(signin|signup)/, appRouter("signin.html"));
 router.get("/settings", appRouter("settings.html"));
 
 router.get("/privacy", appRouter("privacyPolicy.html"));

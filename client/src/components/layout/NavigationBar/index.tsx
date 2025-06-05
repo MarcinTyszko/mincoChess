@@ -4,7 +4,6 @@ import { Tooltip } from "react-tooltip";
 
 import Typography from "@components/Typography";
 import Button from "@components/common/Button";
-import LanguageSwitcher from "@components/settings/LanguageSwitcher";
 import BlurBackground from "@components/layout/BlurBackground";
 import Sidebar from "@components/layout/sidebar/Sidebar";
 
@@ -57,8 +56,6 @@ function NavigationBar() {
         </div>
 
         <div className={styles.section}>
-            <LanguageSwitcher/>
-
             <a href="https://ko-fi.com/wintrcat" target="_blank">
                 <Button
                     className={styles.support}
@@ -73,13 +70,15 @@ function NavigationBar() {
                 delayShow={500}
             />
 
-            {/* <Button
-                className={styles.signIn}
-                icon={require("@assets/img/interface/signin.svg")}
-                iconSize="28px"
-            >
-                {t("navigationBar.signIn")}
-            </Button> */}
+            <a href="/signin">
+                <Button
+                    className={styles.signIn}
+                    icon={require("@assets/img/interface/signin.svg")}
+                    iconSize="28px"
+                >
+                    {t("navigationBar.signIn")}
+                </Button>
+            </a>
 
             <a href="/settings">
                 <Button
