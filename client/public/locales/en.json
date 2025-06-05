@@ -205,6 +205,7 @@
             "registerButtonGoogle": "Sign up with Google",
             "registerButtonEmail": "Sign up",
             "registerError": "There was an issue creating an account.",
+            "alternative": "or",
             "email": "Email Address...",
             "username": "Username...",
             "password": "Password...",

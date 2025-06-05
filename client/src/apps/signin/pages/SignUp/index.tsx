@@ -42,7 +42,7 @@ function SignUp() {
             </Button>
 
             <Separator style={{ margin: 0 }}>
-                <b>Or</b>
+                <b>{t("pages.signIn.alternative")}</b>
             </Separator>
 
             <TextField
