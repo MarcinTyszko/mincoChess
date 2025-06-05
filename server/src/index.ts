@@ -6,10 +6,8 @@ import dotenv from "dotenv";
 
 import connectDatabase from "@database/connect";
 import hostnameWhitelist from "@lib/security/whitelist";
-import analysisAuthenticator from "@lib/security/analysis";
-import { internalAuthenticator } from "@lib/security/internal";
 
-import { internalRouter, apiRouter, pagesRouter } from "./routes";
+import routers from "./routes";
 
 dotenv.config();
 
@@ -30,12 +28,7 @@ function main() {
     const app = express();
 
     app.use(cookieParser());
-
-    // Authentication and security
     app.use(hostnameWhitelist);
-
-    app.use("/internal", internalAuthenticator);
-    app.use("/api/analysis", analysisAuthenticator);
 
     // Static assets
     app.use("/",
@@ -44,11 +37,7 @@ function main() {
     );
 
     // Normal endpoints
-    app.use("/",
-        internalRouter,
-        apiRouter,
-        pagesRouter
-    );
+    app.use("/", ...routers);
 
     // Start listening for requests
     app.listen(port, () => {

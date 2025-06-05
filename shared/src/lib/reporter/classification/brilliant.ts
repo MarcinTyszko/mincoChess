@@ -33,8 +33,6 @@ export function considerBrilliantClassification(
         current.playedMove
     );
 
-    console.log(unsafePieces);
-
     // Moving a piece to safety (less unsafe pieces than in previous position)
     // disallows a brilliant
     if (

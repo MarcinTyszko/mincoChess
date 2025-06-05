@@ -4,12 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { Cookie } from "wintrchess";
 import AnalysisSession from "@database/models/AnalysisSession";
 
-const analysisAuthenticator: RequestHandler = async (req, res, next) => {
-    // Allow unauthorized requests to be given a session
-    if (req.path == "/session") {
-        return next();
-    }
-
+const analysisAuthorizer: RequestHandler = async (req, res, next) => {
     // Ensure existence of session token in cookies
     const sessionToken = req.cookies[Cookie.ANALYSIS_SESSION_TOKEN];
 
@@ -36,4 +31,4 @@ const analysisAuthenticator: RequestHandler = async (req, res, next) => {
     next();
 };
 
-export default analysisAuthenticator;
+export default analysisAuthorizer;

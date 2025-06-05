@@ -20,9 +20,10 @@ function SignUp() {
 
     const googleLogin = useGoogleLogin({
         onSuccess: credentials => {
-
+            credentials.code;
         },
-        onError: () => setError(true)
+        onError: () => setError(true),
+        flow: "auth-code"
     });
 
     return <div className={styles.wrapper}>

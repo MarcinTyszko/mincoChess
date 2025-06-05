@@ -26,7 +26,7 @@ export async function analyseStateTree(
     rootNode: StateTreeNode,
     options?: ReportOptions
 ): Promise<AnalyseGameResult> {
-    const reportURL = "/api/analysis/report"
+    const reportURL = "/api/analysis/analyse"
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&critical=${String(options?.includeCritical)}`
         + `&theory=${String(options?.includeTheory)}`;

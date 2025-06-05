@@ -7,14 +7,15 @@ import {
     deserializeNode,
     getGameReport
 } from "wintrchess";
+import analysisAuthorizer from "@lib/security/analysis";
 
-const path = "/api/analysis/report";
+const path = "/api/analysis/analyse";
 
 const router = Router();
 
-router.use(
-    path,
-    express.json({ limit: "1mb" })
+router.use(path,
+    express.json({ limit: "1mb" }),
+    analysisAuthorizer
 );
 
 router.post(path, async (req, res) => {
