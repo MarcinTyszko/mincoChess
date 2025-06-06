@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
@@ -19,8 +19,13 @@ function SignUp() {
     const [ error, setError ] = useState(false);
 
     const googleLogin = useGoogleLogin({
-        onSuccess: credentials => {
-            credentials.code;
+        onSuccess: async credentials => {
+            await fetch("/auth/google", {
+                method: "POST",
+                body: credentials.code
+            });
+
+            location.href = "/analysis";
         },
         onError: () => setError(true),
         flow: "auth-code"

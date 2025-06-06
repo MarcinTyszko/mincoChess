@@ -1,7 +1,8 @@
 enum Cookie {
-    INTERNAL_JWT = "wintrchess_internal_jwt",
+    ACCOUNT_ID_TOKEN = "wintrchess_account_id_token",
+    ACCOUNT_REFRESH_TOKEN = "wintrchess_account_refresh_token",
     ANALYSIS_SESSION_TOKEN = "wintrchess_analysis_session_token",
-    PREFERRED_LANGUAGE = "wintrchess_preferred_language"
+    INTERNAL_JWT = "wintrchess_internal_jwt"
 }
 
 export default Cookie;
