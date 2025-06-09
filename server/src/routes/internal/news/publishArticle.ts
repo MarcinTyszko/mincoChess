@@ -20,8 +20,7 @@ const requestSchema = z.object({
     content: z.string()
 });
 
-router.use(
-    path,
+router.use(path,
     express.json({ limit: "10mb" })
 );
 
