@@ -1,8 +1,11 @@
-import { Move, Color, Square, WHITE, BLACK, PieceSymbol, PAWN } from "chess.js";
+import {
+    Move, Color, Square, PieceSymbol,
+    WHITE, BLACK, PAWN
+} from "chess.js";
 
 import Evaluation from "@ctypes/game/position/Evaluation";
-import { pieceNames } from "@constants/utils";
 import PieceColour from "@constants/PieceColour";
+import { pieceNames } from "@constants/utils";
 
 export function parseFen(fen: string) {
     const fenParts = fen.split(" ");

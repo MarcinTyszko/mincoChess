@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import connectDatabase from "@database/connect";
 import hostnameWhitelist from "@lib/security/whitelist";
 
-import routers from "./routes";
+import mainRouter from "./routes";
 
 dotenv.config();
 
@@ -37,7 +37,7 @@ function main() {
     );
 
     // Normal endpoints
-    app.use("/", ...routers);
+    app.use("/", mainRouter);
 
     // Start listening for requests
     app.listen(port, () => {

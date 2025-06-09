@@ -1,11 +1,6 @@
-import { RequestHandler, Router } from "express";
-import path from "path";
+import { Router } from "express";
 
-function appRouter(filename: string): RequestHandler {
-    return async (req, res) => res.sendFile(
-        path.resolve(`client/public/apps/${filename}`)
-    );
-}
+import appRouter from "@lib/appRouter";
 
 const router = Router();
 

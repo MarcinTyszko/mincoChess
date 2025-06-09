@@ -2,7 +2,7 @@ import express, { Router } from "express";
 
 import NewsArticle from "@database/models/NewsArticle";
 
-const path = "/internal/news/delete";
+const path = "/news/delete";
 
 const router = Router();
 

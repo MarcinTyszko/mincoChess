@@ -1,10 +1,11 @@
 import express, { CookieOptions, Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { random, times } from "lodash";
 import { OAuth2Client } from "google-auth-library";
 
-import { Cookie } from "wintrchess";
+import { Cookie, randomNormalString } from "wintrchess";
 import Account from "@database/models/Account";
+
+const path = "/google";
 
 const router = Router();
 
@@ -15,9 +16,9 @@ const oauthClient = new OAuth2Client(
     clientId, clientSecret, "postmessage"
 );
 
-router.use(express.text());
+router.use(path, express.text());
 
-router.post("/auth/google", async (req, res) => {
+router.post(path, async (req, res) => {
     const authCode: string = req.body;
 
     // Exchange authorization code for tokens
@@ -58,17 +59,24 @@ router.post("/auth/google", async (req, res) => {
             ].slice(-5)
         });
     } else {
-        const username = googleId.name || ("User_"
-            + times(6, () => random(1, 9)).join("")
-        );
+        while (true) {
+            const username = "player_"
+                + randomNormalString(8, false).toLowerCase();
 
-        await Account.insertOne({
-            id: googleId.sub,
-            email: String(googleId.email),
-            username: username,
-            refreshTokens: [tokens.refresh_token],
-            roles: []
-        });
+            if (await Account.findOne({ username })) continue;
+
+            await Account.insertOne({
+                id: googleId.sub,
+                email: String(googleId.email),
+                displayName: googleId.name,
+                username: "player_" + randomNormalString(8, false).toLowerCase(),
+                refreshTokens: [tokens.refresh_token],
+                roles: [],
+                createdAt: new Date()
+            });
+
+            break;
+        }
     }
 
     // Set cookies for tokens

@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import { Announcement } from "wintrchess";
 import AnnouncementModel from "@database/models/Announcement";
 
-const path = "/internal/announcement/publish";
+const path = "/announcement/publish";
 
 const router = Router();
 

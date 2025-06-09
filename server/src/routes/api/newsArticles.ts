@@ -6,7 +6,7 @@ const router = Router();
 
 const ARTICLES_PER_PAGE = 10;
 
-router.get("/api/news", async (req, res) => {
+router.get("/news", async (req, res) => {
     const articleId = req.query.id?.toString();
 
     const page = Math.max(

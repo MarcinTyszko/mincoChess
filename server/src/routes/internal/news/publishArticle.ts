@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import NewsArticle from "@database/models/NewsArticle";
 
-const path = "/internal/news/publish";
+const path = "/news/publish";
 
 const router = Router();
 

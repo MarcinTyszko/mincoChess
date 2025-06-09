@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { Cookie } from "wintrchess";
 import { signInternalJWT } from "@lib/security/internal";
 
-const path = "/internal/login";
+const path = "/login";
 
 const router = Router();
 

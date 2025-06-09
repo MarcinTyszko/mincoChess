@@ -7,7 +7,7 @@ import { Payload } from "altcha-lib/types";
 import { Cookie } from "wintrchess";
 import AnalysisSession from "@database/models/AnalysisSession";
 
-const path = "/api/analysis/session";
+const path = "/analysis/session";
 
 const router = Router();
 

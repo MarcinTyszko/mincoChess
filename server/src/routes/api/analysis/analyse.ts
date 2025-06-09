@@ -9,7 +9,7 @@ import {
 } from "wintrchess";
 import analysisAuthorizer from "@lib/security/analysis";
 
-const path = "/api/analysis/analyse";
+const path = "/analysis/analyse";
 
 const router = Router();
 

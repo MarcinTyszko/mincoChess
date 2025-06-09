@@ -4,7 +4,7 @@ import { createChallenge } from "altcha-lib";
 
 const router = Router();
 
-router.get("/api/captcha", async (req, res) => {
+router.get("/captcha", async (req, res) => {
     if (!process.env.ALTCHA_KEY) {
         return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
     }
