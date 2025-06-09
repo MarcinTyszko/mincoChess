@@ -38,7 +38,8 @@ router.post(path, (req, res) => {
             signInternalJWT(),
             {
                 sameSite: true,
-                httpOnly: true
+                httpOnly: true,
+                secure: true
             }
         );
     
