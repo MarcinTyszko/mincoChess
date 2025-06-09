@@ -31,7 +31,7 @@ function ArticleEditor() {
     const [ article, setArticle ] = useState<NewsArticle>({
         title: "",
         content: "",
-        timestamp: Date.now(),
+        timestamp: new Date().toISOString(),
         tag: {
             name: "Article",
             colour: "#3b3e43"
@@ -100,10 +100,7 @@ function ArticleEditor() {
 
         setImages([
             ...images,
-            {
-                id: imageId,
-                url: fileURL
-            }
+            { id: imageId, url: fileURL }
         ]);
 
         setArticle(produce(article, draft => {
@@ -134,8 +131,6 @@ function ArticleEditor() {
             fileTag => {
                 const imageId = fileTag.match(tagRegex)?.at(1);
                 if (!imageId) return "";
-
-                console.log(images);
 
                 const imageURL = images.find(img => img.id == imageId)?.url;
 
@@ -176,12 +171,11 @@ function ArticleEditor() {
                 )
             }
 
-            {
-                status == "pending"
-                && <div className={`${styles.thumbnail} ${styles.thumbnailLoader}`}>
-                    <Loader/>
-                </div>
-            }
+            {status == "pending" && <div className={
+                `${styles.thumbnail} ${styles.thumbnailLoader}`
+            }>
+                <Loader/>
+            </div>}
         </div>
 
         <div className={styles.metadata}>
@@ -201,12 +195,12 @@ function ArticleEditor() {
                 <TextField
                     placeholder="Tag name..."
                     value={article.tag.name}
-                    onChange={tagName => {
-                        setArticle(produce(article, draft => {
+                    onChange={tagName => setArticle(
+                        produce(article, draft => {
                             draft.tag.name = tagName;
                             return draft;
-                        }));
-                    }}
+                        })
+                    )}
                     style={{ height: "45px" }}
                 />
 
@@ -320,14 +314,12 @@ function ArticleEditor() {
                 }
             ></textarea>}
             
-            {articleFormat == "preview"
-                && <ReactMarkdown
-                    className={styles.editorContent}
-                    urlTransform={value => value}
-                >
-                    {article.content}
-                </ReactMarkdown>
-            }
+            {articleFormat == "preview" && <ReactMarkdown
+                className={styles.editorContent}
+                urlTransform={value => value}
+            >
+                {article.content}
+            </ReactMarkdown>}
         </div>
 
         <Button
@@ -341,15 +333,12 @@ function ArticleEditor() {
             Publish
         </Button>
 
-        {
-            publishConfirmOpen
-            && <ConfirmDialog
-                onClose={() => setPublishConfirmOpen(false)}
-                onConfirm={publishArticle}
-            >
-                Are you sure you want to publish this article?
-            </ConfirmDialog>
-        }
+        {publishConfirmOpen && <ConfirmDialog
+            onClose={() => setPublishConfirmOpen(false)}
+            onConfirm={publishArticle}
+        >
+            Are you sure you want to publish this article?
+        </ConfirmDialog>}
     </div>;
 }
 

@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,7 +17,7 @@ const requestSchema = z.object({
         name: z.string(),
         colour: z.string()
     }),
-    timestamp: z.number(),
+    timestamp: z.string(),
     content: z.string()
 });
 
@@ -28,16 +29,16 @@ router.post(path, async (req, res) => {
     const article: z.infer<typeof requestSchema> = req.body;
 
     if (!requestSchema.safeParse(article).success) {
-        return res.sendStatus(400);
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
     await NewsArticle.updateOne(
         { id: article.id || uuidv4() },
         { $set: article },
         { upsert: true }
-    );    
+    );
 
-    res.sendStatus(200);
+    res.sendStatus(StatusCodes.OK);
 });
 
 export default router;

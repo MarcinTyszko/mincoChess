@@ -6,7 +6,7 @@ interface NewsArticle {
         name: string;
         colour: string;
     };
-    timestamp: number;
+    timestamp: string;
     content: string;
 }
 

@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import { StatusCodes } from "http-status-codes";
 
 import NewsArticle from "@database/models/NewsArticle";
 
@@ -16,12 +17,12 @@ router.post(path, async (req, res) => {
     const { id }: DeleteArticleRequest = req.body;
 
     if (!id) {
-        return res.sendStatus(400);
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
     await NewsArticle.deleteOne({ id });
 
-    res.sendStatus(200);
+    res.sendStatus(StatusCodes.OK);
 });
 
 export default router;

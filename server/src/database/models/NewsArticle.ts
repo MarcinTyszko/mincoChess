@@ -10,7 +10,7 @@ const newsArticleSchema = new Schema({
         name: { type: String, required: true },
         colour: { type: String, required: true }
     },
-    timestamp: { type: Number, required: true },
+    timestamp: { type: Date, required: true },
     content: { type: String, required: true }
 });
 

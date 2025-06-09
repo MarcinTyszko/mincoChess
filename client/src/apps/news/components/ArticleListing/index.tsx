@@ -79,26 +79,23 @@ function ArticleListing({
             {article.tag.name}
         </span>
 
-        {
-            editable
-            && <div className={styles.toolbar}>
-                <Button
-                    icon={require("@assets/img/interface/delete.svg")}
-                    onClick={event => {
-                        event.stopPropagation();
-                        setDeleteConfirmOpen(true);
-                    }}
-                />
+        {editable && <div className={styles.toolbar}>
+            <Button
+                icon={require("@assets/img/interface/delete.svg")}
+                onClick={event => {
+                    event.stopPropagation();
+                    setDeleteConfirmOpen(true);
+                }}
+            />
 
-                <Button
-                    icon={require("@assets/img/interface/edit.svg")}
-                    onClick={event => {
-                        event.stopPropagation();
-                        navigate(`/internal/dashboard/news/edit?id=${article.id}`);
-                    }}
-                />
-            </div>
-        }
+            <Button
+                icon={require("@assets/img/interface/edit.svg")}
+                onClick={event => {
+                    event.stopPropagation();
+                    navigate(`/internal/dashboard/news/edit?id=${article.id}`);
+                }}
+            />
+        </div>}
 
         {
             deleteConfirmOpen

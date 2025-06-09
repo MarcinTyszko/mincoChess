@@ -42,7 +42,7 @@ function Article() {
                 && <div className={styles.articleLoaderContainer}>
                     <Loader/>
 
-                    <span>Loading...</span>
+                    <span>{t("loading")}</span>
                 </div>
             }
 

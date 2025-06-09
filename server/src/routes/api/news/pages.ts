@@ -4,12 +4,12 @@ import NewsArticle from "@database/models/NewsArticle";
 
 const router = Router();
 
-const ARTICLES_PER_PAGE = 10;
+const articlesPerPage = 10;
 
 router.get("/news/pages", async (req, res) => {
     const pageCount = Math.ceil(
         await NewsArticle.countDocuments()
-        / ARTICLES_PER_PAGE
+        / articlesPerPage
     );
 
     res.json(pageCount);

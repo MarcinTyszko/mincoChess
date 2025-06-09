@@ -14,6 +14,7 @@ const AnnouncementEditor = lazy(() => import("./pages/AnnouncementEditor"));
 const ArticleList = lazy(() => import("./pages/news/ArticleList"));
 const ArticleEditor = lazy(() => import("./pages/news/ArticleEditor"));
 
+import "../../i18n";
 import "../../index.css";
 
 const root = ReactDOM.createRoot(
