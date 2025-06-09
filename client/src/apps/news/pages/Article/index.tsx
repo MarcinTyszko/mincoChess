@@ -9,7 +9,7 @@ import { formatDate } from "wintrchess";
 import Loader from "@components/common/Loader";
 import LogMessage from "@components/common/LogMessage";
 import Advertisement from "@components/Advertisement";
-import { getNewsArticle } from "@lib/newsArticles";
+import { getNewsArticle } from "@lib/api/newsArticles";
 
 import * as styles from "./Article.module.css";
 

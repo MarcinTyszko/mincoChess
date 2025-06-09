@@ -4,7 +4,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 import { Announcement } from "wintrchess";
-import fetchAnnouncement from "@lib/announcement";
+import fetchAnnouncement from "@lib/api/announcement";
 import AnnouncementBanner from "@components/layout/Announcement";
 import ColourSwatch from "@components/settings/ColourSwatch";
 import Button from "@components/common/Button";

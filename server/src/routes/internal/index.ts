@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import appRouter from "@lib/appRouter";
+
 import loginRouter from "./login";
 import publishAnnouncementRouter from "./publishAnnouncement";
 
@@ -14,5 +16,7 @@ router.use("/internal",
     deleteArticleRouter,
     publishArticleRouter
 );
+
+router.use("/internal*", appRouter("internal.html"));
 
 export default router;

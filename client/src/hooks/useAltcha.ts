@@ -13,7 +13,7 @@ export function useAltcha() {
     } = useAnalysisSessionStore();
 
     async function execute() {
-        const challengeResponse = await fetch("/api/captcha");
+        const challengeResponse = await fetch("/auth/captcha");
 
         if (!challengeResponse.ok) {
             return setAnalysisCaptchaError(

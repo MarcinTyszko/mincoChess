@@ -1,25 +1,25 @@
-import express, { CookieOptions, Router } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { OAuth2Client } from "google-auth-library";
 
 import { Cookie, randomNormalString } from "wintrchess";
 import Account from "@database/models/Account";
+import { accountCookieOptions } from "@lib/security/account";
+import { getGoogleOAuth } from "@lib/security/oauthClient";
 
 const path = "/google";
 
 const router = Router();
 
-const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID;
-const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
-
-const oauthClient = new OAuth2Client(
-    clientId, clientSecret, "postmessage"
-);
+const { clientId, clientSecret, client: oauthClient } = getGoogleOAuth();
 
 router.use(path, express.text());
 
 router.post(path, async (req, res) => {
     const authCode: string = req.body;
+
+    if (!oauthClient) {
+        return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+    }
 
     // Exchange authorization code for tokens
     try {
@@ -80,12 +80,6 @@ router.post(path, async (req, res) => {
     }
 
     // Set cookies for tokens
-    const accountCookieOptions: CookieOptions = {
-        httpOnly: true,
-        sameSite: true,
-        secure: true
-    };
-
     res.cookie(
         Cookie.ACCOUNT_ID_TOKEN,
         tokens.id_token,

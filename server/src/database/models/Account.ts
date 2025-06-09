@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
+import { AccountRole } from "wintrchess";
 import Collection from "@constants/Collection";
-import Role from "@constants/Role";
 
 const accountSchema = new Schema({
     id: { type: String, required: true },
@@ -12,7 +12,7 @@ const accountSchema = new Schema({
     refreshTokens: { type: [String], required: true },
     roles: {
         type: [String],
-        enum: Object.values(Role),
+        enum: Object.values(AccountRole),
         required: true
     },
     createdAt: { type: Date, required: true }

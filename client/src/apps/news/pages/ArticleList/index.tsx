@@ -13,7 +13,7 @@ import Advertisement from "@components/Advertisement";
 import BlurredNoiseBackground from "@components/common/BlurredNoiseBackground";
 import SocialLink from "@apps/news/components/SocialLink";
 import ArticleListing from "@apps/news/components/ArticleListing";
-import { getNewsArticles, getNewsArticlesPages } from "@lib/newsArticles";
+import { getNewsArticles, getNewsArticlesPages } from "@lib/api/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 

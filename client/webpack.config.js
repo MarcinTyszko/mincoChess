@@ -13,14 +13,18 @@ const nodeEnv = process.env.NODE_ENV || "production";
  */
 module.exports = {
     entry: {
-        helpCenter: "./src/apps/helpCenter/index.tsx",
         analysis: "./src/apps/analysis/index.tsx",
         archive: "./src/apps/archive/index.tsx",
         news: "./src/apps/news/index.tsx",
+
         signin: "./src/apps/signin/index.tsx",
         settings: "./src/apps/settings/index.tsx",
+        profile: "./src/apps/profile/index.tsx",
+
+        helpCenter: "./src/apps/helpCenter/index.tsx",
         privacyPolicy: "./src/apps/privacyPolicy/index.tsx",
         credits: "./src/apps/credits/index.tsx",
+
         internal: "./src/apps/internal/index.tsx",
         unfound: "./src/apps/unfound/index.tsx"
     },

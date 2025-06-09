@@ -8,7 +8,7 @@ import Announcement from "../Announcement";
 import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 import BugReportingWidget from "@components/BugReportingWidget";
-import getAnnouncement from "@lib/announcement";
+import getAnnouncement from "@lib/api/announcement";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
