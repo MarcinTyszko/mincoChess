@@ -30,7 +30,7 @@ function Settings() {
         </div>
 
         <div className={styles.settingsContainer}>
-            <div>
+            <div className={styles.settings}>
                 {openCategory == SettingsCategory.BOARD_AND_PIECES
                     && <BoardAndPieces/>
                 }

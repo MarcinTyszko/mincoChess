@@ -17,6 +17,8 @@ function PageWrapper({
     children,
     className,
     style,
+    contentClassName,
+    contentStyle,
     footerClassName,
     footerStyle
 }: PageWrapperProps) {
@@ -47,7 +49,10 @@ function PageWrapper({
 
         <NavigationBar/>
 
-        <div className={styles.content}>
+        <div
+            className={`${styles.content} ${contentClassName}`}
+            style={contentStyle}
+        >
             {children}
         </div>
 

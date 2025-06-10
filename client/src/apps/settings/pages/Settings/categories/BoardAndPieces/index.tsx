@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { produce } from "immer";
 
 import useSettingsStore, { defaultSettings } from "@stores/SettingsStore";
 import BoardColourPreset from "@apps/settings/components/BoardColourPreset";
 import ColourSwatch from "@components/settings/ColourSwatch";
 import Button from "@components/common/Button";
+import Separator from "@components/common/Separator";
 
 import * as categoryStyles from "../Category.module.css";
 import * as styles from "./BoardAndPieces.module.css";
@@ -35,14 +35,12 @@ function BoardAndPieces() {
     ] = useState(false);
 
     function setBoardColours(light: string, dark: string) {
-        setSettings(settings => (
-            produce(settings, draft => {
-                draft.themes.board.lightSquareColour = light;
-                draft.themes.board.darkSquareColour = dark;
+        setSettings(draft => {
+            draft.themes.board.lightSquareColour = light;
+            draft.themes.board.darkSquareColour = dark;
 
-                return draft;
-            })
-        ));
+            return draft;
+        });
     }
 
     return <div
@@ -58,6 +56,8 @@ function BoardAndPieces() {
             {t("pages.settings.categories.boardAndPieces.boardColour")}
         </b>
 
+        <Separator className={categoryStyles.separator} />
+
         <div className={categoryStyles.setting}>
             <span>
                 {t("pages.settings.categories.boardAndPieces.lightSquareColour")}
@@ -66,12 +66,10 @@ function BoardAndPieces() {
             <ColourSwatch
                 colour={settings.themes.board.lightSquareColour}
                 onColourChange={colour => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.themes.board.lightSquareColour = colour;
-                            return draft;
-                        })
-                    ));
+                    setSettings(draft => {
+                        draft.themes.board.lightSquareColour = colour;
+                        return draft;
+                    });
                 }}
                 open={lightSquareColourSwatchOpen}
                 onToggle={setLightSquareColourSwatchOpen}
@@ -86,12 +84,10 @@ function BoardAndPieces() {
             <ColourSwatch
                 colour={settings.themes.board.darkSquareColour}
                 onColourChange={colour => {
-                    setSettings(settings => (
-                        produce(settings, draft => {
-                            draft.themes.board.darkSquareColour = colour;
-                            return draft;
-                        })
-                    ));
+                    setSettings(draft => {
+                        draft.themes.board.darkSquareColour = colour;
+                        return draft;
+                    });
                 }}
                 open={darkSquareColourSwatchOpen}
                 onToggle={setDarkSquareColourSwatchOpen}
@@ -100,14 +96,10 @@ function BoardAndPieces() {
 
         <Button
             icon={require("@assets/img/interface/delete.svg")}
-            onClick={() => {
-                setBoardColours(
-                    defaultSettings.themes.board.lightSquareColour,
-                    defaultSettings.themes.board.darkSquareColour
-                );
-
-                console.log(defaultSettings.themes.board);
-            }}
+            onClick={() => setBoardColours(
+                defaultSettings.themes.board.lightSquareColour,
+                defaultSettings.themes.board.darkSquareColour
+            )}
         >
             {t("reset")}
         </Button>
@@ -117,20 +109,18 @@ function BoardAndPieces() {
         </b>
 
         <div className={styles.presets}>
-            {boardColourPresets.map(preset => (
-                <BoardColourPreset
-                    lightSquareColour={preset.light}
-                    darkSquareColour={preset.dark}
-                    title={t(
-                        `pages.settings.categories.boardAndPieces.presets.${preset.name}`
-                    )}
-                    selected={
-                        settings.themes.board.lightSquareColour == preset.light
-                        && settings.themes.board.darkSquareColour == preset.dark
-                    }
-                    onClick={() => setBoardColours(preset.light, preset.dark)}
-                />
-            ))}
+            {boardColourPresets.map(preset => <BoardColourPreset
+                lightSquareColour={preset.light}
+                darkSquareColour={preset.dark}
+                title={t(
+                    `pages.settings.categories.boardAndPieces.presets.${preset.name}`
+                )}
+                selected={
+                    settings.themes.board.lightSquareColour == preset.light
+                    && settings.themes.board.darkSquareColour == preset.dark
+                }
+                onClick={() => setBoardColours(preset.light, preset.dark)}
+            />)}
         </div>
     </div>;
 }

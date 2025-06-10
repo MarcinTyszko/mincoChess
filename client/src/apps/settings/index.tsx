@@ -21,7 +21,11 @@ function App() {
     }, []);
 
     return <QueryClientProvider client={queryClient}>
-        <PageWrapper>
+        <PageWrapper contentStyle={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%"
+        }}>
             <Settings/>
         </PageWrapper>
     </QueryClientProvider>;

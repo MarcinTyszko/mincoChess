@@ -4,6 +4,8 @@ interface PageWrapperProps {
     children?: ReactNode;
     className?: string;
     style?: CSSProperties;
+    contentClassName?: string;
+    contentStyle?: CSSProperties;
     footerClassName?: string;
     footerStyle?: CSSProperties;
 }
