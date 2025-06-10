@@ -4,7 +4,7 @@ interface AccountProfile {
     displayName: string;
     username: string;
     roles: AccountRole[];
-    createdAt: Date;
+    createdAt: string;
 }
 
 export default AccountProfile;

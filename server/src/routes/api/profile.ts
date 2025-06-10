@@ -19,7 +19,7 @@ router.get("/profile/:username", async (req, res) => {
         username: account.username,
         displayName: account.displayName,
         roles: account.roles,
-        createdAt: account.createdAt
+        createdAt: account.createdAt.toISOString()
     } as AccountProfile);
 });
 
