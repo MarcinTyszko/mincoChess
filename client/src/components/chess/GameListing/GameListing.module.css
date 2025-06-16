@@ -31,7 +31,6 @@
 
 .timeControlIcon {
     width: 100%;
-    filter: brightness(0) invert();
 }
 
 .playerProfile {

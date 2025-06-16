@@ -18,10 +18,10 @@ import * as styles from "./GameListing.module.css";
 
 const timeControlIcons = {
     [TimeControl.BULLET]: require("@assets/img/timeControls/bullet.png"),
-    [TimeControl.BLITZ]: require("@assets/img/timeControls/blitz.svg"),
-    [TimeControl.RAPID]: require("@assets/img/timeControls/rapid.svg"),
+    [TimeControl.BLITZ]: require("@assets/img/timeControls/blitz.png"),
+    [TimeControl.RAPID]: require("@assets/img/timeControls/rapid.png"),
     [TimeControl.CLASSICAL]: require("@assets/img/timeControls/classical.svg"),
-    [TimeControl.CORRESPONDENCE]: require("@assets/img/timeControls/correspondence.svg")
+    [TimeControl.CORRESPONDENCE]: require("@assets/img/timeControls/correspondence.png")
 };
 
 // Gets a game result icon from white's result
