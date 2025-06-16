@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import Typography from "@components/Typography";
@@ -9,6 +9,10 @@ import * as styles from "./Footer.module.css";
 
 function Footer({ className, style }: FooterProps) {
     const { t } = useTranslation();
+
+    const copyrightYear = useMemo(() => (
+        new Date().getFullYear()
+    ), []);
 
     return <footer
         className={`${styles.wrapper} ${className}`}
@@ -22,7 +26,7 @@ function Footer({ className, style }: FooterProps) {
             />
 
             <span className={styles.copyrightNotice}>
-                Copyright © 2025 wintrchess.com
+                Copyright © {copyrightYear} wintrchess.com
             </span>
 
             <span className={styles.copyrightNotice}>

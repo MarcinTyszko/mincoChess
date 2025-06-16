@@ -85,7 +85,7 @@ router.post(path, async (req, res) => {
     );
 
     transporter.sendMail({
-        from: process.env.AUTOMATED_EMAIL_ADDRESS,
+        from: `"WintrChess No-Reply" <${process.env.AUTOMATED_EMAIL_ADDRESS}>`,
         to: registration.email,
         subject: "Verify your WintrChess account",
         text: `Please verify your WintrChess account: ${verificationUrl}`,
@@ -93,6 +93,10 @@ router.post(path, async (req, res) => {
             .replace(/\${ORIGIN}/gi, process.env.ORIGIN)
             .replace(/\${VERIFICATION_URL}/gi, verificationUrl)
             .replace(/\${EMAIL_ACCOUNT}/gi, process.env.EMAIL_ACCOUNT)
+            .replace(
+                /\${COPYRIGHT_YEAR}/gi,
+                new Date().getFullYear().toString()
+            )
     });
 
     res.sendStatus(StatusCodes.OK);
