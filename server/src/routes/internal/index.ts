@@ -1,10 +1,10 @@
 import { Router } from "express";
 
 import appRouter from "@lib/appRouter";
+import { internalAuthenticator } from "@lib/security/internal";
 
 import loginRouter from "./login";
 import publishAnnouncementRouter from "./publishAnnouncement";
-
 import deleteArticleRouter from "./news/deleteArticle";
 import publishArticleRouter from "./news/publishArticle";
 
@@ -17,6 +17,9 @@ router.use("/internal",
     publishArticleRouter
 );
 
-router.use("/internal*", appRouter("internal.html"));
+router.use("/internal*",
+    internalAuthenticator,
+    appRouter("internal.html")
+);
 
 export default router;

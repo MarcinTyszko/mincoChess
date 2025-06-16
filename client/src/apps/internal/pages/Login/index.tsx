@@ -18,16 +18,11 @@ function Login() {
     async function login() {
         const loginResponse = await fetch("/internal/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ password })
+            body: password
         });
 
         if (!loginResponse.ok) {
-            setError(await loginResponse.text());
-
-            return;
+            return setError(await loginResponse.text());
         }
 
         navigate("/internal/dashboard");
@@ -58,11 +53,9 @@ function Login() {
             Login
         </Button>
 
-        {error
-            && <LogMessage style={{ maxWidth: "400px" }}>
-                {error}
-            </LogMessage>
-        }
+        {error && <LogMessage style={{ maxWidth: "400px" }}>
+            {error}
+        </LogMessage>}
     </div>;
 }
 

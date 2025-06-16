@@ -1,50 +1,35 @@
-import { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
+import { RequestHandler, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 
 import { Cookie } from "wintrchess";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
 
-const defaultSessionExpiry = 3600;
-
-export function signInternalJWT() {
-    if (!process.env.INTERNAL_JWT_SECRET) {
-        throw new Error("couldn't find JWT secret in environment variables.");
-    }
-
-    return jwt.sign({
-        exp: Math.floor(Date.now() / 1000) + (
-            Number(process.env.INTERNAL_JWT_EXPIRY)
-            || defaultSessionExpiry
-        )
-    }, process.env.INTERNAL_JWT_SECRET);
+function reject(res: Response) {
+    res.status(StatusCodes.UNAUTHORIZED).redirect("/internal/login");
 }
 
 export const internalAuthenticator: RequestHandler = async (
     req, res, next
 ) => {
-    // Allow unauthenticated login page requests
-    if (req.path == "/login") {
+    if (req.originalUrl.startsWith("/internal/login")) {
         return next();
     }
 
-    const jsonWebToken = req.cookies[Cookie.INTERNAL_JWT];
+    const internalToken = req.cookies[Cookie.INTERNAL_SESSION_TOKEN];
 
-    if (!jsonWebToken || !process.env.INTERNAL_JWT_SECRET) {
-        return res.redirect("/internal/login");
+    if (!internalToken) {
+        return reject(res);
     }
 
-    // Verify token signature and issue refreshed one
-    try {
-        jwt.verify(jsonWebToken, process.env.INTERNAL_JWT_SECRET);
+    const validInternalToken = await SessionToken.findOne({
+        type: SessionTokenType.INTERNAL,
+        token: internalToken
+    });
 
-        const decodedJWT = jwt.decode(jsonWebToken, { json: true });
-        const currentTime = Math.floor(Date.now() / 1000);
-
-        if (currentTime >= (decodedJWT?.exp || 0)) {
-            return res.redirect("/internal/login");
-        }
-
-        next();
-    } catch {
-        res.redirect("/internal/login");
+    if (!validInternalToken) {
+        return reject(res);
     }
+
+    next();
 };

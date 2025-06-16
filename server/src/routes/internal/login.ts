@@ -1,52 +1,47 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
+import { v4 as uuidv4 } from "uuid";
 
 import { Cookie } from "wintrchess";
-import { signInternalJWT } from "@lib/security/internal";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
+import { accountCookieOptions } from "@lib/security/account";
 
 const path = "/login";
 
 const router = Router();
 
-interface LoginRequest {
-    password?: string;
-}
+router.use(path, express.text());
 
-router.use(path, express.json());
-
-router.post(path, (req, res) => {
-    const { password }: LoginRequest = req.body;
+router.post(path, async (req, res) => {
+    const password: string = req.body;
 
     // If parameters are missing
-    if (!password) {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .send("Incorrect password.");
-    }
+    if (!password) return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send("Incorrect password.");
 
-    // If password is incorrect, 401
-    if (password != process.env.INTERNAL_PASSWORD) {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .send("Incorrect password.");
-    }
+    // If password is incorrect
+    if (password != process.env.INTERNAL_PASSWORD) return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send("Incorrect password.");
 
     // Create session
-    try {
-        res.cookie(
-            Cookie.INTERNAL_JWT,
-            signInternalJWT(),
-            {
-                sameSite: true,
-                httpOnly: true,
-                secure: true
-            }
-        );
-    
-        res.sendStatus(StatusCodes.OK);
-    } catch {
-        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-    }
+    const sessionToken = uuidv4();
+
+    await SessionToken.insertOne({
+        type: SessionTokenType.INTERNAL,
+        token: sessionToken,
+        createdAt: new Date()
+    });
+
+    res.cookie(
+        Cookie.INTERNAL_SESSION_TOKEN,
+        sessionToken,
+        accountCookieOptions
+    );
+
+    res.sendStatus(StatusCodes.OK);
 });
 
 export default router;

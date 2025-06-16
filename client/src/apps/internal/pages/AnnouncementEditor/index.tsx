@@ -53,33 +53,27 @@ function AnnouncementEditor() {
         });
 
         if (content) {
-            toast.success(
-                "Announcement published!",
-                {
-                    position: "bottom-left",
-                    theme: "dark",
-                    pauseOnHover: false,
-                    closeOnClick: true,
-                    closeButton: false,
-                    style: {
-                        fontFamily: "JetBrains Mono"
-                    }
+            toast.success("Announcement published!", {
+                position: "bottom-left",
+                theme: "dark",
+                pauseOnHover: false,
+                closeOnClick: true,
+                closeButton: false,
+                style: {
+                    fontFamily: "JetBrains Mono"
                 }
-            );
+            });
         } else {
-            toast.error(
-                "Announcement cleared.",
-                {
-                    position: "bottom-left",
-                    theme: "dark",
-                    pauseOnHover: false,
-                    closeOnClick: true,
-                    closeButton: false,
-                    style: {
-                        fontFamily: "JetBrains Mono"
-                    }
+            toast.error("Announcement cleared.", {
+                position: "bottom-left",
+                theme: "dark",
+                pauseOnHover: false,
+                closeOnClick: true,
+                closeButton: false,
+                style: {
+                    fontFamily: "JetBrains Mono"
                 }
-            );
+            });
         }
     }
 
@@ -94,6 +88,7 @@ function AnnouncementEditor() {
                 placeholder="Announcement..."
                 onChange={setBannerContent}
                 value={bannerContent}
+                wrapperClassName={styles.editorField}
                 style={{
                     borderRadius: "10px",
                     border: "3px solid #242424"
