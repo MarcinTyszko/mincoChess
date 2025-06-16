@@ -1,12 +1,12 @@
-import express, { Router } from "express";
+import express, { Router, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
 import { readFileSync } from "fs";
-import { createHash } from "crypto";
+import { createHash, randomBytes } from "crypto";
 import { hashSync } from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 import mailer from "nodemailer";
 
+import { AccountError } from "wintrchess";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
 
@@ -19,10 +19,18 @@ const verificationEmailTemplate = readFileSync(
 );
 
 const registerRequestSchema = z.object({
-    email: z.string().email("invalidEmail"),
-    username: z.string().min(3, "minUsername").max(32, "maxUsername"),
-    password: z.string().min(8, "minPassword").max(64, "maxPassword")
+    email: z.string().email(AccountError.INVALID_EMAIL),
+    username: z.string()
+        .min(3, AccountError.USERNAME_TOO_SHORT)
+        .max(32, AccountError.USERNAME_TOO_LONG),
+    password: z.string()
+        .min(8, AccountError.PASSWORD_TOO_SHORT)
+        .max(128, AccountError.PASSWORD_TOO_LONG)
 });
+
+function reject(res: Response, reason: AccountError) {
+    res.status(StatusCodes.BAD_REQUEST).send(reason);
+}
 
 router.use(path, express.json());
 
@@ -39,9 +47,7 @@ router.post(path, async (req, res) => {
     const parseAttempt = registerRequestSchema.safeParse(registration);
     const issue = parseAttempt.error?.issues.at(0)?.message;
 
-    if (issue) {
-        return res.status(StatusCodes.BAD_REQUEST).send(issue);
-    }
+    if (issue) return reject(res, issue as AccountError);
 
     // Ensure no existing account
     const existingAccount = await Account.findOne({
@@ -52,11 +58,11 @@ router.post(path, async (req, res) => {
     });
 
     if (existingAccount) {
-        return res.sendStatus(StatusCodes.CONFLICT);
+        return reject(res, AccountError.ACCOUNT_ALREADY_EXISTS);
     }
 
     // Create verification and send email
-    const verificationId = uuidv4();
+    const verificationId = randomBytes(128).toString("base64url");
 
     await AccountVerification.insertOne({
         id: createHash("sha256").update(verificationId).digest("hex"),

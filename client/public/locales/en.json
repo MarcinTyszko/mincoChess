@@ -211,7 +211,19 @@
             "password": "Password...",
             "loginPageButton": "I already have an account.",
             "registerPageButton": "New? Create an account!",
-            "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service."
+            "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service.",
+            "errors": {
+                "accountNotFound": "An account with this Email does not exist.",
+                "accountAlreadyExists": "An account with this username or Email already exists.",
+                "invalidEmail": "Invalid Email address.",
+                "usernameTooShort": "Username must be at least 3 characters long.",
+                "usernameTooLong": "Username cannot be more than 32 characters long.",
+                "passwordTooShort": "Password must be at least 8 characters long.",
+                "passwordTooLong": "Password cannot be more than 128 characters long.",
+                "incorrectPassword": "Incorrect password.",
+                "unknown": "An unknown error occurred while signing in."
+            },
+            "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
         },
         "settings": {
             "title": "Preferences",

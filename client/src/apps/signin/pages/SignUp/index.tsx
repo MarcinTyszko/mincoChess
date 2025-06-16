@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
+import { AccountError } from "wintrchess";
+import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
@@ -16,11 +18,14 @@ function SignUp() {
 
     const navigate = useNavigate();
 
+    const getErrorMessage = useAccountErrors();
+
     const [ email, setEmail ] = useState("");
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
     
-    const [ error, setError ] = useState(false);
+    const [ error, setError ] = useState<string>();
+    const [ successMessage, setSuccessMessage ] = useState<string>();
 
     const googleLogin = useGoogleLogin({
         onSuccess: async credentials => {
@@ -31,12 +36,14 @@ function SignUp() {
 
             location.href = "/analysis";
         },
-        onError: () => setError(true),
+        onError: () => setError(
+            getErrorMessage(AccountError.UNKNOWN)
+        ),
         flow: "auth-code"
     });
 
     async function register() {
-        await fetch("/auth/register", {
+        const registerResponse = await fetch("/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -45,6 +52,15 @@ function SignUp() {
                 email, username, password
             })
         });
+
+        if (!registerResponse.ok) return setError(
+            getErrorMessage((await registerResponse.text()) as AccountError)
+        );
+
+        setError(undefined);
+        setSuccessMessage(
+            t("pages.signIn.verificationMessage")
+        );
     }
 
     return <div className={styles.wrapper}>
@@ -100,7 +116,11 @@ function SignUp() {
             </Button>
 
             {error && <LogMessage>
-                {t("pages.signIn.registerError")}    
+                {error}
+            </LogMessage>}
+
+            {successMessage && <LogMessage theme="success">
+                {successMessage}    
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />

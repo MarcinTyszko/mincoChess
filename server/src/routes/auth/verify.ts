@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { createHash } from "crypto";
+import { createHash, randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
 import { Cookie } from "wintrchess";
@@ -31,7 +31,7 @@ router.get("/verify", async (req, res) => {
     await verification.deleteOne();
 
     const accountId = uuidv4();
-    const sessionToken = uuidv4();
+    const sessionToken = randomBytes(128).toString("base64");
 
     await Account.insertOne({
         id: accountId,

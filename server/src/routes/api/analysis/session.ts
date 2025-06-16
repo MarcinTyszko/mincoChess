@@ -1,8 +1,8 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { v4 as uuidv4 } from "uuid";
 import { verifySolution } from "altcha-lib";
 import { Payload } from "altcha-lib/types";
+import { randomBytes } from "crypto";
 
 import { Cookie } from "wintrchess";
 import SessionToken from "@database/models/SessionToken";
@@ -53,7 +53,7 @@ router.post(path, async (req, res) => {
     }
 
     // Generate session
-    const sessionToken = uuidv4();
+    const sessionToken = randomBytes(128).toString("base64");
 
     await SessionToken.insertOne({
         type: SessionTokenType.ANALYSIS,

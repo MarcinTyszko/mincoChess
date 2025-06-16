@@ -1,4 +1,4 @@
-import AccountRole from "@constants/AccountRole";
+import AccountRole from "@constants/account/Role";
 
 interface AccountProfile {
     displayName: string;

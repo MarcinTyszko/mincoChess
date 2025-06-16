@@ -2,7 +2,9 @@ export { default as Cookie } from "./constants/Cookie";
 export * from "./constants/PieceColour";
 export * from "./constants/Classification";
 
-export { default as AccountRole } from "./constants/AccountRole";
+export { default as AccountRole } from "./constants/account/Role";
+export { default as AccountError } from "./constants/account/Error";
+
 export * from "./constants/game/GameResult";
 export { default as Variant } from "./constants/game/Variant";
 export { default as TimeControl } from "./constants/game/TimeControl";

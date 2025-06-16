@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
+import { AccountError } from "wintrchess";
+import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
@@ -16,15 +18,45 @@ function SignIn() {
 
     const navigate = useNavigate();
 
-    const [ error, setError ] = useState(false);
+    const getErrorMessage = useAccountErrors();
+
+    const [ email, setEmail ] = useState("");
+    const [ password, setPassword ] = useState("");
+
+    const [ error, setError ] = useState<string>();
 
     const googleLogin = useGoogleLogin({
-        onSuccess: credentials => {
-            console.log(credentials);
+        onSuccess: async credentials => {
+            await fetch("/auth/google", {
+                method: "POST",
+                body: credentials.code
+            });
+
+            location.href = "/analysis";
         },
-        onError: () => setError(true),
+        onError: () => setError(
+            getErrorMessage(AccountError.UNKNOWN)
+        ),
         flow: "auth-code"
     });
+
+    async function login() {
+        const loginResponse = await fetch("/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email, password
+            })
+        });
+
+        if (!loginResponse.ok) return setError(
+            getErrorMessage((await loginResponse.text()) as AccountError)
+        );
+
+        location.href = "/analysis";
+    }
 
     return <div className={styles.wrapper}>
         <div className={styles.dialog}>
@@ -50,6 +82,7 @@ function SignIn() {
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
                 placeholder={t("pages.signIn.email")}
+                onChange={setEmail}
             />
 
             <TextField
@@ -57,6 +90,7 @@ function SignIn() {
                 className={styles.field}
                 placeholder={t("pages.signIn.password")}
                 password
+                onChange={setPassword}
             />
 
             <Button
@@ -64,12 +98,13 @@ function SignIn() {
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
+                onClick={login}
             >
                 {t("pages.signIn.loginButtonEmail")}
             </Button>
 
             {error && <LogMessage>
-                {t("pages.signIn.loginError")}    
+                {error}
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />
