@@ -11,6 +11,8 @@ import Button from "@components/common/Button";
 import ButtonColour from "@components/common/Button/Colour";
 import LogMessage from "@components/common/LogMessage";
 
+import RegistrationAttempt from "@apps/signin/types/RegistrationAttempt";
+import StatusMessage from "@apps/signin/types/StatusMessage";
 import * as styles from "../../index.module.css";
 
 function SignUp() {
@@ -23,9 +25,13 @@ function SignUp() {
     const [ email, setEmail ] = useState("");
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
-    
-    const [ error, setError ] = useState<string>();
-    const [ successMessage, setSuccessMessage ] = useState<string>();
+
+    const [
+        lastRegistration,
+        setLastRegistration
+    ] = useState<RegistrationAttempt>();
+
+    const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
 
     const googleLogin = useGoogleLogin({
         onSuccess: async credentials => {
@@ -36,13 +42,22 @@ function SignUp() {
 
             location.href = "/analysis";
         },
-        onError: () => setError(
-            getErrorMessage(AccountError.UNKNOWN)
-        ),
+        onError: () => setStatusMessage({
+            theme: "error",
+            message: getErrorMessage(AccountError.UNKNOWN)
+        }),
         flow: "auth-code"
     });
 
     async function register() {
+        if (
+            email == lastRegistration?.email
+            && lastRegistration.timestamp >= (Date.now() - 60000)
+        ) return setStatusMessage({
+            theme: "error",
+            message: t("pages.signIn.errors.verificationCooldown")
+        });
+
         const registerResponse = await fetch("/auth/register", {
             method: "POST",
             headers: {
@@ -53,14 +68,21 @@ function SignUp() {
             })
         });
 
-        if (!registerResponse.ok) return setError(
-            getErrorMessage((await registerResponse.text()) as AccountError)
-        );
+        if (!registerResponse.ok) return setStatusMessage({
+            theme: "error",
+            message: getErrorMessage(
+                (await registerResponse.text()) as AccountError
+            )
+        });
 
-        setError(undefined);
-        setSuccessMessage(
-            t("pages.signIn.verificationMessage")
-        );
+        setStatusMessage({
+            theme: "success",
+            message: t("pages.signIn.verificationMessage")
+        });
+
+        setLastRegistration({
+            email, timestamp: Date.now()
+        });
     }
 
     return <div className={styles.wrapper}>
@@ -115,12 +137,8 @@ function SignUp() {
                 {t("pages.signIn.registerButtonEmail")}
             </Button>
 
-            {error && <LogMessage>
-                {error}
-            </LogMessage>}
-
-            {successMessage && <LogMessage theme="success">
-                {successMessage}    
+            {statusMessage && <LogMessage theme={statusMessage.theme}>
+                {statusMessage.message}
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />

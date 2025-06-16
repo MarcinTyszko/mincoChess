@@ -221,6 +221,7 @@
                 "passwordTooShort": "Password must be at least 8 characters long.",
                 "passwordTooLong": "Password cannot be more than 128 characters long.",
                 "incorrectPassword": "Incorrect password.",
+                "verificationCooldown": "Please allow 60 seconds before sending another verification link.",
                 "unknown": "An unknown error occurred while signing in."
             },
             "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
