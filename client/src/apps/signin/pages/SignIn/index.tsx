@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
 
 import { AccountError } from "wintrchess";
 import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
+import useGoogleAuth from "@apps/signin/hooks/useGoogleAuth";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
 import ButtonColour from "@components/common/Button/Colour";
 import LogMessage from "@components/common/LogMessage";
 
+import StatusMessage from "@apps/signin/types/StatusMessage";
 import * as styles from "../../index.module.css";
 
 function SignIn() {
@@ -23,22 +24,9 @@ function SignIn() {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
 
-    const [ error, setError ] = useState<string>();
+    const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async credentials => {
-            await fetch("/auth/google", {
-                method: "POST",
-                body: credentials.code
-            });
-
-            location.href = "/analysis";
-        },
-        onError: () => setError(
-            getErrorMessage(AccountError.UNKNOWN)
-        ),
-        flow: "auth-code"
-    });
+    const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
 
     async function login() {
         const loginResponse = await fetch("/auth/login", {
@@ -51,9 +39,12 @@ function SignIn() {
             })
         });
 
-        if (!loginResponse.ok) return setError(
-            getErrorMessage((await loginResponse.text()) as AccountError)
-        );
+        if (!loginResponse.ok) return setStatusMessage({
+            theme: "error",
+            message: getErrorMessage(
+                (await loginResponse.text()) as AccountError
+            )
+        });
 
         location.href = "/analysis";
     }
@@ -69,7 +60,7 @@ function SignIn() {
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ gap: "10px" }}
-                onClick={() => googleLogin()}
+                onClick={googleLogin}
             >
                 {t("pages.signIn.loginButtonGoogle")}
             </Button>
@@ -103,8 +94,8 @@ function SignIn() {
                 {t("pages.signIn.loginButtonEmail")}
             </Button>
 
-            {error && <LogMessage>
-                {error}
+            {statusMessage && <LogMessage theme={statusMessage.theme}>
+                {statusMessage.message}
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
 
 import { AccountError } from "wintrchess";
 import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
+import useGoogleAuth from "@apps/signin/hooks/useGoogleAuth";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
@@ -33,21 +33,7 @@ function SignUp() {
 
     const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async credentials => {
-            await fetch("/auth/google", {
-                method: "POST",
-                body: credentials.code
-            });
-
-            location.href = "/analysis";
-        },
-        onError: () => setStatusMessage({
-            theme: "error",
-            message: getErrorMessage(AccountError.UNKNOWN)
-        }),
-        flow: "auth-code"
-    });
+    const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
 
     async function register() {
         if (
@@ -96,7 +82,7 @@ function SignUp() {
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ gap: "10px" }}
-                onClick={() => googleLogin()}
+                onClick={googleLogin}
             >
                 {t("pages.signIn.registerButtonGoogle")}
             </Button>
