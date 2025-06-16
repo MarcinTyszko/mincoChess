@@ -8,6 +8,7 @@ import { AccountError, Cookie } from "wintrchess";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
+import { accountCookieOptions } from "@lib/security/account";
 
 const path = "/login";
 
@@ -53,7 +54,10 @@ router.post(path, async (req, res) => {
         createdAt: new Date()
     });
 
-    res.cookie(Cookie.ACCOUNT_ID_TOKEN, sessionToken);
+    res.cookie(
+        Cookie.ACCOUNT_ID_TOKEN, sessionToken,
+        accountCookieOptions
+    );
 
     res.sendStatus(StatusCodes.OK);
 });

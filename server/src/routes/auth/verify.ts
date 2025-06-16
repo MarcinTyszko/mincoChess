@@ -8,6 +8,7 @@ import AccountVerification from "@database/models/account/AccountVerification";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
+import { accountCookieOptions } from "@lib/security/account";
 
 const router = Router();
 
@@ -50,7 +51,10 @@ router.get("/verify", async (req, res) => {
         createdAt: new Date()
     });
 
-    res.cookie(Cookie.ACCOUNT_ID_TOKEN, sessionToken);
+    res.cookie(
+        Cookie.ACCOUNT_ID_TOKEN, sessionToken,
+        accountCookieOptions
+    );
 
     res.redirect("/analysis");
 });
