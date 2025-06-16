@@ -14,6 +14,7 @@ import LogMessage from "@components/common/LogMessage";
 import RegistrationAttempt from "@apps/signin/types/RegistrationAttempt";
 import StatusMessage from "@apps/signin/types/StatusMessage";
 import * as styles from "../../index.module.css";
+import { StatusCodes } from "http-status-codes";
 
 function SignUp() {
     const { t } = useTranslation();
@@ -54,12 +55,24 @@ function SignUp() {
             })
         });
 
-        if (!registerResponse.ok) return setStatusMessage({
-            theme: "error",
-            message: getErrorMessage(
-                (await registerResponse.text()) as AccountError
-            )
-        });
+        if (registerResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
+            return setStatusMessage({
+                theme: "error",
+                message: t("pages.signIn.errors.verificationCooldown")
+            });
+        } else if (registerResponse.status == StatusCodes.BAD_REQUEST) {
+            return setStatusMessage({
+                theme: "error",
+                message: getErrorMessage(
+                    (await registerResponse.text()) as AccountError
+                )
+            });
+        } else if (!registerResponse.ok) {
+            return setStatusMessage({
+                theme: "error",
+                message: getErrorMessage(AccountError.UNKNOWN)
+            });
+        }
 
         setStatusMessage({
             theme: "success",

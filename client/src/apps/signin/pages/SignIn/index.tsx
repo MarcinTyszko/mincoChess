@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { StatusCodes } from "http-status-codes";
 
 import { AccountError } from "wintrchess";
 import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
@@ -39,12 +40,19 @@ function SignIn() {
             })
         });
 
-        if (!loginResponse.ok) return setStatusMessage({
-            theme: "error",
-            message: getErrorMessage(
-                (await loginResponse.text()) as AccountError
-            )
-        });
+        if (loginResponse.status == StatusCodes.BAD_REQUEST) {
+            return setStatusMessage({
+                theme: "error",
+                message: getErrorMessage(
+                    (await loginResponse.text()) as AccountError
+                )
+            });
+        } else if (!loginResponse.ok) {
+            return setStatusMessage({
+                theme: "error",
+                message: getErrorMessage(AccountError.UNKNOWN)
+            });
+        }
 
         location.href = "/analysis";
     }

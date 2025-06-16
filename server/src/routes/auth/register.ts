@@ -61,6 +61,18 @@ router.post(path, async (req, res) => {
         return reject(res, AccountError.ACCOUNT_ALREADY_EXISTS);
     }
 
+    // Check for verification cooldown
+    const existingVerification = await AccountVerification.findOne({
+        email: registration.email,
+        createdAt: {
+            $gte: new Date(Date.now() - 60000)
+        }
+    });
+
+    if (existingVerification) {
+        return res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
+    }
+
     // Create verification and send email
     const verificationId = randomBytes(128).toString("base64url");
 
