@@ -2,7 +2,7 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { AccountProfile } from "wintrchess";
-import Account from "@database/models/Account";
+import Account from "@database/models/account/Account";
 
 const router = Router();
 

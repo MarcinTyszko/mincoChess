@@ -2,7 +2,8 @@ import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { Cookie } from "wintrchess";
-import AnalysisSession from "@database/models/AnalysisSession";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
 
 const analysisAuthorizer: RequestHandler = async (req, res, next) => {
     // Ensure existence of session token in cookies
@@ -13,9 +14,12 @@ const analysisAuthorizer: RequestHandler = async (req, res, next) => {
     }
 
     // Verify token against the database
-    const session = await AnalysisSession.findOne({ token: sessionToken });
+    const session = await SessionToken.findOne({
+        type: SessionTokenType.ANALYSIS,
+        token: sessionToken
+    });
 
-    if (!session) {
+    if (!session?.actions) {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
 

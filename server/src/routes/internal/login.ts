@@ -45,7 +45,7 @@ router.post(path, (req, res) => {
     
         res.sendStatus(StatusCodes.OK);
     } catch {
-        res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+        res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 });
 

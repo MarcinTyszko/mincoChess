@@ -15,7 +15,7 @@ const newsArticleSchema = new Schema({
 });
 
 const NewsArticle = model(
-    "NewsArticle",
+    "newsArticle",
     newsArticleSchema,
     Collection.NEWS_ARTICLES
 );

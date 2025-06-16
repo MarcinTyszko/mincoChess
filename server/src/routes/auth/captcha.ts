@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/captcha", async (req, res) => {
     if (!process.env.ALTCHA_KEY) {
-        return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     const challenge = await createChallenge({

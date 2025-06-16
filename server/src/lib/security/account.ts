@@ -3,6 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { UserRefreshClient } from "google-auth-library";
 
 import { Cookie } from "wintrchess";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
 import { getGoogleOAuth } from "./oauthClient";
 
 const { clientId, clientSecret, client: oauthClient } = getGoogleOAuth();
@@ -36,14 +38,25 @@ export const accountAuthenticator: RequestHandler = async (req, res, next) => {
         Cookie.ACCOUNT_ID_TOKEN
     ];
 
+    if (!idToken) {
+        return reject(res, StatusCodes.UNAUTHORIZED);
+    }
+
+    // Permit existing account token
+    const accountToken = await SessionToken.findOne({
+        type: SessionTokenType.ACCOUNT,
+        token: idToken
+    });
+
+    if (accountToken) return next();
+
+    // Verify and refresh Google ID token
     const refreshToken: string | undefined = req.cookies[
         Cookie.ACCOUNT_REFRESH_TOKEN
     ];
 
-    if (!idToken) return reject(res, StatusCodes.UNAUTHORIZED);
-
     if (!clientId || !clientSecret) {
-        return reject(res, StatusCodes.SERVICE_UNAVAILABLE);
+        return reject(res, StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     try {
@@ -55,6 +68,15 @@ export const accountAuthenticator: RequestHandler = async (req, res, next) => {
             return reject(res, StatusCodes.UNAUTHORIZED);
         }
 
+        const validRefreshToken = await SessionToken.findOne({
+            type: SessionTokenType.ACCOUNT_REFRESH,
+            token: refreshToken
+        });
+
+        if (!validRefreshToken) {
+            return reject(res, StatusCodes.UNAUTHORIZED);
+        }
+
         const refreshedIdToken = await attemptTokenRefresh(refreshToken);
 
         if (refreshedIdToken) {
@@ -63,7 +85,10 @@ export const accountAuthenticator: RequestHandler = async (req, res, next) => {
                 accountCookieOptions
             );
         } else {
-            return reject(res, StatusCodes.UNAUTHORIZED);
+            validRefreshToken.deleteOne();
+            reject(res, StatusCodes.UNAUTHORIZED);
+
+            return;
         }
     }
 

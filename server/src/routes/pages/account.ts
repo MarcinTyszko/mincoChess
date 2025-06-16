@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import Account from "@database/models/Account";
+import Account from "@database/models/account/Account";
 import appRouter from "@lib/appRouter";
 
 const router = Router();

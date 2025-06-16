@@ -2,7 +2,9 @@ import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { Cookie, randomNormalString } from "wintrchess";
-import Account from "@database/models/Account";
+import Account from "@database/models/account/Account";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
 import { accountCookieOptions } from "@lib/security/account";
 import { getGoogleOAuth } from "@lib/security/oauthClient";
 
@@ -18,7 +20,7 @@ router.post(path, async (req, res) => {
     const authCode: string = req.body;
 
     if (!oauthClient) {
-        return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     // Exchange authorization code for tokens
@@ -29,7 +31,7 @@ router.post(path, async (req, res) => {
     }
 
     if (!tokens.id_token || !tokens.refresh_token || !clientSecret) {
-        return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     // Verify and decode ID token JWT
@@ -45,39 +47,40 @@ router.post(path, async (req, res) => {
     }
 
     if (!googleId?.sub || !googleId.email) {
-        return res.sendStatus(StatusCodes.SERVICE_UNAVAILABLE);
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     // Create account or update one with refresh token
-    const existingAccount = await Account.findOne({ id: googleId.sub });
+    const existingAccount = await Account.findOne({ email: googleId.email });
 
     if (existingAccount) {
-        await existingAccount.updateOne({
-            refreshTokens: [
-                ...existingAccount.refreshTokens,
-                tokens.refresh_token
-            ].slice(-5)
-        });
-    } else {
-        while (true) {
-            const username = "player_"
-                + randomNormalString(8, false).toLowerCase();
-
-            if (await Account.findOne({ username })) continue;
-
-            await Account.insertOne({
-                id: googleId.sub,
-                email: String(googleId.email),
-                displayName: googleId.name,
-                username: "player_" + randomNormalString(8, false).toLowerCase(),
-                refreshTokens: [tokens.refresh_token],
-                roles: [],
-                createdAt: new Date()
-            });
-
-            break;
+        if (existingAccount.id != googleId.sub) {
+            return res.sendStatus(StatusCodes.CONFLICT);
         }
+    } else while (true) {
+        const username = "player_"
+            + randomNormalString(8, false).toLowerCase();
+
+        if (await Account.findOne({ username })) continue;
+
+        await Account.insertOne({
+            id: googleId.sub,
+            email: String(googleId.email),
+            displayName: googleId.name,
+            username: "player_" + randomNormalString(8, false).toLowerCase(),
+            roles: [],
+            createdAt: new Date()
+        });
+
+        break;
     }
+
+    await SessionToken.insertOne({
+        id: googleId.sub,
+        type: SessionTokenType.ACCOUNT_REFRESH,
+        token: tokens.refresh_token,
+        createdAt: new Date()
+    });
 
     // Set cookies for tokens
     res.cookie(

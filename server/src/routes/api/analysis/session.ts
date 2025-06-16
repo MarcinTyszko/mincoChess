@@ -5,7 +5,9 @@ import { verifySolution } from "altcha-lib";
 import { Payload } from "altcha-lib/types";
 
 import { Cookie } from "wintrchess";
-import AnalysisSession from "@database/models/AnalysisSession";
+import SessionToken from "@database/models/SessionToken";
+import SessionTokenType from "@constants/SessionTokenType";
+import { accountCookieOptions } from "@lib/security/account";
 
 const path = "/analysis/session";
 
@@ -19,35 +21,29 @@ router.post(path, async (req, res) => {
     const payload: Payload | undefined = req.body;
 
     // If token missing
-    if (!payload) {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .send("CAPTCHA Payload required.");
-    }
+    if (!payload) return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send("CAPTCHA Payload required.");
 
     // Verify captcha token
-    if (!process.env.ALTCHA_KEY) {
-        return res
-            .status(StatusCodes.SERVICE_UNAVAILABLE)
-            .send("Analysis sessions not available.");
-    }
+    if (!process.env.ALTCHA_KEY) return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send("Analysis sessions not available.");
 
     const captchaSolutionValid = await verifySolution(
-        payload,
-        process.env.ALTCHA_KEY
+        payload, process.env.ALTCHA_KEY
     );
 
-    if (!captchaSolutionValid) {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .send("CAPTCHA Payload invalid.");
-    }
+    if (!captchaSolutionValid) return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send("CAPTCHA Payload invalid.");
 
     // Do not replace existing valid session
     const existingSessionToken = req.cookies[Cookie.ANALYSIS_SESSION_TOKEN];
 
     if (existingSessionToken) {
-        const existingSession = await AnalysisSession.findOne({
+        const existingSession = await SessionToken.findOne({
+            type: SessionTokenType.ANALYSIS,
             token: existingSessionToken
         });
 
@@ -59,7 +55,8 @@ router.post(path, async (req, res) => {
     // Generate session
     const sessionToken = uuidv4();
 
-    await AnalysisSession.create({
+    await SessionToken.insertOne({
+        type: SessionTokenType.ANALYSIS,
         token: sessionToken,
         actions: process.env.ANALYSIS_SESSION_ACTIONS || defaultSessionActions,
         createdAt: new Date()
@@ -68,10 +65,7 @@ router.post(path, async (req, res) => {
     res.cookie(
         Cookie.ANALYSIS_SESSION_TOKEN,
         sessionToken,
-        {
-            sameSite: true,
-            httpOnly: true
-        }
+        accountCookieOptions
     );
 
     res.send(sessionToken);

@@ -14,8 +14,8 @@ const path = "/analysis/analyse";
 const router = Router();
 
 router.use(path,
-    express.json({ limit: "1mb" }),
-    analysisAuthorizer
+    analysisAuthorizer,
+    express.json({ limit: "1mb" })
 );
 
 router.post(path, async (req, res) => {

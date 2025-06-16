@@ -8,7 +8,7 @@ const announcementSchema = new Schema({
 });
 
 const Announcement = model(
-    "Announcement",
+    "announcement",
     announcementSchema,
     Collection.ANNOUNCEMENT
 );

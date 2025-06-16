@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
@@ -15,6 +15,10 @@ function SignUp() {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
+
+    const [ email, setEmail ] = useState("");
+    const [ username, setUsername ] = useState("");
+    const [ password, setPassword ] = useState("");
     
     const [ error, setError ] = useState(false);
 
@@ -30,6 +34,18 @@ function SignUp() {
         onError: () => setError(true),
         flow: "auth-code"
     });
+
+    async function register() {
+        await fetch("/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email, username, password
+            })
+        });
+    }
 
     return <div className={styles.wrapper}>
         <div className={styles.dialog}>
@@ -55,12 +71,14 @@ function SignUp() {
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
                 placeholder={t("pages.signIn.email")}
+                onChange={setEmail}
             />
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
                 placeholder={t("pages.signIn.username")}
+                onChange={setUsername}
             />
 
             <TextField
@@ -68,6 +86,7 @@ function SignUp() {
                 className={styles.field}
                 placeholder={t("pages.signIn.password")}
                 password
+                onChange={setPassword}
             />
 
             <Button
@@ -75,6 +94,7 @@ function SignUp() {
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
+                onClick={register}
             >
                 {t("pages.signIn.registerButtonEmail")}
             </Button>

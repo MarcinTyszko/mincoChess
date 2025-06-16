@@ -9,7 +9,6 @@ const accountSchema = new Schema({
     displayName: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: false },
-    refreshTokens: { type: [String], required: true },
     roles: {
         type: [String],
         enum: Object.values(AccountRole),
