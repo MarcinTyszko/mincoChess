@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { AuthenticatedAccountProfile } from "wintrchess";
+import { AuthenticatedAccountProfile } from "shared/types/AccountProfile";
 import Account from "@database/models/account/Account";
 import { accountAuthenticator } from "@lib/security/account";
 

@@ -15,8 +15,8 @@
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.5.0",
         "nodemailer": "^7.0.3",
+        "shared": "*",
         "uuid": "^10.0.0",
-        "wintrchess": "*",
         "zod": "^3.23.8"
     },
     "devDependencies": {
