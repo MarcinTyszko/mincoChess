@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
+import { useQuery } from "@tanstack/react-query";
 
 import Typography from "@components/Typography";
 import Button from "@components/common/Button";
 import BlurBackground from "@components/layout/BlurBackground";
 import Sidebar from "@components/layout/sidebar/Sidebar";
+import { getAuthenticatedAccountProfile } from "@lib/api/profile";
 
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
     const { t } = useTranslation();
+
+    const { data: profile, status } = useQuery({
+        queryKey: ["profile"],
+        queryFn: getAuthenticatedAccountProfile
+    });
 
     const [ sidebarOpen, setSidebarOpen ] = useState(false);
 
@@ -70,30 +77,42 @@ function NavigationBar() {
                 delayShow={500}
             />
 
-            <a href="/signin">
-                <Button
-                    className={styles.signIn}
-                    icon={require("@assets/img/interface/signin.svg")}
-                    iconSize="28px"
-                >
-                    {t("navigationBar.signIn")}
-                </Button>
-            </a>
+            {status == "pending" && <span>
+                {t("loading")}    
+            </span>}
 
-            <a href="/settings">
-                <Button
-                    className={styles.settings}
-                    icon={require("@assets/img/icons/settings.png")}
-                    iconSize="28px"
-                    tooltipId="navigation-bar-settings"
+            {status == "success" && <>
+                <span>{profile.username}</span>
+
+                <div className={styles.profileImage} />
+            </>}
+
+            {status == "error" && <>
+                <a href="/signin">
+                    <Button
+                        className={styles.signIn}
+                        icon={require("@assets/img/interface/signin.svg")}
+                        iconSize="28px"
+                    >
+                        {t("navigationBar.signIn")}
+                    </Button>
+                </a>
+
+                <a href="/settings">
+                    <Button
+                        className={styles.settings}
+                        icon={require("@assets/img/icons/settings.png")}
+                        iconSize="28px"
+                        tooltipId="navigation-bar-settings"
+                    />
+                </a>
+
+                <Tooltip
+                    id="navigation-bar-settings"
+                    content={t("settings")}
+                    delayShow={500}
                 />
-            </a>
-
-            <Tooltip
-                id="navigation-bar-settings"
-                content={t("settings")}
-                delayShow={500}
-            />
+            </>}
         </div>
 
         {sidebarOpen && <BlurBackground

@@ -33,6 +33,11 @@ export const accountCookieOptions: CookieOptions = {
     secure: true
 };
 
+/**
+ * @description Enforces that the user has a valid account ID / session
+ * token, or redirects to sign in page otherwise. Adds
+ * `req.accountId` with the user's account ID when authenticated.
+ */
 export const accountAuthenticator: RequestHandler = async (req, res, next) => {
     const idToken: string | undefined = req.cookies[
         Cookie.ACCOUNT_ID_TOKEN
@@ -48,7 +53,10 @@ export const accountAuthenticator: RequestHandler = async (req, res, next) => {
         token: idToken
     });
 
-    if (accountToken) return next();
+    if (accountToken) {
+        req.accountId = accountToken.id;
+        return next();
+    }
 
     // Verify and refresh Google ID token
     const refreshToken: string | undefined = req.cookies[
@@ -60,9 +68,11 @@ export const accountAuthenticator: RequestHandler = async (req, res, next) => {
     }
 
     try {
-        await oauthClient.verifyIdToken({
+        const ticket = await oauthClient.verifyIdToken({
             idToken, audience: clientId
         });
+
+        req.accountId = ticket.getPayload()?.sub;
     } catch {
         if (!refreshToken) {
             return reject(res, StatusCodes.UNAUTHORIZED);

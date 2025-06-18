@@ -34,6 +34,6 @@ export { default as Move } from "./types/game/position/Move";
 export * from "./types/game/position/EngineLine";
 export { default as Evaluation } from "./types/game/position/Evaluation";
 
-export { default as AccountProfile } from "./types/AccountProfile";
+export * from "./types/AccountProfile";
 export { default as NewsArticle } from "./types/NewsArticle";
 export { default as Announcement } from "./types/Announcement";

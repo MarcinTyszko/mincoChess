@@ -12,6 +12,7 @@
     top: 0;
 
     background-color: var(--ui-shade-2);
+    color: white;
 
     overflow-x: auto;
 }
@@ -49,7 +50,7 @@
     }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 700px) {
     .typographyText {
         display: none;
     }
@@ -95,4 +96,12 @@
     padding: 7px;
     
     background-color: var(--ui-shade-2);
+}
+
+.profileImage {
+    height: 42px;
+    aspect-ratio: 1 / 1;
+
+    border-radius: 50%;
+    background-color: aquamarine;
 }
