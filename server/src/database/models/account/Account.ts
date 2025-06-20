@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import { AccountRole } from "wintrchess";
+import AccountRole from "shared/constants/account/Role";
 import Collection from "@constants/Collection";
 
 const accountSchema = new Schema({

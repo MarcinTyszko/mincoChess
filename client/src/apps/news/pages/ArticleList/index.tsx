@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { clamp } from "lodash";
+import { clamp } from "lodash-es";
 
 import Loader from "@components/common/Loader";
 import Separator from "@components/common/Separator";

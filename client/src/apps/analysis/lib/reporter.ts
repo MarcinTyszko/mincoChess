@@ -1,13 +1,13 @@
 import { StatusCodes } from "http-status-codes";
-import { clone } from "lodash";
+import { clone } from "lodash-es";
 
+import { GameAnalysis } from "shared/types/game/GameAnalysis";
+import ReportOptions from "shared/lib/reporter/types/ReportOptions";
 import {
-    GameAnalysis,
-    ReportOptions,
     StateTreeNode,
     serializeNode,
     deserializeNode
-} from "wintrchess";
+} from "shared/types/game/position/StateTreeNode";
 
 interface AnalyseGameResult {
     status: StatusCodes;

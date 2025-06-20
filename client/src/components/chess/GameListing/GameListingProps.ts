@@ -1,4 +1,6 @@
-import { Game, PieceColour } from "wintrchess";
+import { PieceColour } from "shared/constants/PieceColour";
+
+import Game from "shared/types/game/Game";
 
 interface GameListingProps {
     game: Game;

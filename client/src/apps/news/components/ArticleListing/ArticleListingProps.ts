@@ -1,4 +1,4 @@
-import { NewsArticle } from "wintrchess";
+import NewsArticle from "shared/types/NewsArticle";
 
 interface ArticleListingProps {
     article: NewsArticle;

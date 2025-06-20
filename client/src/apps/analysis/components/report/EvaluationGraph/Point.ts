@@ -1,4 +1,5 @@
-import { BoardState, Evaluation } from "wintrchess";
+import { BoardState } from "shared/types/game/position/BoardState";
+import Evaluation from "shared/types/game/position/Evaluation";
 
 interface EvaluationGraphPoint {
     nodeId: string;

@@ -1,13 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { sumBy } from "lodash";
+import { sumBy } from "lodash-es";
 
+import { Classification } from "shared/constants/Classification";
+import PieceColour from "shared/constants/PieceColour";
 import {
-    Classification,
-    PieceColour,
     StateTreeNode,
     getNodeChain
-} from "wintrchess";
+} from "shared/types/game/position/StateTreeNode";
 import {
     classificationImages,
     classificationNames,

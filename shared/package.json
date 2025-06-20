@@ -1,19 +1,21 @@
 {
     "name": "shared",
     "scripts": {
-        "build": "tsc && tsc-alias"
+        "build": "tsc && tsc-alias -f"
     },
     "dependencies": {
         "chess.js": "^1.4.0",
-        "lodash": "^4.17.21"
+        "lodash-es": "^4.17.21"
     },
     "devDependencies": {
-        "tsc-alias": "^1.8.15"
+        "@types/lodash-es": "^4.17.12",
+        "tsc-alias": "^1.8.16"
     },
     "exports": {
         "./*": {
             "types": "./dist/*.d.ts",
-            "import": "./dist/*"
+            "import": "./dist/*.js"
         }
-    }
+    },
+    "type": "module"
 }

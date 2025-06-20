@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-import { Game, getColourPlayed } from "wintrchess";
+import { Game, getColourPlayed } from "shared/types/game/Game";
 import { GameSourceData } from "@components/chess/GameSelector/GameSource";
 import getChessComGames from "@lib/games/chessCom";
 import getLichessGames from "@lib/games/lichess";

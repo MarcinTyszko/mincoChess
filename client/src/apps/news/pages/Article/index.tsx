@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
-import { formatDate } from "wintrchess";
+import { formatDate } from "shared/lib/date";
 import Loader from "@components/common/Loader";
 import LogMessage from "@components/common/LogMessage";
 import Advertisement from "@components/Advertisement";

@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { uniqWith } from "lodash";
+import { uniqWith } from "lodash-es";
 
-import { getNodeParentChain, isEngineLineEqual } from "wintrchess";
+import { getNodeParentChain } from "shared/types/game/position/StateTreeNode";
+import { isEngineLineEqual } from "shared/types/game/position/EngineLine";
 import AnalysisTab from "@apps/analysis/constants/AnalysisTab";
 import useRealtimeAnalyser from "@apps/analysis/hooks/useRealtimeAnalyser";
 import useSettingsStore from "@stores/SettingsStore";

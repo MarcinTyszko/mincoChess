@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-import { StateTreeNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import EvaluationGraphPoint from "./Point";
 
 interface EvaluationGraphProps {

@@ -1,5 +1,7 @@
 import { CSSProperties } from "react";
-import { Evaluation, PieceColour } from "wintrchess";
+
+import Evaluation from "shared/types/game/position/Evaluation";
+import PieceColour from "shared/constants/PieceColour";
 
 interface EvaluationBarProps {
     className?: string;

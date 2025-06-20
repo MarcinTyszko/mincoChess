@@ -2,15 +2,12 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
-import { uniqueId } from "lodash";
+import { uniqueId } from "lodash-es";
 
-import {
-    GameResult,
-    getOpinionatedGameResult,
-    PlayerProfile,
-    TimeControl,
-    formatDate
-} from "wintrchess";
+import { GameResult, getOpinionatedGameResult } from "shared/constants/game/GameResult";
+import PlayerProfile from "shared/types/game/PlayerProfile";
+import TimeControl from "shared/constants/game/TimeControl";
+import { formatDate } from "shared/lib/date";
 import Button from "@components/common/Button";
 
 import GameListingProps from "./GameListingProps";

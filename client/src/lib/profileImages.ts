@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
 
-import { Game } from "wintrchess";
+import Game from "shared/types/game/Game";
 
 const defaultProfileImage = require("@assets/img/defaultprofileimage.png");
 

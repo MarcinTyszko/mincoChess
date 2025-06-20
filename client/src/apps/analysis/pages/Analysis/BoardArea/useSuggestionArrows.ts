@@ -1,7 +1,9 @@
 import { useMemo } from "react";
 import { Arrow } from "react-chessboard/dist/chessboard/types";
 
-import { Classification, parseUciMove, getTopEngineLine } from "wintrchess";
+import { Classification } from "shared/constants/Classification";
+import { parseUciMove } from "shared/lib/chessUtils";
+import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import { classificationColours } from "@apps/analysis/constants/classifications";
 import EngineArrowType from "@apps/analysis/constants/EngineArrowType";
 import useSettingsStore from "@stores/SettingsStore";

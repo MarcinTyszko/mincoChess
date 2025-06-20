@@ -1,4 +1,4 @@
-import { GameAnalysis } from "wintrchess";
+import { GameAnalysis } from "shared/types/game/GameAnalysis";
 
 interface AccuraciesCardProps {
     accuracies: {

@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-import { StateTreeNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 
 interface StateTreeEditorProps {
     className?: string;

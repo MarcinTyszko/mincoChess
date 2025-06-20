@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
-import { EngineLine, EngineVersion } from "wintrchess";
+import { EngineLine } from "shared/types/game/position/EngineLine";
+import EngineVersion from "shared/constants/EngineVersion";
 
 interface RealtimeEngineProps {
     className?: string;

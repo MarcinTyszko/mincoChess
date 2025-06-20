@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { uniq, maxBy } from "lodash";
+import { uniq, maxBy } from "lodash-es";
 
 import EngineVersion from "@constants/EngineVersion";
 import Evaluation from "./Evaluation";

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { trim } from "lodash";
+import { trim } from "lodash-es";
 
-import { Game } from "wintrchess";
+import Game from "shared/types/game/Game";
 import {
     GameSource,
     GameSourceType,

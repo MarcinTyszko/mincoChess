@@ -1,7 +1,8 @@
 import React from "react";
-import { range } from "lodash";
+import { range } from "lodash-es";
 
-import { getNodeMoveNumber, PieceColour } from "wintrchess";
+import { getNodeMoveNumber } from "shared/types/game/position/StateTreeNode";
+import { PieceColour } from "shared/constants/PieceColour";
 import Indent from "../Indent";
 import Text from "../Text";
 import Move from "../Move";

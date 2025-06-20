@@ -1,4 +1,4 @@
-import { StateTreeNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 
 interface LineGroupProps {
     indentCount: number;

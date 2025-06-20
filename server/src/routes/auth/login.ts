@@ -4,7 +4,8 @@ import z from "zod";
 import { compareSync } from "bcrypt";
 import { randomBytes } from "crypto";
 
-import { AccountError, Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
+import AccountError from "shared/constants/account/Error";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";

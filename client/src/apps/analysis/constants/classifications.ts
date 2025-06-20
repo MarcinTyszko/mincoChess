@@ -1,4 +1,4 @@
-import { Classification } from "wintrchess";
+import { Classification } from "shared/constants/Classification";
 
 export const classificationImages = {
     [Classification.BRILLIANT]: require("@assets/img/classifications/brilliant.png"),

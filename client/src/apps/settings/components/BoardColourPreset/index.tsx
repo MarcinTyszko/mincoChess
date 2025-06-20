@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Tooltip } from "react-tooltip";
-import { uniqueId } from "lodash";
+import { uniqueId } from "lodash-es";
 
 import BoardColourPresetProps from "./BoardColourPresetProps";
 import * as styles from "./BoardColourPreset.module.css";

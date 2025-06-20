@@ -1,6 +1,6 @@
 import React from "react";
 
-import { stringifyEvaluation } from "wintrchess";
+import { stringifyEvaluation } from "shared/lib/chessUtils";
 import { classificationImages } from "@apps/analysis/constants/classifications";
 
 import EvaluationGraphPoint from "./Point";

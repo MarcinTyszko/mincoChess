@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { AccountError } from "wintrchess";
+import AccountError from "shared/constants/account/Error";
 import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
 import useGoogleAuth from "@apps/signin/hooks/useGoogleAuth";
 import Separator from "@components/common/Separator";

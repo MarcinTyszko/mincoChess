@@ -1,12 +1,9 @@
-import { sum, round } from "lodash";
+import { sum, round } from "lodash-es";
 
-import {
-    AnalysedGame,
-    StateTreeNode,
-    EngineVersion,
-    getNodeChain,
-    getTopEngineLine
-} from "wintrchess";
+import AnalysedGame from "shared/types/game/AnalysedGame";
+import EngineVersion from "shared/constants/EngineVersion";
+import { StateTreeNode, getNodeChain } from "shared/types/game/position/StateTreeNode";
+import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import Engine from "@apps/analysis/lib/engine";
 import getCloudEvaluation from "./cloudEvaluate";
 

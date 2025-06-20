@@ -1,4 +1,4 @@
-import { PlayerProfile } from "wintrchess";
+import PlayerProfile from "shared/types/game/PlayerProfile";
 
 interface PlayerProfileProps {
     profile: PlayerProfile;

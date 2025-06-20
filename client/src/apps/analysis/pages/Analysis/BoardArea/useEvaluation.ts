@@ -1,7 +1,7 @@
 import useRealtimeEngineStore from "@apps/analysis/stores/RealtimeEngineStore";
 import useSettingsStore from "@stores/SettingsStore";
 import { useEffect, useState } from "react";
-import { defaultEvaluation } from "wintrchess";
+import { defaultEvaluation } from "shared/constants/utils";
 
 function useEvaluation() {
     const engineEnabled = useSettingsStore(

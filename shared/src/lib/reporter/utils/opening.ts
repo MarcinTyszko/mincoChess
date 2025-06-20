@@ -1,4 +1,4 @@
-import openings from "@resources/openings.json";
+import openings from "@resources/openings.json" with { type: "json" };
 
 export function getOpeningName(fen: string) {
     const openingsDatabase = openings as Record<string, string>;

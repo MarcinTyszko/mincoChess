@@ -1,7 +1,7 @@
 import React from "react";
 import { Move } from "chess.js";
 
-import { addChildMove } from "wintrchess";
+import { addChildMove } from "shared/types/game/position/StateTreeNode";
 import AnalysisTab from "@apps/analysis/constants/AnalysisTab";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";

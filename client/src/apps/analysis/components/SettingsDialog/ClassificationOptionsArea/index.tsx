@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Classification } from "wintrchess";
+import { Classification } from "shared/constants/Classification";
 import { classificationNames } from "@apps/analysis/constants/classifications";
 import useSettingsStore from "@stores/SettingsStore";
 import SwitchSetting from "@components/settings/SwitchSetting";

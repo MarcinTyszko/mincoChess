@@ -1,6 +1,6 @@
 import { CSSProperties } from "react";
 
-import { Game } from "wintrchess";
+import Game from "shared/types/game/Game";
 
 interface GameSelectorProps {
     style?: CSSProperties;

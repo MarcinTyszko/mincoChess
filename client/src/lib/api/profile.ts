@@ -1,4 +1,7 @@
-import { AccountProfile, AuthenticatedAccountProfile } from "wintrchess";
+import {
+    AccountProfile,
+    AuthenticatedAccountProfile
+} from "shared/types/AccountProfile";
 
 export async function getAccountProfile(username: string) {
     const profileResponse = await fetch(`/api/public/profile/${username}`);

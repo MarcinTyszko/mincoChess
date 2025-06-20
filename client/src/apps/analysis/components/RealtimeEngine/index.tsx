@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Chess } from "chess.js";
-import { range } from "lodash";
+import { range } from "lodash-es";
 
-import { EngineLine, pickEngineLines } from "wintrchess";
+import { EngineLine } from "shared/types/game/position/EngineLine";
+import { pickEngineLines } from "shared/types/game/position/EngineLine";
 import LogMessage from "@components/common/LogMessage";
 import Engine from "@apps/analysis/lib/engine";
 

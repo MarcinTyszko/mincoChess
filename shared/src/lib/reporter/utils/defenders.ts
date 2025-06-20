@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { minBy } from "lodash";
+import { minBy } from "lodash-es";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { adaptPieceColour, flipPieceColour, setFenTurn } from "@lib/chessUtils";

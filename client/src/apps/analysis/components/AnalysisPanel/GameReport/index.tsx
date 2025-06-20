@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getGameAccuracy } from "wintrchess";
+import { getGameAccuracy } from "shared/lib/reporter/accuracy/gameAccuracy";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import AccuraciesCard from "@apps/analysis/components/report/AccuraciesCard";

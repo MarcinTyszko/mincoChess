@@ -1,12 +1,10 @@
 import { Chess } from "chess.js";
 import { components } from "@lichess-org/types";
 
-import {
-    EngineLine,
-    Move,
-    EngineVersion,
-    lichessCastlingMoves
-} from "wintrchess";
+import { EngineLine } from "shared/types/game/position/EngineLine";
+import Move from "shared/types/game/position/Move";
+import EngineVersion from "shared/constants/EngineVersion";
+import { lichessCastlingMoves } from "shared/constants/utils";
 
 type CloudEvaluation = components["schemas"]["CloudEval"];
 

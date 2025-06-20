@@ -1,14 +1,10 @@
-import {
-    Game,
-    GameResult,
-    PieceColour,
-    TimeControl,
-    Variant,
-    oppositePieceColour,
-    getMonthLength,
-    padDateNumber,
-    STARTING_FEN
-} from "wintrchess";
+import Game from "shared/types/game/Game";
+import { GameResult } from "shared/constants/game/GameResult";
+import { PieceColour, oppositePieceColour } from "shared/constants/PieceColour";
+import TimeControl from "shared/constants/game/TimeControl";
+import Variant from "shared/constants/game/Variant";
+import { getMonthLength, padDateNumber } from "shared/lib/date";
+import { STARTING_FEN } from "shared/constants/utils";
 import { UserNotFoundError, RatelimitError } from "../errors";
 
 // Map from lichess winner colours to ours

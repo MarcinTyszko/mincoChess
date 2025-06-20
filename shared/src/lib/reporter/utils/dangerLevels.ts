@@ -1,5 +1,5 @@
 import { Chess, Move, QUEEN } from "chess.js";
-import { differenceWith, isEqual } from "lodash";
+import { differenceWith, isEqual } from "lodash-es";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";

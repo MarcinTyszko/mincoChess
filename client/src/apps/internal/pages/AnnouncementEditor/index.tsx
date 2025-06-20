@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-import { Announcement } from "wintrchess";
+import Announcement from "shared/types/Announcement";
 import fetchAnnouncement from "@lib/api/announcement";
 import AnnouncementBanner from "@components/layout/Announcement";
 import ColourSwatch from "@components/settings/ColourSwatch";

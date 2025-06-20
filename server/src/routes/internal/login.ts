@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
 
-import { Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
 import { accountCookieOptions } from "@lib/security/account";

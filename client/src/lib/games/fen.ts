@@ -1,6 +1,8 @@
 import { Chess } from "chess.js";
 
-import { Game, GameResult, Variant } from "wintrchess";
+import Game from "shared/types/game/Game";
+import { GameResult } from "shared/constants/game/GameResult";
+import Variant from "shared/constants/game/Variant";
 
 function parseFenString(fen: string): Game {
     const board = new Chess(fen);

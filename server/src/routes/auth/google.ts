@@ -1,7 +1,8 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { Cookie, randomNormalString } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
+import { randomNormalString } from "shared/lib/string";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";

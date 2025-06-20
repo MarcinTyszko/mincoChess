@@ -11,7 +11,8 @@ import {
     CustomSquareRenderer
 } from "react-chessboard/dist/chessboard/types";
 
-import { parseUciMove, StateTreeNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
+import { parseUciMove } from "shared/lib/chessUtils";
 import {
     classificationColours,
     classificationImages

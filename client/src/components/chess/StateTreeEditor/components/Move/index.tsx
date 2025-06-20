@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
-import { findNodeRecursively, getNodeChain } from "wintrchess";
+import { findNodeRecursively, getNodeChain } from "shared/types/game/position/StateTreeNode";
 import { classificationImages } from "@apps/analysis/constants/classifications";
 import ContextMenu from "@components/common/ContextMenu";
 import useSettingsStore from "@stores/SettingsStore";

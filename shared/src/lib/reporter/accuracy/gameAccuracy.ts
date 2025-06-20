@@ -1,4 +1,4 @@
-import { meanBy } from "lodash";
+import { meanBy } from "lodash-es";
 
 import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import PieceColour from "@constants/PieceColour";

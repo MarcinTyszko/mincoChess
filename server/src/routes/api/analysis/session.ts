@@ -4,7 +4,7 @@ import { verifySolution } from "altcha-lib";
 import { Payload } from "altcha-lib/types";
 import { randomBytes } from "crypto";
 
-import { Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
 import { accountCookieOptions } from "@lib/security/account";

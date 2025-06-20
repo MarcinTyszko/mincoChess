@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { findIndex } from "lodash";
+import { findIndex } from "lodash-es";
 
-import { getNodeChain } from "wintrchess";
+import { getNodeChain } from "shared/types/game/position/StateTreeNode";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import EvaluationGraph from "@apps/analysis/components/report/EvaluationGraph";

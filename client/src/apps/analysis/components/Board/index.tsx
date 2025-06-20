@@ -6,7 +6,8 @@ import {
 } from "react-chessboard/dist/chessboard/types";
 import { Chess, Move, PieceSymbol } from "chess.js";
 
-import { defaultRootNode, isMovePromotion } from "wintrchess";
+import { defaultRootNode } from "shared/constants/utils";
+import { isMovePromotion } from "shared/lib/chessUtils";
 import useResizeObserver from "@hooks/useResizeObserver";
 import PlayerProfile from "@components/chess/PlayerProfile";
 import EvaluationBar from "../EvaluationBar";

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Options as HotkeyOptions, useHotkeys } from "react-hotkeys-hook";
 
-import { getNodeChain } from "wintrchess";
+import { getNodeChain } from "shared/types/game/position/StateTreeNode";
 import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";

@@ -1,4 +1,5 @@
-import { AnalysedGame, StateTreeNode } from "wintrchess";
+import AnalysedGame from "shared/types/game/AnalysedGame";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 
 interface ShareDialogProps {
     game: AnalysedGame;

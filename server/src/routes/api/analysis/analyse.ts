@@ -4,9 +4,9 @@ import { StatusCodes } from "http-status-codes";
 import {
     StateTreeNode,
     serializeNode,
-    deserializeNode,
-    getGameReport
-} from "wintrchess";
+    deserializeNode
+} from "shared/types/game/position/StateTreeNode";
+import { getGameReport } from "shared/lib/reporter/report";
 import analysisAuthorizer from "@lib/security/analysis";
 
 const path = "/analysis/analyse";

@@ -1,6 +1,6 @@
 import { Chess } from "chess.js";
-
-import { StateTreeNode, parseSanMove } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
+import { parseSanMove } from "shared/lib/chessUtils";
 
 const moveSounds = {
     move: require("@assets/audio/move.mp3"),

@@ -2,12 +2,13 @@ import {
     PieceSymbol,
     PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
 } from "chess.js";
-import { uniqueId } from "lodash";
+import { uniqueId } from "lodash-es";
 
-import startingLines from "@resources/startingLines.json";
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { EngineLine } from "@ctypes/game/position/EngineLine";
 import Evaluation from "@ctypes/game/position/Evaluation";
+
+import startingLines from "@resources/startingLines.json" with { type: "json" };
 
 export const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 

@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 
-import { Announcement } from "wintrchess";
+import Announcement from "shared/types/Announcement";
 import AnnouncementModel from "@database/models/Announcement";
 
 const path = "/announcement/publish";

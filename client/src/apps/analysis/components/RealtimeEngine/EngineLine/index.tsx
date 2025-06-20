@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { addChildMove } from "wintrchess";
+import { addChildMove } from "shared/types/game/position/StateTreeNode";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
 import playBoardSound from "@lib/boardSounds";
 

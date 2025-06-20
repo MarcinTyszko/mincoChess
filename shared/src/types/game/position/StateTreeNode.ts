@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { round, clone, uniqueId, cloneDeep } from "lodash";
+import { round, clone, uniqueId, cloneDeep } from "lodash-es";
 
 import { BoardState } from "./BoardState";
 import PieceColour from "@constants/PieceColour";

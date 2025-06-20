@@ -1,4 +1,4 @@
-import { NewsArticle } from "wintrchess";
+import NewsArticle from "shared/types/NewsArticle";
 
 export async function getNewsArticle(id: string): Promise<NewsArticle> {
     const articlesResponse = await fetch(`/api/public/news?id=${id}`);

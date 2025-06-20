@@ -4,7 +4,7 @@ import {
     useRef,
     MouseEvent
 } from "react";
-import { uniqueId } from "lodash";
+import { uniqueId } from "lodash-es";
 
 import { ContextMenuPosition } from "@components/common/ContextMenu/types";
 import useContextMenuStore from "@stores/ContextMenuStore";

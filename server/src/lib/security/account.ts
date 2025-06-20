@@ -2,7 +2,7 @@ import { RequestHandler, Response, CookieOptions } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserRefreshClient } from "google-auth-library";
 
-import { Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
 import { getGoogleOAuth } from "./oauthClient";

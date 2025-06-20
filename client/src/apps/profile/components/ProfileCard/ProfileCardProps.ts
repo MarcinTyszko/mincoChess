@@ -1,4 +1,4 @@
-import { AccountProfile } from "wintrchess";
+import { AccountProfile } from "shared/types/AccountProfile";
 
 interface ProfileCardProps {
     profile: AccountProfile;

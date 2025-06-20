@@ -9,16 +9,14 @@ import {
     ReferenceLine,
     ReferenceDot
 } from "recharts";
-import { max } from "lodash";
+import { max } from "lodash-es";
 
-import {
-    Evaluation,
-    defaultEvaluation,
-    getTopEngineLine,
-    PieceColour,
-    StateTreeNode,
-    Classification
-} from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
+import Evaluation from "shared/types/game/position/Evaluation";
+import { defaultEvaluation } from "shared/constants/utils";
+import PieceColour from "shared/constants/PieceColour";
+import { Classification } from "shared/constants/Classification";
+import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import { classificationColours } from "@apps/analysis/constants/classifications";
 
 import EvaluationGraphPoint from "./Point";

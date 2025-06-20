@@ -5,12 +5,12 @@ import { Chess } from "chess.js";
 
 import {
     StateTreeNode,
-    Classification,
     addChildMove,
-    findNodeRecursively,
-    getSimpleNotation,
-    getTopEngineLine
-} from "wintrchess";
+    findNodeRecursively
+} from "shared/types/game/position/StateTreeNode";
+import { Classification } from "shared/constants/Classification";
+import { getSimpleNotation } from "shared/lib/chessUtils";
+import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import {
     classificationColours,
     classificationImages,

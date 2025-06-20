@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { range, random, round, sample } from "lodash";
+import { range, random, round, sample } from "lodash-es";
 
 import BlurredNoiseBackgroundProps from "./BlurredNoiseBackgroundProps";
 import * as styles from "./BlurredNoiseBackground.module.css";

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { clamp } from "lodash";
+import { clamp } from "lodash-es";
 
 import Loader from "@components/common/Loader";
 import Button from "@components/common/Button";

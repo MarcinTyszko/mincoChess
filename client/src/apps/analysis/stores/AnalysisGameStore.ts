@@ -1,12 +1,10 @@
 import { create } from "zustand";
 
-import {
-    AnalysedGame,
-    defaultRootNode,
-    Variant,
-    STARTING_FEN,
-    GameResult
-} from "wintrchess";
+import AnalysedGame from "shared/types/game/AnalysedGame";
+import { defaultRootNode } from "shared/constants/utils";
+import Variant from "shared/constants/game/Variant";
+import GameResult from "shared/constants/game/GameResult";
+import { STARTING_FEN } from "shared/constants/utils";
 
 interface AnalysisGameStore {
     analysisGame: AnalysedGame;

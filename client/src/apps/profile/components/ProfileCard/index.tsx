@@ -2,7 +2,7 @@ import React from "react";
 
 import ProfileCardProps from "./ProfileCardProps";
 import * as styles from "./ProfileCard.module.css";
-import { formatDate } from "wintrchess";
+import { formatDate } from "shared/lib/date";
 
 function ProfileCard({ profile }: ProfileCardProps) {
     return <div className={styles.wrapper}>

@@ -1,10 +1,8 @@
 import { Chess } from "chess.js";
 
-import {
-    EngineLine,
-    EngineVersion,
-    STARTING_FEN
-} from "wintrchess";
+import { EngineLine } from "shared/types/game/position/EngineLine";
+import EngineVersion from "shared/constants/EngineVersion";
+import { STARTING_FEN } from "shared/constants/utils";
 
 // Convert UCI evaluation types to our ones
 const uciEvaluationTypes: Record<string, string | undefined> = {

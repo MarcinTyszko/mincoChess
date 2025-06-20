@@ -1,4 +1,4 @@
-import { range, sample, times } from "lodash";
+import { range, sample, times } from "lodash-es";
 
 const alphanumericPool = [
     ...range(48, 58),

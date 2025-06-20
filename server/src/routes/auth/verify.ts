@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { createHash, randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
-import { Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
 import AccountVerification from "@database/models/account/AccountVerification";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";

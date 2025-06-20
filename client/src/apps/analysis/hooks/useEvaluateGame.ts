@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { AnalysedGame } from "wintrchess";
+import AnalysedGame from "shared/types/game/AnalysedGame";
 import AnalysisStatus from "@apps/analysis/constants/AnalysisStatus";
 import useSettingsStore from "@stores/SettingsStore";
 import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";

@@ -1,6 +1,10 @@
 import React from "react";
 
-import { getNodeSiblings, PieceColour, StateTreeNode } from "wintrchess";
+import {
+    StateTreeNode,
+    getNodeSiblings
+} from "shared/types/game/position/StateTreeNode";
+import { PieceColour } from "shared/constants/PieceColour";
 import LineGroup from "./components/LineGroup";
 
 interface NodeGroup {

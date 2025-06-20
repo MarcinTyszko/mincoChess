@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import { floor, clamp } from "lodash";
+import { floor, clamp } from "lodash-es";
 
-import { EngineVersion } from "wintrchess";
+import EngineVersion from "shared/constants/EngineVersion";
 import EngineArrowType from "@apps/analysis/constants/EngineArrowType";
 import useSettingsStore from "@stores/SettingsStore";
 import LogMessage from "@components/common/LogMessage";

@@ -1,5 +1,5 @@
 import { Chess, Square, PieceSymbol, KING } from "chess.js";
-import { isEqual, xorWith } from "lodash";
+import { isEqual, xorWith } from "lodash-es";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove, toRawMove } from "../types/RawMove";

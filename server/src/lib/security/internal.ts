@@ -1,7 +1,7 @@
 import { RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { Cookie } from "wintrchess";
+import Cookie from "shared/constants/Cookie";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
 

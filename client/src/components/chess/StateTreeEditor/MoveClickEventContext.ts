@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { StateTreeNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 
 type MoveClickEventListener = (node: StateTreeNode) => void;
 

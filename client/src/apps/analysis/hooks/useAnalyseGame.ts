@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { StatusCodes } from "http-status-codes";
 
-import { findNodeRecursively } from "wintrchess";
+import { findNodeRecursively } from "shared/types/game/position/StateTreeNode";
 import AnalysisStatus from "@apps/analysis/constants/AnalysisStatus";
 import { useAltcha } from "@hooks/useAltcha";
 import useSettingsStore from "@stores/SettingsStore";

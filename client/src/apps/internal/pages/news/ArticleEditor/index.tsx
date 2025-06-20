@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
-import { uniqueId, replace } from "lodash";
+import { uniqueId, replace } from "lodash-es";
 import { produce } from "immer";
 
-import { NewsArticle } from "wintrchess";
+import NewsArticle from "shared/types/NewsArticle";
 import Loader from "@components/common/Loader";
 import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";

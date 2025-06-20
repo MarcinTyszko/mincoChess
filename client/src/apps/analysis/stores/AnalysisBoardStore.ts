@@ -2,7 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { Square } from "react-chessboard/dist/chessboard/types";
 import { create } from "zustand";
 
-import { StateTreeNode, defaultRootNode } from "wintrchess";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
+import { defaultRootNode } from "shared/constants/utils";
 
 interface AnalysisBoardStore {
     currentStateTreeNode: StateTreeNode;

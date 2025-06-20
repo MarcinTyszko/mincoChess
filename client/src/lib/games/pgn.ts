@@ -1,13 +1,11 @@
 import { validateFen } from "chess.js";
 import { parseGame } from "@mliebelt/pgn-parser";
 
-import {
-    Game,
-    GameResult,
-    PieceColour,
-    Variant,
-    STARTING_FEN
-} from "wintrchess";
+import Game from "shared/types/game/Game";
+import { GameResult } from "shared/constants/game/GameResult";
+import { PieceColour } from "shared/constants/PieceColour";
+import Variant from "shared/constants/game/Variant";
+import { STARTING_FEN } from "shared/constants/utils";
 
 function parseResultString(result: string, colour: PieceColour) {
     if (result == "1/2-1/2") return GameResult.DRAW;

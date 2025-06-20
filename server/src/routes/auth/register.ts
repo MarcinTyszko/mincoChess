@@ -6,7 +6,7 @@ import { createHash, randomBytes } from "crypto";
 import { hashSync } from "bcrypt";
 import mailer from "nodemailer";
 
-import { AccountError } from "wintrchess";
+import AccountError from "shared/constants/account/Error";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
 
@@ -15,7 +15,7 @@ const path = "/register";
 const router = Router();
 
 const verificationEmailTemplate = readFileSync(
-    "server/resources/verification.html", "utf-8"
+    "server/src/resources/verification.html", "utf-8"
 );
 
 const registerRequestSchema = z.object({

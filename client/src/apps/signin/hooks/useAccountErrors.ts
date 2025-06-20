@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { AccountError } from "wintrchess";
+import AccountError from "shared/constants/account/Error";
 
 const accountErrorStrings: Record<AccountError, string> = {
     [AccountError.ACCOUNT_NOT_FOUND]: "pages.signIn.errors.accountNotFound",

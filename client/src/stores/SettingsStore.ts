@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { cloneDeep, merge } from "lodash";
+import { cloneDeep, merge } from "lodash-es";
 import z from "zod";
 
-import { EngineVersion, deepPartialify } from "wintrchess";
+import EngineVersion from "shared/constants/EngineVersion";
+import { deepPartialify } from "shared/lib/zodSchema";
 import EngineArrowType from "@apps/analysis/constants/EngineArrowType";
 import LocalStorageKey from "@constants/LocalStorageKey";
 

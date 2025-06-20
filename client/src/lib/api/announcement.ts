@@ -1,4 +1,4 @@
-import { Announcement } from "wintrchess";
+import Announcement from "shared/types/Announcement";
 
 async function getAnnouncement(): Promise<Announcement> {
     const announcementResponse = await fetch("/api/public/announcement");

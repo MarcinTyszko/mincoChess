@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { EngineLine } from "wintrchess";
+import { EngineLine } from "shared/types/game/position/EngineLine";
 
 interface RealtimeEngineStore {
     displayedEngineLines: EngineLine[];
