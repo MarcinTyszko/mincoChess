@@ -81,11 +81,27 @@ function NavigationBar() {
                 {t("loading")}    
             </span>}
 
-            {status == "success" && <>
+            {status == "success" && <HoverDropdown
+                dropdownClassName={styles.profileMenu}
+                menuPosition="right"
+                openStrategy="click"
+                options={[
+                    {
+                        icon: require("@assets/img/icons/settings.png"),
+                        label: t("settings"),
+                        url: "/settings"
+                    },
+                    {
+                        icon: require("@assets/img/interface/signin.svg"),
+                        label: t("navigationBar.profileMenu.signOut"),
+                        onClick: () => console.log("thanks for signing out bruh")
+                    }
+                ]}
+            >
                 <span>{profile.username}</span>
 
                 <div className={styles.profileImage} />
-            </>}
+            </HoverDropdown>}
 
             {status == "error" && <>
                 <a href="/signin">

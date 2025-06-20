@@ -98,6 +98,12 @@
     background-color: var(--ui-shade-2);
 }
 
+.profileMenu {
+    padding: 0 5px;
+
+    user-select: none;
+}
+
 .profileImage {
     height: 42px;
     aspect-ratio: 1 / 1;

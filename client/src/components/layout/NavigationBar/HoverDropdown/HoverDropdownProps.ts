@@ -2,8 +2,9 @@ import { CSSProperties, ReactNode } from "react";
 
 interface HoverDropdownOption {
     icon?: any;
-    label: string;
-    url: string;
+    label: ReactNode;
+    url?: string;
+    onClick?: () => void;
 }
 
 interface HoverDropdownProps {
@@ -12,6 +13,9 @@ interface HoverDropdownProps {
     dropdownStyle?: CSSProperties;
     menuClassName?: string;
     menuStyle?: CSSProperties;
+    menuPosition?: "left" | "right";
+    menuPositionStrategy?: "absolute" | "fixed";
+    openStrategy?: "hover" | "click";
     icon?: any;
     url?: string;
     options?: HoverDropdownOption[];

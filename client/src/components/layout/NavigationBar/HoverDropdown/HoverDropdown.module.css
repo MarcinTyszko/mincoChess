@@ -19,7 +19,7 @@
     transition-duration: 0.3s;
 }
 
-.dropdownActive {
+.dropdown:hover {
     box-shadow: 0 -3px 0 0 var(--ui-blue) inset;
     background-color: rgba(0, 0, 0, 0.15);
 }
@@ -28,12 +28,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    left: 0;
     min-width: 170px;
+    width: 100%;
 
     border-radius: 0 0 10px 10px;
     background-color: var(--ui-shade-3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
     overflow: hidden;
 }
@@ -43,6 +43,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    box-sizing: border-box;
     padding: 10px;
     width: 100%;
 

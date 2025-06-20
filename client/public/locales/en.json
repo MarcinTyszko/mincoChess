@@ -12,6 +12,9 @@
         "tooltips": {
             "support": "Support us ❤",
             "help": "Help Center"
+        },
+        "profileMenu": {
+            "signOut": "Sign out"
         }
     },
     "sidebar": {
