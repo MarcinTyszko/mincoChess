@@ -5,6 +5,7 @@ import googleRouter from "./google";
 import registerRouter from "./register";
 import verifyEmailRouter from "./verify";
 import loginRouter from "./login";
+import logoutRouter from "./logout";
 
 const router = Router();
 
@@ -13,7 +14,8 @@ router.use("/auth",
     googleRouter,
     registerRouter,
     verifyEmailRouter,
-    loginRouter
+    loginRouter,
+    logoutRouter
 );
 
 export default router;

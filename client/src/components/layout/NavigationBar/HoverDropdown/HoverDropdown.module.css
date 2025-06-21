@@ -15,6 +15,7 @@
     height: 100%;
 
     color: white;
+    font-size: 1.1rem;
 
     transition-duration: 0.3s;
 }
@@ -43,8 +44,8 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    padding: 7px;
     box-sizing: border-box;
-    padding: 10px;
     width: 100%;
 
     color: white;

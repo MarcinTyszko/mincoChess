@@ -9,7 +9,7 @@ const path = "/profile";
 
 const router = Router();
 
-router.use(path, accountAuthenticator);
+router.use(path, accountAuthenticator());
 
 router.get(path, async (req, res) => {
     if (!req.accountId) {

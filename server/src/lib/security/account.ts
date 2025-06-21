@@ -9,10 +9,6 @@ import { getGoogleOAuth } from "./oauthClient";
 
 const { clientId, clientSecret, client: oauthClient } = getGoogleOAuth();
 
-function reject(res: Response, reason: StatusCodes) {
-    res.status(reason).redirect("/signin");
-}
-
 async function attemptTokenRefresh(refreshToken: string) {
     const refreshClient = new UserRefreshClient(
         clientId, clientSecret, refreshToken
@@ -35,72 +31,82 @@ export const accountCookieOptions: CookieOptions = {
 
 /**
  * @description Enforces that the user has a valid account ID / session
- * token, or redirects to sign in page otherwise. Adds
+ * token, and can optionally redirect to signin page upon rejection. Adds
  * `req.accountId` with the user's account ID when authenticated.
  */
-export const accountAuthenticator: RequestHandler = async (req, res, next) => {
-    const idToken: string | undefined = req.cookies[
-        Cookie.ACCOUNT_ID_TOKEN
-    ];
-
-    if (!idToken) {
-        return reject(res, StatusCodes.UNAUTHORIZED);
+export function accountAuthenticator(redirect = false): RequestHandler {
+    function reject(res: Response, reason: StatusCodes) {
+        if (redirect) {
+            return res.status(reason).redirect("/signin");
+        }
+        
+        res.sendStatus(reason);
     }
 
-    // Permit existing account token
-    const accountToken = await SessionToken.findOne({
-        type: SessionTokenType.ACCOUNT,
-        token: idToken
-    });
+    return async (req, res, next) => {
+        const idToken: string | undefined = req.cookies[
+            Cookie.ACCOUNT_ID_TOKEN
+        ];
 
-    if (accountToken) {
-        req.accountId = accountToken.id;
-        return next();
-    }
-
-    // Verify and refresh Google ID token
-    const refreshToken: string | undefined = req.cookies[
-        Cookie.ACCOUNT_REFRESH_TOKEN
-    ];
-
-    if (!clientId || !clientSecret) {
-        return reject(res, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-
-    try {
-        const ticket = await oauthClient.verifyIdToken({
-            idToken, audience: clientId
-        });
-
-        req.accountId = ticket.getPayload()?.sub;
-    } catch {
-        if (!refreshToken) {
+        if (!idToken) {
             return reject(res, StatusCodes.UNAUTHORIZED);
         }
 
-        const validRefreshToken = await SessionToken.findOne({
-            type: SessionTokenType.ACCOUNT_REFRESH,
-            token: refreshToken
+        // Permit existing account token
+        const accountToken = await SessionToken.findOne({
+            type: SessionTokenType.ACCOUNT,
+            token: idToken
         });
 
-        if (!validRefreshToken) {
-            return reject(res, StatusCodes.UNAUTHORIZED);
+        if (accountToken) {
+            req.accountId = accountToken.id;
+            return next();
         }
 
-        const refreshedIdToken = await attemptTokenRefresh(refreshToken);
+        // Verify and refresh Google ID token
+        const refreshToken: string | undefined = req.cookies[
+            Cookie.ACCOUNT_REFRESH_TOKEN
+        ];
 
-        if (refreshedIdToken) {
-            res.cookie(
-                Cookie.ACCOUNT_ID_TOKEN, refreshedIdToken,
-                accountCookieOptions
-            );
-        } else {
-            validRefreshToken.deleteOne();
-            reject(res, StatusCodes.UNAUTHORIZED);
-
-            return;
+        if (!clientId || !clientSecret) {
+            return reject(res, StatusCodes.INTERNAL_SERVER_ERROR);
         }
-    }
 
-    next();
-};
+        try {
+            const ticket = await oauthClient.verifyIdToken({
+                idToken, audience: clientId
+            });
+
+            req.accountId = ticket.getPayload()?.sub;
+        } catch {
+            if (!refreshToken) {
+                return reject(res, StatusCodes.UNAUTHORIZED);
+            }
+
+            const validRefreshToken = await SessionToken.findOne({
+                type: SessionTokenType.ACCOUNT_REFRESH,
+                token: refreshToken
+            });
+
+            if (!validRefreshToken) {
+                return reject(res, StatusCodes.UNAUTHORIZED);
+            }
+
+            const refreshedIdToken = await attemptTokenRefresh(refreshToken);
+
+            if (refreshedIdToken) {
+                res.cookie(
+                    Cookie.ACCOUNT_ID_TOKEN, refreshedIdToken,
+                    accountCookieOptions
+                );
+            } else {
+                validRefreshToken.deleteOne();
+                reject(res, StatusCodes.UNAUTHORIZED);
+
+                return;
+            }
+        }
+
+        next();
+    };
+}

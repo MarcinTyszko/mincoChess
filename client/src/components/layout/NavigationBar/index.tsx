@@ -17,10 +17,17 @@ function NavigationBar() {
 
     const { data: profile, status } = useQuery({
         queryKey: ["profile"],
-        queryFn: getAuthenticatedAccountProfile
+        queryFn: getAuthenticatedAccountProfile,
+        refetchOnWindowFocus: false,
+        retry: false
     });
 
     const [ sidebarOpen, setSidebarOpen ] = useState(false);
+
+    async function signOut() {
+        await fetch("/auth/logout");
+        location.reload();
+    }
 
     return <div className={styles.wrapper}>
         <div className={styles.section}>
@@ -87,14 +94,19 @@ function NavigationBar() {
                 openStrategy="click"
                 options={[
                     {
-                        icon: require("@assets/img/icons/settings.png"),
+                        icon: require("@assets/img/interface/account.svg"),
+                        label: t("navigationBar.profileMenu.profile"),
+                        url: `/profile/${profile.username}`
+                    },
+                    {
+                        icon: require("@assets/img/interface/settings.svg"),
                         label: t("settings"),
                         url: "/settings"
                     },
                     {
                         icon: require("@assets/img/interface/signin.svg"),
                         label: t("navigationBar.profileMenu.signOut"),
-                        onClick: () => console.log("thanks for signing out bruh")
+                        onClick: signOut
                     }
                 ]}
             >
