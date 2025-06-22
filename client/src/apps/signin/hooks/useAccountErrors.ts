@@ -6,6 +6,7 @@ const accountErrorStrings: Record<AccountError, string> = {
     [AccountError.ACCOUNT_NOT_FOUND]: "pages.signIn.errors.accountNotFound",
     [AccountError.ACCOUNT_ALREADY_EXISTS]: "pages.signIn.errors.accountAlreadyExists",
     [AccountError.INVALID_EMAIL]: "pages.signIn.errors.invalidEmail",
+    [AccountError.USERNAME_APLHANUMERIC]: "pages.signIn.errors.usernameAlphanumeric",
     [AccountError.USERNAME_TOO_SHORT]: "pages.signIn.errors.usernameTooShort",
     [AccountError.USERNAME_TOO_LONG]: "pages.signIn.errors.usernameTooLong",
     [AccountError.PASSWORD_TOO_SHORT]: "pages.signIn.errors.passwordTooShort",

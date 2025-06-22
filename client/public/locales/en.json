@@ -220,6 +220,7 @@
                 "accountNotFound": "An account with this Email does not exist.",
                 "accountAlreadyExists": "An account with this username or Email already exists.",
                 "invalidEmail": "Invalid Email address.",
+                "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
                 "usernameTooShort": "Username must be at least 3 characters long.",
                 "usernameTooLong": "Username cannot be more than 32 characters long.",
                 "passwordTooShort": "Password must be at least 8 characters long.",
