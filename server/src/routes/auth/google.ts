@@ -67,7 +67,7 @@ router.post(path, async (req, res) => {
         await Account.insertOne({
             id: googleId.sub,
             email: String(googleId.email),
-            displayName: googleId.name,
+            displayName: googleId.name?.slice(0, 32) || username,
             username: "player_" + randomNormalString(8, false).toLowerCase(),
             roles: [],
             createdAt: new Date()

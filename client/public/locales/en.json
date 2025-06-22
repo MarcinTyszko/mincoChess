@@ -223,7 +223,7 @@
                 "invalidEmail": "Invalid Email address.",
                 "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
                 "usernameTooShort": "Username must be at least 3 characters long.",
-                "usernameTooLong": "Username cannot be more than 32 characters long.",
+                "usernameTooLong": "Username cannot be more than 18 characters long.",
                 "passwordTooShort": "Password must be at least 8 characters long.",
                 "passwordTooLong": "Password cannot be more than 128 characters long.",
                 "passwordNoMatch": "Passwords do not match.",
