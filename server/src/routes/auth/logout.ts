@@ -11,11 +11,11 @@ const router = Router();
 router.use(path, accountAuthenticator());
 
 router.get(path, async (req, res) => {
-    if (!req.accountId) {
+    if (!req.accountIdToken) {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
 
-    await SessionToken.deleteMany({ id: req.accountId });
+    await SessionToken.deleteMany({ token: req.accountIdToken });
 
     res.sendStatus(StatusCodes.OK);
 });

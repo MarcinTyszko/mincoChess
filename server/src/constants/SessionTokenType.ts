@@ -1,7 +1,7 @@
 enum SessionTokenType {
     ANALYSIS,
     ACCOUNT,
-    ACCOUNT_REFRESH,
+    ACCOUNT_GOOGLE,
     INTERNAL
 }
 

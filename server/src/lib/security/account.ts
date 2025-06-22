@@ -52,6 +52,8 @@ export function accountAuthenticator(redirect = false): RequestHandler {
             return reject(res, StatusCodes.UNAUTHORIZED);
         }
 
+        req.accountIdToken = idToken;
+
         // Permit existing account token
         const accountToken = await SessionToken.findOne({
             type: SessionTokenType.ACCOUNT,
@@ -72,6 +74,15 @@ export function accountAuthenticator(redirect = false): RequestHandler {
             return reject(res, StatusCodes.INTERNAL_SERVER_ERROR);
         }
 
+        const validIdToken = await SessionToken.findOne({
+            type: SessionTokenType.ACCOUNT_GOOGLE,
+            token: idToken
+        });
+
+        if (!validIdToken) {
+            return res.sendStatus(StatusCodes.UNAUTHORIZED);
+        }
+
         try {
             const ticket = await oauthClient.verifyIdToken({
                 idToken, audience: clientId
@@ -83,24 +94,20 @@ export function accountAuthenticator(redirect = false): RequestHandler {
                 return reject(res, StatusCodes.UNAUTHORIZED);
             }
 
-            const validRefreshToken = await SessionToken.findOne({
-                type: SessionTokenType.ACCOUNT_REFRESH,
-                token: refreshToken
-            });
-
-            if (!validRefreshToken) {
-                return reject(res, StatusCodes.UNAUTHORIZED);
-            }
-
             const refreshedIdToken = await attemptTokenRefresh(refreshToken);
 
             if (refreshedIdToken) {
+                await SessionToken.updateOne({ token: idToken }, {
+                    token: refreshedIdToken,
+                    createdAt: new Date()
+                });
+
                 res.cookie(
                     Cookie.ACCOUNT_ID_TOKEN, refreshedIdToken,
                     accountCookieOptions
                 );
             } else {
-                validRefreshToken.deleteOne();
+                await SessionToken.deleteOne({ token: idToken });
                 reject(res, StatusCodes.UNAUTHORIZED);
 
                 return;

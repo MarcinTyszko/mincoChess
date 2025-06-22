@@ -78,8 +78,8 @@ router.post(path, async (req, res) => {
 
     await SessionToken.insertOne({
         id: googleId.sub,
-        type: SessionTokenType.ACCOUNT_REFRESH,
-        token: tokens.refresh_token,
+        type: SessionTokenType.ACCOUNT_GOOGLE,
+        token: tokens.id_token,
         createdAt: new Date()
     });
 
