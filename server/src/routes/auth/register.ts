@@ -18,16 +18,22 @@ const verificationEmailTemplate = readFileSync(
     "server/src/resources/verification.html", "utf-8"
 );
 
+const passwordSchema = z.string()
+    .min(8, AccountError.PASSWORD_TOO_SHORT)
+    .max(128, AccountError.PASSWORD_TOO_LONG);
+
 const registerRequestSchema = z.object({
     email: z.string().email(AccountError.INVALID_EMAIL),
     username: z.string()
         .min(3, AccountError.USERNAME_TOO_SHORT)
-        .max(32, AccountError.USERNAME_TOO_LONG)
+        .max(18, AccountError.USERNAME_TOO_LONG)
         .regex(/^\w+$/, AccountError.USERNAME_APLHANUMERIC),
-    password: z.string()
-        .min(8, AccountError.PASSWORD_TOO_SHORT)
-        .max(128, AccountError.PASSWORD_TOO_LONG)
-});
+    password: passwordSchema,
+    confirmedPassword: passwordSchema
+}).refine(
+    schema => schema.confirmedPassword == schema.password,
+    AccountError.PASSWORD_NO_MATCH
+);
 
 function reject(res: Response, reason: AccountError) {
     res.status(StatusCodes.BAD_REQUEST).send(reason);

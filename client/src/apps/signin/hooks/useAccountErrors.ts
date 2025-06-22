@@ -11,6 +11,7 @@ const accountErrorStrings: Record<AccountError, string> = {
     [AccountError.USERNAME_TOO_LONG]: "pages.signIn.errors.usernameTooLong",
     [AccountError.PASSWORD_TOO_SHORT]: "pages.signIn.errors.passwordTooShort",
     [AccountError.PASSWORD_TOO_LONG]: "pages.signIn.errors.passwordTooLong",
+    [AccountError.PASSWORD_NO_MATCH]: "pages.signIn.errors.passwordNoMatch",
     [AccountError.INCORRECT_PASSWORD]: "pages.signIn.errors.incorrectPassword",
     [AccountError.UNKNOWN]: "pages.signIn.errors.unknown"
 };

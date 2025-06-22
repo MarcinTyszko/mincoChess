@@ -213,6 +213,7 @@
             "email": "Email Address...",
             "username": "Username...",
             "password": "Password...",
+            "confirmPassword": "Confirm Password...",
             "loginPageButton": "I already have an account.",
             "registerPageButton": "New? Create an account!",
             "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service.",
@@ -225,6 +226,7 @@
                 "usernameTooLong": "Username cannot be more than 32 characters long.",
                 "passwordTooShort": "Password must be at least 8 characters long.",
                 "passwordTooLong": "Password cannot be more than 128 characters long.",
+                "passwordNoMatch": "Passwords do not match.",
                 "incorrectPassword": "Incorrect password.",
                 "verificationCooldown": "Please allow 60 seconds before sending another verification link.",
                 "unknown": "An unknown error occurred while signing in."

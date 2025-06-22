@@ -26,6 +26,7 @@ function SignUp() {
     const [ email, setEmail ] = useState("");
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ confirmedPassword, setConfirmedPassword ] = useState("");
 
     const [
         lastRegistration,
@@ -51,7 +52,7 @@ function SignUp() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email, username, password
+                email, username, password, confirmedPassword
             })
         });
 
@@ -124,6 +125,14 @@ function SignUp() {
                 placeholder={t("pages.signIn.password")}
                 password
                 onChange={setPassword}
+            />
+
+            <TextField
+                wrapperStyle={{ width: "100%" }}
+                className={styles.field}
+                placeholder={t("pages.signIn.confirmPassword")}
+                password
+                onChange={setConfirmedPassword}
             />
 
             <Button

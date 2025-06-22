@@ -7,6 +7,7 @@ enum AccountError {
     USERNAME_TOO_LONG = "usernameTooLong",
     PASSWORD_TOO_SHORT = "passwordTooShort",
     PASSWORD_TOO_LONG = "passwordTooLong",
+    PASSWORD_NO_MATCH = "passwordNoMatch",
     INCORRECT_PASSWORD = "incorrectPassword",
     UNKNOWN = "unknown"
 }
