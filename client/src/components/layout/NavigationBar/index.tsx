@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import { useQuery } from "@tanstack/react-query";
 
+import useAccountProfile from "@hooks/api/useAccountProfile";
 import Typography from "@components/Typography";
 import Button from "@components/common/Button";
 import BlurBackground from "@components/layout/BlurBackground";
 import Sidebar from "@components/layout/sidebar/Sidebar";
-import { getAuthenticatedAccountProfile } from "@lib/api/profile";
 
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(); 
 
-    const { data: profile, status } = useQuery({
-        queryKey: ["profile"],
-        queryFn: getAuthenticatedAccountProfile,
-        refetchOnWindowFocus: false,
-        retry: false
-    });
+    const { profile, status } = useAccountProfile();
 
     const [ sidebarOpen, setSidebarOpen ] = useState(false);
 
@@ -85,7 +79,7 @@ function NavigationBar() {
             />
 
             {status == "pending" && <span>
-                {t("loading")}    
+                {t("loading")}
             </span>}
 
             {status == "success" && <HoverDropdown

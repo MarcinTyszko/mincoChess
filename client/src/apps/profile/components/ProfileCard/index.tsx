@@ -1,33 +1,48 @@
 import React from "react";
 
-import ProfileCardProps from "./ProfileCardProps";
-import * as styles from "./ProfileCard.module.css";
 import { formatDate } from "shared/lib/date";
 
-function ProfileCard({ profile }: ProfileCardProps) {
-    return <div className={styles.wrapper}>
-        <div className={styles.avatar}>
-            AVATAR
-        </div>
+import ProfileCardProps from "./ProfileCardProps";
+import * as styles from "./ProfileCard.module.css";
 
-        <div className={styles.details}>
-            <span className={styles.displayName}>
-                {profile.displayName}
+function ProfileCard({
+    className,
+    style,
+    profile
+}: ProfileCardProps) {
+    return <div
+        className={`${styles.wrapper} ${className}`}
+        style={{
+            animation: !profile
+                ? `${styles.pulse} 1.5s infinite ease`
+                : undefined,
+            ...style
+        }}
+    >
+        {profile && <>
+            <div className={styles.avatar}>
+                AVATAR
+            </div>
 
-                {profile.roles.map(role => <span>
-                    {role}
-                </span>)}
-            </span>
+            <div className={styles.details}>
+                <span className={styles.displayName}>
+                    {profile.displayName}
 
-            <span className={styles.username}>
-                {profile.username}
-            </span>
+                    {profile.roles.map(role => <span>
+                        {role}
+                    </span>)}
+                </span>
 
-            <span>
-                Member since{" "}
-                {formatDate(new Date(profile.createdAt))}
-            </span>
-        </div>
+                <span className={styles.username} contentEditable>
+                    {profile.username}
+                </span>
+
+                <span>
+                    Member since{" "}
+                    {formatDate(new Date(profile.createdAt))}
+                </span>
+            </div>
+        </>}
     </div>;
 }
 

@@ -1,3 +1,17 @@
+@keyframes pulse {
+    0% {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    50% {
+        background-color: rgba(26, 26, 26, 0.15);
+    }
+
+    100% {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+}
+
 .wrapper {
     display: flex;
     flex-wrap: wrap;

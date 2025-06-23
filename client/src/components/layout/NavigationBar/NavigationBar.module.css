@@ -104,6 +104,12 @@
     user-select: none;
 }
 
+@media (max-width: 450px) {
+    .profileMenu > span {
+        display: none;
+    }
+}
+
 .profileImage {
     height: 42px;
     aspect-ratio: 1 / 1;

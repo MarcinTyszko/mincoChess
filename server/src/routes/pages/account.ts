@@ -7,7 +7,7 @@ const router = Router();
 
 router.get(/^\/(signin|signup)/, appRouter("signin.html"));
 
-router.get("/settings", appRouter("settings.html"));
+router.get("/settings*", appRouter("settings.html"));
 
 router.get("/profile/:username", async (req, res, next) => {
     const account = await Account.findOne({

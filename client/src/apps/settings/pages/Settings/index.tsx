@@ -1,60 +1,53 @@
-import React, { useState } from "react";
+import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
+import { Outlet, useNavigate } from "react-router-dom";
 
+import useAccountProfile from "@hooks/api/useAccountProfile";
+import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
 import CategoryTab from "@apps/settings/components/CategoryTab";
-import BoardAndPieces from "./categories/BoardAndPieces";
-import BugReporting from "./categories/BugReporting";
 import { manageDataConsent } from "@lib/consent";
 
 import * as styles from "./Settings.module.css";
 
-enum SettingsCategory {
-    BOARD_AND_PIECES,
-    BUG_REPORTING
-}
-
 function Settings() {
     const { t } = useTranslation();
 
-    const [ openCategory, setOpenCategory ] = useState(
-        SettingsCategory.BOARD_AND_PIECES
-    );
+    const navigate = useNavigate();
+
+    const { status } = useAccountProfile();
 
     return <div className={styles.wrapper}>
         <div className={styles.titleContainer}>
             <img src={require("@assets/img/icons/settings.png")} />
 
-            <span>
-                {t("pages.settings.title")}
-            </span>
+            <span>{t("settings")}</span>
         </div>
 
         <div className={styles.settingsContainer}>
             <div className={styles.settings}>
-                {openCategory == SettingsCategory.BOARD_AND_PIECES
-                    && <BoardAndPieces/>
-                }
-
-                {openCategory == SettingsCategory.BUG_REPORTING
-                    && <BugReporting/>
-                }
+                <Suspense fallback={<LoadingPlaceholder/>}>
+                    <Outlet/>
+                </Suspense>
             </div>
 
             <div className={styles.categories}>
+                {status == "success" && <CategoryTab
+                    active={location.pathname.includes("/settings/account")}
+                    onClick={() => navigate("/settings/account")}
+                >
+                    {t("pages.settings.categories.account.title")}
+                </CategoryTab>}
+
                 <CategoryTab
-                    active={openCategory == SettingsCategory.BOARD_AND_PIECES}
-                    onClick={() => (
-                        setOpenCategory(SettingsCategory.BOARD_AND_PIECES)
-                    )}
+                    active={location.pathname.includes("/settings/theme")}
+                    onClick={() => navigate("/settings/theme")}
                 >
                     {t("pages.settings.categories.boardAndPieces.title")}
                 </CategoryTab>
 
                 <CategoryTab
-                    active={openCategory == SettingsCategory.BUG_REPORTING}
-                    onClick={() => setOpenCategory(
-                        SettingsCategory.BUG_REPORTING
-                    )}
+                    active={location.pathname.includes("/settings/bugs")}
+                    onClick={() => navigate("/settings/bugs")}
                 >
                     {t("pages.settings.categories.bugReporting.title")}
                 </CategoryTab>

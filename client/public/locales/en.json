@@ -234,8 +234,27 @@
             "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
         },
         "settings": {
-            "title": "Preferences",
             "categories": {
+                "account": {
+                    "title": "Account",
+                    "editProfile": {
+                        "title": "Edit Profile",
+                        "displayName": "Display Name",
+                        "username": "Username",
+                        "email": "Email Address",
+                        "saveButton": "Save",
+                        "usernameChange": "Please confirm your password in order to change your username.",
+                        "usernameChangeButton": "Change Username",
+                        "emailVerification": "We'll need to verify your current email address in order for you to change it.",
+                        "emailVerificationButton": {
+                            "unsent": "Send verification email",
+                            "sending": "Sending email...",
+                            "sent": "Verification email sent",
+                            "cooldown": "Please try again later."
+                        }
+                    },
+                    "manageAccount": "Manage Account"
+                },
                 "boardAndPieces": {
                     "title": "Board and Pieces",
                     "boardColour": "Board Colour",
