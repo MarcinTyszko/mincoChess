@@ -244,7 +244,7 @@
                         "email": "Email Address",
                         "saveButton": "Save",
                         "usernameChange": "Please confirm your password in order to change your username.",
-                        "usernameChangeButton": "Change Username",
+                        "confirmButton": "Confirm",
                         "emailVerification": "We'll need to verify your current email address in order for you to change it.",
                         "emailVerificationButton": {
                             "unsent": "Send verification email",

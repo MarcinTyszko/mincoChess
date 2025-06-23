@@ -6,19 +6,23 @@ import Dialog from "@components/common/Dialog";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
 
-import UsernameChangeDialogProps from "./UsernameChangeDialogProps";
-import * as styles from "./UsernameChangeDialog.module.css";
+import PasswordConfirmDialogProps from "./PasswordConfirmDialogProps";
+import * as styles from "./PasswordConfirmDialog.module.css";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
 
-function UsernameChangeDialog({ onClose }: UsernameChangeDialogProps) {
+function PasswordConfirmDialog({
+    message,
+    onClose,
+    onConfirm
+}: PasswordConfirmDialogProps) {
     const { t } = useTranslation();
 
     const [ password, setPassword ] = useState("");
 
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <span className={styles.message}>
-            {t(`${editProfileStrings}.usernameChange`)}
+            {message}
         </span>
 
         <TextField
@@ -29,15 +33,16 @@ function UsernameChangeDialog({ onClose }: UsernameChangeDialogProps) {
             onChange={setPassword}
         />
 
-        <div className={styles.changeButtonContainer}>
+        <div className={styles.confirmButtonContainer}>
             <Button
-                className={styles.changeButton}
+                className={styles.confirmButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
+                onClick={() => onConfirm(password)}
             >
-                {t(`${editProfileStrings}.usernameChangeButton`)}
+                {t(`${editProfileStrings}.confirmButton`)}
             </Button>
         </div>
     </Dialog>;
 }
 
-export default UsernameChangeDialog;
+export default PasswordConfirmDialog;

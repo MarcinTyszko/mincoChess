@@ -8,7 +8,7 @@ import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
 import Button from "@components/common/Button";
 
-import UsernameChangeDialog from "../../UsernameChangeDialog";
+import PasswordConfirmDialog from "../../PasswordConfirmDialog";
 import EmailChangeDialog from "../../EmailChangeDialog";
 
 import * as categoryStyles from "../Category.module.css";
@@ -29,6 +29,10 @@ function Account() {
 
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
+
+    async function changeUsername() {
+        // stub for change username route
+    }
 
     return <div className={categoryStyles.wrapper}>
         <b className={categoryStyles.header}>
@@ -89,8 +93,10 @@ function Account() {
                     {t(`${editProfileStrings}.saveButton`)}
                 </Button>
 
-                {usernameDialogOpen && <UsernameChangeDialog
+                {usernameDialogOpen && <PasswordConfirmDialog
+                    message={t(`${editProfileStrings}.usernameChange`)}
                     onClose={() => setUsernameDialogOpen(false)}
+                    onConfirm={changeUsername}
                 />}
             </div>
 
