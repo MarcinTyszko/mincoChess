@@ -5,7 +5,8 @@
     },
     "dependencies": {
         "chess.js": "^1.4.0",
-        "lodash-es": "^4.17.21"
+        "lodash-es": "^4.17.21",
+        "zod": "^3.25.67"
     },
     "devDependencies": {
         "@types/lodash-es": "^4.17.12",

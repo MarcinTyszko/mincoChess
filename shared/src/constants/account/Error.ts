@@ -2,6 +2,7 @@ enum AccountError {
     ACCOUNT_NOT_FOUND = "accountNotFound",
     ACCOUNT_ALREADY_EXISTS = "accountAlreadyExists",
     INVALID_EMAIL = "invalidEmail",
+    DISPLAY_NAME_NORMALISED = "displayNameNormalised",
     USERNAME_APLHANUMERIC = "usernameAlphanumeric",
     USERNAME_TOO_SHORT = "usernameTooShort",
     USERNAME_TOO_LONG = "usernameTooLong",

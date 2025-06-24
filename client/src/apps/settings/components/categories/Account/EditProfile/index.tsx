@@ -1,17 +1,53 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { repeat } from "lodash-es";
+import { ZodString } from "zod";
 
+import AccountError from "shared/constants/account/Error";
+import * as schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@hooks/api/useAccountProfile";
 import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
 import TextField from "@components/common/TextField";
+import LogMessage from "@components/common/LogMessage";
 import PasswordConfirmDialog from "@apps/settings/components/PasswordConfirmDialog";
 import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
 
 import * as styles from "./EditProfile.module.css";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
+
+const displayNameErrors: Record<string, string> = {
+    [AccountError.DISPLAY_NAME_NORMALISED]: (
+        `${editProfileStrings}.displayNameErrors.normalised`
+    ),
+    [AccountError.USERNAME_TOO_LONG]: (
+        `${editProfileStrings}.displayNameErrors.tooLong`
+    )
+};
+
+const usernameErrors: Record<string, string> = {
+    [AccountError.USERNAME_TOO_LONG]: "pages.signIn.errors.usernameTooLong",
+    [AccountError.USERNAME_APLHANUMERIC]: "pages.signIn.errors.usernameAlphanumeric"
+};
+
+function getParseIssue(schema: ZodString, data: string) {
+    return schema.safeParse(data).error?.issues.at(0)?.message;
+}
+
+function getNameError(
+    name: string,
+    schema: ZodString,
+    errors: Record<string, string>
+) {
+    const parseIssue = getParseIssue(schema, name);
+
+    if (!parseIssue || parseIssue == AccountError.USERNAME_TOO_SHORT) {
+        return undefined;
+    }
+
+    return errors[parseIssue] || "error";
+}
 
 function EditProfile() {
     const { t } = useTranslation();
@@ -26,6 +62,14 @@ function EditProfile() {
 
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
+
+    const displayNameError = useMemo(() => (
+        getNameError(displayName, schemas.displayName, displayNameErrors)
+    ), [displayName]);
+
+    const usernameError = useMemo(() => (
+        getNameError(username, schemas.username, usernameErrors)
+    ), [username]);
 
     async function changeUsername() {
         // stub for change username route
@@ -59,11 +103,15 @@ function EditProfile() {
             <Button
                 className={styles.detailFieldButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={displayName.length == 0}
+                disabled={!!displayNameError || displayName.length < 3}
             >
                 {t(`${editProfileStrings}.saveButton`)}
             </Button>
         </div>
+
+        {displayNameError && <LogMessage>
+            {t(displayNameError)}
+        </LogMessage>}
 
         <span>
             {t(`${editProfileStrings}.username`)}
@@ -81,8 +129,11 @@ function EditProfile() {
             <Button
                 className={styles.detailFieldButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={username.length < 3}
-                onClick={() => setUsernameDialogOpen(true)}
+                disabled={!!usernameError || username.length < 3}
+                onClick={() => {
+                    if (usernameError) return;
+                    setUsernameDialogOpen(true);
+                }}
             >
                 {t(`${editProfileStrings}.saveButton`)}
             </Button>
@@ -94,6 +145,10 @@ function EditProfile() {
                 {t(`${editProfileStrings}.usernameChange`)}    
             </PasswordConfirmDialog>}
         </div>
+
+        {usernameError && <LogMessage>
+            {t(usernameError)}
+        </LogMessage>}
 
         <span>
             {t(`${editProfileStrings}.email`)}
@@ -123,7 +178,10 @@ function EditProfile() {
             <Button
                 className={styles.detailFieldButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={email.length == 0}
+                disabled={(
+                    !schemas.email.safeParse(email).success
+                    || email.length == 0
+                )}
                 onClick={() => setEmailDialogOpen(true)}
             >
                 {t(`${editProfileStrings}.saveButton`)}

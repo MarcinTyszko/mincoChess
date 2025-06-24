@@ -240,6 +240,10 @@
                     "editProfile": {
                         "title": "Edit Profile",
                         "displayName": "Display Name",
+                        "displayNameErrors": {
+                            "normalised": "Display name contains invalid characters.",
+                            "tooLong": "Display name cannot be more than 24 characters long."
+                        },
                         "username": "Username",
                         "email": "Email Address",
                         "saveButton": "Save",

@@ -1,6 +1,7 @@
 import { RequestHandler, Response, CookieOptions } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserRefreshClient } from "google-auth-library";
+import jwt from "jsonwebtoken";
 
 import Cookie from "shared/constants/Cookie";
 import SessionToken from "@database/models/SessionToken";
@@ -96,22 +97,23 @@ export function accountAuthenticator(redirect = false): RequestHandler {
 
             const refreshedIdToken = await attemptTokenRefresh(refreshToken);
 
-            if (refreshedIdToken) {
-                await SessionToken.updateOne({ token: idToken }, {
-                    token: refreshedIdToken,
-                    createdAt: new Date()
-                });
-
-                res.cookie(
-                    Cookie.ACCOUNT_ID_TOKEN, refreshedIdToken,
-                    accountCookieOptions
-                );
-            } else {
+            if (!refreshedIdToken) {
                 await SessionToken.deleteOne({ token: idToken });
-                reject(res, StatusCodes.UNAUTHORIZED);
-
-                return;
+                
+                return reject(res, StatusCodes.UNAUTHORIZED);
             }
+
+            await SessionToken.updateOne({ token: idToken }, {
+                token: refreshedIdToken,
+                createdAt: new Date()
+            });
+
+            req.accountId = jwt.decode(refreshedIdToken, { json: true })?.sub;
+
+            res.cookie(
+                Cookie.ACCOUNT_ID_TOKEN, refreshedIdToken,
+                accountCookieOptions
+            );
         }
 
         next();

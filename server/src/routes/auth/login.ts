@@ -6,6 +6,7 @@ import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
 import AccountError from "shared/constants/account/Error";
+import * as schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
@@ -16,10 +17,8 @@ const path = "/login";
 const router = Router();
 
 const loginRequestSchema = z.object({
-    email: z.string().email(AccountError.INVALID_EMAIL),
-    password: z.string()
-        .min(8, AccountError.PASSWORD_TOO_SHORT)
-        .max(128, AccountError.PASSWORD_TOO_LONG)
+    email: schemas.email,
+    password: schemas.password
 });
 
 function reject(res: Response, reason: AccountError) {

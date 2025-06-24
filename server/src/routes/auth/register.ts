@@ -7,6 +7,7 @@ import { hashSync } from "bcrypt";
 import mailer from "nodemailer";
 
 import AccountError from "shared/constants/account/Error";
+import * as schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
 
@@ -18,18 +19,11 @@ const verificationEmailTemplate = readFileSync(
     "server/src/resources/verification.html", "utf-8"
 );
 
-const passwordSchema = z.string()
-    .min(8, AccountError.PASSWORD_TOO_SHORT)
-    .max(128, AccountError.PASSWORD_TOO_LONG);
-
 const registerRequestSchema = z.object({
-    email: z.string().email(AccountError.INVALID_EMAIL),
-    username: z.string()
-        .min(3, AccountError.USERNAME_TOO_SHORT)
-        .max(18, AccountError.USERNAME_TOO_LONG)
-        .regex(/^\w+$/, AccountError.USERNAME_APLHANUMERIC),
-    password: passwordSchema,
-    confirmedPassword: passwordSchema
+    email: schemas.email,
+    username: schemas.username,
+    password: schemas.password,
+    confirmedPassword: schemas.password
 }).refine(
     schema => schema.confirmedPassword == schema.password,
     AccountError.PASSWORD_NO_MATCH
