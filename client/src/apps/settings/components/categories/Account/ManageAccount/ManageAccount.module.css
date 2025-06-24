@@ -1,0 +1,9 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accountButton {
+    padding: 10px 30px;
+}

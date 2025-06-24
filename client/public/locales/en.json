@@ -253,7 +253,13 @@
                             "cooldown": "Please try again later."
                         }
                     },
-                    "manageAccount": "Manage Account"
+                    "manageAccount": {
+                        "title": "Manage Account",
+                        "resetPassword": "Reset Password",
+                        "resetPasswordDialog": "We'll send you an email with a link which you can use to create a new password for your account.",
+                        "deleteAccount": "Delete Account",
+                        "deleteAccountDialog": "Please confirm your password in order to delete your account. Please remember that this action is irreversible."
+                    }
                 },
                 "boardAndPieces": {
                     "title": "Board and Pieces",

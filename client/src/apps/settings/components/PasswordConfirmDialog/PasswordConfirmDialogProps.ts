@@ -1,5 +1,8 @@
+import { CSSProperties, ReactNode } from "react";
+
 interface PasswordConfirmDialogProps {
-    message: string;
+    children?: ReactNode;
+    buttonStyle?: CSSProperties;
     onClose: () => void;
     onConfirm: (password: string) => void;
 }

@@ -5,32 +5,27 @@ import ButtonColour from "@components/common/Button/Colour";
 import Dialog from "@components/common/Dialog";
 import Button from "@components/common/Button";
 
-import EmailChangeDialogProps from "./EmailChangeDialogProps";
-import * as styles from "./EmailChangeDialog.module.css";
-
-type VerifyState = "unsent" | "sending" | "sent" | "error";
+import VerifyState from "./VerifyState";
+import EmailVerifyDialogProps from "./EmailVerifyDialogProps";
+import * as styles from "./EmailVerifyDialog.module.css";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
 const emailVerificationStrings = `${editProfileStrings}.emailVerificationButton`;
 
-function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
+function EmailVerifyDialog({
+    children,
+    onClose,
+    onSendVerification
+}: EmailVerifyDialogProps) {
     const { t } = useTranslation();
     
     const [ verifyState, setVerifyState ] = useState<VerifyState>("unsent");
 
     const [ verifyError, setVerifyError ] = useState<string>();
 
-    function sendVerificationEmail() {
-        // Mock verification process
-
-        setVerifyState("sending");
-
-        setTimeout(() => setVerifyState("sent"), 1000);
-    }
-
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <span className={styles.message}>
-            {t(`${editProfileStrings}.emailVerification`)}
+            {children}
         </span>
 
         <div className={styles.verificationButtonContainer}>
@@ -43,7 +38,8 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
                 }}
                 disabled={verifyState == "sending"}
                 onClick={() => {
-                    if (verifyState == "unsent") sendVerificationEmail();
+                    if (verifyState != "unsent") return;
+                    onSendVerification(setVerifyState, setVerifyError);
                 }}
             >
                 {{
@@ -57,4 +53,4 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
     </Dialog>;
 }
 
-export default EmailChangeDialog;
+export default EmailVerifyDialog;

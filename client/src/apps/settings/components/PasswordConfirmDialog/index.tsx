@@ -12,7 +12,8 @@ import * as styles from "./PasswordConfirmDialog.module.css";
 const editProfileStrings = "pages.settings.categories.account.editProfile";
 
 function PasswordConfirmDialog({
-    message,
+    children,
+    buttonStyle,
     onClose,
     onConfirm
 }: PasswordConfirmDialogProps) {
@@ -22,7 +23,7 @@ function PasswordConfirmDialog({
 
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <span className={styles.message}>
-            {message}
+            {children}
         </span>
 
         <TextField
@@ -36,7 +37,10 @@ function PasswordConfirmDialog({
         <div className={styles.confirmButtonContainer}>
             <Button
                 className={styles.confirmButton}
-                style={{ backgroundColor: ButtonColour.BLUE }}
+                style={{
+                    backgroundColor: ButtonColour.BLUE,
+                    ...buttonStyle
+                }}
                 onClick={() => onConfirm(password)}
             >
                 {t(`${editProfileStrings}.confirmButton`)}
