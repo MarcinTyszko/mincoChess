@@ -15,6 +15,7 @@ function TextField({
     value,
     multiline,
     readOnly,
+    disabled,
     copyable,
     copyTooltip,
     copyToast,
@@ -29,7 +30,8 @@ function TextField({
         placeholder,
         style,
         value,
-        readOnly
+        readOnly,
+        disabled
     };
 
     function copy() {

@@ -239,15 +239,19 @@
                     "title": "Account",
                     "editProfile": {
                         "title": "Edit Profile",
-                        "displayName": "Display Name",
-                        "displayNameErrors": {
-                            "normalised": "Display name contains invalid characters.",
-                            "tooLong": "Display name cannot be more than 24 characters long."
+                        "displayName": {
+                            "title": "Display Name",
+                            "message": "Enter a new display name.",
+                            "placeholder": "Display Name...",
+                            "errors": {
+                                "normalised": "Display name contains invalid characters.",
+                                "tooLong": "Display name cannot be more than 24 characters long."
+                            }
                         },
                         "username": "Username",
                         "email": "Email Address",
-                        "saveButton": "Save",
-                        "usernameChange": "Please confirm your password in order to change your username.",
+                        "editButton": "Edit",
+                        "usernameChange": "Enter a new username and confirm your current password.",
                         "confirmButton": "Confirm",
                         "emailVerification": "We'll need to verify your current email address in order for you to change it.",
                         "emailVerificationButton": {

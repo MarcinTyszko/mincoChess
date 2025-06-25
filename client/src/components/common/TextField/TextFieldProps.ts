@@ -11,6 +11,7 @@ interface TextFieldProps {
     value?: string;
     multiline?: boolean;
     readOnly?: boolean;
+    disabled?: boolean;
     copyable?: boolean;
     copyTooltip?: string;
     copyToast?: string;

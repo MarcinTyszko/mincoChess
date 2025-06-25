@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
 import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
-import PasswordConfirmDialog from "@apps/settings/components/PasswordConfirmDialog";
+import DetailUpdateDialog from "@apps/settings/components/DetailUpdateDialog";
 
 import * as styles from "./ManageAccount.module.css";
 
@@ -55,13 +55,15 @@ function ManageAccount() {
             {t(`${accountStrings}.deleteAccount`)}
         </Button>
 
-        {deleteAccountDialogOpen && <PasswordConfirmDialog
+        {deleteAccountDialogOpen && <DetailUpdateDialog
+            fields="password"
             buttonStyle={{ backgroundColor: ButtonColour.RED }}
             onClose={() => setDeleteAccountDialogOpen(false)}
             onConfirm={deleteAccount}
+            buttonDisabled={(input, password) => password.length == 0}
         >
             {t(`${accountStrings}.deleteAccountDialog`)}
-        </PasswordConfirmDialog>}
+        </DetailUpdateDialog>}
     </div>;
 }
 

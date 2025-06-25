@@ -13,12 +13,13 @@ const themeColours: Record<LogMessageTheme, string> = {
 
 function LogMessage({
     children,
+    className,
     style,
     theme,
     includeIcon = true
 }: LogMessageProps) {
     return <span
-        className={styles.wrapper}
+        className={`${styles.wrapper} ${className}`}
         style={{
             backgroundColor: theme
                 ? themeColours[theme]

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { repeat } from "lodash-es";
 import { ZodString } from "zod";
@@ -6,11 +6,9 @@ import { ZodString } from "zod";
 import AccountError from "shared/constants/account/Error";
 import * as schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@hooks/api/useAccountProfile";
-import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
 import TextField from "@components/common/TextField";
-import LogMessage from "@components/common/LogMessage";
-import PasswordConfirmDialog from "@apps/settings/components/PasswordConfirmDialog";
+import DetailUpdateDialog from "@apps/settings/components/DetailUpdateDialog";
 import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
 
 import * as styles from "./EditProfile.module.css";
@@ -19,10 +17,10 @@ const editProfileStrings = "pages.settings.categories.account.editProfile";
 
 const displayNameErrors: Record<string, string> = {
     [AccountError.DISPLAY_NAME_NORMALISED]: (
-        `${editProfileStrings}.displayNameErrors.normalised`
+        `${editProfileStrings}.displayName.errors.normalised`
     ),
     [AccountError.USERNAME_TOO_LONG]: (
-        `${editProfileStrings}.displayNameErrors.tooLong`
+        `${editProfileStrings}.displayName.errors.tooLong`
     )
 };
 
@@ -54,24 +52,20 @@ function EditProfile() {
 
     const { profile } = useAccountProfile();
 
-    const [ displayName, setDisplayName ] = useState("");
-    const [ username, setUsername ] = useState("");
-    const [ email, setEmail ] = useState("");
-
     const [ emailVisible, setEmailVisible ] = useState(false);
 
+    const [
+        displayNameDialogOpen,
+        setDisplayNameDialogOpen
+    ] = useState(false);
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
 
-    const displayNameError = useMemo(() => (
-        getNameError(displayName, schemas.displayName, displayNameErrors)
-    ), [displayName]);
+    async function changeDisplayName() {
 
-    const usernameError = useMemo(() => (
-        getNameError(username, schemas.username, usernameErrors)
-    ), [username]);
+    }
 
-    async function changeUsername() {
+    async function changeUsername(password: string) {
         // stub for change username route
     }
 
@@ -88,30 +82,36 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.displayName`)}
+            {t(`${editProfileStrings}.displayName.title`)}
         </span>
 
         <div className={styles.detailSetting}>
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
                 className={styles.detailField}
-                placeholder={profile?.displayName}
-                value={displayName}
-                onChange={setDisplayName}
+                value={profile?.displayName}
+                readOnly
             />
 
             <Button
                 className={styles.detailFieldButton}
-                style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={!!displayNameError || displayName.length < 3}
+                onClick={() => setDisplayNameDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.saveButton`)}
+                {t(`${editProfileStrings}.editButton`)}
             </Button>
-        </div>
 
-        {displayNameError && <LogMessage>
-            {t(displayNameError)}
-        </LogMessage>}
+            {displayNameDialogOpen && <DetailUpdateDialog
+                placeholder={t(`${editProfileStrings}.displayName.placeholder`)}
+                onClose={() => setDisplayNameDialogOpen(false)}
+                onConfirm={changeDisplayName}
+                getErrorMessage={displayName => getNameError(
+                    displayName, schemas.displayName, displayNameErrors
+                )}
+                buttonDisabled={input => input.length < 3}
+            >
+                {t(`${editProfileStrings}.displayName.message`)}
+            </DetailUpdateDialog>}
+        </div>
 
         <span>
             {t(`${editProfileStrings}.username`)}
@@ -121,34 +121,30 @@ function EditProfile() {
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
                 className={styles.detailField}
-                placeholder={profile?.username}
-                value={username}
-                onChange={setUsername}
+                value={profile?.username}
+                readOnly
             />
 
             <Button
                 className={styles.detailFieldButton}
-                style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={!!usernameError || username.length < 3}
-                onClick={() => {
-                    if (usernameError) return;
-                    setUsernameDialogOpen(true);
-                }}
+                onClick={() => setUsernameDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.saveButton`)}
+                {t(`${editProfileStrings}.editButton`)}
             </Button>
 
-            {usernameDialogOpen && <PasswordConfirmDialog
+            {usernameDialogOpen && <DetailUpdateDialog
+                fields="both"
+                placeholder={t("pages.signIn.username")}
                 onClose={() => setUsernameDialogOpen(false)}
                 onConfirm={changeUsername}
+                getErrorMessage={username => getNameError(
+                    username, schemas.username, usernameErrors
+                )}
+                buttonDisabled={input => input.length < 3}
             >
                 {t(`${editProfileStrings}.usernameChange`)}    
-            </PasswordConfirmDialog>}
+            </DetailUpdateDialog>}
         </div>
-
-        {usernameError && <LogMessage>
-            {t(usernameError)}
-        </LogMessage>}
 
         <span>
             {t(`${editProfileStrings}.email`)}
@@ -167,24 +163,18 @@ function EditProfile() {
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
                 className={styles.detailField}
-                placeholder={emailVisible
+                value={emailVisible
                     ? profile?.email
                     : repeat("*", profile?.email.length || 0)
                 }
-                value={email}
-                onChange={setEmail}
+                readOnly
             />
 
             <Button
                 className={styles.detailFieldButton}
-                style={{ backgroundColor: ButtonColour.BLUE }}
-                disabled={(
-                    !schemas.email.safeParse(email).success
-                    || email.length == 0
-                )}
                 onClick={() => setEmailDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.saveButton`)}
+                {t(`${editProfileStrings}.editButton`)}
             </Button>
 
             {emailDialogOpen && <EmailVerifyDialog
