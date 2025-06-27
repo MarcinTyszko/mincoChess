@@ -24,11 +24,14 @@ function ManageAccount() {
     ] = useState(false);
 
     async function resetPassword() {
-        // stub for reset password email
+        await fetch("/auth/resetpassword");
     }
 
-    async function deleteAccount(password: string) {
-        // stub for delete account route
+    async function deleteAccount(password?: string) {
+        await fetch("/auth/delete", {
+            method: "POST",
+            body: password
+        });
     }
 
     return <div className={styles.wrapper}>
@@ -59,7 +62,7 @@ function ManageAccount() {
             fields="password"
             buttonStyle={{ backgroundColor: ButtonColour.RED }}
             onClose={() => setDeleteAccountDialogOpen(false)}
-            onConfirm={deleteAccount}
+            onConfirm={(input, password) => deleteAccount(password)}
             buttonDisabled={(input, password) => password.length == 0}
         >
             {t(`${accountStrings}.deleteAccountDialog`)}

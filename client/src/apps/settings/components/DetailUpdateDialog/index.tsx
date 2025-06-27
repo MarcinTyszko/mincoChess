@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ButtonColour from "@components/common/Button/Colour";
@@ -27,9 +27,21 @@ function DetailUpdateDialog({
     const [ input, setInput ] = useState("");
     const [ password, setPassword ] = useState("");
 
-    const error = useMemo(() => (
-        getErrorMessage?.(input, password)
-    ), [input]);
+    const [ error, setError ] = useState<string>();
+
+    useEffect(() => {
+        const parseIssue = getErrorMessage?.(input, password);
+        if (parseIssue) setError(parseIssue);
+    }, [input]);
+
+    async function handleConfirmClick() {
+        try {
+            await onConfirm(input, password);
+            onClose();
+        } catch (err) {
+            setError((err as Error).message);
+        }
+    }
 
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <span className={styles.message}>
@@ -67,7 +79,7 @@ function DetailUpdateDialog({
                     ...buttonStyle
                 }}
                 disabled={!!error || buttonDisabled?.(input, password)}
-                onClick={() => onConfirm(input, password)}
+                onClick={handleConfirmClick}
             >
                 {t(`${editProfileStrings}.confirmButton`)}
             </Button>

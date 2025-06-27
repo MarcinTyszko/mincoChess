@@ -1,14 +1,9 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
-
-import VerifyState from "./VerifyState";
+import { ReactNode } from "react";
 
 interface EmailVerifyDialogProps {
     children?: ReactNode;
     onClose: () => void;
-    onSendVerification: (
-        setStatus: Dispatch<SetStateAction<VerifyState>>,
-        setError: Dispatch<SetStateAction<string | undefined>>
-    ) => void;
+    onSendVerification: () => void | Promise<void>;
 }
 
 export default EmailVerifyDialogProps;

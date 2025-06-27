@@ -8,7 +8,10 @@ interface DetailUpdateDialogProps {
     placeholder?: string;
     fields?: Fields;
     onClose: () => void;
-    onConfirm: (input: string, password?: string) => void;
+    onConfirm: (
+        input: string,
+        password?: string
+    ) => void | Promise<void>;
     getErrorMessage?: (input: string, password: string) => string | undefined;
     buttonDisabled?: (input: string, password: string) => boolean;
 }
