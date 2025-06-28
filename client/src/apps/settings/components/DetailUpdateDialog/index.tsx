@@ -47,28 +47,26 @@ function DetailUpdateDialog({
             {children}
         </span>
 
-        {(fields == "input" || fields == "both") && <div
-            className={styles.inputContainer}
-        >
-            <TextField
+        <div className={styles.inputContainer}>
+            {(fields == "input" || fields == "both") && <TextField
                 className={styles.inputField}
                 placeholder={placeholder}
                 value={input}
                 onChange={setInput}
-            />
+            />}
+
+            {(fields == "password" || fields == "both") && <TextField
+                className={styles.inputField}
+                placeholder={t("pages.signIn.password")}
+                password
+                value={password}
+                onChange={setPassword}
+            />}
 
             {error && <LogMessage className={styles.error}>
                 {t(error)}    
             </LogMessage>}
-        </div>}
-
-        {(fields == "password" || fields == "both") && <TextField
-            className={styles.inputField}
-            placeholder={t("pages.signIn.password")}
-            password
-            value={password}
-            onChange={setPassword}
-        />}
+        </div>
 
         <div className={styles.confirmButtonContainer}>
             <Button
