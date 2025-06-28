@@ -62,20 +62,18 @@ function EditProfile() {
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
 
-    async function updateAccountField(update: {
-        field: AccountField;
-        value?: string;
-        password?: string;
-    }) {
+    async function updateAccountField(
+        field: AccountField,
+        value?: string,
+        password?: string
+    ) {
         const updateResponse = await fetch("/auth/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                field: update.field,
-                value: update.value,
-                password: update.password
+                field, value, password
             })
         });
 
@@ -112,10 +110,9 @@ function EditProfile() {
             {displayNameDialogOpen && <DetailUpdateDialog
                 placeholder={t(`${editProfileStrings}.displayName.placeholder`)}
                 onClose={() => setDisplayNameDialogOpen(false)}
-                onConfirm={input => updateAccountField({
-                    field: AccountField.DISPLAY_NAME,
-                    value: input
-                })}
+                onConfirm={input => updateAccountField(
+                    AccountField.DISPLAY_NAME, input
+                )}
                 getErrorMessage={input => getNameError(
                     input, schemas.displayName, displayNameErrors
                 )}
@@ -148,11 +145,9 @@ function EditProfile() {
                 fields="both"
                 placeholder={t("pages.signIn.username")}
                 onClose={() => setUsernameDialogOpen(false)}
-                onConfirm={(input, password) => updateAccountField({
-                    field: AccountField.USERNAME,
-                    value: input,
-                    password: password
-                })}
+                onConfirm={(input, password) => updateAccountField(
+                    AccountField.USERNAME, input, password
+                )}
                 getErrorMessage={username => getNameError(
                     username, schemas.username, usernameErrors
                 )}
@@ -195,9 +190,9 @@ function EditProfile() {
 
             {emailDialogOpen && <EmailVerifyDialog
                 onClose={() => setEmailDialogOpen(false)}
-                onSendVerification={() => updateAccountField({
-                    field: AccountField.EMAIL_ADDRESS
-                })}
+                onSendVerification={() => updateAccountField(
+                    AccountField.EMAIL_ADDRESS
+                )}
             >
                 {t(`${editProfileStrings}.emailVerification`)}    
             </EmailVerifyDialog>}

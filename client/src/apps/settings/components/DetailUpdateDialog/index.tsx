@@ -30,8 +30,7 @@ function DetailUpdateDialog({
     const [ error, setError ] = useState<string>();
 
     useEffect(() => {
-        const parseIssue = getErrorMessage?.(input, password);
-        if (parseIssue) setError(parseIssue);
+        setError(getErrorMessage?.(input, password));
     }, [input]);
 
     async function handleConfirmClick() {
