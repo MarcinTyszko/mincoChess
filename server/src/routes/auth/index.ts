@@ -6,6 +6,7 @@ import registerRouter from "./register";
 import verifyEmailRouter from "./verify";
 import loginRouter from "./login";
 import logoutRouter from "./logout";
+import updateRouter from "./update";
 
 const router = Router();
 
