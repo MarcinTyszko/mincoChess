@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { AccountField } from "shared/constants/account/Field";
 import ButtonColour from "@components/common/Button/Colour";
 import Button from "@components/common/Button";
 import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
@@ -26,7 +27,15 @@ function ManageAccount() {
     ] = useState(false);
 
     async function resetPassword() {
-        await fetch("/auth/resetpassword");
+        await fetch("/auth/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                field: "password" satisfies AccountField
+            })
+        });
     }
 
     async function deleteAccount() {
