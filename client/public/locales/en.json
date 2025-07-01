@@ -248,10 +248,12 @@
                                 "tooLong": "Display name cannot be more than 24 characters long."
                             }
                         },
-                        "username": "Username",
+                        "username": {
+                            "title": "Username",
+                            "message": "Enter a new username."
+                        },
                         "email": "Email Address",
                         "editButton": "Edit",
-                        "usernameChange": "Enter a new username and confirm your current password.",
                         "confirmButton": "Confirm",
                         "emailVerification": "We'll need to verify your current email address in order for you to change it.",
                         "emailVerificationButton": {
@@ -266,7 +268,8 @@
                         "resetPassword": "Reset Password",
                         "resetPasswordDialog": "We'll send you an email with a link which you can use to create a new password for your account.",
                         "deleteAccount": "Delete Account",
-                        "deleteAccountDialog": "Please confirm your password in order to delete your account. Please remember that this action is irreversible."
+                        "deleteAccountDialog": "Please confirm the deletion of your account by typing the following into the field:",
+                        "irreversibleAction": "Please remember that this action is irreversible."
                     }
                 },
                 "boardAndPieces": {

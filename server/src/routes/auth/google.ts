@@ -64,7 +64,7 @@ router.post(path, async (req, res) => {
 
         if (await Account.findOne({ username })) continue;
 
-        await Account.insertOne({
+        await Account.create({
             id: googleId.sub,
             email: String(googleId.email),
             displayName: googleId.name?.slice(0, 32) || username,
@@ -76,7 +76,7 @@ router.post(path, async (req, res) => {
         break;
     }
 
-    await SessionToken.insertOne({
+    await SessionToken.create({
         id: googleId.sub,
         type: SessionTokenType.ACCOUNT_GOOGLE,
         token: tokens.id_token,

@@ -1,8 +1,10 @@
-enum AccountField {
-    DISPLAY_NAME = "displayName",
-    USERNAME = "username",
-    EMAIL_ADDRESS = "emailAddress",
-    PASSWORD = "password"
-}
+import z from "zod";
 
-export default AccountField;
+export const fieldSchema = z.enum([
+    "displayName",
+    "username",
+    "emailAddress",
+    "password"
+]);
+
+export type AccountField = z.infer<typeof fieldSchema>;

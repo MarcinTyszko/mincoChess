@@ -16,7 +16,8 @@ router.use("/auth",
     registerRouter,
     verifyEmailRouter,
     loginRouter,
-    logoutRouter
+    logoutRouter,
+    updateRouter
 );
 
 export default router;

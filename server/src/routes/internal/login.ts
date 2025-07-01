@@ -29,7 +29,7 @@ router.post(path, async (req, res) => {
     // Create session
     const sessionToken = uuidv4();
 
-    await SessionToken.insertOne({
+    await SessionToken.create({
         type: SessionTokenType.INTERNAL,
         token: sessionToken,
         createdAt: new Date()

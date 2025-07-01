@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { createHash, randomBytes } from "crypto";
+import { randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
 import Cookie from "shared/constants/Cookie";
@@ -19,11 +19,8 @@ router.get("/verify", async (req, res) => {
         return res.status(StatusCodes.BAD_REQUEST).redirect("/signin");
     }
 
-    const hashedId = createHash("sha-256")
-        .update(verificationId)
-        .digest("hex");
-
-    const verification = await AccountVerification.findOne({ id: hashedId });
+    const verification = await AccountVerification
+        .findOne({ id: verificationId });
 
     if (!verification) {
         return res.status(StatusCodes.UNAUTHORIZED).redirect("/signin");
@@ -34,7 +31,7 @@ router.get("/verify", async (req, res) => {
     const accountId = uuidv4();
     const sessionToken = randomBytes(128).toString("base64");
 
-    await Account.insertOne({
+    await Account.create({
         id: accountId,
         email: verification.email,
         displayName: verification.username,
@@ -44,7 +41,7 @@ router.get("/verify", async (req, res) => {
         createdAt: new Date()
     });
 
-    await SessionToken.insertOne({
+    await SessionToken.create({
         id: accountId,
         type: SessionTokenType.ACCOUNT,
         token: sessionToken,

@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 import Collection from "@constants/Collection";
 
+// TTL 30 minutes
 const accountVerificationSchema = new Schema({
     id: { type: String, required: true },
     email: { type: String, required: true },

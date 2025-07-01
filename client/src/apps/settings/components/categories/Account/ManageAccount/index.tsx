@@ -10,6 +10,8 @@ import * as styles from "./ManageAccount.module.css";
 
 const accountStrings = "pages.settings.categories.account.manageAccount";
 
+const deletionConfirmer = "delete account";
+
 function ManageAccount() {
     const { t } = useTranslation();
 
@@ -27,11 +29,8 @@ function ManageAccount() {
         await fetch("/auth/resetpassword");
     }
 
-    async function deleteAccount(password?: string) {
-        await fetch("/auth/delete", {
-            method: "POST",
-            body: password
-        });
+    async function deleteAccount() {
+        await fetch("/auth/delete");
     }
 
     return <div className={styles.wrapper}>
@@ -59,13 +58,21 @@ function ManageAccount() {
         </Button>
 
         {deleteAccountDialogOpen && <DetailUpdateDialog
-            fields="password"
             buttonStyle={{ backgroundColor: ButtonColour.RED }}
             onClose={() => setDeleteAccountDialogOpen(false)}
-            onConfirm={(input, password) => deleteAccount(password)}
-            buttonDisabled={(input, password) => password.length == 0}
+            onConfirm={deleteAccount}
+            buttonDisabled={input => input != deletionConfirmer}
+            placeholder={`${deletionConfirmer}...`}
         >
-            {t(`${accountStrings}.deleteAccountDialog`)}
+            <div className={styles.deleteAccountDialogMessage}>
+                <span>{t(`${accountStrings}.deleteAccountDialog`)}</span>
+
+                <span className={styles.deleteAccountConfirmation}>
+                    {deletionConfirmer}
+                </span>
+
+                <span>{t(`${accountStrings}.irreversibleAction`)}</span>
+            </div>
         </DetailUpdateDialog>}
     </div>;
 }

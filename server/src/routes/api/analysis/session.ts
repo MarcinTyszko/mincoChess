@@ -55,7 +55,7 @@ router.post(path, async (req, res) => {
     // Generate session
     const sessionToken = randomBytes(128).toString("base64");
 
-    await SessionToken.insertOne({
+    await SessionToken.create({
         type: SessionTokenType.ANALYSIS,
         token: sessionToken,
         actions: process.env.ANALYSIS_SESSION_ACTIONS || defaultSessionActions,

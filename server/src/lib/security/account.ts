@@ -33,7 +33,8 @@ export const accountCookieOptions: CookieOptions = {
 /**
  * @description Enforces that the user has a valid account ID / session
  * token, and can optionally redirect to signin page upon rejection. Adds
- * `req.accountId` with the user's account ID when authenticated.
+ * `req.accountId` with the user's account ID when authenticated. The ID
+ * token is recorded in `req.accountIdToken` regardless of authentication.
  */
 export function accountAuthenticator(redirect = false): RequestHandler {
     function reject(res: Response, reason: StatusCodes) {

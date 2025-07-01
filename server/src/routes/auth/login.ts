@@ -47,7 +47,7 @@ router.post(path, async (req, res) => {
 
     const sessionToken = randomBytes(128).toString("base64");
 
-    await SessionToken.insertOne({
+    await SessionToken.create({
         id: account.id,
         type: SessionTokenType.ACCOUNT,
         token: sessionToken,

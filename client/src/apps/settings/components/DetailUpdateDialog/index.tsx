@@ -16,7 +16,6 @@ function DetailUpdateDialog({
     children,
     buttonStyle,
     placeholder,
-    fields = "input",
     onClose,
     onConfirm,
     getErrorMessage,
@@ -25,17 +24,15 @@ function DetailUpdateDialog({
     const { t } = useTranslation();
 
     const [ input, setInput ] = useState("");
-    const [ password, setPassword ] = useState("");
-
     const [ error, setError ] = useState<string>();
 
     useEffect(() => {
-        setError(getErrorMessage?.(input, password));
+        setError(getErrorMessage?.(input));
     }, [input]);
 
     async function handleConfirmClick() {
         try {
-            await onConfirm(input, password);
+            await onConfirm(input);
             onClose();
         } catch (err) {
             setError((err as Error).message);
@@ -48,20 +45,12 @@ function DetailUpdateDialog({
         </span>
 
         <div className={styles.inputContainer}>
-            {(fields == "input" || fields == "both") && <TextField
+            <TextField
                 className={styles.inputField}
                 placeholder={placeholder}
                 value={input}
                 onChange={setInput}
-            />}
-
-            {(fields == "password" || fields == "both") && <TextField
-                className={styles.inputField}
-                placeholder={t("pages.signIn.password")}
-                password
-                value={password}
-                onChange={setPassword}
-            />}
+            />
 
             {error && <LogMessage className={styles.error}>
                 {t(error)}    
@@ -75,7 +64,7 @@ function DetailUpdateDialog({
                     backgroundColor: ButtonColour.BLUE,
                     ...buttonStyle
                 }}
-                disabled={!!error || buttonDisabled?.(input, password)}
+                disabled={!!error || buttonDisabled?.(input)}
                 onClick={handleConfirmClick}
             >
                 {t(`${editProfileStrings}.confirmButton`)}

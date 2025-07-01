@@ -4,7 +4,7 @@ import { repeat } from "lodash-es";
 import { ZodString } from "zod";
 
 import AccountError from "shared/constants/account/Error";
-import AccountField from "shared/constants/account/Field";
+import { AccountField } from "shared/constants/account/Field";
 import * as schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@hooks/api/useAccountProfile";
 import Button from "@components/common/Button";
@@ -64,17 +64,14 @@ function EditProfile() {
 
     async function updateAccountField(
         field: AccountField,
-        value?: string,
-        password?: string
+        value?: string
     ) {
         const updateResponse = await fetch("/auth/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                field, value, password
-            })
+            body: JSON.stringify({ field, value })
         });
 
         if (!updateResponse.ok) throw new Error(t("error"));
@@ -110,9 +107,7 @@ function EditProfile() {
             {displayNameDialogOpen && <DetailUpdateDialog
                 placeholder={t(`${editProfileStrings}.displayName.placeholder`)}
                 onClose={() => setDisplayNameDialogOpen(false)}
-                onConfirm={input => updateAccountField(
-                    AccountField.DISPLAY_NAME, input
-                )}
+                onConfirm={input => updateAccountField("displayName", input)}
                 getErrorMessage={input => getNameError(
                     input, schemas.displayName, displayNameErrors
                 )}
@@ -123,7 +118,7 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.username`)}
+            {t(`${editProfileStrings}.username.title`)}
         </span>
 
         <div className={styles.detailSetting}>
@@ -142,18 +137,15 @@ function EditProfile() {
             </Button>
 
             {usernameDialogOpen && <DetailUpdateDialog
-                fields="both"
                 placeholder={t("pages.signIn.username")}
                 onClose={() => setUsernameDialogOpen(false)}
-                onConfirm={(input, password) => updateAccountField(
-                    AccountField.USERNAME, input, password
-                )}
-                getErrorMessage={username => getNameError(
-                    username, schemas.username, usernameErrors
+                onConfirm={input => updateAccountField("username", input)}
+                getErrorMessage={input => getNameError(
+                    input, schemas.username, usernameErrors
                 )}
                 buttonDisabled={input => input.length < 3}
             >
-                {t(`${editProfileStrings}.usernameChange`)}    
+                {t(`${editProfileStrings}.username.message`)}
             </DetailUpdateDialog>}
         </div>
 
@@ -190,9 +182,7 @@ function EditProfile() {
 
             {emailDialogOpen && <EmailVerifyDialog
                 onClose={() => setEmailDialogOpen(false)}
-                onSendVerification={() => updateAccountField(
-                    AccountField.EMAIL_ADDRESS
-                )}
+                onSendVerification={() => updateAccountField("emailAddress")}
             >
                 {t(`${editProfileStrings}.emailVerification`)}    
             </EmailVerifyDialog>}

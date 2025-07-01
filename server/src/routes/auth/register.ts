@@ -1,23 +1,18 @@
 import express, { Router, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
-import { readFileSync } from "fs";
-import { createHash, randomBytes } from "crypto";
+import { randomBytes } from "crypto";
 import { hashSync } from "bcrypt";
-import mailer from "nodemailer";
 
 import AccountError from "shared/constants/account/Error";
 import * as schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
+import { generateAccountEmail, sendAutomatedEmail } from "@lib/email";
 
 const path = "/register";
 
 const router = Router();
-
-const verificationEmailTemplate = readFileSync(
-    "server/src/resources/verification.html", "utf-8"
-);
 
 const registerRequestSchema = z.object({
     email: schemas.email,
@@ -77,40 +72,30 @@ router.post(path, async (req, res) => {
     // Create verification and send email
     const verificationId = randomBytes(128).toString("base64url");
 
-    await AccountVerification.insertOne({
-        id: createHash("sha256").update(verificationId).digest("hex"),
+    await AccountVerification.create({
+        id: verificationId,
         email: registration.email,
         username: registration.username,
         password: hashSync(registration.password, 10),
         createdAt: new Date()
     });
 
-    const transporter = mailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_ACCOUNT,
-            pass: process.env.AUTOMATED_EMAIL_KEY
-        }
-    });
-
     const verificationUrl = (
         `${process.env.ORIGIN}/auth/verify?id=${verificationId}`
     );
 
-    transporter.sendMail({
-        from: `"WintrChess No-Reply" <${process.env.AUTOMATED_EMAIL_ADDRESS}>`,
-        to: registration.email,
-        subject: "Verify your WintrChess account",
-        text: `Please verify your WintrChess account: ${verificationUrl}`,
-        html: verificationEmailTemplate
-            .replace(/\${ORIGIN}/gi, process.env.ORIGIN)
-            .replace(/\${VERIFICATION_URL}/gi, verificationUrl)
-            .replace(/\${EMAIL_ACCOUNT}/gi, process.env.EMAIL_ACCOUNT)
-            .replace(
-                /\${COPYRIGHT_YEAR}/gi,
-                new Date().getFullYear().toString()
-            )
-    });
+    sendAutomatedEmail(
+        registration.email,
+        "Verify your WintrChess account",
+        generateAccountEmail({
+            subject: "WintrChess - Verify your account",
+            message: "Thank you for creating an account on WintrChess! "
+                + "Please verify your account by clicking the button below:",
+            buttonLabel: "Verify Account",
+            buttonUrl: verificationUrl
+        }),
+        `Please verify your WintrChess account: ${verificationUrl}`
+    );
 
     res.sendStatus(StatusCodes.OK);
 });
