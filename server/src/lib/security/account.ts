@@ -38,11 +38,9 @@ export const accountCookieOptions: CookieOptions = {
  */
 export function accountAuthenticator(redirect = false): RequestHandler {
     function reject(res: Response, reason: StatusCodes) {
-        if (redirect) {
-            return res.status(reason).redirect("/signin");
-        }
-        
-        res.sendStatus(reason);
+        return redirect
+            ? res.redirect(reason, "/signin")
+            : res.sendStatus(reason);
     }
 
     return async (req, res, next) => {

@@ -5,10 +5,10 @@ import { randomBytes } from "crypto";
 import { hashSync } from "bcrypt";
 
 import AccountError from "shared/constants/account/Error";
-import * as schemas from "shared/constants/account/schemas";
+import schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
-import { generateAccountEmail, sendAutomatedEmail } from "@lib/email";
+import { sendAccountEmail } from "@lib/email";
 
 const path = "/register";
 
@@ -31,12 +31,9 @@ function reject(res: Response, reason: AccountError) {
 router.use(path, express.json());
 
 router.post(path, async (req, res) => {
-    if (
-        !process.env.ORIGIN
-        || !process.env.EMAIL_ACCOUNT
-        || !process.env.AUTOMATED_EMAIL_ADDRESS
-        || !process.env.AUTOMATED_EMAIL_KEY
-    ) return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (!process.env.ORIGIN) {
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 
     const registration: z.infer<typeof registerRequestSchema> = req.body;
 
@@ -70,7 +67,7 @@ router.post(path, async (req, res) => {
     }
 
     // Create verification and send email
-    const verificationId = randomBytes(128).toString("base64url");
+    const verificationId = randomBytes(32).toString("base64url");
 
     await AccountVerification.create({
         id: verificationId,
@@ -84,18 +81,21 @@ router.post(path, async (req, res) => {
         `${process.env.ORIGIN}/auth/verify?id=${verificationId}`
     );
 
-    sendAutomatedEmail(
-        registration.email,
-        "Verify your WintrChess account",
-        generateAccountEmail({
-            subject: "WintrChess - Verify your account",
+    try {
+        sendAccountEmail({
+            recipient: registration.email,
+            subject: "Verify your WintrChess account",
             message: "Thank you for creating an account on WintrChess! "
                 + "Please verify your account by clicking the button below:",
             buttonLabel: "Verify Account",
-            buttonUrl: verificationUrl
-        }),
-        `Please verify your WintrChess account: ${verificationUrl}`
-    );
+            buttonUrl: verificationUrl,
+            plaintextFallback: (
+                `Please verify your WintrChess account: ${verificationUrl}`
+            )
+        });
+    } catch {
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 
     res.sendStatus(StatusCodes.OK);
 });

@@ -6,7 +6,7 @@ import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
 import AccountError from "shared/constants/account/Error";
-import * as schemas from "shared/constants/account/schemas";
+import schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
@@ -45,7 +45,7 @@ router.post(path, async (req, res) => {
         return reject(res, AccountError.INCORRECT_PASSWORD);
     }
 
-    const sessionToken = randomBytes(128).toString("base64");
+    const sessionToken = randomBytes(32).toString("base64");
 
     await SessionToken.create({
         id: account.id,

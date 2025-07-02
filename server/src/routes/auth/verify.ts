@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
@@ -12,24 +12,23 @@ import { accountCookieOptions } from "@lib/security/account";
 
 const router = Router();
 
+function reject(res: Response) {
+    res.status(StatusCodes.UNAUTHORIZED).redirect("/signin");
+}
+
 router.get("/verify", async (req, res) => {
     const verificationId = req.query.id?.toString();
-
-    if (!verificationId) {
-        return res.status(StatusCodes.BAD_REQUEST).redirect("/signin");
-    }
+    if (!verificationId) return reject(res);
 
     const verification = await AccountVerification
         .findOne({ id: verificationId });
 
-    if (!verification) {
-        return res.status(StatusCodes.UNAUTHORIZED).redirect("/signin");
-    }
+    if (!verification) return reject(res);
 
     await verification.deleteOne();
 
     const accountId = uuidv4();
-    const sessionToken = randomBytes(128).toString("base64");
+    const sessionToken = randomBytes(32).toString("base64");
 
     await Account.create({
         id: accountId,

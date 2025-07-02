@@ -5,7 +5,7 @@ import { ZodString } from "zod";
 
 import AccountError from "shared/constants/account/Error";
 import { AccountField } from "shared/constants/account/Field";
-import * as schemas from "shared/constants/account/schemas";
+import schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@hooks/api/useAccountProfile";
 import Button from "@components/common/Button";
 import TextField from "@components/common/TextField";

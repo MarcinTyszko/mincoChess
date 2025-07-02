@@ -2,22 +2,23 @@ import { readFileSync } from "fs";
 import mailer from "nodemailer";
 
 interface AccountEmailOptions {
+    recipient: string;
     subject: string;
     message: string;
     buttonLabel: string;
     buttonUrl: string;
+    plaintextFallback?: string;
 }
 
 const accountEmailTemplate = readFileSync(
     "server/src/resources/account.html", "utf-8"
 );
 
-export async function sendAutomatedEmail(
-    recipient: string,
-    subject: string,
-    content: string,
-    plaintextFallback?: string
-) {
+export async function sendAccountEmail(options: AccountEmailOptions) {
+    if (!process.env.ORIGIN || !process.env.EMAIL_ACCOUNT) {
+        throw new Error("origin or email account variable missing.");
+    }
+
     const transporter = mailer.createTransport({
         service: "gmail",
         auth: {
@@ -28,27 +29,19 @@ export async function sendAutomatedEmail(
 
     await transporter.sendMail({
         from: `"WintrChess No-Reply" <${process.env.AUTOMATED_EMAIL_ADDRESS}>`,
-        to: recipient,
-        subject: subject,
-        text: plaintextFallback,
-        html: content
+        to: options.recipient,
+        subject: options.subject,
+        text: options.plaintextFallback,
+        html: accountEmailTemplate
+            .replace(/\${SUBJECT}/gi, options.subject)
+            .replace(/\${ORIGIN}/gi, process.env.ORIGIN)
+            .replace(/\${MESSAGE}/gi, options.message)
+            .replace(/\${VERIFICATION_URL}/gi, options.buttonUrl)
+            .replace(/\${BUTTON_LABEL}/gi, options.buttonLabel)
+            .replace(/\${EMAIL_ACCOUNT}/gi, process.env.EMAIL_ACCOUNT)
+            .replace(
+                /\${COPYRIGHT_YEAR}/gi,
+                new Date().getFullYear().toString()
+            )
     });
-}
-
-export function generateAccountEmail(options: AccountEmailOptions) {
-    if (!process.env.ORIGIN || !process.env.EMAIL_ACCOUNT) {
-        throw new Error("origin or email account variable missing.");
-    }
-
-    return accountEmailTemplate
-        .replace(/\${SUBJECT}/gi, options.subject)
-        .replace(/\${ORIGIN}/gi, process.env.ORIGIN)
-        .replace(/\${MESSAGE}/gi, options.message)
-        .replace(/\${VERIFICATION_URL}/gi, options.buttonUrl)
-        .replace(/\${BUTTON_LABEL}/gi, options.buttonLabel)
-        .replace(/\${EMAIL_ACCOUNT}/gi, process.env.EMAIL_ACCOUNT)
-        .replace(
-            /\${COPYRIGHT_YEAR}/gi,
-            new Date().getFullYear().toString()
-        );
 }

@@ -5,7 +5,7 @@ import appRouter from "@lib/appRouter";
 
 const router = Router();
 
-router.get(/^\/(signin|signup)/, appRouter("signin.html"));
+router.get(/^\/(signin|signup)/, appRouter("account/signin.html"));
 
 router.get("/settings*", appRouter("settings.html"));
 
@@ -20,7 +20,8 @@ router.get("/profile/:username", async (req, res, next) => {
     }
 
     const profileRouter = appRouter(
-        "profile.html", async req => req.params
+        "account/profile.html",
+        async req => req.params
     );
 
     profileRouter(req, res, next);

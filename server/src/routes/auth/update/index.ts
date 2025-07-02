@@ -8,7 +8,7 @@ import Account from "@database/models/account/Account";
 import EmailUpdate from "@database/models/account/EmailUpdate";
 import PasswordReset from "@database/models/account/PasswordReset";
 import { accountAuthenticator } from "@lib/security/account";
-import { generateAccountEmail, sendAutomatedEmail } from "@lib/email";
+import { sendAccountEmail } from "@lib/email";
 
 import updateEmailRouter from "./email";
 import resetPasswordRouter from "./password";
@@ -21,17 +21,15 @@ const updateSchema = z.object({
 });
 
 router.use("/update",
+    updateEmailRouter,
     express.json(),
     accountAuthenticator()
 );
 
 router.post("/update", async (req, res) => {
-    if (
-        !process.env.ORIGIN
-        || !process.env.EMAIL_ACCOUNT
-        || !process.env.AUTOMATED_EMAIL_ADDRESS
-        || !process.env.AUTOMATED_EMAIL_KEY
-    ) return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (!process.env.ORIGIN) {
+        return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 
     if (!req.accountId) {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
@@ -62,7 +60,7 @@ router.post("/update", async (req, res) => {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
 
-    const updateId = randomBytes(128).toString("base64url");
+    const updateId = randomBytes(32).toString("base64url");
 
     if (update.field == "emailAddress") {
         await EmailUpdate.create({
@@ -72,23 +70,24 @@ router.post("/update", async (req, res) => {
             createdAt: new Date()
         });
 
-        const verificationUrl = `/auth/update/email?id=${updateId}`;
-
-        sendAutomatedEmail(
-            account.email,
-            "Verify your current email address",
-            generateAccountEmail({
-                subject: "Verify your current email address",
-                message: "Please verify your WintrChess account's "
-                    + "current email address by clicking the button below:",
-                buttonLabel: "Verify Email Address",
-                buttonUrl: verificationUrl
-            }),
-            (
-                "Please verify your WintrChess account's email address: "
-                + verificationUrl
-            )
+        const verificationUrl = (
+            `${process.env.ORIGIN}/auth/update/email?id=${updateId}`
         );
+
+        try {
+            sendAccountEmail({
+                recipient: account.email,
+                subject: "Verify your current email address",
+                message: "Please verify your WintrChess account's current"
+                    + " email address by clicking the button below:",
+                buttonLabel: "Verify Email Address",
+                buttonUrl: verificationUrl,
+                plaintextFallback: "Please verify your WintrChess account's"
+                    + ` email address: ${verificationUrl}`
+            });
+        } catch {
+            return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+        }
 
         return res.sendStatus(StatusCodes.OK);
     }
@@ -100,23 +99,24 @@ router.post("/update", async (req, res) => {
             createdAt: new Date()
         });
 
-        const resetUrl = `/auth/update/password?id=${updateId}`;
+        const resetUrl = (
+            `${process.env.ORIGIN}/auth/update/password?id=${updateId}`
+        );
 
-        sendAutomatedEmail(
-            account.email,
-            "Reset your WintrChess password",
-            generateAccountEmail({
+        try {
+            sendAccountEmail({
+                recipient: account.email,
                 subject: "Reset your WintrChess password",
                 message: "Please reset your WintrChess account's "
                     + "password by clicking the button below:",
                 buttonLabel: "Reset Password",
-                buttonUrl: resetUrl
-            }),
-            (
-                "Please use the link to reset your WintrChess "
-                + `account's password: ${resetUrl}`
-            )
-        );
+                buttonUrl: resetUrl,
+                plaintextFallback: "Please use the link to reset your"
+                    + ` WintrChess account's password: ${resetUrl}`
+            });
+        } catch {
+            return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+        }
 
         return res.sendStatus(StatusCodes.OK);
     }

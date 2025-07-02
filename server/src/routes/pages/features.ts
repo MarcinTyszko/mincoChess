@@ -4,9 +4,9 @@ import appRouter from "@lib/appRouter";
 
 const router = Router();
 
-router.get("/analysis", appRouter("analysis.html"));
-router.get("/archive", appRouter("archive.html"));
+router.get("/analysis", appRouter("features/analysis.html"));
+router.get("/archive", appRouter("features/archive.html"));
 
-router.get("/news*", appRouter("news.html"));
+router.get("/news*", appRouter("features/news.html"));
 
 export default router;
