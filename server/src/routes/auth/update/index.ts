@@ -22,6 +22,7 @@ const updateSchema = z.object({
 
 router.use("/update",
     updateEmailRouter,
+    resetPasswordRouter,
     express.json(),
     accountAuthenticator()
 );
