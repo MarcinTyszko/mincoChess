@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { StatusCodes } from "http-status-codes";
 
+import schemas from "shared/constants/account/schemas";
 import AccountError from "shared/constants/account/Error";
-import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
+import RegistrationAttempt from "@apps/signin/types/RegistrationAttempt";
+import StatusMessage from "@apps/signin/types/StatusMessage";
+import useFieldValidation from "@apps/signin/hooks/useFieldValidation";
 import useGoogleAuth from "@apps/signin/hooks/useGoogleAuth";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
@@ -11,17 +15,12 @@ import Button from "@components/common/Button";
 import ButtonColour from "@components/common/Button/Colour";
 import LogMessage from "@components/common/LogMessage";
 
-import RegistrationAttempt from "@apps/signin/types/RegistrationAttempt";
-import StatusMessage from "@apps/signin/types/StatusMessage";
 import * as styles from "../../index.module.css";
-import { StatusCodes } from "http-status-codes";
 
 function SignUp() {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
-
-    const getErrorMessage = useAccountErrors();
 
     const [ email, setEmail ] = useState("");
     const [ username, setUsername ] = useState("");
@@ -35,6 +34,7 @@ function SignUp() {
 
     const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
 
+    const { getErrorMessage, validateFields } = useFieldValidation();
     const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
 
     async function register() {
@@ -45,6 +45,16 @@ function SignUp() {
             theme: "error",
             message: t("pages.signIn.errors.verificationCooldown")
         });
+
+        const validationIssue = validateFields(new Map()
+            .set(schemas.registration, {
+                email, username, password, confirmedPassword
+            })
+        );
+
+        if (validationIssue) {
+            return setStatusMessage(validationIssue);
+        }
 
         const registerResponse = await fetch("/auth/register", {
             method: "POST",
@@ -60,13 +70,6 @@ function SignUp() {
             return setStatusMessage({
                 theme: "error",
                 message: t("pages.signIn.errors.verificationCooldown")
-            });
-        } else if (registerResponse.status == StatusCodes.BAD_REQUEST) {
-            return setStatusMessage({
-                theme: "error",
-                message: getErrorMessage(
-                    (await registerResponse.text()) as AccountError
-                )
             });
         } else if (!registerResponse.ok) {
             return setStatusMessage({

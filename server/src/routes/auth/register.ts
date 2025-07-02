@@ -1,10 +1,9 @@
-import express, { Router, Response } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
 import { randomBytes } from "crypto";
 import { hashSync } from "bcrypt";
 
-import AccountError from "shared/constants/account/Error";
 import schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import AccountVerification from "@database/models/account/AccountVerification";
@@ -14,20 +13,6 @@ const path = "/register";
 
 const router = Router();
 
-const registerRequestSchema = z.object({
-    email: schemas.email,
-    username: schemas.username,
-    password: schemas.password,
-    confirmedPassword: schemas.password
-}).refine(
-    schema => schema.confirmedPassword == schema.password,
-    AccountError.PASSWORD_NO_MATCH
-);
-
-function reject(res: Response, reason: AccountError) {
-    res.status(StatusCodes.BAD_REQUEST).send(reason);
-}
-
 router.use(path, express.json());
 
 router.post(path, async (req, res) => {
@@ -35,12 +20,11 @@ router.post(path, async (req, res) => {
         return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
-    const registration: z.infer<typeof registerRequestSchema> = req.body;
+    const registration: z.infer<typeof schemas.registration> = req.body;
 
-    const parseAttempt = registerRequestSchema.safeParse(registration);
-    const issue = parseAttempt.error?.issues.at(0)?.message;
-
-    if (issue) return reject(res, issue as AccountError);
+    if (!schemas.registration.safeParse(registration).success) {
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
+    }
 
     // Ensure no existing account
     const existingAccount = await Account.findOne({
@@ -51,7 +35,7 @@ router.post(path, async (req, res) => {
     });
 
     if (existingAccount) {
-        return reject(res, AccountError.ACCOUNT_ALREADY_EXISTS);
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
     }
 
     // Check for verification cooldown

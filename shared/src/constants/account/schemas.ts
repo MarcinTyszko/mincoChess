@@ -18,9 +18,20 @@ const password = z.string()
     .min(8, AccountError.PASSWORD_TOO_SHORT)
     .max(128, AccountError.PASSWORD_TOO_LONG);
 
+const registration = z.object({
+    email,
+    username,
+    password,
+    confirmedPassword: password
+}).refine(
+    schema => schema.confirmedPassword == schema.password,
+    AccountError.PASSWORD_NO_MATCH
+);
+
 export default {
     email,
     displayName,
     username,
-    password
+    password,
+    registration
 };

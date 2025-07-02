@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { ZodType } from "zod";
 
 import AccountError from "shared/constants/account/Error";
+import StatusMessage from "../types/StatusMessage";
 
-const accountErrorStrings: Record<AccountError, string> = {
+const accountErrorStrings: Record<string, string | undefined> = {
     [AccountError.ACCOUNT_NOT_FOUND]: "pages.signIn.errors.accountNotFound",
     [AccountError.ACCOUNT_ALREADY_EXISTS]: "pages.signIn.errors.accountAlreadyExists",
     [AccountError.INVALID_EMAIL]: "pages.signIn.errors.invalidEmail",
@@ -16,12 +18,29 @@ const accountErrorStrings: Record<AccountError, string> = {
     [AccountError.UNKNOWN]: "pages.signIn.errors.unknown"
 };
 
-function useAccountErrors() {
+function useFieldValidation() {
     const { t } = useTranslation();
 
-    return (error: AccountError) => {
-        return t(accountErrorStrings[error] || "pages.signIn.errors.unknown");
-    };
+    function getErrorMessage(error?: AccountError) {
+        return error
+            ? t(accountErrorStrings[error] || "pages.signIn.errors.unknown")
+            : t("pages.signIn.errors.unknown");
+    }
+
+    function validateFields(fields: Map<ZodType, any>) {
+        for (const [ schema, value ] of fields.entries()) {
+            const parse = schema.safeParse(value);
+
+            if (!parse.success) return {
+                theme: "error",
+                message: getErrorMessage(
+                    parse.error.issues.at(0)?.message as AccountError
+                )
+            } as StatusMessage;
+        }
+    }
+
+    return { getErrorMessage, validateFields };
 }
 
-export default useAccountErrors;
+export default useFieldValidation;

@@ -1,11 +1,10 @@
-import express, { Response, Router } from "express";
+import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
 import { compareSync } from "bcrypt";
 import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
-import AccountError from "shared/constants/account/Error";
 import schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
@@ -21,29 +20,21 @@ const loginRequestSchema = z.object({
     password: schemas.password
 });
 
-function reject(res: Response, reason: AccountError) {
-    res.status(StatusCodes.BAD_REQUEST).send(reason);
-}
-
 router.use(path, express.json());
 
 router.post(path, async (req, res) => {
     const login: z.infer<typeof loginRequestSchema> = req.body;
 
-    const parseAttempt = loginRequestSchema.safeParse(login);
-    const issue = parseAttempt.error?.issues.at(0)?.message;
-
-    if (issue) return reject(res, issue as AccountError);
+    if (!loginRequestSchema.safeParse(login).success) {
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
+    }
 
     const account = await Account.findOne({ email: login.email });
 
-    if (!account?.password) {
-        return reject(res, AccountError.ACCOUNT_NOT_FOUND);
-    }
-
-    if (!compareSync(login.password, account.password)) {
-        return reject(res, AccountError.INCORRECT_PASSWORD);
-    }
+    if (
+        !account?.password
+        || !compareSync(login.password, account.password)
+    ) return res.sendStatus(StatusCodes.UNAUTHORIZED);
 
     const sessionToken = randomBytes(32).toString("base64");
 

@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { StatusCodes } from "http-status-codes";
 
+import schemas from "shared/constants/account/schemas";
 import AccountError from "shared/constants/account/Error";
-import useAccountErrors from "@apps/signin/hooks/useAccountErrors";
 import useGoogleAuth from "@apps/signin/hooks/useGoogleAuth";
 import Separator from "@components/common/Separator";
 import TextField from "@components/common/TextField";
@@ -14,22 +14,31 @@ import LogMessage from "@components/common/LogMessage";
 
 import StatusMessage from "@apps/signin/types/StatusMessage";
 import * as styles from "../../index.module.css";
+import useFieldValidation from "@apps/signin/hooks/useFieldValidation";
 
 function SignIn() {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
 
-    const getErrorMessage = useAccountErrors();
-
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
 
     const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
-
+    
+    const { getErrorMessage, validateFields } = useFieldValidation();
     const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
 
     async function login() {
+        const validationIssue = validateFields(new Map()
+            .set(schemas.email, email)
+            .set(schemas.password, password)
+        );
+
+        if (validationIssue) {
+            return setStatusMessage(validationIssue);
+        }
+
         const loginResponse = await fetch("/auth/login", {
             method: "POST",
             headers: {
@@ -40,12 +49,10 @@ function SignIn() {
             })
         });
 
-        if (loginResponse.status == StatusCodes.BAD_REQUEST) {
+        if (loginResponse.status == StatusCodes.UNAUTHORIZED) {
             return setStatusMessage({
                 theme: "error",
-                message: getErrorMessage(
-                    (await loginResponse.text()) as AccountError
-                )
+                message: getErrorMessage(AccountError.INCORRECT_PASSWORD)
             });
         } else if (!loginResponse.ok) {
             return setStatusMessage({

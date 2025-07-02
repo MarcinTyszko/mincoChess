@@ -3,13 +3,13 @@ import { StatusCodes } from "http-status-codes";
 
 import AccountError from "shared/constants/account/Error";
 import StatusMessage from "../types/StatusMessage";
-import useAccountErrors from "./useAccountErrors";
+import useFieldValidation from "./useFieldValidation";
 
 function useGoogleAuth(
     redirectUrl: string,
     onError?: (status: StatusMessage) => void
 ) {
-    const getErrorMessage = useAccountErrors();
+    const { getErrorMessage } = useFieldValidation();
 
     const googleLogin = useGoogleLogin({
         onSuccess: async credentials => {
