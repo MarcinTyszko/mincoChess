@@ -5,8 +5,8 @@ import z from "zod";
 
 import EngineVersion from "shared/constants/EngineVersion";
 import { deepPartialify } from "shared/lib/zodSchema";
-import EngineArrowType from "@apps/analysis/constants/EngineArrowType";
-import LocalStorageKey from "@constants/LocalStorageKey";
+import EngineArrowType from "@analysis/constants/EngineArrowType";
+import LocalStorageKey from "@/constants/LocalStorageKey";
 
 const settingsSchema = z.object({
     analysis: z.object({

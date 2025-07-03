@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import useSettingsStore from "@stores/SettingsStore";
-import SwitchSetting from "@components/settings/SwitchSetting";
+import useSettingsStore from "@/stores/SettingsStore";
+import SwitchSetting from "@/components/settings/SwitchSetting";
 
 import * as categoryStyles from "../Category.module.css";
 

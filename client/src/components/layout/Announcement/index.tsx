@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "@components/common/Button";
+import Button from "@/components/common/Button";
 
 import AnnouncementProps from "./AnnouncementProps";
 import * as styles from "./Announcement.module.css";

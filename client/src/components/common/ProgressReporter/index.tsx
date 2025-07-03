@@ -1,6 +1,6 @@
 import React from "react";
 
-import LogMessage from "@components/common/LogMessage";
+import LogMessage from "@/components/common/LogMessage";
 
 import ProgressReporterProps from "./ProgressReporterProps";
 import * as styles from "./ProgressReporter.module.css";

@@ -6,8 +6,8 @@ import {
 } from "react";
 import { uniqueId } from "lodash-es";
 
-import { ContextMenuPosition } from "@components/common/ContextMenu/types";
-import useContextMenuStore from "@stores/ContextMenuStore";
+import { ContextMenuPosition } from "@/components/common/ContextMenu/types";
+import useContextMenuStore from "@/stores/ContextMenuStore";
 
 function useContextMenu() {
     const { openId, setOpenId } = useContextMenuStore();

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import Loader from "@components/common/Loader";
+import Loader from "@/components/common/Loader";
 
 import LoadingPlaceholderProps from "./LoadingPlaceholderProps";
 import * as styles from "./LoadingPlaceholder.module.css";

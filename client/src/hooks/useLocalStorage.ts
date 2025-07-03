@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { create } from "zustand";
 
-import LocalStorageKey from "@constants/LocalStorageKey";
+import LocalStorageKey from "@/constants/LocalStorageKey";
 
 interface ItemController<ValueType> {
     value?: string;

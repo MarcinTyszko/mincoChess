@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useSettingsStore, { defaultSettings } from "@stores/SettingsStore";
-import BoardColourPreset from "@apps/settings/components/BoardColourPreset";
-import ColourSwatch from "@components/settings/ColourSwatch";
-import Button from "@components/common/Button";
-import Separator from "@components/common/Separator";
+import useSettingsStore, { defaultSettings } from "@/stores/SettingsStore";
+import BoardColourPreset from "@/apps/settings/components/BoardColourPreset";
+import ColourSwatch from "@/components/settings/ColourSwatch";
+import Button from "@/components/common/Button";
+import Separator from "@/components/common/Separator";
 
 import * as categoryStyles from "../Category.module.css";
 import * as styles from "./BoardAndPieces.module.css";

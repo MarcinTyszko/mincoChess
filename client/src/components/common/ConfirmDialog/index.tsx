@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Dialog from "../Dialog";
 import Button from "../Button";
-import ButtonColour from "@components/common/Button/Colour";
+import ButtonColour from "@/components/common/Button/Colour";
 
 import ConfirmDialogProps from "./ConfirmDialogProps";
 import * as styles from "./ConfirmDialog.module.css";

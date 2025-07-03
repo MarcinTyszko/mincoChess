@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getAuthenticatedAccountProfile } from "@lib/api/profile";
+import { getAuthenticatedAccountProfile } from "@/lib/api/profile";
 
 type PageShowListener = Parameters<typeof addEventListener<"pageshow">>[1];
 

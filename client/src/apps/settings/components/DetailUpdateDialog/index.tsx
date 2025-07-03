@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import ButtonColour from "@components/common/Button/Colour";
-import Dialog from "@components/common/Dialog";
-import Button from "@components/common/Button";
-import TextField from "@components/common/TextField";
-import LogMessage from "@components/common/LogMessage";
+import ButtonColour from "@/components/common/Button/Colour";
+import Dialog from "@/components/common/Dialog";
+import Button from "@/components/common/Button";
+import TextField from "@/components/common/TextField";
+import LogMessage from "@/components/common/LogMessage";
 
 import DetailUpdateDialogProps from "./DetailUpdateDialogProps";
 import * as styles from "./DetailUpdateDialog.module.css";

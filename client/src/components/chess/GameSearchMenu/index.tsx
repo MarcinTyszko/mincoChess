@@ -4,15 +4,15 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 import { Game, getColourPlayed } from "shared/types/game/Game";
-import { GameSourceData } from "@components/chess/GameSelector/GameSource";
-import getChessComGames from "@lib/games/chessCom";
-import getLichessGames from "@lib/games/lichess";
-import { UserNotFoundError } from "@lib/errors";
-import Dialog from "@components/common/Dialog";
-import Loader from "@components/common/Loader";
-import LogMessage from "@components/common/LogMessage";
-import MonthSelector from "@components/settings/MonthSelector";
-import GameListing from "@components/chess/GameListing";
+import { GameSourceData } from "@/components/chess/GameSelector/GameSource";
+import getChessComGames from "@/lib/games/chessCom";
+import getLichessGames from "@/lib/games/lichess";
+import { UserNotFoundError } from "@/lib/errors";
+import Dialog from "@/components/common/Dialog";
+import Loader from "@/components/common/Loader";
+import LogMessage from "@/components/common/LogMessage";
+import MonthSelector from "@/components/settings/MonthSelector";
+import GameListing from "@/components/chess/GameListing";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";

@@ -2,8 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import SidebarTab from "../SidebarTab";
-import Separator from "@components/common/Separator";
-import Typography from "@components/Typography";
+import Separator from "@/components/common/Separator";
+import Typography from "@/components/Typography";
 
 import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";

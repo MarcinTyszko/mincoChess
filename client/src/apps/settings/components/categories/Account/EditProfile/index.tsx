@@ -6,11 +6,11 @@ import { ZodString } from "zod";
 import AccountError from "shared/constants/account/Error";
 import { AccountField } from "shared/constants/account/Field";
 import schemas from "shared/constants/account/schemas";
-import useAccountProfile from "@hooks/api/useAccountProfile";
-import Button from "@components/common/Button";
-import TextField from "@components/common/TextField";
-import DetailUpdateDialog from "@apps/settings/components/DetailUpdateDialog";
-import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
+import Button from "@/components/common/Button";
+import TextField from "@/components/common/TextField";
+import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
+import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
 
 import * as styles from "./EditProfile.module.css";
 

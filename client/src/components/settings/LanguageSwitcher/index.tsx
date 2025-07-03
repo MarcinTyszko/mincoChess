@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import languages from "@i18n/languages";
-import LocalStorageKey from "@constants/LocalStorageKey";
+import languages from "@/i18n/languages";
+import LocalStorageKey from "@/constants/LocalStorageKey";
 import DropdownSetting from "../DropdownSetting";
 
 function LanguageSwitcher() {

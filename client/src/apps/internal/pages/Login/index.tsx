@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ButtonColour from "@components/common/Button/Colour";
-import Button from "@components/common/Button";
-import TextField from "@components/common/TextField";
-import LogMessage from "@components/common/LogMessage";
+import ButtonColour from "@/components/common/Button/Colour";
+import Button from "@/components/common/Button";
+import TextField from "@/components/common/TextField";
+import LogMessage from "@/components/common/LogMessage";
 
 import * as styles from "./Login.module.css";
 

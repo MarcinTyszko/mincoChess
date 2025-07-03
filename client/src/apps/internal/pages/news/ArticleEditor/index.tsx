@@ -6,13 +6,13 @@ import { uniqueId, replace } from "lodash-es";
 import { produce } from "immer";
 
 import NewsArticle from "shared/types/NewsArticle";
-import Loader from "@components/common/Loader";
-import ButtonColour from "@components/common/Button/Colour";
-import Button from "@components/common/Button";
-import ColourSwatch from "@components/settings/ColourSwatch";
-import TextField from "@components/common/TextField";
-import { getDataURL, FileUploader } from "@components/common/FileUploader";
-import ConfirmDialog from "@components/common/ConfirmDialog";
+import Loader from "@/components/common/Loader";
+import ButtonColour from "@/components/common/Button/Colour";
+import Button from "@/components/common/Button";
+import ColourSwatch from "@/components/settings/ColourSwatch";
+import TextField from "@/components/common/TextField";
+import { getDataURL, FileUploader } from "@/components/common/FileUploader";
+import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 import * as styles from "./ArticleEditor.module.css";
 

@@ -8,7 +8,7 @@ import { GameResult, getOpinionatedGameResult } from "shared/constants/game/Game
 import PlayerProfile from "shared/types/game/PlayerProfile";
 import TimeControl from "shared/constants/game/TimeControl";
 import { formatDate } from "shared/lib/date";
-import Button from "@components/common/Button";
+import Button from "@/components/common/Button";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";

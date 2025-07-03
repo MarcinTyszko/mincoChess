@@ -4,13 +4,13 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 import Announcement from "shared/types/Announcement";
-import fetchAnnouncement from "@lib/api/announcement";
-import AnnouncementBanner from "@components/layout/Announcement";
-import ColourSwatch from "@components/settings/ColourSwatch";
-import Button from "@components/common/Button";
-import ButtonColour from "@components/common/Button/Colour";
-import ConfirmDialog from "@components/common/ConfirmDialog";
-import TextField from "@components/common/TextField";
+import fetchAnnouncement from "@/lib/api/announcement";
+import AnnouncementBanner from "@/components/layout/Announcement";
+import ColourSwatch from "@/components/settings/ColourSwatch";
+import Button from "@/components/common/Button";
+import ButtonColour from "@/components/common/Button/Colour";
+import ConfirmDialog from "@/components/common/ConfirmDialog";
+import TextField from "@/components/common/TextField";
 
 import * as styles from "./AnnouncementEditor.module.css";
 

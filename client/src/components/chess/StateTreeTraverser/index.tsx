@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Options as HotkeyOptions, useHotkeys } from "react-hotkeys-hook";
 
 import { getNodeChain } from "shared/types/game/position/StateTreeNode";
-import useAnalysisGameStore from "@apps/analysis/stores/AnalysisGameStore";
-import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
-import playBoardSound from "@lib/boardSounds";
+import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
+import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
+import playBoardSound from "@/lib/boardSounds";
 
 import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";

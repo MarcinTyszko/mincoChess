@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 import { findNodeRecursively, getNodeChain } from "shared/types/game/position/StateTreeNode";
-import { classificationImages } from "@apps/analysis/constants/classifications";
-import ContextMenu from "@components/common/ContextMenu";
-import useSettingsStore from "@stores/SettingsStore";
-import useAnalysisBoardStore from "@apps/analysis/stores/AnalysisBoardStore";
-import useContextMenu from "@hooks/useContextMenu";
+import { classificationImages } from "@analysis/constants/classifications";
+import ContextMenu from "@/components/common/ContextMenu";
+import useSettingsStore from "@/stores/SettingsStore";
+import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
+import useContextMenu from "@/hooks/useContextMenu";
 
 import MoveClickEventContext from "../../MoveClickEventContext";
 import MoveProps from "./MoveProps";

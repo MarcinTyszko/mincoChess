@@ -1,5 +1,5 @@
 import Game from "shared/types/game/Game";
-import { GameSourceData } from "@components/chess/GameSelector/GameSource";
+import { GameSourceData } from "@/components/chess/GameSelector/GameSource";
 
 interface GameSearchMenuProps {
     username: string;

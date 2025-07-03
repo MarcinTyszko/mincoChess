@@ -1,7 +1,7 @@
 import React from "react";
 
-import Button from "@components/common/Button";
-import ButtonColour from "@components/common/Button/Colour";
+import Button from "@/components/common/Button";
+import ButtonColour from "@/components/common/Button/Colour";
 
 import * as styles from "./Unfound.module.css";
 

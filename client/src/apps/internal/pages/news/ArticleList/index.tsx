@@ -3,12 +3,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash-es";
 
-import Loader from "@components/common/Loader";
-import Button from "@components/common/Button";
-import ButtonColour from "@components/common/Button/Colour";
-import ArticleListing from "@apps/news/components/ArticleListing";
-import LogMessage from "@components/common/LogMessage";
-import { getNewsArticles, getNewsArticlesPages } from "@lib/api/newsArticles";
+import Loader from "@/components/common/Loader";
+import Button from "@/components/common/Button";
+import ButtonColour from "@/components/common/Button/Colour";
+import ArticleListing from "@/apps/features/news/components/ArticleListing";
+import LogMessage from "@/components/common/LogMessage";
+import { getNewsArticles, getNewsArticlesPages } from "@/lib/api/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 

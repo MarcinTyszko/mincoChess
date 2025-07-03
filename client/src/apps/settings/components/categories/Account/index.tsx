@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import useAccountProfile from "@hooks/api/useAccountProfile";
-import Separator from "@components/common/Separator";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
+import Separator from "@/components/common/Separator";
 
 import EditProfile from "./EditProfile";
 import ManageAccount from "./ManageAccount";

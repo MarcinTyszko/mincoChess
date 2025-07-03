@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import BlurBackground from "@components/layout/BlurBackground";
+import BlurBackground from "@/components/layout/BlurBackground";
 import Button from "../Button";
 
 import DialogProps from "./DialogProps";

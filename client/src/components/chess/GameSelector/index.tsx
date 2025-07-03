@@ -7,10 +7,10 @@ import {
     GameSource,
     GameSourceType,
     GameSelectorButton
-} from "@components/chess/GameSelector/GameSource";
-import useGameSelector from "@hooks/useGameSelector";
-import Button from "@components/common/Button";
-import FileUploader from "@components/common/FileUploader";
+} from "@/components/chess/GameSelector/GameSource";
+import useGameSelector from "@/hooks/useGameSelector";
+import Button from "@/components/common/Button";
+import FileUploader from "@/components/common/FileUploader";
 import GameSearchMenu from "../GameSearchMenu";
 
 import GameSelectorProps from "./GameSelectorProps";

@@ -1,0 +1,78 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+import GameSelector from "@/components/chess/GameSelector";
+import AnalyseButton from "@analysis/components/AnalyseButton";
+
+import Header from "../../components/Header";
+import * as styles from "./HelpCenter.module.css";
+
+function HelpCenter() {
+    const { t } = useTranslation();
+
+    return <div className={styles.wrapper}>
+        <Header
+            image={require("@assets/img/interface/help.svg")}
+            size="1.7rem"
+        >
+            {t("pages.helpCenter.title")}
+        </Header>
+
+        <div className={styles.section}>
+            <Header
+                image={require("@assets/img/helpCenter/mail.png")}
+                size="1.3rem"
+            >
+                {t("pages.helpCenter.contact.title")}
+            </Header>
+
+            <span>
+                {t("pages.helpCenter.contact.message")}
+            </span>
+
+            <a
+                className={styles.importantValue}
+                href="mailto:contact@wintrchess.com"
+            >
+                <b>contact@wintrchess.com</b>
+            </a>
+        </div>
+
+        <div className={styles.section}>
+            <Header
+                image={require("@assets/img/helpCenter/analysis.png")}
+                size="1.3rem"
+            >
+                {t("pages.helpCenter.analysis.title")}
+            </Header>
+
+            <div>
+                <span>
+                    {t("pages.helpCenter.analysis.part1")}&ensp;
+
+                    <a href="/analysis">
+                        {t("pages.helpCenter.analysis.part2")}
+                    </a>
+                </span>
+
+                <span>
+                    {t("pages.helpCenter.analysis.part3")}
+                </span>
+            </div>
+
+            <GameSelector style={{ width: "min(365px, 100%)" }}/>
+
+            <span>
+                {t("pages.helpCenter.analysis.part4")}
+            </span>
+
+            <span>
+                {t("pages.helpCenter.analysis.part5")}
+            </span>
+
+            <AnalyseButton style={{ width: "min(365px, 100%)" }} />
+        </div>
+    </div>;
+}
+
+export default HelpCenter;

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { AccountField } from "shared/constants/account/Field";
-import ButtonColour from "@components/common/Button/Colour";
-import Button from "@components/common/Button";
-import EmailVerifyDialog from "@apps/settings/components/EmailVerifyDialog";
-import DetailUpdateDialog from "@apps/settings/components/DetailUpdateDialog";
+import ButtonColour from "@/components/common/Button/Colour";
+import Button from "@/components/common/Button";
+import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
+import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 
 import * as styles from "./ManageAccount.module.css";
 

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 
-import useAccountProfile from "@hooks/api/useAccountProfile";
-import Typography from "@components/Typography";
-import Button from "@components/common/Button";
-import BlurBackground from "@components/layout/BlurBackground";
-import Sidebar from "@components/layout/sidebar/Sidebar";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
+import Typography from "@/components/Typography";
+import Button from "@/components/common/Button";
+import BlurBackground from "@/components/layout/BlurBackground";
+import Sidebar from "@/components/layout/sidebar/Sidebar";
 
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";

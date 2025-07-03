@@ -2,10 +2,10 @@ import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import useAccountProfile from "@hooks/api/useAccountProfile";
-import LoadingPlaceholder from "@components/layout/LoadingPlaceholder";
-import CategoryTab from "@apps/settings/components/CategoryTab";
-import { manageDataConsent } from "@lib/consent";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
+import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
+import CategoryTab from "@/apps/settings/components/CategoryTab";
+import { manageDataConsent } from "@/lib/consent";
 
 import * as styles from "./Settings.module.css";
 

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { create } from "zustand";
 
 import Game from "shared/types/game/Game";
-import LocalStorageKey from "@constants/LocalStorageKey";
-import { GameSource, GameSourceType, getGameSource } from "@components/chess/GameSelector/GameSource";
+import LocalStorageKey from "@/constants/LocalStorageKey";
+import { GameSource, GameSourceType, getGameSource } from "@/components/chess/GameSelector/GameSource";
 import useLocalStorage from "./useLocalStorage";
 
 export type SelectedGame = Game | string | null;

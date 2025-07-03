@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import httpApi from "i18next-http-backend";
 
-import LocalStorageKey from "@constants/LocalStorageKey";
+import LocalStorageKey from "@/constants/LocalStorageKey";
 
 import languages from "./languages";
 

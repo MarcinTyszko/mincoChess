@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-import SidebarTab from "@components/layout/sidebar/SidebarTab";
+import SidebarTab from "@/components/layout/sidebar/SidebarTab";
 
 import * as styles from "./Dashboard.module.css";
 

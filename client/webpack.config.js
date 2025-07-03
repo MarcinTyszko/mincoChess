@@ -13,18 +13,18 @@ const nodeEnv = process.env.NODE_ENV || "production";
  */
 module.exports = {
     entry: {
-        analysis: "./src/apps/analysis/index.tsx",
-        archive: "./src/apps/archive/index.tsx",
-        news: "./src/apps/news/index.tsx",
+        analysis: "./src/apps/features/analysis/index.tsx",
+        archive: "./src/apps/features/archive/index.tsx",
+        news: "./src/apps/features/news/index.tsx",
 
-        signin: "./src/apps/signin/index.tsx",
+        signin: "./src/apps/account/signin/index.tsx",
+        profile: "./src/apps/account/profile/index.tsx",
+
+        helpCenter: "./src/apps/footer/helpCenter/index.tsx",
+        privacyPolicy: "./src/apps/footer/privacyPolicy/index.tsx",
+        credits: "./src/apps/footer/credits/index.tsx",
+
         settings: "./src/apps/settings/index.tsx",
-        profile: "./src/apps/profile/index.tsx",
-
-        helpCenter: "./src/apps/helpCenter/index.tsx",
-        privacyPolicy: "./src/apps/privacyPolicy/index.tsx",
-        credits: "./src/apps/credits/index.tsx",
-
         internal: "./src/apps/internal/index.tsx",
         unfound: "./src/apps/unfound/index.tsx"
     },
@@ -35,15 +35,8 @@ module.exports = {
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         alias: {
-            "@apps": resolve("./src/apps"),
-            "@pages": resolve("./src/pages"),
-            "@components": resolve("./src/components"),
-            "@hooks": resolve("./src/hooks"),
-            "@constants": resolve("./src/constants"),
-            "@stores": resolve("./src/stores"),
-            "@ctypes": resolve("./src/types"),
-            "@i18n": resolve("./src/i18n"),
-            "@lib": resolve("./src/lib"),
+            "@": resolve("./src"),
+            "@analysis": resolve("./src/apps/features/analysis"),
             "@assets": resolve("./public")
         }
     },

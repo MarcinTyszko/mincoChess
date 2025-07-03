@@ -5,8 +5,8 @@ import AnalysedGame from "shared/types/game/AnalysedGame";
 import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import { GameResult } from "shared/constants/game/GameResult";
 import { getNodeChain, getNodeMoveNumber, getNodeSiblings } from "shared/types/game/position/StateTreeNode";
-import { classificationNags } from "@apps/analysis/constants/classifications";
-import parsePgn from "@lib/games/pgn";
+import { classificationNags } from "@analysis/constants/classifications";
+import parsePgn from "@/lib/games/pgn";
 import parseStateTree from "./parse";
 
 const pgnWhiteResults = {
