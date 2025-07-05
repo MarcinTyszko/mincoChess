@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import ButtonColour from "@/components/common/Button/Colour";
 import Dialog from "@/components/common/Dialog";
 import Button from "@/components/common/Button";
+import LogMessage from "@/components/common/LogMessage";
 
 import EmailVerifyDialogProps from "./EmailVerifyDialogProps";
 import * as styles from "./EmailVerifyDialog.module.css";
@@ -11,7 +12,7 @@ import * as styles from "./EmailVerifyDialog.module.css";
 type VerifyStatus = "unsent" | "sending" | "sent" | "error";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
-const emailVerificationStrings = `${editProfileStrings}.emailVerificationButton`;
+const emailVerificationStrings = `${editProfileStrings}.email.verificationButton`;
 
 const buttonColours: Record<VerifyStatus, ButtonColour> = {
     unsent: ButtonColour.BLUE,
@@ -30,14 +31,12 @@ function EmailVerifyDialog({
     const [ verifyState, setVerifyState ] = useState<VerifyStatus>("unsent");
     const [ verifyError, setVerifyError ] = useState<string>();
 
-    const buttonMessage = useMemo(() => (
-        {
-            unsent: t(`${emailVerificationStrings}.unsent`),
-            sending: t(`${emailVerificationStrings}.sending`),
-            sent: t(`${emailVerificationStrings}.sent`),
-            error: verifyError || t("error")
-        }[verifyState]
-    ), [verifyState, verifyError]);
+    const buttonMessages = useMemo(() => ({
+        unsent: t(`${emailVerificationStrings}.unsent`),
+        sending: t(`${emailVerificationStrings}.sending`),
+        sent: t(`${emailVerificationStrings}.sent`),
+        error: t("error")
+    }), []);
 
     async function handleVerifyClick() {
         if (verifyState != "unsent") return;
@@ -60,6 +59,10 @@ function EmailVerifyDialog({
             {children}
         </span>
 
+        {verifyError && <LogMessage>
+            {verifyError}    
+        </LogMessage>}
+
         <div className={styles.verificationButtonContainer}>
             <Button
                 className={styles.verificationButton}
@@ -70,7 +73,7 @@ function EmailVerifyDialog({
                 disabled={verifyState == "sending"}
                 onClick={handleVerifyClick}
             >
-                {buttonMessage}
+                {buttonMessages[verifyState]}
             </Button>
         </div>
     </Dialog>;

@@ -10,8 +10,6 @@ import LogMessage from "@/components/common/LogMessage";
 import DetailUpdateDialogProps from "./DetailUpdateDialogProps";
 import * as styles from "./DetailUpdateDialog.module.css";
 
-const editProfileStrings = "pages.settings.categories.account.editProfile";
-
 function DetailUpdateDialog({
     children,
     buttonStyle,
@@ -67,7 +65,7 @@ function DetailUpdateDialog({
                 disabled={!!error || buttonDisabled?.(input)}
                 onClick={handleConfirmClick}
             >
-                {t(`${editProfileStrings}.confirmButton`)}
+                {t("confirm")}
             </Button>
         </div>
     </Dialog>;

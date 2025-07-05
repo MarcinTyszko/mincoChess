@@ -4,15 +4,12 @@ import Collection from "@constants/Collection";
 
 // TTL 30 minutes
 const emailUpdateSchema = new Schema({
-    id: { type: String, required: true },
     accountId: { type: String, required: true },
+    currentId: { type: String, required: true },
+    newId: { type: String, required: false },
     email: { type: String, required: false },
-    stage: {
-        type: String,
-        enum: ["current", "new"],
-        required: true
-    },
-    createdAt: { type: Date, required: true }
+    currentCreatedAt: { type: Date, required: true },
+    newCreatedAt: { type: Date, required: false }
 });
 
 const EmailUpdate = model(

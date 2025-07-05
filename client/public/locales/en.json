@@ -6,6 +6,8 @@
     "reset": "Reset",
     "enabled": "Enabled",
     "disabled": "Disabled",
+    "edit": "Edit",
+    "confirm": "Confirm",
     "navigationBar": {
         "support": "Support",
         "signIn": "Sign In",
@@ -218,9 +220,9 @@
             "registerPageButton": "New? Create an account!",
             "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service.",
             "errors": {
-                "accountNotFound": "An account with this Email does not exist.",
-                "accountAlreadyExists": "An account with this username or Email already exists.",
-                "invalidEmail": "Invalid Email address.",
+                "accountNotFound": "An account with this email does not exist.",
+                "accountAlreadyExists": "An account with this username or email already exists.",
+                "invalidEmail": "Invalid email address.",
                 "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
                 "usernameTooShort": "Username must be at least 3 characters long.",
                 "usernameTooLong": "Username cannot be more than 18 characters long.",
@@ -252,15 +254,15 @@
                             "title": "Username",
                             "message": "Enter a new username."
                         },
-                        "email": "Email Address",
-                        "editButton": "Edit",
-                        "confirmButton": "Confirm",
-                        "emailVerification": "We'll need to verify your current email address in order for you to change it.",
-                        "emailVerificationButton": {
-                            "unsent": "Send verification email",
-                            "sending": "Sending email...",
-                            "sent": "Verification email sent",
-                            "cooldown": "Please try again later."
+                        "email": {
+                            "title": "Email Address",
+                            "verification": "We'll need to verify your current email address in order for you to change it.",
+                            "verificationButton": {
+                                "unsent": "Send verification email",
+                                "sending": "Sending email...",
+                                "sent": "Verification email sent",
+                                "cooldown": "Please try again later."
+                            }
                         }
                     },
                     "manageAccount": {
@@ -294,6 +296,10 @@
                 },
                 "privacy": "Privacy"
             }
+        },
+        "accountUpdate": {
+            "emailAddress": "Enter a new email address for your account. We'll send you a verification email with a link.",
+            "passwordReset": "Enter and confirm a new password for your account."
         },
         "credits": {
             "leadDeveloper": "Lead Developer",

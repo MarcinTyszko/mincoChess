@@ -6,7 +6,6 @@ import { StatusCodes } from "http-status-codes";
 import schemas from "shared/constants/account/schemas";
 import AccountError from "shared/constants/account/Error";
 import RegistrationAttempt from "@/apps/account/signin/types/RegistrationAttempt";
-import StatusMessage from "@/apps/account/signin/types/StatusMessage";
 import useFieldValidation from "@/apps/account/signin/hooks/useFieldValidation";
 import useGoogleAuth from "@/apps/account/signin/hooks/useGoogleAuth";
 import Separator from "@/components/common/Separator";
@@ -14,6 +13,7 @@ import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import LogMessage from "@/components/common/LogMessage";
+import StatusMessage from "@/components/common/LogMessage/StatusMessage";
 
 import * as styles from "../../index.module.css";
 

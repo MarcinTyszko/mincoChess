@@ -18,6 +18,7 @@ module.exports = {
         news: "./src/apps/features/news/index.tsx",
 
         signin: "./src/apps/account/signin/index.tsx",
+        update: "./src/apps/account/update/index.tsx",
         profile: "./src/apps/account/profile/index.tsx",
 
         helpCenter: "./src/apps/footer/helpCenter/index.tsx",

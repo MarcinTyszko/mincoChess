@@ -64,11 +64,19 @@ router.post("/update", async (req, res) => {
     const updateId = randomBytes(32).toString("base64url");
 
     if (update.field == "emailAddress") {
-        await EmailUpdate.create({
-            id: updateId,
+        const lateUpdate = await EmailUpdate.findOne({
             accountId: req.accountId,
-            stage: "current",
-            createdAt: new Date()
+            currentCreatedAt: { $gte: new Date(Date.now() - 60000) }
+        });
+
+        if (lateUpdate) {
+            return res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
+        }
+
+        await EmailUpdate.create({
+            accountId: req.accountId,
+            currentId: updateId,
+            currentCreatedAt: new Date()
         });
 
         const verificationUrl = (
@@ -94,6 +102,15 @@ router.post("/update", async (req, res) => {
     }
 
     if (update.field == "password") {
+        const lateReset = await PasswordReset.findOne({
+            accountId: req.accountId,
+            createdAt: { $gte: new Date(Date.now() - 60000) }
+        });
+
+        if (lateReset) {
+            return res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
+        }
+
         await PasswordReset.create({
             id: updateId,
             accountId: req.accountId,

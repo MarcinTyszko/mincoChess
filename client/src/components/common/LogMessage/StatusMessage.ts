@@ -1,4 +1,4 @@
-import LogMessageTheme from "@/components/common/LogMessage/Theme";
+import LogMessageTheme from "./Theme";
 
 interface StatusMessage {
     theme: LogMessageTheme;

@@ -30,6 +30,10 @@ export const accountCookieOptions: CookieOptions = {
     secure: true
 };
 
+export function reject(res: Response) {
+    res.redirect("/signin");
+}
+
 /**
  * @description Enforces that the user has a valid account ID / session
  * token, and can optionally redirect to signin page upon rejection. Adds
@@ -39,7 +43,7 @@ export const accountCookieOptions: CookieOptions = {
 export function accountAuthenticator(redirect = false): RequestHandler {
     function reject(res: Response, reason: StatusCodes) {
         return redirect
-            ? res.redirect(reason, "/signin")
+            ? res.redirect("/signin")
             : res.sendStatus(reason);
     }
 

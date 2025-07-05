@@ -41,9 +41,7 @@ router.post(path, async (req, res) => {
     // Check for verification cooldown
     const existingVerification = await AccountVerification.findOne({
         email: registration.email,
-        createdAt: {
-            $gte: new Date(Date.now() - 60000)
-        }
+        createdAt: { $gte: new Date(Date.now() - 60000) }
     });
 
     if (existingVerification) {

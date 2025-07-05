@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ZodType } from "zod";
 
 import AccountError from "shared/constants/account/Error";
-import StatusMessage from "../types/StatusMessage";
+import StatusMessage from "../../../../components/common/LogMessage/StatusMessage";
 
 const accountErrorStrings: Record<string, string | undefined> = {
     [AccountError.ACCOUNT_NOT_FOUND]: "pages.signIn.errors.accountNotFound",

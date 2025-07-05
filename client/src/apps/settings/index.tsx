@@ -19,7 +19,8 @@ const BugReportingSection = lazy(
 
 import "@/i18n";
 import "@/index.css";
-import Unfound from "@/apps/unfound/pages/Unfound";
+
+import * as styles from "./index.module.css";
 
 const root = ReactDOM.createRoot(
     document.querySelector(".root")!
@@ -33,11 +34,7 @@ function App() {
     }, []);
 
     return <QueryClientProvider client={queryClient}>
-        <PageWrapper contentStyle={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%"
-        }}>
+        <PageWrapper contentClassName={styles.content}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/settings" element={<Settings/>}>
@@ -47,8 +44,6 @@ function App() {
                         <Route path="/settings/theme" element={<BoardAndPiecesSection/>} />
                         <Route path="/settings/bugs" element={<BugReportingSection/>} />
                     </Route>
-
-                    <Route path="*" element={<Unfound/>} />
                 </Routes>
             </BrowserRouter>
         </PageWrapper>

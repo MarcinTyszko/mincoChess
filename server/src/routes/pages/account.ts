@@ -5,9 +5,9 @@ import appRouter from "@lib/appRouter";
 
 const router = Router();
 
-router.get(/^\/(signin|signup)/, appRouter("account/signin.html"));
-
-router.get("/settings*", appRouter("settings.html"));
+router.get(/^\/(signin|signup)/,
+    appRouter("account/signin.html")
+);
 
 router.get("/profile/:username", async (req, res, next) => {
     const account = await Account.findOne({

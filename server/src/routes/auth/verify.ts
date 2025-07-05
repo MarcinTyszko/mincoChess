@@ -1,5 +1,4 @@
-import { Router, Response } from "express";
-import { StatusCodes } from "http-status-codes";
+import { Router } from "express";
 import { randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,13 +7,9 @@ import AccountVerification from "@database/models/account/AccountVerification";
 import Account from "@database/models/account/Account";
 import SessionToken from "@database/models/SessionToken";
 import SessionTokenType from "@constants/SessionTokenType";
-import { accountCookieOptions } from "@lib/security/account";
+import { accountCookieOptions, reject } from "@lib/security/account";
 
 const router = Router();
-
-function reject(res: Response) {
-    res.status(StatusCodes.UNAUTHORIZED).redirect("/signin");
-}
 
 router.get("/verify", async (req, res) => {
     const verificationId = req.query.id?.toString();

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusCodes } from "http-status-codes";
 
 import { AccountField } from "shared/constants/account/Field";
 import ButtonColour from "@/components/common/Button/Colour";
@@ -27,7 +28,7 @@ function ManageAccount() {
     ] = useState(false);
 
     async function resetPassword() {
-        await fetch("/auth/update", {
+        const updateResponse = await fetch("/auth/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -36,6 +37,12 @@ function ManageAccount() {
                 field: "password" satisfies AccountField
             })
         });
+
+        if (updateResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
+            throw new Error(t("pages.signIn.errors.verificationCooldown"));
+        } else if (!updateResponse.ok) {
+            throw new Error(t("error"));
+        }
     }
 
     async function deleteAccount() {

@@ -13,6 +13,8 @@ router.use("/",
     footerRouter
 );
 
+router.get("/settings*", appRouter("settings.html"));
+
 router.get("/", async (req, res) => {
     res.redirect("/analysis");
 });

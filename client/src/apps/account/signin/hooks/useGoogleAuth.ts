@@ -2,7 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { StatusCodes } from "http-status-codes";
 
 import AccountError from "shared/constants/account/Error";
-import StatusMessage from "../types/StatusMessage";
+import StatusMessage from "../../../../components/common/LogMessage/StatusMessage";
 import useFieldValidation from "./useFieldValidation";
 
 function useGoogleAuth(

@@ -13,6 +13,7 @@ import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
 
 import * as styles from "./EditProfile.module.css";
+import { StatusCodes } from "http-status-codes";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
 
@@ -74,7 +75,11 @@ function EditProfile() {
             body: JSON.stringify({ field, value })
         });
 
-        if (!updateResponse.ok) throw new Error(t("error"));
+        if (updateResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
+            throw new Error(t("pages.signIn.errors.verificationCooldown"));
+        } else if (!updateResponse.ok) {
+            throw new Error(t("error"));
+        }
     }
 
     return <div className={styles.wrapper}>
@@ -101,7 +106,7 @@ function EditProfile() {
                 className={styles.detailFieldButton}
                 onClick={() => setDisplayNameDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.editButton`)}
+                {t("edit")}
             </Button>
 
             {displayNameDialogOpen && <DetailUpdateDialog
@@ -133,7 +138,7 @@ function EditProfile() {
                 className={styles.detailFieldButton}
                 onClick={() => setUsernameDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.editButton`)}
+                {t("edit")}
             </Button>
 
             {usernameDialogOpen && <DetailUpdateDialog
@@ -150,7 +155,7 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.email`)}
+            {t(`${editProfileStrings}.email.title`)}
         </span>
 
         <div className={styles.detailSetting}>
@@ -177,14 +182,14 @@ function EditProfile() {
                 className={styles.detailFieldButton}
                 onClick={() => setEmailDialogOpen(true)}
             >
-                {t(`${editProfileStrings}.editButton`)}
+                {t("edit")}
             </Button>
 
             {emailDialogOpen && <EmailVerifyDialog
                 onClose={() => setEmailDialogOpen(false)}
                 onSendVerification={() => updateAccountField("emailAddress")}
             >
-                {t(`${editProfileStrings}.emailVerification`)}    
+                {t(`${editProfileStrings}.email.verification`)}    
             </EmailVerifyDialog>}
         </div>
     </div>;
