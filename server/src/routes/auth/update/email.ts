@@ -5,6 +5,7 @@ import { randomBytes } from "crypto";
 
 import schemas from "shared/constants/account/schemas";
 import Account from "@database/models/account/Account";
+import SessionToken from "@database/models/SessionToken";
 import EmailUpdate from "@database/models/account/EmailUpdate";
 import { accountAuthenticator, reject } from "@lib/security/account";
 import appRouter from "@lib/appRouter";
@@ -40,12 +41,17 @@ router.get("/email", async (req, res, next) => {
         return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
+    await update.deleteOne();
+
     await Account.updateOne(
         { id: update.accountId },
         { email: update.email }
     );
 
-    await update.deleteOne();
+    await SessionToken.deleteMany({
+        id: update.accountId,
+        token: { $ne: req.accountIdToken }
+    });
 
     res.redirect("/settings/account");
 });

@@ -4,10 +4,11 @@ import z from "zod";
 import { hashSync } from "bcrypt";
 
 import schemas from "shared/constants/account/schemas";
+import Account from "@database/models/account/Account";
+import SessionToken from "@database/models/SessionToken";
 import PasswordReset from "@database/models/account/PasswordReset";
 import appRouter from "@lib/appRouter";
 import { accountAuthenticator, reject } from "@lib/security/account";
-import Account from "@database/models/account/Account";
 
 const router = Router();
 
@@ -35,6 +36,10 @@ router.get("/password", async (req, res, next) => {
 router.post("/password",
     accountAuthenticator(true),
     async (req, res) => {
+        if (!req.accountId || !req.accountIdToken) {
+            return res.sendStatus(StatusCodes.UNAUTHORIZED);
+        }
+
         const resetRequest: z.infer<typeof passwordResetSchema> = req.body;
         
         if (!passwordResetSchema.safeParse(resetRequest).success) {
@@ -47,12 +52,19 @@ router.post("/password",
             return res.sendStatus(StatusCodes.UNAUTHORIZED);
         }
 
+        await reset.deleteOne();
+
         await Account.updateOne(
             { id: reset.accountId },
             { password: hashSync(resetRequest.password, 10) }
         );
 
-        res.redirect("/settings/account");
+        await SessionToken.deleteMany({
+            id: reset.accountId,
+            token: { $ne: req.accountIdToken }
+        });
+
+        res.sendStatus(StatusCodes.OK);
     }
 );
 

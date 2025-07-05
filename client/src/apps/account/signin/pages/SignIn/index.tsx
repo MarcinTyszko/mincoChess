@@ -24,10 +24,10 @@ function SignIn() {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
 
-    const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
+    const [ status, setStatus ] = useState<StatusMessage>();
     
     const { getErrorMessage, validateFields } = useFieldValidation();
-    const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
+    const googleLogin = useGoogleAuth("/analysis", setStatus);
 
     async function login() {
         const validationIssue = validateFields(new Map()
@@ -36,7 +36,7 @@ function SignIn() {
         );
 
         if (validationIssue) {
-            return setStatusMessage(validationIssue);
+            return setStatus(validationIssue);
         }
 
         const loginResponse = await fetch("/auth/login", {
@@ -50,12 +50,12 @@ function SignIn() {
         });
 
         if (loginResponse.status == StatusCodes.UNAUTHORIZED) {
-            return setStatusMessage({
+            return setStatus({
                 theme: "error",
                 message: getErrorMessage(AccountError.INCORRECT_PASSWORD)
             });
         } else if (!loginResponse.ok) {
-            return setStatusMessage({
+            return setStatus({
                 theme: "error",
                 message: getErrorMessage(AccountError.UNKNOWN)
             });
@@ -109,8 +109,8 @@ function SignIn() {
                 {t("pages.signIn.loginButtonEmail")}
             </Button>
 
-            {statusMessage && <LogMessage theme={statusMessage.theme}>
-                {statusMessage.message}
+            {status && <LogMessage theme={status.theme}>
+                {status.message}
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />

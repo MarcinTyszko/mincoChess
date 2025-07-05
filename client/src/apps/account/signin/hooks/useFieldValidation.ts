@@ -34,7 +34,7 @@ function useFieldValidation() {
             if (!parse.success) return {
                 theme: "error",
                 message: getErrorMessage(
-                    parse.error.issues.at(0)?.message as AccountError
+                    parse.error.issues.at(0)?.message as AccountError | undefined
                 )
             } as StatusMessage;
         }

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import PageWrapper from "@/components/layout/PageWrapper";
 import EmailUpdate from "./components/EmailUpdate";
+import PasswordReset from "./components/PasswordReset";
 import { removeDefaultConsentLink } from "@/lib/consent";
 
 import "@/i18n";
@@ -34,7 +35,7 @@ function App() {
 
                     <Route
                         path="/auth/update/password"
-                        element={<EmailUpdate/>}
+                        element={<PasswordReset/>}
                     />
                 </Routes>
             </BrowserRouter>

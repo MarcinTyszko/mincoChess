@@ -32,16 +32,16 @@ function SignUp() {
         setLastRegistration
     ] = useState<RegistrationAttempt>();
 
-    const [ statusMessage, setStatusMessage ] = useState<StatusMessage>();
+    const [ status, setStatus ] = useState<StatusMessage>();
 
     const { getErrorMessage, validateFields } = useFieldValidation();
-    const googleLogin = useGoogleAuth("/analysis", setStatusMessage);
+    const googleLogin = useGoogleAuth("/analysis", setStatus);
 
     async function register() {
         if (
             email == lastRegistration?.email
             && lastRegistration.timestamp >= (Date.now() - 60000)
-        ) return setStatusMessage({
+        ) return setStatus({
             theme: "error",
             message: t("pages.signIn.errors.verificationCooldown")
         });
@@ -53,7 +53,7 @@ function SignUp() {
         );
 
         if (validationIssue) {
-            return setStatusMessage(validationIssue);
+            return setStatus(validationIssue);
         }
 
         const registerResponse = await fetch("/auth/register", {
@@ -67,18 +67,18 @@ function SignUp() {
         });
 
         if (registerResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
-            return setStatusMessage({
+            return setStatus({
                 theme: "error",
                 message: t("pages.signIn.errors.verificationCooldown")
             });
         } else if (!registerResponse.ok) {
-            return setStatusMessage({
+            return setStatus({
                 theme: "error",
                 message: getErrorMessage(AccountError.UNKNOWN)
             });
         }
 
-        setStatusMessage({
+        setStatus({
             theme: "success",
             message: t("pages.signIn.verificationMessage")
         });
@@ -148,8 +148,8 @@ function SignUp() {
                 {t("pages.signIn.registerButtonEmail")}
             </Button>
 
-            {statusMessage && <LogMessage theme={statusMessage.theme}>
-                {statusMessage.message}
+            {status && <LogMessage theme={status.theme}>
+                {status.message}
             </LogMessage>}
 
             <Separator style={{ margin: 0 }} />

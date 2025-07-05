@@ -37,8 +37,8 @@ export function reject(res: Response) {
 /**
  * @description Enforces that the user has a valid account ID / session
  * token, and can optionally redirect to signin page upon rejection. Adds
- * `req.accountId` with the user's account ID when authenticated. The ID
- * token is recorded in `req.accountIdToken` regardless of authentication.
+ * `req.accountId` with the user's account ID, and `req.accountIdToken`
+ * with the ID token when authenticated.
  */
 export function accountAuthenticator(redirect = false): RequestHandler {
     function reject(res: Response, reason: StatusCodes) {
@@ -106,10 +106,10 @@ export function accountAuthenticator(redirect = false): RequestHandler {
                 return reject(res, StatusCodes.UNAUTHORIZED);
             }
 
-            await SessionToken.updateOne({ token: idToken }, {
-                token: refreshedIdToken,
-                createdAt: new Date()
-            });
+            validIdToken.token = refreshedIdToken;
+            validIdToken.createdAt = new Date();
+
+            await validIdToken.save();
 
             req.accountId = jwt.decode(refreshedIdToken, { json: true })?.sub;
 
