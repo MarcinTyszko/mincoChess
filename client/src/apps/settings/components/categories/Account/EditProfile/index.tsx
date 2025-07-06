@@ -1,58 +1,29 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusCodes } from "http-status-codes";
 import { repeat } from "lodash-es";
 import { ZodString } from "zod";
 
-import AccountError from "shared/constants/account/Error";
 import { AccountField } from "shared/constants/account/Field";
+import AccountError from "shared/constants/account/Error";
 import schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
+import useFieldValidation from "@/apps/account/signin/hooks/useFieldValidation";
 import Button from "@/components/common/Button";
 import TextField from "@/components/common/TextField";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
 
 import * as styles from "./EditProfile.module.css";
-import { StatusCodes } from "http-status-codes";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
-
-const displayNameErrors: Record<string, string> = {
-    [AccountError.DISPLAY_NAME_NORMALISED]: (
-        `${editProfileStrings}.displayName.errors.normalised`
-    ),
-    [AccountError.USERNAME_TOO_LONG]: (
-        `${editProfileStrings}.displayName.errors.tooLong`
-    )
-};
-
-const usernameErrors: Record<string, string> = {
-    [AccountError.USERNAME_TOO_LONG]: "pages.signIn.errors.usernameTooLong",
-    [AccountError.USERNAME_APLHANUMERIC]: "pages.signIn.errors.usernameAlphanumeric"
-};
-
-function getParseIssue(schema: ZodString, data: string) {
-    return schema.safeParse(data).error?.issues.at(0)?.message;
-}
-
-function getNameError(
-    name: string,
-    schema: ZodString,
-    errors: Record<string, string>
-) {
-    const parseIssue = getParseIssue(schema, name);
-
-    if (!parseIssue || parseIssue == AccountError.USERNAME_TOO_SHORT) {
-        return undefined;
-    }
-
-    return errors[parseIssue] || "error";
-}
 
 function EditProfile() {
     const { t } = useTranslation();
 
     const { profile } = useAccountProfile();
+
+    const { validateFields } = useFieldValidation();
 
     const [ emailVisible, setEmailVisible ] = useState(false);
 
@@ -62,6 +33,13 @@ function EditProfile() {
     ] = useState(false);
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
+
+    function validateDetail(schema: ZodString, input: string) {
+        const validation = validateFields(new Map().set(schema, input));
+
+        return validation?.error == AccountError.USERNAME_TOO_SHORT
+            ? undefined : validation;
+    }
 
     async function updateAccountField(
         field: AccountField,
@@ -113,9 +91,9 @@ function EditProfile() {
                 placeholder={t(`${editProfileStrings}.displayName.placeholder`)}
                 onClose={() => setDisplayNameDialogOpen(false)}
                 onConfirm={input => updateAccountField("displayName", input)}
-                getErrorMessage={input => getNameError(
-                    input, schemas.displayName, displayNameErrors
-                )}
+                getErrorMessage={input => validateDetail(
+                    schemas.displayName, input
+                )?.message}
                 buttonDisabled={input => input.length < 3}
             >
                 {t(`${editProfileStrings}.displayName.message`)}
@@ -145,9 +123,9 @@ function EditProfile() {
                 placeholder={t("pages.signIn.username")}
                 onClose={() => setUsernameDialogOpen(false)}
                 onConfirm={input => updateAccountField("username", input)}
-                getErrorMessage={input => getNameError(
-                    input, schemas.username, usernameErrors
-                )}
+                getErrorMessage={input => validateDetail(
+                    schemas.username, input
+                )?.message}
                 buttonDisabled={input => input.length < 3}
             >
                 {t(`${editProfileStrings}.username.message`)}

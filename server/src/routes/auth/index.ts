@@ -7,6 +7,7 @@ import verifyEmailRouter from "./verify";
 import loginRouter from "./login";
 import logoutRouter from "./logout";
 import updateRouter from "./update";
+import deleteRouter from "./delete";
 
 const router = Router();
 
@@ -17,7 +18,8 @@ router.use("/auth",
     verifyEmailRouter,
     loginRouter,
     logoutRouter,
-    updateRouter
+    updateRouter,
+    deleteRouter
 );
 
 export default router;

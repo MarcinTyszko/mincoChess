@@ -51,7 +51,7 @@ function DetailUpdateDialog({
             />
 
             {error && <LogMessage className={styles.error}>
-                {t(error)}    
+                {error}    
             </LogMessage>}
         </div>
 

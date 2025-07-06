@@ -46,7 +46,13 @@ function ManageAccount() {
     }
 
     async function deleteAccount() {
-        await fetch("/auth/delete");
+        const deleteResponse = await fetch("/auth/delete");
+
+        if (!deleteResponse.ok) {
+            throw new Error(t("error"));
+        }
+
+        location.href = "/signup";
     }
 
     return <div className={styles.wrapper}>
