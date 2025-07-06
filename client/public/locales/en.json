@@ -252,7 +252,8 @@
                         },
                         "username": {
                             "title": "Username",
-                            "message": "Enter a new username."
+                            "message": "Enter a new username.",
+                            "alreadyExists": "An account with this username already exists."
                         },
                         "email": {
                             "title": "Email Address",
@@ -299,6 +300,7 @@
         },
         "accountUpdate": {
             "emailAddress": "Enter a new email address for your account. We'll send you a verification email with a link.",
+            "emailAddressTaken": "An account with this email address already exists.",
             "passwordReset": "Enter and confirm a new password for your account."
         },
         "credits": {

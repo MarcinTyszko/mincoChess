@@ -48,6 +48,11 @@ function EmailUpdate() {
                 theme: "error",
                 message: t("pages.signIn.errors.verificationCooldown")
             });
+        } else if (updateResponse.status == StatusCodes.CONFLICT) {
+            return setStatus({
+                theme: "error",
+                message: t("pages.accountUpdate.emailAddressTaken")
+            });
         } else if (!updateResponse.ok) {
             return setStatus({ theme: "error", message: t("error") });
         }

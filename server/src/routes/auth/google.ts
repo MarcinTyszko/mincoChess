@@ -68,7 +68,7 @@ router.post(path, async (req, res) => {
             id: googleId.sub,
             email: String(googleId.email),
             displayName: googleId.name?.slice(0, 32) || username,
-            username: "player_" + randomNormalString(8, false).toLowerCase(),
+            username: username,
             roles: [],
             createdAt: new Date()
         });

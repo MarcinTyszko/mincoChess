@@ -35,7 +35,7 @@ router.post(path, async (req, res) => {
     });
 
     if (existingAccount) {
-        return res.sendStatus(StatusCodes.BAD_REQUEST);
+        return res.sendStatus(StatusCodes.CONFLICT);
     }
 
     // Check for verification cooldown

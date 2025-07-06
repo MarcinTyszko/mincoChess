@@ -32,6 +32,7 @@ router.get("/email", async (req, res, next) => {
     });
     if (!update) return reject(res);
 
+    // Provide email update page when current email is verified
     if (updateId == update.currentId) {
         const updatePageRouter = appRouter("account/update.html");
         return updatePageRouter(req, res, next);
@@ -41,6 +42,7 @@ router.get("/email", async (req, res, next) => {
         return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
+    // Update email address when new email is verified
     await update.deleteOne();
 
     await Account.updateOne(
@@ -74,6 +76,7 @@ router.post("/email",
             currentId: updateRequest.id
         });
 
+        // Validate request and chosen email address
         if (!update || update.accountId != req.accountId) {
             return res.sendStatus(StatusCodes.UNAUTHORIZED);
         }
@@ -83,6 +86,15 @@ router.post("/email",
             && update.newCreatedAt.getTime() >= (Date.now() - 60000)
         ) return res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
 
+        const existingEmailOwner = await Account.findOne({
+            email: updateRequest.email
+        });
+
+        if (existingEmailOwner) {
+            return res.sendStatus(StatusCodes.CONFLICT);
+        }
+
+        // Attach provided email address to update request
         const newId = randomBytes(32).toString("base64url");
 
         update.newId = newId;
@@ -95,6 +107,7 @@ router.post("/email",
             `${process.env.ORIGIN}/auth/update/email?id=${newId}`
         );
 
+        // Send email to verify chosen email address
         try {
             sendAccountEmail({
                 recipient: updateRequest.email,

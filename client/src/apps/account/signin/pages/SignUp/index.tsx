@@ -71,6 +71,11 @@ function SignUp() {
                 theme: "error",
                 message: t("pages.signIn.errors.verificationCooldown")
             });
+        } else if (registerResponse.status == StatusCodes.CONFLICT) {
+            return setStatus({
+                theme: "error",
+                message: t("pages.signIn.errors.accountAlreadyExists")
+            });
         } else if (!registerResponse.ok) {
             return setStatus({
                 theme: "error",

@@ -47,6 +47,16 @@ router.post("/update", async (req, res) => {
             return res.sendStatus(StatusCodes.BAD_REQUEST);
         }
 
+        if (update.field == "username") {
+            const existingNameOwner = await Account.findOne({
+                username: update.value
+            });
+
+            if (existingNameOwner) {
+                return res.sendStatus(StatusCodes.CONFLICT);
+            }
+        }
+
         await Account.updateOne(
             { id: req.accountId },
             { [update.field]: update.value }

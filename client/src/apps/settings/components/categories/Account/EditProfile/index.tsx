@@ -54,6 +54,8 @@ function EditProfile() {
 
         if (updateResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
             throw new Error(t("pages.signIn.errors.verificationCooldown"));
+        } else if (updateResponse.status == StatusCodes.CONFLICT) {
+            throw new Error(t(`${editProfileStrings}.username.alreadyExists`));
         } else if (!updateResponse.ok) {
             throw new Error(t("error"));
         }
