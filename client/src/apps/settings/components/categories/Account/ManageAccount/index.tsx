@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { StatusCodes } from "http-status-codes";
 
 import { AccountField } from "shared/constants/account/Field";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
 import ButtonColour from "@/components/common/Button/Colour";
 import Button from "@/components/common/Button";
 import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
@@ -16,6 +17,8 @@ const deletionConfirmer = "delete account";
 
 function ManageAccount() {
     const { t } = useTranslation();
+
+    const { profile } = useAccountProfile();
 
     const [
         resetPasswordDialogOpen,
@@ -56,13 +59,13 @@ function ManageAccount() {
     }
 
     return <div className={styles.wrapper}>
-        <Button
+        {profile?.loginMethod == "email" && <Button
             className={styles.accountButton}
             style={{ backgroundColor: ButtonColour.BLUE }}
             onClick={() => setResetPasswordDialogOpen(true)}
         >
             {t(`${accountStrings}.resetPassword`)}
-        </Button>
+        </Button>}
 
         {resetPasswordDialogOpen && <EmailVerifyDialog
             onClose={() => setResetPasswordDialogOpen(false)}

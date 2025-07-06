@@ -8,5 +8,6 @@ export interface AccountProfile {
 }
 
 export interface AuthenticatedAccountProfile extends AccountProfile {
+    loginMethod: "email" | "google";
     email: string;
 }

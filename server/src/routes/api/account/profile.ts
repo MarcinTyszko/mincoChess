@@ -23,6 +23,7 @@ router.get(path, async (req, res) => {
     }
 
     res.json({
+        loginMethod: account.password ? "email" : "google",
         email: account.email,
         displayName: account.displayName,
         username: account.username,
