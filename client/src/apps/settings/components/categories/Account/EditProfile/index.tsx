@@ -21,8 +21,7 @@ const editProfileStrings = "pages.settings.categories.account.editProfile";
 function EditProfile() {
     const { t } = useTranslation();
 
-    const { profile } = useAccountProfile();
-
+    const { profile, refetch } = useAccountProfile();
     const { validateFields } = useFieldValidation();
 
     const [ emailVisible, setEmailVisible ] = useState(false);
@@ -58,6 +57,8 @@ function EditProfile() {
         } else if (!updateResponse.ok) {
             throw new Error(t("error"));
         }
+
+        refetch();
     }
 
     return <div className={styles.wrapper}>

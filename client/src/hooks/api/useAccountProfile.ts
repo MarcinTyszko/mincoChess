@@ -23,11 +23,9 @@ function useAccountProfile() {
         return () => removeEventListener("pageshow", refetchPersisted);
     }, []);
 
-    if (status == "success") return {
-        profile: profile!, status
-    };
-
-    return { profile, status };
+    return status == "success"
+        ? { profile: profile!, status, refetch }
+        : { profile, status, refetch };
 }
 
 export default useAccountProfile;
