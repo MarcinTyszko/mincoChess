@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import schemas from "shared/constants/account/schemas";
-import useFieldValidation from "@/apps/account/signin/hooks/useFieldValidation";
+import useFieldValidation from "@/hooks/auth/useAuthErrors";
 import ButtonColour from "@/components/common/Button/Colour";
 import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";

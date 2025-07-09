@@ -3,10 +3,10 @@ import cluster from "cluster";
 import os from "os";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import { toNodeHandler } from "better-auth/node";
 
-import connectDatabase from "@database/connect";
+import auth from "@lib/auth";
 import hostnameWhitelist from "@lib/security/whitelist";
-
 import mainRouter from "./routes";
 
 dotenv.config();
@@ -18,10 +18,7 @@ const coreCount = os.cpus().length;
 
 function main() {
     if (cluster.isPrimary) {
-        for (let i = 0; i < coreCount; i++) {
-            cluster.fork();
-        }
-
+        for (let i = 0; i < coreCount; i++) cluster.fork();
         return;
     }
 
@@ -37,6 +34,7 @@ function main() {
     );
 
     // Normal endpoints
+    app.all("/auth/*", toNodeHandler(auth));
     app.use("/", mainRouter);
 
     // Start listening for requests
@@ -49,8 +47,6 @@ function main() {
             + (coreCount > 1 ? "s)" : ")")
         );
     });
-
-    connectDatabase();
 }
 
 main();

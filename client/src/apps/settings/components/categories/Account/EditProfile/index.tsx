@@ -8,7 +8,7 @@ import { AccountField } from "shared/constants/account/Field";
 import AccountError from "shared/constants/account/Error";
 import schemas from "shared/constants/account/schemas";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
-import useFieldValidation from "@/apps/account/signin/hooks/useFieldValidation";
+import useFieldValidation from "@/hooks/auth/useAuthErrors";
 import Button from "@/components/common/Button";
 import TextField from "@/components/common/TextField";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";

@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { findNodeRecursively } from "shared/types/game/position/StateTreeNode";
 import AnalysisStatus from "@analysis/constants/AnalysisStatus";
-import { useAltcha } from "@/hooks/useAltcha";
+import { useAltcha } from "@/hooks/auth/useAltcha";
 import useSettingsStore from "@/stores/SettingsStore";
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";

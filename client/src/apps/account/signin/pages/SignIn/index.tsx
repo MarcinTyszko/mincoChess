@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { StatusCodes } from "http-status-codes";
 
-import schemas from "shared/constants/account/schemas";
-import AccountError from "shared/constants/account/Error";
-import useFieldValidation from "@/apps/account/signin/hooks/useFieldValidation";
-import useGoogleAuth from "@/apps/account/signin/hooks/useGoogleAuth";
+import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import Separator from "@/components/common/Separator";
 import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import LogMessage from "@/components/common/LogMessage";
 import StatusMessage from "@/components/common/LogMessage/StatusMessage";
+import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
@@ -21,47 +18,29 @@ function SignIn() {
 
     const navigate = useNavigate();
 
+    const getErrorMessage = useAuthErrors();
+
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
 
     const [ status, setStatus ] = useState<StatusMessage>();
-    
-    const { getErrorMessage, validateFields } = useFieldValidation();
-    const googleLogin = useGoogleAuth("/analysis", setStatus);
+
+    async function googleLogin() {
+        authClient.signIn.social({
+            provider: "google"
+        });
+    }
 
     async function login() {
-        const validationIssue = validateFields(new Map()
-            .set(schemas.email, email)
-            .set(schemas.password, password)
-        );
-
-        if (validationIssue) {
-            return setStatus(validationIssue);
-        }
-
-        const loginResponse = await fetch("/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email, password
-            })
+        const loginResponse = await authClient.signIn.email({
+            email, password,
+            callbackURL: "/analysis"
         });
 
-        if (loginResponse.status == StatusCodes.UNAUTHORIZED) {
-            return setStatus({
-                theme: "error",
-                message: getErrorMessage(AccountError.INCORRECT_PASSWORD)
-            });
-        } else if (!loginResponse.ok) {
-            return setStatus({
-                theme: "error",
-                message: getErrorMessage(AccountError.UNKNOWN)
-            });
-        }
-
-        location.href = "/analysis";
+        if (loginResponse.error) setStatus({
+            theme: "error",
+            message: getErrorMessage(loginResponse.error.code)
+        });
     }
 
     return <div className={styles.wrapper}>

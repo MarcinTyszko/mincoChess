@@ -3,6 +3,7 @@
     "back": "Back",
     "settings": "Settings",
     "error": "Error",
+    "unknownError": "An unknown error occurred.",
     "reset": "Reset",
     "enabled": "Enabled",
     "disabled": "Disabled",
@@ -223,15 +224,15 @@
                 "accountNotFound": "An account with this email does not exist.",
                 "accountAlreadyExists": "An account with this username or email already exists.",
                 "invalidEmail": "Invalid email address.",
+                "unverifiedEmail": "Please verify your email address.",
                 "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
                 "usernameTooShort": "Username must be at least 3 characters long.",
-                "usernameTooLong": "Username cannot be more than 18 characters long.",
+                "usernameTooLong": "Username cannot be more than 20 characters long.",
                 "passwordTooShort": "Password must be at least 8 characters long.",
                 "passwordTooLong": "Password cannot be more than 128 characters long.",
                 "passwordNoMatch": "Passwords do not match.",
-                "incorrectPassword": "Incorrect password.",
-                "verificationCooldown": "Please allow 60 seconds before sending another verification link.",
-                "unknown": "An unknown error occurred while signing in."
+                "incorrectEmailPassword": "Incorrect email address or password.",
+                "verificationCooldown": "Please allow 60 seconds before sending another verification link."
             },
             "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
         },

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { StatusCodes } from "http-status-codes";
 
-import { useAltcha } from "@/hooks/useAltcha";
+import { useAltcha } from "@/hooks/auth/useAltcha";
 import AnalysisStatus from "@analysis/constants/AnalysisStatus";
 import useSettingsStore from "@/stores/SettingsStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
