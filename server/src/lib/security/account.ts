@@ -2,7 +2,7 @@ import { RequestHandler, Response, CookieOptions } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { StatusCodes } from "http-status-codes";
 
-import auth from "@lib/auth";
+import getAuth from "@lib/auth";
 
 export const accountCookieOptions: CookieOptions = {
     httpOnly: true,
@@ -15,14 +15,12 @@ export function reject(res: Response) {
 }
 
 /**
- * @description Enforces that the user has a valid account ID / session
- * token, and can optionally redirect to signin page upon rejection. Adds
- * `req.accountId` with the user's account ID, and `req.accountIdToken`
- * with the ID token when authenticated.
+ * @description Enforces that the user has a valid session. Adds
+ * `req.session` and `req.user` upon successful authentication.
  */
 export function accountAuthenticator(redirect = false): RequestHandler {
     return async (req, res, next) => {
-        const ticket = await auth.api.getSession({
+        const ticket = await getAuth().api.getSession({
             headers: fromNodeHeaders(req.headers)
         });
 

@@ -5,8 +5,9 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { toNodeHandler } from "better-auth/node";
 
-import auth from "@lib/auth";
+import connectDatabase from "@database/connect";
 import hostnameWhitelist from "@lib/security/whitelist";
+import getAuth from "@lib/auth";
 import mainRouter from "./routes";
 
 dotenv.config();
@@ -16,11 +17,13 @@ const nodeEnv = process.env.NODE_ENV || "production";
 
 const coreCount = os.cpus().length;
 
-function main() {
+async function main() {
     if (cluster.isPrimary) {
         for (let i = 0; i < coreCount; i++) cluster.fork();
         return;
     }
+
+    await connectDatabase();
 
     const app = express();
 
@@ -34,7 +37,7 @@ function main() {
     );
 
     // Normal endpoints
-    app.all("/auth/*", toNodeHandler(auth));
+    app.all("/auth/*", toNodeHandler(getAuth()));
     app.use("/", mainRouter);
 
     // Start listening for requests

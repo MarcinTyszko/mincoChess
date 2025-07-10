@@ -2,20 +2,26 @@ import mongoose from "mongoose";
 import cluster from "cluster";
 
 async function connectDatabase() {
-    if (!process.env.DATABASE_URL) return;
+    const first = cluster.worker?.id == 1;
 
-    const firstWorker = cluster.worker?.id == 1;
+    if (!process.env.DATABASE_URI) {
+        if (first) console.log(
+            "database connection failed; URI not specified."
+        );
+
+        return;
+    }
 
     try {
-        await mongoose.connect(process.env.DATABASE_URL);
+        await mongoose.connect(process.env.DATABASE_URI);
         
-        if (firstWorker) {
-            console.log("database connected successfully.");
-        }
-    } catch (err) {
-        if (!firstWorker) return;
+        if (!first) return;
 
-        console.log("database connection failed.");
+        console.log("database connected successfully.");
+    } catch (err) {
+        if (!first) return;
+
+        console.log("database connection failed:");
         console.log(err);
     }
 }
