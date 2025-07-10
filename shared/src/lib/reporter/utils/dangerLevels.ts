@@ -4,8 +4,8 @@ import { differenceWith, isEqual } from "lodash-es";
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
 import { pieceValues } from "@constants/utils";
-import PieceColour from "@constants/PieceColour";
-import { adaptPieceColour, parseSanMove } from "@lib/chessUtils";
+import { PieceColour, adaptPieceColour } from "@constants/PieceColour";
+import { parseSanMove } from "@lib/chessUtils";
 import { getUnsafePieces } from "./pieceSafety";
 import { getAttackingMoves } from "./attackers";
 

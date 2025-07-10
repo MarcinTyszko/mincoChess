@@ -19,7 +19,9 @@ const coreCount = os.cpus().length;
 
 async function main() {
     if (cluster.isPrimary) {
+        console.log("starting server...");
         for (let i = 0; i < coreCount; i++) cluster.fork();
+
         return;
     }
 

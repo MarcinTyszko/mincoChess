@@ -1,6 +1,6 @@
 import z from "zod";
 
-import AccountError from "./Error";
+import AccountError from "./AccountError";
 
 export const email = z.string().email(AccountError.INVALID_EMAIL);
 

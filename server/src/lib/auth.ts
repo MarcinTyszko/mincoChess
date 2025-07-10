@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import { Db } from "mongodb";
+import mongoose, { mongo } from "mongoose";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { username } from "better-auth/plugins";
@@ -7,9 +6,9 @@ import { username } from "better-auth/plugins";
 import schemas from "shared/constants/account/schemas";
 import { sendAccountEmail } from "./email";
 
-let authCache: ReturnType<typeof betterAuth> | null = null;
+let instance: ReturnType<typeof createAuth> | null = null;
 
-function createAuth(database: Db) {
+function createAuth(database: mongo.Db) {
     if (!process.env.ORIGIN) {
         throw new Error("origin not specified.");
     }
@@ -36,12 +35,6 @@ function createAuth(database: Db) {
                     + ` WintrChess account's password: ${url}`
             })
         },
-        socialProviders: {
-            google: {
-                clientId: process.env.GOOGLE_OAUTH_CLIENT_ID!,
-                clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!
-            }
-        },
         emailVerification: {
             autoSignInAfterVerification: true,
             sendVerificationEmail: async ({ user, url }) => sendAccountEmail({
@@ -54,28 +47,41 @@ function createAuth(database: Db) {
                 plaintextFallback: `Please verify your WintrChess account: ${url}`
             })
         },
-        user: { modelName: "users" },
+        socialProviders: {
+            google: {
+                clientId: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+                clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!
+            }
+        },
+        user: {
+            modelName: "users",
+            additionalFields: {
+                roles: { type: "string[]", required: true }
+            }
+        },
         account: { modelName: "accounts" },
         session: { modelName: "sessions" },
         verification: { modelName: "verifications" },
-        advanced: {
-            cookiePrefix: "wintrchess"
-        },
         plugins: [username({
             maxUsernameLength: 20,
             usernameValidator: username => (
                 schemas.username.safeParse(username).success
             )
-        })]
+        })],
+        advanced: {
+            cookiePrefix: "wintrchess"
+        }
     });
-
-    authCache = auth;
 
     return auth;
 }
 
 function getAuth() {
-    return authCache || createAuth(mongoose.connection.db!);
+    if (!mongoose.connection.db) throw new Error(
+        "cannot initialise auth without database connection."
+    );
+
+    return instance ??= createAuth(mongoose.connection.db);
 }
 
 export default getAuth;

@@ -7,7 +7,8 @@ import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import { adaptPieceColour, getSubjectiveEvaluation } from "@lib/chessUtils";
+import { adaptPieceColour } from "@constants/PieceColour";
+import { getSubjectiveEvaluation } from "@lib/chessUtils";
 
 type PieceMovement = Pick<RawMove, "from" | "to" | "promotion">;
 

@@ -1,10 +1,7 @@
 import { GameAnalysis } from "@ctypes/game/GameAnalysis";
-import {
-    StateTreeNode,
-    getNodeChain
-} from "@ctypes/game/position/StateTreeNode";
+import { StateTreeNode, getNodeChain } from "@ctypes/game/position/StateTreeNode";
 import ReportOptions from "./types/ReportOptions";
-import { adaptPieceColour } from "@lib/chessUtils";
+import { adaptPieceColour } from "@constants/PieceColour";
 import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode

@@ -2,7 +2,7 @@ import {
     ExtractedPreviousNode,
     ExtractedCurrentNode
 } from "../types/ExtractedNode";
-import { adaptPieceColour } from "@lib/chessUtils";
+import { adaptPieceColour } from "@constants/PieceColour";
 import { isMoveCriticalCandidate } from "../utils/criticalMove";
 import { getUnsafePieces } from "../utils/pieceSafety";
 import { hasDangerLevels } from "../utils/dangerLevels";

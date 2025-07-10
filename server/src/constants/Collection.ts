@@ -1,9 +1,13 @@
 enum Collection {
+    // Auth
+    USERS = "users",
     ACCOUNTS = "accounts",
-    ACCOUNT_VERIFICATIONS = "accountVerifications",
-    EMAIL_UPDATES = "emailUpdates",
-    PASSWORD_RESETS = "passwordResets",
-    SESSION_TOKENS = "sessionTokens",
+    SESSIONS = "sessions",
+    ACCOUNT_VERIFICATIONS = "verifications",
+
+    ANALYSIS_SESSIONS = "analysisSessions",
+
+    // Main
     NEWS_ARTICLES = "news",
     ANNOUNCEMENT = "announcement"
 }

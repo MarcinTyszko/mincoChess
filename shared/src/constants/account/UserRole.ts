@@ -1,7 +1,7 @@
-enum AccountRole {
+enum UserRole {
     FOUNDER = "founder",
     DEVELOPER = "developer",
     SUPPORTER = "supporter"
 }
 
-export default AccountRole;
+export default UserRole;

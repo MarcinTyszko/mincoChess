@@ -1,10 +1,7 @@
-import {
-    Move, Color, Square, PieceSymbol,
-    WHITE, BLACK, PAWN
-} from "chess.js";
+import { Move, Square, PieceSymbol, PAWN } from "chess.js";
 
 import Evaluation from "@ctypes/game/position/Evaluation";
-import PieceColour from "@constants/PieceColour";
+import { PieceColour, adaptPieceColour } from "@constants/PieceColour";
 import { pieceNames } from "@constants/utils";
 
 export function parseFen(fen: string) {
@@ -70,38 +67,6 @@ export function parseUciMove(uci: string) {
 export function isMovePromotion(piece: PieceSymbol, to: Square) {
     const rank = to.at(1);
     return piece == PAWN && (rank == "8" || rank == "1");
-}
-
-export function adaptPieceColour(colour: PieceColour): Color;
-export function adaptPieceColour(colour: Color): PieceColour;
-
-export function adaptPieceColour(colour: PieceColour | Color) {
-    switch (colour) {
-        case WHITE:
-            return PieceColour.WHITE;
-        case BLACK:
-            return PieceColour.BLACK;
-        case PieceColour.WHITE:
-            return WHITE;
-        case PieceColour.BLACK:
-            return BLACK;
-    }
-}
-
-export function flipPieceColour(color: Color): Color;
-export function flipPieceColour(color: PieceColour): PieceColour;
-
-export function flipPieceColour(colour: PieceColour | Color) {
-    switch (colour) {
-        case PieceColour.WHITE:
-            return PieceColour.BLACK;
-        case PieceColour.BLACK:
-            return PieceColour.WHITE;
-        case WHITE:
-            return BLACK;
-        case BLACK:
-            return WHITE;
-    }
 }
 
 export function getSimpleNotation(move: Move) {
