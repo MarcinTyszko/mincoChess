@@ -5,12 +5,12 @@ import { createChallenge } from "altcha-lib";
 const router = Router();
 
 router.get("/captcha", async (req, res) => {
-    if (!process.env.ALTCHA_KEY) {
+    if (!process.env.AUTH_SECRET) {
         return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
 
     const challenge = await createChallenge({
-        hmacKey: process.env.ALTCHA_KEY,
+        hmacKey: process.env.AUTH_SECRET,
         maxNumber: 100_000
     });
 

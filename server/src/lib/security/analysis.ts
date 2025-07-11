@@ -2,10 +2,9 @@ import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import Cookie from "shared/constants/Cookie";
-import SessionToken from "@database/models/SessionToken";
-import SessionTokenType from "@constants/SessionTokenType";
+import AnalysisSession from "@database/models/AnalysisSession";
 
-const analysisAuthorizer: RequestHandler = async (req, res, next) => {
+const analysisAuthenticator: RequestHandler = async (req, res, next) => {
     // Ensure existence of session token in cookies
     const sessionToken = req.cookies[Cookie.ANALYSIS_SESSION_TOKEN];
 
@@ -14,10 +13,7 @@ const analysisAuthorizer: RequestHandler = async (req, res, next) => {
     }
 
     // Verify token against the database
-    const session = await SessionToken.findOne({
-        type: SessionTokenType.ANALYSIS,
-        token: sessionToken
-    });
+    const session = await AnalysisSession.findOne({ token: sessionToken });
 
     if (!session?.actions) {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
@@ -35,4 +31,4 @@ const analysisAuthorizer: RequestHandler = async (req, res, next) => {
     next();
 };
 
-export default analysisAuthorizer;
+export default analysisAuthenticator;

@@ -7,14 +7,14 @@ import {
     deserializeNode
 } from "shared/types/game/position/StateTreeNode";
 import { getGameReport } from "shared/lib/reporter/report";
-import analysisAuthorizer from "@lib/security/analysis";
+import analysisAuthenticator from "@lib/security/analysis";
 
 const path = "/analysis/analyse";
 
 const router = Router();
 
 router.use(path,
-    analysisAuthorizer,
+    analysisAuthenticator,
     express.json({ limit: "1mb" })
 );
 

@@ -1,18 +1,14 @@
-import { RequestHandler, Response, CookieOptions } from "express";
+import { RequestHandler, CookieOptions } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { StatusCodes } from "http-status-codes";
 
 import getAuth from "@lib/auth";
 
-export const accountCookieOptions: CookieOptions = {
+export const secureCookieOptions: CookieOptions = {
     httpOnly: true,
     sameSite: true,
     secure: true
 };
-
-export function reject(res: Response) {
-    res.redirect("/signin");
-}
 
 /**
  * @description Enforces that the user has a valid session. Adds
