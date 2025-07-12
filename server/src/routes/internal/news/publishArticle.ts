@@ -4,6 +4,7 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
 import NewsArticle from "@database/models/NewsArticle";
+import internalAuthenticator from "@lib/security/internal";
 
 const path = "/news/publish";
 
@@ -22,7 +23,8 @@ const requestSchema = z.object({
 });
 
 router.use(path,
-    express.json({ limit: "10mb" })
+    express.json({ limit: "10mb" }),
+    internalAuthenticator()
 );
 
 router.post(path, async (req, res) => {

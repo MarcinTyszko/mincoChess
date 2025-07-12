@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import appRouter from "@lib/appRouter";
-import { internalAuthenticator } from "@lib/security/internal";
+import internalAuthenticator from "@lib/security/internal";
 
 import loginRouter from "./login";
 import publishAnnouncementRouter from "./publishAnnouncement";
@@ -13,12 +13,12 @@ const router = Router();
 router.use("/internal",
     loginRouter,
     publishAnnouncementRouter,
-    deleteArticleRouter,
-    publishArticleRouter
+    publishArticleRouter,
+    deleteArticleRouter
 );
 
-router.use("/internal*",
-    internalAuthenticator,
+router.use("/internal",
+    internalAuthenticator(true),
     appRouter("internal.html")
 );
 

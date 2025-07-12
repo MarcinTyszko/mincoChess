@@ -3,8 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
-import SessionToken from "@database/models/SessionToken";
-import SessionTokenType from "@constants/SessionTokenType";
+import InternalSession from "@database/models/InternalSession";
 import { secureCookieOptions } from "@lib/security/account";
 
 const path = "/login";
@@ -17,15 +16,14 @@ router.post(path, async (req, res) => {
     const password: string = req.body;
 
     // If password is incorrect
-    if (password != process.env.INTERNAL_PASSWORD) return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .send("Incorrect password.");
+    if (password != process.env.INTERNAL_PASSWORD) {
+        res.sendStatus(StatusCodes.UNAUTHORIZED);
+    }
 
     // Create session
     const sessionToken = randomBytes(32).toString("base64");
 
-    await SessionToken.create({
-        type: SessionTokenType.INTERNAL,
+    await InternalSession.create({
         token: sessionToken,
         createdAt: new Date()
     });

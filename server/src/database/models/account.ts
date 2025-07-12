@@ -5,12 +5,12 @@ import UserRole from "shared/constants/account/UserRole";
 import Collection from "@constants/Collection";
 import getAuth from "@lib/auth";
 
-const auth = getAuth();
+type Auth = ReturnType<typeof getAuth>["$Infer"]["Session"];
 
 export const User = model(
     "user",
     new Schema<(
-        Omit<typeof auth.$Infer.Session.user, "roles">
+        Omit<Auth["user"], "roles">
         & { roles: UserRole[] }
     )>(),
     Collection.USERS
@@ -24,7 +24,7 @@ export const Account = model(
 
 export const Session = model(
     "session",
-    new Schema<typeof auth.$Infer.Session.session>(),
+    new Schema<Auth["session"]>(),
     Collection.USERS
 );
 

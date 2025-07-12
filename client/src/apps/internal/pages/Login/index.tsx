@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { StatusCodes } from "http-status-codes";
 
 import ButtonColour from "@/components/common/Button/Colour";
 import Button from "@/components/common/Button";
@@ -21,7 +22,9 @@ function Login() {
             body: password
         });
 
-        if (!loginResponse.ok) {
+        if (loginResponse.status == StatusCodes.UNAUTHORIZED) {
+            return setError("Incorrect password.");
+        } else if (!loginResponse.ok) {
             return setError(await loginResponse.text());
         }
 

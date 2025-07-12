@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getAuthenticatedAccountProfile } from "@/lib/api/profile";
+import { getAuthenticatedUserProfile } from "@/lib/api/profile";
 
 type PageShowListener = Parameters<typeof addEventListener<"pageshow">>[1];
 
 function useAccountProfile() {
     const { data: profile, status, refetch } = useQuery({
         queryKey: ["profile"],
-        queryFn: getAuthenticatedAccountProfile,
+        queryFn: getAuthenticatedUserProfile,
         refetchOnWindowFocus: false,
         retry: false
     });

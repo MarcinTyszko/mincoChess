@@ -6,6 +6,7 @@ enum Collection {
     ACCOUNT_VERIFICATIONS = "verifications",
 
     ANALYSIS_SESSIONS = "analysisSessions",
+    INTERNAL_SESSIONS = "internalSessions",
 
     // Main
     NEWS_ARTICLES = "news",

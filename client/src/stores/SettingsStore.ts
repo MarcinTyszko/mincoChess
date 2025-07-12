@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { cloneDeep, merge } from "lodash-es";
 import z from "zod";
+import { zodDeepPartial } from "zod-deep-partial";
 
 import EngineVersion from "shared/constants/EngineVersion";
-import { deepPartialify } from "shared/lib/zodSchema";
 import EngineArrowType from "@analysis/constants/EngineArrowType";
 import LocalStorageKey from "@/constants/LocalStorageKey";
 
@@ -40,10 +40,9 @@ const settingsSchema = z.object({
     bugReportingMode: z.boolean()
 });
 
-const partialSettingsSchema = deepPartialify(settingsSchema);
+const partialSettingsSchema = zodDeepPartial(settingsSchema);
 
 type Settings = z.infer<typeof settingsSchema>;
-
 type SettingsReducer = (settings: Settings) => Settings;
 
 export const defaultSettings: Settings = {
@@ -83,9 +82,7 @@ function fetchSettings() {
 
     const defaultSettingsCopy = cloneDeep(defaultSettings);
 
-    if (value == null) {
-        return defaultSettingsCopy;
-    }
+    if (value == null) return defaultSettingsCopy;
 
     try {
         const fetchedSettings = JSON.parse(value);

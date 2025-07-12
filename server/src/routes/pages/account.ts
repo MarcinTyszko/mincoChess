@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import Account from "@database/models/account/Account";
+import { User } from "@database/models/account";
 import appRouter from "@lib/appRouter";
 
 const router = Router();
@@ -10,14 +10,11 @@ router.get(/^\/(signin|signup)/,
 );
 
 router.get("/profile/:username", async (req, res, next) => {
-    const account = await Account.findOne({
+    const user = await User.findOne({
         username: req.params.username
     });
 
-    if (!account) {
-        const unfoundRouter = appRouter("unfound.html");
-        return unfoundRouter(req, res, next);
-    }
+    if (!user) return next();
 
     const profileRouter = appRouter(
         "account/profile.html",

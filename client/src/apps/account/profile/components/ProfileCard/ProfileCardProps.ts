@@ -1,11 +1,11 @@
 import { CSSProperties } from "react";
 
-import { AccountProfile } from "shared/types/AccountProfile";
+import { UserProfile } from "shared/types/UserProfile";
 
 interface ProfileCardProps {
     className?: string;
     style?: CSSProperties;
-    profile?: AccountProfile;
+    profile?: UserProfile;
     editable?: boolean;
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import ProfileCard from "@/apps/account/profile/components/ProfileCard";
-import { getAccountProfile } from "@/lib/api/profile";
+import { getUserProfile } from "@/lib/api/profile";
 
 import * as styles from "./Profile.module.css";
 
@@ -11,7 +11,7 @@ function Profile() {
 
     const { data: profile } = useQuery({
         queryKey: ["profile", username],
-        queryFn: () => getAccountProfile(username),
+        queryFn: () => getUserProfile(username),
         refetchOnWindowFocus: false
     });
 
