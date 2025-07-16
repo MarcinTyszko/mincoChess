@@ -325,7 +325,7 @@
     "account": {
         "errors": {
             "accountNotFound": "An account with this email does not exist.",
-            "accountAlreadyExists": "An account with this email already exists.",
+            "emailTaken": "An account with this email already exists.",
             "usernameTaken": "This username is already taken.",
             "invalidEmail": "Invalid email address.",
             "unverifiedEmail": "Please verify your email address.",

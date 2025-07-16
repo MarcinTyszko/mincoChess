@@ -17,7 +17,7 @@ export const accountErrors = {
 
     EMAIL_TAKEN: {
         code: "USER_ALREADY_EXISTS",
-        message: "account.errors.accountAlreadyExists"
+        message: "account.errors.emailTaken"
     },
 
     // Password validation
