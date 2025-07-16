@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
+import { AuthedUserProfile } from "shared/types/UserProfile";
 import { accountAuthenticator } from "@lib/security/account";
 
 const path = "/profile";
@@ -14,7 +15,13 @@ router.get(path, async (req, res) => {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
     }
 
-    res.json(req.user);
+    res.json({
+        email: req.user.email,
+        displayName: req.user.name,
+        username: req.user.username,
+        roles: req.user.roles,
+        createdAt: req.user.createdAt.toISOString()
+    } satisfies AuthedUserProfile);
 });
 
 export default router;

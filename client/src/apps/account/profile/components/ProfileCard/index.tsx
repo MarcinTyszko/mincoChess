@@ -1,6 +1,6 @@
 import React from "react";
 
-import { formatDate } from "shared/lib/date";
+import { formatDate } from "shared/lib/utils/date";
 
 import ProfileCardProps from "./ProfileCardProps";
 import * as styles from "./ProfileCard.module.css";

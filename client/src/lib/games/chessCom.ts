@@ -2,7 +2,7 @@ import Game from "shared/types/game/Game";
 import { GameResult } from "shared/constants/game/GameResult";
 import TimeControl from "shared/constants/game/TimeControl";
 import Variant from "shared/constants/game/Variant";
-import { padDateNumber } from "shared/lib/date";
+import { padDateNumber } from "shared/lib/utils/date";
 import { STARTING_FEN } from "shared/constants/utils";
 import { UserNotFoundError } from "../errors";
 

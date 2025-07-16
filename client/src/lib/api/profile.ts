@@ -1,7 +1,6 @@
-import { UserProfile } from "shared/types/UserProfile";
-import { User } from "../auth";
+import { UserProfile, AuthedUserProfile } from "shared/types/UserProfile";
 
-export async function getUserProfile(username: string): Promise<UserProfile> {
+export async function getUserProfile(username: string) {
     const profileResponse = await fetch(`/api/public/profile/${username}`);
     if (!profileResponse.ok) throw new Error();
 
@@ -10,9 +9,11 @@ export async function getUserProfile(username: string): Promise<UserProfile> {
     return profile;
 }
 
-export async function getAuthenticatedUserProfile(): Promise<User> {
+export async function getAuthedUserProfile() {
     const profileResponse = await fetch("/api/account/profile");
     if (!profileResponse.ok) throw new Error();
 
-    return await profileResponse.json();
+    const profile: AuthedUserProfile = await profileResponse.json();
+
+    return profile;
 }

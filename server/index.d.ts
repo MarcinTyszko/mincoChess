@@ -1,13 +1,12 @@
-import { Session, User } from "better-auth";
+import getAuth from "@lib/auth";
+
+type InferredAuth = ReturnType<typeof getAuth>["$Infer"]["Session"];
 
 declare global {
     declare namespace Express {
         interface Request {
-            session?: Session;
-            user?: User;
-            
-            accountId?: string;
-            accountIdToken?: string;
+            user?: InferredAuth["user"];
+            session?: InferredAuth["session"];
         }
     }
 }

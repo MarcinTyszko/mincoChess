@@ -11,13 +11,13 @@ router.get("/profile/:username", async (req, res) => {
         username: req.params.username
     }).lean();
 
-    if (!user?.displayUsername) {
+    if (!user?.username) {
         return res.sendStatus(StatusCodes.NOT_FOUND);
     }
 
     res.json({
         displayName: user.name,
-        username: user.displayUsername,
+        username: user.username,
         roles: user.roles,
         createdAt: user.createdAt.toISOString()
     } satisfies UserProfile);

@@ -5,7 +5,7 @@ import { BoardPiece } from "../types/BoardPiece";
 import { RawMove } from "../types/RawMove";
 import { pieceValues } from "@constants/utils";
 import { PieceColour, adaptPieceColour } from "@constants/PieceColour";
-import { parseSanMove } from "@lib/chessUtils";
+import { parseSanMove } from "@lib/utils/chess";
 import { getUnsafePieces } from "./pieceSafety";
 import { getAttackingMoves } from "./attackers";
 

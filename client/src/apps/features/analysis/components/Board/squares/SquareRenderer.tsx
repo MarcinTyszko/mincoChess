@@ -12,7 +12,7 @@ import {
 } from "react-chessboard/dist/chessboard/types";
 
 import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
-import { parseUciMove } from "shared/lib/chessUtils";
+import { parseUciMove } from "shared/lib/utils/chess";
 import {
     classificationColours,
     classificationImages

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { stringifyEvaluation } from "shared/lib/chessUtils";
+import { stringifyEvaluation } from "shared/lib/utils/chess";
 import { classificationImages } from "@analysis/constants/classifications";
 
 import EvaluationGraphPoint from "./Point";

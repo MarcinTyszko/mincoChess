@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { monthNames } from "shared/lib/date";
+import { monthNames } from "shared/lib/utils/date";
 import Button from "../../common/Button";
 
 import MonthSelectorProps from "./MonthSelectorProps";

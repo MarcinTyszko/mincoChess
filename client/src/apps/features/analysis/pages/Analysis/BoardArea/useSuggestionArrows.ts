@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Arrow } from "react-chessboard/dist/chessboard/types";
 
 import { Classification } from "shared/constants/Classification";
-import { parseUciMove } from "shared/lib/chessUtils";
+import { parseUciMove } from "shared/lib/utils/chess";
 import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import { classificationColours } from "@analysis/constants/classifications";
 import EngineArrowType from "@analysis/constants/EngineArrowType";

@@ -9,7 +9,7 @@ import {
     findNodeRecursively
 } from "shared/types/game/position/StateTreeNode";
 import { Classification } from "shared/constants/Classification";
-import { getSimpleNotation } from "shared/lib/chessUtils";
+import { getSimpleNotation } from "shared/lib/utils/chess";
 import { getTopEngineLine } from "shared/types/game/position/EngineLine";
 import {
     classificationColours,

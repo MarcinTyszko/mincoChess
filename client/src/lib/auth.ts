@@ -1,12 +1,13 @@
 import { createAuthClient } from "better-auth/react";
-import { usernameClient } from "better-auth/client/plugins";
+import { inferAdditionalFields } from "better-auth/client/plugins";
 
-export const authClient = createAuthClient({
+import { additionalUserFields } from "shared/constants/account/schemas";
+
+const authClient = createAuthClient({
     basePath: "/auth",
-    plugins: [usernameClient()]
+    plugins: [inferAdditionalFields({
+        user: additionalUserFields
+    })]
 });
-
-export type User = typeof authClient.$Infer.Session.user;
-export type Session = typeof authClient.$Infer.Session.session;
 
 export default authClient;

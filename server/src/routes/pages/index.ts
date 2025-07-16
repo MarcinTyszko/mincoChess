@@ -8,8 +8,8 @@ import footerRouter from "./footer";
 const router = Router();
 
 router.use("/",
-    featuresRouter,
     accountRouter,
+    featuresRouter,
     footerRouter
 );
 

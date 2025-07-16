@@ -219,22 +219,7 @@
             "confirmPassword": "Confirm Password...",
             "loginPageButton": "I already have an account.",
             "registerPageButton": "New? Create an account!",
-            "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service.",
-            "errors": {
-                "accountNotFound": "An account with this email does not exist.",
-                "accountAlreadyExists": "An account with this username or email already exists.",
-                "invalidEmail": "Invalid email address.",
-                "unverifiedEmail": "Please verify your email address.",
-                "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
-                "usernameTooShort": "Username must be at least 3 characters long.",
-                "usernameTooLong": "Username cannot be more than 20 characters long.",
-                "passwordTooShort": "Password must be at least 8 characters long.",
-                "passwordTooLong": "Password cannot be more than 128 characters long.",
-                "passwordNoMatch": "Passwords do not match.",
-                "incorrectEmailPassword": "Incorrect email address or password.",
-                "verificationCooldown": "Please allow 60 seconds before sending another verification link."
-            },
-            "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
+            "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service."
         },
         "settings": {
             "categories": {
@@ -245,11 +230,7 @@
                         "displayName": {
                             "title": "Display Name",
                             "message": "Enter a new display name.",
-                            "placeholder": "Display Name...",
-                            "errors": {
-                                "normalised": "Display name contains invalid characters.",
-                                "tooLong": "Display name cannot be more than 24 characters long."
-                            }
+                            "placeholder": "Display Name..."
                         },
                         "username": {
                             "title": "Username",
@@ -340,5 +321,26 @@
     "bugReportWidget": {
         "tooltip": "Copy Console Logs",
         "toast": "Copied Console Logs!"
+    },
+    "account": {
+        "errors": {
+            "accountNotFound": "An account with this email does not exist.",
+            "accountAlreadyExists": "An account with this email already exists.",
+            "usernameTaken": "This username is already taken.",
+            "invalidEmail": "Invalid email address.",
+            "unverifiedEmail": "Please verify your email address.",
+            "displayNameInvalid": "Display name contains invalid characters.",
+            "displayNameTooShort": "Display name must be at least 3 characters long.",
+            "displayNameTooLong": "Display name cannot be more than 24 characters long.",
+            "usernameAlphanumeric": "Username must be alphanumeric including underscores.",
+            "usernameTooShort": "Username must be at least 3 characters long.",
+            "usernameTooLong": "Username cannot be more than 20 characters long.",
+            "passwordTooShort": "Password must be at least 8 characters long.",
+            "passwordTooLong": "Password cannot be more than 128 characters long.",
+            "passwordNoMatch": "Passwords do not match.",
+            "incorrectEmailPassword": "Incorrect email address or password.",
+            "verificationCooldown": "Please allow 60 seconds before sending another verification link."
+        },
+        "verificationMessage": "We've sent a verification link to your email. Please check your inbox to continue."
     }
 }

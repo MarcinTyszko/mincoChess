@@ -1,12 +1,17 @@
 import mongoose, { mongo } from "mongoose";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { username } from "better-auth/plugins";
 
-import schemas from "shared/constants/account/schemas";
-import { sendAccountEmail } from "./email";
+import schemas, { additionalUserFields } from "shared/constants/account/schemas";
+import Collection from "@constants/Collection";
+import { sendAccountEmail } from "@lib/email";
 
-let instance: ReturnType<typeof createAuth> | null = null;
+import * as registration from "./registration";
+
+export type AuthType = ReturnType<typeof createAuth>;
+export type AuthInfer = AuthType["$Infer"]["Session"];
+
+let instance: AuthType | null = null;
 
 function createAuth(database: mongo.Db) {
     if (!process.env.ORIGIN) {
@@ -17,12 +22,14 @@ function createAuth(database: mongo.Db) {
         throw new Error("auth secret not specified.");
     }
 
-    const auth = betterAuth({
+    return betterAuth({
         baseURL: `${process.env.ORIGIN}/auth`,
         secret: process.env.AUTH_SECRET,
         database: mongodbAdapter(database),
         emailAndPassword: {
             enabled: true,
+            minPasswordLength: schemas.password.minLength || 8,
+            maxPasswordLength: schemas.password.maxLength || 128,
             requireEmailVerification: true,
             sendResetPassword: async ({ user, url }) => sendAccountEmail({
                 recipient: user.email,
@@ -54,29 +61,27 @@ function createAuth(database: mongo.Db) {
             }
         },
         user: {
-            modelName: "users",
-            additionalFields: {
-                roles: { type: "string[]", required: true }
+            modelName: Collection.USERS,
+            additionalFields: additionalUserFields
+        },
+        account: { modelName: Collection.ACCOUNTS },
+        session: { modelName: Collection.SESSIONS },
+        verification: { modelName: Collection.ACCOUNT_VERIFICATIONS },
+        hooks: {
+            before: registration.validator
+        },
+        databaseHooks: {
+            user: {
+                create: { before: registration.userInitialiser }
             }
         },
-        account: { modelName: "accounts" },
-        session: { modelName: "sessions" },
-        verification: { modelName: "verifications" },
-        plugins: [username({
-            maxUsernameLength: 20,
-            usernameValidator: username => (
-                schemas.username.safeParse(username).success
-            )
-        })],
         advanced: {
             cookiePrefix: "wintrchess"
         }
     });
-
-    return auth;
 }
 
-function getAuth() {
+export function getAuth() {
     if (!mongoose.connection.db) throw new Error(
         "cannot initialise auth without database connection."
     );

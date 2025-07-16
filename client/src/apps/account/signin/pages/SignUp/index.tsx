@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
+import schemas from "shared/constants/account/schemas";
+import accountErrors from "shared/constants/account/errors";
+import { validate } from "shared/lib/utils/validate";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import Separator from "@/components/common/Separator";
 import TextField from "@/components/common/TextField";
@@ -17,6 +20,7 @@ function SignUp() {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
+    const [ searchParams ] = useSearchParams();
 
     const getErrorMessage = useAuthErrors();
 
@@ -29,9 +33,21 @@ function SignUp() {
 
     const [ registrationPending, setRegistrationPending ] = useState(false);
 
-    async function googleLogin() {
+    useEffect(() => {
+        // Attempting to login to social when email already exists
+        if (searchParams.get("error") != "account_not_linked") return;
+
+        setStatus({
+            theme: "error",
+            message: getErrorMessage(accountErrors.EMAIL_TAKEN.code)
+        });
+    }, []);
+
+    function googleLogin() {
         authClient.signIn.social({
-            provider: "google"
+            provider: "google",
+            callbackURL: "/analysis",
+            errorCallbackURL: "/signup"
         });
     }
 
@@ -39,21 +55,29 @@ function SignUp() {
         if (password != confirmedPassword) {
             return setStatus({
                 theme: "error",
-                message: t("pages.signIn.errors.passwordNoMatch")
+                message: t("account.errors.passwordNoMatch")
             });
         }
 
-        setRegistrationPending(true);
-
-        const registerResponse = await authClient.signUp.email({
+        const registration = {
             email: email,
             name: username,
-            username: username,
             password: password
-        }, {
+        };
+
+        const error = validate(registration, schemas.registration);
+
+        if (error) return setStatus({
+            theme: "error",
+            message: getErrorMessage(error)
+        });
+
+        setRegistrationPending(true);
+
+        const registerResponse = await authClient.signUp.email(registration, {
             onSuccess: () => setStatus({
                 theme: "success",
-                message: t("pages.signIn.verificationMessage")
+                message: t("account.verificationMessage")
             })
         });
 

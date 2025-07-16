@@ -1,13 +1,10 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
-import {
-    Piece as BoardPiece,
-    Square
-} from "react-chessboard/dist/chessboard/types";
+import { Piece, Square } from "react-chessboard/dist/chessboard/types";
 import { Chess, Move, PieceSymbol } from "chess.js";
 
 import { defaultRootNode } from "shared/constants/utils";
-import { isMovePromotion } from "shared/lib/chessUtils";
+import { isMovePromotion } from "shared/lib/utils/chess";
 import useResizeObserver from "@/hooks/useResizeObserver";
 import PlayerProfile from "@/components/chess/PlayerProfile";
 import EvaluationBar from "../EvaluationBar";
@@ -21,8 +18,8 @@ import * as styles from "./Board.module.css";
 
 type ClickMove = Pick<Move, "from" | "to">;
 
-function getPieceType(piece: BoardPiece) {
-    return piece?.at(1)?.toLowerCase() as PieceSymbol;
+function getPieceType(piece: Piece) {
+    return piece.at(1)?.toLowerCase() as PieceSymbol;
 }
 
 function Board({
@@ -55,7 +52,7 @@ function Board({
     const topProfile = flipped ? whiteProfile : blackProfile;
     const bottomProfile = flipped ? blackProfile : whiteProfile;
 
-    function onSquareClick(square: Square, piece?: BoardPiece) {
+    function onSquareClick(square: Square, piece?: Piece) {
         squares.setHighlighted([]);
 
         if (!piece || square == squares.selected) {
@@ -86,7 +83,7 @@ function Board({
     }
 
     function onPromotionPieceSelect(
-        piece?: BoardPiece, from?: Square, to?: Square
+        piece?: Piece, from?: Square, to?: Square
     ) {
         if (!piece || !to) return false;
 

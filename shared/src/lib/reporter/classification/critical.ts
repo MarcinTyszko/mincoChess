@@ -3,7 +3,7 @@ import {
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
 import { flipPieceColour, adaptPieceColour } from "@constants/PieceColour";
-import { getCaptureSquare } from "@lib/chessUtils";
+import { getCaptureSquare } from "@lib/utils/chess";
 import { getExpectedPointsLoss } from "../expectedPoints";
 import { isMoveCriticalCandidate } from "../utils/criticalMove";
 import { isPieceSafe } from "../utils/pieceSafety";

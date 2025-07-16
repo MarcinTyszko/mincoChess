@@ -7,7 +7,7 @@ import { uniqueId } from "lodash-es";
 import { GameResult, getOpinionatedGameResult } from "shared/constants/game/GameResult";
 import PlayerProfile from "shared/types/game/PlayerProfile";
 import TimeControl from "shared/constants/game/TimeControl";
-import { formatDate } from "shared/lib/date";
+import { formatDate } from "shared/lib/utils/date";
 import Button from "@/components/common/Button";
 
 import GameListingProps from "./GameListingProps";

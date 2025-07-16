@@ -3,7 +3,7 @@ import { minBy } from "lodash-es";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { adaptPieceColour, flipPieceColour } from "@constants/PieceColour";
-import { setFenTurn } from "@lib/chessUtils";
+import { setFenTurn } from "@lib/utils/chess";
 import { getAttackingMoves } from "./attackers";
 
 export function getDefendingMoves(

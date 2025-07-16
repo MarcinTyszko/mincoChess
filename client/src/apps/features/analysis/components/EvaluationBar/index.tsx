@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { clamp } from "lodash-es";
 
 import PieceColour from "shared/constants/PieceColour";
-import { stringifyEvaluation } from "shared/lib/chessUtils";
+import { stringifyEvaluation } from "shared/lib/utils/chess";
 
 import EvaluationBarProps from "./EvaluationBarProps";
 import * as styles from "./EvaluationBar.module.css";

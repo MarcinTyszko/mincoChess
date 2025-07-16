@@ -1,18 +1,12 @@
 import { Schema, model } from "mongoose";
 import * as AuthTypes from "better-auth/types";
 
-import UserRole from "shared/constants/account/UserRole";
 import Collection from "@constants/Collection";
-import getAuth from "@lib/auth";
-
-type Auth = ReturnType<typeof getAuth>["$Infer"]["Session"];
+import { AuthInfer } from "@lib/auth";
 
 export const User = model(
     "user",
-    new Schema<(
-        Omit<Auth["user"], "roles">
-        & { roles: UserRole[] }
-    )>(),
+    new Schema<AuthInfer["user"]>(),
     Collection.USERS
 );
 
@@ -24,7 +18,7 @@ export const Account = model(
 
 export const Session = model(
     "session",
-    new Schema<Auth["session"]>(),
+    new Schema<AuthInfer["session"]>(),
     Collection.USERS
 );
 

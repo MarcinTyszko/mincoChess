@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-import { formatDate } from "shared/lib/date";
+import { formatDate } from "shared/lib/utils/date";
 import Button from "@/components/common/Button";
 import ConfirmDialog from "@/components/common/ConfirmDialog";
 
