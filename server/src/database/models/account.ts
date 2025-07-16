@@ -6,7 +6,7 @@ import { AuthInfer } from "@lib/auth";
 
 export const User = model(
     "user",
-    new Schema<AuthInfer["user"]>(),
+    new Schema<AuthInfer["user"]>({}, { strict: false }),
     Collection.USERS
 );
 
@@ -19,7 +19,7 @@ export const Account = model(
 export const Session = model(
     "session",
     new Schema<AuthInfer["session"]>(),
-    Collection.USERS
+    Collection.SESSIONS
 );
 
 export const Verification = model(

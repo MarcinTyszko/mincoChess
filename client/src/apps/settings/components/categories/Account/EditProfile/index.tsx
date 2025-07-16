@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { repeat } from "lodash-es";
-import { ZodString } from "zod";
+import { ZodSchema } from "zod";
 
 import schemas from "shared/constants/account/schemas";
+import { validate } from "shared/lib/utils/validate";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import Button from "@/components/common/Button";
 import TextField from "@/components/common/TextField";
+import authClient from "@/lib/auth";
+
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
-import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
+import EmailChangeDialog from "@/apps/settings/components/EmailChangeDialog";
 
 import * as styles from "./EditProfile.module.css";
-
-type AccountField = "displayName" | "username" | "email";
+import accountErrors from "shared/constants/account/errors";
 
 const editProfileStrings = "pages.settings.categories.account.editProfile";
 
 function EditProfile() {
     const { t } = useTranslation();
 
-    const { profile } = useAccountProfile();
+    const { profile, refetch } = useAccountProfile();
+
     const getErrorMessage = useAuthErrors();
 
     const [ emailVisible, setEmailVisible ] = useState(false);
@@ -32,19 +35,30 @@ function EditProfile() {
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
 
-    function validateDetail(schema: ZodString, input: string) {
-        const validation = schema.safeParse(input);
-        if (validation.success) return;
+    function validateDetail(input: string, schema: ZodSchema) {
+        const error = validate(input, schema);
 
-        return getErrorMessage(validation.error.issues.at(0)?.message);
+        if (
+            !error
+            || error == accountErrors.DISPLAY_NAME_TOO_SHORT.code
+            || error == accountErrors.USERNAME_TOO_SHORT.code
+        ) return;
+
+        return getErrorMessage(error);
     }
 
-    function updateAccount(field: AccountField, input?: string) {
-        // update account stuff
-        switch (field) {
-            case "displayName":
-                return;
-        }
+    async function updateDisplayName(displayName: string) {
+        await authClient.updateUser({ name: displayName });
+        refetch();
+    }
+
+    async function updateUsername(username: string) {
+        await fetch("/auth/change-username", {
+            method: "POST",
+            body: username
+        });
+
+        refetch();
     }
 
     return <div className={styles.wrapper}>
@@ -56,7 +70,7 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.displayName.title`)}
+            {t("account.fields.displayName")}
         </span>
 
         <div className={styles.detailSetting}>
@@ -75,11 +89,11 @@ function EditProfile() {
             </Button>
 
             {displayNameDialogOpen && <DetailUpdateDialog
-                placeholder={t(`${editProfileStrings}.displayName.placeholder`)}
+                placeholder={t("account.placeholders.displayName")}
                 onClose={() => setDisplayNameDialogOpen(false)}
-                onConfirm={input => updateAccount("displayName", input)}
+                onConfirm={updateDisplayName}
                 getErrorMessage={input => validateDetail(
-                    schemas.displayName, input
+                    input, schemas.displayName
                 )}
                 buttonDisabled={input => input.length < 3}
             >
@@ -88,7 +102,7 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.username.title`)}
+            {t("account.fields.username")}
         </span>
 
         <div className={styles.detailSetting}>
@@ -107,11 +121,11 @@ function EditProfile() {
             </Button>
 
             {usernameDialogOpen && <DetailUpdateDialog
-                placeholder={t("pages.signIn.username")}
+                placeholder={t("account.placeholders.username")}
                 onClose={() => setUsernameDialogOpen(false)}
-                onConfirm={input => updateAccount("username", input)}
+                onConfirm={updateUsername}
                 getErrorMessage={input => validateDetail(
-                    schemas.username, input
+                    input, schemas.username
                 )}
                 buttonDisabled={input => input.length < 3}
             >
@@ -120,7 +134,7 @@ function EditProfile() {
         </div>
 
         <span>
-            {t(`${editProfileStrings}.email.title`)}
+            {t("account.fields.email")}
         </span>
 
         <div className={styles.detailSetting}>
@@ -150,12 +164,9 @@ function EditProfile() {
                 {t("edit")}
             </Button>
 
-            {emailDialogOpen && <EmailVerifyDialog
+            {emailDialogOpen && <EmailChangeDialog
                 onClose={() => setEmailDialogOpen(false)}
-                onSendVerification={() => updateAccount("email")}
-            >
-                {t(`${editProfileStrings}.email.verification`)}    
-            </EmailVerifyDialog>}
+            />}
         </div>
     </div>;
 }

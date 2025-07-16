@@ -39,7 +39,7 @@ async function main() {
     );
 
     // Normal endpoints
-    app.all("/auth/*", toNodeHandler(getAuth()));
+    app.all("/auth/account/*", toNodeHandler(getAuth()));
     app.use("/", mainRouter);
 
     // Start listening for requests

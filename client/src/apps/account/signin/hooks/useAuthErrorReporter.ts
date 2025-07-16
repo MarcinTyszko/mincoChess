@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import accountErrors from "shared/constants/account/errors";
-import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import StatusMessage from "@/components/common/LogMessage/StatusMessage";
 
 function useAuthErrorReporter(
     onStatusMessage: (statusMessage: StatusMessage) => void
 ) {
-    const [ searchParams ] = useSearchParams();
+    const { t } = useTranslation();
 
-    const getErrorMessage = useAuthErrors();
+    const [ searchParams ] = useSearchParams();
 
     useEffect(() => {
         // Attempting to login to social when email already exists
@@ -18,7 +18,7 @@ function useAuthErrorReporter(
 
         onStatusMessage({
             theme: "error",
-            message: getErrorMessage(accountErrors.EMAIL_TAKEN.code)
+            message: t(accountErrors.EMAIL_TAKEN.message)
         });
     }, []);
 }

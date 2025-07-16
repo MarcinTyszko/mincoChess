@@ -126,15 +126,8 @@ function NavigationBar() {
                         className={styles.settings}
                         icon={require("@assets/img/icons/settings.png")}
                         iconSize="28px"
-                        tooltipId="navigation-bar-settings"
                     />
                 </a>
-
-                <Tooltip
-                    id="navigation-bar-settings"
-                    content={t("settings")}
-                    delayShow={500}
-                />
             </>}
         </div>
 

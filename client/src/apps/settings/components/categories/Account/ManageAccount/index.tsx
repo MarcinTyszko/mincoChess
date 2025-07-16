@@ -6,7 +6,7 @@ import { AccountField } from "shared/constants/account/Field";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
 import ButtonColour from "@/components/common/Button/Colour";
 import Button from "@/components/common/Button";
-import EmailVerifyDialog from "@/apps/settings/components/EmailVerifyDialog";
+import EmailVerifyDialog from "@/apps/settings/components/EmailChangeDialog";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 
 import * as styles from "./ManageAccount.module.css";

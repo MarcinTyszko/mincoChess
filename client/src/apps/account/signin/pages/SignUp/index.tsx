@@ -103,21 +103,21 @@ function SignUp() {
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.email")}
+                placeholder={t("account.placeholders.email")}
                 onChange={setEmail}
             />
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.username")}
+                placeholder={t("account.placeholders.username")}
                 onChange={setUsername}
             />
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.password")}
+                placeholder={t("account.placeholders.password")}
                 password
                 onChange={setPassword}
             />
@@ -125,7 +125,7 @@ function SignUp() {
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.confirmPassword")}
+                placeholder={t("account.placeholders.confirmPassword")}
                 password
                 onChange={setConfirmedPassword}
             />

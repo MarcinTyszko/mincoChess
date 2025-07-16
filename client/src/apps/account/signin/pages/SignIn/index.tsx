@@ -71,14 +71,14 @@ function SignIn() {
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.email")}
+                placeholder={t("account.placeholders.email")}
                 onChange={setEmail}
             />
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("pages.signIn.password")}
+                placeholder={t("account.placeholders.password")}
                 password
                 onChange={setPassword}
             />

@@ -23,7 +23,7 @@ function createAuth(database: mongo.Db) {
     }
 
     return betterAuth({
-        baseURL: `${process.env.ORIGIN}/auth`,
+        baseURL: `${process.env.ORIGIN}/auth/account`,
         secret: process.env.AUTH_SECRET,
         database: mongodbAdapter(database),
         emailAndPassword: {
@@ -62,7 +62,20 @@ function createAuth(database: mongo.Db) {
         },
         user: {
             modelName: Collection.USERS,
-            additionalFields: additionalUserFields
+            additionalFields: additionalUserFields,
+            changeEmail: {
+                enabled: true,
+                sendChangeEmailVerification: async (ctx) => sendAccountEmail({
+                    recipient: ctx.newEmail,
+                    subject: "Verify your new email address",
+                    message: "Please verify your WintrChess account's new"
+                        + " email address by clicking the button below:",
+                    buttonLabel: "Verify Email Address",
+                    buttonUrl: ctx.url,
+                    plaintextFallback: "Please verify your WintrChess account's"
+                        + ` new email address: ${ctx.url}`
+                })
+            }
         },
         account: { modelName: Collection.ACCOUNTS },
         session: { modelName: Collection.SESSIONS },

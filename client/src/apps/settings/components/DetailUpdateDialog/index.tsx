@@ -8,6 +8,7 @@ import TextField from "@/components/common/TextField";
 import LogMessage from "@/components/common/LogMessage";
 
 import DetailUpdateDialogProps from "./DetailUpdateDialogProps";
+import * as settingsStyles from "../../index.module.css";
 import * as styles from "./DetailUpdateDialog.module.css";
 
 function DetailUpdateDialog({
@@ -42,9 +43,9 @@ function DetailUpdateDialog({
             {children}
         </span>
 
-        <div className={styles.inputContainer}>
+        <div className={settingsStyles.updateDialogInputContainer}>
             <TextField
-                className={styles.inputField}
+                className={settingsStyles.updateDialogInputField}
                 placeholder={placeholder}
                 value={input}
                 onChange={setInput}

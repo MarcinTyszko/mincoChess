@@ -17,12 +17,7 @@ router.post(path, async (req, res) => {
     const { colour, content }: Announcement = req.body;
 
     await AnnouncementModel.updateOne({},
-        {
-            $set: {
-                colour,
-                content
-            }
-        },
+        { $set: { colour, content } },
         { upsert: true }
     );
 
