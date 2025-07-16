@@ -15,7 +15,7 @@ import { setFenTurn } from "@lib/utils/chess";
 export function isPieceTrapped(
     board: Chess,
     piece: BoardPiece,
-    dangerLevels: boolean = true
+    dangerLevels = true
 ) {
     const calibratedBoard = new Chess(
         setFenTurn(board.fen(), adaptPieceColour(piece.color))
