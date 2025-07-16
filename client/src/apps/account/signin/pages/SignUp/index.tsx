@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import schemas from "shared/constants/account/schemas";
-import accountErrors from "shared/constants/account/errors";
 import { validate } from "shared/lib/utils/validate";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
+import useAuthErrorReporter from "../../hooks/useAuthErrorReporter";
 import Separator from "@/components/common/Separator";
 import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";
@@ -20,7 +20,6 @@ function SignUp() {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
-    const [ searchParams ] = useSearchParams();
 
     const getErrorMessage = useAuthErrors();
 
@@ -33,15 +32,7 @@ function SignUp() {
 
     const [ registrationPending, setRegistrationPending ] = useState(false);
 
-    useEffect(() => {
-        // Attempting to login to social when email already exists
-        if (searchParams.get("error") != "account_not_linked") return;
-
-        setStatus({
-            theme: "error",
-            message: getErrorMessage(accountErrors.EMAIL_TAKEN.code)
-        });
-    }, []);
+    useAuthErrorReporter(setStatus);
 
     function googleLogin() {
         authClient.signIn.social({

@@ -7,6 +7,7 @@ import Typography from "@/components/Typography";
 import Button from "@/components/common/Button";
 import BlurBackground from "@/components/layout/BlurBackground";
 import Sidebar from "@/components/layout/sidebar/Sidebar";
+import authClient from "@/lib/auth";
 
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
@@ -19,8 +20,8 @@ function NavigationBar() {
     const [ sidebarOpen, setSidebarOpen ] = useState(false);
 
     async function signOut() {
-        await fetch("/auth/logout");
-        location.reload();
+        await authClient.signOut();
+        location.href = "/signin";
     }
 
     return <div className={styles.wrapper}>

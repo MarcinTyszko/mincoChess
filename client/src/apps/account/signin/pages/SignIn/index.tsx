@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
+import useAuthErrorReporter from "../../hooks/useAuthErrorReporter";
 import Separator from "@/components/common/Separator";
 import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";
@@ -25,9 +26,13 @@ function SignIn() {
 
     const [ status, setStatus ] = useState<StatusMessage>();
 
+    useAuthErrorReporter(setStatus);
+
     async function googleLogin() {
         authClient.signIn.social({
-            provider: "google"
+            provider: "google",
+            callbackURL: "/analysis",
+            errorCallbackURL: "/signin"
         });
     }
 
