@@ -40,7 +40,8 @@ function createAuth(database: mongo.Db) {
                 buttonUrl: url,
                 plaintextFallback: "Please use the link to reset your"
                     + ` WintrChess account's password: ${url}`
-            })
+            }),
+            revokeSessionsOnPasswordReset: true
         },
         emailVerification: {
             autoSignInAfterVerification: true,

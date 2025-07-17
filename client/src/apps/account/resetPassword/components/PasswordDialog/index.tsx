@@ -55,6 +55,8 @@ function PasswordDialog() {
             theme: "error",
             message: getErrorMessage(result.error.code)
         });
+
+        location.href = "/signin";
     }
 
     return <div className={styles.updateDialog}>
