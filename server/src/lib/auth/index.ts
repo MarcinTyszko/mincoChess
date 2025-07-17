@@ -75,14 +75,13 @@ function createAuth(database: mongo.Db) {
                     plaintextFallback: "Please verify your WintrChess account's"
                         + ` new email address: ${ctx.url}`
                 })
-            }
+            },
+            deleteUser: { enabled: true }
         },
         account: { modelName: Collection.ACCOUNTS },
         session: { modelName: Collection.SESSIONS },
         verification: { modelName: Collection.ACCOUNT_VERIFICATIONS },
-        hooks: {
-            before: registration.validator
-        },
+        hooks: { before: registration.validator },
         databaseHooks: {
             user: {
                 create: { before: registration.userInitialiser }

@@ -1,28 +1,24 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import ButtonColour from "@/components/common/Button/Colour";
+import accountErrors from "shared/constants/account/errors";
+import schemas from "shared/constants/account/schemas";
 import Dialog from "@/components/common/Dialog";
 import Button from "@/components/common/Button";
 import LogMessage from "@/components/common/LogMessage";
 import TextField from "@/components/common/TextField";
 import authClient from "@/lib/auth";
 
+import {
+    VerifyStatus,
+    verifyButtonStrings,
+    editProfileStrings,
+    verifyButtonColours
+} from "@/apps/settings/constants/utils";
+
 import EmailChangeDialogProps from "./EmailChangeDialogProps";
 import * as settingsStyles from "../../index.module.css";
 import * as styles from "./EmailChangeDialog.module.css";
-import accountErrors from "shared/constants/account/errors";
-
-type VerifyStatus = "unsent" | "sending" | "sent";
-
-const editProfileStrings = "pages.settings.categories.account.editProfile";
-const emailVerificationStrings = `${editProfileStrings}.email.verificationButton`;
-
-const buttonColours: Record<VerifyStatus, ButtonColour> = {
-    unsent: ButtonColour.BLUE,
-    sending: ButtonColour.BLUE,
-    sent: ButtonColour.GREEN
-};
 
 function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
     const { t } = useTranslation();
@@ -33,13 +29,16 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
     const [ verifyError, setVerifyError ] = useState<string>();
 
     const buttonMessages = useMemo(() => ({
-        unsent: t(`${emailVerificationStrings}.unsent`),
-        sending: t(`${emailVerificationStrings}.sending`),
-        sent: t(`${emailVerificationStrings}.sent`)
+        unsent: t(`${verifyButtonStrings}.unsent`),
+        sending: t(`${verifyButtonStrings}.sending`),
+        sent: t(`${verifyButtonStrings}.sent`)
     }), []);
 
     async function changeEmail() {
         if (verifyStatus == "sent") return;
+
+        if (!schemas.email.safeParse(email).success)
+            return setVerifyError(t(accountErrors.INVALID_EMAIL.message));
 
         setVerifyStatus("sending");
 
@@ -51,9 +50,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
         if (response.error) {
             setVerifyStatus("unsent");
             
-            if (response.error.code == "VALIDATION_ERROR") {
-                setVerifyError(t(accountErrors.INVALID_EMAIL.message));
-            } else if (response.error.code == "EMAIL_IS_THE_SAME") {
+            if (response.error.code == "EMAIL_IS_THE_SAME") {
                 setVerifyError(t(`${editProfileStrings}.email.same`));
             } else {
                 setVerifyError(t("unknownError"));
@@ -79,7 +76,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
             />
 
             {verifyError && <LogMessage>
-                {verifyError}    
+                {verifyError}
             </LogMessage>}
         </div>
 
@@ -87,7 +84,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
             <Button
                 className={styles.verificationButton}
                 style={{
-                    backgroundColor: buttonColours[verifyStatus],
+                    backgroundColor: verifyButtonColours[verifyStatus],
                     cursor: verifyStatus == "unsent" ? "pointer" : "default"
                 }}
                 disabled={verifyStatus == "sending"}

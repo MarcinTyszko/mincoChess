@@ -4,6 +4,7 @@ import { repeat } from "lodash-es";
 import { ZodSchema } from "zod";
 
 import schemas from "shared/constants/account/schemas";
+import accountErrors from "shared/constants/account/errors";
 import { validate } from "shared/lib/utils/validate";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
@@ -11,13 +12,11 @@ import Button from "@/components/common/Button";
 import TextField from "@/components/common/TextField";
 import authClient from "@/lib/auth";
 
+import { editProfileStrings } from "@/apps/settings/constants/utils";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 import EmailChangeDialog from "@/apps/settings/components/EmailChangeDialog";
 
 import * as styles from "./EditProfile.module.css";
-import accountErrors from "shared/constants/account/errors";
-
-const editProfileStrings = "pages.settings.categories.account.editProfile";
 
 function EditProfile() {
     const { t } = useTranslation();

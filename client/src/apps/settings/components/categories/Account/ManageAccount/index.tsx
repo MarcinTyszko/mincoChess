@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusCodes } from "http-status-codes";
 
-import { AccountField } from "shared/constants/account/Field";
 import useAccountProfile from "@/hooks/api/useAccountProfile";
+import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import ButtonColour from "@/components/common/Button/Colour";
 import Button from "@/components/common/Button";
-import EmailVerifyDialog from "@/apps/settings/components/EmailChangeDialog";
+import PasswordResetDialog from "@/apps/settings/components/PasswordResetDialog";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
+import authClient from "@/lib/auth";
+
+import { manageAccountStrings } from "@/apps/settings/constants/utils";
 
 import * as styles from "./ManageAccount.module.css";
-
-const accountStrings = "pages.settings.categories.account.manageAccount";
-
-const deletionConfirmer = "delete account";
 
 function ManageAccount() {
     const { t } = useTranslation();
 
     const { profile } = useAccountProfile();
+
+    const getErrorMessage = useAuthErrors();
 
     const [
         resetPasswordDialogOpen,
@@ -30,73 +30,52 @@ function ManageAccount() {
         setDeleteAccountDialogOpen
     ] = useState(false);
 
-    async function resetPassword() {
-        const updateResponse = await fetch("/auth/update", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                field: "password" satisfies AccountField
-            })
-        });
-
-        if (updateResponse.status == StatusCodes.TOO_MANY_REQUESTS) {
-            throw new Error(t("pages.signIn.errors.verificationCooldown"));
-        } else if (!updateResponse.ok) {
-            throw new Error(t("error"));
-        }
-    }
-
     async function deleteAccount() {
-        const deleteResponse = await fetch("/auth/delete");
+        const result = await authClient.deleteUser();
 
-        if (!deleteResponse.ok) {
-            throw new Error(t("error"));
-        }
+        if (result.error) throw new Error(
+            t(getErrorMessage(result.error.code))
+        );
 
         location.href = "/signup";
     }
 
     return <div className={styles.wrapper}>
-        {profile?.loginMethod == "email" && <Button
+        <Button
             className={styles.accountButton}
             style={{ backgroundColor: ButtonColour.BLUE }}
             onClick={() => setResetPasswordDialogOpen(true)}
         >
-            {t(`${accountStrings}.resetPassword`)}
-        </Button>}
+            {t(`${manageAccountStrings}.resetPassword`)}
+        </Button>
 
-        {resetPasswordDialogOpen && <EmailVerifyDialog
+        {resetPasswordDialogOpen && <PasswordResetDialog
             onClose={() => setResetPasswordDialogOpen(false)}
-            onSendVerification={resetPassword}
-        >
-            {t(`${accountStrings}.resetPasswordDialog`)}
-        </EmailVerifyDialog>}
+        />}
 
         <Button
             className={styles.accountButton}
             style={{ backgroundColor: ButtonColour.RED }}
             onClick={() => setDeleteAccountDialogOpen(true)}
         >
-            {t(`${accountStrings}.deleteAccount`)}
+            {t(`${manageAccountStrings}.deleteAccount`)}
         </Button>
 
         {deleteAccountDialogOpen && <DetailUpdateDialog
             buttonStyle={{ backgroundColor: ButtonColour.RED }}
             onClose={() => setDeleteAccountDialogOpen(false)}
             onConfirm={deleteAccount}
-            buttonDisabled={input => input != deletionConfirmer}
-            placeholder={`${deletionConfirmer}...`}
+            buttonDisabled={input => input != profile?.username}
+            placeholder={`${profile?.username}...`}
         >
             <div className={styles.deleteAccountDialogMessage}>
-                <span>{t(`${accountStrings}.deleteAccountDialog`)}</span>
+                <span>{t(`${manageAccountStrings}.deleteAccountDialog`)}</span>
 
                 <span className={styles.deleteAccountConfirmation}>
-                    {deletionConfirmer}
+                    {profile?.username}
                 </span>
 
-                <span>{t(`${accountStrings}.irreversibleAction`)}</span>
+                <span>{t(`${manageAccountStrings}.irreversibleAction`)}</span>
             </div>
         </DetailUpdateDialog>}
     </div>;
