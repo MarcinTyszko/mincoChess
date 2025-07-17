@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { User } from "@database/models/account";
+import { accountAuthenticator } from "@lib/security/account";
 import appRouter from "@lib/appRouter";
 
 const router = Router();
@@ -23,5 +24,10 @@ router.get("/profile/:username", async (req, res, next) => {
 
     profileRouter(req, res, next);
 });
+
+router.get("/auth/reset-password",
+    accountAuthenticator(true),
+    appRouter("account/resetPassword.html")
+);
 
 export default router;

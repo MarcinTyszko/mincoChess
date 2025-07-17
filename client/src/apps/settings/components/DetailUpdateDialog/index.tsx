@@ -45,7 +45,7 @@ function DetailUpdateDialog({
 
         <div className={settingsStyles.updateDialogInputContainer}>
             <TextField
-                className={settingsStyles.updateDialogInputField}
+                className={settingsStyles.inputField}
                 placeholder={placeholder}
                 value={input}
                 onChange={setInput}

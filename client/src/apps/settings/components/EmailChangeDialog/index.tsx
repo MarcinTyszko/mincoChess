@@ -59,6 +59,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
             return;
         }
 
+        setVerifyError(undefined);
         setVerifyStatus("sent");
     }
 
@@ -69,7 +70,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
 
         <div className={settingsStyles.updateDialogInputContainer}>
             <TextField
-                className={settingsStyles.updateDialogInputField}
+                className={settingsStyles.inputField}
                 placeholder={t("account.placeholders.email")}
                 value={email}
                 onChange={setEmail}

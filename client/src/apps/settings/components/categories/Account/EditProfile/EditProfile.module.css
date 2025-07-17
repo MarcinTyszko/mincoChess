@@ -39,13 +39,6 @@
     flex-grow: 1;
 }
 
-.detailField {
-    padding: 10px;
-
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 5px;
-}
-
 .detailFieldButton {
     height: 100%;
 

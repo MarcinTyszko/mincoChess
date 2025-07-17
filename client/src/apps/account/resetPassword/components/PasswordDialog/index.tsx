@@ -3,21 +3,23 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import schemas from "shared/constants/account/schemas";
-import useFieldValidation from "@/hooks/auth/useAuthErrors";
+import { validate } from "shared/lib/utils/validate";
+import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import ButtonColour from "@/components/common/Button/Colour";
 import TextField from "@/components/common/TextField";
 import Button from "@/components/common/Button";
 import LogMessage from "@/components/common/LogMessage";
 import StatusMessage from "@/components/common/LogMessage/StatusMessage";
+import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
-function PasswordReset() {
+function PasswordDialog() {
     const { t } = useTranslation();
 
     const [ searchParams ] = useSearchParams();
 
-    const { validateFields } = useFieldValidation();
+    const getErrorMessage = useAuthErrors();
 
     const [ password, setPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
@@ -25,50 +27,44 @@ function PasswordReset() {
     const [ status, setStatus ] = useState<StatusMessage>();
 
     async function resetPassword() {
-        const id = searchParams.get("id");
+        const token = searchParams.get("token");
 
-        if (!id) return setStatus({
+        if (!token) return setStatus({
             theme: "error",
-            message: t("error")
+            message: t("unknownError")
         });
 
-        if (password != confirmPassword) {
+        if (password != confirmPassword)
             return setStatus({
                 theme: "error",
-                message: t("pages.signIn.errors.passwordNoMatch")
+                message: t("account.errors.passwordNoMatch")
             });
-        }
 
-        const validationIssue = validateFields(new Map()
-            .set(schemas.password, password)
-        );
+        const validationErrorCode = validate(password, schemas.password);
 
-        if (validationIssue) return setStatus(validationIssue);
-
-        const resetResponse = await fetch("/auth/update/password", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ id, password, confirmPassword })
-        });
-
-        if (!resetResponse.ok) return setStatus({
+        if (validationErrorCode) return setStatus({
             theme: "error",
-            message: t("error")
+            message: getErrorMessage(validationErrorCode)
         });
 
-        location.href = "/signin";
+        const result = await authClient.resetPassword({
+            token, newPassword: password
+        });
+
+        if (result.error) return setStatus({
+            theme: "error",
+            message: getErrorMessage(result.error.code)
+        });
     }
 
     return <div className={styles.updateDialog}>
         <span className={styles.message}>
-            {t("pages.accountUpdate.passwordReset")}
+            {t("pages.resetPassword.message")}
         </span>
 
         <TextField
             className={styles.field}
-            placeholder={t("pages.signIn.password")}
+            placeholder={t("account.placeholders.password")}
             password
             value={password}
             onChange={setPassword}
@@ -76,14 +72,14 @@ function PasswordReset() {
 
         <TextField
             className={styles.field}
-            placeholder={t("pages.signIn.confirmPassword")}
+            placeholder={t("account.placeholders.confirmPassword")}
             password
             value={confirmPassword}
             onChange={setConfirmPassword}
         />
 
         {status && <LogMessage theme={status.theme}>
-            {status.message}    
+            {status.message}
         </LogMessage>}
 
         <Button
@@ -95,4 +91,4 @@ function PasswordReset() {
     </div>;
 }
 
-export default PasswordReset;
+export default PasswordDialog;

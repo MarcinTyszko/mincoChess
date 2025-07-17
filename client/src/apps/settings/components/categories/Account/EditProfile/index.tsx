@@ -16,6 +16,7 @@ import { editProfileStrings } from "@/apps/settings/constants/utils";
 import DetailUpdateDialog from "@/apps/settings/components/DetailUpdateDialog";
 import EmailChangeDialog from "@/apps/settings/components/EmailChangeDialog";
 
+import * as settingsStyles from "@/apps/settings/index.module.css";
 import * as styles from "./EditProfile.module.css";
 
 function EditProfile() {
@@ -75,7 +76,7 @@ function EditProfile() {
         <div className={styles.detailSetting}>
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
-                className={styles.detailField}
+                className={settingsStyles.inputField}
                 value={profile?.displayName}
                 readOnly
             />
@@ -107,7 +108,7 @@ function EditProfile() {
         <div className={styles.detailSetting}>
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
-                className={styles.detailField}
+                className={settingsStyles.inputField}
                 value={profile?.username}
                 readOnly
             />
@@ -148,7 +149,7 @@ function EditProfile() {
 
             <TextField
                 wrapperClassName={styles.detailFieldWrapper}
-                className={styles.detailField}
+                className={settingsStyles.inputField}
                 value={emailVisible
                     ? profile?.email
                     : repeat("*", profile?.email.length || 0)

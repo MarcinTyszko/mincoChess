@@ -4,8 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import PageWrapper from "@/components/layout/PageWrapper";
-import EmailUpdate from "./components/EmailUpdate";
-import PasswordReset from "./components/PasswordReset";
+import PasswordDialog from "./components/PasswordDialog";
 import { removeDefaultConsentLink } from "@/lib/consent";
 
 import "@/i18n";
@@ -29,13 +28,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route
-                        path="/auth/update/email"
-                        element={<EmailUpdate/>}
-                    />
-
-                    <Route
-                        path="/auth/update/password"
-                        element={<PasswordReset/>}
+                        path="/auth/reset-password"
+                        element={<PasswordDialog/>}
                     />
                 </Routes>
             </BrowserRouter>
