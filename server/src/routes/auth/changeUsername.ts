@@ -24,13 +24,10 @@ router.post("/change-username", async (req, res) => {
     if (!schemas.username.safeParse(username).success)
         return res.sendStatus(StatusCodes.BAD_REQUEST);
 
-    const result = await User.updateOne(
+    await User.updateOne(
         { username: req.user.username },
         { username: username }
     );
-
-    console.log(username);
-    console.log(result);
 
     res.sendStatus(StatusCodes.OK);
 });
