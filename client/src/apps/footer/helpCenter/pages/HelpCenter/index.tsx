@@ -8,14 +8,14 @@ import Header from "../../components/Header";
 import * as styles from "./HelpCenter.module.css";
 
 function HelpCenter() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("helpCenter");
 
     return <div className={styles.wrapper}>
         <Header
             image={require("@assets/img/interface/help.svg")}
             size="1.7rem"
         >
-            {t("pages.helpCenter.title")}
+            {t("title")}
         </Header>
 
         <div className={styles.section}>
@@ -23,11 +23,11 @@ function HelpCenter() {
                 image={require("@assets/img/helpCenter/mail.png")}
                 size="1.3rem"
             >
-                {t("pages.helpCenter.contact.title")}
+                {t("contact.title")}
             </Header>
 
             <span>
-                {t("pages.helpCenter.contact.message")}
+                {t("contact.message")}
             </span>
 
             <a
@@ -43,7 +43,7 @@ function HelpCenter() {
                 image={require("@assets/img/helpCenter/analysis.png")}
                 size="1.3rem"
             >
-                {t("pages.helpCenter.analysis.title")}
+                {t("analysis.title")}
             </Header>
 
             <div>
@@ -51,23 +51,23 @@ function HelpCenter() {
                     {t("pages.helpCenter.analysis.part1")}&ensp;
 
                     <a href="/analysis">
-                        {t("pages.helpCenter.analysis.part2")}
+                        {t("analysis.part2")}
                     </a>
                 </span>
 
                 <span>
-                    {t("pages.helpCenter.analysis.part3")}
+                    {t("analysis.part3")}
                 </span>
             </div>
 
             <GameSelector style={{ width: "min(365px, 100%)" }}/>
 
             <span>
-                {t("pages.helpCenter.analysis.part4")}
+                {t("analysis.part4")}
             </span>
 
             <span>
-                {t("pages.helpCenter.analysis.part5")}
+                {t("analysis.part5")}
             </span>
 
             <AnalyseButton style={{ width: "min(365px, 100%)" }} />

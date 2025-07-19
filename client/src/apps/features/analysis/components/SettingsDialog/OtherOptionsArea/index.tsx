@@ -8,18 +8,18 @@ import SwitchSetting from "@/components/settings/SwitchSetting";
 import * as styles from "../SettingsDialog.module.css";
 
 function OtherOptionsArea() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const { settings, setSettings } = useSettingsStore();
 
     return <>
         <span className={styles.header}>
-            {t("pages.analysis.settings.other.title")}
+            {t("settings.other.title")}
         </span>
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-other-simple-notation">
-                {t("pages.analysis.settings.other.simpleNotation")}
+                {t("settings.other.simpleNotation")}
             </span>
 
             <Tooltip
@@ -27,7 +27,7 @@ function OtherOptionsArea() {
                 delayShow={500}
                 className={styles.settingDescription}
             >
-                {t("pages.analysis.settings.other.descriptions.simpleNotation")}
+                {t("settings.other.descriptions.simpleNotation")}
             </Tooltip>
 
             <SwitchSetting

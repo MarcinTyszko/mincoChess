@@ -15,7 +15,7 @@ type Interval = ReturnType<typeof setInterval>;
 const hotkeyConfig: HotkeyOptions = { preventDefault: true };
 
 function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const { analysisGame } = useAnalysisGameStore();
 
@@ -86,22 +86,22 @@ function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
             src={require("@assets/img/interface/start.svg")}
             width={50}
             onClick={traverseToBeginning}
-            title={t("pages.analysis.stateTreeTraverser.beginning")}
+            title={t("stateTreeTraverser.beginning")}
         />
 
         <img
             src={require("@assets/img/interface/back.svg")}
             width={50}
             onClick={traverseBackwards}
-            title={t("pages.analysis.stateTreeTraverser.back")}
+            title={t("stateTreeTraverser.back")}
         />
 
         <div
             className={styles.autoplayContainer}
             onClick={() => setAutoplayEnabled(!autoplayEnabled)}
             title={autoplayEnabled
-                ? t("pages.analysis.stateTreeTraverser.pause")
-                : t("pages.analysis.stateTreeTraverser.play")
+                ? t("stateTreeTraverser.pause")
+                : t("stateTreeTraverser.play")
             }
         >
             <img width={50} src={autoplayEnabled
@@ -114,14 +114,14 @@ function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
             src={require("@assets/img/interface/next.svg")}
             width={50}
             onClick={traverseForwards}
-            title={t("pages.analysis.stateTreeTraverser.next")}
+            title={t("stateTreeTraverser.next")}
         />
 
         <img
             src={require("@assets/img/interface/end.svg")}
             width={50}
             onClick={traverseToEnd}
-            title={t("pages.analysis.stateTreeTraverser.end")}
+            title={t("stateTreeTraverser.end")}
         />
     </div>;
 }

@@ -10,7 +10,7 @@ import ManageAccount from "./ManageAccount";
 import * as categoryStyles from "../Category.module.css";
 
 function Account() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("settings");
 
     const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function Account() {
 
     return <div className={categoryStyles.wrapper}>
         <b className={categoryStyles.header}>
-            {t("pages.settings.categories.account.editProfile.title")}
+            {t("account.editProfile.title")}
         </b>
 
         <Separator className={categoryStyles.separator} />
@@ -30,7 +30,7 @@ function Account() {
         <EditProfile/>
 
         <b className={categoryStyles.header}>
-            {t("pages.settings.categories.account.manageAccount.title")}
+            {t("account.manageAccount.title")}
         </b>
 
         <Separator className={categoryStyles.separator} />

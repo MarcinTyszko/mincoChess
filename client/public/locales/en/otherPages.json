@@ -1,0 +1,34 @@
+{
+    "news": {
+        "title": "Newspaper",
+        "titleDescription": "Get the latest updates on the WintrChess platform",
+        "error": "There was an error while loading the newspaper.",
+        "article": {
+            "unfound": "We couldn't find this article.",
+            "error": "There was an error while loading this article."
+        }
+    },
+    "signIn": {
+        "loginTitle": "Sign in to your account",
+        "loginButtonGoogle": "Sign in with Google",
+        "loginButtonEmail": "Sign in",
+        "loginError": "There was an issue signing in to your account.",
+        "registerTitle": "Create an account",
+        "registerButtonGoogle": "Sign up with Google",
+        "registerButtonEmail": "Sign up",
+        "registerError": "There was an issue creating an account.",
+        "alternative": "or",
+        "loginPageButton": "I already have an account.",
+        "registerPageButton": "New? Create an account!",
+        "legalMessage": "By signing in, you agree to our Privacy Policy and Terms of Service."
+    },
+    "resetPassword": {
+        "message": "Enter and confirm a new password for your account."
+    },
+    "credits": {
+        "leadDeveloper": "Lead Developer",
+        "developer": "Developer",
+        "artist": "Digital Artist",
+        "translators": "Translators"
+    }
+}

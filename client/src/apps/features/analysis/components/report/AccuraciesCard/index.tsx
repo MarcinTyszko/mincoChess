@@ -5,11 +5,11 @@ import AccuraciesCardProps from "./AccuraciesCardProps";
 import * as styles from "./AccuraciesCard.module.css";
 
 function AccuraciesCard({ accuracies }: AccuraciesCardProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     return <div className={styles.wrapper}>
         <div className={styles.accuraciesTitle}>
-            {t("pages.analysis.accuraciesCard.title")}
+            {t("accuraciesCard.title")}
         </div>
 
         <div className={styles.accuracies}>

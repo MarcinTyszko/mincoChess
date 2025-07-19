@@ -5,7 +5,7 @@ import { Challenge } from "altcha-lib/types";
 import useAnalysisSessionStore from "@analysis/stores/AnalysisSessionStore";
 
 export function useAltcha() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const {
         setAnalysisSessionToken,
@@ -15,11 +15,10 @@ export function useAltcha() {
     async function execute() {
         const challengeResponse = await fetch("/auth/captcha");
 
-        if (!challengeResponse.ok) {
+        if (!challengeResponse.ok)
             return setAnalysisCaptchaError(
-                t("pages.analysis.progressReporter.captchaUnknownError")
+                t("progressReporter.captchaUnknownError")
             );
-        }
 
         const challengeData: Challenge = await challengeResponse.json();
 
@@ -30,13 +29,11 @@ export function useAltcha() {
             challengeData.maxnumber
         ).promise;
 
-        if (!solution) {
-            return setAnalysisCaptchaError(
-                t("pages.analysis.progressReporter.captchaVerifyFailed")
-            );
-        }
+        if (!solution) return setAnalysisCaptchaError(
+            t("progressReporter.captchaVerifyFailed")
+        );
 
-        const sessionResponse = await fetch("/api/analysis/session", {
+        const sessionResponse = await fetch("/auth/analysis-session", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -51,11 +48,10 @@ export function useAltcha() {
             })
         });
 
-        if (!sessionResponse.ok) {
+        if (!sessionResponse.ok)
             return setAnalysisCaptchaError(
-                t("pages.analysis.progressReporter.captchaVerifyFailed")
+                t("progressReporter.captchaVerifyFailed")
             );
-        }
 
         const sessionToken = await sessionResponse.text();
 

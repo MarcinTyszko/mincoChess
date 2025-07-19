@@ -20,7 +20,7 @@ const boardColourPresets = [
 ];
 
 function BoardAndPieces() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["settings", "common"]);
 
     const { settings, setSettings } = useSettingsStore();
 
@@ -53,14 +53,14 @@ function BoardAndPieces() {
         }}
     >
         <b className={categoryStyles.header}>
-            {t("pages.settings.categories.boardAndPieces.boardColour")}
+            {t("boardAndPieces.boardColour")}
         </b>
 
         <Separator className={categoryStyles.separator} />
 
         <div className={categoryStyles.setting}>
             <span>
-                {t("pages.settings.categories.boardAndPieces.lightSquareColour")}
+                {t("boardAndPieces.lightSquareColour")}
             </span>
 
             <ColourSwatch
@@ -78,7 +78,7 @@ function BoardAndPieces() {
 
         <div className={categoryStyles.setting}>
             <span>
-                {t("pages.settings.categories.boardAndPieces.darkSquareColour")}
+                {t("boardAndPieces.darkSquareColour")}
             </span>
 
             <ColourSwatch
@@ -101,11 +101,11 @@ function BoardAndPieces() {
                 defaultSettings.themes.board.darkSquareColour
             )}
         >
-            {t("reset")}
+            {t("reset", { ns: "common" })}
         </Button>
 
         <b className={categoryStyles.subheader}>
-            {t("pages.settings.categories.boardAndPieces.presetsTitle")}
+            {t("boardAndPieces.presetsTitle")}
         </b>
 
         <div className={styles.presets}>
@@ -113,7 +113,7 @@ function BoardAndPieces() {
                 lightSquareColour={preset.light}
                 darkSquareColour={preset.dark}
                 title={t(
-                    `pages.settings.categories.boardAndPieces.presets.${preset.name}`
+                    `boardAndPieces.presets.${preset.name}`
                 )}
                 selected={
                     settings.themes.board.lightSquareColour == preset.light

@@ -18,7 +18,7 @@ import { getNewsArticles, getNewsArticlesPages } from "@/lib/api/newsArticles";
 import * as styles from "./ArticleList.module.css";
 
 function News() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("otherPages");
 
     const queryClient = useQueryClient();
 
@@ -86,12 +86,12 @@ function News() {
                     zIndex: 1,
                     overflowWrap: "anywhere"
                 }}>
-                    {t("pages.news.title")}
+                    {t("news.title")}
                 </span>
             </div>
 
             <div className={styles.titleDescription}>
-                {t("pages.news.titleDescription")}
+                {t("news.titleDescription")}
             </div>
         </div>
 
@@ -140,7 +140,7 @@ function News() {
             }
 
             {status == "error" && <LogMessage>
-                {t("pages.news.error")}
+                {t("news.error")}
             </LogMessage>}
         </div>
 

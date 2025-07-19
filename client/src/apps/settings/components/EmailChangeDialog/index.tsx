@@ -21,7 +21,7 @@ import * as settingsStyles from "../../index.module.css";
 import * as styles from "./EmailChangeDialog.module.css";
 
 function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["settings", "common"]);
 
     const [ email, setEmail ] = useState("");
     
@@ -53,7 +53,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
             if (response.error.code == "EMAIL_IS_THE_SAME") {
                 setVerifyError(t(`${editProfileStrings}.email.same`));
             } else {
-                setVerifyError(t("unknownError"));
+                setVerifyError(t("unknownError", { ns: "common" }));
             }
 
             return;
@@ -71,7 +71,7 @@ function EmailChangeDialog({ onClose }: EmailChangeDialogProps) {
         <div className={settingsStyles.updateDialogInputContainer}>
             <TextField
                 className={settingsStyles.inputField}
-                placeholder={t("account.placeholders.email")}
+                placeholder={t("account.placeholders.email", { ns: "common" })}
                 value={email}
                 onChange={setEmail}
             />

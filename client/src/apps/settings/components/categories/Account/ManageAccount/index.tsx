@@ -14,7 +14,7 @@ import { manageAccountStrings } from "@/apps/settings/constants/utils";
 import * as styles from "./ManageAccount.module.css";
 
 function ManageAccount() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("settings");
 
     const { profile } = useAccountProfile();
 

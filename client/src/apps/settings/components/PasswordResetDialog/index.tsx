@@ -19,7 +19,7 @@ import PasswordResetDialogProps from "./PasswordResetDialogProps";
 import * as styles from "./PasswordResetDialog.module.css";
 
 function PasswordResetDialog({ onClose }: PasswordResetDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["settings", "common"]);
 
     const { profile } = useAccountProfile();
     const getErrorMessage = useAuthErrors();
@@ -44,7 +44,10 @@ function PasswordResetDialog({ onClose }: PasswordResetDialogProps) {
         });
 
         if (result.error) {
-            setVerifyError(t(getErrorMessage(result.error.code)));
+            setVerifyError(t(
+                getErrorMessage(result.error.code),
+                { ns: "common" }
+            ));
             setVerifyStatus("unsent");
 
             return;

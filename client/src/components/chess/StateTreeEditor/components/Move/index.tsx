@@ -13,7 +13,7 @@ import MoveProps from "./MoveProps";
 import * as styles from "./Move.module.css";
 
 function Move({ node, children }: MoveProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const onMoveClick = useContext(MoveClickEventContext);
 
@@ -81,8 +81,7 @@ function Move({ node, children }: MoveProps) {
     }
 
     return <>
-        {
-            node?.state.classification != undefined
+        {node?.state.classification
             && !classificationsHidden
             && <img
                 src={classificationImages[node.state.classification]}
@@ -111,12 +110,12 @@ function Move({ node, children }: MoveProps) {
                 options={[
                     {
                         icon: require("@assets/img/interface/delete.svg"),
-                        label: t("pages.analysis.stateTreeEditor.moveContextMenu.delete"),
+                        label: t("stateTreeEditor.moveContextMenu.delete"),
                         onSelect: deleteNode
                     },
                     {
                         icon: require("@assets/img/interface/up.svg"),
-                        label: t("pages.analysis.stateTreeEditor.moveContextMenu.promote"),
+                        label: t("stateTreeEditor.moveContextMenu.promote"),
                         onSelect: promoteNode
                     },
                     ...(process.env.NODE_ENV == "development"

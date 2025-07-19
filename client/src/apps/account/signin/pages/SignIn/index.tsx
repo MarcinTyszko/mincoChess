@@ -15,7 +15,7 @@ import authClient from "@/lib/auth";
 import * as styles from "../../index.module.css";
 
 function SignIn() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["otherPages", "common"]);
 
     const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ function SignIn() {
     return <div className={styles.wrapper}>
         <div className={styles.dialog}>
             <span className={styles.title}>
-                {t("pages.signIn.loginTitle")}
+                {t("signIn.loginTitle")}
             </span>
 
             <Button
@@ -61,24 +61,24 @@ function SignIn() {
                 style={{ gap: "10px" }}
                 onClick={googleLogin}
             >
-                {t("pages.signIn.loginButtonGoogle")}
+                {t("signIn.loginButtonGoogle")}
             </Button>
 
             <Separator style={{ margin: 0 }}>
-                <b>{t("pages.signIn.alternative")}</b>
+                <b>{t("signIn.alternative")}</b>
             </Separator>
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("account.placeholders.email")}
+                placeholder={t("account.placeholders.email", { ns: "common" })}
                 onChange={setEmail}
             />
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
                 className={styles.field}
-                placeholder={t("account.placeholders.password")}
+                placeholder={t("account.placeholders.password", { ns: "common" })}
                 password
                 onChange={setPassword}
             />
@@ -90,7 +90,7 @@ function SignIn() {
                 style={{ backgroundColor: ButtonColour.BLUE }}
                 onClick={login}
             >
-                {t("pages.signIn.loginButtonEmail")}
+                {t("signIn.loginButtonEmail")}
             </Button>
 
             {status && <LogMessage theme={status.theme}>
@@ -102,11 +102,11 @@ function SignIn() {
             <Button className={styles.switchFlowButton} onClick={
                 () => navigate("/signup")
             }>
-                {t("pages.signIn.registerPageButton")}
+                {t("signIn.registerPageButton")}
             </Button>
 
             <span className={styles.legalMessage}>
-                {t("pages.signIn.legalMessage")}
+                {t("signIn.legalMessage")}
             </span>
         </div>
     </div>;

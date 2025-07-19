@@ -12,7 +12,7 @@ function StateTreeEditor({
     stateTreeRootNode,
     onMoveClick
 }: StateTreeEditorProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const treeView = generateTreeView(stateTreeRootNode);
 
@@ -21,7 +21,7 @@ function StateTreeEditor({
             {treeView.length > 0
                 ? treeView
                 : <i className={styles.addNodePrompt}>
-                    {t("pages.analysis.stateTreeEditor.addNodePrompt")}
+                    {t("stateTreeEditor.addNodePrompt")}
                 </i>
             }
         </MoveClickEventContext.Provider>

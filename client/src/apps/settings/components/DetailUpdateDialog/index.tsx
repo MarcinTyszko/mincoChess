@@ -20,7 +20,7 @@ function DetailUpdateDialog({
     getErrorMessage,
     buttonDisabled
 }: DetailUpdateDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const [ input, setInput ] = useState("");
     const [ error, setError ] = useState<string>();

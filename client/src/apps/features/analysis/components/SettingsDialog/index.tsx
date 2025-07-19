@@ -11,7 +11,7 @@ import SettingsDialogProps from "./SettingsDialogProps";
 import * as styles from "./SettingsDialog.module.css";
 
 function SettingsDialog({ onClose }: SettingsDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     return <Dialog
         className={styles.settingsDialog}
@@ -24,7 +24,7 @@ function SettingsDialog({ onClose }: SettingsDialogProps) {
             />
 
             <span style={{ fontFamily: "Nunito" }}>
-                {t("pages.analysis.settings.title")}
+                {t("settings.title")}
             </span>
         </div>
 

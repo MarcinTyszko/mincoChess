@@ -8,7 +8,7 @@ import CreditsProfile from "@/apps/footer/credits/components/CreditsProfile";
 import * as styles from "./Credits.module.css";
 
 function Credits() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("otherPages");
 
     return <div className={styles.wrapper}>
         <h1 className={styles.title}>
@@ -19,7 +19,7 @@ function Credits() {
             {" "}Team
         </h1>
 
-        <h2>{t("pages.credits.leadDeveloper")}</h2>
+        <h2>{t("credits.leadDeveloper")}</h2>
 
         <CreditsProfile
             username="Wilson Crunden (wintrcat)"
@@ -40,7 +40,7 @@ function Credits() {
             ]}
         />
 
-        <h2>{t("pages.credits.developer")}</h2>
+        <h2>{t("credits.developer")}</h2>
 
         <CreditsProfile
             username="Matthew Roberts (hetbet)"
@@ -53,7 +53,7 @@ function Credits() {
             ]}
         />
 
-        <h2>{t("pages.credits.artist")}</h2>
+        <h2>{t("credits.artist")}</h2>
 
         <CreditsProfile
             username="Simona (0nlinegirl3)"

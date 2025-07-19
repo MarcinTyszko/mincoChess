@@ -16,7 +16,7 @@ import * as styles from "./Article.module.css";
 function Article() {
     const navigate = useNavigate();
 
-    const { t } = useTranslation();
+    const { t } = useTranslation(["otherPages", "common"]);
 
     const { articleId } = useParams();
 
@@ -42,7 +42,7 @@ function Article() {
                 && <div className={styles.articleLoaderContainer}>
                     <Loader/>
 
-                    <span>{t("loading")}</span>
+                    <span>{t("loading", { ns: "common" })}</span>
                 </div>
             }
 
@@ -77,7 +77,7 @@ function Article() {
 
         {status == "error"
             && <LogMessage>
-                {t("pages.news.article.error")}
+                {t("news.article.error")}
             </LogMessage>
         }
 

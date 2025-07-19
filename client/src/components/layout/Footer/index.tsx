@@ -8,7 +8,7 @@ import FooterProps from "./FooterProps";
 import * as styles from "./Footer.module.css";
 
 function Footer({ className, style }: FooterProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "helpCenter"]);
 
     const copyrightYear = useMemo(() => (
         new Date().getFullYear()
@@ -36,7 +36,7 @@ function Footer({ className, style }: FooterProps) {
 
         <div className={styles.links}>
             <div className={styles.section}>
-                <a href="/help">{t("pages.helpCenter.title")}</a>
+                <a href="/help">{t("title", { ns: "helpCenter" })}</a>
                 <a href="/settings">{t("settings")}</a>
                 <a className={styles.link} onClick={manageDataConsent}>
                     {t("footer.manageConsent")}

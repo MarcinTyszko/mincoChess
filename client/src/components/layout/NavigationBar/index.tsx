@@ -13,7 +13,7 @@ import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
 
 function NavigationBar() {
-    const { t } = useTranslation(); 
+    const { t } = useTranslation("common"); 
 
     const { profile, status } = useAccountProfile();
 

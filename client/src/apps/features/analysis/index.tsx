@@ -2,7 +2,7 @@ import React, { lazy, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { useAltcha } from "@/hooks/auth/useAltcha";
+import { useAltcha } from "@/apps/features/analysis/hooks/useAltcha";
 import PageWrapper from "@/components/layout/PageWrapper";
 import { removeDefaultConsentLink } from "@/lib/consent";
 

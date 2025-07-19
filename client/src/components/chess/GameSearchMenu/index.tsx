@@ -39,7 +39,7 @@ function GameSearchMenu({
     onClose,
     onGameSelect
 }: GameSearchMenuProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
     const queryClient = useQueryClient();
 
     const [ month, setMonth ] = useState(new Date().getMonth() + 1);
@@ -72,7 +72,7 @@ function GameSearchMenu({
 
     function selectListing(game: Game) {
         toast.success(
-            t("pages.analysis.gameSearchMenu.selectedToast"),
+            t("gameSearchMenu.selectedToast"),
             {
                 position: "bottom-left",
                 theme: "dark",
@@ -96,7 +96,7 @@ function GameSearchMenu({
         onClose={onClose}
     >
         <span className={styles.title}>
-            {t("pages.analysis.gameSearchMenu.title")}
+            {t("gameSearchMenu.title")}
         </span>
 
         <span className={styles.sourceTitle}>
@@ -130,13 +130,13 @@ function GameSearchMenu({
                     <Loader/>
                     
                     <span>
-                        {t("pages.analysis.gameSearchMenu.loading")}
+                        {t("gameSearchMenu.loading")}
                     </span>
 
                     {
                         isLongFetch
                         && <span>
-                            {t("pages.analysis.gameSearchMenu.loadingLong")}
+                            {t("gameSearchMenu.loadingLong")}
                         </span>
                     }
                 </div>
@@ -151,7 +151,7 @@ function GameSearchMenu({
                             perspective={getColourPlayed(game, username)}
                             onClick={selectListing}
                         />)
-                    : t("pages.analysis.gameSearchMenu.noGamesFound")
+                    : t("gameSearchMenu.noGamesFound")
                 )
             }
         </div>

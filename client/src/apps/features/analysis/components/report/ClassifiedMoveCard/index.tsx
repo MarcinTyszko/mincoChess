@@ -54,7 +54,7 @@ function getTopAlternativeMove(currentNode: StateTreeNode) {
 }
 
 function ClassifiedMoveCard() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "analysis"]);
 
     const { settings } = useSettingsStore();
 
@@ -89,8 +89,9 @@ function ClassifiedMoveCard() {
         )
         + " "
         + t(
-            "pages.analysis.classifiedMoveCard.classifications."
-            + node.state.classification
+            "classifiedMoveCard.classifications."
+            + node.state.classification,
+            { ns: "analysis" }
         )
     );
 
@@ -115,7 +116,7 @@ function ClassifiedMoveCard() {
             }
         >
             <div className={styles.classification}>
-                <img src={node.state.classification != undefined
+                <img src={node.state.classification
                     ? classificationImages[node.state.classification]
                     : (realtimeClassifyError
                         ? errorClassificationIcon
@@ -126,7 +127,7 @@ function ClassifiedMoveCard() {
                 <span
                     className={styles.classificationName}
                     style={{
-                        color: node.state.classification != undefined
+                        color: node.state.classification
                             ? classificationColours[node.state.classification]
                             : (realtimeClassifyError
                                 ? classificationColours[Classification.BLUNDER]
@@ -134,7 +135,7 @@ function ClassifiedMoveCard() {
                             )
                     }}
                 >
-                    {node.state.classification != undefined
+                    {node.state.classification
                         ? playedMoveMessage
                         : (realtimeClassifyError
                             ? t("error") : t("loading")
@@ -145,17 +146,17 @@ function ClassifiedMoveCard() {
 
             {realtimeClassifyError
                 && <LogMessage style={{ marginTop: "5px" }}>
-                    {t(realtimeClassifyError)}
+                    {t(realtimeClassifyError, { ns: "analysis" })}
                 </LogMessage>
             }
 
             {topAlternativeMove
-                && node.state.classification != undefined
+                && node.state.classification
                 && topAlternativeMove.san != node.state.move?.san
                 && !inalterableClassifications.includes(node.state.classification)
                 && <span className={styles.bestAlternativeComment}>
                     <span>
-                        {t("pages.analysis.classifiedMoveCard.alternative")}
+                        {t("classifiedMoveCard.alternative", { ns: "analysis" })}
                     </span>
 
                     <span

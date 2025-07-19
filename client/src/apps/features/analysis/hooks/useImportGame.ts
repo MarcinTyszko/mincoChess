@@ -16,13 +16,13 @@ import parsePgn from "@/lib/games/pgn";
 import parseFenString from "@/lib/games/fen";
 
 const messages = {
-    fetchingLatest: "pages.analysis.gameSelector.statusMessages.fetchingLatest",
-    noGameSelected: "pages.analysis.gameSelector.errors.noGameSelected",
-    invalidGame: "pages.analysis.gameSelector.errors.invalidGame"
+    fetchingLatest: "gameSelector.statusMessages.fetchingLatest",
+    noGameSelected: "gameSelector.errors.noGameSelected",
+    invalidGame: "gameSelector.errors.invalidGame"
 };
 
 function useImportGame() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const {
         selectedGame,

@@ -31,7 +31,7 @@ const defaultStyles = {
 function DropdownSetting<Option extends BaseDropdownOption>(
     props: DropdownSettingProps<Option>
 ) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     function getMenuOffset() {
         const dropdownWidth = (
@@ -49,9 +49,7 @@ function DropdownSetting<Option extends BaseDropdownOption>(
     }
 
     function getLabel(option: BaseDropdownOption) {
-        return option.translabel
-            ? t(option.translabel)
-            : (option.label || t("error"));
+        return option.label || t("error");
     }
 
     return <Select

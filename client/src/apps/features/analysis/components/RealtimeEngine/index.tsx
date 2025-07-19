@@ -28,7 +28,7 @@ function RealtimeEngine({
 }: RealtimeEngineProps) {
     const hydratedConfig = { ...config, lines: config.lines || 1 };
 
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const [ engine, setEngine ] = useState<Engine>();
 
@@ -128,7 +128,7 @@ function RealtimeEngine({
             onEvaluationComplete?.(lines);
         } catch {
             setEvaluationError(
-                t("pages.analysis.realtimeEngine.error")
+                t("realtimeEngine.error")
             );
         }
     }
@@ -163,7 +163,7 @@ function RealtimeEngine({
     >
         <span className={styles.depth}>
             <span>
-                {t("pages.analysis.realtimeEngine.depth")}
+                {t("realtimeEngine.depth")}
             </span>
 
             <span>

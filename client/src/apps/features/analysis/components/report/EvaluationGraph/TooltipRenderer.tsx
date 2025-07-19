@@ -13,7 +13,7 @@ interface TooltipRendererProps {
 function TooltipRenderer({ dataPoint }: TooltipRendererProps) {
     return <div className={styles.tooltip}>
         <div className={styles.tooltipEvaluation}>
-            {dataPoint.state.classification != undefined
+            {dataPoint.state.classification
                 && <img
                     src={classificationImages[dataPoint.state.classification]}
                     height={25}

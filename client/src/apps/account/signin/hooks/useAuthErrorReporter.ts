@@ -8,7 +8,7 @@ import StatusMessage from "@/components/common/LogMessage/StatusMessage";
 function useAuthErrorReporter(
     onStatusMessage: (statusMessage: StatusMessage) => void
 ) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const [ searchParams ] = useSearchParams();
 

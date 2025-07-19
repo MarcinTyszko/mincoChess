@@ -10,7 +10,7 @@ import { manageDataConsent } from "@/lib/consent";
 import * as styles from "./Settings.module.css";
 
 function Settings() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["settings", "common", "helpCenter"]);
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ function Settings() {
         <div className={styles.titleContainer}>
             <img src={require("@assets/img/icons/settings.png")} />
 
-            <span>{t("settings")}</span>
+            <span>{t("settings", { ns: "common" })}</span>
         </div>
 
         <div className={styles.settingsContainer}>
@@ -35,33 +35,33 @@ function Settings() {
                     active={location.pathname.includes("/settings/account")}
                     onClick={() => navigate("/settings/account")}
                 >
-                    {t("pages.settings.categories.account.title")}
+                    {t("account.title")}
                 </CategoryTab>}
 
                 <CategoryTab
                     active={location.pathname.includes("/settings/theme")}
                     onClick={() => navigate("/settings/theme")}
                 >
-                    {t("pages.settings.categories.boardAndPieces.title")}
+                    {t("boardAndPieces.title")}
                 </CategoryTab>
 
                 <CategoryTab
                     active={location.pathname.includes("/settings/bugs")}
                     onClick={() => navigate("/settings/bugs")}
                 >
-                    {t("pages.settings.categories.bugReporting.title")}
+                    {t("bugReporting.title")}
                 </CategoryTab>
 
                 <hr className={styles.separator} />
 
                 <CategoryTab onClick={manageDataConsent}>
-                    {t("pages.settings.categories.privacy")}
+                    {t("privacy")}
                 </CategoryTab>
 
                 <CategoryTab onClick={() => {
                     location.href = "/help";
                 }}>
-                    {t("pages.helpCenter.title")}
+                    {t("title", { ns: "helpCenter" })}
                 </CategoryTab>
             </div>
         </div>

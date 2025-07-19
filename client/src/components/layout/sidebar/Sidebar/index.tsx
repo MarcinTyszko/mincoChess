@@ -9,7 +9,7 @@ import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";
 
 function Sidebar({ style, onClose }: SidebarProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     return <div
         className={styles.sidebar}

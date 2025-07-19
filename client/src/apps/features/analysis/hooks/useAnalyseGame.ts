@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { findNodeRecursively } from "shared/types/game/position/StateTreeNode";
 import AnalysisStatus from "@analysis/constants/AnalysisStatus";
-import { useAltcha } from "@/hooks/auth/useAltcha";
+import { useAltcha } from "@/apps/features/analysis/hooks/useAltcha";
 import useSettingsStore from "@/stores/SettingsStore";
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
@@ -13,7 +13,7 @@ import { analyseStateTree } from "@analysis/lib/reporter";
 function useAnalyseGame(
     onAnalysisError?: (message: string) => void
 ) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const settings = useSettingsStore(state => state.settings.analysis);
 
@@ -44,7 +44,7 @@ function useAnalyseGame(
             return executeCaptcha();
         } else if (analyseResult.status != StatusCodes.OK) {
             return onAnalysisError?.(
-                t("pages.analysis.progressReporter.reportFailed")
+                t("progressReporter.reportFailed")
             );
         }
 

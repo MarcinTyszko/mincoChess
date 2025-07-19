@@ -8,7 +8,7 @@ import Button from "@/components/common/Button";
 import * as styles from "./TabBar.module.css";
 
 function TabBar() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const { activeTab, setActiveTab } = useAnalysisTabStore();
 
@@ -20,7 +20,7 @@ function TabBar() {
             }
             onClick={() => setActiveTab(AnalysisTab.REPORT)}
         >
-            {t("pages.analysis.analysisTabBar.report")}
+            {t("analysisTabBar.report")}
         </Button>
 
         <Button
@@ -30,7 +30,7 @@ function TabBar() {
             }
             onClick={() => setActiveTab(AnalysisTab.ANALYSIS)}
         >
-            {t("pages.analysis.analysisTabBar.analysis")}
+            {t("analysisTabBar.analysis")}
         </Button>
     </div>;
 }

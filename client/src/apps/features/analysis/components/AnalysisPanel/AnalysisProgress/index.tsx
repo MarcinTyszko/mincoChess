@@ -10,15 +10,15 @@ import useAnalyseGame from "@analysis/hooks/useAnalyseGame";
 
 function getStatusTitle(status: AnalysisStatus) {
     const statusTitles: Record<string, string | undefined> = {
-        [AnalysisStatus.EVALUATING]: "pages.analysis.progressReporter.evaluating",
-        [AnalysisStatus.AWAITING_CAPTCHA]: "pages.analysis.progressReporter.awaitingCaptcha"
+        [AnalysisStatus.EVALUATING]: "progressReporter.evaluating",
+        [AnalysisStatus.AWAITING_CAPTCHA]: "progressReporter.awaitingCaptcha"
     };
 
     return statusTitles[status];
 }
 
 function AnalysisProgress() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const {
         evaluationProgress,
@@ -39,7 +39,7 @@ function AnalysisProgress() {
         if (analysisStatus != AnalysisStatus.AWAITING_CAPTCHA) return;
 
         if (!document.hasFocus()) {
-            document.title = t("pages.analysis.progressReporter.completeNotification");
+            document.title = t("progressReporter.completeNotification");
         }
 
         function focusListener() {
@@ -73,8 +73,8 @@ function AnalysisProgress() {
         progress={evaluationProgress}
         title={statusTitle ? t(statusTitle) : undefined}
         tooltip={analysisStatus == AnalysisStatus.EVALUATING
-            ? t("pages.analysis.progressReporter.evaluatingTooltip")
-            : t("pages.analysis.progressReporter.captchaTooltip")
+            ? t("progressReporter.evaluatingTooltip")
+            : t("progressReporter.captchaTooltip")
         }
         error={analysisError}
     />;

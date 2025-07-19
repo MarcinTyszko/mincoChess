@@ -17,7 +17,7 @@ import authClient from "@/lib/auth";
 import * as styles from "../../index.module.css";
 
 function SignUp() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "otherPages"]);
 
     const navigate = useNavigate();
 
@@ -83,7 +83,7 @@ function SignUp() {
     return <div className={styles.wrapper}>
         <div className={styles.dialog}>
             <span className={styles.title}>
-                {t("pages.signIn.registerTitle")}
+                {t("signIn.registerTitle", { ns: "otherPages" })}
             </span>
 
             <Button
@@ -93,11 +93,11 @@ function SignUp() {
                 style={{ gap: "10px" }}
                 onClick={googleLogin}
             >
-                {t("pages.signIn.registerButtonGoogle")}
+                {t("signIn.registerButtonGoogle", { ns: "otherPages" })}
             </Button>
 
             <Separator style={{ margin: 0 }}>
-                <b>{t("pages.signIn.alternative")}</b>
+                <b>{t("signIn.alternative", { ns: "otherPages" })}</b>
             </Separator>
 
             <TextField
@@ -138,7 +138,7 @@ function SignUp() {
                 disabled={registrationPending}
                 onClick={register}
             >
-                {t("pages.signIn.registerButtonEmail")}
+                {t("signIn.registerButtonEmail", { ns: "otherPages" })}
             </Button>
 
             {status && <LogMessage theme={status.theme}>
@@ -150,11 +150,11 @@ function SignUp() {
             <Button className={styles.switchFlowButton} onClick={
                 () => navigate("/signin")
             }>
-                {t("pages.signIn.loginPageButton")}
+                {t("signIn.loginPageButton", { ns: "otherPages" })}
             </Button>
 
             <span className={styles.legalMessage}>
-                {t("pages.signIn.legalMessage")}
+                {t("signIn.legalMessage", { ns: "otherPages" })}
             </span>
         </div>
     </div>;

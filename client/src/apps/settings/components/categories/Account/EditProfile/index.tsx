@@ -20,7 +20,7 @@ import * as settingsStyles from "@/apps/settings/index.module.css";
 import * as styles from "./EditProfile.module.css";
 
 function EditProfile() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "settings"]);
 
     const { profile, refetch } = useAccountProfile();
 
@@ -97,7 +97,7 @@ function EditProfile() {
                 )}
                 buttonDisabled={input => input.length < 3}
             >
-                {t(`${editProfileStrings}.displayName.message`)}
+                {t(`${editProfileStrings}.displayName.message`, { ns: "settings" })}
             </DetailUpdateDialog>}
         </div>
 
@@ -129,7 +129,7 @@ function EditProfile() {
                 )}
                 buttonDisabled={input => input.length < 3}
             >
-                {t(`${editProfileStrings}.username.message`)}
+                {t(`${editProfileStrings}.username.message`, { ns: "settings" })}
             </DetailUpdateDialog>}
         </div>
 

@@ -7,22 +7,22 @@ import SwitchSetting from "@/components/settings/SwitchSetting";
 import * as categoryStyles from "../Category.module.css";
 
 function BugReporting() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("settings");
 
     const { settings, setSettings } = useSettingsStore();
 
     return <div className={categoryStyles.wrapper}>
         <b className={categoryStyles.header}>
-            {t("pages.settings.categories.bugReporting.bugReportingMode")}
+            {t("bugReporting.bugReportingMode")}
         </b>
 
         <span style={{ color: "gray" }}>
-            {t("pages.settings.categories.bugReporting.bugReportingModeDescription")}
+            {t("bugReporting.bugReportingModeDescription")}
         </span>
 
         <div className={categoryStyles.setting}>
             <span>
-                {t("pages.settings.categories.bugReporting.bugReportingMode")}
+                {t("bugReporting.bugReportingMode")}
             </span>
 
             <SwitchSetting

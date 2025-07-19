@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import { floor, clamp } from "lodash-es";
@@ -28,33 +28,33 @@ const engineVersionOptions = [
     }
 ];
 
-const engineArrowsOptions = [
-    {
-        translabel: "disabled",
-        value: EngineArrowType.DISABLED
-    },
-    {
-        translabel: "pages.analysis.settings.engine.suggestionArrows.continuation",
-        value: EngineArrowType.TOP_CONTINUATION
-    },
-    {
-        translabel: "pages.analysis.settings.engine.suggestionArrows.alternative",
-        value: EngineArrowType.TOP_ALTERNATIVE
-    }
-];
-
 function EngineOptionsArea() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation(["analysis", "common"]);
 
     const { settings, setSettings } = useSettingsStore();
 
+    const engineArrowsOptions = useMemo(() => [
+        {
+            label: t("disabled", { ns: "common" }),
+            value: EngineArrowType.DISABLED
+        },
+        {
+            translabel: t("settings.engine.suggestionArrows.continuation"),
+            value: EngineArrowType.TOP_CONTINUATION
+        },
+        {
+            translabel: t("settings.engine.suggestionArrows.alternative"),
+            value: EngineArrowType.TOP_ALTERNATIVE
+        }
+    ], [i18n.language]);
+
     return <>
         <span className={styles.header}>
-            {t("pages.analysis.settings.engine.title")}
+            {t("settings.engine.title")}
         </span>
 
         <span className={styles.setting}>
-            <span>{t("enabled")}</span>
+            <span>{t("enabled", { ns: "common" })}</span>
 
             <SwitchSetting
                 defaultChecked={settings.analysis.engine.enabled}
@@ -69,12 +69,12 @@ function EngineOptionsArea() {
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-version">
-                {t("pages.analysis.settings.engine.version")}
+                {t("settings.engine.version")}
             </span>
 
             <Tooltip
                 id="settings-engine-version"
-                content={t("pages.analysis.settings.engine.descriptions.version")}
+                content={t("settings.engine.descriptions.version")}
                 delayShow={500}
                 className={styles.settingDescription}
             />
@@ -98,12 +98,12 @@ function EngineOptionsArea() {
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-depth">
-                {t("pages.analysis.settings.engine.depth")}
+                {t("settings.engine.depth")}
             </span>
 
             <Tooltip
                 id="settings-engine-depth"
-                content={t("pages.analysis.settings.engine.descriptions.depth")}
+                content={t("settings.engine.descriptions.depth")}
                 delayShow={500}
                 className={styles.settingDescription}
             />
@@ -126,12 +126,12 @@ function EngineOptionsArea() {
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-lines">
-                {t("pages.analysis.settings.engine.lines")}
+                {t("settings.engine.lines")}
             </span>
 
             <Tooltip
                 id="settings-engine-lines"
-                content={t("pages.analysis.settings.engine.descriptions.lines")}
+                content={t("settings.engine.descriptions.lines")}
                 delayShow={500}
                 className={styles.settingDescription}
             />
@@ -154,18 +154,18 @@ function EngineOptionsArea() {
 
         {settings.analysis.engine.lines < 2
             && <LogMessage theme="warn">
-                {t("pages.analysis.settings.engine.linesWarning")}
+                {t("settings.engine.linesWarning")}
             </LogMessage>
         }
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-time-limit">
-                {t("pages.analysis.settings.engine.timeLimit")}
+                {t("settings.engine.timeLimit")}
             </span>
 
             <Tooltip
                 id="settings-engine-time-limit"
-                content={t("pages.analysis.settings.engine.descriptions.timeLimit")}
+                content={t("settings.engine.descriptions.timeLimit")}
                 delayShow={500}
                 className={styles.settingDescription}
             />
@@ -199,7 +199,7 @@ function EngineOptionsArea() {
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-suggestion-arrows">
-                {t("pages.analysis.settings.engine.suggestionArrows.title")}
+                {t("settings.engine.suggestionArrows.title")}
             </span>
 
             <Tooltip
@@ -207,11 +207,11 @@ function EngineOptionsArea() {
                 delayShow={500}
                 className={styles.settingDescription}
             >
-                {t("pages.analysis.settings.engine.descriptions.suggestionArrows.disabled")}
+                {t("settings.engine.descriptions.suggestionArrows.disabled")}
                 <br/><br/>
-                {t("pages.analysis.settings.engine.descriptions.suggestionArrows.continuation")}
+                {t("settings.engine.descriptions.suggestionArrows.continuation")}
                 <br/><br/>
-                {t("pages.analysis.settings.engine.descriptions.suggestionArrows.alternative")}
+                {t("settings.engine.descriptions.suggestionArrows.alternative")}
             </Tooltip>
 
             <DropdownSetting

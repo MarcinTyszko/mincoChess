@@ -14,7 +14,7 @@ function ConfirmDialog({
     dangerAction,
     onConfirm
 }: ConfirmDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     return <Dialog
         className={styles.dialog}

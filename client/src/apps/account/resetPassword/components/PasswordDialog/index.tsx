@@ -15,7 +15,7 @@ import authClient from "@/lib/auth";
 import * as styles from "../../index.module.css";
 
 function PasswordDialog() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "otherPages"]);
 
     const [ searchParams ] = useSearchParams();
 
@@ -61,7 +61,7 @@ function PasswordDialog() {
 
     return <div className={styles.updateDialog}>
         <span className={styles.message}>
-            {t("pages.resetPassword.message")}
+            {t("resetPassword.message", { ns: "otherPages" })}
         </span>
 
         <TextField

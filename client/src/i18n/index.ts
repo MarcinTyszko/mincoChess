@@ -11,9 +11,7 @@ i18next
     .use(httpApi)
     .init({
         fallbackLng: "en",
-        backend: {
-            loadPath: "/locales/{{lng}}.json"
-        }
+        backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" }
     })
     .then(() => {
         const preferredLanguage = localStorage.getItem(
@@ -23,7 +21,5 @@ i18next
         if (!preferredLanguage) return;
         if (!languages.find(lang => lang.id == preferredLanguage)) return;
 
-        i18next.changeLanguage(
-            String(preferredLanguage)
-        );
+        i18next.changeLanguage(preferredLanguage);
     });

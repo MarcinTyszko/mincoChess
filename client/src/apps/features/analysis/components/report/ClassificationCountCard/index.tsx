@@ -24,7 +24,7 @@ const excludedClassifications = [
 ];
 
 function ClassificationCountCard({ analysisGame }: ClassificationCountCardProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     useAnalysisBoardStore(state => state.currentStateTreeNodeUpdate);
 

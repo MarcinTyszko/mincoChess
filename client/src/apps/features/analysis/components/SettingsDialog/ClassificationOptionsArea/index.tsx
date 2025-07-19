@@ -9,17 +9,17 @@ import SwitchSetting from "@/components/settings/SwitchSetting";
 import * as styles from "../SettingsDialog.module.css";
 
 function ClassificationOptionsArea() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const { settings, setSettings } = useSettingsStore();
 
     return <>
         <span className={styles.header}>
-            {t("pages.analysis.settings.classifications.title")}
+            {t("settings.classifications.title")}
         </span>
 
         <div className={styles.setting}>
-            <span>{t("pages.analysis.settings.classifications.hide")}</span>
+            <span>{t("settings.classifications.hide")}</span>
 
             <SwitchSetting
                 defaultChecked={settings.analysis.classifications.hide}
@@ -91,7 +91,7 @@ function ClassificationOptionsArea() {
                 />
 
                 <span>
-                    {t("pages.analysis.settings.classifications.theory")}
+                    {t("settings.classifications.theory")}
                 </span>
             </div>
 

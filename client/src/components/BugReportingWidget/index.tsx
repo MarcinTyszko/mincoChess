@@ -6,7 +6,7 @@ import { Hook, Unhook } from "console-feed";
 import * as styles from "./BugReportingWidget.module.css";
 
 function BugReportingWidget() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const bugReportingLogsRef = useRef<any[]>([]);
     

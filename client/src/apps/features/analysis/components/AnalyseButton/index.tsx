@@ -7,7 +7,7 @@ import AnalyseButtonProps from "./AnalyseButtonProps";
 import * as styles from "./AnalyseButton.module.css";
 
 function AnalyseButton({ style, onClick }: AnalyseButtonProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     return <Button
         className={styles.analyseButton}
@@ -16,7 +16,7 @@ function AnalyseButton({ style, onClick }: AnalyseButtonProps) {
         iconSize="30px"
         onClick={onClick}
     >
-        {t("pages.analysis.analyseButton")}
+        {t("analyseButton")}
     </Button>;
 }
 

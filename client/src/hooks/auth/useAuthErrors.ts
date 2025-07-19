@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import accountErrors from "shared/constants/account/errors";
 
 function useAuthErrors() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     return (errorCode?: string) => {
         if (!errorCode) return t("unknownError");

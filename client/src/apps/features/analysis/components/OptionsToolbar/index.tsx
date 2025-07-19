@@ -11,7 +11,7 @@ import ShareDialog from "../ShareDialog";
 import * as styles from "./OptionsToolbar.module.css";
 
 function OptionsToolbar() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["analysis", "common"]);
 
     const { analysisGame, gameAnalysisOpen } = useAnalysisGameStore();
 
@@ -36,7 +36,7 @@ function OptionsToolbar() {
 
             <Tooltip
                 id="options-toolbar-back"
-                content={t("back")}
+                content={t("back", { ns: "common" })}
                 delayShow={500}
             />
 
@@ -50,7 +50,7 @@ function OptionsToolbar() {
 
             <Tooltip
                 id="options-toolbar-flip"
-                content={t("pages.analysis.options.flipBoard")}
+                content={t("options.flipBoard")}
                 delayShow={500}
             />
 
@@ -64,7 +64,7 @@ function OptionsToolbar() {
 
             <Tooltip
                 id="options-toolbar-settings"
-                content={t("settings")}
+                content={t("settings", { ns: "common" })}
                 delayShow={500}
             />
 
@@ -78,7 +78,7 @@ function OptionsToolbar() {
 
             <Tooltip
                 id="options-toolbar-share"
-                content={t("pages.analysis.options.share")}
+                content={t("options.share")}
                 delayShow={500}
             />
         </div>

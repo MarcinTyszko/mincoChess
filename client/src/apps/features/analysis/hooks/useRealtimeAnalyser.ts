@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { StatusCodes } from "http-status-codes";
 
-import { useAltcha } from "@/hooks/auth/useAltcha";
+import { useAltcha } from "@/apps/features/analysis/hooks/useAltcha";
 import AnalysisStatus from "@analysis/constants/AnalysisStatus";
 import useSettingsStore from "@/stores/SettingsStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
@@ -60,13 +60,9 @@ function useRealtimeAnalyser() {
         const parentState = currentStateTreeNode.parent.state;
 
         if (parentState.engineLines.length == 0) {
-            if (currentStateTreeNode.state.classification != undefined) {
-                return;
-            }
+            if (!currentStateTreeNode.state.classification) return;
 
-            return cancelAnalyse(
-                "pages.analysis.classifiedMoveCard.insufficientLines"
-            );
+            return cancelAnalyse("classifiedMoveCard.insufficientLines");
         }
 
         const analyseNodeResult = await analyseNode(currentStateTreeNode, {
@@ -82,11 +78,8 @@ function useRealtimeAnalyser() {
             return;
         }
 
-        if (!analyseNodeResult.node) {
-            return cancelAnalyse(
-                "pages.analysis.classifiedMoveCard.unknownError"
-            );
-        }
+        if (!analyseNodeResult.node)
+            return cancelAnalyse("classifiedMoveCard.unknownError");
 
         // Apply classification and deactivate classifier
         const currentState = currentStateTreeNode.state;
@@ -96,11 +89,8 @@ function useRealtimeAnalyser() {
         currentState.accuracy = analysedState.accuracy;
         currentState.opening = analysedState.opening;
 
-        if (analysedState.classification == undefined) {
-            return cancelAnalyse(
-                "pages.analysis.classifiedMoveCard.unknownError"
-            );
-        }
+        if (!analysedState.classification)
+            return cancelAnalyse("classifiedMoveCard.unknownError");
 
         cancelAnalyse();
         dispatchCurrentNodeUpdate();

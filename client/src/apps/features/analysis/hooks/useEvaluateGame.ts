@@ -8,7 +8,7 @@ import useAnalysisProgressStore from "@analysis/stores/AnalysisProgressStore";
 import evaluateMoves from "@analysis/lib/evaluate";
 
 function useEvaluateGame() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const settings = useSettingsStore(
         state => state.settings.analysis.engine
@@ -45,7 +45,7 @@ function useEvaluateGame() {
             setAnalysisStatus(AnalysisStatus.AWAITING_CAPTCHA);
         } catch (err) {
             console.error(err);
-            setAnalysisError(t("pages.analysis.analysisError"));
+            setAnalysisError(t("analysisError"));
         }
     }
 

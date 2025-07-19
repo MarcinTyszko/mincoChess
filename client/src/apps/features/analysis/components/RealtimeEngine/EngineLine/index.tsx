@@ -9,7 +9,7 @@ import EngineLineProps from "./EngineLineProps";
 import * as styles from "./EngineLine.module.css";
 
 function EngineLine({ line }: EngineLineProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const {
         currentStateTreeNode,
@@ -58,7 +58,7 @@ function EngineLine({ line }: EngineLineProps) {
                     ? Math.abs(line.evaluation.value / 100).toFixed(2)
                     : (
                         line.evaluation.value == 0
-                            ? t("pages.analysis.realtimeEngine.checkmate")
+                            ? t("realtimeEngine.checkmate")
                             : `M${Math.abs(line.evaluation.value)}`
                     )
             }

@@ -66,7 +66,7 @@ function GameListing({
     perspective,
     onClick
 }: GameListingProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const displayResult = useMemo(() => {
         if (!game.players.white.result) return;

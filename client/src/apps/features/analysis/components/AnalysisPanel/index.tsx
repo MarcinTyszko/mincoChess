@@ -26,7 +26,7 @@ function AnalysisPanel({
     className,
     style
 }: AnalysisPanelProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const settings = useSettingsStore(state => state.settings.analysis);
 
@@ -46,7 +46,7 @@ function AnalysisPanel({
     >
         <div className={styles.components}>
             <div className={styles.title}>
-                {t("pages.analysis.title")}
+                {t("title")}
             </div>
 
             <OptionsToolbar/>
@@ -62,9 +62,9 @@ function AnalysisPanel({
             {gameAnalysisOpen
                 && currentNode.state.move
                 && !settings.classifications.hide
-                && !(
-                    !settings.engine.enabled
-                    && currentNode.state.classification == undefined
+                && (
+                    settings.engine.enabled
+                    || currentNode.state.classification
                 )
                 && <ClassifiedMoveCard/>
             }

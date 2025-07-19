@@ -28,7 +28,7 @@ function GameSelector({
     saveLocalStorage,
     onGameSelect
 }: GameSelectorProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation("analysis");
 
     const {
         savedGameSource,
@@ -90,7 +90,7 @@ function GameSelector({
     return <div className={styles.wrapper} style={style}>
         <div className={styles.gameSourceSection}>
             <div className={styles.gameSourceLabel}>
-                {t("pages.analysis.gameSelector.sourceLabel")}
+                {t("gameSelector.sourceLabel")}
             </div>
 
             <select
@@ -118,7 +118,7 @@ function GameSelector({
         <textarea
             className={styles.selectorField}
             placeholder={t(
-                "pages.analysis.gameSelector.sourcePlaceholders."
+                "gameSelector.sourcePlaceholders."
                 + sourcePlaceholderKeys[gameSource.key]
             )}
             style={{
@@ -147,7 +147,7 @@ function GameSelector({
                 iconSize="25px"
                 onClick={openGameSearchMenu}
             >
-                {t("pages.analysis.gameSelector.searchGamesButton")}
+                {t("gameSelector.searchGamesButton")}
             </Button>
         }
 
@@ -166,7 +166,7 @@ function GameSelector({
                     icon={require("@assets/img/interface/upload.svg")}
                     iconSize="25px"
                 >
-                    {t("pages.analysis.gameSelector.uploadPGNButton")}
+                    {t("gameSelector.uploadPGNButton")}
                 </Button>
             </FileUploader>
         }

@@ -2,13 +2,9 @@ import ButtonColour from "@/components/common/Button/Colour";
 
 export type VerifyStatus = "unsent" | "sending" | "sent";
 
-export const editProfileStrings = (
-    "pages.settings.categories.account.editProfile"
-);
+export const editProfileStrings = "account.editProfile";
 
-export const manageAccountStrings = (
-    "pages.settings.categories.account.manageAccount"
-);
+export const manageAccountStrings = "account.manageAccount";
 
 export const verifyButtonStrings = (
     `${editProfileStrings}.email.verificationButton`

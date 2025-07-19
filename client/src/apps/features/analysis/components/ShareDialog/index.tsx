@@ -9,11 +9,11 @@ import ShareDialogProps from "./ShareDialogProps";
 import * as styles from "./ShareDialog.module.css";
 
 function ShareDialog({ game, currentNode, onClose }: ShareDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useTranslation(["common", "analysis"]);
 
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <div className={styles.title}>
-            {t("pages.analysis.options.share")}
+            {t("options.share", { ns: "analysis" })}
         </div>
 
         <div className={styles.content}>

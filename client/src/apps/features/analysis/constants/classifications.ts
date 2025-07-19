@@ -37,17 +37,17 @@ export const classificationColours = {
 };
 
 export const classificationNames = {
-    [Classification.BRILLIANT]: "pages.analysis.classifications.brilliant",
-    [Classification.CRITICAL]: "pages.analysis.classifications.critical",
-    [Classification.BEST]: "pages.analysis.classifications.best",
-    [Classification.EXCELLENT]: "pages.analysis.classifications.excellent",
-    [Classification.OKAY]: "pages.analysis.classifications.okay",
-    [Classification.INACCURACY]: "pages.analysis.classifications.inaccuracy",
-    [Classification.MISTAKE]: "pages.analysis.classifications.mistake",
-    [Classification.BLUNDER]: "pages.analysis.classifications.blunder",
-    [Classification.FORCED]: "pages.analysis.classifications.forced",
-    [Classification.THEORY]: "pages.analysis.classifications.theory",
-    [Classification.RISKY]: "pages.analysis.classifications.risky"
+    [Classification.BRILLIANT]: "classifications.brilliant",
+    [Classification.CRITICAL]: "classifications.critical",
+    [Classification.BEST]: "classifications.best",
+    [Classification.EXCELLENT]: "classifications.excellent",
+    [Classification.OKAY]: "classifications.okay",
+    [Classification.INACCURACY]: "classifications.inaccuracy",
+    [Classification.MISTAKE]: "classifications.mistake",
+    [Classification.BLUNDER]: "classifications.blunder",
+    [Classification.FORCED]: "classifications.forced",
+    [Classification.THEORY]: "classifications.theory",
+    [Classification.RISKY]: "classifications.risky"
 };
 
 export const inalterableClassifications = [

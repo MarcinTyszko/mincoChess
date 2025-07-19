@@ -1,4 +1,4 @@
-import LanguageOption from "@/ctypes/LanguageOption";
+import LanguageOption from "@/types/LanguageOption";
 
 const languages: LanguageOption[] = [
     {
