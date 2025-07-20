@@ -7,12 +7,16 @@ import AnalyseButton from "@analysis/components/AnalyseButton";
 import Header from "../../components/Header";
 import * as styles from "./HelpCenter.module.css";
 
+import iconInterfaceHelp from "@assets/img/interface/help.svg";
+import iconHelpcenterMail from "@assets/img/helpCenter/mail.png";
+import iconHelpcenterAnalysis from "@assets/img/helpCenter/analysis.png";
+
 function HelpCenter() {
     const { t } = useTranslation("helpCenter");
 
     return <div className={styles.wrapper}>
         <Header
-            image={require("@assets/img/interface/help.svg")}
+            image={iconInterfaceHelp}
             size="1.7rem"
         >
             {t("title")}
@@ -20,7 +24,7 @@ function HelpCenter() {
 
         <div className={styles.section}>
             <Header
-                image={require("@assets/img/helpCenter/mail.png")}
+                image={iconHelpcenterMail}
                 size="1.3rem"
             >
                 {t("contact.title")}
@@ -40,7 +44,7 @@ function HelpCenter() {
 
         <div className={styles.section}>
             <Header
-                image={require("@assets/img/helpCenter/analysis.png")}
+                image={iconHelpcenterAnalysis}
                 size="1.3rem"
             >
                 {t("analysis.title")}

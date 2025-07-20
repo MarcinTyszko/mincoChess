@@ -5,6 +5,8 @@ import { Hook, Unhook } from "console-feed";
 
 import * as styles from "./BugReportingWidget.module.css";
 
+import iconInterfaceCopy from "@assets/img/interface/copy.svg";
+
 function BugReportingWidget() {
     const { t } = useTranslation("common");
 
@@ -47,7 +49,7 @@ function BugReportingWidget() {
             );
         }}
     >
-        <img src={require("@assets/img/interface/copy.svg")} />
+        <img src={iconInterfaceCopy} />
     </div>;
 }
 

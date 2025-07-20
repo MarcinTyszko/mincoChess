@@ -5,6 +5,9 @@ import ButtonColour from "@/components/common/Button/Colour";
 
 import * as styles from "./Unfound.module.css";
 
+import iconUnfoundgame from "@assets/img/unfoundgame.gif";
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+
 function Unfound() {
     return <div className={styles.wrapper}>
         <h1 className={styles.errorCode}>404</h1>
@@ -12,12 +15,12 @@ function Unfound() {
 
         <img
             className={styles.image}
-            src={require("@assets/img/unfoundgame.gif")}
+            src={iconUnfoundgame}
         />
 
         <a href="/">
             <Button
-                icon={require("@assets/img/interface/back.svg")}
+                icon={iconInterfaceBack}
                 iconSize="30px"
                 style={{
                     backgroundColor: ButtonColour.BLUE,

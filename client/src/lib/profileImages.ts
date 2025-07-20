@@ -2,7 +2,9 @@ import { Chess } from "chess.js";
 
 import Game from "shared/types/game/Game";
 
-const defaultProfileImage = require("@assets/img/defaultprofileimage.png");
+import iconDefaultprofileimage from "@assets/img/defaultprofileimage.png";
+
+const defaultProfileImage = iconDefaultprofileimage;
 
 export function isGameFromChessCom(game: Game) {
     const board = new Chess();

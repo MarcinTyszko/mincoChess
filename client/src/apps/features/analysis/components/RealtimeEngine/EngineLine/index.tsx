@@ -8,6 +8,8 @@ import playBoardSound from "@/lib/boardSounds";
 import EngineLineProps from "./EngineLineProps";
 import * as styles from "./EngineLine.module.css";
 
+import iconInterfaceExpandarrow from "@assets/img/interface/expandarrow.svg";
+
 function EngineLine({ line }: EngineLineProps) {
     const { t } = useTranslation("analysis");
 
@@ -78,7 +80,7 @@ function EngineLine({ line }: EngineLineProps) {
         <div className={styles.expandArrowContainer}>
             <img
                 className={styles.expandArrow}
-                src={require("@assets/img/interface/expandarrow.svg")}
+                src={iconInterfaceExpandarrow}
                 width={20}
                 onClick={() => setExpanded(!expanded)}
                 style={{

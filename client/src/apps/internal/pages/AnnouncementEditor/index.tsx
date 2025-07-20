@@ -14,6 +14,9 @@ import TextField from "@/components/common/TextField";
 
 import * as styles from "./AnnouncementEditor.module.css";
 
+import iconInterfaceEdit from "@assets/img/interface/edit.svg";
+import iconInterfaceDelete from "@assets/img/interface/delete.svg";
+
 function AnnouncementEditor() {
     const [ bannerColour, setBannerColour ] = useState("#000");
     const [ bannerColourPickerOpen, setBannerColourPickerOpen ] = useState(false);
@@ -118,7 +121,7 @@ function AnnouncementEditor() {
 
         <div className={styles.buttonBar}>
             <Button
-                icon={require("@assets/img/interface/edit.svg")}
+                icon={iconInterfaceEdit}
                 style={{
                     gap: "5px",
                     backgroundColor: ButtonColour.BLUE
@@ -129,7 +132,7 @@ function AnnouncementEditor() {
             </Button>
 
             <Button
-                icon={require("@assets/img/interface/delete.svg")}
+                icon={iconInterfaceDelete}
                 style={{
                     gap: "5px",
                     backgroundColor: ButtonColour.RED

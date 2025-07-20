@@ -16,6 +16,9 @@ import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 import * as styles from "./ArticleEditor.module.css";
 
+import iconInterfaceUpload from "@assets/img/interface/upload.svg";
+import iconInterfaceEdit from "@assets/img/interface/edit.svg";
+
 type ArticleFormat = "edit" | "preview";
 
 interface UploadedImage {
@@ -236,7 +239,7 @@ function ArticleEditor() {
                     }}
                 >
                     <Button
-                        icon={require("@assets/img/interface/upload.svg")}
+                        icon={iconInterfaceUpload}
                         iconSize="25px"
                         style={{
                             backgroundColor: "var(--ui-shade-4)"
@@ -289,7 +292,7 @@ function ArticleEditor() {
                 }}
             >
                 <Button
-                    icon={require("@assets/img/interface/upload.svg")}
+                    icon={iconInterfaceUpload}
                     iconSize="25px"
                     style={{
                         backgroundColor: "var(--ui-shade-4)"
@@ -323,7 +326,7 @@ function ArticleEditor() {
         </div>
 
         <Button
-            icon={require("@assets/img/interface/edit.svg")}
+            icon={iconInterfaceEdit}
             style={{
                 gap: "5px",
                 backgroundColor: ButtonColour.BLUE

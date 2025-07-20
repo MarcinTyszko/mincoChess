@@ -8,6 +8,12 @@ import Typography from "@/components/Typography";
 import SidebarProps from "./SidebarProps";
 import * as styles from "./Sidebar.module.css";
 
+import iconInterfaceClose from "@assets/img/interface/close.svg";
+import iconIconsAnalysis from "@assets/img/icons/analysis.png";
+import iconIconsArchive from "@assets/img/icons/archive.png";
+import iconIconsNews from "@assets/img/icons/news.png";
+import iconIconsSettings from "@assets/img/icons/settings.png";
+
 function Sidebar({ style, onClose }: SidebarProps) {
     const { t } = useTranslation("common");
 
@@ -19,7 +25,7 @@ function Sidebar({ style, onClose }: SidebarProps) {
         <div className={styles.titleSection}>
             <img
                 className={styles.closeButton}
-                src={require("@assets/img/interface/close.svg")}
+                src={iconInterfaceClose}
                 onClick={onClose}
             />
 
@@ -34,7 +40,7 @@ function Sidebar({ style, onClose }: SidebarProps) {
             <div className={styles.tabSection}>
                 <SidebarTab
                     url="/analysis" 
-                    icon={require("@assets/img/icons/analysis.png")}
+                    icon={iconIconsAnalysis}
                     style={{ width: "100%" }}
                 >
                     {t("sidebar.analysis")}
@@ -42,7 +48,7 @@ function Sidebar({ style, onClose }: SidebarProps) {
 
                 <SidebarTab
                     url="/archive" 
-                    icon={require("@assets/img/icons/archive.png")} 
+                    icon={iconIconsArchive} 
                     iconSize="20px"
                     style={{ width: "100%" }}
                 >
@@ -51,7 +57,7 @@ function Sidebar({ style, onClose }: SidebarProps) {
 
                 <SidebarTab
                     url="/news"
-                    icon={require("@assets/img/icons/news.png")}
+                    icon={iconIconsNews}
                     style={{ width: "100%" }}
                 >
                     {t("sidebar.news")}
@@ -61,7 +67,7 @@ function Sidebar({ style, onClose }: SidebarProps) {
             <div className={styles.tabSection}>
                 <SidebarTab
                     url="/settings"
-                    icon={require("@assets/img/icons/settings.png")}
+                    icon={iconIconsSettings}
                     style={{ width: "100%" }}
                 >
                     {t("settings")}

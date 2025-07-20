@@ -13,27 +13,39 @@ import Button from "@/components/common/Button";
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
+import iconTimecontrolsBullet from "@assets/img/timeControls/bullet.png";
+import iconTimecontrolsBlitz from "@assets/img/timeControls/blitz.png";
+import iconTimecontrolsRapid from "@assets/img/timeControls/rapid.png";
+import iconTimecontrolsClassical from "@assets/img/timeControls/classical.svg";
+import iconTimecontrolsCorrespondence from "@assets/img/timeControls/correspondence.png";
+import iconGameresultsUnopinionated_win from "@assets/img/gameResults/unopinionated_win.png";
+import iconGameresultsDraw from "@assets/img/gameResults/draw.png";
+import iconGameresultsUnopinionated_lose from "@assets/img/gameResults/unopinionated_lose.png";
+import iconGameresultsOpinionated_win from "@assets/img/gameResults/opinionated_win.png";
+import iconGameresultsOpinionated_lose from "@assets/img/gameResults/opinionated_lose.png";
+import iconInterfaceCopy from "@assets/img/interface/copy.svg";
+
 const timeControlIcons = {
-    [TimeControl.BULLET]: require("@assets/img/timeControls/bullet.png"),
-    [TimeControl.BLITZ]: require("@assets/img/timeControls/blitz.png"),
-    [TimeControl.RAPID]: require("@assets/img/timeControls/rapid.png"),
-    [TimeControl.CLASSICAL]: require("@assets/img/timeControls/classical.svg"),
-    [TimeControl.CORRESPONDENCE]: require("@assets/img/timeControls/correspondence.png")
+    [TimeControl.BULLET]: iconTimecontrolsBullet,
+    [TimeControl.BLITZ]: iconTimecontrolsBlitz,
+    [TimeControl.RAPID]: iconTimecontrolsRapid,
+    [TimeControl.CLASSICAL]: iconTimecontrolsClassical,
+    [TimeControl.CORRESPONDENCE]: iconTimecontrolsCorrespondence
 };
 
 // Gets a game result icon from white's result
 const gameResultIcons = {
     unopinionated: {
-        [GameResult.WIN]: require("@assets/img/gameResults/unopinionated_win.png"),
-        [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
-        [GameResult.LOSE]: require("@assets/img/gameResults/unopinionated_lose.png"),
-        [GameResult.UNKNOWN]: require("@assets/img/gameResults/draw.png")
+        [GameResult.WIN]: iconGameresultsUnopinionated_win,
+        [GameResult.DRAW]: iconGameresultsDraw,
+        [GameResult.LOSE]: iconGameresultsUnopinionated_lose,
+        [GameResult.UNKNOWN]: iconGameresultsDraw
     },
     opinionated: {
-        [GameResult.WIN]: require("@assets/img/gameResults/opinionated_win.png"),
-        [GameResult.DRAW]: require("@assets/img/gameResults/draw.png"),
-        [GameResult.LOSE]: require("@assets/img/gameResults/opinionated_lose.png"),
-        [GameResult.UNKNOWN]: require("@assets/img/gameResults/draw.png")
+        [GameResult.WIN]: iconGameresultsOpinionated_win,
+        [GameResult.DRAW]: iconGameresultsDraw,
+        [GameResult.LOSE]: iconGameresultsOpinionated_lose,
+        [GameResult.UNKNOWN]: iconGameresultsDraw
     }
 };
 
@@ -164,7 +176,7 @@ function GameListing({
 
         <Button
             className={styles.copyButton}
-            icon={require("@assets/img/interface/copy.svg")}
+            icon={iconInterfaceCopy}
             tooltipId={`game-listing-copy-${listingId}`}
             onClick={event => {
                 event.stopPropagation();

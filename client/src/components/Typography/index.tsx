@@ -3,6 +3,8 @@ import React from "react";
 import TypographyProps from "./TypographyProps";
 import * as styles from "./Typography.module.css";
 
+import iconLogo from "@assets/img/logo.svg";
+
 function Typography({
     includeIcon,
     className,
@@ -22,7 +24,7 @@ function Typography({
             && <img
                 className={iconClassName}
                 style={{ height: 40, ...iconStyle }}
-                src={require("@assets/img/logo.svg")}
+                src={iconLogo}
                 title="WINTR"
                 draggable={false}
             />

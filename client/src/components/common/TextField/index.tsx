@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import TextFieldProps from "./TextFieldProps";
 import * as styles from "./TextField.module.css";
 
+import iconInterfaceCopy from "@assets/img/interface/copy.svg";
+
 function TextField({
     wrapperClassName,
     wrapperStyle,
@@ -84,7 +86,7 @@ function TextField({
             title={copyTooltip}
             onClick={copy}
         >
-            <img src={require("@assets/img/interface/copy.svg")} />
+            <img src={iconInterfaceCopy} />
         </div>}
     </div>;
 }

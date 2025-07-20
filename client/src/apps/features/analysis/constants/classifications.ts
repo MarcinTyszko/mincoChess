@@ -1,17 +1,29 @@
 import { Classification } from "shared/constants/Classification";
 
+import iconClassificationsBrilliant from "@assets/img/classifications/brilliant.png";
+import iconClassificationsCritical from "@assets/img/classifications/critical.png";
+import iconClassificationsBest from "@assets/img/classifications/best.png";
+import iconClassificationsExcellent from "@assets/img/classifications/excellent.png";
+import iconClassificationsOkay from "@assets/img/classifications/okay.png";
+import iconClassificationsInaccuracy from "@assets/img/classifications/inaccuracy.png";
+import iconClassificationsMistake from "@assets/img/classifications/mistake.png";
+import iconClassificationsBlunder from "@assets/img/classifications/blunder.png";
+import iconClassificationsForced from "@assets/img/classifications/forced.png";
+import iconClassificationsTheory from "@assets/img/classifications/theory.png";
+import iconClassificationsRisky from "@assets/img/classifications/risky.png";
+
 export const classificationImages = {
-    [Classification.BRILLIANT]: require("@assets/img/classifications/brilliant.png"),
-    [Classification.CRITICAL]: require("@assets/img/classifications/critical.png"),
-    [Classification.BEST]: require("@assets/img/classifications/best.png"),
-    [Classification.EXCELLENT]: require("@assets/img/classifications/excellent.png"),
-    [Classification.OKAY]: require("@assets/img/classifications/okay.png"),
-    [Classification.INACCURACY]: require("@assets/img/classifications/inaccuracy.png"),
-    [Classification.MISTAKE]: require("@assets/img/classifications/mistake.png"),
-    [Classification.BLUNDER]: require("@assets/img/classifications/blunder.png"),
-    [Classification.FORCED]: require("@assets/img/classifications/forced.png"),
-    [Classification.THEORY]: require("@assets/img/classifications/theory.png"),
-    [Classification.RISKY]: require("@assets/img/classifications/risky.png")
+    [Classification.BRILLIANT]: iconClassificationsBrilliant,
+    [Classification.CRITICAL]: iconClassificationsCritical,
+    [Classification.BEST]: iconClassificationsBest,
+    [Classification.EXCELLENT]: iconClassificationsExcellent,
+    [Classification.OKAY]: iconClassificationsOkay,
+    [Classification.INACCURACY]: iconClassificationsInaccuracy,
+    [Classification.MISTAKE]: iconClassificationsMistake,
+    [Classification.BLUNDER]: iconClassificationsBlunder,
+    [Classification.FORCED]: iconClassificationsForced,
+    [Classification.THEORY]: iconClassificationsTheory,
+    [Classification.RISKY]: iconClassificationsRisky
 };
 
 export const loadingClassificationIcon = require(

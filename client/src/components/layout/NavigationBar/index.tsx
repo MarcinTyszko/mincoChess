@@ -12,6 +12,16 @@ import authClient from "@/lib/auth";
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
 
+import iconInterfaceMenu from "@assets/img/interface/menu.svg";
+import iconIconsAnalysis from "@assets/img/icons/analysis.png";
+import iconIconsArchive from "@assets/img/icons/archive.png";
+import iconIconsNews from "@assets/img/icons/news.png";
+import iconKofi from "@assets/img/kofi.svg";
+import iconInterfaceAccount from "@assets/img/interface/account.svg";
+import iconInterfaceSettings from "@assets/img/interface/settings.svg";
+import iconInterfaceSignin from "@assets/img/interface/signin.svg";
+import iconIconsSettings from "@assets/img/icons/settings.png";
+
 function NavigationBar() {
     const { t } = useTranslation("common"); 
 
@@ -29,7 +39,7 @@ function NavigationBar() {
             <div className={styles.section}>
                 <img
                     className={styles.menuButton}
-                    src={require("@assets/img/interface/menu.svg")}
+                    src={iconInterfaceMenu}
                     height={35}
                     onClick={() => setSidebarOpen(true)}
                 />
@@ -42,21 +52,21 @@ function NavigationBar() {
 
             <div className={styles.tabs}>
                 <HoverDropdown
-                    icon={require("@assets/img/icons/analysis.png")}
+                    icon={iconIconsAnalysis}
                     url="/analysis"
                 >
                     {t("sidebar.analysis")}
                 </HoverDropdown>
 
                 <HoverDropdown
-                    icon={require("@assets/img/icons/archive.png")}
+                    icon={iconIconsArchive}
                     url="/archive"
                 >
                     {t("sidebar.archive")}
                 </HoverDropdown>
 
                 <HoverDropdown
-                    icon={require("@assets/img/icons/news.png")}
+                    icon={iconIconsNews}
                     url="/news"
                 >
                     {t("sidebar.news")}
@@ -68,7 +78,7 @@ function NavigationBar() {
             <a href="https://ko-fi.com/wintrcat" target="_blank">
                 <Button
                     className={styles.support}
-                    icon={require("@assets/img/kofi.svg")}
+                    icon={iconKofi}
                     tooltipId="navigation-bar-support"
                 />
             </a>
@@ -89,17 +99,17 @@ function NavigationBar() {
                 openStrategy="click"
                 options={[
                     {
-                        icon: require("@assets/img/interface/account.svg"),
+                        icon: iconInterfaceAccount,
                         label: t("navigationBar.profileMenu.profile"),
                         url: `/profile/${profile.username}`
                     },
                     {
-                        icon: require("@assets/img/interface/settings.svg"),
+                        icon: iconInterfaceSettings,
                         label: t("settings"),
                         url: "/settings"
                     },
                     {
-                        icon: require("@assets/img/interface/signin.svg"),
+                        icon: iconInterfaceSignin,
                         label: t("navigationBar.profileMenu.signOut"),
                         onClick: signOut
                     }
@@ -114,7 +124,7 @@ function NavigationBar() {
                 <a href="/signin">
                     <Button
                         className={styles.signIn}
-                        icon={require("@assets/img/interface/signin.svg")}
+                        icon={iconInterfaceSignin}
                         iconSize="28px"
                     >
                         {t("navigationBar.signIn")}
@@ -124,7 +134,7 @@ function NavigationBar() {
                 <a href="/settings">
                     <Button
                         className={styles.settings}
-                        icon={require("@assets/img/icons/settings.png")}
+                        icon={iconIconsSettings}
                         iconSize="28px"
                     />
                 </a>

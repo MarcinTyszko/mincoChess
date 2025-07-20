@@ -1,8 +1,13 @@
+import iconDomain from "@assets/img/credits/connections/domain.png";
+import iconGithub from "@assets/img/credits/connections/github.png";
+import iconYoutube from "@assets/img/credits/connections/youtube.png";
+import iconInstagram from "@assets/img/credits/connections/instagram.png";
+
 enum ProfileConnectionIcon {
-    DOMAIN = require("@assets/img/credits/connections/domain.png"),
-    GITHUB = require("@assets/img/credits/connections/github.png"),
-    YOUTUBE = require("@assets/img/credits/connections/youtube.png"),
-    INSTAGRAM = require("@assets/img/credits/connections/instagram.png")
+    DOMAIN = iconDomain,
+    GITHUB = iconGithub,
+    YOUTUBE = iconYoutube,
+    INSTAGRAM = iconInstagram
 }
 
 export default ProfileConnectionIcon;

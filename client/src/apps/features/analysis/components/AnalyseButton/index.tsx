@@ -6,13 +6,15 @@ import Button from "@/components/common/Button";
 import AnalyseButtonProps from "./AnalyseButtonProps";
 import * as styles from "./AnalyseButton.module.css";
 
+import iconAnalysis from "@assets/img/analysis.svg";
+
 function AnalyseButton({ style, onClick }: AnalyseButtonProps) {
     const { t } = useTranslation("analysis");
 
     return <Button
         className={styles.analyseButton}
         style={style}
-        icon={require("@assets/img/analysis.svg")}
+        icon={iconAnalysis}
         iconSize="30px"
         onClick={onClick}
     >

@@ -2,13 +2,20 @@ import { Chess } from "chess.js";
 import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import { parseSanMove } from "shared/lib/utils/chess";
 
+import iconMove from "@assets/audio/move.mp3";
+import iconCheck from "@assets/audio/check.mp3";
+import iconCapture from "@assets/audio/capture.mp3";
+import iconCastle from "@assets/audio/castle.mp3";
+import iconPromote from "@assets/audio/promote.mp3";
+import iconGameend from "@assets/audio/gameend.mp3";
+
 const moveSounds = {
-    move: require("@assets/audio/move.mp3"),
-    check: require("@assets/audio/check.mp3"),
-    capture: require("@assets/audio/capture.mp3"),
-    castle: require("@assets/audio/castle.mp3"),
-    promote: require("@assets/audio/promote.mp3"),
-    gameEnd: require("@assets/audio/gameend.mp3")
+    move: iconMove,
+    check: iconCheck,
+    capture: iconCapture,
+    castle: iconCastle,
+    promote: iconPromote,
+    gameEnd: iconGameend
 };
 
 function playBoardSound(node: StateTreeNode) {

@@ -5,12 +5,14 @@ import Separator from "@/components/common/Separator";
 import * as styles from "./PrivacyPolicy.module.css";
 import { manageDataConsent } from "@/lib/consent";
 
+import iconLogo from "@assets/img/logo.svg";
+
 function PrivacyPolicy() {
     return <div className={styles.wrapper}>
         <div className={styles.content}>
             <h1 className={styles.title}>
                 <img
-                    src={require("@assets/img/logo.svg")}
+                    src={iconLogo}
                     height={45}
                     draggable={false}
                 />

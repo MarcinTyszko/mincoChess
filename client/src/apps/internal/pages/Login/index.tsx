@@ -9,6 +9,8 @@ import LogMessage from "@/components/common/LogMessage";
 
 import * as styles from "./Login.module.css";
 
+import iconLogo from "@assets/img/logo.svg";
+
 function Login() {
     const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ function Login() {
 
     return <div className={styles.wrapper}>
         <img
-            src={require("@assets/img/logo.svg")}
+            src={iconLogo}
             height={100}
             draggable={false}
         />

@@ -8,6 +8,10 @@ import SwitchSetting from "@/components/settings/SwitchSetting";
 
 import * as styles from "../SettingsDialog.module.css";
 
+import iconClassificationsBrilliant from "@assets/img/classifications/brilliant.png";
+import iconClassificationsCritical from "@assets/img/classifications/critical.png";
+import iconClassificationsTheory from "@assets/img/classifications/theory.png";
+
 function ClassificationOptionsArea() {
     const { t } = useTranslation("analysis");
 
@@ -36,7 +40,7 @@ function ClassificationOptionsArea() {
             <div className={styles.subsetting}>
                 <img
                     className={styles.settingIcon}
-                    src={require("@assets/img/classifications/brilliant.png")}
+                    src={iconClassificationsBrilliant}
                 />
 
                 <span>
@@ -61,7 +65,7 @@ function ClassificationOptionsArea() {
             <div className={styles.subsetting}>
                 <img
                     className={styles.settingIcon}
-                    src={require("@assets/img/classifications/critical.png")}
+                    src={iconClassificationsCritical}
                 />
 
                 <span>
@@ -87,7 +91,7 @@ function ClassificationOptionsArea() {
             <div className={styles.subsetting}>
                 <img
                     className={styles.settingIcon}
-                    src={require("@assets/img/classifications/theory.png")}
+                    src={iconClassificationsTheory}
                 />
 
                 <span>

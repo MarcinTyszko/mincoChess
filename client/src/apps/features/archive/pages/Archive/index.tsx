@@ -2,11 +2,13 @@ import React from "react";
 
 import * as styles from "./Archive.module.css";
 
+import iconLogo from "@assets/img/logo.svg";
+
 function Archive() {
     return <div className={styles.wrapper}>
         <div className={styles.messageContent}>
             <img
-                src={require("@assets/img/logo.svg")}
+                src={iconLogo}
                 height={70}
                 draggable={false}
             />

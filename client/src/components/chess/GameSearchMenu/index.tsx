@@ -17,6 +17,8 @@ import GameListing from "@/components/chess/GameListing";
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
 
+import iconInterfaceRightchevron from "@assets/img/interface/rightchevron.svg";
+
 async function fetchGames(
     gameSource: GameSourceData,
     username: string,
@@ -102,7 +104,7 @@ function GameSearchMenu({
         <span className={styles.sourceTitle}>
             {gameSource.title}
 
-            <img src={require("@assets/img/interface/rightchevron.svg")} />
+            <img src={iconInterfaceRightchevron} />
 
             {username}
         </span>

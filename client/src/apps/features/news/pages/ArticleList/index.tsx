@@ -17,6 +17,12 @@ import { getNewsArticles, getNewsArticlesPages } from "@/lib/api/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 
+import iconIconsNews from "@assets/img/icons/news.png";
+import iconCreditsConnectionsYoutube from "@assets/img/credits/connections/youtube.png";
+import iconCreditsConnectionsChesscom from "@assets/img/credits/connections/chesscom.png";
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+import iconInterfaceNext from "@assets/img/interface/next.svg";
+
 function News() {
     const { t } = useTranslation("otherPages");
 
@@ -76,7 +82,7 @@ function News() {
                 />
 
                 <img
-                    src={require("@assets/img/icons/news.png")}
+                    src={iconIconsNews}
                     height={45}
                     style={{ zIndex: 1 }}
                 />
@@ -102,19 +108,19 @@ function News() {
 
             <div className={styles.socialsContainer}>
                 <SocialLink
-                    icon={require("@assets/img/credits/connections/youtube.png")}
+                    icon={iconCreditsConnectionsYoutube}
                     title="WINTR"
                     url="https://www.youtube.com/@wintrchess"
                 />
 
                 <SocialLink
-                    icon={require("@assets/img/credits/connections/youtube.png")}
+                    icon={iconCreditsConnectionsYoutube}
                     title="wintrcat"
                     url="https://www.youtube.com/@wintrcat"
                 />
 
                 <SocialLink
-                    icon={require("@assets/img/credits/connections/chesscom.png")}
+                    icon={iconCreditsConnectionsChesscom}
                     iconSize="23px"
                     title="WintrChess Club"
                     url="https://www.chess.com/club/wintrchess/join"
@@ -149,7 +155,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/interface/back.svg")}
+                icon={iconInterfaceBack}
                 onClick={() => switchPage(-1)}
             />
 
@@ -161,7 +167,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/interface/next.svg")}
+                icon={iconInterfaceNext}
                 onClick={() => switchPage(1)}
             />
         </div>

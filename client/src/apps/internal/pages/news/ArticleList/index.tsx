@@ -12,6 +12,10 @@ import { getNewsArticles, getNewsArticlesPages } from "@/lib/api/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 
+import iconInterfaceAdd from "@assets/img/interface/add.svg";
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+import iconInterfaceNext from "@assets/img/interface/next.svg";
+
 function ArticleList() {
     const navigate = useNavigate();
 
@@ -57,7 +61,7 @@ function ArticleList() {
 
     return <div className={styles.wrapper}>
         <Button
-            icon={require("@assets/img/interface/add.svg")}
+            icon={iconInterfaceAdd}
             style={{
                 backgroundColor: ButtonColour.BLUE
             }}
@@ -93,7 +97,7 @@ function ArticleList() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/interface/back.svg")}
+                icon={iconInterfaceBack}
                 onClick={() => switchPage(-1)}
             />
 
@@ -105,7 +109,7 @@ function ArticleList() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={require("@assets/img/interface/next.svg")}
+                icon={iconInterfaceNext}
                 onClick={() => switchPage(1)}
             />
         </div>

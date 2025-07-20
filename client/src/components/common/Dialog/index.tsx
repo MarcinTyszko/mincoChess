@@ -6,6 +6,8 @@ import Button from "../Button";
 import DialogProps from "./DialogProps";
 import * as styles from "./Dialog.module.css";
 
+import iconInterfaceClose from "@assets/img/interface/close.svg";
+
 function Dialog({
     children,
     onClose,
@@ -25,7 +27,7 @@ function Dialog({
         <div className={`${styles.menu} ${className}`} style={style}>
             <Button
                 className={styles.closeButton}
-                icon={require("@assets/img/interface/close.svg")}
+                icon={iconInterfaceClose}
                 iconSize="30px"
                 style={closeButtonStyle}
                 onClick={onClose}

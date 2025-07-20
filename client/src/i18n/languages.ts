@@ -1,78 +1,86 @@
 import LanguageOption from "@/types/LanguageOption";
 
+import iconFlagsGb from "@assets/img/flags/GB.png";
+import iconFlagsIn from "@assets/img/flags/IN.png";
+import iconFlagsVn from "@assets/img/flags/VN.png";
+import iconFlagsEs from "@assets/img/flags/ES.png";
+import iconFlagsPt from "@assets/img/flags/PT.png";
+import iconFlagsPl from "@assets/img/flags/PL.png";
+import iconFlagsFr from "@assets/img/flags/FR.png";
+import iconFlagsDe from "@assets/img/flags/DE.png";
+import iconFlagsRu from "@assets/img/flags/RU.png";
+import iconFlagsCn from "@assets/img/flags/CN.png";
+
 const languages: LanguageOption[] = [
     {
         id: "en",
         label: "English",
-        flag: "/img/flags/GB.png"
+        flag: iconFlagsGb
     },
     {
         id: "hi",
         label: "हिन्दी",
-        flag: "/img/flags/IN.png"
+        flag: iconFlagsIn
     },
     {
         id: "mr",
         label: "मराठी",
-        flag: "/img/flags/IN.png"
+        flag: iconFlagsIn
     },
     {
         id: "vi",
         label: "Tiếng Việt",
-        flag: "/img/flags/VN.png"
+        flag: iconFlagsVn
     },
     {
         id: "es",
         label: "Español",
-        flag: "/img/flags/ES.png"
+        flag: iconFlagsEs
     },
     // {
     //     id: "fil",
     //     label: "Filipino",
-    //     flag: require("@assets/img/flags/PH.png"),
-    //     translations: require("./translations/en.json")
+    //     flag: iconFlagsPh
     // },
     // {
     //     id: "ar",
     //     label: "العربية",
-    //     flag: require("@assets/img/flags/SA.png"),
-    //     translations: require("./translations/en.json")
+    //     flag: iconFlagsSa
     // },
     {
         id: "pt",
         label: "Português",
-        flag: "/img/flags/PT.png"
+        flag: iconFlagsPt
     },
     {
         id: "pl",
         label: "Polski",
-        flag: "/img/flags/PL.png"
+        flag: iconFlagsPl
     },
     // {
     //     id: "id",
     //     label: "Bahasa Indonesia",
-    //     flag: require("@assets/img/flags/ID.png"),
-    //     translations: require("./translations/en.json")
+    //     flag: iconFlagsId
     // },
     {
         id: "fr",
         label: "Français",
-        flag: "/img/flags/FR.png"
+        flag: iconFlagsFr
     },
     {
         id: "de",
         label: "Deutsch",
-        flag: "/img/flags/DE.png"
+        flag: iconFlagsDe
     },
     {
         id: "ru",
         label: "русский",
-        flag: "/img/flags/RU.png"
+        flag: iconFlagsRu
     },
     {
         id: "zh",
         label: "中文",
-        flag: "/img/flags/CN.png"
+        flag: iconFlagsCn
     }
 ];
 

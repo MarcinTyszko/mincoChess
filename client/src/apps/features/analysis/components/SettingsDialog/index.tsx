@@ -10,6 +10,8 @@ import OtherOptionsArea from "./OtherOptionsArea";
 import SettingsDialogProps from "./SettingsDialogProps";
 import * as styles from "./SettingsDialog.module.css";
 
+import iconIconsEngine from "@assets/img/icons/engine.png";
+
 function SettingsDialog({ onClose }: SettingsDialogProps) {
     const { t } = useTranslation("analysis");
 
@@ -19,7 +21,7 @@ function SettingsDialog({ onClose }: SettingsDialogProps) {
     >
         <div className={styles.header} style={{ paddingRight: "50px" }}>
             <img
-                src={require("@assets/img/icons/engine.png")}
+                src={iconIconsEngine}
                 height={30}
             />
 

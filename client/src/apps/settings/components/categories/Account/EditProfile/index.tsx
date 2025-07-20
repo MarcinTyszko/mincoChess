@@ -19,6 +19,10 @@ import EmailChangeDialog from "@/apps/settings/components/EmailChangeDialog";
 import * as settingsStyles from "@/apps/settings/index.module.css";
 import * as styles from "./EditProfile.module.css";
 
+import iconInterfaceEdit from "@assets/img/interface/edit.svg";
+import iconInterfaceVisibleenabled from "@assets/img/interface/visibleenabled.svg";
+import iconInterfaceVisibledisabled from "@assets/img/interface/visibledisabled.svg";
+
 function EditProfile() {
     const { t } = useTranslation(["common", "settings"]);
 
@@ -65,7 +69,7 @@ function EditProfile() {
         <div className={styles.profileAvatar}>
             <Button
                 className={styles.editAvatarButton}
-                icon={require("@assets/img/interface/edit.svg")}
+                icon={iconInterfaceEdit}
             />
         </div>
 
@@ -141,8 +145,8 @@ function EditProfile() {
             <Button
                 className={styles.detailFieldButton}
                 icon={emailVisible
-                    ? require("@assets/img/interface/visibleenabled.svg")
-                    : require("@assets/img/interface/visibledisabled.svg")
+                    ? iconInterfaceVisibleenabled
+                    : iconInterfaceVisibledisabled
                 }
                 onClick={() => setEmailVisible(!emailVisible)}
             />

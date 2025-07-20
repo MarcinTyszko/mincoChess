@@ -10,6 +10,11 @@ import ShareDialog from "../ShareDialog";
 
 import * as styles from "./OptionsToolbar.module.css";
 
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+import iconInterfaceFlip from "@assets/img/interface/flip.svg";
+import iconInterfaceSettings from "@assets/img/interface/settings.svg";
+import iconInterfaceShare from "@assets/img/interface/share.svg";
+
 function OptionsToolbar() {
     const { t } = useTranslation(["analysis", "common"]);
 
@@ -27,7 +32,7 @@ function OptionsToolbar() {
     return <>
         <div className={styles.wrapper}>
             {gameAnalysisOpen && <Button
-                icon={require("@assets/img/interface/back.svg")}
+                icon={iconInterfaceBack}
                 iconSize={"40px"}
                 className={styles.backButton}
                 tooltipId={"options-toolbar-back"}
@@ -42,7 +47,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/interface/flip.svg")}
+                icon={iconInterfaceFlip}
                 iconSize={"40px"}
                 tooltipId={"options-toolbar-flip"}
                 onClick={() => setBoardFlipped(!boardFlipped)}
@@ -56,7 +61,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/interface/settings.svg")}
+                icon={iconInterfaceSettings}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-settings"}
                 onClick={() => setSettingsOpen(true)}
@@ -70,7 +75,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={require("@assets/img/interface/share.svg")}
+                icon={iconInterfaceShare}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-share"}
                 onClick={() => setShareOpen(true)}

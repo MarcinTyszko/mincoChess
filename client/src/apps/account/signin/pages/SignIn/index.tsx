@@ -14,6 +14,9 @@ import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
+import iconGoogle from "@assets/img/credits/connections/google.png";
+import iconSignIn from "@assets/img/interface/signin.svg";
+
 function SignIn() {
     const { t } = useTranslation(["otherPages", "common"]);
 
@@ -55,7 +58,7 @@ function SignIn() {
             </span>
 
             <Button
-                icon={require("@assets/img/credits/connections/google.png")}
+                icon={iconGoogle}
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ gap: "10px" }}
@@ -84,7 +87,7 @@ function SignIn() {
             />
 
             <Button
-                icon={require("@assets/img/interface/signin.svg")}
+                icon={iconSignIn}
                 iconSize="28px"
                 className={styles.submitButton}
                 style={{ backgroundColor: ButtonColour.BLUE }}

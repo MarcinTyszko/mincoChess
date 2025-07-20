@@ -10,6 +10,13 @@ import playBoardSound from "@/lib/boardSounds";
 import StateTreeTraverserProps from "./StateTreeTraverserProps";
 import * as styles from "./StateTreeTraverser.module.css";
 
+import iconInterfaceStart from "@assets/img/interface/start.svg";
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+import iconInterfacePause from "@assets/img/interface/pause.svg";
+import iconInterfacePlay from "@assets/img/interface/play.svg";
+import iconInterfaceNext from "@assets/img/interface/next.svg";
+import iconInterfaceEnd from "@assets/img/interface/end.svg";
+
 type Interval = ReturnType<typeof setInterval>;
 
 const hotkeyConfig: HotkeyOptions = { preventDefault: true };
@@ -83,14 +90,14 @@ function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
 
     return <div className={`${styles.wrapper} ${className}`} style={style}>
         <img
-            src={require("@assets/img/interface/start.svg")}
+            src={iconInterfaceStart}
             width={50}
             onClick={traverseToBeginning}
             title={t("stateTreeTraverser.beginning")}
         />
 
         <img
-            src={require("@assets/img/interface/back.svg")}
+            src={iconInterfaceBack}
             width={50}
             onClick={traverseBackwards}
             title={t("stateTreeTraverser.back")}
@@ -105,20 +112,20 @@ function StateTreeTraverser({ className, style }: StateTreeTraverserProps) {
             }
         >
             <img width={50} src={autoplayEnabled
-                ? require("@assets/img/interface/pause.svg")
-                : require("@assets/img/interface/play.svg")
+                ? iconInterfacePause
+                : iconInterfacePlay
             }/>
         </div>
 
         <img
-            src={require("@assets/img/interface/next.svg")}
+            src={iconInterfaceNext}
             width={50}
             onClick={traverseForwards}
             title={t("stateTreeTraverser.next")}
         />
 
         <img
-            src={require("@assets/img/interface/end.svg")}
+            src={iconInterfaceEnd}
             width={50}
             onClick={traverseToEnd}
             title={t("stateTreeTraverser.end")}

@@ -16,6 +16,9 @@ import GameSearchMenu from "../GameSearchMenu";
 import GameSelectorProps from "./GameSelectorProps";
 import * as styles from "./GameSelector.module.css";
 
+import iconInterfaceSearch from "@assets/img/interface/search.svg";
+import iconInterfaceUpload from "@assets/img/interface/upload.svg";
+
 const sourcePlaceholderKeys: Record<GameSourceType, string> = {
     PGN: "pgn",
     FEN: "fen",
@@ -143,7 +146,7 @@ function GameSelector({
         {gameSource.selectorButton == GameSelectorButton.SEARCH_GAMES
             && <Button
                 className={styles.selectorButton}
-                icon={require("@assets/img/interface/search.svg")}
+                icon={iconInterfaceSearch}
                 iconSize="25px"
                 onClick={openGameSearchMenu}
             >
@@ -163,7 +166,7 @@ function GameSelector({
             >
                 <Button
                     className={styles.selectorButton}
-                    icon={require("@assets/img/interface/upload.svg")}
+                    icon={iconInterfaceUpload}
                     iconSize="25px"
                 >
                     {t("gameSelector.uploadPGNButton")}

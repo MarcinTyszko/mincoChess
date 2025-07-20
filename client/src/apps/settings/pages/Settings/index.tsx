@@ -9,6 +9,8 @@ import { manageDataConsent } from "@/lib/consent";
 
 import * as styles from "./Settings.module.css";
 
+import iconIconsSettings from "@assets/img/icons/settings.png";
+
 function Settings() {
     const { t } = useTranslation(["settings", "common", "helpCenter"]);
 
@@ -18,7 +20,7 @@ function Settings() {
 
     return <div className={styles.wrapper}>
         <div className={styles.titleContainer}>
-            <img src={require("@assets/img/icons/settings.png")} />
+            <img src={iconIconsSettings} />
 
             <span>{t("settings", { ns: "common" })}</span>
         </div>

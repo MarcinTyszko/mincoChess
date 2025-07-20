@@ -5,11 +5,16 @@ import SidebarTab from "@/components/layout/sidebar/SidebarTab";
 
 import * as styles from "./Dashboard.module.css";
 
+import iconLogo from "@assets/img/logo.svg";
+import iconAnalytics from "@assets/img/analytics.svg";
+import iconNews from "@assets/img/news.svg";
+import iconAnnouncement from "@assets/img/announcement.svg";
+
 function Dashboard() {
     return <div className={styles.wrapper}>
         <h1 className={styles.title}>
             <img
-                src={require("@assets/img/logo.svg")}
+                src={iconLogo}
                 height={45}
             />
 
@@ -20,7 +25,7 @@ function Dashboard() {
             <SidebarTab
                 className={styles.tab}
                 url="/internal/dashboard/analytics"
-                icon={require("@assets/img/analytics.svg")}
+                icon={iconAnalytics}
             >
                 Analytics
             </SidebarTab>
@@ -28,7 +33,7 @@ function Dashboard() {
             <SidebarTab
                 className={styles.tab}
                 url="/internal/dashboard/news"
-                icon={require("@assets/img/news.svg")}
+                icon={iconNews}
             >
                 News Articles
             </SidebarTab>
@@ -36,7 +41,7 @@ function Dashboard() {
             <SidebarTab
                 className={styles.tab}
                 url="/internal/dashboard/announcement"
-                icon={require("@assets/img/announcement.svg")}
+                icon={iconAnnouncement}
             >
                 Announcement
             </SidebarTab>

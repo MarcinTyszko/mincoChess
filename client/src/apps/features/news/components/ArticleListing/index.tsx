@@ -9,6 +9,10 @@ import ConfirmDialog from "@/components/common/ConfirmDialog";
 import ArticleListingProps from "./ArticleListingProps";
 import * as styles from "./ArticleListing.module.css";
 
+import iconLogo from "@assets/img/logo.svg";
+import iconInterfaceDelete from "@assets/img/interface/delete.svg";
+import iconInterfaceEdit from "@assets/img/interface/edit.svg";
+
 function ArticleListing({
     article,
     editable,
@@ -52,7 +56,7 @@ function ArticleListing({
                     src={article.thumbnail}
                 />
                 : <img
-                    src={require("@assets/img/logo.svg")}
+                    src={iconLogo}
                     style={{
                         width: "25%",
                         filter: "brightness(0.3)"
@@ -81,7 +85,7 @@ function ArticleListing({
 
         {editable && <div className={styles.toolbar}>
             <Button
-                icon={require("@assets/img/interface/delete.svg")}
+                icon={iconInterfaceDelete}
                 onClick={event => {
                     event.stopPropagation();
                     setDeleteConfirmOpen(true);
@@ -89,7 +93,7 @@ function ArticleListing({
             />
 
             <Button
-                icon={require("@assets/img/interface/edit.svg")}
+                icon={iconInterfaceEdit}
                 onClick={event => {
                     event.stopPropagation();
                     navigate(`/internal/dashboard/news/edit?id=${article.id}`);

@@ -5,6 +5,9 @@ import { uniqueId } from "lodash-es";
 import BoardColourPresetProps from "./BoardColourPresetProps";
 import * as styles from "./BoardColourPreset.module.css";
 
+import iconPiecesStandardBlack_king from "@assets/img/pieces/standard/black_king.svg";
+import iconPiecesStandardWhite_king from "@assets/img/pieces/standard/white_king.svg";
+
 function BoardColourPreset({
     lightSquareColour,
     darkSquareColour,
@@ -26,7 +29,7 @@ function BoardColourPreset({
         >
             <div style={{ backgroundColor: lightSquareColour }}>
                 <img
-                    src={require("@assets/img/pieces/standard/black_king.svg")}
+                    src={iconPiecesStandardBlack_king}
                     style={{ width: "100%" }}
                 />
             </div>
@@ -37,7 +40,7 @@ function BoardColourPreset({
 
             <div style={{ backgroundColor: lightSquareColour }}>
                 <img
-                    src={require("@assets/img/pieces/standard/white_king.svg")}
+                    src={iconPiecesStandardWhite_king}
                     style={{ width: "100%" }}
                 />
             </div>

@@ -10,6 +10,8 @@ import Separator from "@/components/common/Separator";
 import * as categoryStyles from "../Category.module.css";
 import * as styles from "./BoardAndPieces.module.css";
 
+import iconInterfaceDelete from "@assets/img/interface/delete.svg";
+
 const boardColourPresets = [
     { light: "#f0d9b5", dark: "#b58863", name: "wooden" },
     { light: "#ebedd1", dark: "#729452", name: "tournament" },
@@ -95,7 +97,7 @@ function BoardAndPieces() {
         </div>
 
         <Button
-            icon={require("@assets/img/interface/delete.svg")}
+            icon={iconInterfaceDelete}
             onClick={() => setBoardColours(
                 defaultSettings.themes.board.lightSquareColour,
                 defaultSettings.themes.board.darkSquareColour

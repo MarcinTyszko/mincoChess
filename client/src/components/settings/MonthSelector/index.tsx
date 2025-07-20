@@ -6,6 +6,9 @@ import Button from "../../common/Button";
 import MonthSelectorProps from "./MonthSelectorProps";
 import * as styles from "./MonthSelector.module.css";
 
+import iconInterfaceBack from "@assets/img/interface/back.svg";
+import iconInterfaceNext from "@assets/img/interface/next.svg";
+
 function MonthSelector({ 
     onMonthChange, 
     allowFuture, 
@@ -44,7 +47,7 @@ function MonthSelector({
     return <div className={styles.wrapper}>
         <Button
             className={styles.selectorButton}
-            icon={require("@assets/img/interface/back.svg")}
+            icon={iconInterfaceBack}
             iconSize="30px"
             onClick={() => incrementMonth(-1)}
         />
@@ -53,7 +56,7 @@ function MonthSelector({
 
         <Button
             className={styles.selectorButton}
-            icon={require("@assets/img/interface/next.svg")}
+            icon={iconInterfaceNext}
             iconSize="30px"
             onClick={() => incrementMonth(1)}
         />

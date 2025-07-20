@@ -7,6 +7,10 @@ import CreditsProfile from "@/apps/footer/credits/components/CreditsProfile";
 
 import * as styles from "./Credits.module.css";
 
+import iconCreditsProfilesWintrcat from "@assets/img/credits/profiles/wintrcat.png";
+import iconCreditsProfilesHetbet from "@assets/img/credits/profiles/hetbet.png";
+import iconCreditsProfilesSimona from "@assets/img/credits/profiles/simona.png";
+
 function Credits() {
     const { t } = useTranslation("otherPages");
 
@@ -23,7 +27,7 @@ function Credits() {
 
         <CreditsProfile
             username="Wilson Crunden (wintrcat)"
-            profileImage={require("@assets/img/credits/profiles/wintrcat.png")}
+            profileImage={iconCreditsProfilesWintrcat}
             connections={[
                 {
                     icon: ProfileConnectionIcon.DOMAIN,
@@ -44,7 +48,7 @@ function Credits() {
 
         <CreditsProfile
             username="Matthew Roberts (hetbet)"
-            profileImage={require("@assets/img/credits/profiles/hetbet.png")}
+            profileImage={iconCreditsProfilesHetbet}
             connections={[
                 {
                     icon: ProfileConnectionIcon.GITHUB,
@@ -57,7 +61,7 @@ function Credits() {
 
         <CreditsProfile
             username="Simona (0nlinegirl3)"
-            profileImage={require("@assets/img/credits/profiles/simona.png")}
+            profileImage={iconCreditsProfilesSimona}
             connections={[
                 {
                     icon: ProfileConnectionIcon.INSTAGRAM,

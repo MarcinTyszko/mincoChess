@@ -1,10 +1,8 @@
 const { Configuration } = require("webpack");
 const { resolve } = require("path");
-require("dotenv").config({
-    path: "../.env"
-});
-
 const DotenvPlugin = require("dotenv-webpack");
+
+require("dotenv").config({ path: "../.env" });
 
 const nodeEnv = process.env.NODE_ENV || "production";
 
@@ -60,7 +58,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpe?g|gif|svg|webp|ttf|mp3)$/i,
+                test: /\.(png|svg|gif|ttf|mp3)$/i,
                 type: "asset"
             }
         ]

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import PlayerProfileProps from "./PlayerProfileProps";
 import * as styles from "./PlayerProfile.module.css";
 
+import iconDefaultprofileimage from "@assets/img/defaultprofileimage.png";
+
 function PlayerProfile({ profile }: PlayerProfileProps) {
     const [ defaultImage, setDefaultImage ] = useState(false);
 
@@ -12,7 +14,7 @@ function PlayerProfile({ profile }: PlayerProfileProps) {
             && <img 
                 className={styles.profileImage} 
                 src={defaultImage
-                    ? require("@assets/img/defaultprofileimage.png")
+                    ? iconDefaultprofileimage
                     : profile.image
                 }
                 onError={() => setDefaultImage(true)}

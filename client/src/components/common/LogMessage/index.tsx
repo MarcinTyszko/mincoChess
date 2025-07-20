@@ -4,6 +4,8 @@ import LogMessageTheme from "./Theme";
 import LogMessageProps from "./LogMessageProps";
 import * as styles from "./LogMessage.module.css";
 
+import iconInterfaceError from "@assets/img/interface/error.svg";
+
 const themeColours: Record<LogMessageTheme, string> = {
     info: "#2c94ff66",
     success: "#54ff7366",
@@ -29,7 +31,7 @@ function LogMessage({
     >
         {includeIcon
             && <img
-                src={require("@assets/img/interface/error.svg")}
+                src={iconInterfaceError}
                 height={25}
             />
         }

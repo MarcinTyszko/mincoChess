@@ -12,6 +12,10 @@ import MoveClickEventContext from "../../MoveClickEventContext";
 import MoveProps from "./MoveProps";
 import * as styles from "./Move.module.css";
 
+import iconInterfaceDelete from "@assets/img/interface/delete.svg";
+import iconInterfaceUp from "@assets/img/interface/up.svg";
+import iconInterfaceHelp from "@assets/img/interface/help.svg";
+
 function Move({ node, children }: MoveProps) {
     const { t } = useTranslation("analysis");
 
@@ -109,18 +113,18 @@ function Move({ node, children }: MoveProps) {
                 position={contextMenuPosition}
                 options={[
                     {
-                        icon: require("@assets/img/interface/delete.svg"),
+                        icon: iconInterfaceDelete,
                         label: t("stateTreeEditor.moveContextMenu.delete"),
                         onSelect: deleteNode
                     },
                     {
-                        icon: require("@assets/img/interface/up.svg"),
+                        icon: iconInterfaceUp,
                         label: t("stateTreeEditor.moveContextMenu.promote"),
                         onSelect: promoteNode
                     },
                     ...(process.env.NODE_ENV == "development"
                         ? [{
-                            icon: require("@assets/img/interface/help.svg"),
+                            icon: iconInterfaceHelp,
                             label: "Log state tree node",
                             onSelect: () => console.log(node)
                         }]
