@@ -29,6 +29,7 @@ function BoardArea() {
     const {
         currentStateTreeNode,
         setCurrentStateTreeNode,
+        dispatchCurrentNodeUpdate,
         autoplayEnabled,
         boardFlipped
     } = useAnalysisBoardStore();
@@ -48,6 +49,8 @@ function BoardArea() {
 
             return createdNode;
         });
+
+        dispatchCurrentNodeUpdate();
 
         return true;
     }

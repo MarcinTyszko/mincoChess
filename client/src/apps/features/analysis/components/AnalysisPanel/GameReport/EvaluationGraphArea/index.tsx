@@ -12,6 +12,7 @@ function EvaluationGraphArea() {
     const analysisGame = useAnalysisGameStore(state => state.analysisGame);
 
     const {
+        currentStateTreeNodeUpdate,
         currentStateTreeNode,
         setCurrentStateTreeNode
     } = useAnalysisBoardStore(
@@ -24,7 +25,7 @@ function EvaluationGraphArea() {
 
     const mainlineChain = useMemo(() => (
         getNodeChain(analysisGame.stateTree)
-    ), [analysisGame]);
+    ), [analysisGame, currentStateTreeNodeUpdate]);
 
     return <EvaluationGraph
         nodes={mainlineChain}

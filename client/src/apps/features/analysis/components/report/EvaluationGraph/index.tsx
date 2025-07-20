@@ -133,23 +133,21 @@ function EvaluationGraph({
                     strokeWidth={2}
                 />
 
-                {selectedPoint
-                    && <>
-                        <ReferenceLine
-                            x={selectedPoint.x}
-                            stroke={selectedPointColour}
-                            strokeWidth={2}
-                        />
+                {selectedPoint && <>
+                    <ReferenceLine
+                        x={selectedPoint.x}
+                        stroke={selectedPointColour}
+                        strokeWidth={2}
+                    />
 
-                        <ReferenceDot
-                            x={selectedPoint.x}
-                            y={selectedPoint.y}
-                            r={4}
-                            fill={selectedPointColour}
-                            strokeWidth={0}
-                        />
-                    </>
-                }
+                    <ReferenceDot
+                        x={selectedPoint.x}
+                        y={selectedPoint.y}
+                        r={4}
+                        fill={selectedPointColour}
+                        strokeWidth={0}
+                    />
+                </>}
 
                 {highlightedPoints.map(point => <ReferenceDot
                     x={point.x}
