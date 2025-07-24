@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 import { Game, getColourPlayed } from "shared/types/game/Game";
 import { GameSourceData } from "@/components/chess/GameSelector/GameSource";
@@ -13,11 +12,12 @@ import Loader from "@/components/common/Loader";
 import LogMessage from "@/components/common/LogMessage";
 import MonthSelector from "@/components/settings/MonthSelector";
 import GameListing from "@/components/chess/GameListing";
+import displayToast from "@/lib/toast";
 
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
 
-import iconInterfaceRightchevron from "@assets/img/interface/rightchevron.svg";
+import iconInterfaceRightChevron from "@assets/img/interface/rightchevron.svg";
 
 async function fetchGames(
     gameSource: GameSourceData,
@@ -73,21 +73,10 @@ function GameSearchMenu({
     });
 
     function selectListing(game: Game) {
-        toast.success(
-            t("gameSearchMenu.selectedToast"),
-            {
-                position: "bottom-left",
-                theme: "dark",
-                pauseOnHover: false,
-                closeOnClick: true,
-                closeButton: false,
-                autoClose: 2000,
-                pauseOnFocusLoss: false,
-                style: {
-                    fontFamily: "JetBrains Mono"
-                }
-            }
-        );
+        displayToast({
+            message: t("gameSearchMenu.selectedToast"),
+            theme: "success"
+        });
 
         onGameSelect?.(game);
         onClose();
@@ -104,7 +93,7 @@ function GameSearchMenu({
         <span className={styles.sourceTitle}>
             {gameSource.title}
 
-            <img src={iconInterfaceRightchevron} />
+            <img src={iconInterfaceRightChevron} />
 
             {username}
         </span>

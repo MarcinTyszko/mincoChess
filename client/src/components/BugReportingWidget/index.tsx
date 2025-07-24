@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { Hook, Unhook } from "console-feed";
+
+import displayToast from "@/lib/toast";
 
 import * as styles from "./BugReportingWidget.module.css";
 
@@ -32,21 +33,10 @@ function BugReportingWidget() {
                 JSON.stringify(bugReportingLogsRef.current, undefined, 4)
             );
 
-            toast.success(
-                t("bugReportWidget.toast"),
-                {
-                    position: "bottom-left",
-                    theme: "dark",
-                    pauseOnHover: false,
-                    closeOnClick: true,
-                    closeButton: false,
-                    autoClose: 2000,
-                    pauseOnFocusLoss: false,
-                    style: {
-                        fontFamily: "JetBrains Mono"
-                    }
-                }
-            );
+            displayToast({
+                message: t("bugReportWidget.toast"),
+                theme: "success"
+            });
         }}
     >
         <img src={iconInterfaceCopy} />

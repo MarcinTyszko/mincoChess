@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useQuery, QueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 import Announcement from "shared/types/Announcement";
 import fetchAnnouncement from "@/lib/api/announcement";
@@ -11,6 +10,7 @@ import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import ConfirmDialog from "@/components/common/ConfirmDialog";
 import TextField from "@/components/common/TextField";
+import displayToast from "@/lib/toast";
 
 import * as styles from "./AnnouncementEditor.module.css";
 
@@ -54,26 +54,14 @@ function AnnouncementEditor() {
         });
 
         if (content) {
-            toast.success("Announcement published!", {
-                position: "bottom-left",
-                theme: "dark",
-                pauseOnHover: false,
-                closeOnClick: true,
-                closeButton: false,
-                style: {
-                    fontFamily: "JetBrains Mono"
-                }
+            displayToast({
+                message: "Announcement published!",
+                theme: "success"
             });
         } else {
-            toast.error("Announcement cleared.", {
-                position: "bottom-left",
-                theme: "dark",
-                pauseOnHover: false,
-                closeOnClick: true,
-                closeButton: false,
-                style: {
-                    fontFamily: "JetBrains Mono"
-                }
+            displayToast({
+                message: "Announcement cleared.",
+                theme: "info"
             });
         }
     }

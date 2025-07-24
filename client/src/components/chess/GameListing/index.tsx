@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
 import { uniqueId } from "lodash-es";
 
@@ -9,6 +8,7 @@ import PlayerProfile from "shared/types/game/PlayerProfile";
 import TimeControl from "shared/constants/game/TimeControl";
 import { formatDate } from "shared/lib/utils/date";
 import Button from "@/components/common/Button";
+import displayToast from "@/lib/toast";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
@@ -96,15 +96,9 @@ function GameListing({
     function copyPGN() {
         navigator.clipboard.writeText(game.pgn);
 
-        toast.success(t("shareGame.copyPGNToast"), {
-            position: "bottom-left",
-            theme: "dark",
-            pauseOnHover: false,
-            closeOnClick: true,
-            closeButton: false,
-            style: {
-                fontFamily: "JetBrains Mono"
-            }
+        displayToast({
+            message: t("shareGame.copyPGNToast"),
+            theme: "success"
         });
     }
 

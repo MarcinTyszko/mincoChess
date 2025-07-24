@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+
+import displayToast from "@/lib/toast";
 
 import TextFieldProps from "./TextFieldProps";
 import * as styles from "./TextField.module.css";
@@ -41,15 +42,10 @@ function TextField({
 
         if (!copyToast) return;
 
-        toast.success(copyToast, {
-            position: "bottom-left",
-            theme: "dark",
-            pauseOnHover: false,
-            closeOnClick: true,
-            closeButton: false,
-            autoClose: 2000,
-            pauseOnFocusLoss: false,
-            style: { fontFamily: "JetBrains Mono" }
+        displayToast({
+            message: copyToast,
+            theme: "success",
+            autoClose: 2
         });
     }
 
