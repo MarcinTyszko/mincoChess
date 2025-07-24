@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { useQuery, QueryClient } from "@tanstack/react-query";
 
-import Announcement from "shared/types/Announcement";
-import fetchAnnouncement from "@/lib/api/announcement";
+import { Announcement } from "shared/types/Announcement";
+import useAnnouncement from "@/hooks/api/useAnnouncement";
 import AnnouncementBanner from "@/components/layout/Announcement";
 import ColourSwatch from "@/components/settings/ColourSwatch";
 import Button from "@/components/common/Button";
@@ -18,6 +17,8 @@ import iconInterfaceEdit from "@assets/img/interface/edit.svg";
 import iconInterfaceDelete from "@assets/img/interface/delete.svg";
 
 function AnnouncementEditor() {
+    const { announcement: liveAnnouncement } = useAnnouncement();
+
     const [ bannerColour, setBannerColour ] = useState("#000");
     const [ bannerColourPickerOpen, setBannerColourPickerOpen ] = useState(false);
 
@@ -26,34 +27,26 @@ function AnnouncementEditor() {
     const [ publishConfirmOpen, setPublishConfirmOpen ] = useState(false);
     const [ clearConfirmOpen, setClearConfirmOpen ] = useState(false);
 
-    const queryClient = new QueryClient();
-
-    const { data: announcement } = useQuery({
-        queryKey: ["announcement"],
-        queryFn: fetchAnnouncement
-    });
-
     useEffect(() => {
-        if (!announcement) return;
-        if (!announcement.colour) return;
-        if (!announcement.content) return;
+        if (!liveAnnouncement) return;
 
-        setBannerColour(announcement.colour);
-        setBannerContent(announcement.content);
-    }, [announcement]);
+        setBannerColour(liveAnnouncement.colour);
+        setBannerContent(liveAnnouncement.content);
+    }, [liveAnnouncement]);
 
-    async function publishAnnouncement({ colour, content }: Announcement) {
-        await fetch("/internal/announcement/publish", {
+    async function publishAnnouncement(announcement?: Announcement) {
+        const response = await fetch("/internal/announcement/publish", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ colour, content })
+            body: announcement && JSON.stringify(announcement)
         });
 
-        queryClient.refetchQueries({
-            queryKey: ["announcement"]
+        if (!response.ok) return displayToast({
+            message: "Failed to publish announcement.",
+            theme: "error"
         });
 
-        if (content) {
+        if (announcement) {
             displayToast({
                 message: "Announcement published!",
                 theme: "success"
@@ -129,29 +122,23 @@ function AnnouncementEditor() {
             </Button>
         </div>
 
-        {
-            publishConfirmOpen
-            && <ConfirmDialog
-                onClose={() => setPublishConfirmOpen(false)}
-                onConfirm={() => publishAnnouncement({
-                    colour: bannerColour,
-                    content: bannerContent
-                })}
-            >
-                Are you sure you want to publish this announcement?
-            </ConfirmDialog>
-        }
+        {publishConfirmOpen && <ConfirmDialog
+            onClose={() => setPublishConfirmOpen(false)}
+            onConfirm={() => publishAnnouncement({
+                colour: bannerColour,
+                content: bannerContent
+            })}
+        >
+            Are you sure you want to publish this announcement?
+        </ConfirmDialog>}
 
-        {
-            clearConfirmOpen
-            && <ConfirmDialog
-                onClose={() => setClearConfirmOpen(false)}
-                onConfirm={() => publishAnnouncement({})}
-                dangerAction
-            >
-                Are you sure you want to clear the announcement?
-            </ConfirmDialog>
-        }
+        {clearConfirmOpen && <ConfirmDialog
+            onClose={() => setClearConfirmOpen(false)}
+            onConfirm={() => publishAnnouncement()}
+            dangerAction
+        >
+            Are you sure you want to clear the announcement?
+        </ConfirmDialog>}
     </div>;
 }
 

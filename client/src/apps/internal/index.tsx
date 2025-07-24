@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
 
 import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
 
@@ -21,10 +21,8 @@ const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
 
-const queryClient = new QueryClient();
-
-root.render(<BrowserRouter>
-    <QueryClientProvider client={queryClient}>
+function App() {
+    return <BrowserRouter>
         <Suspense fallback={
             <LoadingPlaceholder style={{ height: "100vh" }} />
         }>
@@ -45,6 +43,10 @@ root.render(<BrowserRouter>
                     <Navigate to={"/internal/login"} />
                 }/>
             </Routes>
+
+            <ToastContainer/>
         </Suspense>
-    </QueryClientProvider>
-</BrowserRouter>);
+    </BrowserRouter>;
+}
+
+root.render(<App/>);

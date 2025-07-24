@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { ToastContainer } from "react-toastify";
 
 import useSettingsStore from "@/stores/SettingsStore";
-import Announcement from "../Announcement";
-import NavigationBar from "../NavigationBar";
-import Footer from "../Footer";
+import useAnnouncement from "@/hooks/api/useAnnouncement";
+import Announcement from "@/components/layout/Announcement";
+import NavigationBar from "@/components/layout/NavigationBar";
+import Footer from "@/components/layout/Footer";
 import BugReportingWidget from "@/components/BugReportingWidget";
-import getAnnouncement from "@/lib/api/announcement";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
+
+const queryClient = new QueryClient();
 
 function PageWrapper({
     children,
@@ -26,42 +28,40 @@ function PageWrapper({
         state => state.settings.bugReportingMode
     );
 
+    const { announcement, status: announcementStatus } = useAnnouncement();
+
     const [ announcementOpen, setAnnouncementOpen ] = useState(true);
 
-    const { data: announcement } = useQuery({
-        queryKey: ["announcement"],
-        queryFn: getAnnouncement,
-        refetchOnWindowFocus: false
-    });
+    return <QueryClientProvider client={queryClient}>
+        <div className={className} style={style}>
+            {announcementOpen && announcementStatus == "success"
+                && <Announcement
+                    style={{ zIndex: 99 }}
+                    setOpen={setAnnouncementOpen}
+                    colour={announcement.colour}
+                >
+                    <ReactMarkdown className={styles.announcementMarkdown}>
+                        {announcement.content}
+                    </ReactMarkdown>
+                </Announcement>
+            }
 
-    return <div className={className} style={style}>
-        {announcementOpen && announcement?.content
-            && <Announcement
-                style={{ zIndex: 99 }}
-                setOpen={setAnnouncementOpen}
-                colour={announcement.colour}
+            <NavigationBar/>
+
+            <div
+                className={`${styles.content} ${contentClassName}`}
+                style={contentStyle}
             >
-                <ReactMarkdown className={styles.announcementMarkdown}>
-                    {announcement.content}
-                </ReactMarkdown>
-            </Announcement>
-        }
+                {children}
+            </div>
 
-        <NavigationBar/>
+            <Footer className={footerClassName} style={footerStyle} />
 
-        <div
-            className={`${styles.content} ${contentClassName}`}
-            style={contentStyle}
-        >
-            {children}
+            {bugReportingMode && <BugReportingWidget/>}
+
+            <ToastContainer/>
         </div>
-
-        <Footer className={footerClassName} style={footerStyle} />
-
-        {bugReportingMode && <BugReportingWidget/>}
-
-        <ToastContainer/>
-    </div>;
+    </QueryClientProvider>;
 }
 
 export default PageWrapper;

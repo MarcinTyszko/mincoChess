@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import PageWrapper from "@/components/layout/PageWrapper";
 import Profile from "./pages/Profile";
@@ -13,18 +12,14 @@ const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
 
-const queryClient = new QueryClient();
-
 function App() {
     useEffect(() => {
         removeDefaultConsentLink();
     }, []);
 
-    return <QueryClientProvider client={queryClient}>
-        <PageWrapper>
-            <Profile/>
-        </PageWrapper>
-    </QueryClientProvider>;
+    return <PageWrapper>
+        <Profile/>
+    </PageWrapper>;
 }
 
 root.render(<App/>);

@@ -1,7 +1,6 @@
 import React, { lazy, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { useAltcha } from "@/apps/features/analysis/hooks/useAltcha";
 import PageWrapper from "@/components/layout/PageWrapper";
@@ -18,8 +17,6 @@ const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
 
-const queryClient = new QueryClient();
-
 function App() {
     const executeCaptcha = useAltcha();
 
@@ -28,18 +25,16 @@ function App() {
         executeCaptcha();
     }, []);
 
-    return <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-            <PageWrapper
-                className={styles.wrapper}
-                footerClassName={styles.footer}
-            >
-                <Routes>
-                    <Route path="/analysis" element={<Analysis/>} />
-                </Routes>
-            </PageWrapper>
-        </BrowserRouter>
-    </QueryClientProvider>;
+    return <BrowserRouter>
+        <PageWrapper
+            className={styles.wrapper}
+            footerClassName={styles.footer}
+        >
+            <Routes>
+                <Route path="/analysis" element={<Analysis/>} />
+            </Routes>
+        </PageWrapper>
+    </BrowserRouter>;
 }
 
 root.render(<App/>);
