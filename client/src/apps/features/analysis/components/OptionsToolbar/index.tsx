@@ -6,6 +6,7 @@ import { StatusCodes } from "http-status-codes";
 
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
+import useAccountProfile from "@/hooks/api/useAccountProfile";
 import Button from "@/components/common/Button";
 import SettingsDialog from "../SettingsDialog";
 import ShareDialog from "../ShareDialog";
@@ -24,6 +25,8 @@ function OptionsToolbar() {
     const { t } = useTranslation(["analysis", "common"]);
 
     const [ searchParams, setSearchParams ] = useSearchParams();
+
+    const { status: profileStatus } = useAccountProfile();
 
     const { analysisGame, gameAnalysisOpen } = useAnalysisGameStore();
 
@@ -121,13 +124,13 @@ function OptionsToolbar() {
                 delayShow={500}
             />
 
-            <Button
+            {(gameAnalysisOpen && profileStatus == "success") && <Button
                 className={styles.optionButton}
                 icon={iconSave}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-save"}
                 onClick={saveToArchive}
-            />
+            />}
 
             <Tooltip
                 id="options-toolbar-save"
