@@ -70,22 +70,26 @@ router.post("/analysis/archive/add", async (req, res) => {
     if (!analysedGameSchema.safeParse(analysedGame).success)
         return res.sendStatus(StatusCodes.BAD_REQUEST);
 
-    await ArchivedGame.create({
+    const archivedGame = await ArchivedGame.create({
         ...await Archive.archiveAnalysedGame(analysedGame, req.user.id),
         userId: new Types.ObjectId(req.user.id)
     });
 
-    res.sendStatus(StatusCodes.OK);
+    res.send(archivedGame._id.toString());
 });
 
 router.get("/analysis/archive/delete", async (req, res) => {
     const gameId = req.query.id?.toString();
     if (!gameId) return res.sendStatus(StatusCodes.BAD_REQUEST);
 
-    const result = await ArchivedGame.deleteOne({ _id: gameId });
+    const game = await ArchivedGame.findOne({ _id: gameId });
 
-    if (result.deletedCount == 0)
-        return res.sendStatus(StatusCodes.NOT_FOUND);
+    if (!game) return res.sendStatus(StatusCodes.NOT_FOUND);
+
+    if (game.userId.toString() != req.user?.id)
+        return res.sendStatus(StatusCodes.UNAUTHORIZED);
+
+    await game.deleteOne();
 
     res.sendStatus(StatusCodes.OK);
 });

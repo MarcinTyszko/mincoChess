@@ -3,7 +3,9 @@
     "optionsToolbar": {
         "flipBoard": "Flip Board",
         "share": "Share Game",
-        "save": "Save to Archive"
+        "save": "Save to Archive",
+        "noArchiveStorage": "You can only store up to 50 games in your Game Archive.",
+        "gameArchived": "Game successfully archived!"
     },
     "settings": {
         "title": "Analysis Settings",

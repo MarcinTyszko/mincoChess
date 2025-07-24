@@ -1,4 +1,5 @@
 import { Chess } from "chess.js";
+
 import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import { parseSanMove } from "shared/lib/utils/chess";
 

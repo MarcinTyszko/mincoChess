@@ -44,7 +44,14 @@ export async function archiveGame(game: AnalysedGame) {
         })
     });
 
-    return { status: response.status as StatusCodes };
+    if (!response.ok) {
+        return { status: response.status as StatusCodes };
+    }
+
+    return {
+        status: response.status as StatusCodes,
+        id: await response.text()
+    };
 }
 
 export async function deleteArchivedGame(gameId: string) {

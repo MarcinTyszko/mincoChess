@@ -20,9 +20,7 @@ export async function analyseStateTree(
 
     const reportResponse = await fetch(reportURL, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
             serializeNode(rootNode)
         )

@@ -35,9 +35,7 @@ export function useAltcha() {
 
         const sessionResponse = await fetch("/auth/analysis-session", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 algorithm: challengeData.algorithm,
                 challenge: challengeData.challenge,

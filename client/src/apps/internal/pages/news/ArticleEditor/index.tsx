@@ -143,9 +143,7 @@ function ArticleEditor() {
 
         await fetch("/internal/news/publish", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(
                 produce(article, draft => {
                     draft.content = bakedArticleContent;

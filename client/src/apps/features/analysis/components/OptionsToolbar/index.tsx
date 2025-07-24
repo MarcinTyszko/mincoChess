@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
+import { StatusCodes } from "http-status-codes";
 
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
 import Button from "@/components/common/Button";
 import SettingsDialog from "../SettingsDialog";
 import ShareDialog from "../ShareDialog";
+import displayToast from "@/lib/toast";
 import { archiveGame } from "@/lib/api/gameArchive";
 
 import * as styles from "./OptionsToolbar.module.css";
@@ -20,6 +23,8 @@ import iconSave from "@assets/img/interface/save.svg";
 function OptionsToolbar() {
     const { t } = useTranslation(["analysis", "common"]);
 
+    const [ searchParams, setSearchParams ] = useSearchParams();
+
     const { analysisGame, gameAnalysisOpen } = useAnalysisGameStore();
 
     const {
@@ -30,6 +35,33 @@ function OptionsToolbar() {
 
     const [ settingsOpen, setSettingsOpen ] = useState(false);
     const [ shareOpen, setShareOpen ] = useState(false);
+
+    async function saveToArchive() {
+        const archival = await archiveGame(analysisGame);
+
+        if (archival.status == StatusCodes.INSUFFICIENT_STORAGE)
+            return displayToast({
+                message: t("optionsToolbar.noArchiveStorage"),
+                theme: "error",
+                autoClose: false
+            });
+
+        if (!archival.id) return displayToast({
+            message: t("unknownError", { ns: "common" }),
+            theme: "error"
+        });
+
+        setSearchParams({
+            ...Object.fromEntries(searchParams.entries()),
+            game: archival.id
+        });
+
+        displayToast({
+            message: t("optionsToolbar.gameArchived"),
+            theme: "success",
+            autoClose: 10
+        });
+    }
 
     return <>
         <div className={styles.wrapper}>
@@ -94,7 +126,7 @@ function OptionsToolbar() {
                 icon={iconSave}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-save"}
-                onClick={() => archiveGame(analysisGame)}
+                onClick={saveToArchive}
             />
 
             <Tooltip

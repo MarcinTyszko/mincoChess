@@ -1,11 +1,11 @@
-import { ObjectId, Schema, model } from "mongoose";
+import { Types, Schema, model } from "mongoose";
 
 import { ArchivedGame } from "shared/types/game/ArchivedGame";
 import Collection from "@constants/Collection";
 
 type ArchivedGameDocument = (
     Omit<ArchivedGame, "userId">
-    & { userId: ObjectId }
+    & { userId: Types.ObjectId }
 );
 
 const archivedGameSchema = new Schema<ArchivedGameDocument>(

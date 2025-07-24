@@ -45,9 +45,7 @@ function AnnouncementEditor() {
     async function publishAnnouncement({ colour, content }: Announcement) {
         await fetch("/internal/announcement/publish", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ colour, content })
         });
 

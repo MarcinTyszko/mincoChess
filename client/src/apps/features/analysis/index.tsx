@@ -1,5 +1,6 @@
 import React, { lazy, useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { useAltcha } from "@/apps/features/analysis/hooks/useAltcha";
@@ -28,12 +29,16 @@ function App() {
     }, []);
 
     return <QueryClientProvider client={queryClient}>
-        <PageWrapper
-            className={styles.wrapper}
-            footerClassName={styles.footer}
-        >
-            <Analysis/>
-        </PageWrapper>
+        <BrowserRouter>
+            <PageWrapper
+                className={styles.wrapper}
+                footerClassName={styles.footer}
+            >
+                <Routes>
+                    <Route path="/analysis" element={<Analysis/>} />
+                </Routes>
+            </PageWrapper>
+        </BrowserRouter>
     </QueryClientProvider>;
 }
 

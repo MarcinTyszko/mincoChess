@@ -50,11 +50,7 @@ async function getLichessGames(
             + `?since=${monthStart.getTime()}`
             + `&until=${monthEnd.getTime()}`
             + "&pgnInJson=true",
-            {
-                headers: {
-                    Accept: "application/x-ndjson"
-                }
-            }
+            { headers: { Accept: "application/x-ndjson" } }
         );
     } catch {
         throw new RatelimitError(
