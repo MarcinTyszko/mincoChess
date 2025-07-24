@@ -1,17 +1,20 @@
+import z from "zod";
 import { Chess } from "chess.js";
 import { uniq, maxBy } from "lodash-es";
 
 import EngineVersion from "@constants/EngineVersion";
-import Evaluation from "./Evaluation";
-import Move from "./Move";
+import { evaluationSchema } from "./Evaluation";
+import { moveSchema } from "./Move";
 
-export interface EngineLine {
-    evaluation: Evaluation;
-    source: EngineVersion;
-    depth: number;
-    index: number;
-    moves: Move[];
-}
+export const engineLineSchema = z.object({
+    evaluation: evaluationSchema,
+    source: z.nativeEnum(EngineVersion),
+    depth: z.number(),
+    index: z.number(),
+    moves: z.array(moveSchema)
+});
+
+export type EngineLine = z.infer<typeof engineLineSchema>;
 
 export function isEngineLineEqual(line: EngineLine, other: EngineLine) {
     return (

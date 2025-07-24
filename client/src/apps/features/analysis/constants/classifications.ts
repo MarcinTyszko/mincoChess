@@ -12,6 +12,9 @@ import iconClassificationsForced from "@assets/img/classifications/forced.png";
 import iconClassificationsTheory from "@assets/img/classifications/theory.png";
 import iconClassificationsRisky from "@assets/img/classifications/risky.png";
 
+import iconClassificationsLoading from "@assets/img/classifications/loading.png";
+import iconClassificationsError from "@assets/img/classifications/error.png";
+
 export const classificationImages = {
     [Classification.BRILLIANT]: iconClassificationsBrilliant,
     [Classification.CRITICAL]: iconClassificationsCritical,
@@ -26,13 +29,9 @@ export const classificationImages = {
     [Classification.RISKY]: iconClassificationsRisky
 };
 
-export const loadingClassificationIcon = require(
-    "@assets/img/classifications/loading.png"
-);
+export const loadingClassificationIcon = iconClassificationsLoading;
 
-export const errorClassificationIcon = require(
-    "@assets/img/classifications/error.png"
-);
+export const errorClassificationIcon = iconClassificationsError;
 
 export const classificationColours = {
     [Classification.BRILLIANT]: "#1baaa6",
@@ -69,13 +68,3 @@ export const inalterableClassifications = [
     Classification.FORCED,
     Classification.THEORY
 ];
-
-// https://en.wikipedia.org/wiki/Portable_Game_Notation#Standard_NAGs
-export const classificationNags: Record<string, string | undefined> = {
-    [Classification.BRILLIANT]: "$3",
-    [Classification.CRITICAL]: "$1",
-    [Classification.INACCURACY]: "$6",
-    [Classification.MISTAKE]: "$2",
-    [Classification.BLUNDER]: "$4",
-    [Classification.RISKY]: "$5"
-};

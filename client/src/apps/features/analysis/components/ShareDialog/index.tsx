@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import renderStateTree from "shared/lib/stateTree/render";
 import Dialog from "@/components/common/Dialog";
 import TextField from "@/components/common/TextField";
-import { renderStateTree } from "@/lib/stateTree/render";
 
 import ShareDialogProps from "./ShareDialogProps";
 import * as styles from "./ShareDialog.module.css";
@@ -13,7 +13,7 @@ function ShareDialog({ game, currentNode, onClose }: ShareDialogProps) {
 
     return <Dialog className={styles.wrapper} onClose={onClose}>
         <div className={styles.title}>
-            {t("options.share", { ns: "analysis" })}
+            {t("optionsToolbar.share", { ns: "analysis" })}
         </div>
 
         <div className={styles.content}>
@@ -40,7 +40,7 @@ function ShareDialog({ game, currentNode, onClose }: ShareDialogProps) {
                     wrapperStyle={{ width: "100%", height: "300px" }}
                     className={styles.field}
                     copyClassName={styles.areaFieldCopy}
-                    value={renderStateTree(game)}
+                    value={renderStateTree(game.stateTree, game)}
                     multiline
                     readOnly
                     copyable

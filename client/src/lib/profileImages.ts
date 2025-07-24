@@ -2,9 +2,7 @@ import { Chess } from "chess.js";
 
 import Game from "shared/types/game/Game";
 
-import iconDefaultprofileimage from "@assets/img/defaultprofileimage.png";
-
-const defaultProfileImage = iconDefaultprofileimage;
+import iconDefaultProfileImage from "@assets/img/defaultprofileimage.png";
 
 export function isGameFromChessCom(game: Game) {
     const board = new Chess();
@@ -18,7 +16,7 @@ export function isGameFromChessCom(game: Game) {
 export async function getChessComProfileImage(
     username: string
 ): Promise<string> {
-    if (!username) return defaultProfileImage;
+    if (!username) return iconDefaultProfileImage;
 
     const profileResponse = await fetch(
         `https://api.chess.com/pub/player/${username}`
@@ -26,7 +24,7 @@ export async function getChessComProfileImage(
 
     const profile = await profileResponse.json();
 
-    return profile.avatar || defaultProfileImage;
+    return profile.avatar || iconDefaultProfileImage;
 }
 
 export async function getChessComProfileImages(game: Game) {

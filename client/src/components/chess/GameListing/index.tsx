@@ -153,7 +153,7 @@ function GameListing({
 
         <div style={{ width: "110px" }}>
             <span title={game.date?.toLocaleString()}>
-                {game.date ? formatDate(game.date) : t(
+                {game.date ? formatDate(new Date(game.date)) : t(
                     "gameListing.gameResults.opinionated.unknown"
                 )}
             </span>

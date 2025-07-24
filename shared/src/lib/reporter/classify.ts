@@ -1,4 +1,4 @@
-import ReportOptions from "./types/ReportOptions";
+import ReportOptions from "./types/AnalysisOptions";
 import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
 import { Classification, classifValues } from "@constants/Classification";
 import {

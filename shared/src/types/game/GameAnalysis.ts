@@ -1,9 +1,15 @@
-import { StateTreeNode } from "./position/StateTreeNode";
+import z from "zod";
 
-export interface GameAnalysis {
-    estimatedRatings?: {
-        white: number;
-        black: number;
-    };
-    stateTree: StateTreeNode;
-}
+import { stateTreeNodeSchema } from "./position/StateTreeNode";
+
+export const gameAnalysisSchema = z.object({
+    estimatedRatings: z.object({
+        white: z.number(),
+        black: z.number()
+    }).optional(),
+    stateTree: stateTreeNodeSchema
+});
+
+export type GameAnalysis = z.infer<typeof gameAnalysisSchema>;
+
+export default GameAnalysis;

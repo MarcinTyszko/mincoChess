@@ -1,7 +1,8 @@
+import { z, ZodType } from "zod";
 import { Chess } from "chess.js";
 import { round, clone, uniqueId, cloneDeep } from "lodash-es";
 
-import { BoardState } from "./BoardState";
+import { BoardState, boardStateSchema } from "./BoardState";
 import PieceColour from "@constants/PieceColour";
 import { pickEngineLines } from "./EngineLine";
 
@@ -13,13 +14,28 @@ export interface StateTreeNode {
     parent?: StateTreeNode;
 }
 
+export type SerializedStateTreeNode = (
+    Omit<StateTreeNode, "children" | "parent">
+    & { children: SerializedStateTreeNode[] }
+);
+
+export const stateTreeNodeSchema: ZodType<StateTreeNode> = z.object({
+    id: z.string(),
+    mainline: z.boolean(),
+    state: boardStateSchema,
+    children: z.lazy(() => z.array(stateTreeNodeSchema)),
+    parent: z.lazy(() => stateTreeNodeSchema).optional()
+});
+
 /**
  * @description Remove parent from node, and recurse through all
  * children to remove their parents, to remove cyclic references.
  * Strips unnecessary engine lines from moves for compression.
  */
 export function serializeNode(rootNode: StateTreeNode) {
-    function serializePart(part: StateTreeNode) {
+    function serializePart(
+        part: StateTreeNode
+    ): SerializedStateTreeNode {
         part.parent = undefined;
 
         // Deep copy board state and strip engine lines
@@ -47,13 +63,17 @@ export function serializeNode(rootNode: StateTreeNode) {
 
 /**
  * @description Recurses through children of a node N, setting their parents
- * back to N. Restores data stripped in compression from a client-held node
+ * back to N. Restores data stripped in compression from the client-held
+ * version of the serialized root node.
  */
 export function deserializeNode(
-    serializedRoot: StateTreeNode,
+    serializedRoot: SerializedStateTreeNode,
     restoreRoot?: StateTreeNode
 ) {
-    function deserializePart(node: StateTreeNode, parent?: StateTreeNode) {
+    function deserializePart(
+        node: SerializedStateTreeNode,
+        parent?: SerializedStateTreeNode
+    ) {
         const deserializedNode: StateTreeNode = {
             ...node,
             parent: parent,
@@ -87,7 +107,7 @@ export function deserializeNode(
 export function findNodeRecursively(
     rootNode: StateTreeNode,
     predicate: (node: StateTreeNode) => boolean,
-    backwards?: boolean
+    backwards = false
 ) {
     const frontier: StateTreeNode[] = [rootNode];
 
@@ -100,10 +120,7 @@ export function findNodeRecursively(
         }
 
         if (backwards) {
-            if (node.parent) {
-                frontier.push(node.parent);
-            }
-
+            if (node.parent) frontier.push(node.parent);
             continue;
         }
 

@@ -88,9 +88,7 @@ function createAuth(database: mongo.Db) {
                 create: { before: registration.userInitialiser }
             }
         },
-        advanced: {
-            cookiePrefix: "wintrchess"
-        }
+        advanced: { cookiePrefix: "wintrchess" }
     });
 }
 

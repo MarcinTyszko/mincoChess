@@ -9,23 +9,10 @@ import {
     deserializeNode
 } from "shared/types/game/position/StateTreeNode";
 
-interface AnalyseGameResult {
-    status: StatusCodes;
-    gameAnalysis?: GameAnalysis;
-}
-
-interface AnalyseNodeResult {
-    status: StatusCodes;
-    node?: StateTreeNode;
-}
-
-/**
- * @description Does not require given root node to be serialized
- */
 export async function analyseStateTree(
     rootNode: StateTreeNode,
     options?: ReportOptions
-): Promise<AnalyseGameResult> {
+) {
     const reportURL = "/api/analysis/analyse"
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&critical=${String(options?.includeCritical)}`
@@ -41,15 +28,13 @@ export async function analyseStateTree(
         )
     });
 
-    if (!reportResponse.ok) {
+    if (!reportResponse.ok)
         return { status: reportResponse.status };
-    }
 
     const gameAnalysis: GameAnalysis = await reportResponse.json();
 
     gameAnalysis.stateTree = deserializeNode(
-        gameAnalysis.stateTree,
-        rootNode
+        gameAnalysis.stateTree, rootNode
     );
 
     return {
@@ -58,16 +43,12 @@ export async function analyseStateTree(
     };
 }
 
-/**
- * @description Does not require given node to be serialized
- */
 export async function analyseNode(
     node: StateTreeNode,
     options?: ReportOptions
-): Promise<AnalyseNodeResult> {
-    if (!node.parent) {
+) {
+    if (!node.parent)
         return { status: StatusCodes.BAD_REQUEST };
-    }
 
     const childlessNode = clone(node);
     childlessNode.children = [];

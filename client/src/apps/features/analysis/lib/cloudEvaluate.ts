@@ -1,5 +1,5 @@
 import { Chess } from "chess.js";
-import { components } from "@/lichess-org/types";
+import { components } from "@lichess-org/types";
 
 import { EngineLine } from "shared/types/game/position/EngineLine";
 import Move from "shared/types/game/position/Move";

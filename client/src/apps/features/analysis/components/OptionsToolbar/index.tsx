@@ -7,13 +7,15 @@ import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
 import Button from "@/components/common/Button";
 import SettingsDialog from "../SettingsDialog";
 import ShareDialog from "../ShareDialog";
+import { archiveGame } from "@/lib/api/gameArchive";
 
 import * as styles from "./OptionsToolbar.module.css";
 
-import iconInterfaceBack from "@assets/img/interface/back.svg";
-import iconInterfaceFlip from "@assets/img/interface/flip.svg";
-import iconInterfaceSettings from "@assets/img/interface/settings.svg";
-import iconInterfaceShare from "@assets/img/interface/share.svg";
+import iconBack from "@assets/img/interface/back.svg";
+import iconFlip from "@assets/img/interface/flip.svg";
+import iconSettings from "@assets/img/interface/settings.svg";
+import iconShare from "@assets/img/interface/share.svg";
+import iconSave from "@assets/img/interface/save.svg";
 
 function OptionsToolbar() {
     const { t } = useTranslation(["analysis", "common"]);
@@ -32,7 +34,7 @@ function OptionsToolbar() {
     return <>
         <div className={styles.wrapper}>
             {gameAnalysisOpen && <Button
-                icon={iconInterfaceBack}
+                icon={iconBack}
                 iconSize={"40px"}
                 className={styles.backButton}
                 tooltipId={"options-toolbar-back"}
@@ -47,7 +49,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={iconInterfaceFlip}
+                icon={iconFlip}
                 iconSize={"40px"}
                 tooltipId={"options-toolbar-flip"}
                 onClick={() => setBoardFlipped(!boardFlipped)}
@@ -55,13 +57,13 @@ function OptionsToolbar() {
 
             <Tooltip
                 id="options-toolbar-flip"
-                content={t("options.flipBoard")}
+                content={t("optionsToolbar.flipBoard")}
                 delayShow={500}
             />
 
             <Button
                 className={styles.optionButton}
-                icon={iconInterfaceSettings}
+                icon={iconSettings}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-settings"}
                 onClick={() => setSettingsOpen(true)}
@@ -75,7 +77,7 @@ function OptionsToolbar() {
 
             <Button
                 className={styles.optionButton}
-                icon={iconInterfaceShare}
+                icon={iconShare}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-share"}
                 onClick={() => setShareOpen(true)}
@@ -84,6 +86,20 @@ function OptionsToolbar() {
             <Tooltip
                 id="options-toolbar-share"
                 content={t("options.share")}
+                delayShow={500}
+            />
+
+            <Button
+                className={styles.optionButton}
+                icon={iconSave}
+                iconSize={"35px"}
+                tooltipId={"options-toolbar-save"}
+                onClick={() => archiveGame(analysisGame)}
+            />
+
+            <Tooltip
+                id="options-toolbar-save"
+                content={t("optionsToolbar.save")}
                 delayShow={500}
             />
         </div>

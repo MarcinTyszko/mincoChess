@@ -1,8 +1,9 @@
 {
     "title": "Game Analysis",
-    "options": {
+    "optionsToolbar": {
         "flipBoard": "Flip Board",
-        "share": "Share Game"
+        "share": "Share Game",
+        "save": "Save to Archive"
     },
     "settings": {
         "title": "Analysis Settings",

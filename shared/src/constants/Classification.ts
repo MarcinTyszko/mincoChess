@@ -25,3 +25,13 @@ export const classifValues: Record<Classification, number> = {
     [Classification.FORCED]: 5,
     [Classification.THEORY]: 5
 };
+
+// https://en.wikipedia.org/wiki/Portable_Game_Notation#Standard_NAGs
+export const classifNags: Record<string, string | undefined> = {
+    [Classification.BRILLIANT]: "$3",
+    [Classification.CRITICAL]: "$1",
+    [Classification.INACCURACY]: "$6",
+    [Classification.MISTAKE]: "$2",
+    [Classification.BLUNDER]: "$4",
+    [Classification.RISKY]: "$5"
+};

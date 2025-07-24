@@ -8,7 +8,10 @@ enum Collection {
     ANALYSIS_SESSIONS = "analysisSessions",
     INTERNAL_SESSIONS = "internalSessions",
 
-    // Main
+    // Users
+    ARCHIVED_GAMES = "archivedGames",
+
+    // Global
     NEWS_ARTICLES = "news",
     ANNOUNCEMENT = "announcement"
 }

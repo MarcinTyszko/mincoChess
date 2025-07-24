@@ -1,6 +1,6 @@
 import { GameAnalysis } from "@ctypes/game/GameAnalysis";
 import { StateTreeNode, getNodeChain } from "@ctypes/game/position/StateTreeNode";
-import ReportOptions from "./types/ReportOptions";
+import AnalysisOptions from "./types/AnalysisOptions";
 import { adaptPieceColour } from "@constants/PieceColour";
 import {
     extractCurrentStateTreeNode,
@@ -10,9 +10,9 @@ import { getMoveAccuracy } from "./accuracy/moveAccuracy";
 import { classify } from "./classify";
 import { getOpeningName } from "./utils/opening";
 
-export function getGameReport(
+export function getGameAnalysis(
     rootNode: StateTreeNode,
-    options?: ReportOptions
+    options?: AnalysisOptions
 ): GameAnalysis {
     const treeNodes = getNodeChain(rootNode);
     

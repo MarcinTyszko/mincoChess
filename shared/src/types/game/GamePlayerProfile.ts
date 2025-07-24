@@ -1,8 +1,11 @@
-import PlayerProfile from "./PlayerProfile";
+import z from "zod";
+
+import { playerProfileSchema } from "./PlayerProfile";
 import GameResult from "@constants/game/GameResult";
 
-interface GamePlayerProfile extends PlayerProfile {
-    result: GameResult;
-}
+export const gamePlayerProfileSchema = playerProfileSchema
+    .extend({ result: z.nativeEnum(GameResult) });
+
+export type GamePlayerProfile = z.infer<typeof gamePlayerProfileSchema>;
 
 export default GamePlayerProfile;

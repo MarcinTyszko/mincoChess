@@ -2,11 +2,12 @@ import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import {
-    StateTreeNode,
+    SerializedStateTreeNode,
     serializeNode,
-    deserializeNode
+    deserializeNode,
+    stateTreeNodeSchema
 } from "shared/types/game/position/StateTreeNode";
-import { getGameReport } from "shared/lib/reporter/report";
+import { getGameAnalysis } from "shared/lib/reporter/report";
 import analysisAuthenticator from "@lib/security/analysis";
 
 const path = "/analysis/analyse";
@@ -19,24 +20,24 @@ router.use(path,
 );
 
 router.post(path, async (req, res) => {
-    const serializedStateTree: StateTreeNode | undefined = req.body;
+    const serializedStateTree: SerializedStateTreeNode = req.body;
 
-    if (!serializedStateTree) {
+    if (!stateTreeNodeSchema.safeParse(serializedStateTree).success)
         return res.sendStatus(StatusCodes.BAD_REQUEST);
-    }
 
     const stateTree = deserializeNode(serializedStateTree);
 
     try {
-        const gameReport = getGameReport(stateTree, {
+        const gameAnalysis = getGameAnalysis(stateTree, {
             includeBrilliant: req.query.brilliant == "true",
             includeCritical: req.query.critical == "true",
             includeTheory: req.query.theory == "true"
         });
-        
-        gameReport.stateTree = serializeNode(gameReport.stateTree);
 
-        res.json(gameReport);
+        res.json({
+            ...gameAnalysis,
+            stateTree: serializeNode(gameAnalysis.stateTree)
+        });
     } catch {
         res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
     }
