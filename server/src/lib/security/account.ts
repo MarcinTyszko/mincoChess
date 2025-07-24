@@ -2,7 +2,7 @@ import { RequestHandler, CookieOptions } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { StatusCodes } from "http-status-codes";
 
-import getAuth from "@lib/auth";
+import getAuth from "@/lib/auth";
 
 export const secureCookieOptions: CookieOptions = {
     httpOnly: true,

@@ -2,7 +2,7 @@ import { RequestHandler, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import Cookie from "shared/constants/Cookie";
-import InternalSession from "@database/models/InternalSession";
+import InternalSession from "@/database/models/InternalSession";
 
 function internalAuthenticator(redirect = false): RequestHandler {
     function reject(res: Response) {

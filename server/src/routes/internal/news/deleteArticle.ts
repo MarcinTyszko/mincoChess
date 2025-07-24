@@ -1,8 +1,8 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import NewsArticle from "@database/models/NewsArticle";
-import internalAuthenticator from "@lib/security/internal";
+import NewsArticle from "@/database/models/NewsArticle";
+import internalAuthenticator from "@/lib/security/internal";
 
 const path = "/news/delete";
 

@@ -4,8 +4,8 @@ import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import { Classification } from "@constants/Classification";
-import { adaptPieceColour } from "@constants/PieceColour";
+import { Classification } from "@/constants/Classification";
+import { adaptPieceColour } from "@/constants/PieceColour";
 import { getExpectedPointsLoss } from "../expectedPoints";
 
 /**

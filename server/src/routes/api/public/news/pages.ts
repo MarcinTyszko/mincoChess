@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import NewsArticle from "@database/models/NewsArticle";
+import NewsArticle from "@/database/models/NewsArticle";
 
 const router = Router();
 

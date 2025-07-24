@@ -3,8 +3,8 @@ import { Chess, KING } from "chess.js";
 import { BoardPiece } from "../types/BoardPiece";
 import { isPieceSafe } from "./pieceSafety";
 import { moveCreatesGreaterThreat } from "./dangerLevels";
-import { adaptPieceColour } from "@constants/PieceColour";
-import { setFenTurn } from "@lib/utils/chess";
+import { adaptPieceColour } from "@/constants/PieceColour";
+import { setFenTurn } from "@/lib/utils/chess";
 
 /**
  * @description Returns whether a piece is trapped. If a piece is unsafe on its

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import Collection from "@constants/Collection";
+import Collection from "@/constants/Collection";
 
 const newsArticleSchema = new Schema({
     id: { type: String, required: true },

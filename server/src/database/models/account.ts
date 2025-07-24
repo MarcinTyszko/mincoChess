@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 import * as AuthTypes from "better-auth/types";
 
-import Collection from "@constants/Collection";
-import { AuthInfer } from "@lib/auth";
+import Collection from "@/constants/Collection";
+import { AuthInfer } from "@/lib/auth";
 
 export const User = model(
     "user",

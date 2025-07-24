@@ -3,8 +3,8 @@ import { isEqual, xorWith } from "lodash-es";
 
 import { BoardPiece } from "../types/BoardPiece";
 import { RawMove, toRawMove } from "../types/RawMove";
-import { adaptPieceColour, flipPieceColour } from "@constants/PieceColour";
-import { setFenTurn, getCaptureSquare } from "@lib/utils/chess";
+import { adaptPieceColour, flipPieceColour } from "@/constants/PieceColour";
+import { setFenTurn, getCaptureSquare } from "@/lib/utils/chess";
 
 interface TransitiveAttacker {
     directFen: string;

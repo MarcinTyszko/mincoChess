@@ -6,8 +6,8 @@ import { StatusCodes } from "http-status-codes";
 import schemas, { Registration } from "shared/constants/account/schemas";
 import accountErrors from "shared/constants/account/errors";
 import { randomNormalString } from "shared/lib/utils/string";
-import { User } from "@database/models/account";
-import { AuthInfer } from "@lib/auth";
+import { User } from "@/database/models/account";
+import { AuthInfer } from "@/lib/auth";
 
 export const validator = createAuthMiddleware(async ctx => {
     if (!ctx.path.startsWith("/sign-up/email")) return;

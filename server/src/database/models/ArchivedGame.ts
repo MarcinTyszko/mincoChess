@@ -1,7 +1,7 @@
 import { Types, Schema, model } from "mongoose";
 
 import { ArchivedGame } from "shared/types/game/ArchivedGame";
-import Collection from "@constants/Collection";
+import Collection from "@/constants/Collection";
 
 type ArchivedGameDocument = (
     Omit<ArchivedGame, "userId">

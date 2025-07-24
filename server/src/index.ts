@@ -5,9 +5,9 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { toNodeHandler } from "better-auth/node";
 
-import connectDatabase from "@database/connect";
-import hostnameWhitelist from "@lib/security/whitelist";
-import getAuth from "@lib/auth";
+import connectDatabase from "@/database/connect";
+import hostnameWhitelist from "@/lib/security/whitelist";
+import getAuth from "@/lib/auth";
 import mainRouter from "./routes";
 
 dotenv.config();

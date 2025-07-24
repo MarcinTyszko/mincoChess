@@ -1,5 +1,5 @@
-import Evaluation from "@ctypes/game/position/Evaluation";
-import PieceColour from "@constants/PieceColour";
+import Evaluation from "@/types/game/position/Evaluation";
+import PieceColour from "@/constants/PieceColour";
 
 interface ExpectedPointsOptions {
     moveColour?: PieceColour;

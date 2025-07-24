@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 
-import NewsArticle from "@database/models/NewsArticle";
-import internalAuthenticator from "@lib/security/internal";
+import NewsArticle from "@/database/models/NewsArticle";
+import internalAuthenticator from "@/lib/security/internal";
 
 const path = "/news/publish";
 

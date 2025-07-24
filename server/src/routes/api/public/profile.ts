@@ -2,7 +2,7 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { UserProfile } from "shared/types/UserProfile";
-import { User } from "@database/models/account";
+import { User } from "@/database/models/account";
 
 const router = Router();
 

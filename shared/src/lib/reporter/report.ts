@@ -1,7 +1,7 @@
-import { GameAnalysis } from "@ctypes/game/GameAnalysis";
-import { StateTreeNode, getNodeChain } from "@ctypes/game/position/StateTreeNode";
+import { GameAnalysis } from "@/types/game/GameAnalysis";
+import { StateTreeNode, getNodeChain } from "@/types/game/position/StateTreeNode";
 import AnalysisOptions from "./types/AnalysisOptions";
-import { adaptPieceColour } from "@constants/PieceColour";
+import { adaptPieceColour } from "@/constants/PieceColour";
 import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode

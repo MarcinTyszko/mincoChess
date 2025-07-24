@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import cluster from "cluster";
 
-import Collection from "@constants/Collection";
+import Collection from "@/constants/Collection";
 
 async function initialiseIndexes() {
     const db = mongoose.connection.db;

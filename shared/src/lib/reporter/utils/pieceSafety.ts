@@ -2,9 +2,9 @@ import { Chess, Move, PAWN, KNIGHT, ROOK, KING } from "chess.js";
 import { minBy } from "lodash-es";
 
 import { BoardPiece, getBoardPieces } from "../types/BoardPiece";
-import PieceColour from "@constants/PieceColour";
-import { pieceValues } from "@constants/utils";
-import { adaptPieceColour } from "@constants/PieceColour";
+import PieceColour from "@/constants/PieceColour";
+import { pieceValues } from "@/constants/utils";
+import { adaptPieceColour } from "@/constants/PieceColour";
 import { toBoardPiece } from "../types/BoardPiece";
 import { getAttackingMoves } from "./attackers";
 import { getDefendingMoves } from "./defenders";

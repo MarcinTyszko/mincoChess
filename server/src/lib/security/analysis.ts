@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import Cookie from "shared/constants/Cookie";
-import AnalysisSession from "@database/models/AnalysisSession";
+import AnalysisSession from "@/database/models/AnalysisSession";
 
 const analysisAuthenticator: RequestHandler = async (req, res, next) => {
     // Ensure existence of session token in cookies

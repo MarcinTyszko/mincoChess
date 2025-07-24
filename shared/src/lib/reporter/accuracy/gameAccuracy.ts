@@ -1,7 +1,7 @@
 import { meanBy } from "lodash-es";
 
-import { getNodeChain, StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import PieceColour from "@constants/PieceColour";
+import { getNodeChain, StateTreeNode } from "@/types/game/position/StateTreeNode";
+import PieceColour from "@/constants/PieceColour";
 
 export function getGameAccuracy(rootNode: StateTreeNode) {
     const accuracyHolders = getNodeChain(rootNode).filter(

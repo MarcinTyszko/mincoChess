@@ -1,14 +1,14 @@
 import { Chess, WHITE } from "chess.js";
 
-import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { EngineLine, getLineGroupSibling, getTopEngineLine } from "@ctypes/game/position/EngineLine";
+import { StateTreeNode } from "@/types/game/position/StateTreeNode";
+import { EngineLine, getLineGroupSibling, getTopEngineLine } from "@/types/game/position/EngineLine";
 import { RawMove } from "../types/RawMove";
 import {
     ExtractedCurrentNode,
     ExtractedPreviousNode
 } from "../types/ExtractedNode";
-import { adaptPieceColour } from "@constants/PieceColour";
-import { getSubjectiveEvaluation } from "@lib/utils/chess";
+import { adaptPieceColour } from "@/constants/PieceColour";
+import { getSubjectiveEvaluation } from "@/lib/utils/chess";
 
 type PieceMovement = Pick<RawMove, "from" | "to" | "promotion">;
 

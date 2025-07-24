@@ -2,7 +2,7 @@ import z from "zod";
 import { Chess } from "chess.js";
 import { uniq, maxBy } from "lodash-es";
 
-import EngineVersion from "@constants/EngineVersion";
+import EngineVersion from "@/constants/EngineVersion";
 import { evaluationSchema } from "./Evaluation";
 import { moveSchema } from "./Move";
 

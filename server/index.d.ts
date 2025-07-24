@@ -1,4 +1,4 @@
-import getAuth from "@lib/auth";
+import getAuth from "@/lib/auth";
 
 type InferredAuth = ReturnType<typeof getAuth>["$Infer"]["Session"];
 

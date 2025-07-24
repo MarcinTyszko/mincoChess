@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import appRouter from "@lib/appRouter";
+import appRouter from "@/lib/appRouter";
 
 const router = Router();
 

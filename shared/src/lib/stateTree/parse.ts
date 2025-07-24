@@ -2,9 +2,9 @@ import { Chess } from "chess.js";
 import { ParseTree, parseGame } from "@mliebelt/pgn-parser";
 import { uniqueId } from "lodash-es";
 
-import Game from "@ctypes/game/Game";
-import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import PieceColour from "@constants/PieceColour";
+import Game from "@/types/game/Game";
+import { StateTreeNode } from "@/types/game/position/StateTreeNode";
+import PieceColour from "@/constants/PieceColour";
 
 type ParsedPGNMove = ParseTree["moves"][number];
 

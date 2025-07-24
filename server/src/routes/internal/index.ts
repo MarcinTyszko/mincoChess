@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import appRouter from "@lib/appRouter";
-import internalAuthenticator from "@lib/security/internal";
+import appRouter from "@/lib/appRouter";
+import internalAuthenticator from "@/lib/security/internal";
 
 import loginRouter from "./login";
 import publishAnnouncementRouter from "./publishAnnouncement";

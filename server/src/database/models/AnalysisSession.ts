@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import Collection from "@constants/Collection";
+import Collection from "@/constants/Collection";
 
 const analysisSessionSchema = new Schema({
     token: { type: String, required: true },

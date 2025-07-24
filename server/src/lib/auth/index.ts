@@ -3,8 +3,8 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 import schemas, { additionalUserFields } from "shared/constants/account/schemas";
-import Collection from "@constants/Collection";
-import { sendAccountEmail } from "@lib/email";
+import Collection from "@/constants/Collection";
+import { sendAccountEmail } from "@/lib/email";
 
 import * as registration from "./registration";
 

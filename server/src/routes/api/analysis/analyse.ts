@@ -8,7 +8,7 @@ import {
     stateTreeNodeSchema
 } from "shared/types/game/position/StateTreeNode";
 import { getGameAnalysis } from "shared/lib/reporter/report";
-import analysisAuthenticator from "@lib/security/analysis";
+import analysisAuthenticator from "@/lib/security/analysis";
 
 const path = "/analysis/analyse";
 

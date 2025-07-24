@@ -1,6 +1,6 @@
 import ReportOptions from "./types/AnalysisOptions";
-import { StateTreeNode } from "@ctypes/game/position/StateTreeNode";
-import { Classification, classifValues } from "@constants/Classification";
+import { StateTreeNode } from "@/types/game/position/StateTreeNode";
+import { Classification, classifValues } from "@/constants/Classification";
 import {
     extractPreviousStateTreeNode,
     extractCurrentStateTreeNode

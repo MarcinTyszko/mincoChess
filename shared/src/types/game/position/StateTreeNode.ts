@@ -3,7 +3,7 @@ import { Chess } from "chess.js";
 import { round, clone, uniqueId, cloneDeep } from "lodash-es";
 
 import { BoardState, boardStateSchema } from "./BoardState";
-import PieceColour from "@constants/PieceColour";
+import PieceColour from "@/constants/PieceColour";
 import { pickEngineLines } from "./EngineLine";
 
 export interface StateTreeNode {

@@ -7,9 +7,9 @@ import {
     getNodeChain,
     getNodeMoveNumber,
     getNodeSiblings
-} from "@ctypes/game/position/StateTreeNode";
-import Game from "@ctypes/game/Game";
-import { classifNags } from "@constants/Classification";
+} from "@/types/game/position/StateTreeNode";
+import Game from "@/types/game/Game";
+import { classifNags } from "@/constants/Classification";
 
 type PGNHeaders = {
     [K in keyof NonNullable<ParseTree["tags"]>]?: string;

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import Announcement from "@database/models/Announcement";
+import Announcement from "@/database/models/Announcement";
 
 const router = Router();
 

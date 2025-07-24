@@ -6,8 +6,8 @@ import { Payload } from "altcha-lib/types";
 import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
-import AnalysisSession from "@database/models/AnalysisSession";
-import { secureCookieOptions } from "@lib/security/account";
+import AnalysisSession from "@/database/models/AnalysisSession";
+import { secureCookieOptions } from "@/lib/security/account";
 
 const path = "/analysis-session";
 

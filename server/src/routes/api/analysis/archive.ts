@@ -8,9 +8,9 @@ import {
     SerializedAnalysedGame,
     analysedGameSchema
 } from "shared/types/game/AnalysedGame";
-import ArchivedGame from "@database/models/ArchivedGame";
-import { accountAuthenticator } from "@lib/security/account";
-import * as Archive from "@lib/gameArchive";
+import ArchivedGame from "@/database/models/ArchivedGame";
+import { accountAuthenticator } from "@/lib/security/account";
+import * as Archive from "@/lib/gameArchive";
 
 const router = Router();
 

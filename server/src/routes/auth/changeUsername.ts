@@ -2,8 +2,8 @@ import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import schemas from "shared/constants/account/schemas";
-import { accountAuthenticator } from "@lib/security/account";
-import { User } from "@database/models/account";
+import { accountAuthenticator } from "@/lib/security/account";
+import { User } from "@/database/models/account";
 
 const path = "/change-username";
 

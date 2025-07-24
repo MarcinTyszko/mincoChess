@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { randomBytes } from "crypto";
 
 import Cookie from "shared/constants/Cookie";
-import InternalSession from "@database/models/InternalSession";
-import { secureCookieOptions } from "@lib/security/account";
+import InternalSession from "@/database/models/InternalSession";
+import { secureCookieOptions } from "@/lib/security/account";
 
 const path = "/login";
 

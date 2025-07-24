@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { isEmpty } from "lodash-es";
 
 import { Announcement, announcementSchema } from "shared/types/Announcement";
-import AnnouncementModel from "@database/models/Announcement";
-import internalAuthenticator from "@lib/security/internal";
+import AnnouncementModel from "@/database/models/Announcement";
+import internalAuthenticator from "@/lib/security/internal";
 
 const path = "/announcement/publish";
 

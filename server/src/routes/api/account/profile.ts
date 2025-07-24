@@ -2,7 +2,7 @@ import { Router } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import { AuthedUserProfile } from "shared/types/UserProfile";
-import { accountAuthenticator } from "@lib/security/account";
+import { accountAuthenticator } from "@/lib/security/account";
 
 const path = "/profile";
 
