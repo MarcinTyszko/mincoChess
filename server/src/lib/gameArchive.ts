@@ -1,5 +1,5 @@
-import { gunzipSync, gzipSync } from "zlib";
-import { compress, Compressed, decompress } from "compress-json";
+import { gzipSync, gunzipSync } from "zlib";
+import { Compressed, compress, decompress } from "compress-json";
 import { Buffer } from "buffer";
 import { omit } from "lodash-es";
 

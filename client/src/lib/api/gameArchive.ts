@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 
 import AnalysedGame, { SerializedAnalysedGame } from "shared/types/game/AnalysedGame";
-import { ArchivedGameMetadata } from "shared/types/game/ArchivedGame";
+import { GameArchive } from "shared/types/game/ArchivedGame";
 import { deserializeNode, serializeNode } from "shared/types/game/position/StateTreeNode";
 
 export async function getArchivedGames() {
@@ -13,7 +13,7 @@ export async function getArchivedGames() {
 
     return {
         status: response.status as StatusCodes,
-        games: await response.json() as ArchivedGameMetadata[]
+        games: await response.json() as GameArchive
     };
 }
 
@@ -34,8 +34,12 @@ export async function getArchivedGame(gameId: string) {
     return { status: response.status as StatusCodes, game };
 }
 
-export async function archiveGame(game: AnalysedGame) {
-    const response = await fetch("/api/analysis/archive/add", {
+export async function archiveGame(game: AnalysedGame, gameId?: string) {
+    const url = gameId
+        ? `/api/analysis/archive/add?id=${gameId}`
+        : "/api/analysis/archive/add";
+
+    const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -54,8 +58,10 @@ export async function archiveGame(game: AnalysedGame) {
     };
 }
 
-export async function deleteArchivedGame(gameId: string) {
-    const response = await fetch(`/api/analysis/archive/delete?id=${gameId}`);
+export async function deleteArchivedGames(...gameIds: string[]) {
+    const response = await fetch(
+        `/api/analysis/archive/delete?id=${gameIds.join(",")}`
+    );
 
     return { status: response.status as StatusCodes };
 }

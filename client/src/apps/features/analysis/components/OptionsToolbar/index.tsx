@@ -40,7 +40,10 @@ function OptionsToolbar() {
     const [ shareOpen, setShareOpen ] = useState(false);
 
     async function saveToArchive() {
-        const archival = await archiveGame(analysisGame);
+        const archival = await archiveGame(
+            analysisGame,
+            searchParams.get("game") || undefined
+        );
 
         if (archival.status == StatusCodes.INSUFFICIENT_STORAGE)
             return displayToast({

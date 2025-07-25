@@ -10,3 +10,5 @@ export type ArchivedGame = (
         gzippedStateTree: Buffer;
     }
 );
+
+export type GameArchive = Record<string, ArchivedGameMetadata>;
