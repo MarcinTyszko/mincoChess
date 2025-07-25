@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import { StatusCodes } from "http-status-codes";
+import { FetchStatus } from "@tanstack/react-query";
 
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
@@ -39,7 +40,11 @@ function OptionsToolbar() {
     const [ settingsOpen, setSettingsOpen ] = useState(false);
     const [ shareOpen, setShareOpen ] = useState(false);
 
+    const [ archiveStatus, setArchiveStatus ] = useState<FetchStatus>("idle");
+
     async function saveToArchive() {
+        setArchiveStatus("fetching");
+
         const archival = await archiveGame(
             analysisGame,
             searchParams.get("game") || undefined
@@ -61,6 +66,8 @@ function OptionsToolbar() {
             ...Object.fromEntries(searchParams.entries()),
             game: archival.id
         });
+
+        setArchiveStatus("idle");
 
         displayToast({
             message: t("optionsToolbar.gameArchived"),
@@ -132,6 +139,7 @@ function OptionsToolbar() {
                 icon={iconSave}
                 iconSize={"35px"}
                 tooltipId={"options-toolbar-save"}
+                disabled={archiveStatus == "fetching"}
                 onClick={saveToArchive}
             />}
 
