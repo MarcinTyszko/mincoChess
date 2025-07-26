@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import Typography from "@/components/Typography";
 import Button from "@/components/common/Button";
 import BlurBackground from "@/components/layout/BlurBackground";
@@ -25,7 +25,7 @@ import iconIconsSettings from "@assets/img/icons/settings.png";
 function NavigationBar() {
     const { t } = useTranslation("common"); 
 
-    const { profile, status } = useAccountProfile();
+    const { profile, status } = useAuthedProfile();
 
     const [ sidebarOpen, setSidebarOpen ] = useState(false);
 

@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useNavigate } from "react-router-dom";
 
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
 import CategoryTab from "@/apps/settings/components/CategoryTab";
 import { manageDataConsent } from "@/lib/consent";
@@ -16,7 +16,7 @@ function Settings() {
 
     const navigate = useNavigate();
 
-    const { status } = useAccountProfile();
+    const { status } = useAuthedProfile();
 
     return <div className={styles.wrapper}>
         <div className={styles.titleContainer}>

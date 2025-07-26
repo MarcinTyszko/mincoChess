@@ -124,24 +124,19 @@ function GameSearchMenu({
                         {t("gameSearchMenu.loading")}
                     </span>
 
-                    {
-                        isLongFetch
-                        && <span>
-                            {t("gameSearchMenu.loadingLong")}
-                        </span>
-                    }
+                    {isLongFetch && <span>
+                        {t("gameSearchMenu.loadingLong")}
+                    </span>}
                 </div>
             }
 
             {status == "success" && fetchStatus == "idle"
                 && (games.length > 0 ?
-                    games
-                        .slice()
-                        .map(game => <GameListing 
-                            game={game}
-                            perspective={getColourPlayed(game, username)}
-                            onClick={selectListing}
-                        />)
+                    games.slice().map(game => <GameListing
+                        game={game}
+                        perspective={getColourPlayed(game, username)}
+                        onClick={selectListing}
+                    />)
                     : t("gameSearchMenu.noGamesFound")
                 )
             }

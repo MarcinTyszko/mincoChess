@@ -1,4 +1,11 @@
 {
+    "archive": {
+        "title": "Game Archive",
+        "selected": "{{amount}} selected",
+        "selectAll": "Select all",
+        "deleteSelected": "Delete selected",
+        "error": "An unknown error occurred while trying to load your game archive."
+    },
     "news": {
         "title": "Newspaper",
         "titleDescription": "Get the latest updates on the WintrChess platform",

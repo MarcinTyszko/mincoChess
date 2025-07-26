@@ -1,51 +1,51 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import { uniqueId } from "lodash-es";
+import { truncate, uniqueId } from "lodash-es";
 
 import { GameResult, getOpinionatedGameResult } from "shared/constants/game/GameResult";
-import PlayerProfile from "shared/types/game/PlayerProfile";
 import TimeControl from "shared/constants/game/TimeControl";
 import { formatDate } from "shared/lib/utils/date";
+import GameListingMetadata from "./GameListingMetadata";
 import Button from "@/components/common/Button";
 import displayToast from "@/lib/toast";
 
 import GameListingProps from "./GameListingProps";
 import * as styles from "./GameListing.module.css";
 
-import iconTimecontrolsBullet from "@assets/img/timeControls/bullet.png";
-import iconTimecontrolsBlitz from "@assets/img/timeControls/blitz.png";
-import iconTimecontrolsRapid from "@assets/img/timeControls/rapid.png";
-import iconTimecontrolsClassical from "@assets/img/timeControls/classical.svg";
-import iconTimecontrolsCorrespondence from "@assets/img/timeControls/correspondence.png";
-import iconGameresultsUnopinionated_win from "@assets/img/gameResults/unopinionated_win.png";
-import iconGameresultsDraw from "@assets/img/gameResults/draw.png";
-import iconGameresultsUnopinionated_lose from "@assets/img/gameResults/unopinionated_lose.png";
-import iconGameresultsOpinionated_win from "@assets/img/gameResults/opinionated_win.png";
-import iconGameresultsOpinionated_lose from "@assets/img/gameResults/opinionated_lose.png";
+import iconTimeControlsBullet from "@assets/img/timeControls/bullet.png";
+import iconTimeControlsBlitz from "@assets/img/timeControls/blitz.png";
+import iconTimeControlsRapid from "@assets/img/timeControls/rapid.png";
+import iconTimeControlsClassical from "@assets/img/timeControls/classical.svg";
+import iconTimeControlsCorrespondence from "@assets/img/timeControls/correspondence.png";
+import iconGameResultsUnopinionated_win from "@assets/img/gameResults/unopinionated_win.png";
+import iconGameResultsDraw from "@assets/img/gameResults/draw.png";
+import iconGameResultsUnopinionated_lose from "@assets/img/gameResults/unopinionated_lose.png";
+import iconGameResultsOpinionated_win from "@assets/img/gameResults/opinionated_win.png";
+import iconGameResultsOpinionated_lose from "@assets/img/gameResults/opinionated_lose.png";
 import iconInterfaceCopy from "@assets/img/interface/copy.svg";
 
 const timeControlIcons = {
-    [TimeControl.BULLET]: iconTimecontrolsBullet,
-    [TimeControl.BLITZ]: iconTimecontrolsBlitz,
-    [TimeControl.RAPID]: iconTimecontrolsRapid,
-    [TimeControl.CLASSICAL]: iconTimecontrolsClassical,
-    [TimeControl.CORRESPONDENCE]: iconTimecontrolsCorrespondence
+    [TimeControl.BULLET]: iconTimeControlsBullet,
+    [TimeControl.BLITZ]: iconTimeControlsBlitz,
+    [TimeControl.RAPID]: iconTimeControlsRapid,
+    [TimeControl.CLASSICAL]: iconTimeControlsClassical,
+    [TimeControl.CORRESPONDENCE]: iconTimeControlsCorrespondence
 };
 
 // Gets a game result icon from white's result
 const gameResultIcons = {
     unopinionated: {
-        [GameResult.WIN]: iconGameresultsUnopinionated_win,
-        [GameResult.DRAW]: iconGameresultsDraw,
-        [GameResult.LOSE]: iconGameresultsUnopinionated_lose,
-        [GameResult.UNKNOWN]: iconGameresultsDraw
+        [GameResult.WIN]: iconGameResultsUnopinionated_win,
+        [GameResult.DRAW]: iconGameResultsDraw,
+        [GameResult.LOSE]: iconGameResultsUnopinionated_lose,
+        [GameResult.UNKNOWN]: iconGameResultsDraw
     },
     opinionated: {
-        [GameResult.WIN]: iconGameresultsOpinionated_win,
-        [GameResult.DRAW]: iconGameresultsDraw,
-        [GameResult.LOSE]: iconGameresultsOpinionated_lose,
-        [GameResult.UNKNOWN]: iconGameresultsDraw
+        [GameResult.WIN]: iconGameResultsOpinionated_win,
+        [GameResult.DRAW]: iconGameResultsDraw,
+        [GameResult.LOSE]: iconGameResultsOpinionated_lose,
+        [GameResult.UNKNOWN]: iconGameResultsDraw
     }
 };
 
@@ -57,27 +57,17 @@ const gameResultTooltipCodes = {
     [GameResult.UNKNOWN]: "unknown"
 };
 
-const maxProfileLength = 19;
+const maxProfileLength = 20;
 
-function cutUsername(profile: PlayerProfile) {
-    const titleLength = profile.title
-        ? profile.title.length + 1
-        : 0;
-    const usernameLength = (profile.username || "Unknown").length || 0;
-    const profileLength = titleLength + usernameLength;
-
-    const username = profile.username || "Unknown";
-
-    return profileLength > maxProfileLength
-        ? username.slice(0, maxProfileLength - titleLength - 3) + "..."
-        : username;
-}
-
-function GameListing({
+function GameListing<T extends GameListingMetadata>({
+    className,
+    style,
     game,
     perspective,
-    onClick
-}: GameListingProps) {
+    selected,
+    onClick,
+    onSelect
+}: GameListingProps<T>) {
     const { t } = useTranslation("common");
 
     const displayResult = useMemo(() => {
@@ -94,6 +84,8 @@ function GameListing({
     const listingId = useMemo(uniqueId, []);
 
     function copyPGN() {
+        if (!game.pgn) return;
+
         navigator.clipboard.writeText(game.pgn);
 
         displayToast({
@@ -103,11 +95,22 @@ function GameListing({
     }
 
     return <div
-        className={
-            `${styles.gameListing} ${onClick && styles.selectableListing}`
-        }
+        className={[
+            styles.gameListing,
+            onClick && styles.clickableListing,
+            className
+        ].join(" ")}
+        style={style}
         onClick={() => onClick?.(game)}
     >
+        {onSelect && <input
+            className={styles.selector}
+            type="checkbox"
+            checked={selected}
+            onChange={event => onSelect(event.target.checked, game)}
+            onClick={event => event.stopPropagation()}
+        />}
+        
         {game.timeControl && <div style={{ width: "30px" }}>
             <img
                 className={styles.timeControlIcon}
@@ -128,22 +131,19 @@ function GameListing({
                             ? "whitesmoke" : "black"
                     }}/>
 
-                    <span>{cutUsername(player)}</span>
+                    <span>
+                        {truncate(player.username, {
+                            length: maxProfileLength
+                                - (player.title?.length || 0)
+                        })}
+                    </span>
     
-                    <span style={{color: "grey"}}>
+                    <span style={{ color: "grey" }}>
                         ({player.rating || "?"})
                     </span>
                 </div>)
             }
         </div>
-
-        {/* {
-            game.report
-            && <div>
-                <span>{game.report.accuracies.white}</span>
-                <span>{game.report.accuracies.black}</span>
-            </div>
-        } */}
 
         <div style={{ width: "110px" }}>
             <span title={game.date?.toLocaleString()}>
@@ -168,7 +168,7 @@ function GameListing({
             />
         </div>}
 
-        <Button
+        {game.pgn && <Button
             className={styles.copyButton}
             icon={iconInterfaceCopy}
             tooltipId={`game-listing-copy-${listingId}`}
@@ -176,7 +176,7 @@ function GameListing({
                 event.stopPropagation();
                 copyPGN();
             }}
-        />
+        />}
 
         <Tooltip
             id={`game-listing-copy-${listingId}`}

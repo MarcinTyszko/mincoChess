@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import Separator from "@/components/common/Separator";
 
 import EditProfile from "./EditProfile";
@@ -14,7 +14,7 @@ function Account() {
 
     const navigate = useNavigate();
 
-    const { status } = useAccountProfile();
+    const { status } = useAuthedProfile();
 
     useEffect(() => {
         if (status == "error") navigate("/settings");

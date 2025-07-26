@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import ButtonColour from "@/components/common/Button/Colour";
 import Button from "@/components/common/Button";
@@ -16,7 +16,7 @@ import * as styles from "./ManageAccount.module.css";
 function ManageAccount() {
     const { t } = useTranslation("settings");
 
-    const { profile } = useAccountProfile();
+    const { profile } = useAuthedProfile();
 
     const getErrorMessage = useAuthErrors();
 

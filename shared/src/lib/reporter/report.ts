@@ -6,9 +6,9 @@ import {
     extractCurrentStateTreeNode,
     extractPreviousStateTreeNode
 } from "./utils/extractNode";
-import { getMoveAccuracy } from "./accuracy/moveAccuracy";
-import { classify } from "./classify";
 import { getOpeningName } from "./utils/opening";
+import { getMoveAccuracy } from "./accuracy";
+import { classify } from "./classify";
 
 export function getGameAnalysis(
     rootNode: StateTreeNode,

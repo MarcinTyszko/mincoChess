@@ -6,7 +6,7 @@ import { ZodSchema } from "zod";
 import schemas from "shared/constants/account/schemas";
 import accountErrors from "shared/constants/account/errors";
 import { validate } from "shared/lib/utils/validate";
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import Button from "@/components/common/Button";
 import TextField from "@/components/common/TextField";
@@ -26,7 +26,7 @@ import iconInterfaceVisibledisabled from "@assets/img/interface/visibledisabled.
 function EditProfile() {
     const { t } = useTranslation(["common", "settings"]);
 
-    const { profile, refetch } = useAccountProfile();
+    const { profile, refetch } = useAuthedProfile();
 
     const getErrorMessage = useAuthErrors();
 

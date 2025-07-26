@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useAccountProfile from "@/hooks/api/useAccountProfile";
+import { useAuthedProfile } from "@/hooks/api/useProfile";
 import useAuthErrors from "@/hooks/auth/useAuthErrors";
 import Dialog from "@/components/common/Dialog";
 import Button from "@/components/common/Button";
@@ -21,7 +21,7 @@ import * as styles from "./PasswordResetDialog.module.css";
 function PasswordResetDialog({ onClose }: PasswordResetDialogProps) {
     const { t } = useTranslation(["settings", "common"]);
 
-    const { profile } = useAccountProfile();
+    const { profile } = useAuthedProfile();
     const getErrorMessage = useAuthErrors();
     
     const [ verifyStatus, setVerifyStatus ] = useState<VerifyStatus>("unsent");

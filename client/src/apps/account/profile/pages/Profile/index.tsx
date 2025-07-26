@@ -1,19 +1,15 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
+import { usePublicProfile } from "@/hooks/api/useProfile";
 import ProfileCard from "@/apps/account/profile/components/ProfileCard";
-import { getUserProfile } from "@/lib/api/profile";
 
 import * as styles from "./Profile.module.css";
 
 function Profile() {
-    const username = location.pathname.split("/").at(2) || "";
+    const params = useParams<{ username: string }>();
 
-    const { data: profile } = useQuery({
-        queryKey: ["profile", username],
-        queryFn: () => getUserProfile(username),
-        refetchOnWindowFocus: false
-    });
+    const { profile } = usePublicProfile(params.username || "");
 
     return <div className={styles.wrapper}>
         <ProfileCard profile={profile} />

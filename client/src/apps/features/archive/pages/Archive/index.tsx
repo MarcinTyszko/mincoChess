@@ -1,32 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { StatusCodes } from "http-status-codes";
+
+import Separator from "@/components/common/Separator";
+import LogMessage from "@/components/common/LogMessage";
+import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
+import { getArchivedGames } from "@/lib/api/gameArchive";
+import GameListing from "@/components/chess/GameListing";
 
 import * as styles from "./Archive.module.css";
 
-import iconLogo from "@assets/img/logo.svg";
+import iconArchive from "@assets/img/icons/archive.png";
 
 function Archive() {
+    const { t } = useTranslation(["otherPages", "common"]);
+
+    const { data: archive, status } = useQuery({
+        queryKey: ["archive"],
+        queryFn: async () => {
+            const games = await getArchivedGames();
+            if (games.status != StatusCodes.OK) throw new Error();
+
+            return games;
+        },
+        refetchOnWindowFocus: false,
+        retry: false
+    });
+
+    const [ selectedGameIds, setSelectedGameIds ] = useState<string[]>([]);
+
     return <div className={styles.wrapper}>
-        <div className={styles.messageContent}>
-            <img
-                src={iconLogo}
-                height={70}
-                draggable={false}
-            />
+        <div className={styles.toolbar}>
+            <div className={styles.toolbarLeft}>
+                <span className={styles.title}>
+                    <img src={iconArchive} height={24} />
 
-            <h1 style={{ margin: 0 }}>
-                Archive is coming soon
-            </h1>
+                    {t("archive.title") + " "}
+                    
+                    ({archive?.games
+                        ? Object.keys(archive.games).length
+                        : "..."
+                    })
+                </span>
 
-            <span>
-                The archive page is where you will store your analysed
-                games, which can be reloaded and edited any time you
-                want. This feature is still under construction; you
-                can keep yourself up-to-date with the{" "}
+                {archive?.games && selectedGameIds.length > 0
+                    && <span className={styles.selection}>
+                        {t("archive.selected", {
+                            amount: selectedGameIds.length
+                        })}
 
-                <a href="/news" style={{ color: "var(--ui-blue)" }}>
-                    news page!
-                </a>
-            </span>
+                        <a onClick={() => setSelectedGameIds(
+                            Object.keys(archive.games)
+                        )}>
+                            {t("archive.selectAll")}
+                        </a>
+                    </span>
+                }
+            </div>
+
+            <div className={styles.toolbarRight}>
+                
+            </div>
+        </div>
+
+        <Separator/>
+
+        {status == "error" && <LogMessage>
+            {t("archive.error")}
+        </LogMessage>}
+
+        {status == "pending" && <LoadingPlaceholder/>}
+
+        <div className={styles.games}>
+            {archive?.games && Object.entries(archive.games).map(
+                ([ id, game ]) => <GameListing
+                    style={{ justifyContent: "start" }}
+                    game={game}
+                    selected={selectedGameIds.includes(id)}
+                    onClick={() => location.href = `/analysis?game=${id}`}
+                    onSelect={selected => {
+                        if (selected) return setSelectedGameIds([
+                            ...selectedGameIds, id
+                        ]);
+
+                        setSelectedGameIds(selectedGameIds.filter(
+                            selectedId => selectedId != id
+                        ));
+                    }}
+                />
+            )}
         </div>
     </div>;
 }

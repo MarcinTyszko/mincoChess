@@ -8,6 +8,8 @@ import { removeDefaultConsentLink } from "@/lib/consent";
 import "@/i18n";
 import "@/index.css";
 
+import * as styles from "./index.module.css";
+
 const root = ReactDOM.createRoot(
     document.querySelector(".root")!
 );
@@ -17,7 +19,7 @@ function App() {
         removeDefaultConsentLink();
     }, []);
 
-    return <PageWrapper>
+    return <PageWrapper contentClassName={styles.wrapper}>
         <Archive/>
     </PageWrapper>;
 }

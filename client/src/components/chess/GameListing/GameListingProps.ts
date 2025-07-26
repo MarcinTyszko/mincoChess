@@ -1,11 +1,16 @@
+import { CSSProperties } from "react";
+
 import { PieceColour } from "shared/constants/PieceColour";
+import GameListingMetadata from "./GameListingMetadata";
 
-import Game from "shared/types/game/Game";
-
-interface GameListingProps {
-    game: Game;
+interface GameListingProps<T extends GameListingMetadata> {
+    className?: string;
+    style?: CSSProperties;
+    game: T;
     perspective?: PieceColour;
-    onClick?: (game: Game) => void;
+    selected?: boolean;
+    onClick?: (game: T) => void;
+    onSelect?: (selected: boolean, game: T) => void;
 }
 
 export default GameListingProps;
