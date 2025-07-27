@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const whitelistedHostnames = [
