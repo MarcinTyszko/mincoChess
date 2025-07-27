@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
 import { formatDate } from "shared/lib/utils/date";
+import ads from "@/constants/advertisements";
 import Loader from "@/components/common/Loader";
 import LogMessage from "@/components/common/LogMessage";
 import Advertisement from "@/components/Advertisement";
@@ -33,7 +34,7 @@ function Article() {
     }, [status]);
 
     return <div className={styles.wrapper}>
-        <Advertisement adUnitId="2270224474" style={{
+        <Advertisement adUnitId={ads.news.article.top} style={{
             width: "min(800px, 100%)", height: "100px"
         }}/>
 
@@ -81,7 +82,7 @@ function Article() {
             </LogMessage>
         }
 
-        <Advertisement adUnitId="6069259870" style={{
+        <Advertisement adUnitId={ads.news.article.bottom} style={{
             width: "min(800px, 100%)", height: "100px"
         }}/>
     </div>;

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import { StatusCodes } from "http-status-codes";
 import { FetchStatus } from "@tanstack/react-query";
+import { omit } from "lodash-es";
 
 import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
@@ -41,6 +42,16 @@ function OptionsToolbar() {
     const [ shareOpen, setShareOpen ] = useState(false);
 
     const [ archiveStatus, setArchiveStatus ] = useState<FetchStatus>("idle");
+
+    function back() {
+        setSearchParams(omit(
+            Object.fromEntries(searchParams.entries()),
+            ["game"]
+        ));
+
+        // bit lazy, may want to clear game on-the-fly
+        location.reload();
+    }
 
     async function saveToArchive() {
         setArchiveStatus("fetching");
@@ -83,7 +94,7 @@ function OptionsToolbar() {
                 iconSize={"40px"}
                 className={styles.backButton}
                 tooltipId={"options-toolbar-back"}
-                onClick={() => location.reload()}
+                onClick={back}
             />}
 
             <Tooltip

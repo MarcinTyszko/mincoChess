@@ -5,18 +5,22 @@ import { StatusCodes } from "http-status-codes";
 
 import Separator from "@/components/common/Separator";
 import LogMessage from "@/components/common/LogMessage";
+import Button from "@/components/common/Button";
+import ButtonColour from "@/components/common/Button/Colour";
 import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
-import { getArchivedGames } from "@/lib/api/gameArchive";
+import { deleteArchivedGames, getArchivedGames } from "@/lib/api/gameArchive";
 import GameListing from "@/components/chess/GameListing";
 
 import * as styles from "./Archive.module.css";
 
 import iconArchive from "@assets/img/icons/archive.png";
+import iconDelete from "@assets/img/interface/delete.svg";
+import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 function Archive() {
     const { t } = useTranslation(["otherPages", "common"]);
 
-    const { data: archive, status } = useQuery({
+    const { data: archive, status, refetch } = useQuery({
         queryKey: ["archive"],
         queryFn: async () => {
             const games = await getArchivedGames();
@@ -29,6 +33,8 @@ function Archive() {
     });
 
     const [ selectedGameIds, setSelectedGameIds ] = useState<string[]>([]);
+
+    const [ deleteDialogOpen, setDeleteDialogOpen ] = useState(false);
 
     return <div className={styles.wrapper}>
         <div className={styles.toolbar}>
@@ -59,9 +65,23 @@ function Archive() {
                 }
             </div>
 
-            <div className={styles.toolbarRight}>
-                
-            </div>
+            {selectedGameIds.length > 0 &&
+                <div className={styles.toolbarRight}>
+                    <Button onClick={() => setSelectedGameIds([])}>
+                        {t("cancel", { ns: "common" })}
+                    </Button>
+
+                    <Button
+                        style={{
+                            backgroundColor: ButtonColour.RED,
+                            padding: "8px"
+                        }}
+                        icon={iconDelete}
+                        iconSize="28px"
+                        onClick={() => setDeleteDialogOpen(true)}
+                    />
+                </div>
+            }
         </div>
 
         <Separator/>
@@ -91,6 +111,23 @@ function Archive() {
                 />
             )}
         </div>
+
+        {deleteDialogOpen && <ConfirmDialog
+            onClose={() => setDeleteDialogOpen(false)}
+            onConfirm={async () => {
+                await deleteArchivedGames(selectedGameIds);
+                await refetch();
+
+                setSelectedGameIds([]);
+            }}
+            dangerAction
+        >
+            <span style={{ color: "white" }}>
+                {t("archive.deleteConfirm", {
+                    amount: selectedGameIds.length
+                })}
+            </span>
+        </ConfirmDialog>}
     </div>;
 }
 

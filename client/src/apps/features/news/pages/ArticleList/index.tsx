@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { clamp } from "lodash-es";
 
+import ads from "@/constants/advertisements";
 import Loader from "@/components/common/Loader";
 import Separator from "@/components/common/Separator";
 import Button from "@/components/common/Button";
@@ -130,7 +131,7 @@ function News() {
 
         <Separator/>
 
-        <Advertisement adUnitId="3904113611" style={{
+        <Advertisement adUnitId={ads.news.list} style={{
             width: "100%", height: "100px"
         }}/>
 

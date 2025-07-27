@@ -4,6 +4,7 @@
         "selected": "{{amount}} selected",
         "selectAll": "Select all",
         "deleteSelected": "Delete selected",
+        "deleteConfirm": "Are you sure you want to delete {{amount}} game(s)? This action is irreversible.",
         "error": "An unknown error occurred while trying to load your game archive."
     },
     "news": {

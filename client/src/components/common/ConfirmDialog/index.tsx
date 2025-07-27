@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Dialog from "../Dialog";
@@ -16,6 +16,8 @@ function ConfirmDialog({
 }: ConfirmDialogProps) {
     const { t } = useTranslation("common");
 
+    const [ pending, setPending ] = useState(false);
+
     return <Dialog
         className={styles.dialog}
         onClose={onClose}     
@@ -24,16 +26,19 @@ function ConfirmDialog({
 
         <div className={styles.options}>
             <Button
-                onClick={() => {
-                    onClose();
-                    onConfirm();
-                }}
                 style={{
                     padding: "10px 20px",
                     backgroundColor: dangerAction ?
                         ButtonColour.RED
                         : ButtonColour.BLUE
                 }}
+                onClick={async () => {
+                    setPending(true);
+                    await onConfirm();
+                    setPending(false);
+                    onClose();
+                }}
+                disabled={pending}
             >
                 {t("confirmDialog.yes")}
             </Button>

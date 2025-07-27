@@ -58,10 +58,12 @@ export async function archiveGame(game: AnalysedGame, gameId?: string) {
     };
 }
 
-export async function deleteArchivedGames(...gameIds: string[]) {
-    const response = await fetch(
-        `/api/analysis/archive/delete?id=${gameIds.join(",")}`
-    );
+export async function deleteArchivedGames(gameIds: string[]) {
+    const response = await fetch("/api/analysis/archive/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(gameIds)
+    });
 
     return { status: response.status as StatusCodes };
 }

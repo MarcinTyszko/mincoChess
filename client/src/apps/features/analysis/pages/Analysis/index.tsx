@@ -1,5 +1,6 @@
 import React from "react";
 
+import ads from "@/constants/advertisements";
 import Advertisement from "@/components/Advertisement";
 import AnalysisPanel from "@analysis/components/AnalysisPanel";
 
@@ -9,7 +10,7 @@ import * as styles from "./Analysis.module.css";
 function Analysis() {
     return <div className={styles.wrapper}>
         <div className={styles.advertisement}>
-            <Advertisement adUnitId="6032766700" style={{
+            <Advertisement adUnitId={ads.analysis.top} style={{
                 width: "100%", height: "100px"
             }}/>
         </div>
@@ -21,7 +22,7 @@ function Analysis() {
         </div>
 
         <div className={styles.advertisement}>
-            <Advertisement adUnitId="7734244071" style={{
+            <Advertisement adUnitId={ads.analysis.bottom} style={{
                 width: "100%", height: "100px"
             }}/>
         </div>

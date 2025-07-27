@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import z from "zod";
 import { StatusCodes } from "http-status-codes";
 import { Types } from "mongoose";
 import { Buffer } from "buffer";
@@ -104,18 +105,22 @@ router.post("/analysis/archive/add", async (req, res) => {
     res.send(archiveEntry._id.toString());
 });
 
-router.get("/analysis/archive/delete", async (req, res) => {
-    const gameId = req.query.id?.toString();
-    if (!gameId) return res.sendStatus(StatusCodes.BAD_REQUEST);
-
-    const game = await ArchivedGame.findById(gameId);
-
-    if (!game) return res.sendStatus(StatusCodes.NOT_FOUND);
-
-    if (game.userId.toString() != req.user?.id)
+router.post("/analysis/archive/delete", async (req, res) => {
+    if (!req.user?.id)
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
 
-    await game.deleteOne();
+    const gameIds: string[] = req.body;
+
+    if (!z.string().array().safeParse(gameIds).success)
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
+
+    const deletion = await ArchivedGame.deleteMany({
+        _id: { $in: gameIds.map(gameId => new Types.ObjectId(gameId)) },
+        userId: new Types.ObjectId(req.user.id)
+    });
+
+    if (deletion.deletedCount == 0)
+        return res.sendStatus(StatusCodes.NOT_FOUND);
 
     res.sendStatus(StatusCodes.OK);
 });
