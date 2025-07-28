@@ -8,7 +8,7 @@ import LogMessage from "@/components/common/LogMessage";
 import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
-import { deleteArchivedGames, getArchivedGames } from "@/lib/api/gameArchive";
+import { deleteArchivedGames, getArchivedGames } from "@/lib/gameArchive";
 import GameListing from "@/components/chess/GameListing";
 
 import * as styles from "./Archive.module.css";

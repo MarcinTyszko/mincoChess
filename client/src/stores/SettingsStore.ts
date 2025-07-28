@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { cloneDeep, merge } from "lodash-es";
 import z from "zod";
-import { zodDeepPartial } from "zod-deep-partial";
 
 import EngineVersion from "shared/constants/EngineVersion";
 import EngineArrowType from "@analysis/constants/EngineArrowType";
@@ -12,13 +11,13 @@ const settingsSchema = z.object({
     analysis: z.object({
         engine: z.object({
             enabled: z.boolean(),
-            version: z.nativeEnum(EngineVersion),
+            version: z.enum(EngineVersion),
             depth: z.number().min(10).max(99),
             timeLimitEnabled: z.boolean(),
             timeLimit: z.number().min(0.01),
             lines: z.number().min(1).max(5),
             threads: z.number().min(1).max(64),
-            suggestionArrows: z.nativeEnum(EngineArrowType)
+            suggestionArrows: z.enum(EngineArrowType)
         }),
         classifications: z.object({
             hide: z.boolean(),
@@ -39,8 +38,6 @@ const settingsSchema = z.object({
     }),
     bugReportingMode: z.boolean()
 });
-
-const partialSettingsSchema = zodDeepPartial(settingsSchema);
 
 type Settings = z.infer<typeof settingsSchema>;
 type SettingsReducer = (settings: Settings) => Settings;
@@ -85,10 +82,7 @@ function fetchSettings() {
     if (value == null) return defaultSettingsCopy;
 
     try {
-        const fetchedSettings = JSON.parse(value);
-        partialSettingsSchema.parse(fetchedSettings);
-
-        return merge(defaultSettingsCopy, fetchedSettings);
+        return merge(defaultSettingsCopy, JSON.parse(value));
     } catch {
         return defaultSettingsCopy;
     }

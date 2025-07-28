@@ -1,6 +1,9 @@
 import z from "zod";
 
-import { stateTreeNodeSchema } from "./position/StateTreeNode";
+import {
+    SerializedStateTreeNode,
+    stateTreeNodeSchema
+} from "./position/StateTreeNode";
 
 export const gameAnalysisSchema = z.object({
     estimatedRatings: z.object({
@@ -11,5 +14,10 @@ export const gameAnalysisSchema = z.object({
 });
 
 export type GameAnalysis = z.infer<typeof gameAnalysisSchema>;
+
+export type SerializedGameAnalysis = (
+    Omit<GameAnalysis, "stateTree">
+    & { stateTree: SerializedStateTreeNode }
+);
 
 export default GameAnalysis;

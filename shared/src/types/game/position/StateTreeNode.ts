@@ -1,31 +1,29 @@
-import { z, ZodType } from "zod";
+import z from "zod";
 import { Chess } from "chess.js";
 import { round, clone, uniqueId, cloneDeep } from "lodash-es";
 
-import { BoardState, boardStateSchema } from "./BoardState";
+import { boardStateSchema } from "./BoardState";
 import PieceColour from "@/constants/PieceColour";
 import { pickEngineLines } from "./EngineLine";
 
-export interface StateTreeNode {
-    id: string;
-    mainline: boolean;
-    state: BoardState;
-    children: StateTreeNode[];
-    parent?: StateTreeNode;
-}
+export const stateTreeNodeSchema = z.object({
+    id: z.string(),
+    mainline: z.boolean(),
+    state: boardStateSchema,
+    get children(): z.ZodArray<typeof stateTreeNodeSchema> {
+        return stateTreeNodeSchema.array();
+    },
+    get parent(): z.ZodOptional<typeof stateTreeNodeSchema> {
+        return stateTreeNodeSchema.optional();
+    }
+});
+
+export type StateTreeNode = z.infer<typeof stateTreeNodeSchema>;
 
 export type SerializedStateTreeNode = (
     Omit<StateTreeNode, "children" | "parent">
     & { children: SerializedStateTreeNode[] }
 );
-
-export const stateTreeNodeSchema: ZodType<StateTreeNode> = z.object({
-    id: z.string(),
-    mainline: z.boolean(),
-    state: boardStateSchema,
-    children: z.lazy(() => z.array(stateTreeNodeSchema)),
-    parent: z.lazy(() => stateTreeNodeSchema).optional()
-});
 
 /**
  * @description Remove parent from node, and recurse through all

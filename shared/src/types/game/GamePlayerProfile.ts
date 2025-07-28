@@ -4,7 +4,7 @@ import { playerProfileSchema } from "./PlayerProfile";
 import GameResult from "@/constants/game/GameResult";
 
 export const gamePlayerProfileSchema = playerProfileSchema
-    .extend({ result: z.nativeEnum(GameResult) });
+    .extend({ result: z.enum(GameResult) });
 
 export type GamePlayerProfile = z.infer<typeof gamePlayerProfileSchema>;
 

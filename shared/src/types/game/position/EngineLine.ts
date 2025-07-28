@@ -8,7 +8,7 @@ import { moveSchema } from "./Move";
 
 export const engineLineSchema = z.object({
     evaluation: evaluationSchema,
-    source: z.nativeEnum(EngineVersion),
+    source: z.enum(EngineVersion),
     depth: z.number(),
     index: z.number(),
     moves: z.array(moveSchema)

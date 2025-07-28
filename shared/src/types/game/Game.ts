@@ -3,8 +3,8 @@ import { validateFen } from "chess.js";
 
 import TimeControl from "@/constants/game/TimeControl";
 import Variant from "@/constants/game/Variant";
-import { gamePlayerProfileSchema } from "./GamePlayerProfile";
 import PieceColour from "@/constants/PieceColour";
+import { gamePlayerProfileSchema } from "./GamePlayerProfile";
 
 export function getColourPlayed(game: Game, username: string) {
     return (
@@ -18,13 +18,13 @@ export const gameSchema = z.object({
     initialPosition: z.string().refine(
         pos => validateFen(pos).ok
     ),
-    timeControl: z.nativeEnum(TimeControl).optional(),
-    variant: z.nativeEnum(Variant),
+    timeControl: z.enum(TimeControl).optional(),
+    variant: z.enum(Variant),
     players: z.object({
         white: gamePlayerProfileSchema,
         black: gamePlayerProfileSchema
     }),
-    date: z.string().or(z.date()).optional()
+    date: z.iso.datetime().optional()
 });
 
 export type Game = z.infer<typeof gameSchema>;

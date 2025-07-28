@@ -3,8 +3,9 @@ import { StatusCodes } from "http-status-codes";
 import AnalysedGame, { SerializedAnalysedGame } from "shared/types/game/AnalysedGame";
 import { GameArchive } from "shared/types/game/ArchivedGame";
 import { deserializeNode, serializeNode } from "shared/types/game/position/StateTreeNode";
+import APIResponse from "@/types/APIResponse";
 
-export async function getArchivedGames() {
+export async function getArchivedGames(): APIResponse<{ games: GameArchive }> {
     const response = await fetch("/api/analysis/archive");
 
     if (!response.ok) return {
@@ -17,12 +18,12 @@ export async function getArchivedGames() {
     };
 }
 
-export async function getArchivedGame(gameId: string) {
+export async function getArchivedGame(
+    gameId: string
+): APIResponse<{ game: AnalysedGame }> {
     const response = await fetch(`/api/analysis/archive?id=${gameId}`);
 
-    if (!response.ok) return {
-        status: response.status as StatusCodes
-    };
+    if (!response.ok) return { status: response.status };
 
     const serializedGame: SerializedAnalysedGame = await response.json();
 
@@ -31,10 +32,13 @@ export async function getArchivedGame(gameId: string) {
         stateTree: deserializeNode(serializedGame.stateTree)
     };
 
-    return { status: response.status as StatusCodes, game };
+    return { status: response.status, game };
 }
 
-export async function archiveGame(game: AnalysedGame, gameId?: string) {
+export async function archiveGame(
+    game: AnalysedGame,
+    gameId?: string
+): APIResponse<{ id: string }> {
     const url = gameId
         ? `/api/analysis/archive/add?id=${gameId}`
         : "/api/analysis/archive/add";
@@ -58,7 +62,9 @@ export async function archiveGame(game: AnalysedGame, gameId?: string) {
     };
 }
 
-export async function deleteArchivedGames(gameIds: string[]) {
+export async function deleteArchivedGames(
+    gameIds: string[]
+): APIResponse {
     const response = await fetch("/api/analysis/archive/delete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

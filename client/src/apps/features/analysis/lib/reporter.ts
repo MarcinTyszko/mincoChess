@@ -1,18 +1,22 @@
 import { StatusCodes } from "http-status-codes";
 import { clone } from "lodash-es";
 
-import { GameAnalysis } from "shared/types/game/GameAnalysis";
-import ReportOptions from "shared/lib/reporter/types/ReportOptions";
+import AnalysisOptions from "shared/lib/reporter/types/AnalysisOptions";
+import {
+    GameAnalysis,
+    SerializedGameAnalysis
+} from "shared/types/game/GameAnalysis";
 import {
     StateTreeNode,
     serializeNode,
     deserializeNode
 } from "shared/types/game/position/StateTreeNode";
+import APIResponse from "@/types/APIResponse";
 
 export async function analyseStateTree(
     rootNode: StateTreeNode,
-    options?: ReportOptions
-) {
+    options?: AnalysisOptions
+): APIResponse<{ gameAnalysis: GameAnalysis }> {
     const reportURL = "/api/analysis/analyse"
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&critical=${String(options?.includeCritical)}`
@@ -29,22 +33,26 @@ export async function analyseStateTree(
     if (!reportResponse.ok)
         return { status: reportResponse.status };
 
-    const gameAnalysis: GameAnalysis = await reportResponse.json();
-
-    gameAnalysis.stateTree = deserializeNode(
-        gameAnalysis.stateTree, rootNode
+    const serializedAnalysis: SerializedGameAnalysis = (
+        await reportResponse.json()
     );
 
     return {
         status: reportResponse.status,
-        gameAnalysis: gameAnalysis
+        gameAnalysis: {
+            ...serializedAnalysis,
+            stateTree: deserializeNode(
+                serializedAnalysis.stateTree,
+                rootNode
+            )
+        }
     };
 }
 
 export async function analyseNode(
     node: StateTreeNode,
-    options?: ReportOptions
-) {
+    options?: AnalysisOptions
+): APIResponse<{ node: StateTreeNode }> {
     if (!node.parent)
         return { status: StatusCodes.BAD_REQUEST };
 

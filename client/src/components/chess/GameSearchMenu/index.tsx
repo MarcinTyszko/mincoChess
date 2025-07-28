@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { StatusCodes } from "http-status-codes";
 
 import { Game, getColourPlayed } from "shared/types/game/Game";
-import { GameSourceData } from "@/components/chess/GameSelector/GameSource";
+import APIResponse from "@/types/APIResponse";
+import { GameSourceType } from "@/components/chess/GameSelector/GameSource";
 import getChessComGames from "@/lib/games/chessCom";
 import getLichessGames from "@/lib/games/lichess";
-import { UserNotFoundError } from "@/lib/errors";
 import Dialog from "@/components/common/Dialog";
 import Loader from "@/components/common/Loader";
 import LogMessage from "@/components/common/LogMessage";
@@ -19,19 +20,21 @@ import * as styles from "./GameSearchMenu.module.css";
 
 import iconInterfaceRightChevron from "@assets/img/interface/rightchevron.svg";
 
+class UserNotFoundError extends Error {}
+
 async function fetchGames(
-    gameSource: GameSourceData,
+    gameSourceKey: GameSourceType,
     username: string,
     month: number,
     year: number
-) {
-    switch (gameSource.key) {
+): APIResponse<{ games: Game[] }> {
+    switch (gameSourceKey) {
         case "CHESS_COM":
             return await getChessComGames(username, month, year);
         case "LICHESS":
             return await getLichessGames(username, month, year);
         default:
-            return [];
+            return { status: StatusCodes.OK };
     }
 }
 
@@ -41,7 +44,8 @@ function GameSearchMenu({
     onClose,
     onGameSelect
 }: GameSearchMenuProps) {
-    const { t } = useTranslation("analysis");
+    const { t } = useTranslation(["analysis", "common"]);
+
     const queryClient = useQueryClient();
 
     const [ month, setMonth ] = useState(new Date().getMonth() + 1);
@@ -52,18 +56,32 @@ function GameSearchMenu({
 
     const { data: games, status, fetchStatus, error } = useQuery({ 
         queryKey: ["games", gameSource.key, username, month, year], 
-        queryFn: () => {
+        queryFn: async () => {
             if (longFetchTimerRef.current != null) {
                 clearTimeout(longFetchTimerRef.current);
                 setIsLongFetch(false);
             }
 
             longFetchTimerRef.current = setTimeout(
-                () => setIsLongFetch(true),
-                2500
+                () => setIsLongFetch(true), 2500
             );
 
-            return fetchGames(gameSource, username, month, year);
+            const response = await fetchGames(
+                gameSource.key, username, month, year
+            );
+
+            switch (response.status) {
+                case StatusCodes.NOT_FOUND:
+                    throw new UserNotFoundError(
+                        t("gameSearchMenu.userNotFound")
+                    );
+                case StatusCodes.OK:
+                    return response.games || [];
+                default:
+                    throw new Error(
+                        t("unknownError", { ns: "common" })
+                    );
+            }
         },
         retry: (failureCount, error) => {
             return !(error instanceof UserNotFoundError);
@@ -111,9 +129,7 @@ function GameSearchMenu({
 
         <div className={styles.list}>
             {status == "error" && fetchStatus == "idle"
-                && <LogMessage>
-                    {t(error.message)}
-                </LogMessage>
+                && <LogMessage>{error.message}</LogMessage>
             }
 
             {fetchStatus == "fetching"

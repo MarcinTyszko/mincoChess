@@ -1,10 +1,12 @@
+import { StatusCodes } from "http-status-codes";
+
 import Game from "shared/types/game/Game";
 import { GameResult } from "shared/constants/game/GameResult";
 import TimeControl from "shared/constants/game/TimeControl";
 import Variant from "shared/constants/game/Variant";
 import { padDateNumber } from "shared/lib/utils/date";
 import { STARTING_FEN } from "shared/constants/utils";
-import { UserNotFoundError } from "../errors";
+import APIResponse from "@/types/APIResponse";
 
 // Map from chess.com time controls to ours
 const timeControlCodes: Record<string, TimeControl | undefined> = {
@@ -42,35 +44,30 @@ async function getChessComGames(
     username: string,
     month: number,
     year: number
-): Promise<Game[]> {
+): APIResponse<{ games: Game[] }> {
     const gamesResponse = await fetch(
         `https://api.chess.com/pub/player/${username}`
         + `/games/${year}/${padDateNumber(month)}`
     );
 
-    if (gamesResponse.status == 404) {
+    if (gamesResponse.status == StatusCodes.NOT_FOUND) {
         try {
             const error = await gamesResponse.json();
 
-            if (error.message == futureFetchError) {
-                return [];
-            }
+            if (error.message == futureFetchError)
+                return { status: StatusCodes.OK, games: [] };
         } catch {
-            throw new Error(
-                "pages.analysis.gameSearchMenu.unknownError"
-            );
+            return { status: StatusCodes.INTERNAL_SERVER_ERROR };
         }
-
-        throw new UserNotFoundError(
-            "pages.analysis.gameSearchMenu.userNotFound"
-        );
+    } else if (!gamesResponse.ok) {
+        return { status: gamesResponse.status };
     }
 
     const games: any[] | undefined = (await gamesResponse.json()).games;
     
-    if (!games) return [];
+    if (!games) return { status: StatusCodes.OK, games: [] };
 
-    return games
+    const parsedGames: Game[] = games
         .reverse()
         .filter(game => Object
             .keys(variantCodes)
@@ -96,8 +93,13 @@ async function getChessComGames(
                     result: gameResultCodes[game.black.result] || GameResult.UNKNOWN
                 }
             },
-            date: new Date(game["end_time"] * 1000)
+            date: new Date(game["end_time"] * 1000).toISOString()
         }));
+
+    return {
+        status: StatusCodes.OK,
+        games: parsedGames
+    };
 }
 
 export default getChessComGames;

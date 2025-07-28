@@ -13,7 +13,7 @@ import Button from "@/components/common/Button";
 import SettingsDialog from "../SettingsDialog";
 import ShareDialog from "../ShareDialog";
 import displayToast from "@/lib/toast";
-import { archiveGame } from "@/lib/api/gameArchive";
+import { archiveGame } from "@/lib/gameArchive";
 
 import * as styles from "./OptionsToolbar.module.css";
 

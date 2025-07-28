@@ -11,6 +11,9 @@ async function initialiseIndexes() {
         { createdAt: 1 },
         { expireAfterSeconds: 14400 } // 4 hours
     );
+
+    await db.collection(Collection.ARCHIVED_GAMES)
+        .createIndex({ userId: 1 });
 }
 
 async function connectDatabase() {

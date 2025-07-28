@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+
 import Game from "shared/types/game/Game";
 import { GameResult } from "shared/constants/game/GameResult";
 import { PieceColour, oppositePieceColour } from "shared/constants/PieceColour";
@@ -5,7 +7,7 @@ import TimeControl from "shared/constants/game/TimeControl";
 import Variant from "shared/constants/game/Variant";
 import { getMonthLength, padDateNumber } from "shared/lib/utils/date";
 import { STARTING_FEN } from "shared/constants/utils";
-import { UserNotFoundError, RatelimitError } from "../errors";
+import APIResponse from "@/types/APIResponse";
 
 // Map from lichess winner colours to ours
 const winnerColourCodes: Record<string, PieceColour | undefined> = {
@@ -33,7 +35,7 @@ async function getLichessGames(
     username: string,
     month: number,
     year: number
-): Promise<Game[]> {
+): APIResponse<{ games: Game[] }> {
     const monthStart = new Date(
         `${year}-${padDateNumber(month)}-01T00:00:00.000Z`
     );
@@ -43,26 +45,15 @@ async function getLichessGames(
         + "T23:59:59.999Z"
     );
 
-    let gamesResponse: Response;
-    try {
-        gamesResponse = await fetch(
-            `https://lichess.org/api/games/user/${username}`
-            + `?since=${monthStart.getTime()}`
-            + `&until=${monthEnd.getTime()}`
-            + "&pgnInJson=true",
-            { headers: { Accept: "application/x-ndjson" } }
-        );
-    } catch {
-        throw new RatelimitError(
-            "pages.analysis.gameSearchMenu.ratelimited"
-        );
-    }
+    const gamesResponse = await fetch(
+        `https://lichess.org/api/games/user/${username}`
+        + `?since=${monthStart.getTime()}`
+        + `&until=${monthEnd.getTime()}`
+        + "&pgnInJson=true",
+        { headers: { Accept: "application/x-ndjson" } }
+    );
 
-    if (gamesResponse.status == 404) {
-        throw new UserNotFoundError(
-            "pages.analysis.gameSearchMenu.userNotFound"
-        );
-    }
+    if (!gamesResponse.ok) return { status: gamesResponse.status };
 
     // Games are received in ND-JSON format
     // Last empty line is filtered out and JSON strings are parsed
@@ -72,7 +63,7 @@ async function getLichessGames(
         .filter(game => game.length > 0)
         .map(game => JSON.parse(game));
 
-    return games.map(game => {
+    const parsedGames = games.map(game => {
         const results = {
             [PieceColour.WHITE]: GameResult.DRAW,
             [PieceColour.BLACK]: GameResult.DRAW
@@ -115,9 +106,14 @@ async function getLichessGames(
                     result: results[PieceColour.BLACK]
                 }
             },
-            date: new Date(game.lastMoveAt)
+            date: new Date(game.lastMoveAt).toISOString()
         } as Game;
     });
+
+    return {
+        status: StatusCodes.OK,
+        games: parsedGames
+    };
 }
 
 export default getLichessGames;

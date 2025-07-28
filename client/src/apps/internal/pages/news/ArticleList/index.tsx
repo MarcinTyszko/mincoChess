@@ -8,7 +8,7 @@ import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import ArticleListing from "@/apps/features/news/components/ArticleListing";
 import LogMessage from "@/components/common/LogMessage";
-import { getNewsArticles, getNewsArticlesPages } from "@/lib/api/newsArticles";
+import { getNewsArticles, getNewsArticlesPages } from "@/apps/features/news/lib/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 
