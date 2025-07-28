@@ -6,7 +6,7 @@ import Button from "@/components/common/Button";
 import AnalyseButtonProps from "./AnalyseButtonProps";
 import * as styles from "./AnalyseButton.module.css";
 
-import iconAnalysis from "@assets/img/analysis.svg";
+import iconAnalysis from "@assets/img/interface/analysis.svg";
 
 function AnalyseButton({ style, onClick }: AnalyseButtonProps) {
     const { t } = useTranslation("analysis");

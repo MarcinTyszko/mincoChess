@@ -15,7 +15,7 @@ import authClient from "@/lib/auth";
 import * as styles from "../../index.module.css";
 
 import iconGoogle from "@assets/img/credits/connections/google.png";
-import iconSignIn from "@assets/img/interface/signin.svg";
+import iconSignIn from "@assets/img/interface/sign_in.svg";
 
 function SignIn() {
     const { t } = useTranslation(["otherPages", "common"]);

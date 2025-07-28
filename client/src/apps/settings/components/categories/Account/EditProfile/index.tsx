@@ -20,8 +20,8 @@ import * as settingsStyles from "@/apps/settings/index.module.css";
 import * as styles from "./EditProfile.module.css";
 
 import iconInterfaceEdit from "@assets/img/interface/edit.svg";
-import iconInterfaceVisibleenabled from "@assets/img/interface/visibleenabled.svg";
-import iconInterfaceVisibledisabled from "@assets/img/interface/visibledisabled.svg";
+import iconInterfaceVisibleenabled from "@assets/img/interface/visible_enabled.svg";
+import iconInterfaceVisibledisabled from "@assets/img/interface/visible_disabled.svg";
 
 function EditProfile() {
     const { t } = useTranslation(["common", "settings"]);

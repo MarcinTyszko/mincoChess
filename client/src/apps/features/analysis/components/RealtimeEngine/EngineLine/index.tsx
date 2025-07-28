@@ -8,7 +8,7 @@ import playBoardSound from "@/lib/boardSounds";
 import EngineLineProps from "./EngineLineProps";
 import * as styles from "./EngineLine.module.css";
 
-import iconInterfaceExpandarrow from "@assets/img/interface/expandarrow.svg";
+import iconInterfaceExpandarrow from "@assets/img/interface/expand_arrow.svg";
 
 function EngineLine({ line }: EngineLineProps) {
     const { t } = useTranslation("analysis");

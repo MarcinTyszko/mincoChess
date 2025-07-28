@@ -18,7 +18,7 @@ import displayToast from "@/lib/toast";
 import GameSearchMenuProps from "./GameSearchMenuProps";
 import * as styles from "./GameSearchMenu.module.css";
 
-import iconInterfaceRightChevron from "@assets/img/interface/rightchevron.svg";
+import iconInterfaceRightChevron from "@assets/img/interface/right_chevron.svg";
 
 class UserNotFoundError extends Error {}
 

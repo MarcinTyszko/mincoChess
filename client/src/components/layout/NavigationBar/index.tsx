@@ -19,7 +19,7 @@ import iconIconsNews from "@assets/img/icons/news.png";
 import iconKofi from "@assets/img/kofi.svg";
 import iconInterfaceAccount from "@assets/img/interface/account.svg";
 import iconInterfaceSettings from "@assets/img/interface/settings.svg";
-import iconInterfaceSignin from "@assets/img/interface/signin.svg";
+import iconInterfaceSignin from "@assets/img/interface/sign_in.svg";
 import iconIconsSettings from "@assets/img/icons/settings.png";
 
 function NavigationBar() {

@@ -18,11 +18,12 @@ import iconTimeControlsBlitz from "@assets/img/timeControls/blitz.png";
 import iconTimeControlsRapid from "@assets/img/timeControls/rapid.png";
 import iconTimeControlsClassical from "@assets/img/timeControls/classical.svg";
 import iconTimeControlsCorrespondence from "@assets/img/timeControls/correspondence.png";
-import iconGameResultsUnopinionated_win from "@assets/img/gameResults/unopinionated_win.png";
 import iconGameResultsDraw from "@assets/img/gameResults/draw.png";
-import iconGameResultsUnopinionated_lose from "@assets/img/gameResults/unopinionated_lose.png";
-import iconGameResultsOpinionated_win from "@assets/img/gameResults/opinionated_win.png";
-import iconGameResultsOpinionated_lose from "@assets/img/gameResults/opinionated_lose.png";
+import iconGameResultsUnopinionatedWin from "@assets/img/gameResults/unopinionated_win.png";
+import iconGameResultsUnopinionatedLose from "@assets/img/gameResults/unopinionated_lose.png";
+import iconGameResultsOpinionatedWin from "@assets/img/gameResults/opinionated_win.png";
+import iconGameResultsOpinionatedLose from "@assets/img/gameResults/opinionated_lose.png";
+import iconGameResultsUnknown from "@assets/img/gameResults/unknown.png";
 import iconInterfaceCopy from "@assets/img/interface/copy.svg";
 
 const timeControlIcons = {
@@ -36,16 +37,16 @@ const timeControlIcons = {
 // Gets a game result icon from white's result
 const gameResultIcons = {
     unopinionated: {
-        [GameResult.WIN]: iconGameResultsUnopinionated_win,
+        [GameResult.WIN]: iconGameResultsUnopinionatedWin,
         [GameResult.DRAW]: iconGameResultsDraw,
-        [GameResult.LOSE]: iconGameResultsUnopinionated_lose,
-        [GameResult.UNKNOWN]: iconGameResultsDraw
+        [GameResult.LOSE]: iconGameResultsUnopinionatedLose,
+        [GameResult.UNKNOWN]: iconGameResultsUnknown
     },
     opinionated: {
-        [GameResult.WIN]: iconGameResultsOpinionated_win,
+        [GameResult.WIN]: iconGameResultsOpinionatedWin,
         [GameResult.DRAW]: iconGameResultsDraw,
-        [GameResult.LOSE]: iconGameResultsOpinionated_lose,
-        [GameResult.UNKNOWN]: iconGameResultsDraw
+        [GameResult.LOSE]: iconGameResultsOpinionatedLose,
+        [GameResult.UNKNOWN]: iconGameResultsUnknown
     }
 };
 
