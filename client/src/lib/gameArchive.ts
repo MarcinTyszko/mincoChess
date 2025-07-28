@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import AnalysedGame, { SerializedAnalysedGame } from "shared/types/game/AnalysedGame";
+import { AnalysedGame, SerializedAnalysedGame } from "shared/types/game/AnalysedGame";
 import { GameArchive } from "shared/types/game/ArchivedGame";
 import { deserializeNode, serializeNode } from "shared/types/game/position/StateTreeNode";
 import APIResponse from "@/types/APIResponse";
@@ -21,7 +21,7 @@ export async function getArchivedGames(): APIResponse<{ games: GameArchive }> {
 export async function getArchivedGame(
     gameId: string
 ): APIResponse<{ game: AnalysedGame }> {
-    const response = await fetch(`/api/analysis/archive?id=${gameId}`);
+    const response = await fetch(`/api/public/archived-game?id=${gameId}`);
 
     if (!response.ok) return { status: response.status };
 

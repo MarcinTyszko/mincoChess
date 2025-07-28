@@ -3,19 +3,19 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StatusCodes } from "http-status-codes";
 
+import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
 import Separator from "@/components/common/Separator";
 import LogMessage from "@/components/common/LogMessage";
 import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
-import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
-import { deleteArchivedGames, getArchivedGames } from "@/lib/gameArchive";
+import ConfirmDialog from "@/components/common/ConfirmDialog";
 import GameListing from "@/components/chess/GameListing";
+import { deleteArchivedGames, getArchivedGames } from "@/lib/gameArchive";
 
 import * as styles from "./Archive.module.css";
 
 import iconArchive from "@assets/img/icons/archive.png";
 import iconDelete from "@assets/img/interface/delete.svg";
-import ConfirmDialog from "@/components/common/ConfirmDialog";
 
 function Archive() {
     const { t } = useTranslation(["otherPages", "common"]);
@@ -23,10 +23,10 @@ function Archive() {
     const { data: archive, status, refetch } = useQuery({
         queryKey: ["archive"],
         queryFn: async () => {
-            const games = await getArchivedGames();
-            if (games.status != StatusCodes.OK) throw new Error();
+            const response = await getArchivedGames();
+            if (response.status != StatusCodes.OK) throw new Error();
 
-            return games;
+            return response.games;
         },
         refetchOnWindowFocus: false,
         retry: false
@@ -44,20 +44,17 @@ function Archive() {
 
                     {t("archive.title") + " "}
                     
-                    ({archive?.games
-                        ? Object.keys(archive.games).length
-                        : "..."
-                    })
+                    ({archive ? Object.keys(archive).length : "..."})
                 </span>
 
-                {archive?.games && selectedGameIds.length > 0
+                {archive && selectedGameIds.length > 0
                     && <span className={styles.selection}>
                         {t("archive.selected", {
                             amount: selectedGameIds.length
                         })}
 
                         <a onClick={() => setSelectedGameIds(
-                            Object.keys(archive.games)
+                            Object.keys(archive)
                         )}>
                             {t("archive.selectAll")}
                         </a>
@@ -93,7 +90,7 @@ function Archive() {
         {status == "pending" && <LoadingPlaceholder/>}
 
         <div className={styles.games}>
-            {archive?.games && Object.entries(archive.games).map(
+            {archive && Object.entries(archive).map(
                 ([ id, game ]) => <GameListing
                     style={{ justifyContent: "start" }}
                     game={game}

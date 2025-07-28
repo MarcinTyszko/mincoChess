@@ -2,24 +2,43 @@ import {
     PieceSymbol,
     PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
 } from "chess.js";
-import { uniqueId } from "lodash-es";
 
+import AnalysedGame from "@/types/game/AnalysedGame";
 import { StateTreeNode } from "@/types/game/position/StateTreeNode";
 import { EngineLine } from "@/types/game/position/EngineLine";
 import Evaluation from "@/types/game/position/Evaluation";
+import GameResult from "@/constants/game/GameResult";
+import Variant from "@/constants/game/Variant";
 
 import startingLines from "@/resources/startingLines.json" with { type: "json" };
 
 export const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 export const defaultRootNode: StateTreeNode = {
-    id: uniqueId(),
+    id: "0",
     mainline: true,
     children: [],
     state: {
         fen: STARTING_FEN,
         engineLines: startingLines as EngineLine[]
     }
+};
+
+export const defaultAnalysedGame: AnalysedGame = {
+    pgn: "*",
+    initialPosition: STARTING_FEN,
+    players: {
+        white: {
+            username: "White",
+            result: GameResult.UNKNOWN
+        },
+        black: {
+            username: "Black",
+            result: GameResult.UNKNOWN
+        }
+    },
+    stateTree: defaultRootNode,
+    variant: Variant.STANDARD
 };
 
 export const defaultEvaluation: Evaluation = {

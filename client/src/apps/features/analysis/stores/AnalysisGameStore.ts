@@ -1,10 +1,8 @@
 import { create } from "zustand";
+import { cloneDeep } from "lodash-es";
 
 import AnalysedGame from "shared/types/game/AnalysedGame";
-import { defaultRootNode } from "shared/constants/utils";
-import Variant from "shared/constants/game/Variant";
-import GameResult from "shared/constants/game/GameResult";
-import { STARTING_FEN } from "shared/constants/utils";
+import { defaultAnalysedGame } from "shared/constants/utils";
 
 interface AnalysisGameStore {
     analysisGame: AnalysedGame;
@@ -14,23 +12,8 @@ interface AnalysisGameStore {
     setGameAnalysisOpen: (open: boolean) => void;
 }
 
-const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
-    analysisGame: {
-        pgn: "*",
-        initialPosition: STARTING_FEN,
-        players: {
-            white: {
-                username: "White",
-                result: GameResult.UNKNOWN
-            },
-            black: {
-                username: "Black",
-                result: GameResult.UNKNOWN
-            }
-        },
-        stateTree: defaultRootNode,
-        variant: Variant.STANDARD
-    },
+export const useAnalysisGameStore = create<AnalysisGameStore>(set => ({
+    analysisGame: cloneDeep(defaultAnalysedGame),
 
     gameAnalysisOpen: false,
 

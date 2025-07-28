@@ -6,7 +6,6 @@ import SidebarTab from "@/components/layout/sidebar/SidebarTab";
 import * as styles from "./Dashboard.module.css";
 
 import iconLogo from "@assets/img/logo.svg";
-import iconAnalytics from "@assets/img/analytics.svg";
 import iconNews from "@assets/img/news.svg";
 import iconAnnouncement from "@assets/img/announcement.svg";
 
@@ -22,14 +21,6 @@ function Dashboard() {
         </h1>
 
         <div className={styles.tabs}>
-            <SidebarTab
-                className={styles.tab}
-                url="/internal/dashboard/analytics"
-                icon={iconAnalytics}
-            >
-                Analytics
-            </SidebarTab>
-
             <SidebarTab
                 className={styles.tab}
                 url="/internal/dashboard/news"

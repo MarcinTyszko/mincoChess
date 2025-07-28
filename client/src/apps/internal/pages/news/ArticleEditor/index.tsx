@@ -62,7 +62,7 @@ function ArticleEditor() {
             if (!articleId) return;
 
             // Fetch for the article details
-            const articleResponse = await fetch(`/api/news?id=${articleId}`);
+            const articleResponse = await fetch(`/api/public/news?id=${articleId}`);
 
             const article: NewsArticle = await articleResponse.json();
             if (!article) return;

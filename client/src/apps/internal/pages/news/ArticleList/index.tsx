@@ -1,14 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { clamp } from "lodash-es";
 
+import { useNewsArticles } from "@/hooks/api/useNewsArticles";
 import Loader from "@/components/common/Loader";
 import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import ArticleListing from "@/apps/features/news/components/ArticleListing";
 import LogMessage from "@/components/common/LogMessage";
-import { getNewsArticles, getNewsArticlesPages } from "@/apps/features/news/lib/newsArticles";
 
 import * as styles from "./ArticleList.module.css";
 
@@ -17,46 +17,31 @@ import iconInterfaceBack from "@assets/img/interface/back.svg";
 import iconInterfaceNext from "@assets/img/interface/next.svg";
 
 function ArticleList() {
-    const navigate = useNavigate();
+    const { t } = useTranslation("otherPages");
 
-    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const [ searchParams, setSearchParams ] = useSearchParams();
 
-    const pageRef = useRef(
-        parseInt(searchParams.get("page") || "1") || 1
-    );
+    const [ page, setPage ] = useState(1);
 
     const pageButtonsRef = useRef<HTMLDivElement>(null);
 
-    const { data: newsArticles, status, error } = useQuery({
-        queryKey: ["newsArticles"],
-        queryFn: () => getNewsArticles(pageRef.current)
-    });
-
-    const { data: pageCount } = useQuery({
-        queryKey: ["newsArticlesPages"],
-        queryFn: getNewsArticlesPages
-    });
+    const { articles, pageCount, articlesStatus } = useNewsArticles(page);
 
     useEffect(() => {
         pageButtonsRef.current?.scrollIntoView();
-    }, [pageRef.current]);
+    }, [page]);
 
     async function switchPage(increment: number) {
-        const newPage = clamp(
-            pageRef.current + increment,
-            1,
-            pageCount || Infinity
+        setPage(
+            clamp(page + increment, 1, pageCount || Infinity)
         );
 
-        pageRef.current = newPage;
-
-        await queryClient.refetchQueries({
-            queryKey: ["newsArticles"]
+        setSearchParams({
+            ...Object.fromEntries(searchParams.entries()),
+            page: page.toString()
         });
-
-        setSearchParams({ page: newPage.toString() });
     }
 
     return <div className={styles.wrapper}>
@@ -71,25 +56,21 @@ function ArticleList() {
         </Button>
 
         <div className={styles.articles}>
-            {status == "pending"
+            {articlesStatus == "pending"
                 && <Loader style={{ margin: "20px 0" }} />
             }
 
-            {status == "success"
-                && newsArticles.map(article => (
-                    <ArticleListing
-                        article={article}
-                        editable
-                        hardReload
-                    />
-                ))
-            }
+            {articlesStatus == "success" && articles?.map(article => (
+                <ArticleListing
+                    article={article}
+                    editable
+                    hardReload
+                />
+            ))}
 
-            {status == "error"
-                && <LogMessage>
-                    {error.message}
-                </LogMessage>
-            }
+            {articlesStatus == "error" && <LogMessage>
+                {t("news.error")}
+            </LogMessage>}
         </div>
 
         <div className={styles.pageButtons} ref={pageButtonsRef}>
@@ -102,7 +83,7 @@ function ArticleList() {
             />
 
             <span>
-                {pageRef.current || "?"} / {pageCount || "?"}
+                {page} / {pageCount || "..."}
             </span>
 
             <Button

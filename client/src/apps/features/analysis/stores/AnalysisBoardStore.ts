@@ -3,7 +3,7 @@ import { Square } from "react-chessboard/dist/chessboard/types";
 import { create } from "zustand";
 
 import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
-import { defaultRootNode } from "shared/constants/utils";
+import useAnalysisGameStore from "./AnalysisGameStore";
 
 interface AnalysisBoardStore {
     currentStateTreeNode: StateTreeNode;
@@ -28,7 +28,9 @@ interface AnalysisBoardStore {
 }
 
 const useAnalysisBoardStore = create<AnalysisBoardStore>(set => ({
-    currentStateTreeNode: defaultRootNode,
+    currentStateTreeNode: (
+        useAnalysisGameStore.getInitialState().analysisGame.stateTree
+    ),
     currentStateTreeNodeUpdate: false,
     boardFlipped: false,
     autoplayEnabled: false,

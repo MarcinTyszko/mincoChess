@@ -72,7 +72,6 @@
         "userNotFound": "We couldn't find an account with this username.",
         "noGamesFound": "We couldn't find any games for this month.",
         "unknownError": "Unknown error while searching games.",
-        "ratelimited": "You were ratelimited, please try again later...",
         "selectedToast": "Game selected!"
     },
     "analyseButton": "Analyse",

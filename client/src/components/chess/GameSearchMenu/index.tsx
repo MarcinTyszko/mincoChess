@@ -44,7 +44,7 @@ function GameSearchMenu({
     onClose,
     onGameSelect
 }: GameSearchMenuProps) {
-    const { t } = useTranslation(["analysis", "common"]);
+    const { t } = useTranslation("analysis");
 
     const queryClient = useQueryClient();
 
@@ -54,7 +54,7 @@ function GameSearchMenu({
     const longFetchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [ isLongFetch, setIsLongFetch ] = useState(false);
 
-    const { data: games, status, fetchStatus, error } = useQuery({ 
+    const { data: games, status, fetchStatus, error } = useQuery({
         queryKey: ["games", gameSource.key, username, month, year], 
         queryFn: async () => {
             if (longFetchTimerRef.current != null) {
@@ -79,7 +79,7 @@ function GameSearchMenu({
                     return response.games || [];
                 default:
                     throw new Error(
-                        t("unknownError", { ns: "common" })
+                        t("gameSearchMenu.unknownError")
                     );
             }
         },

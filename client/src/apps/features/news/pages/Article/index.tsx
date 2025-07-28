@@ -2,15 +2,14 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 
 import { formatDate } from "shared/lib/utils/date";
+import { useNewsArticle } from "@/hooks/api/useNewsArticles";
 import ads from "@/constants/advertisements";
 import Loader from "@/components/common/Loader";
 import LogMessage from "@/components/common/LogMessage";
 import Advertisement from "@/components/Advertisement";
-import { getNewsArticle } from "@/apps/features/news/lib/newsArticles";
 
 import * as styles from "./Article.module.css";
 
@@ -21,16 +20,10 @@ function Article() {
 
     const { articleId } = useParams();
 
-    const { data: article, status } = useQuery({
-        queryKey: ["newsArticle", articleId],
-        queryFn: () => getNewsArticle(articleId || ""),
-        refetchOnWindowFocus: false
-    });
+    const { article, status } = useNewsArticle(articleId || "");
 
     useEffect(() => {
-        if (status == "success" && !article) {
-            navigate("/404");
-        }
+        if (status == "success" && !article) navigate("/404");
     }, [status]);
 
     return <div className={styles.wrapper}>
@@ -76,11 +69,9 @@ function Article() {
             </>}
         </div>
 
-        {status == "error"
-            && <LogMessage>
-                {t("news.article.error")}
-            </LogMessage>
-        }
+        {status == "error" && <LogMessage>
+            {t("news.article.error")}
+        </LogMessage>}
 
         <Advertisement adUnitId={ads.news.article.bottom} style={{
             width: "min(800px, 100%)", height: "100px"

@@ -4,9 +4,10 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import { StatusCodes } from "http-status-codes";
 import { FetchStatus } from "@tanstack/react-query";
-import { omit } from "lodash-es";
+import { cloneDeep, omit } from "lodash-es";
 
-import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
+import { defaultAnalysedGame } from "shared/constants/utils";
+import { useAnalysisGameStore } from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
 import { useAuthedProfile } from "@/hooks/api/useProfile";
 import Button from "@/components/common/Button";
@@ -30,10 +31,16 @@ function OptionsToolbar() {
 
     const { status: profileStatus } = useAuthedProfile();
 
-    const { analysisGame, gameAnalysisOpen } = useAnalysisGameStore();
+    const {
+        analysisGame,
+        setAnalysisGame,
+        gameAnalysisOpen,
+        setGameAnalysisOpen
+    } = useAnalysisGameStore();
 
     const {
         currentStateTreeNode,
+        setCurrentStateTreeNode,
         boardFlipped,
         setBoardFlipped
     } = useAnalysisBoardStore();
@@ -49,8 +56,11 @@ function OptionsToolbar() {
             ["game"]
         ));
 
-        // bit lazy, may want to clear game on-the-fly
-        location.reload();
+        const freshAnalysisGame = cloneDeep(defaultAnalysedGame);
+
+        setGameAnalysisOpen(false);
+        setAnalysisGame(freshAnalysisGame);
+        setCurrentStateTreeNode(freshAnalysisGame.stateTree);
     }
 
     async function saveToArchive() {

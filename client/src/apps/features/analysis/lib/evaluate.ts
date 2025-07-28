@@ -86,9 +86,8 @@ async function evaluateMoves(
             if (stateTreeNodeIndex >= stateTreeNodes.length) {
                 engine.terminate();
 
-                if (++enginesResting == engineCount) {
+                if (++enginesResting == engineCount)
                     res(stateTreeNodes);
-                }
 
                 return;
             }

@@ -2,7 +2,6 @@ import express, { Router } from "express";
 import z from "zod";
 import { StatusCodes } from "http-status-codes";
 import { Types } from "mongoose";
-import { Buffer } from "buffer";
 import { omit } from "lodash-es";
 
 import {
@@ -26,24 +25,6 @@ router.use("/analysis/archive",
 router.get("/analysis/archive", async (req, res) => {
     if (!req.user?.id)
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
-
-    const gameId = req.query.id?.toString();
-
-    if (gameId) {
-        const archivedGame = await ArchivedGame.findById(gameId).lean();
-
-        if (!archivedGame) return res.sendStatus(StatusCodes.NOT_FOUND);
-
-        const game = await Archive.unarchiveAnalysedGame({
-            ...omit(archivedGame, ["_id", "__v"]),
-            userId: archivedGame.userId.toString(),
-            gzippedStateTree: Buffer.copyBytesFrom(
-                archivedGame.gzippedStateTree.buffer
-            )
-        });
-
-        return res.json(game);
-    }
 
     const rawArchive = await ArchivedGame.find({
         userId: new Types.ObjectId(req.user.id)
