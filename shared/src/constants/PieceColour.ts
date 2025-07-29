@@ -5,12 +5,6 @@ export enum PieceColour {
     BLACK = "black"
 }
 
-export function oppositePieceColour(colour: PieceColour) {
-    return colour == PieceColour.WHITE ? 
-        PieceColour.BLACK 
-        : PieceColour.WHITE;
-}
-
 export function adaptPieceColour(colour: PieceColour): Color;
 export function adaptPieceColour(colour: Color): PieceColour;
 

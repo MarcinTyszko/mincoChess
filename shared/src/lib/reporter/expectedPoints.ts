@@ -1,8 +1,8 @@
 import Evaluation from "@/types/game/position/Evaluation";
-import PieceColour from "@/constants/PieceColour";
+import { PieceColour, flipPieceColour } from "@/constants/PieceColour";
 
 interface ExpectedPointsOptions {
-    moveColour?: PieceColour;
+    moveColour: PieceColour;
     centipawnGradient?: number;
 }
 
@@ -11,7 +11,6 @@ export function getExpectedPoints(
     options?: ExpectedPointsOptions
 ) {
     const opts = {
-        moveColour: PieceColour.WHITE,
         centipawnGradient: 0.0035,
         ...options
     };
@@ -36,8 +35,10 @@ export function getExpectedPointsLoss(
 ) {
     return Math.max(0,
         (
-            getExpectedPoints(previousEvaluation)
-            - getExpectedPoints(currentEvaluation)
+            getExpectedPoints(previousEvaluation, {
+                moveColour: flipPieceColour(moveColour)
+            })
+            - getExpectedPoints(currentEvaluation, { moveColour })
         )
         * (moveColour == PieceColour.WHITE ? 1 : -1)
     );

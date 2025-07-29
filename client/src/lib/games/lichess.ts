@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 
 import Game from "shared/types/game/Game";
 import { GameResult } from "shared/constants/game/GameResult";
-import { PieceColour, oppositePieceColour } from "shared/constants/PieceColour";
+import { PieceColour, flipPieceColour } from "shared/constants/PieceColour";
 import TimeControl from "shared/constants/game/TimeControl";
 import Variant from "shared/constants/game/Variant";
 import { getMonthLength, padDateNumber } from "shared/lib/utils/date";
@@ -73,7 +73,7 @@ async function getLichessGames(
         const winner = winnerColourCodes[game.winner];
         if (winner) {
             results[winner] = GameResult.WIN;
-            results[oppositePieceColour(winner)] = GameResult.LOSE;
+            results[flipPieceColour(winner)] = GameResult.LOSE;
         }
 
         const whiteUsername = game.players.white.aiLevel
