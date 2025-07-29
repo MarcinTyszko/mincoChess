@@ -19,11 +19,11 @@ function App() {
     }, []);
 
     return <BrowserRouter>
-        <Routes>
-            <PageWrapper>
+        <PageWrapper>
+            <Routes>
                 <Route path="/profile/:username" element={<Profile/>} />
-            </PageWrapper>
-        </Routes>
+            </Routes>
+        </PageWrapper>
     </BrowserRouter>;
 }
 
