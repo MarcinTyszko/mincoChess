@@ -17,8 +17,6 @@
         "news": "Aktualności"
     },
     "gameListing": {
-        "copyPGN": "Kopiuj PGN",
-        "copyPGNToast": "Skopiowano PGN!",
         "gameResults": {
             "unopinionated": {
                 "win": "Wygrana białych",

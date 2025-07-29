@@ -1,21 +1,8 @@
 {
     "title": "गेम की रिपोर्ट",
-    "options": {
-        "flipBoard": "बोर्ड पलटें",
-        "share": "गेम शेयर करें",
-        "sharingSoon": "शेयरिंग जल्द ही उपलब्ध होगी!"
-    },
     "settings": {
         "title": "विश्लेषण सेटिंग्स",
-        "engineEnabled": "इंजन चालू कर दिया गया है",
-        "engine": "इंजन",
-        "engineDepth": "इंजन की गहराई",
-        "engineLines": "इंजन लाइन्स",
-        "hideClassifications": "वर्गीकरण छिपाएँ",
-        "suggestionArrows": "सूचनाओं के तीर",
-        "includeClassifications": "वर्गीकरण को शामिल करें",
-        "brilliant": "शानदार",
-        "theory": "लिखित/थ्योरी "
+        "engine": "इंजन"
     },
     "gameSelector": {
         "sourceLabel": "गेम लोड करें यहाँ से",
@@ -38,15 +25,10 @@
         "loadingLong": "यह थोड़ा समय ले रहा है, कृपया प्रतीक्षा करें...",
         "userNotFound": "हमें इस उपयोगकर्ता नाम के साथ कोई खाता नहीं मिला।",
         "noGamesFound": "हम इस महीने कोई गेम्स नहीं ढूंढ सके",
-        "ratelimited": "आपको रेट लिमिट किया गया हैं, कृपया प्रतीक्षा करें...",
         "selectedToast": "गेम चुना गया!"
     },
     "analyseButton": "विश्लेषण करें",
     "analysisError": "विश्लेषण फेल हो गया; शायद आपके ब्राउज़र की समस्या है।",
-    "engineLines": {
-        "depth": "गहराई:",
-        "checkmate": "चेकमेट/शह-मात"
-    },
     "stateTreeEditor": {
         "moveContextMenu": {
             "delete": "मूव/चाल हटाएँ",
@@ -71,7 +53,6 @@
         "captchaVerifyFailed": "CAPTCHA को वेरिफाई नहीं कर सके; पेज को रीफ्रेश करने की कोशिश करो.",
         "captchaLoadFailed": "CAPTCHA लोड नहीं हो सका। तुम्हारा ब्राउज़र शायद पुराना है।",
         "captchaUnknownError": "अनजान CAPTCHA एरर; पेज को फिर से रीफ्रेश करने की कोशिश करो.",
-        "classifyFailed": "गेम रिपोर्ट जनरेट करते समय अनजान एरर हुई; पेज को रिफ्रेश करने की कोशिश करें.",
         "completeNotification": "विश्लेषण पूरा हो गया है"
     },
     "analysisTabBar": {
@@ -86,7 +67,6 @@
         "insufficientLines": "यह सुनिश्चित करें कि पिछले चाल का पूरी तरह से वर्गीकरण के लिए मूल्यांकन किया गया है।",
         "classifications": {
             "brilliant": "बहुत शानदार है",
-            "only": "यह एकमात्र अच्छी चाल है",
             "best": "सबसे अच्छी चाल है",
             "excellent": "बहुत अच्छा है",
             "okay": "एक ठीक चाल है",

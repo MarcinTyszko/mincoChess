@@ -1,10 +1,5 @@
 {
     "title": "Bilan de la partie",
-    "options": {
-        "flipBoard": "Retourner l'échiquier",
-        "share": "Partager la partie",
-        "sharingSoon": "Partager une partie sera bientôt disponible !"
-    },
     "settings": {
         "title": "Paramètres d'analyse",
         "engine": {
@@ -65,7 +60,6 @@
         "userNotFound": "Impossible de trouver un compte avec ce nom.",
         "noGamesFound": "Nous n'avons trouvé aucune partie ce mois-ci.",
         "unknownError": "Erreur inconnue lors de la recherche des jeux.",
-        "ratelimited": "Vous envoyez trop de requêtes, veuillez patienter...",
         "selectedToast": "Partie sélectionnée !"
     },
     "analyseButton": "Analyser",

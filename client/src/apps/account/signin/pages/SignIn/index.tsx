@@ -14,7 +14,7 @@ import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
-import iconGoogle from "@assets/img/credits/connections/google.png";
+import iconGoogle from "@assets/img/connections/google.png";
 import iconSignIn from "@assets/img/interface/sign_in.svg";
 
 function SignIn() {

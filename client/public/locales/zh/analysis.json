@@ -1,10 +1,5 @@
 {
     "title": "棋局报告",
-    "options": {
-        "flipBoard": "翻页板",
-        "share": "分享棋局",
-        "sharingSoon": "分享功能即将推出！"
-    },
     "settings": {
         "title": "复盘分析设置",
         "engine": {
@@ -65,7 +60,6 @@
         "userNotFound": "我们未能找到这个用户名的账户。",
         "noGamesFound": "我们未能找到这个月的任何棋局。",
         "unknownError": "搜索棋局时发生未知错误。",
-        "ratelimited": "你被限速，请等待……",
         "selectedToast": "棋局已选择！"
     },
     "analyseButton": "复盘分析",

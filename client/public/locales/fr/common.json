@@ -23,8 +23,6 @@
         "no": "Non"
     },
     "gameListing": {
-        "copyPGN": "Copier le PGN",
-        "copyPGNToast": "PGN copié !",
         "gameResults": {
             "unopinionated": {
                 "win": "Les Blancs ont gagné",

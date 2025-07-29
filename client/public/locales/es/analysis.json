@@ -1,10 +1,5 @@
 {
     "title": "Informe de la Partida",
-    "options": {
-        "flipBoard": "Voltear Tablero",
-        "share": "Compartir Partida",
-        "sharingSoon": "¡Compartir se añadirá pronto!"
-    },
     "settings": {
         "title": "Configuración de Análisis"
     },
@@ -29,7 +24,6 @@
         "loadingLong": "Esto está tomando un tiempo, por favor espere...",
         "userNotFound": "No pudimos encontrar una cuenta con este usuario.",
         "noGamesFound": "No pudimos encontrar ninguna partida para este mes.",
-        "ratelimited": "Has sido demorado, por favor espera...",
         "selectedToast": "¡Partida seleccionada!"
     },
     "analyseButton": "Analizar",

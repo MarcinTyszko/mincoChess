@@ -14,13 +14,9 @@
     "sidebar": {
         "analysis": "विश्लेषण",
         "archive": "संग्रह",
-        "news": "बातमी",
-        "privacyPolicy": "एकान्त",
-        "credits": "आभार व्यक्त करणे"
+        "news": "बातमी"
     },
     "gameListing": {
-        "copyPGN": "पीजीएन कॉपी करा",
-        "copyPGNToast": "पीजीएन कॉपी केला गेला आहे!",
         "gameResults": {
             "unopinionated": {
                 "win": "व्हाईट जिंकला",

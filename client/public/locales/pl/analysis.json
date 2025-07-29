@@ -1,10 +1,5 @@
 {
     "title": "Raport z gry",
-    "options": {
-        "flipBoard": "Odwróć szachownicę",
-        "share": "Udostępnij partię",
-        "sharingSoon": "Udostępnianie zostanie dodane wkrótce!"
-    },
     "settings": {
         "title": "Ustawienia analizy"
     },
@@ -29,7 +24,6 @@
         "loadingLong": "To zajmuje chwilę, proszę czekać...",
         "userNotFound": "Nie mogliśmy znaleźć konta o tej nazwie użytkownika.",
         "noGamesFound": "Nie mogliśmy znaleźć żadnych gier w wybranym miesiącu.",
-        "ratelimited": "Zostałeś/aś chwilowo ograniczony; proszę czekać...",
         "selectedToast": "Wybrano grę!"
     },
     "analyseButton": "Analizuj",

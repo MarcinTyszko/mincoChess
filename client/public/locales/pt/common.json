@@ -19,8 +19,6 @@
         "news": "Notícias"
     },
     "gameListing": {
-        "copyPGN": "Copiar PGN",
-        "copyPGNToast": "PGN copiado!",
         "gameResults": {
             "unopinionated": {
                 "win": "Brancas Vencem",

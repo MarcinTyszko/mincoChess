@@ -21,16 +21,13 @@
     },
     "footer": {
         "manageConsent": "Quản lý sự đồng ý",
-        "privacyPolicy": "Chính sách về Quyền riêng tư",
-        "credits": "Lời cảm ơn"
+        "privacyPolicy": "Chính sách về Quyền riêng tư"
     },
     "confirmDialog": {
         "yes": "Có",
         "no": "Không"
     },
     "gameListing": {
-        "copyPGN": "Sao chép PGN",
-        "copyPGNToast": "Đã sao chép PGN!",
         "gameResults": {
             "unopinionated": {
                 "win": "Trắng thắng",

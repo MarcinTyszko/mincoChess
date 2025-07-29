@@ -17,8 +17,6 @@
         "news": "Noticias"
     },
     "gameListing": {
-        "copyPGN": "Copiar PGN",
-        "copyPGNToast": "PGN copiado!",
         "gameResults": {
             "unopinionated": {
                 "win": "Victoria del Blanco",

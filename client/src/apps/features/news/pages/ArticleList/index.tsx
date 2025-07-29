@@ -17,11 +17,11 @@ import ArticleListing from "@/apps/features/news/components/ArticleListing";
 
 import * as styles from "./ArticleList.module.css";
 
-import iconIconsNews from "@assets/img/icons/news.png";
-import iconCreditsConnectionsYoutube from "@assets/img/credits/connections/youtube.png";
-import iconCreditsConnectionsChesscom from "@assets/img/credits/connections/chesscom.png";
-import iconInterfaceBack from "@assets/img/interface/back.svg";
-import iconInterfaceNext from "@assets/img/interface/next.svg";
+import iconNews from "@assets/img/icons/news.png";
+import iconYouTube from "@assets/img/connections/youtube.png";
+import iconChessCom from "@assets/img/connections/chesscom.png";
+import iconBack from "@assets/img/interface/back.svg";
+import iconNext from "@assets/img/interface/next.svg";
 
 function News() {
     const { t } = useTranslation("otherPages");
@@ -67,7 +67,7 @@ function News() {
                 />
 
                 <img
-                    src={iconIconsNews}
+                    src={iconNews}
                     height={45}
                     style={{ zIndex: 1 }}
                 />
@@ -93,19 +93,19 @@ function News() {
 
             <div className={styles.socialsContainer}>
                 <SocialLink
-                    icon={iconCreditsConnectionsYoutube}
+                    icon={iconYouTube}
                     title="WINTR"
                     url="https://www.youtube.com/@wintrchess"
                 />
 
                 <SocialLink
-                    icon={iconCreditsConnectionsYoutube}
+                    icon={iconYouTube}
                     title="wintrcat"
                     url="https://www.youtube.com/@wintrcat"
                 />
 
                 <SocialLink
-                    icon={iconCreditsConnectionsChesscom}
+                    icon={iconChessCom}
                     iconSize="23px"
                     title="WintrChess Club"
                     url="https://www.chess.com/club/wintrchess/join"
@@ -138,7 +138,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={iconInterfaceBack}
+                icon={iconBack}
                 onClick={() => switchPage(-1)}
             />
 
@@ -150,7 +150,7 @@ function News() {
                 style={{
                     backgroundColor: ButtonColour.BLUE
                 }}
-                icon={iconInterfaceNext}
+                icon={iconNext}
                 onClick={() => switchPage(1)}
             />
         </div>

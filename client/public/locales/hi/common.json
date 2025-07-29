@@ -14,13 +14,9 @@
     "sidebar": {
         "analysis": "विश्लेषण",
         "archive": "संग्रह/अर्काइव",
-        "news": "समाचार",
-        "privacyPolicy": "प्राइवसी",
-        "credits": "आभार/श्रेय"
+        "news": "समाचार"
     },
     "gameListing": {
-        "copyPGN": "PGN कॉपी करें",
-        "copyPGNToast": "कॉपी की गई पीजीएन!",
         "gameResults": {
             "unopinionated": {
                 "win": "सफेद जीता",

@@ -1,10 +1,5 @@
 {
     "title": "Báo cáo ván đấu",
-    "options": {
-        "flipBoard": "Quay bàn cờ",
-        "share": "Chia sẻ ván cờ",
-        "sharingSoon": "Tính năng Chia sẻ sẽ được thêm vào sớm!"
-    },
     "settings": {
         "title": "Cài đặt Phân tích",
         "engine": {
@@ -70,7 +65,6 @@
         "userNotFound": "Chúng tôi không tìm được tài khoản nào với tên này.",
         "noGamesFound": "Chúng tôi không tìm được ván nào trong tháng này.",
         "unknownError": "Có một lỗi đã xảy ra trong khi đang tìm các trò chơi.",
-        "ratelimited": "Bạn spam nhiều quá nên bị chặn tạm thời, hãy bình tĩnh...",
         "selectedToast": "Đã chọn ván đấu!"
     },
     "analyseButton": "Phân tích",

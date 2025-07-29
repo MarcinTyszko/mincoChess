@@ -45,7 +45,10 @@ function Footer({ className, style }: FooterProps) {
 
             <div className={styles.section}>
                 <a href="/privacy">{t("footer.privacyPolicy")}</a>
-                <a href="/credits">{t("footer.credits")}</a>
+
+                <a href="https://github.com/WintrCat/wintrchess" target="_blank">
+                    {t("footer.openSource")}
+                </a>
             </div>
         </div>
     </footer>;

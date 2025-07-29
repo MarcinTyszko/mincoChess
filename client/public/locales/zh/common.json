@@ -20,16 +20,13 @@
         "news": "新闻"
     },
     "footer": {
-        "privacyPolicy": "隐私政策",
-        "credits": "鸣谢"
+        "privacyPolicy": "隐私政策"
     },
     "confirmDialog": {
         "yes": "是",
         "no": "否"
     },
     "gameListing": {
-        "copyPGN": "复制PGN",
-        "copyPGNToast": "PGN已复制！",
         "gameResults": {
             "unopinionated": {
                 "win": "白方获胜",

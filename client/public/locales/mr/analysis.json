@@ -1,21 +1,8 @@
 {
     "title": "गेम रिपोर्ट",
-    "options": {
-        "flipBoard": "बोर्ड पलटा",
-        "share": "गेम शेअर करा",
-        "sharingSoon": "लवकरच शेअरिंग सुरु होईल!"
-    },
     "settings": {
         "title": "विश्लेषण सेटिंग्ज",
-        "engineEnabled": "इंजिन चालू केले गेले आहे",
-        "engine": "इंजिन",
-        "engineDepth": "इंजिनची खोली",
-        "engineLines": "इंजिन लाइन्स",
-        "hideClassifications": "वर्गीकरण लपवा",
-        "suggestionArrows": "सूचनात्मक बाण",
-        "includeClassifications": " वर्गीकरणांचा समावेश करा.",
-        "brilliant": "झक्कास",
-        "theory": "उपपत्ती"
+        "engine": "इंजिन"
     },
     "gameSelector": {
         "sourceLabel": "खेळ मधून/येथून लोड करा",
@@ -38,15 +25,10 @@
         "loadingLong": "थोडा वेळ लागत आहे, कृपया थांबा...",
         "userNotFound": "आम्हाला या युजरनेमसह अकाऊंट सापडले नाही.",
         "noGamesFound": "या महिन्यात कोणतेही खेळ सापडले नाहीत.",
-        "ratelimited": "आपण थोडा विलंबित आहात, कृपया थांबा...",
         "selectedToast": "खेळाची निवड झाली आहे!"
     },
     "analyseButton": "विश्लेषण करा",
     "analysisError": "विश्लेषण अपयशी ठरले; ही आपल्या ब्राउझरची समस्या असू शकते.",
-    "engineLines": {
-        "depth": "खोली:",
-        "checkmate": "चेकमेट"
-    },
     "stateTreeEditor": {
         "moveContextMenu": {
             "delete": "तुमची चाल डिलीट करा",
@@ -71,7 +53,6 @@
         "captchaVerifyFailed": "कॅप्चाची पडताळणी करता आली नाही; पृष्ठ ताजे करण्याचा प्रयत्न करा.",
         "captchaLoadFailed": "CAPTCHA उघडता येत नाही. तुमचा ब्राउझर शक्यतो जुना आहे.",
         "captchaUnknownError": "काहीतरी CAPTCHA चूक झाली आहे; वेबपृष्ठ ताजं करण्याचा प्रयत्न करा.",
-        "classifyFailed": "गेम रिपोर्ट तयार करताना काही चूक झाली; पृष्ठ ताजं करण्याचा प्रयत्न करा.",
         "completeNotification": "विश्लेषण पूर्ण"
     },
     "analysisTabBar": {
@@ -86,7 +67,6 @@
         "insufficientLines": "वर्गीकरणासाठी मागील चाळचे संपूर्ण मूल्यमापन केले आहे याची खात्री करा.",
         "classifications": {
             "brilliant": "खूपच छान आहे",
-            "only": "एकमेव चांगली चाल आहे",
             "best": "सर्वोत्तम पाऊल आहे",
             "excellent": "उत्कृष्ट आहे",
             "okay": "एक ठीक चाल आहे",

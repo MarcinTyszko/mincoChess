@@ -30,7 +30,7 @@
     "footer": {
         "manageConsent": "Manage Consent",
         "privacyPolicy": "Privacy Policy",
-        "credits": "Credits"
+        "openSource": "Open Source"
     },
     "confirmDialog": {
         "yes": "Yes",

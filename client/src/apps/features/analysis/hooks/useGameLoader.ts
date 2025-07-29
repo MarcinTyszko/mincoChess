@@ -4,6 +4,7 @@ import { useShallow } from "zustand/react/shallow";
 
 import useAnalysisGameStore from "../stores/AnalysisGameStore";
 import useAnalysisBoardStore from "../stores/AnalysisBoardStore";
+import useRealtimeEngineStore from "../stores/RealtimeEngineStore";
 import { getArchivedGame } from "@/lib/gameArchive";
 
 function useGameLoader() {
@@ -20,6 +21,10 @@ function useGameLoader() {
         state => state.setCurrentStateTreeNode
     );
 
+    const setDisplayedEngineLines = useRealtimeEngineStore(
+        state => state.setDisplayedEngineLines
+    );
+
     async function loadGame() {
         const gameId = searchParams.get("game");
         if (!gameId) return;
@@ -30,6 +35,7 @@ function useGameLoader() {
         setGameAnalysisOpen(true);
         setAnalysisGame(game);
         setCurrentStateTreeNode(game.stateTree);
+        setDisplayedEngineLines(game.stateTree.state.engineLines);
     }
 
     useEffect(() => {

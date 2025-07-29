@@ -19,8 +19,6 @@
         "news": "Neuigkeiten"
     },
     "gameListing": {
-        "copyPGN": "PGN kopieren",
-        "copyPGNToast": "PGN kopiert!",
         "gameResults": {
             "unopinionated": {
                 "win": "Weiß hat gewonnen",

@@ -32,11 +32,5 @@
     },
     "resetPassword": {
         "message": "Enter and confirm a new password for your account."
-    },
-    "credits": {
-        "leadDeveloper": "Lead Developer",
-        "developer": "Developer",
-        "artist": "Digital Artist",
-        "translators": "Translators"
     }
 }

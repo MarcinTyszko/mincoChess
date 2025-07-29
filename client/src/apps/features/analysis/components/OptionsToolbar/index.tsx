@@ -9,6 +9,7 @@ import { cloneDeep, omit } from "lodash-es";
 import { defaultAnalysedGame } from "shared/constants/utils";
 import { useAnalysisGameStore } from "@analysis/stores/AnalysisGameStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
+import useRealtimeEngineStore from "@analysis/stores/RealtimeEngineStore";
 import { useAuthedProfile } from "@/hooks/api/useProfile";
 import Button from "@/components/common/Button";
 import SettingsDialog from "../SettingsDialog";
@@ -45,6 +46,10 @@ function OptionsToolbar() {
         setBoardFlipped
     } = useAnalysisBoardStore();
 
+    const setDisplayedEngineLines = useRealtimeEngineStore(
+        state => state.setDisplayedEngineLines
+    );
+
     const [ settingsOpen, setSettingsOpen ] = useState(false);
     const [ shareOpen, setShareOpen ] = useState(false);
 
@@ -61,6 +66,7 @@ function OptionsToolbar() {
         setGameAnalysisOpen(false);
         setAnalysisGame(freshAnalysisGame);
         setCurrentStateTreeNode(freshAnalysisGame.stateTree);
+        setDisplayedEngineLines([]);
     }
 
     async function saveToArchive() {

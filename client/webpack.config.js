@@ -21,7 +21,6 @@ module.exports = {
 
         helpCenter: "./src/apps/footer/helpCenter/index.tsx",
         privacyPolicy: "./src/apps/footer/privacyPolicy/index.tsx",
-        credits: "./src/apps/footer/credits/index.tsx",
 
         settings: "./src/apps/settings/index.tsx",
         internal: "./src/apps/internal/index.tsx",

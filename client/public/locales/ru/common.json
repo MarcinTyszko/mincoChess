@@ -23,8 +23,6 @@
         "no": "Нет"
     },
     "gameListing": {
-        "copyPGN": "Скопировать PGN",
-        "copyPGNToast": "Скопирован PGN!",
         "gameResults": {
             "unopinionated": {
                 "win": "Белые победили",
