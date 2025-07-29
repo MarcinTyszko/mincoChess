@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import { z, ZodSchema } from "zod";
+import { z, ZodType } from "zod";
 import { verifySolution } from "altcha-lib";
 import { Payload } from "altcha-lib/types";
 import { randomBytes } from "crypto";
@@ -21,7 +21,7 @@ const payloadSchema = z.object({
     number: z.number(),
     salt: z.string(),
     signature: z.string()
-}) satisfies ZodSchema<Payload>;
+}) satisfies ZodType<Payload>;
 
 router.use(path, express.json());
 
