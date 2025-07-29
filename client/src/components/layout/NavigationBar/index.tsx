@@ -17,7 +17,6 @@ import iconIconsAnalysis from "@assets/img/icons/analysis.png";
 import iconIconsArchive from "@assets/img/icons/archive.png";
 import iconIconsNews from "@assets/img/icons/news.png";
 import iconKofi from "@assets/img/kofi.svg";
-import iconInterfaceAccount from "@assets/img/interface/account.svg";
 import iconInterfaceSettings from "@assets/img/interface/settings.svg";
 import iconInterfaceSignin from "@assets/img/interface/sign_in.svg";
 import iconIconsSettings from "@assets/img/icons/settings.png";
@@ -98,11 +97,11 @@ function NavigationBar() {
                 menuPosition="right"
                 openStrategy="click"
                 options={[
-                    {
-                        icon: iconInterfaceAccount,
-                        label: t("navigationBar.profileMenu.profile"),
-                        url: `/profile/${profile.username}`
-                    },
+                    // {
+                    //     icon: iconInterfaceAccount,
+                    //     label: t("navigationBar.profileMenu.profile"),
+                    //     url: `/profile/${profile.username}`
+                    // },
                     {
                         icon: iconInterfaceSettings,
                         label: t("settings"),
@@ -117,7 +116,7 @@ function NavigationBar() {
             >
                 <span>{profile.username}</span>
 
-                <div className={styles.profileImage} />
+                {/* <div className={styles.profileImage} /> */}
             </HoverDropdown>}
 
             {status == "error" && <>

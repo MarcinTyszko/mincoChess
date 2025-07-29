@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { repeat } from "lodash-es";
-import { ZodSchema } from "zod";
+import { ZodType } from "zod";
 
 import schemas from "shared/constants/account/schemas";
 import accountErrors from "shared/constants/account/errors";
@@ -19,7 +19,6 @@ import EmailChangeDialog from "@/apps/settings/components/EmailChangeDialog";
 import * as settingsStyles from "@/apps/settings/index.module.css";
 import * as styles from "./EditProfile.module.css";
 
-import iconInterfaceEdit from "@assets/img/interface/edit.svg";
 import iconInterfaceVisibleenabled from "@assets/img/interface/visible_enabled.svg";
 import iconInterfaceVisibledisabled from "@assets/img/interface/visible_disabled.svg";
 
@@ -39,14 +38,12 @@ function EditProfile() {
     const [ usernameDialogOpen, setUsernameDialogOpen ] = useState(false);
     const [ emailDialogOpen, setEmailDialogOpen ] = useState(false);
 
-    function validateDetail(input: string, schema: ZodSchema) {
+    function validateDetail(input: string, schema: ZodType) {
         const error = validate(input, schema);
 
-        if (
-            !error
-            || error == accountErrors.DISPLAY_NAME_TOO_SHORT.code
-            || error == accountErrors.USERNAME_TOO_SHORT.code
-        ) return;
+        if (!error) return;
+        if (error == accountErrors.DISPLAY_NAME_TOO_SHORT.code) return;
+        if (error == accountErrors.USERNAME_TOO_SHORT.code) return;
 
         return getErrorMessage(error);
     }
@@ -66,12 +63,12 @@ function EditProfile() {
     }
 
     return <div className={styles.wrapper}>
-        <div className={styles.profileAvatar}>
+        {/* <div className={styles.profileAvatar}>
             <Button
                 className={styles.editAvatarButton}
                 icon={iconInterfaceEdit}
             />
-        </div>
+        </div> */}
 
         <span>
             {t("account.fields.displayName")}

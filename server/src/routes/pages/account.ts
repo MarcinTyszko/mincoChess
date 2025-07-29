@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { User } from "@/database/models/account";
 import { accountAuthenticator } from "@/lib/security/account";
 import appRouter from "@/lib/appRouter";
 
@@ -10,20 +9,21 @@ router.get(/^\/(signin|signup)/,
     appRouter("account/signin.html")
 );
 
-router.get("/profile/:username", async (req, res, next) => {
-    const user = await User.findOne({
-        username: req.params.username
-    });
+// Profile page route disabled until the page is useful
+// router.get("/profile/:username", async (req, res, next) => {
+//     const user = await User.findOne({
+//         username: req.params.username
+//     });
 
-    if (!user) return next();
+//     if (!user) return next();
 
-    const profileRouter = appRouter(
-        "account/profile.html",
-        async req => req.params
-    );
+//     const profileRouter = appRouter(
+//         "account/profile.html",
+//         async req => req.params
+//     );
 
-    profileRouter(req, res, next);
-});
+//     profileRouter(req, res, next);
+// });
 
 router.get("/auth/reset-password",
     accountAuthenticator(true),
