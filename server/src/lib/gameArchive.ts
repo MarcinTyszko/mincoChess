@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { gzipSync, gunzipSync } from "zlib";
 import { Compressed, compress, decompress } from "compress-json";
 import { Buffer } from "buffer";
@@ -7,6 +8,7 @@ import { SerializedAnalysedGame } from "shared/types/game/AnalysedGame";
 import { ArchivedGame, ArchivedGameMetadata } from "shared/types/game/ArchivedGame";
 import { SerializedStateTreeNode } from "shared/types/game/position/StateTreeNode";
 import renderStateTree from "shared/lib/stateTree/render";
+import ArchivedGameModel from "@/database/models/ArchivedGame";
 
 export async function archiveAnalysedGame(
     game: SerializedAnalysedGame,
@@ -37,6 +39,12 @@ export async function unarchiveAnalysedGame(
         pgn: renderStateTree(stateTree, archivedGame),
         stateTree: stateTree
     };
+}
+
+export async function clearArchivedGames(userId: string) {
+    await ArchivedGameModel.deleteMany({
+        userId: new Types.ObjectId(userId)
+    });
 }
 
 export function getArchivedGameMetadata<T extends ArchivedGameMetadata>(

@@ -6,7 +6,7 @@ import schemas, { additionalUserFields } from "shared/constants/account/schemas"
 import Collection from "@/constants/Collection";
 import { sendAccountEmail } from "@/lib/email";
 
-import * as registration from "./registration";
+import { requestProcessor, userInitialiser } from "./registration";
 
 export type AuthType = ReturnType<typeof createAuth>;
 export type AuthInfer = AuthType["$Infer"]["Session"];
@@ -82,10 +82,10 @@ function createAuth(database: mongo.Db) {
         account: { modelName: Collection.ACCOUNTS },
         session: { modelName: Collection.SESSIONS },
         verification: { modelName: Collection.ACCOUNT_VERIFICATIONS },
-        hooks: { before: registration.validator },
+        hooks: { before: requestProcessor },
         databaseHooks: {
             user: {
-                create: { before: registration.userInitialiser }
+                create: { before: userInitialiser }
             }
         },
         advanced: { cookiePrefix: "wintrchess" }

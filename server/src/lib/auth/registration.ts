@@ -7,15 +7,35 @@ import schemas, { Registration } from "shared/constants/account/schemas";
 import accountErrors from "shared/constants/account/errors";
 import { randomNormalString } from "shared/lib/utils/string";
 import { User } from "@/database/models/account";
-import { AuthInfer } from "@/lib/auth";
+import { getAuth, AuthInfer } from "@/lib/auth";
+import { clearArchivedGames } from "../gameArchive";
 
-export const validator = createAuthMiddleware(async ctx => {
+const registrationValidator = createAuthMiddleware(async ctx => {
     if (!ctx.path.startsWith("/sign-up/email")) return;
     
     const registration: Registration = ctx.body;
 
     if (!schemas.registration.safeParse(registration).success)
         throw new APIError(StatusCodes.BAD_REQUEST);
+});
+
+const userDeleter = createAuthMiddleware(async ctx => {
+    if (!ctx.path.startsWith("/delete-user")) return;
+
+    if (!ctx.headers) throw new APIError(StatusCodes.UNAUTHORIZED);
+
+    const session = await getAuth().api.getSession({
+        headers: ctx.headers
+    });
+
+    if (!session) throw new APIError(StatusCodes.UNAUTHORIZED);
+
+    clearArchivedGames(session.user.id);
+});
+
+export const requestProcessor = createAuthMiddleware(async ctx => {
+    registrationValidator(ctx);
+    userDeleter(ctx);
 });
 
 export const userInitialiser = async (

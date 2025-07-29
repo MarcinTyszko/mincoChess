@@ -52,7 +52,7 @@ function HelpCenter() {
 
             <div>
                 <span>
-                    {t("pages.helpCenter.analysis.part1")}&ensp;
+                    {t("analysis.part1")}&ensp;
 
                     <a href="/analysis">
                         {t("analysis.part2")}
