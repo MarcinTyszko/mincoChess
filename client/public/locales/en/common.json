@@ -28,7 +28,13 @@
         "news": "News"
     },
     "footer": {
-        "manageConsent": "Manage Consent",
+        "privacySettings": "Privacy Settings",
+        "language": "Language",
+        "languagesDialog": {
+            "select": "Select a language",
+            "help": "Help us translate WintrChess"
+        },
+        "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
         "openSource": "Open Source"
     },

@@ -25,17 +25,13 @@ function ProgressReporter({
             value={progress}
         />
 
-        {tooltip
-            && <span className={styles.tooltip}>
-                {tooltip}
-            </span>
-        }
+        {tooltip && <span className={styles.tooltip}>
+            {tooltip}
+        </span>}
 
-        {error
-            && <LogMessage>
-                {error}
-            </LogMessage>
-        }
+        {error && <LogMessage>
+            {error}
+        </LogMessage>}
     </div>;
 }
 
