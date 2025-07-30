@@ -20,7 +20,7 @@ module.exports = {
         profile: "./src/apps/account/profile/index.tsx",
 
         helpCenter: "./src/apps/footer/helpCenter/index.tsx",
-        privacyPolicy: "./src/apps/footer/privacyPolicy/index.tsx",
+        legal: "./src/apps/footer/legal/index.tsx",
 
         settings: "./src/apps/settings/index.tsx",
         internal: "./src/apps/internal/index.tsx",

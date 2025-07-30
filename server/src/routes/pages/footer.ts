@@ -5,6 +5,6 @@ import appRouter from "@/lib/appRouter";
 const router = Router();
 
 router.get("/help", appRouter("footer/helpCenter.html"));
-router.get("/privacy", appRouter("footer/privacyPolicy.html"));
+router.get(/^\/(terms|privacy)/, appRouter("footer/legal.html"));
 
 export default router;

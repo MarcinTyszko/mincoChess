@@ -1,9 +1,9 @@
 import React from "react";
 
 import Separator from "@/components/common/Separator";
-
-import * as styles from "./PrivacyPolicy.module.css";
 import { manageDataConsent } from "@/lib/consent";
+
+import * as styles from "../../index.module.css";
 
 import iconLogo from "@assets/img/logo.svg";
 
@@ -23,17 +23,17 @@ function PrivacyPolicy() {
             <Separator/>
 
             <h2 style={{ margin: 0 }}>
-                Glossary
+                1. Glossary
             </h2>
 
             <span>
-                "The Service", "The Website", "We", "Our", "Us" - the wintrchess.com website
+                1.1 "The Service", "The Website", "We", "Our", "Us" - the wintrchess.com website
                 and any service that we provide that you use therein.
                 Also the entity that collects information from you.
             </span>
 
             <span>
-                "The User", "You", "Your" - The entity from whom we are collecting and or processing information.
+                1.2 "The User", "You", "Your" - The entity from whom we are collecting and or processing information.
             </span>
 
             <h2 style={{ margin: 0 }}>
@@ -41,11 +41,11 @@ function PrivacyPolicy() {
             </h2>
 
             <h3 style={{ margin: 0 }}>
-                General
+                2. General
             </h3>
 
             <span>
-                IP Addresses are collected to establish a connection between
+                2.1 IP Addresses are collected to establish a connection between
                 the User and the Website. In order to uphold security practices, we may
                 also collect the following information from you when you visit the Website:
 
@@ -55,7 +55,7 @@ function PrivacyPolicy() {
                     <li>Website usage data</li>
                 </ul>
 
-                For more information on what data we collect in this regard,
+                2.2 For more information on what data we collect in this regard,
                 you can refer to the{" "}
 
                 <a href="https://www.cloudflare.com/en-gb/privacypolicy/">
@@ -68,7 +68,7 @@ function PrivacyPolicy() {
             </span>
 
             <span>
-                We use local storage to save information across different sessions, including:
+                2.3 We use local storage to save information across different sessions, including:
 
                 <ul>
                     <li>
@@ -84,11 +84,11 @@ function PrivacyPolicy() {
             </span>
 
             <h3 style={{ margin: 0 }}>
-                Game Analysis
+                3. Game Analysis
             </h3>
 
             <span>
-                We use cookies to store a session token string. This keeps you from
+                3.1 We use cookies to store a session token string. This keeps you from
                 needing to solve a CAPTCHA to access Chess game analysis and move
                 classifications, but doesn't contain any personally identifying information.
                 It is highly recommended to keep cookies on; you may otherwise lose
@@ -97,7 +97,7 @@ function PrivacyPolicy() {
             </span>
 
             <span>
-                When you analyse a game on the Website, we collect any information that you
+                3.2 When you analyse a game on the Website, we collect any information that you
                 have explicitly provided to us. This includes the PGN (Portable Game Notation)
                 file that represents the game that you have chosen to analyse. Depending on the
                 PGN file provided, this may include:
@@ -108,14 +108,14 @@ function PrivacyPolicy() {
                     <li>Time control, variant, results and other game metadata</li>
                 </ul>
 
-                We collect PGN files in order to process your analysis request.
+                3.3 We collect PGN files in order to process your analysis request.
                 We may sometimes retain PGN files provided for game analysis for longer periods
                 of time in order to improve the Website and aid the development of new services.
                 If PGN files are retained for this reason, they will be anonymised.
             </span>
 
             <span>
-                When you search for games on your Chess.com or Lichess account, the username
+                3.4 When you search for games on your Chess.com or Lichess account, the username
                 that you provided will be collected by those respective services. Chess.com
                 and Lichess are based in the United States and France respectively, so by
                 searching for games on your account, you agree to having your data processed
@@ -131,7 +131,7 @@ function PrivacyPolicy() {
             </a>
 
             <span>
-                We use local storage to save particular analysis related information across
+                3.5 We use local storage to save particular analysis related information across
                 different sessions. This includes:
 
                 <ul>
@@ -149,11 +149,11 @@ function PrivacyPolicy() {
             </span>
 
             <h3 style={{ margin: 0 }}>
-                Game Archive
+                4. Game Archive
             </h3>
 
             <span>
-                If you have an account on the Website, you can save Chess games that you
+                4.1 If you have an account on the Website, you can save Chess games that you
                 analyse to the{" "}
 
                 <a href="/archive">Game Archive</a>
@@ -165,8 +165,9 @@ function PrivacyPolicy() {
                 <ul>
                     <li>
                         The PGN (Portable Game Notation) file that represents the game,
-                        including any metadata therein as defined by the{" "}
-                        <b>Game Analysis</b> section
+                        including any metadata therein as defined by{" "}
+
+                        <b>Section 3.2</b>
                     </li>
 
                     <li>Evaluations and moves provided by a Chess engine</li>
@@ -178,7 +179,7 @@ function PrivacyPolicy() {
             </span>
 
             <h3 style={{ margin: 0 }}>
-                Accounts
+                5. Accounts
             </h3>
 
             <span>
@@ -203,11 +204,11 @@ function PrivacyPolicy() {
             </span>
 
             <h2 style={{ margin: 0 }}>
-                Data we provide to third parties
+                6. Data we provide to third parties
             </h2>
 
             <span>
-                We use Google AdSense on the Website to serve advertisements. Google LLC,
+                6.1 We use Google AdSense on the Website to serve advertisements. Google LLC,
                 as a third-party vendor, uses cookies to serve personalised advertising.
                 You are prompted to provide explicit consent to this information being
                 collected when you first visit the Website, or when you click
@@ -216,9 +217,12 @@ function PrivacyPolicy() {
                     Privacy Settings
                 </a>
 
-                {" "}which is always located in the footer of the page. Through the same
-                prompt, you also have the right to withdraw your consent to this collection
-                at any time. You may also read the{" "}
+                {" "}which is always located in the footer of the page.
+            </span>
+                
+            <span>
+                6.2 Through the same prompt, you also have the right to withdraw your consent to
+                this collection at any time. You may also read the{" "}
 
                 <a href="https://policies.google.com/privacy">
                     Google LLC Privacy Policy
@@ -229,7 +233,7 @@ function PrivacyPolicy() {
             </span>
 
             <h2 style={{ margin: 0 }}>
-                Children's Privacy
+                7. Children's Privacy
             </h2>
 
             <span>
@@ -238,7 +242,7 @@ function PrivacyPolicy() {
             </span>
 
             <h2 style={{ margin: 0 }}>
-                Your Data Rights
+                8. Your Data Rights
             </h2>
 
             <span>
@@ -264,7 +268,7 @@ function PrivacyPolicy() {
             </ul>
 
             <h2 style={{ margin: 0 }}>
-                Revisions
+                9. Revisions
             </h2>
 
             <span>
@@ -272,11 +276,11 @@ function PrivacyPolicy() {
             </span>
 
             <span>
-                Last revision to this privacy policy: 30th July 2025
+                Last revision to this privacy policy: 31st July 2025
             </span>
 
             <h2 style={{ margin: 0 }}>
-                Contact Us
+                10. Contact Us
             </h2>
 
             <span>
@@ -285,7 +289,7 @@ function PrivacyPolicy() {
             </span>
 
             <b>
-                contact@wintrchess.com
+                {process.env.EMAIL_ACCOUNT}
             </b>
         </div>
     </div>;
