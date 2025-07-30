@@ -195,7 +195,7 @@ function PrivacyPolicy() {
                     <li>The username you provide</li>
                     <li>Your display name, if you sign in with Google</li>
                     <li>Your profile picture, if you sign in with Google</li>
-                    <li>Your password in hashed form</li>
+                    <li>Your password in hashed form, if you sign up with credentials</li>
                 </ul>
 
                 This information is retained for the duration that you keep your account open on
