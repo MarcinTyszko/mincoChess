@@ -209,14 +209,16 @@ function PrivacyPolicy() {
             <span>
                 We use Google AdSense on the Website to serve advertisements. Google LLC,
                 as a third-party vendor, uses cookies to serve personalised advertising.
-                If you would like to manage your consent to data collection in connection
-                to these services, click{" "}
+                You are prompted to provide explicit consent to this information being
+                collected when you first visit the Website, or when you click
 
                 <a className={styles.link} onClick={manageDataConsent}>
                     Privacy Settings
                 </a>
 
-                {" "}which is always located in the footer of the page. You may also read the{" "}
+                {" "}which is always located in the footer of the page. Through the same
+                prompt, you also have the right to withdraw your consent to this collection
+                at any time. You may also read the{" "}
 
                 <a href="https://policies.google.com/privacy">
                     Google LLC Privacy Policy
