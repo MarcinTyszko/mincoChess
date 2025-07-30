@@ -218,7 +218,20 @@ function Terms() {
             </span>
 
             <h2 style={{ margin: 0 }}>
-                7. Limitation of Liability
+                7. Privacy
+            </h2>
+
+            <span>
+                Our{" "}
+
+                <a href="/privacy">Privacy Policy</a>
+
+                {" "}explains what kind of information we may collect from you while you use the
+                Services, how we use it, and your choices in relation to data collection.
+            </span>
+
+            <h2 style={{ margin: 0 }}>
+                8. Limitation of Liability
             </h2>
 
             <span>
@@ -235,7 +248,7 @@ function Terms() {
             </span>
 
             <h2 style={{ margin: 0 }}>
-                8. Governing Law
+                9. Governing Law
             </h2>
 
             <span>
