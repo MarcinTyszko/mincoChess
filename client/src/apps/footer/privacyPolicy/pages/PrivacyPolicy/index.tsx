@@ -22,9 +22,9 @@ function PrivacyPolicy() {
 
             <Separator/>
 
-            <h3 style={{ margin: 0 }}>
+            <h2 style={{ margin: 0 }}>
                 Glossary
-            </h3>
+            </h2>
 
             <span>
                 "The Service", "The Website", "We", "Our", "Us" - the wintrchess.com website
@@ -33,116 +33,253 @@ function PrivacyPolicy() {
             </span>
 
             <span>
-                "The User" - The entity from whom we are collecting and or processing information.
+                "The User", "You", "Your" - The entity from whom we are collecting and or processing information.
             </span>
 
-            <h3 style={{ margin: 0 }}>
+            <h2 style={{ margin: 0 }}>
                 Data we collect
+            </h2>
+
+            <h3 style={{ margin: 0 }}>
+                General
             </h3>
 
             <span>
                 IP Addresses are collected to establish a connection between
-                the User and the Website, and to uphold security practices. The website is
-                protected by Cloudflare; you can find the data they collect in their{" "}
+                the User and the Website. In order to uphold security practices, we may
+                also collect the following information from you when you visit the Website:
+
+                <ul>
+                    <li>Information about your web browser</li>
+                    <li>Information about your device</li>
+                    <li>Website usage data</li>
+                </ul>
+
+                For more information on what data we collect in this regard,
+                you can refer to the{" "}
 
                 <a href="https://www.cloudflare.com/en-gb/privacypolicy/">
-                    Privacy Policy
+                    Cloudflare, Inc. Privacy Policy
                 </a>
 
-                .
+                , since we use Cloudflare as a security service. Cloudflare is based in the
+                United States, so by using the Website you agree to have your data processed
+                in this country.
             </span>
+
+            <span>
+                We use local storage to save information across different sessions, including:
+
+                <ul>
+                    <li>
+                        The settings you chose on the settings page, excluding account settings,
+                        the information for which is retained on the server.
+                    </li>
+
+                    <li>The preferred language that you selected.</li>
+                </ul>
+
+                This information is used to improve your experience on the Website, and stays
+                on your device.
+            </span>
+
+            <h3 style={{ margin: 0 }}>
+                Game Analysis
+            </h3>
 
             <span>
                 We use cookies to store a session token string. This keeps you from
                 needing to solve a CAPTCHA to access Chess game analysis and move
-                classifications, but doesn't contain any personal information.
+                classifications, but doesn't contain any personally identifying information.
                 It is highly recommended to keep cookies on; you may otherwise lose
-                functionality. The CAPTCHA is proof-of-work based; it does not collect
-                any personal data.
+                functionality. The CAPTCHA is proof-of-work based; it in itself does not
+                collect any personal data.
             </span>
 
             <span>
-                We use Google AdSense on The Website to serve advertisements. Google LLC,
+                When you analyse a game on the Website, we collect any information that you
+                have explicitly provided to us. This includes the PGN (Portable Game Notation)
+                file that represents the game that you have chosen to analyse. Depending on the
+                PGN file provided, this may include:
+
+                <ul>
+                    <li>Player names and ratings</li>
+                    <li>Tournament and event information</li>
+                    <li>Time control, variant, results and other game metadata</li>
+                </ul>
+
+                We collect PGN files in order to process your analysis request.
+                We may sometimes retain PGN files provided for game analysis for longer periods
+                of time in order to improve the Website and aid the development of new services.
+                If PGN files are retained for this reason, they will be anonymised.
+            </span>
+
+            <span>
+                When you search for games on your Chess.com or Lichess account, the username
+                that you provided will be collected by those respective services. Chess.com
+                and Lichess are based in the United States and France respectively, so by
+                searching for games on your account, you agree to having your data processed
+                in these countries.
+            </span>
+
+            <a href="https://www.chess.com/legal/privacy">
+                Chess.com Privacy Policy
+            </a>
+
+            <a href="https://lichess.org/privacy">
+                Lichess.org Privacy Policy
+            </a>
+
+            <span>
+                We use local storage to save particular analysis related information across
+                different sessions. This includes:
+
+                <ul>
+                    <li>
+                        The last game source you selected with the game selector.
+                        This may be PGN, Chess.com etc.
+                    </li>
+
+                    <li>
+                        The last inputs you gave for each game source in the game selector.
+                        For example, this may be your username in the "Select game from Chess.com"
+                        field, or the last PGN you provided to the "Select game from PGN" field.
+                    </li>
+                </ul>
+            </span>
+
+            <h3 style={{ margin: 0 }}>
+                Game Archive
+            </h3>
+
+            <span>
+                If you have an account on the Website, you can save Chess games that you
+                analyse to the{" "}
+
+                <a href="/archive">Game Archive</a>
+
+                . If you do this, we collect information about the Chess game as well as
+                any information about the analysis you have conducted, in order to provide
+                the archive service. This includes:
+
+                <ul>
+                    <li>
+                        The PGN (Portable Game Notation) file that represents the game,
+                        including any metadata therein as defined by the{" "}
+                        <b>Game Analysis</b> section
+                    </li>
+
+                    <li>Evaluations and moves provided by a Chess engine</li>
+                    <li>Move classifications that we have provided during analysis</li>
+                </ul>
+
+                This information is retained until you delete the game from your archive,
+                or delete your account.
+            </span>
+
+            <h3 style={{ margin: 0 }}>
+                Accounts
+            </h3>
+
+            <span>
+                You, while on the Website, have the option to make an account. You do not have
+                to do this, although some services we provide cannot be used without one.
+            </span>
+
+            <span>
+                When you sign up for an account, we collect the information that you explicitly
+                provide to us in order to provide the Website and its services. This includes:
+
+                <ul>
+                    <li>Your Email Address</li>
+                    <li>The username you provide</li>
+                    <li>Your display name, if you sign in with Google</li>
+                    <li>Your profile picture, if you sign in with Google</li>
+                    <li>Your password in hashed form</li>
+                </ul>
+
+                This information is retained for the duration that you keep your account open on
+                the Website.
+            </span>
+
+            <h2 style={{ margin: 0 }}>
+                Data we provide to third parties
+            </h2>
+
+            <span>
+                We use Google AdSense on the Website to serve advertisements. Google LLC,
                 as a third-party vendor, uses cookies to serve personalised advertising.
                 If you would like to manage your consent to data collection in connection
                 to these services, click{" "}
 
                 <a className={styles.link} onClick={manageDataConsent}>
-                    Manage Consent
+                    Privacy Settings
                 </a>
 
-                {" "}which is always located in the footer of the page. You may also read{" "}
+                {" "}which is always located in the footer of the page. You may also read the{" "}
 
                 <a href="https://policies.google.com/privacy">
-                    Google LLC's Privacy Policy.
+                    Google LLC Privacy Policy
                 </a>
+
+                , should you want to read more about what information is collected in regard to
+                serving advertisements on the Website.
             </span>
 
-            <span>
-                Any information included in Chess games you review and PGN files you upload
-                is collected and sometimes retained for the purposes of improving the
-                website and fixing issues therewith. This may include:
-            </span>
-
-            <span>
-                Chess.com usernames and profile images
-                <br/>
-                Lichess.org usernames
-            </span>
-
-            <span>
-                Usernames for Chess services like Chess.com or Lichess will be collected
-                by those services when you search for games on your account. Data is processed
-                by these services in the United States and France respectively, so by using
-                The Service to browse games on your account, you agree to have your username
-                collected and processed in these countries.
-            </span>
-
-            <h3 style={{ margin: 0 }}>
+            <h2 style={{ margin: 0 }}>
                 Children's Privacy
-            </h3>
+            </h2>
 
             <span>
                 We do not knowingly collect personal information from persons under the
                 age of 13. If you think that we have done so, please contact us.
             </span>
 
-            <h3 style={{ margin: 0 }}>
+            <h2 style={{ margin: 0 }}>
                 Your Data Rights
-            </h3>
+            </h2>
 
             <span>
                 In accordance with the GDPR, you have the right to:
             </span>
 
-            <span>
-                Request for a copy of the personal information we hold about you.
-            </span>
+            <ul>
+                <li>
+                    Request for a copy of the personal information we hold about you.
+                </li>
 
-            <span>
-                Request for the personal information we hold about you to be erased.
-                This will delete your account if you have one on the Website.
-            </span>
+                <li>
+                    Request for the personal information we hold about you to be erased.
+                    You can do this by deleting your account through the{" "}
 
-            <span>
-                Be responded to within 30 days, or be given notice in advance if this
-                cannot be met.
-            </span>
+                    <a href="/settings/account">settings page.</a>
+                </li>
 
-            <h3 style={{ margin: 0 }}>
+                <li>
+                    Request for the personal information we hold about you to be rectified,
+                    should you find it inaccurate, incomplete or obsolete.
+                </li>
+            </ul>
+
+            <h2 style={{ margin: 0 }}>
                 Revisions
-            </h3>
+            </h2>
 
             <span>
                 Changes to this privacy policy will be announced on the website page.
             </span>
 
-            <h3 style={{ margin: 0 }}>
+            <span>
+                Last revision to this privacy policy: 30th July 2025
+            </span>
+
+            <h2 style={{ margin: 0 }}>
                 Contact Us
-            </h3>
+            </h2>
 
             <span>
-                If you have questions regarding this policy, you can contact us at:
+                If you have questions regarding this policy, or would like to exercise
+                your data rights, you can contact us at:
             </span>
 
             <b>
