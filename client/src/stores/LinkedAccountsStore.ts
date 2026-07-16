@@ -46,11 +46,14 @@ const useLinkedAccountsStore = create<LinkedAccountsStore>()(
                     const accounts: LinkedAccounts
                         = await accountsResponse.json();
 
-                    set(state => ({
+                    // The signed-in account is the source of truth -
+                    // never keep values another user left in this
+                    // browser's localStorage
+                    set({
                         serverSynced: true,
-                        chessCom: accounts.chessCom || state.chessCom,
-                        lichess: accounts.lichess || state.lichess
-                    }));
+                        chessCom: accounts.chessCom || undefined,
+                        lichess: accounts.lichess || undefined
+                    });
                 } catch {
                     // Signed out or offline; keep local values
                 }

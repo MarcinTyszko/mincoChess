@@ -51,12 +51,6 @@ function createAuth(database: mongo.Db) {
             }),
             revokeSessionsOnPasswordReset: true
         },
-        socialProviders: {
-            google: {
-                clientId: process.env.GOOGLE_OAUTH_CLIENT_ID!,
-                clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!
-            }
-        },
         user: {
             modelName: Collection.USERS,
             additionalFields: additionalUserFields,

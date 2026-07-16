@@ -7,6 +7,8 @@ import Button from "@/components/common/Button";
 import BlurBackground from "@/components/layout/BlurBackground";
 import Sidebar from "@/components/layout/sidebar/Sidebar";
 import authClient from "@/lib/auth";
+import useLinkedAccountsStore from "@/stores/LinkedAccountsStore";
+import useLearningProgressStore from "@/stores/LearningProgressStore";
 
 import HoverDropdown from "./HoverDropdown";
 import * as styles from "./NavigationBar.module.css";
@@ -29,6 +31,12 @@ function NavigationBar() {
 
     async function signOut() {
         await authClient.signOut();
+
+        // Account-scoped data must not leak into the next account
+        // that signs in on this browser
+        useLinkedAccountsStore.persist.clearStorage();
+        useLearningProgressStore.persist.clearStorage();
+
         location.href = "/signin";
     }
 

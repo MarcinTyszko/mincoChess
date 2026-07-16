@@ -16,7 +16,6 @@ import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
-import iconGoogle from "@assets/img/connections/google.png";
 import iconSignin from "@assets/img/interface/sign_in.svg";
 
 function SignUp() {
@@ -36,14 +35,6 @@ function SignUp() {
     const [ registrationPending, setRegistrationPending ] = useState(false);
 
     useAuthErrorReporter(setStatus);
-
-    function googleLogin() {
-        authClient.signIn.social({
-            provider: "google",
-            callbackURL: "/analysis",
-            errorCallbackURL: "/signup"
-        });
-    }
 
     async function register() {
         if (password != confirmedPassword) {
@@ -93,20 +84,6 @@ function SignUp() {
             <span className={styles.title}>
                 {t("signIn.registerTitle", { ns: "otherPages" })}
             </span>
-
-            <Button
-                icon={iconGoogle}
-                iconSize="28px"
-                className={styles.submitButton}
-                style={{ gap: "10px" }}
-                onClick={googleLogin}
-            >
-                {t("signIn.registerButtonGoogle", { ns: "otherPages" })}
-            </Button>
-
-            <Separator style={{ margin: 0 }}>
-                <b>{t("signIn.alternative", { ns: "otherPages" })}</b>
-            </Separator>
 
             <TextField
                 wrapperStyle={{ width: "100%" }}

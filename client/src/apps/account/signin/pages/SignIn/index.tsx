@@ -14,7 +14,6 @@ import authClient from "@/lib/auth";
 
 import * as styles from "../../index.module.css";
 
-import iconGoogle from "@assets/img/connections/google.png";
 import iconSignIn from "@assets/img/interface/sign_in.svg";
 
 function SignIn() {
@@ -30,14 +29,6 @@ function SignIn() {
     const [ status, setStatus ] = useState<StatusMessage>();
 
     useAuthErrorReporter(setStatus);
-
-    async function googleLogin() {
-        authClient.signIn.social({
-            provider: "google",
-            callbackURL: "/analysis",
-            errorCallbackURL: "/signin"
-        });
-    }
 
     async function login() {
         const loginResponse = await authClient.signIn.email({
@@ -56,20 +47,6 @@ function SignIn() {
             <span className={styles.title}>
                 {t("signIn.loginTitle")}
             </span>
-
-            <Button
-                icon={iconGoogle}
-                iconSize="28px"
-                className={styles.submitButton}
-                style={{ gap: "10px" }}
-                onClick={googleLogin}
-            >
-                {t("signIn.loginButtonGoogle")}
-            </Button>
-
-            <Separator style={{ margin: 0 }}>
-                <b>{t("signIn.alternative")}</b>
-            </Separator>
 
             <TextField
                 wrapperStyle={{ width: "100%" }}
