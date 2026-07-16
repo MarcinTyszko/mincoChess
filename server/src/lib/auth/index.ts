@@ -76,7 +76,7 @@ function createAuth(database: mongo.Db) {
             additionalFields: additionalUserFields,
             changeEmail: {
                 enabled: true,
-                sendChangeEmailVerification: async (ctx) => sendAccountEmail({
+                sendChangeEmailConfirmation: async (ctx) => sendAccountEmail({
                     recipient: ctx.newEmail,
                     subject: "Verify your new email address",
                     message: "Please verify your MincoChess account's new"
