@@ -17,6 +17,32 @@
 - **Server-side analysis** — native Stockfish 17.1 running on the server (parallel engine pool)
 - **Linked accounts & profile** — chess.com / lichess ratings, recent games and auto-analysis queue
 
+## 📸 Screenshots
+
+### 🎓 Learning tab
+Browse the opening catalog, drill variations and keep up your daily streak:
+
+<img src="docs/img/learning.png" alt="Opening Learning tab with the opening catalog, favourites and completion progress" width="100%">
+
+### 👤 Profile — linked accounts & recent games
+Link your chess.com / lichess account to see your ratings and recent games, analysed automatically:
+
+<img src="docs/img/profile.png" alt="Profile page with linked chess.com ratings and a list of recently analysed games" width="100%">
+
+### ⚙️ Server-side analysis & auto-analysis
+Run Stockfish on the server instead of your browser, and let your latest games queue up for analysis by themselves:
+
+<table>
+    <tr>
+        <td width="30%" valign="top">
+            <img src="docs/img/server-analysis.png" alt="Analysis settings with the engine location set to the server">
+        </td>
+        <td width="70%" valign="top">
+            <img src="docs/img/account-settings.png" alt="Account settings with linked Chess accounts and auto-analysis options">
+        </td>
+    </tr>
+</table>
+
 ## 📂 Project
 
 The repository is a monorepo made up of three packages:
