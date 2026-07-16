@@ -5,6 +5,7 @@ import React, {
     useRef,
     useState
 } from "react";
+import { createPortal } from "react-dom";
 
 import HoverDropdownProps from "./HoverDropdownProps";
 import * as styles from "./HoverDropdown.module.css";
@@ -84,6 +85,22 @@ function HoverDropdown({
         };
     }
 
+    const menu = open && options.length > 0 && <div
+        className={`${styles.menu} ${menuClassName}`}
+        style={{ ...getMenuPosition(), ...menuStyle }}
+    >
+        {options.map(opt => <a
+            className={styles.item}
+            href={opt.url}
+            onClick={opt.onClick}
+            style={{ cursor: opt.onClick && "pointer" }}
+        >
+            {opt.icon && <img src={opt.icon} />}
+
+            {opt.label}
+        </a>)}
+    </div>;
+
     return <div
         ref={menuRef}
         className={styles.wrapper}
@@ -96,21 +113,13 @@ function HoverDropdown({
     >
         {url ? <a href={url}>{dropdown}</a> : dropdown}
 
-        {open && <div
-            className={`${styles.menu} ${menuClassName}`}
-            style={{ ...getMenuPosition(), ...menuStyle }}
-        >
-            {options.map(opt => <a
-                className={styles.item}
-                href={opt.url}
-                onClick={opt.onClick}
-                style={{ cursor: opt.onClick && "pointer" }}
-            >
-                {opt.icon && <img src={opt.icon} />}
-
-                {opt.label}
-            </a>)}
-        </div>}
+        {/* The navbar's backdrop-filter turns position: fixed into
+        navbar-relative coordinates and overflow-x: auto clips the menu,
+        so render it outside the navbar through a portal instead. */}
+        {menu && (menuPositionStrategy == "absolute"
+            ? menu
+            : createPortal(menu, document.body)
+        )}
     </div>;
 }
 
