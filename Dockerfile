@@ -17,6 +17,12 @@ RUN npm i
 RUN npm run build -w shared
 RUN npm run build -w server
 
+# The client build bakes .env values into the bundle, but .env is part
+# of the build context, so it can happen here rather than at container
+# startup - a production webpack build is far too heavy to run on a
+# live host (it has frozen machines before)
+RUN npm run build -w client
+
 EXPOSE 8080
 
-CMD ["sh", "-c", "npm run build -w client; npm start"]
+CMD ["npm", "start"]

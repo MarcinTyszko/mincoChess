@@ -1,6 +1,7 @@
 const { Configuration } = require("webpack");
 const { resolve } = require("path");
 const DotenvPlugin = require("dotenv-webpack");
+const MinimizerPlugin = require("minimizer-webpack-plugin");
 
 require("dotenv").config({ path: "../.env" });
 
@@ -70,5 +71,10 @@ module.exports = {
             silent: true
         })
     ],
+    optimization: {
+        // The default of one minifier worker per CPU thread can use
+        // more memory than small deployment hosts have
+        minimizer: [new MinimizerPlugin({ parallel: 2 })]
+    },
     mode: nodeEnv
 };
