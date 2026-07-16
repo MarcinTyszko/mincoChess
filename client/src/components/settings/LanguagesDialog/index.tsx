@@ -33,7 +33,7 @@ function LanguagesDialog({ onClose }: LanguagesDialogProps) {
 
         <a
             className={styles.helpLink}
-            href="https://crowdin.com/project/wintrchess"
+            href="https://github.com/marcintyszkocandb-lab/mincoChess"
         >
             {t("footer.languagesDialog.help")}
         </a>

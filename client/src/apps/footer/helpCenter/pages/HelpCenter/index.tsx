@@ -36,9 +36,9 @@ function HelpCenter() {
 
             <a
                 className={styles.importantValue}
-                href="mailto:contact@wintrchess.com"
+                href="mailto:marcintyszko2@gmail.com"
             >
-                <b>contact@wintrchess.com</b>
+                <b>marcintyszko2@gmail.com</b>
             </a>
         </div>
 
