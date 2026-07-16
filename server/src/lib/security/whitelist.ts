@@ -4,6 +4,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// The hostname the app is deployed on is always trusted, wherever
+// that happens to be (e.g. chess.example.com behind Cloudflare)
+const originHostname = (() => {
+    try {
+        return process.env.ORIGIN
+            ? new URL(process.env.ORIGIN).hostname
+            : null;
+    } catch {
+        return null;
+    }
+})();
+
 // Local deployments are accessed via LAN IPs as well as localhost,
 // so development mode also accepts private network addresses
 const whitelistedHostnames = [
@@ -20,9 +32,10 @@ const whitelistedHostnames = [
 ];
 
 const hostnameWhitelist: RequestHandler = (req, res, next) => {
-    const hostWhitelisted = whitelistedHostnames.some(
-        hostnameRegex => hostnameRegex.test(req.hostname)
-    );
+    const hostWhitelisted = req.hostname == originHostname
+        || whitelistedHostnames.some(
+            hostnameRegex => hostnameRegex.test(req.hostname)
+        );
 
     if (!hostWhitelisted) {
         return res.sendStatus(StatusCodes.UNAUTHORIZED);
