@@ -68,11 +68,10 @@ function SignUp() {
 
         setRegistrationPending(true);
 
+        // Signup creates a session right away (no email verification),
+        // so head straight into the app
         const registerResponse = await authClient.signUp.email(registration, {
-            onSuccess: () => setStatus({
-                theme: "success",
-                message: t("account.verificationMessage")
-            })
+            onSuccess: () => location.assign("/analysis")
         });
 
         if (registerResponse.error) {
