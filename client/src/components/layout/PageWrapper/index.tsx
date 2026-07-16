@@ -10,6 +10,7 @@ import Announcement from "@/components/layout/Announcement";
 import NavigationBar from "@/components/layout/NavigationBar";
 import Footer from "@/components/layout/Footer";
 import BugReportingWidget from "@/components/BugReportingWidget";
+import AutoAnalysisRunner from "@/components/AutoAnalysisRunner";
 
 import PageWrapperProps from "./PageWrapperProps";
 import * as styles from "./PageWrapper.module.css";
@@ -61,6 +62,8 @@ function PageWrapper({
             <Footer className={footerClassName} style={footerStyle} />
 
             {bugReportingMode && <BugReportingWidget/>}
+
+            <AutoAnalysisRunner/>
 
             <ToastContainer/>
         </div>

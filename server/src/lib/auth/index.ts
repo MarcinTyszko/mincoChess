@@ -14,6 +14,15 @@ export type AuthInfer = AuthType["$Infer"]["Session"];
 
 let instance: AuthType | null = null;
 
+// Email verification can only work with an outgoing email account
+// configured; without one (e.g. local deployments), accounts must be
+// usable right after signup
+const emailConfigured = !!(
+    process.env.EMAIL_ACCOUNT
+    && process.env.AUTOMATED_EMAIL_ADDRESS
+    && process.env.AUTOMATED_EMAIL_KEY
+);
+
 function createAuth(database: mongo.Db) {
     if (!process.env.ORIGIN) {
         throw new Error("origin not specified.");
@@ -31,16 +40,16 @@ function createAuth(database: mongo.Db) {
             enabled: true,
             minPasswordLength: schemas.password.minLength || 8,
             maxPasswordLength: schemas.password.maxLength || 128,
-            requireEmailVerification: true,
+            requireEmailVerification: emailConfigured,
             sendResetPassword: async ({ user, url }) => sendAccountEmail({
                 recipient: user.email,
-                subject: "Reset your WintrChess password",
-                message: "Please reset your WintrChess account's "
+                subject: "Reset your MincoChess password",
+                message: "Please reset your MincoChess account's "
                     + "password by clicking the button below:",
                 buttonLabel: "Reset Password",
                 buttonUrl: url,
                 plaintextFallback: "Please use the link to reset your"
-                    + ` WintrChess account's password: ${url}`
+                    + ` MincoChess account's password: ${url}`
             }),
             revokeSessionsOnPasswordReset: true
         },
@@ -48,12 +57,12 @@ function createAuth(database: mongo.Db) {
             autoSignInAfterVerification: true,
             sendVerificationEmail: async ({ user, url }) => sendAccountEmail({
                 recipient: user.email,
-                subject: "Verify your WintrChess account",
-                message: "Thank you for creating an account on WintrChess! "
+                subject: "Verify your MincoChess account",
+                message: "Thank you for creating an account on MincoChess! "
                     + "Please verify your account by clicking the button below:",
                 buttonLabel: "Verify Account",
                 buttonUrl: url,
-                plaintextFallback: `Please verify your WintrChess account: ${url}`
+                plaintextFallback: `Please verify your MincoChess account: ${url}`
             })
         },
         socialProviders: {
@@ -70,11 +79,11 @@ function createAuth(database: mongo.Db) {
                 sendChangeEmailVerification: async (ctx) => sendAccountEmail({
                     recipient: ctx.newEmail,
                     subject: "Verify your new email address",
-                    message: "Please verify your WintrChess account's new"
+                    message: "Please verify your MincoChess account's new"
                         + " email address by clicking the button below:",
                     buttonLabel: "Verify Email Address",
                     buttonUrl: ctx.url,
-                    plaintextFallback: "Please verify your WintrChess account's"
+                    plaintextFallback: "Please verify your MincoChess account's"
                         + ` new email address: ${ctx.url}`
                 })
             },

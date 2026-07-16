@@ -146,3 +146,29 @@ export function getSubjectiveEvaluation(
         )
     };
 }
+/**
+ * @description Human-readable time control from a raw clock string:
+ * "600" -> "10 min", "180+2" -> "3+2", "1/86400" -> "1 day".
+ */
+export function formatClock(clock?: string) {
+    if (!clock) return undefined;
+
+    // Daily/correspondence formats like "1/86400"
+    const dailyMatch = clock.match(/^1\/(\d+)$/);
+
+    if (dailyMatch) {
+        const days = Math.round(Number(dailyMatch[1]) / 86400);
+        return `${Math.max(days, 1)}d`;
+    }
+
+    const [base, increment] = clock.split("+").map(Number);
+    if (isNaN(base)) return clock;
+
+    const baseMinutes = base >= 60
+        ? Math.round(base / 60)
+        : Number((base / 60).toFixed(1));
+
+    if (increment) return `${baseMinutes}+${increment}`;
+
+    return `${baseMinutes} min`;
+}

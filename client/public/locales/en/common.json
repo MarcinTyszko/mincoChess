@@ -25,14 +25,16 @@
     "sidebar": {
         "analysis": "Analysis",
         "archive": "Archive",
-        "news": "News"
+        "news": "News",
+        "learning": "Learning",
+        "profile": "Profile"
     },
     "footer": {
         "privacySettings": "Privacy Settings",
         "language": "Language",
         "languagesDialog": {
             "select": "Select a language",
-            "help": "Help us translate WintrChess"
+            "help": "Help us translate MincoChess"
         },
         "termsOfService": "Terms of Service",
         "privacyPolicy": "Privacy Policy",
@@ -62,7 +64,8 @@
                 "lose": "Lost",
                 "unknown": "Unknown"
             }
-        }
+        },
+        "accuracy": "Accuracy (White / Black)"
     },
     "account": {
         "fields": {
@@ -100,5 +103,9 @@
     "bugReportWidget": {
         "tooltip": "Copy Console Logs",
         "toast": "Copied Console Logs!"
+    },
+    "autoAnalysis": {
+        "startedToast": "Analysing your {{count}} recent game(s) in the background...",
+        "finishedToast": "Analysed {{count}} of your recent game(s)! They are now in your archive."
     }
 }

@@ -2,10 +2,11 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px 60px;
-    padding: 15px;
+    padding: 20px 15px;
     box-sizing: border-box;
     width: 100%;
 
+    border-top: 1px solid var(--ui-border);
     background-color: var(--ui-shade-2);
     color: white;
 }
@@ -13,9 +14,16 @@
 .section {
     display: flex;
     flex-direction: column;
+    gap: 3px;
 }
 
 .section a {
+    color: #b8bcc6;
+
+    transition: color 0.15s ease;
+}
+
+.section a:hover {
     color: white;
 }
 
@@ -35,7 +43,12 @@
 }
 
 .copyrightNotice {
+    color: #9aa0ac;
     font-size: 0.85rem;
+}
+
+.copyrightNotice a {
+    color: #b8bcc6;
 }
 
 .link {

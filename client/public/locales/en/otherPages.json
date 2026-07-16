@@ -5,11 +5,15 @@
         "selectAll": "Select all",
         "deleteSelected": "Delete selected",
         "deleteConfirm": "Are you sure you want to delete {{amount}} game(s)? This action is irreversible.",
-        "error": "An unknown error occurred while trying to load your game archive."
+        "error": "An unknown error occurred while trying to load your game archive.",
+        "unnamedGame": "Unnamed game",
+        "likeTooltip": "Like this game",
+        "renameTooltip": "Rename this game",
+        "renamePrompt": "Enter a name for this game:"
     },
     "news": {
         "title": "Newspaper",
-        "titleDescription": "Get the latest updates on the WintrChess platform",
+        "titleDescription": "Get the latest updates on the MincoChess platform",
         "error": "There was an error while loading the newspaper.",
         "article": {
             "unfound": "We couldn't find this article.",
@@ -32,5 +36,26 @@
     },
     "resetPassword": {
         "message": "Enter and confirm a new password for your account."
+    },
+    "externalAccounts": {
+        "title": "Chess accounts",
+        "gamesPlayed": "{{count}} games played"
+    },
+    "profileRecentGames": {
+        "title": "Recent games",
+        "fetchError": "Could not load your recent games.",
+        "noGames": "No recent games found.",
+        "columns": {
+            "players": "Players",
+            "result": "Result",
+            "accuracy": "Accuracy",
+            "moves": "Moves",
+            "date": "Date"
+        },
+        "status": {
+            "analysed": "Analysed",
+            "analysing": "Analysing {{percent}}%",
+            "queued": "Queued"
+        }
     }
 }

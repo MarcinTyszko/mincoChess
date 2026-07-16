@@ -19,6 +19,14 @@ router.use(path,
     express.json({ limit: "1mb" })
 );
 
+function parseRating(rating: unknown) {
+    const parsed = Number(rating);
+
+    if (!Number.isFinite(parsed) || parsed <= 0) return undefined;
+
+    return parsed;
+}
+
 router.post(path, async (req, res) => {
     const serializedStateTree: SerializedStateTreeNode = req.body;
 
@@ -31,7 +39,11 @@ router.post(path, async (req, res) => {
         const gameAnalysis = getGameAnalysis(stateTree, {
             includeBrilliant: req.query.brilliant == "true",
             includeCritical: req.query.critical == "true",
-            includeTheory: req.query.theory == "true"
+            includeTheory: req.query.theory == "true",
+            declaredRatings: {
+                white: parseRating(req.query.whiteRating),
+                black: parseRating(req.query.blackRating)
+            }
         });
 
         res.json({

@@ -1,0 +1,49 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+
+    border-radius: 10px;
+    background-color: var(--ui-shade-4);
+
+    border: 1px solid var(--ui-border);
+}
+
+.title {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.statsRow {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 14px;
+    flex: 1 1 100px;
+
+    border-radius: 8px;
+    background-color: var(--ui-shade-3, #2b2b2b);
+}
+
+.statValue {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.statLabel {
+    color: #999999;
+    font-size: 0.8rem;
+}
+
+.learningLink {
+    color: #8ab4f8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}

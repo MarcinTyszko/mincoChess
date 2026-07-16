@@ -10,6 +10,8 @@ enum Collection {
 
     // Users
     ARCHIVED_GAMES = "archivedGames",
+    LEARNING_PROGRESS = "learningProgress",
+    LINKED_ACCOUNTS = "linkedAccounts",
 
     // Global
     NEWS_ARTICLES = "news",

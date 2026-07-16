@@ -235,7 +235,7 @@ function PrivacyPolicy() {
                 use the Website, including pages visited, time spent, and interactions. 
                 This includes IP addresses, browser and device information, and 
                 approximate location. Cookies are also used for this and for purposes
-                of security. We use this data to understand how WintrChess is used,
+                of security. We use this data to understand how MincoChess is used,
                 improve user experience, and analyse traffic patterns. Analytics
                 data is processed by Google LLC; they may use this data in accordance
                 with their own privacy policy. You can always opt out of this if you

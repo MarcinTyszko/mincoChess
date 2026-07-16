@@ -13,7 +13,7 @@ module.exports = {
     entry: {
         analysis: "./src/apps/features/analysis/index.tsx",
         archive: "./src/apps/features/archive/index.tsx",
-        news: "./src/apps/features/news/index.tsx",
+        learning: "./src/apps/features/learning/index.tsx",
 
         signin: "./src/apps/account/signin/index.tsx",
         resetPassword: "./src/apps/account/resetPassword/index.tsx",
@@ -35,6 +35,7 @@ module.exports = {
         alias: {
             "@": resolve("./src"),
             "@analysis": resolve("./src/apps/features/analysis"),
+            "@learning": resolve("./src/apps/features/learning"),
             "@assets": resolve("./public")
         }
     },

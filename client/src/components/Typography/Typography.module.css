@@ -13,3 +13,12 @@
     font-size: 2rem;
     letter-spacing: -2px;
 }
+
+.titleAccent {
+    letter-spacing: 0;
+
+    background: linear-gradient(120deg, #4aa8ff, #8b7bff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

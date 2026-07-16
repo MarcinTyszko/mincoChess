@@ -12,6 +12,6 @@ router.get("/archive",
     appRouter("features/archive.html")
 );
 
-router.get("/news*", appRouter("features/news.html"));
+router.get("/learning*", appRouter("features/learning.html"));
 
 export default router;

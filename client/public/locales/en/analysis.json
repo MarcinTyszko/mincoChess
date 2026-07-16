@@ -10,7 +10,14 @@
     "settings": {
         "title": "Analysis Settings",
         "engine": {
+            "location": {
+                "title": "Analysis Location",
+                "browser": "In your browser",
+                "server": "On the server",
+                "serverNote": "Server analysis requires you to be signed in. Your browser will not be doing the heavy work."
+            },
             "descriptions": {
+                "location": "Where the engine runs. In your browser (default) or on the MincoChess server, which is not limited by your device's performance.",
                 "version": "The Chess engine that will be analysing your moves.",
                 "depth": "The number of moves that the engine looks ahead when analysing moves.",
                 "lines": "The number of variations that the engine will consider. Must be at least 2 for some classifications.",
@@ -113,7 +120,8 @@
         "analysis": "Analysis"
     },
     "accuraciesCard": {
-        "title": "Accuracies"
+        "title": "Accuracies",
+        "estimatedRating": "Est. {{rating}} Elo"
     },
     "classifiedMoveCard": {
         "unknownError": "A classification could not be loaded.",
@@ -145,5 +153,36 @@
         "forced": "Forced",
         "theory": "Theory",
         "risky": "Risky"
+    },
+    "openingLesson": {
+        "title": "Opening Lesson",
+        "white": "White",
+        "black": "Black",
+        "deviationText": "Here, {{player}} left the theory of <opening>{{opening}}</opening> by playing <played>{{played}}</played>. The correct move was <move>{{move}}</move>. Click here to view the position.",
+        "practiceButton": "Click here to practise this variation",
+        "startedToast": "Lesson started! Play {{move}} on the board.",
+        "correctMoveToast": "Correct!",
+        "wrongMoveToast": "That's not the book move — try again. The correct move is {{move}}.",
+        "completedToast": "Great job! You have completed a line of the {{opening}}.",
+        "progress": "Your move {{current}}/{{total}} — play the book move on the board",
+        "completed": "Variation completed. Well done!",
+        "stopButton": "Stop practising",
+        "closeButton": "Finish",
+        "favouriteTooltip": "Add this opening to favourites",
+        "learningLink": "Learn the {{opening}} in the Learning tab"
+    },
+    "recentGames": {
+        "title": "Recent games",
+        "linkButton": "Link accounts",
+        "editButton": "Edit",
+        "linkHint": "Link your Chess.com or Lichess account to see your latest games here, ready to analyse with one click.",
+        "saveButton": "Save",
+        "cancelButton": "Cancel",
+        "fetchError": "Could not load recent games; check the username.",
+        "noGames": "No recent games found for this account."
+    },
+    "serverAnalysis": {
+        "signInRequired": "Server analysis requires you to be signed in to your MincoChess account.",
+        "failed": "Server analysis failed; try again or switch back to browser analysis in the settings."
     }
 }

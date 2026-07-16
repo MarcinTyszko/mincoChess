@@ -9,12 +9,18 @@
         "tooltips": {
             "support": "Wspomóż nas ❤️",
             "help": "Centrum pomocy"
+        },
+        "profileMenu": {
+            "profile": "Profil",
+            "signOut": "Wyloguj się"
         }
     },
     "sidebar": {
         "analysis": "Analiza",
         "archive": "Archiwum",
-        "news": "Aktualności"
+        "news": "Aktualności",
+        "learning": "Nauka",
+        "profile": "Profil"
     },
     "gameListing": {
         "gameResults": {
@@ -30,10 +36,15 @@
                 "lose": "Porażka",
                 "unknown": "Nieznane"
             }
-        }
+        },
+        "accuracy": "Dokładność (Białe / Czarne)"
     },
     "bugReportWidget": {
         "tooltip": "Kopiuj dzienniki konsoli",
         "toast": "Skopiowano dzienniki konsoli!"
+    },
+    "autoAnalysis": {
+        "startedToast": "Analizuję w tle Twoje ostatnie partie ({{count}})...",
+        "finishedToast": "Przeanalizowano Twoje ostatnie partie ({{count}})! Znajdziesz je w archiwum."
     }
 }

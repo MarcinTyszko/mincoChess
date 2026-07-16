@@ -19,6 +19,11 @@ export const gameSchema = z.object({
         pos => validateFen(pos).ok
     ),
     timeControl: z.enum(TimeControl).optional(),
+    clock: z.string().max(30).optional(),
+    accuracies: z.object({
+        white: z.number().optional(),
+        black: z.number().optional()
+    }).optional(),
     variant: z.enum(Variant),
     players: z.object({
         white: gamePlayerProfileSchema,

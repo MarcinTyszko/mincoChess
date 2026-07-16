@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "react-tooltip";
 
 import { useAuthedProfile } from "@/hooks/api/useProfile";
 import Typography from "@/components/Typography";
@@ -15,8 +14,7 @@ import * as styles from "./NavigationBar.module.css";
 import iconInterfaceMenu from "@assets/img/interface/menu.svg";
 import iconIconsAnalysis from "@assets/img/icons/analysis.png";
 import iconIconsArchive from "@assets/img/icons/archive.png";
-import iconIconsNews from "@assets/img/icons/news.png";
-import iconKofi from "@assets/img/kofi.svg";
+import iconIconsLearning from "@assets/img/icons/learning.svg";
 import iconInterfaceSettings from "@assets/img/interface/settings.svg";
 import iconInterfaceSignin from "@assets/img/interface/sign_in.svg";
 import iconInterfaceAccount from "@assets/img/interface/account.svg";
@@ -66,29 +64,22 @@ function NavigationBar() {
                 </HoverDropdown>
 
                 <HoverDropdown
-                    icon={iconIconsNews}
-                    url="/news"
+                    icon={iconIconsLearning}
+                    url="/learning"
                 >
-                    {t("sidebar.news")}
+                    {t("sidebar.learning")}
                 </HoverDropdown>
+
+                {status == "success" && <HoverDropdown
+                    icon={iconInterfaceAccount}
+                    url={`/profile/${profile.username}`}
+                >
+                    {t("sidebar.profile")}
+                </HoverDropdown>}
             </div>
         </div>
 
         <div className={styles.section}>
-            <a href="https://ko-fi.com/wintrcat" target="_blank">
-                <Button
-                    className={styles.support}
-                    icon={iconKofi}
-                    tooltipId="navigation-bar-support"
-                />
-            </a>
-
-            <Tooltip
-                id="navigation-bar-support"
-                content={t("navigationBar.tooltips.support")}
-                delayShow={500}
-            />
-
             {status == "pending" && <span>
                 {t("loading")}
             </span>}
@@ -98,11 +89,11 @@ function NavigationBar() {
                 menuPosition="right"
                 openStrategy="click"
                 options={[
-                    // {
-                    //     icon: iconInterfaceAccount,
-                    //     label: t("navigationBar.profileMenu.profile"),
-                    //     url: `/profile/${profile.username}`
-                    // },
+                    {
+                        icon: iconInterfaceAccount,
+                        label: t("navigationBar.profileMenu.profile"),
+                        url: `/profile/${profile.username}`
+                    },
                     {
                         icon: iconInterfaceSettings,
                         label: t("settings"),

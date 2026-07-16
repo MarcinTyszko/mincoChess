@@ -6,6 +6,7 @@ import { truncate, uniqueId } from "lodash-es";
 import { GameResult, getOpinionatedGameResult } from "shared/constants/game/GameResult";
 import TimeControl from "shared/constants/game/TimeControl";
 import { formatDate } from "shared/lib/utils/date";
+import { formatClock } from "shared/lib/utils/chess";
 import GameListingMetadata from "./GameListingMetadata";
 import Button from "@/components/common/Button";
 import displayToast from "@/lib/toast";
@@ -112,12 +113,26 @@ function GameListing<T extends GameListingMetadata>({
             onClick={event => event.stopPropagation()}
         />}
         
-        {game.timeControl && <div style={{ width: "30px" }}>
+        {game.timeControl && <div style={{
+            width: "52px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "2px"
+        }}>
             <img
                 className={styles.timeControlIcon}
                 src={timeControlIcons[game.timeControl]}
                 title={game.timeControl}
             />
+
+            {game.clock && <span style={{
+                fontSize: "0.7rem",
+                color: "grey",
+                whiteSpace: "nowrap"
+            }}>
+                {formatClock(game.clock)}
+            </span>}
         </div>}
 
         <div style={{ width: "250px" }}>
@@ -148,6 +163,27 @@ function GameListing<T extends GameListingMetadata>({
                 </div>)
             }
         </div>
+
+        {game.accuracies && <div style={{
+            width: "60px",
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "0.8rem"
+        }}>
+            <span title={t("gameListing.accuracy")}>
+                {game.accuracies.white != undefined
+                    ? `${Number(game.accuracies.white).toFixed(1)}%`
+                    : "–"
+                }
+            </span>
+
+            <span style={{ color: "grey" }}>
+                {game.accuracies.black != undefined
+                    ? `${Number(game.accuracies.black).toFixed(1)}%`
+                    : "–"
+                }
+            </span>
+        </div>}
 
         <div style={{ width: "110px" }}>
             <span title={game.date?.toLocaleString()}>

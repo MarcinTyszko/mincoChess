@@ -64,3 +64,46 @@
 
     overflow-x: auto;
 }
+.gameCard {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gameCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 5px;
+}
+
+.gameName {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.gameOpening {
+    color: #999999;
+    font-size: 0.8rem;
+}
+
+.gameCardButtons {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.likeButton,
+.renameButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.likeButton:hover,
+.renameButton:hover {
+    opacity: 1;
+}

@@ -91,6 +91,16 @@ async function getLichessGames(
                 timeControlCodes[game.speed]
                 || TimeControl.CORRESPONDENCE
             ),
+            clock: game.clock
+                ? `${game.clock.initial}+${game.clock.increment}`
+                : undefined,
+            accuracies: (
+                game.players.white.analysis?.accuracy != undefined
+                || game.players.black.analysis?.accuracy != undefined
+            ) ? {
+                    white: game.players.white.analysis?.accuracy,
+                    black: game.players.black.analysis?.accuracy
+                } : undefined,
             variant: variantCodes[game.variant] || Variant.STANDARD,
             players: {
                 white: {

@@ -33,6 +33,17 @@ function EngineOptionsArea() {
 
     const { settings, setSettings } = useSettingsStore();
 
+    const engineLocationOptions = useMemo(() => [
+        {
+            label: t("settings.engine.location.browser"),
+            value: "browser" as const
+        },
+        {
+            label: t("settings.engine.location.server"),
+            value: "server" as const
+        }
+    ], [i18n.language]);
+
     const engineArrowsOptions = useMemo(() => [
         {
             label: t("disabled", { ns: "common" }),
@@ -66,6 +77,41 @@ function EngineOptionsArea() {
                 )}
             />
         </span>
+
+        <div className={styles.setting}>
+            <span data-tooltip-id="settings-engine-location">
+                {t("settings.engine.location.title")}
+            </span>
+
+            <Tooltip
+                id="settings-engine-location"
+                content={t("settings.engine.descriptions.location")}
+                delayShow={500}
+                className={styles.settingDescription}
+            />
+
+            <DropdownSetting
+                options={engineLocationOptions}
+                defaultValue={engineLocationOptions.find(
+                    option => option.value == settings.analysis.engine.location
+                )}
+                onSelect={option => {
+                    if (!option) return;
+
+                    setSettings(draft => {
+                        draft.analysis.engine.location = option.value;
+                        return draft;
+                    });
+                }}
+                dropdownStyle={{ width: "180px" }}
+            />
+        </div>
+
+        {settings.analysis.engine.location == "server"
+            && <LogMessage theme="warn">
+                {t("settings.engine.location.serverNote")}
+            </LogMessage>
+        }
 
         <div className={styles.setting}>
             <span data-tooltip-id="settings-engine-version">

@@ -1,0 +1,83 @@
+{
+    "catalog": {
+        "title": "Opening Learning",
+        "subtitle": "Learn Chess openings interactively: study the theory, drill variations and track your progress.",
+        "searchPlaceholder": "Search openings...",
+        "favouritesSection": "Favourites",
+        "allSection": "All openings",
+        "noResults": "No openings match your search.",
+        "favouriteTooltip": "Add to favourites",
+        "variationsProgress": "{{completed}}/{{total}} variations completed"
+    },
+    "family": {
+        "notFound": "We couldn't find this opening.",
+        "backToCatalog": "Back to all openings",
+        "defaultDescription": "An opening starting with the moves {{moves}}. Our database contains {{count}} variations of it that you can study and practise.",
+        "playAs": "Play as:",
+        "white": "White",
+        "black": "Black",
+        "randomChallenge": "Random challenge",
+        "mainLine": "Main line",
+        "variations": "Variations ({{count}})",
+        "learnButton": "Learn",
+        "challengeButton": "Challenge"
+    },
+    "lesson": {
+        "mode": {
+            "learn": "Lesson",
+            "challenge": "Challenge"
+        },
+        "progress": "Your moves: {{current}}/{{total}}",
+        "wrongMove": "❌ Wrong move — try again!",
+        "hintPiece": "Hint: the piece you should move is highlighted.",
+        "hintSolution": "Solution: play {{move}}.",
+        "correctMove": "✓ Correct!",
+        "yourMove": "Play the book move on the board.",
+        "hintButton": "Hint",
+        "solutionButton": "Show solution",
+        "stopButton": "Stop",
+        "completed": "Well done! You reached the end of the theory of this variation.",
+        "nextChallenge": "Next challenge",
+        "closeButton": "Close"
+    },
+    "stats": {
+        "title": "Opening learning",
+        "currentStreak": "{{count}} day streak",
+        "longestStreak": "Longest streak: {{count}} days",
+        "currentStreakLabel": "Current streak",
+        "longestStreakLabel": "Longest streak",
+        "completedLabel": "Variations completed",
+        "favouritesLabel": "Favourite openings",
+        "goToLearning": "Go to Learning"
+    },
+    "descriptions": {
+        "Sicilian Defense": "The most popular reply to 1.e4. Black fights for the centre asymmetrically with 1...c5, leading to rich, double-edged positions.",
+        "Ruy Lopez": "One of the oldest and most respected openings. White develops quickly and puts long-term pressure on Black's e5-pawn via the knight on c6.",
+        "French Defense": "A solid, strategic defence. Black builds the pawn chain e6-d5 and counterattacks the white centre, accepting a temporarily passive light-squared bishop.",
+        "Queen's Gambit Declined": "A classical, extremely solid answer to the Queen's Gambit. Black keeps the centre with e6 and d5 and develops harmoniously.",
+        "Italian Game": "A natural developing scheme with 3.Bc4 aiming at f7. Leads to both quiet manoeuvring games and sharp gambit play.",
+        "English Opening": "A flexible flank opening with 1.c4. White controls d5 and often transposes into many other systems.",
+        "King's Gambit Accepted": "A romantic gambit: White sacrifices the f-pawn for rapid development and attacking chances against the black king.",
+        "King's Indian Defense": "A hypermodern counterattacking system. Black allows a big white centre, then strikes back with e5 or c5 and a kingside attack.",
+        "Caro-Kann Defense": "A rock-solid reply to 1.e4. Black supports d5 with 1...c6, gets a healthy pawn structure and few weaknesses.",
+        "Nimzo-Indian Defense": "One of the best openings against 1.d4: with Bb4 Black pins the knight, fights for e4 and often damages White's pawn structure.",
+        "Queen's Pawn Game": "A broad family of systems after 1.d4 d5 without an early c4, including many quiet, positional setups.",
+        "Dutch Defense": "An ambitious defence to 1.d4. With 1...f5 Black immediately fights for e4 and aims for kingside activity.",
+        "Semi-Slav Defense": "A hybrid of the Slav and the QGD. Extremely rich in theory, with famous razor-sharp lines like the Botvinnik Variation.",
+        "Benoni Defense": "A dynamic counterattacking defence with ...c5 against 1.d4, giving Black active piece play in return for a spatial disadvantage.",
+        "Grünfeld Defense": "A hypermodern defence: Black lets White build a broad pawn centre and then attacks it with pieces and the g7-bishop.",
+        "Queen's Gambit Accepted": "Black takes the c4-pawn and gives up the centre temporarily in exchange for free development and counterplay against d4.",
+        "Alekhine Defense": "A provocative defence: the knight tempts White's pawns forward so Black can attack the overextended centre later.",
+        "King's Gambit Declined": "Black refuses the gambit pawn and calmly develops, keeping a solid position against White's aggressive f4 push.",
+        "Queen's Indian Defense": "A flexible, solid system with ...b6: Black controls the e4-square with the bishop from b7.",
+        "Scotch Game": "White opens the centre immediately with 4.d4, obtaining free piece play and clear-cut plans.",
+        "Slav Defense": "A very solid defence to the Queen's Gambit: Black defends d5 with ...c6 and keeps the light-squared bishop active.",
+        "Petrov's Defense": "A symmetrical, solid defence to 1.e4: instead of defending e5, Black counterattacks e4 at once.",
+        "Four Knights Game": "A classical, safe opening in which both sides develop their knights before deciding on a plan.",
+        "Zukertort Opening": "A flexible start with 1.Nf3 which avoids early commitments and can transpose into many different openings.",
+        "Vienna Game": "A flexible relative of the King's Gambit: White develops the queenside knight first, keeping the f4 push in reserve.",
+        "Scandinavian Defense": "Black challenges the centre immediately with 1...d5, simplifying the structure at the cost of early queen moves.",
+        "Pirc Defense": "A hypermodern defence: Black develops modestly with g6 and Bg7, inviting White to overextend in the centre.",
+        "London System": "A popular, easy-to-learn system for White: Bf4, e3 and a solid pawn triangle, playable against almost anything."
+    }
+}

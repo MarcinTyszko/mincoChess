@@ -107,7 +107,7 @@ function News() {
                 <SocialLink
                     icon={iconChessCom}
                     iconSize="23px"
-                    title="WintrChess Club"
+                    title="MincoChess Club"
                     url="https://www.chess.com/club/wintrchess/join"
                 />
             </div>

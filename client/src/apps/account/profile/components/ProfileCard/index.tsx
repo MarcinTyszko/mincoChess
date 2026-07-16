@@ -19,30 +19,24 @@ function ProfileCard({
             ...style
         }}
     >
-        {profile && <>
-            <div className={styles.avatar}>
-                AVATAR
-            </div>
+        {profile && <div className={styles.details}>
+            <span className={styles.displayName}>
+                {profile.displayName}
 
-            <div className={styles.details}>
-                <span className={styles.displayName}>
-                    {profile.displayName}
+                {profile.roles.map(role => <span key={role}>
+                    {role}
+                </span>)}
+            </span>
 
-                    {profile.roles.map(role => <span key={role}>
-                        {role}
-                    </span>)}
-                </span>
+            <span className={styles.username}>
+                {profile.username}
+            </span>
 
-                <span className={styles.username} contentEditable>
-                    {profile.username}
-                </span>
-
-                <span>
-                    Member since{" "}
-                    {formatDate(new Date(profile.createdAt))}
-                </span>
-            </div>
-        </>}
+            <span>
+                Member since{" "}
+                {formatDate(new Date(profile.createdAt))}
+            </span>
+        </div>}
     </div>;
 }
 

@@ -1,0 +1,205 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+
+    border-radius: 10px;
+    background-color: var(--ui-shade-4);
+
+    border: 1px solid var(--ui-border);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.title {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.sourceRow {
+    display: flex;
+    gap: 8px;
+}
+
+.sourceButton {
+    padding: 5px 12px;
+
+    border: none;
+    border-radius: 15px;
+    background-color: var(--ui-shade-3, #2b2b2b);
+    color: #bbbbbb;
+
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.sourceButton[data-active="true"] {
+    background-color: #47acff33;
+    color: white;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+
+    color: #888888;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.gameRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+
+    border-radius: 8px;
+    background-color: var(--ui-shade-3, #2b2b2b);
+    cursor: pointer;
+}
+
+.gameRow:hover {
+    outline: 1px solid #47acff55;
+}
+
+.timeControlCell {
+    width: 30px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.timeControlIcon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.playersCell {
+    flex-grow: 1;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.playerRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.playerColour {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    border: 1px solid #555555;
+}
+
+.playerName {
+    color: white;
+}
+
+.playerRating {
+    color: grey;
+}
+
+.resultCell {
+    width: 50px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.resultIcon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.accuracyCell {
+    width: 70px;
+    flex-shrink: 0;
+    color: #dddddd;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.movesCell {
+    width: 50px;
+    flex-shrink: 0;
+    color: #dddddd;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.dateCell {
+    width: 90px;
+    flex-shrink: 0;
+    color: #bbbbbb;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.statusCell {
+    width: 90px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.statusAnalysed {
+    padding: 3px 8px;
+    border-radius: 10px;
+    background-color: #3fb95033;
+    color: #7ee787;
+}
+
+.statusAnalysing {
+    padding: 3px 8px;
+    border-radius: 10px;
+    background-color: #47acff33;
+    color: #8ab4f8;
+}
+
+.statusQueued {
+    padding: 3px 8px;
+    border-radius: 10px;
+    background-color: #88888833;
+    color: #bbbbbb;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hint {
+    color: #999999;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .movesCell, .dateCell {
+        display: none;
+    }
+}

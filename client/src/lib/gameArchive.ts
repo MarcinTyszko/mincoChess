@@ -73,3 +73,15 @@ export async function deleteArchivedGames(
 
     return { status: response.status as StatusCodes };
 }
+export async function updateArchivedGame(
+    gameId: string,
+    update: { liked?: boolean; customName?: string }
+): APIResponse<object> {
+    const response = await fetch("/api/analysis/archive/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: gameId, ...update })
+    });
+
+    return { status: response.status as StatusCodes };
+}

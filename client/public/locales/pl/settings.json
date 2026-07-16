@@ -17,5 +17,18 @@
         "title": "Zgłaszanie błędu",
         "bugReportingMode": "Tryb zgłaszania błędów",
         "bugReportingModeDescription": "Pomóż nam znaleźć i naprawić błędy. Tryb raportowania błędów aktywuje mały widżet w dolnym rogu ekranu, który możesz kliknąć, aby skopiować logi konsoli."
+    },
+    "account": {
+        "linkedAccounts": {
+            "title": "Połączone konta szachowe",
+            "usernamePlaceholder": "Nazwa użytkownika...",
+            "saveButton": "Zapisz konta",
+            "savedToast": "Połączone konta zapisane!",
+            "recentGamesToggle": "Pokazuj moje ostatnie partie na stronie analizy",
+            "autoAnalyseToggle": "Automatycznie analizuj moje ostatnie partie",
+            "autoAnalyseHint": "Gdy jesteś zalogowany, Twoje 5 ostatnich partii trafia do kolejki analizy i zapisuje się w archiwum.",
+            "autoAnalyseAllToggle": "Analizuj wszystkie partie (do limitu archiwum)",
+            "autoAnalyseCountLabel": "Liczba ostatnich partii do analizy"
+        }
     }
 }

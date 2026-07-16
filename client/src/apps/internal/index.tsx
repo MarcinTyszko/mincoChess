@@ -11,9 +11,6 @@ const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AnnouncementEditor = lazy(() => import("./pages/AnnouncementEditor"));
 
-const ArticleList = lazy(() => import("./pages/news/ArticleList"));
-const ArticleEditor = lazy(() => import("./pages/news/ArticleEditor"));
-
 import "../../i18n";
 import "@/index.css";
 
@@ -34,13 +31,10 @@ function App() {
 
                     <Route path="/internal/dashboard" element={<Dashboard/>}>
                         <Route index element={
-                            <Navigate to="/internal/dashboard/news"/>
+                            <Navigate to="/internal/dashboard/announcement"/>
                         }/>
 
                         <Route path="announcement" element={<AnnouncementEditor/>} />
-
-                        <Route path="news" element={<ArticleList/>} />
-                        <Route path="news/edit" element={<ArticleEditor/>} />
                     </Route>
 
                     <Route path="/internal" element={

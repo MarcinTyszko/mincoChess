@@ -1,7 +1,18 @@
 {
     "title": "Raport z gry",
     "settings": {
-        "title": "Ustawienia analizy"
+        "title": "Ustawienia analizy",
+        "engine": {
+            "location": {
+                "title": "Miejsce analizy",
+                "browser": "W twojej przeglądarce",
+                "server": "Na serwerze",
+                "serverNote": "Analiza na serwerze wymaga zalogowania. Twoja przeglądarka nie będzie wykonywać ciężkich obliczeń."
+            },
+            "descriptions": {
+                "location": "Gdzie działa silnik: w twojej przeglądarce (domyślnie) albo na serwerze MincoChess, którego nie ogranicza wydajność twojego urządzenia."
+            }
+        }
     },
     "gameSelector": {
         "sourceLabel": "Załaduj grę z",
@@ -58,7 +69,8 @@
         "analysis": "Analiza"
     },
     "accuraciesCard": {
-        "title": "Dokładność"
+        "title": "Dokładność",
+        "estimatedRating": "Szac. {{rating}} Elo"
     },
     "classifiedMoveCard": {
         "unknownError": "Klasyfikacja nie mogła zostać załadowana.",
@@ -75,5 +87,36 @@
             "theory": "to ruch książkowy",
             "risky": "to ryzykowny pomysł"
         }
+    },
+    "openingLesson": {
+        "title": "Lekcja debiutowa",
+        "white": "Białe",
+        "black": "Czarne",
+        "deviationText": "W tym miejscu {{player}} zeszły z teorii debiutu <opening>{{opening}}</opening>, grając <played>{{played}}</played>. Poprawny ruch to <move>{{move}}</move>. Kliknij, aby zobaczyć tę pozycję.",
+        "practiceButton": "Kliknij tutaj, aby przećwiczyć ten wariant",
+        "startedToast": "Lekcja rozpoczęta! Zagraj {{move}} na szachownicy.",
+        "correctMoveToast": "Dobrze!",
+        "wrongMoveToast": "To nie jest ruch z teorii — spróbuj ponownie. Poprawny ruch to {{move}}.",
+        "completedToast": "Brawo! Ukończyłeś wariant debiutu {{opening}}.",
+        "progress": "Twój ruch {{current}}/{{total}} — zagraj ruch z teorii na szachownicy",
+        "completed": "Wariant ukończony. Świetna robota!",
+        "stopButton": "Zakończ ćwiczenie",
+        "closeButton": "Zamknij",
+        "favouriteTooltip": "Dodaj ten debiut do ulubionych",
+        "learningLink": "Ucz się debiutu {{opening}} w zakładce Nauka"
+    },
+    "recentGames": {
+        "title": "Ostatnie partie",
+        "linkButton": "Połącz konta",
+        "editButton": "Edytuj",
+        "linkHint": "Połącz swoje konto Chess.com lub Lichess, aby widzieć tutaj swoje ostatnie partie, gotowe do analizy jednym kliknięciem.",
+        "saveButton": "Zapisz",
+        "cancelButton": "Anuluj",
+        "fetchError": "Nie udało się pobrać ostatnich partii; sprawdź nazwę użytkownika.",
+        "noGames": "Brak ostatnich partii dla tego konta."
+    },
+    "serverAnalysis": {
+        "signInRequired": "Analiza na serwerze wymaga zalogowania na konto MincoChess.",
+        "failed": "Analiza na serwerze nie powiodła się; spróbuj ponownie lub przełącz się na analizę w przeglądarce w ustawieniach."
     }
 }

@@ -40,11 +40,22 @@ function Footer({ className, style }: FooterProps) {
             />
 
             <span className={styles.copyrightNotice}>
-                Copyright © {copyrightYear} wintrchess.com
+                Copyright © {copyrightYear} Marcin "Minco" Tyszko
             </span>
 
             <span className={styles.copyrightNotice}>
-                All rights reserved
+                Based on{" "}
+                <a href="https://github.com/WintrCat/wintrchess">
+                    WintrChess
+                </a>
+                {" "}© wintrcat
+            </span>
+
+            <span className={styles.copyrightNotice}>
+                Free software under{" "}
+                <a href="https://www.gnu.org/licenses/gpl-3.0.html">
+                    GNU GPL v3.0
+                </a>
             </span>
         </div>
 

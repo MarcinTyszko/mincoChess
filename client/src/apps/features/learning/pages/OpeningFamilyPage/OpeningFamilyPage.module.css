@@ -1,0 +1,341 @@
+.wrapper {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.boardArea {
+    flex: 1 1 55%;
+    min-width: 0;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1 1 45%;
+    min-width: 0;
+}
+
+.unfound {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 40px;
+    text-align: center;
+    color: #bbbbbb;
+}
+
+.backLink {
+    color: #8ab4f8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.titleRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.eco {
+    padding: 3px 9px;
+
+    border-radius: 5px;
+    background-color: var(--ui-shade-4);
+
+    font-size: 0.9rem;
+    color: #9fc3e8;
+}
+
+.title {
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.favouriteButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    font-size: 1.5rem;
+    color: #777777;
+}
+
+.favouriteButton[data-active="true"] {
+    color: #f0c96c;
+}
+
+.description {
+    color: #bbbbbb;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.controlsRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sideToggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #bbbbbb;
+    font-size: 0.9rem;
+}
+
+.sideButton {
+    padding: 6px 12px;
+
+    border: none;
+    border-radius: 6px;
+    background-color: var(--ui-shade-4);
+    color: #bbbbbb;
+
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.sideButton[data-active="true"] {
+    background-color: #47acff;
+    color: white;
+}
+
+.challengeButton {
+    padding: 8px 14px;
+
+    border: none;
+    border-radius: 7px;
+    background-color: #8650ac;
+    color: white;
+
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.challengeButton:hover {
+    background-color: #9660bc;
+}
+
+.lessonPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+
+    border-radius: 10px;
+    background-color: var(--ui-shade-4);
+}
+
+.lessonHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lessonMode {
+    padding: 3px 9px;
+
+    border-radius: 5px;
+    background-color: #8650ac;
+
+    font-size: 0.8rem;
+    color: white;
+}
+
+.lessonVariation {
+    color: white;
+    font-weight: bold;
+}
+
+.lessonProgress {
+    color: #f0c96c;
+    font-size: 0.95rem;
+}
+
+.lessonPrompt {
+    color: #bbbbbb;
+    font-size: 0.9rem;
+}
+
+.wrongFeedback {
+    padding: 8px;
+
+    border-radius: 7px;
+    background-color: rgba(229, 131, 131, 0.15);
+
+    color: #e58383;
+    font-size: 0.95rem;
+}
+
+.correctFeedback {
+    padding: 8px;
+
+    border-radius: 7px;
+    background-color: rgba(127, 215, 127, 0.12);
+
+    color: #7fd77f;
+    font-size: 0.95rem;
+}
+
+.completedBox {
+    padding: 12px;
+
+    border-radius: 7px;
+    background-color: rgba(127, 215, 127, 0.15);
+
+    color: #7fd77f;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.lessonButtons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hintButton {
+    padding: 7px 12px;
+
+    border: none;
+    border-radius: 7px;
+    background-color: #b58a2f;
+    color: white;
+
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.hintButton:hover {
+    background-color: #c59a3f;
+}
+
+.stopButton {
+    padding: 7px 12px;
+
+    border: none;
+    border-radius: 7px;
+    background-color: #5f5f5f;
+    color: white;
+
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.stopButton:hover {
+    background-color: #6f6f6f;
+}
+
+.variationsTitle {
+    margin: 8px 0 0 0;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.variationList {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.variationRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+
+    border-radius: 8px;
+    background-color: var(--ui-shade-4);
+}
+
+.variationRow[data-completed="true"] {
+    outline: 1px solid rgba(127, 215, 127, 0.35);
+}
+
+.variationCheck {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.variationInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex-grow: 1;
+}
+
+.variationName {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.variationMoves {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #999999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.variationButtons {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.learnButton {
+    padding: 5px 10px;
+
+    border: none;
+    border-radius: 6px;
+    background-color: #2f7d31;
+    color: white;
+
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.learnButton:hover {
+    background-color: #388e3c;
+}
+
+.taskButton {
+    padding: 5px 10px;
+
+    border: none;
+    border-radius: 6px;
+    background-color: #8650ac;
+    color: white;
+
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.taskButton:hover {
+    background-color: #9660bc;
+}
+
+@media (max-width: 900px) {
+    .wrapper {
+        flex-direction: column;
+    }
+}

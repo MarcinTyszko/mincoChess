@@ -1,11 +1,38 @@
 {
     "news": {
         "title": "Gazeta",
-        "titleDescription": "Uzyskaj najnowsze aktualizacje platformy WintrChess",
+        "titleDescription": "Uzyskaj najnowsze aktualizacje platformy MincoChess",
         "error": "Wystąpił błąd podczas ładowania gazety.",
         "article": {
             "unfound": "Nie mogliśmy znaleźć tego artykułu.",
             "error": "Wystąpił błąd podczas ładowania tego artykułu."
+        }
+    },
+    "archive": {
+        "unnamedGame": "Partia bez nazwy",
+        "likeTooltip": "Polub tę partię",
+        "renameTooltip": "Zmień nazwę partii",
+        "renamePrompt": "Podaj nazwę dla tej partii:"
+    },
+    "externalAccounts": {
+        "title": "Konta szachowe",
+        "gamesPlayed": "Rozegranych partii: {{count}}"
+    },
+    "profileRecentGames": {
+        "title": "Ostatnie partie",
+        "fetchError": "Nie udało się pobrać Twoich ostatnich partii.",
+        "noGames": "Brak ostatnich partii.",
+        "columns": {
+            "players": "Gracze",
+            "result": "Wynik",
+            "accuracy": "Dokładność",
+            "moves": "Ruchy",
+            "date": "Data"
+        },
+        "status": {
+            "analysed": "Przeanalizowana",
+            "analysing": "Analizuję {{percent}}%",
+            "queued": "W kolejce"
         }
     }
 }

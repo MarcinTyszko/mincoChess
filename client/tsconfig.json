@@ -32,6 +32,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@analysis/*": ["./src/apps/features/analysis/*"],
+      "@learning/*": ["./src/apps/features/learning/*"],
       "@assets/*": ["./public/*"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

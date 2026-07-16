@@ -14,15 +14,21 @@
 }
 
 :root {
-    --ui-blue: #467de8;
-    --ui-lavender: #625eb1;
-    --ui-shade-1: #101216;
-    --ui-shade-2: #17191e;
-    --ui-shade-3: #1f2125;
-    --ui-shade-4: #2c2f35;
-    --ui-shade-5: #3b3e43;
-    --ui-shade-6: #3e4349;
-    --ui-shade-7: #50575f;
+    --ui-blue: #4a8dff;
+    --ui-lavender: #6a5ae0;
+
+    --accent: #4aa8ff;
+    --accent-gradient: linear-gradient(120deg, #4aa8ff, #6a5ae0);
+
+    --ui-shade-1: #0c0e13;
+    --ui-shade-2: #12141b;
+    --ui-shade-3: #191c24;
+    --ui-shade-4: #252932;
+    --ui-shade-5: #333845;
+    --ui-shade-6: #3a4150;
+    --ui-shade-7: #4c5568;
+
+    --ui-border: rgba(255, 255, 255, 0.07);
 
     --rt-color-dark: #111 !important;
 }
@@ -32,23 +38,35 @@ body {
     overflow-x: hidden;
 
     background-color: var(--ui-shade-1);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 * {
     font-family: "Noto Sans";
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+::selection {
+    background-color: rgba(74, 168, 255, 0.35);
+}
 
-    background-color: #424242;
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: white;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: #919191;
+    background-color: transparent;
 }

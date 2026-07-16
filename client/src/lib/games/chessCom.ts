@@ -79,6 +79,11 @@ async function getChessComGames(
                 timeControlCodes[game["time_class"]]
                 || TimeControl.CORRESPONDENCE
             ),
+            clock: game["time_control"]?.toString(),
+            accuracies: game.accuracies && {
+                white: game.accuracies.white,
+                black: game.accuracies.black
+            },
             variant: variantCodes[game.rules] || Variant.STANDARD,
             initialPosition: game["initial_setup"] || STARTING_FEN,
             players: {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StatusCodes } from "http-status-codes";
 
+import { ArchivedGameMetadata } from "shared/types/game/ArchivedGame";
 import LoadingPlaceholder from "@/components/layout/LoadingPlaceholder";
 import Separator from "@/components/common/Separator";
 import LogMessage from "@/components/common/LogMessage";
@@ -10,7 +11,11 @@ import Button from "@/components/common/Button";
 import ButtonColour from "@/components/common/Button/Colour";
 import ConfirmDialog from "@/components/common/ConfirmDialog";
 import GameListing from "@/components/chess/GameListing";
-import { deleteArchivedGames, getArchivedGames } from "@/lib/gameArchive";
+import {
+    deleteArchivedGames,
+    getArchivedGames,
+    updateArchivedGame
+} from "@/lib/gameArchive";
 
 import * as styles from "./Archive.module.css";
 
@@ -35,6 +40,31 @@ function Archive() {
     const [ selectedGameIds, setSelectedGameIds ] = useState<string[]>([]);
 
     const [ deleteDialogOpen, setDeleteDialogOpen ] = useState(false);
+
+    async function toggleLike(id: string, game: ArchivedGameMetadata) {
+        await updateArchivedGame(id, { liked: !game.liked });
+        await refetch();
+    }
+
+    async function renameGame(id: string, game: ArchivedGameMetadata) {
+        const customName = prompt(
+            t("archive.renamePrompt"),
+            game.customName || game.openingName || ""
+        );
+
+        if (customName == null) return;
+
+        await updateArchivedGame(id, {
+            customName: customName.slice(0, 80)
+        });
+        await refetch();
+    }
+
+    function getSortedArchive() {
+        return Object.entries(archive || {}).sort(
+            ([, a], [, b]) => Number(b.liked || 0) - Number(a.liked || 0)
+        );
+    }
 
     return <div className={styles.wrapper}>
         <div className={styles.toolbar}>
@@ -90,22 +120,58 @@ function Archive() {
         {status == "pending" && <LoadingPlaceholder/>}
 
         <div className={styles.games}>
-            {archive && Object.entries(archive).map(
-                ([ id, game ]) => <GameListing
-                    style={{ justifyContent: "start" }}
-                    game={game}
-                    selected={selectedGameIds.includes(id)}
-                    onClick={() => location.href = `/analysis?game=${id}`}
-                    onSelect={selected => {
-                        if (selected) return setSelectedGameIds([
-                            ...selectedGameIds, id
-                        ]);
+            {archive && getSortedArchive().map(
+                ([ id, game ]) => <div key={id} className={styles.gameCard}>
+                    <div className={styles.gameCardHeader}>
+                        <span className={styles.gameName}>
+                            {game.customName
+                                || game.openingName
+                                || t("archive.unnamedGame")
+                            }
+                        </span>
 
-                        setSelectedGameIds(selectedGameIds.filter(
-                            selectedId => selectedId != id
-                        ));
-                    }}
-                />
+                        {game.customName && game.openingName
+                            && <span className={styles.gameOpening}>
+                                {game.openingName}
+                            </span>
+                        }
+
+                        <span className={styles.gameCardButtons}>
+                            <button
+                                className={styles.likeButton}
+                                data-liked={!!game.liked}
+                                title={t("archive.likeTooltip")}
+                                onClick={() => toggleLike(id, game)}
+                            >
+                                {game.liked ? "❤" : "🤍"}
+                            </button>
+
+                            <button
+                                className={styles.renameButton}
+                                title={t("archive.renameTooltip")}
+                                onClick={() => renameGame(id, game)}
+                            >
+                                ✏️
+                            </button>
+                        </span>
+                    </div>
+
+                    <GameListing
+                        style={{ justifyContent: "start" }}
+                        game={game}
+                        selected={selectedGameIds.includes(id)}
+                        onClick={() => location.href = `/analysis?game=${id}`}
+                        onSelect={selected => {
+                            if (selected) return setSelectedGameIds([
+                                ...selectedGameIds, id
+                            ]);
+
+                            setSelectedGameIds(selectedGameIds.filter(
+                                selectedId => selectedId != id
+                            ));
+                        }}
+                    />
+                </div>
             )}
         </div>
 

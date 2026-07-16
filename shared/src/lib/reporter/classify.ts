@@ -30,6 +30,7 @@ export function classify(
         includeBrilliant: true,
         includeCritical: true,
         includeTheory: true,
+        declaredRatings: {},
         ...options
     };
 

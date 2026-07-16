@@ -11,7 +11,10 @@
     position: sticky;
     top: 0;
 
-    background-color: var(--ui-shade-2);
+    background-color: rgba(18, 20, 27, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ui-border);
     color: white;
 
     overflow-x: auto;

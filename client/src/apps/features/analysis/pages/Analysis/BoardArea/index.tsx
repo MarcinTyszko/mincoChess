@@ -8,6 +8,7 @@ import useAnalysisGameStore from "@analysis/stores/AnalysisGameStore";
 import useAnalysisTabStore from "@analysis/stores/AnalysisTabStore";
 import useAnalysisBoardStore from "@analysis/stores/AnalysisBoardStore";
 import Board from "@analysis/components/Board";
+import useOpeningLesson from "@analysis/hooks/useOpeningLesson";
 import playBoardSound from "@/lib/boardSounds";
 
 import useEvaluation from "./useEvaluation";
@@ -37,11 +38,15 @@ function BoardArea() {
     const evaluation = useEvaluation();
     const suggestionArrows = useSuggestionArrows();
 
+    const { handleBoardMove } = useOpeningLesson();
+
     function addMove(move: Move) {
         if (!gameAnalysisOpen) {
             setGameAnalysisOpen(true);
             setActiveTab(AnalysisTab.ANALYSIS);
         }
+
+        const nodeBeforeMove = currentStateTreeNode;
 
         setCurrentStateTreeNode(prev => {
             const createdNode = addChildMove(prev, move.san);
@@ -51,6 +56,8 @@ function BoardArea() {
         });
 
         dispatchCurrentNodeUpdate();
+
+        handleBoardMove(move, nodeBeforeMove);
 
         return true;
     }

@@ -11,6 +11,7 @@ const settingsSchema = z.object({
     analysis: z.object({
         engine: z.object({
             enabled: z.boolean(),
+            location: z.enum(["browser", "server"]),
             version: z.enum(EngineVersion),
             depth: z.number().min(10).max(99),
             timeLimitEnabled: z.boolean(),
@@ -27,7 +28,11 @@ const settingsSchema = z.object({
                 theory: z.boolean()
             })
         }),
-        simpleNotation: z.boolean()
+        simpleNotation: z.boolean(),
+        recentGamesEnabled: z.boolean(),
+        autoAnalyseRecentGames: z.boolean(),
+        autoAnalyseGamesCount: z.number().min(1).max(50),
+        autoAnalyseAllGames: z.boolean()
     }),
     themes: z.object({
         board: z.object({
@@ -46,6 +51,7 @@ export const defaultSettings: Settings = {
     analysis: {
         engine: {
             enabled: true,
+            location: "browser",
             version: EngineVersion.STOCKFISH_17_LITE,
             depth: 16,
             lines: 2,
@@ -62,7 +68,11 @@ export const defaultSettings: Settings = {
                 theory: true
             }
         },
-        simpleNotation: false
+        simpleNotation: false,
+        recentGamesEnabled: true,
+        autoAnalyseRecentGames: false,
+        autoAnalyseGamesCount: 5,
+        autoAnalyseAllGames: false
     },
     themes: {
         board: {

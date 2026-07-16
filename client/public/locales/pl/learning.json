@@ -1,0 +1,83 @@
+{
+    "catalog": {
+        "title": "Nauka debiutów",
+        "subtitle": "Ucz się debiutów szachowych interaktywnie: poznawaj teorię, ćwicz warianty i śledź swoje postępy.",
+        "searchPlaceholder": "Szukaj debiutu...",
+        "favouritesSection": "Ulubione",
+        "allSection": "Wszystkie debiuty",
+        "noResults": "Żaden debiut nie pasuje do wyszukiwania.",
+        "favouriteTooltip": "Dodaj do ulubionych",
+        "variationsProgress": "Ukończono {{completed}}/{{total}} wariantów"
+    },
+    "family": {
+        "notFound": "Nie znaleźliśmy tego debiutu.",
+        "backToCatalog": "Wróć do wszystkich debiutów",
+        "defaultDescription": "Debiut rozpoczynający się ruchami {{moves}}. W naszej bazie znajduje się {{count}} jego wariantów, które możesz poznawać i ćwiczyć.",
+        "playAs": "Graj jako:",
+        "white": "Białe",
+        "black": "Czarne",
+        "randomChallenge": "Losowe zadanie",
+        "mainLine": "Główna linia",
+        "variations": "Warianty ({{count}})",
+        "learnButton": "Ucz się",
+        "challengeButton": "Zadanie"
+    },
+    "lesson": {
+        "mode": {
+            "learn": "Lekcja",
+            "challenge": "Zadanie"
+        },
+        "progress": "Twoje ruchy: {{current}}/{{total}}",
+        "wrongMove": "❌ Zły ruch — spróbuj jeszcze raz!",
+        "hintPiece": "Podpowiedź: figura, którą masz ruszyć, jest podświetlona.",
+        "hintSolution": "Rozwiązanie: zagraj {{move}}.",
+        "correctMove": "✓ Dobrze!",
+        "yourMove": "Zagraj ruch z teorii na szachownicy.",
+        "hintButton": "Podpowiedź",
+        "solutionButton": "Pokaż rozwiązanie",
+        "stopButton": "Przerwij",
+        "completed": "Super! Udało ci się — dotarłeś do końca teorii tego wariantu.",
+        "nextChallenge": "Następne zadanie",
+        "closeButton": "Zamknij"
+    },
+    "stats": {
+        "title": "Nauka debiutów",
+        "currentStreak": "Seria: {{count}} dni",
+        "longestStreak": "Najdłuższa seria: {{count}} dni",
+        "currentStreakLabel": "Aktualna seria",
+        "longestStreakLabel": "Najdłuższa seria",
+        "completedLabel": "Ukończone warianty",
+        "favouritesLabel": "Ulubione debiuty",
+        "goToLearning": "Przejdź do nauki"
+    },
+    "descriptions": {
+        "Sicilian Defense": "Najpopularniejsza odpowiedź na 1.e4. Czarne walczą o centrum asymetrycznie ruchem 1...c5, co prowadzi do bogatych, obosiecznych pozycji.",
+        "Ruy Lopez": "Jeden z najstarszych i najbardziej cenionych debiutów. Białe szybko się rozwijają i wywierają długotrwałą presję na piona e5 poprzez skoczka c6.",
+        "French Defense": "Solidna, strategiczna obrona. Czarne budują łańcuch pionów e6-d5 i kontratakują białe centrum, godząc się na chwilowo pasywnego białopolowego gońca.",
+        "Queen's Gambit Declined": "Klasyczna, bardzo solidna odpowiedź na gambit hetmański. Czarne utrzymują centrum ruchami e6 i d5 i harmonijnie się rozwijają.",
+        "Italian Game": "Naturalny schemat rozwoju z 3.Bc4 celującym w f7. Prowadzi zarówno do spokojnej gry manewrowej, jak i ostrych gambitów.",
+        "English Opening": "Elastyczny debiut skrzydłowy 1.c4. Białe kontrolują pole d5 i często przechodzą do wielu innych systemów.",
+        "King's Gambit Accepted": "Romantyczny gambit: białe poświęcają piona f, by zyskać szybki rozwój i szanse ataku na czarnego króla.",
+        "King's Indian Defense": "Hipermodernistyczny system kontratakujący. Czarne pozwalają białym zbudować duże centrum, po czym uderzają e5 lub c5 i atakują na skrzydle królewskim.",
+        "Caro-Kann Defense": "Pancerna odpowiedź na 1.e4. Czarne wspierają d5 ruchem 1...c6, uzyskując zdrową strukturę pionów i mało słabości.",
+        "Nimzo-Indian Defense": "Jeden z najlepszych debiutów przeciwko 1.d4: gońcem Bb4 czarne wiążą skoczka, walczą o pole e4 i często psują strukturę pionów białych.",
+        "Queen's Pawn Game": "Szeroka rodzina systemów po 1.d4 d5 bez wczesnego c4, obejmująca wiele spokojnych, pozycyjnych ustawień.",
+        "Dutch Defense": "Ambitna obrona przeciwko 1.d4. Ruchem 1...f5 czarne od razu walczą o pole e4 i dążą do gry na skrzydle królewskim.",
+        "Semi-Slav Defense": "Hybryda obrony słowiańskiej i gambitu hetmańskiego. Niezwykle bogata w teorię, ze słynnymi ostrymi wariantami jak wariant Botwinnika.",
+        "Benoni Defense": "Dynamiczna obrona kontratakująca z ...c5 przeciwko 1.d4, dająca czarnym aktywną grę figur w zamian za mniej przestrzeni.",
+        "Grünfeld Defense": "Hipermodernistyczna obrona: czarne pozwalają białym zbudować szerokie centrum pionowe, a następnie atakują je figurami i gońcem z g7.",
+        "Queen's Gambit Accepted": "Czarne biją piona c4 i chwilowo oddają centrum w zamian za swobodny rozwój i kontrgrę przeciwko d4.",
+        "Alekhine Defense": "Prowokacyjna obrona: skoczek kusi białe piony do marszu naprzód, by czarne mogły później zaatakować przeciągnięte centrum.",
+        "King's Gambit Declined": "Czarne nie przyjmują gambitu i spokojnie się rozwijają, zachowując solidną pozycję wobec agresywnego f4.",
+        "Queen's Indian Defense": "Elastyczny, solidny system z ...b6: czarne kontrolują pole e4 gońcem z b7.",
+        "Scotch Game": "Białe natychmiast otwierają centrum ruchem 4.d4, uzyskując swobodną grę figur i jasne plany.",
+        "Slav Defense": "Bardzo solidna obrona przed gambitem hetmańskim: czarne bronią d5 ruchem ...c6, zachowując aktywnego białopolowego gońca.",
+        "Petrov's Defense": "Symetryczna, solidna obrona na 1.e4: zamiast bronić e5, czarne od razu kontratakują e4.",
+        "Four Knights Game": "Klasyczny, bezpieczny debiut, w którym obie strony najpierw rozwijają skoczki, a dopiero potem wybierają plan.",
+        "Zukertort Opening": "Elastyczne rozpoczęcie 1.Nf3, które niczego nie przesądza i może przejść do wielu różnych debiutów.",
+        "Vienna Game": "Elastyczny krewny gambitu królewskiego: białe najpierw rozwijają skoczka hetmańskiego, trzymając f4 w odwodzie.",
+        "Scandinavian Defense": "Czarne natychmiast kwestionują centrum ruchem 1...d5, upraszczając strukturę kosztem wczesnych ruchów hetmanem.",
+        "Pirc Defense": "Hipermodernistyczna obrona: czarne rozwijają się skromnie przez g6 i Bg7, zapraszając białe do przeciągnięcia centrum.",
+        "London System": "Popularny i łatwy do nauki system dla białych: Bf4, e3 i solidny trójkąt pionów, grywalny przeciwko niemal wszystkiemu."
+    }
+}

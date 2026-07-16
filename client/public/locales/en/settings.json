@@ -28,6 +28,17 @@
             "deleteAccount": "Delete Account",
             "deleteAccountDialog": "Please confirm the deletion of your account by typing the following into the field:",
             "irreversibleAction": "Please remember that this action is irreversible."
+        },
+        "linkedAccounts": {
+            "title": "Linked Chess accounts",
+            "usernamePlaceholder": "Username...",
+            "saveButton": "Save accounts",
+            "savedToast": "Linked accounts saved!",
+            "recentGamesToggle": "Show my recent games on the analysis page",
+            "autoAnalyseToggle": "Automatically analyse my recent games",
+            "autoAnalyseHint": "When you are signed in, your 5 most recent games are queued for analysis and saved to your archive.",
+            "autoAnalyseAllToggle": "Analyse all games (up to archive limit)",
+            "autoAnalyseCountLabel": "Number of recent games to analyse"
         }
     },
     "boardAndPieces": {

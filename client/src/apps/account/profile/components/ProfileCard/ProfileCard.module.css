@@ -23,29 +23,13 @@
     border-radius: 10px;
     background-color: var(--ui-shade-3);
     color: white;
+
+    border: 1px solid var(--ui-border);
 }
 
 @media (max-width: 650px) {
     .wrapper {
         flex-direction: column;
-    }
-}
-
-.avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 200px;
-
-    border-radius: 10px;
-    background-color: aquamarine;
-    font-family: "Nunito";
-}
-
-@media (max-width: 650px) {
-    .avatar {
-        width: 100%;
     }
 }
 

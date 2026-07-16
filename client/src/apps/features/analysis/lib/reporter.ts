@@ -17,10 +17,16 @@ export async function analyseStateTree(
     rootNode: StateTreeNode,
     options?: AnalysisOptions
 ): APIResponse<{ gameAnalysis: GameAnalysis }> {
-    const reportURL = "/api/analysis/analyse"
+    let reportURL = "/api/analysis/analyse"
         + `?brilliant=${String(options?.includeBrilliant)}`
         + `&critical=${String(options?.includeCritical)}`
         + `&theory=${String(options?.includeTheory)}`;
+
+    if (options?.declaredRatings?.white)
+        reportURL += `&whiteRating=${options.declaredRatings.white}`;
+
+    if (options?.declaredRatings?.black)
+        reportURL += `&blackRating=${options.declaredRatings.black}`;
 
     const reportResponse = await fetch(reportURL, {
         method: "POST",

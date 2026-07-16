@@ -39,3 +39,8 @@
     background-color: #0a0a0a;
     color: whitesmoke;
 }
+
+.estimatedRating {
+    font-size: 0.85rem;
+    opacity: 0.75;
+}

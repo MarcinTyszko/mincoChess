@@ -10,6 +10,22 @@ import { SerializedStateTreeNode } from "shared/types/game/position/StateTreeNod
 import renderStateTree from "shared/lib/stateTree/render";
 import ArchivedGameModel from "@/database/models/ArchivedGame";
 
+/**
+ * @description The deepest named opening reached along the mainline;
+ * stored on the archived game as its automatic description.
+ */
+function getMainlineOpeningName(stateTree: SerializedStateTreeNode) {
+    let openingName: string | undefined;
+    let node: SerializedStateTreeNode | undefined = stateTree;
+
+    while (node) {
+        openingName = node.state.opening || openingName;
+        node = node.children.at(0);
+    }
+
+    return openingName;
+}
+
 export async function archiveAnalysedGame(
     game: SerializedAnalysedGame,
     userId: string
@@ -20,6 +36,7 @@ export async function archiveAnalysedGame(
 
     return {
         ...omit(game, ["pgn", "stateTree"]),
+        openingName: getMainlineOpeningName(game.stateTree),
         userId: userId,
         gzippedStateTree: gzipSync(Buffer.from(packedStateTree))
     };
@@ -56,6 +73,11 @@ export function getArchivedGameMetadata<T extends ArchivedGameMetadata>(
         initialPosition: game.initialPosition,
         players: game.players,
         timeControl: game.timeControl,
-        variant: game.variant
+        clock: game.clock,
+        accuracies: game.accuracies,
+        variant: game.variant,
+        liked: game.liked,
+        customName: game.customName,
+        openingName: game.openingName
     };
 }

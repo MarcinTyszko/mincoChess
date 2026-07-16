@@ -8,6 +8,8 @@ import {
     SerializedAnalysedGame,
     analysedGameSchema
 } from "shared/types/game/AnalysedGame";
+import { getGameAccuracy } from "shared/lib/reporter/accuracy";
+import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import ArchivedGame from "@/database/models/ArchivedGame";
 import { GameArchive } from "shared/types/game/ArchivedGame";
 import { accountAuthenticator } from "@/lib/security/account";
@@ -29,6 +31,47 @@ router.get("/analysis/archive", async (req, res) => {
     const rawArchive = await ArchivedGame.find({
         userId: new Types.ObjectId(req.user.id)
     }).lean();
+
+    // Backfill accuracies onto games archived before they were kept
+    // as metadata, so listings can show them without the state tree
+    for (const archivedGame of rawArchive) {
+        if (archivedGame.accuracies) continue;
+
+        try {
+            const analysedGame = await Archive.unarchiveAnalysedGame({
+                ...omit(archivedGame, ["_id", "__v"]),
+                userId: archivedGame.userId.toString(),
+                gzippedStateTree: Buffer.copyBytesFrom(
+                    archivedGame.gzippedStateTree.buffer
+                )
+            });
+
+            const gameAccuracy = getGameAccuracy(
+                analysedGame.stateTree as unknown as StateTreeNode
+            );
+
+            const accuracies = {
+                white: isNaN(gameAccuracy.white)
+                    ? undefined : gameAccuracy.white,
+                black: isNaN(gameAccuracy.black)
+                    ? undefined : gameAccuracy.black
+            };
+
+            if (
+                accuracies.white == undefined
+                && accuracies.black == undefined
+            ) continue;
+
+            archivedGame.accuracies = accuracies;
+
+            await ArchivedGame.updateOne(
+                { _id: archivedGame._id },
+                { $set: { accuracies } }
+            );
+        } catch {
+            // Unreadable state tree; leave the accuracy blank
+        }
+    }
 
     const archive: GameArchive = Object.fromEntries(
         rawArchive.map(archivedGame => [
@@ -84,6 +127,35 @@ router.post("/analysis/archive/add", async (req, res) => {
     });
 
     res.send(archiveEntry._id.toString());
+});
+
+const archiveUpdateSchema = z.object({
+    id: z.string(),
+    liked: z.boolean().optional(),
+    customName: z.string().max(80).optional()
+});
+
+router.post("/analysis/archive/update", async (req, res) => {
+    if (!req.user?.id)
+        return res.sendStatus(StatusCodes.UNAUTHORIZED);
+
+    const parse = archiveUpdateSchema.safeParse(req.body);
+
+    if (!parse.success)
+        return res.sendStatus(StatusCodes.BAD_REQUEST);
+
+    const update = await ArchivedGame.updateOne(
+        {
+            _id: new Types.ObjectId(parse.data.id),
+            userId: new Types.ObjectId(req.user.id)
+        },
+        { $set: omit(parse.data, ["id"]) }
+    );
+
+    if (update.matchedCount == 0)
+        return res.sendStatus(StatusCodes.NOT_FOUND);
+
+    res.sendStatus(StatusCodes.OK);
 });
 
 router.post("/analysis/archive/delete", async (req, res) => {

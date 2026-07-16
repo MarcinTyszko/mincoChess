@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import AccuraciesCardProps from "./AccuraciesCardProps";
 import * as styles from "./AccuraciesCard.module.css";
 
-function AccuraciesCard({ accuracies }: AccuraciesCardProps) {
+function AccuraciesCard({ accuracies, estimatedRatings }: AccuraciesCardProps) {
     const { t } = useTranslation("analysis");
 
     return <div className={styles.wrapper}>
@@ -18,6 +18,12 @@ function AccuraciesCard({ accuracies }: AccuraciesCardProps) {
                     ? accuracies.white.toFixed(1) + "%"
                     : "N/A"
                 }
+
+                {estimatedRatings && <div className={styles.estimatedRating}>
+                    {t("accuraciesCard.estimatedRating", {
+                        rating: estimatedRatings.white
+                    })}
+                </div>}
             </div>
 
             <div className={`${styles.accuracy} ${styles.blackAccuracy}`}>
@@ -25,6 +31,12 @@ function AccuraciesCard({ accuracies }: AccuraciesCardProps) {
                     ? accuracies.black.toFixed(1) + "%"
                     : "N/A"
                 }
+
+                {estimatedRatings && <div className={styles.estimatedRating}>
+                    {t("accuraciesCard.estimatedRating", {
+                        rating: estimatedRatings.black
+                    })}
+                </div>}
             </div>
         </div>
     </div>;
