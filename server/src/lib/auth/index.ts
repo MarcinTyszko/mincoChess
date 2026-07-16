@@ -36,6 +36,11 @@ function createAuth(database: mongo.Db) {
         baseURL: `${process.env.ORIGIN}/auth/account`,
         secret: process.env.AUTH_SECRET,
         database: mongodbAdapter(database),
+        // Local deployments are reached from LAN IPs as well as
+        // localhost, so trust the requesting origin in development
+        trustedOrigins: process.env.NODE_ENV == "development"
+            ? request => [request?.headers.get("origin")]
+            : undefined,
         emailAndPassword: {
             enabled: true,
             minPasswordLength: schemas.password.minLength || 8,
