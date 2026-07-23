@@ -17,7 +17,11 @@ import * as Archive from "@/lib/gameArchive";
 
 const router = Router();
 
-const maximumArchiveSize = Number(process.env.MAXIMUM_ARCHIVE_SIZE) || 50;
+// Per-user archive cap. Kept generous by default: with automatic
+// analysis of recent games enabled, a low cap fills up and then every
+// further game reaches 100% only to fail saving with 507, which looks
+// exactly like the analysis "breaking". Override via env if needed.
+const maximumArchiveSize = Number(process.env.MAXIMUM_ARCHIVE_SIZE) || 1000;
 
 router.use("/analysis/archive",
     accountAuthenticator(),
