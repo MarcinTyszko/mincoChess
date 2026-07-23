@@ -178,6 +178,11 @@ function RecentGamesCard() {
                 {t("profileRecentGames.status.queued")}
             </span>;
 
+        if (queueEntry?.status == "error")
+            return <span className={styles.statusError}>
+                {t("profileRecentGames.status.error")}
+            </span>;
+
         return null;
     }
 

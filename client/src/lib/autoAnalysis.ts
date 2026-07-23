@@ -4,7 +4,7 @@ import Game from "shared/types/game/Game";
 import AnalysedGame from "shared/types/game/AnalysedGame";
 import parseStateTree from "shared/lib/stateTree/parse";
 import { getGameAccuracy } from "shared/lib/reporter/accuracy";
-import createGameEvaluator from "@analysis/lib/evaluate";
+import { evaluateGameOnServer } from "@analysis/lib/serverEvaluate";
 import { analyseStateTree } from "@analysis/lib/reporter";
 import useSettingsStore from "@/stores/SettingsStore";
 import useAutoAnalysisStore from "@/stores/AutoAnalysisStore";
@@ -14,9 +14,6 @@ import {
     getGameKey
 } from "@/lib/games/recentGames";
 import { getArchivedGames, archiveGame } from "@/lib/gameArchive";
-
-// Background analysis should not hog the CPU like a foreground one
-const MAX_BACKGROUND_ENGINES = 2;
 
 async function isSignedIn() {
     try {
@@ -49,18 +46,18 @@ async function analyseGameInBackground(game: Game): Promise<{
         stateTree: parseStateTree(game)
     };
 
-    const evaluator = createGameEvaluator(analysisGame, {
-        engineVersion: engine.version,
-        engineDepth: engine.depth,
-        engineTimeLimit: engine.timeLimitEnabled
-            ? engine.timeLimit : undefined,
-        cloudEngineLines: engine.lines,
-        maxEngineCount: MAX_BACKGROUND_ENGINES,
-        engineConfig: gameEngine => gameEngine.setLineCount(engine.lines),
-        onProgress: progress => updateEntry(gameKey, { progress })
-    });
-
-    await evaluator.evaluate();
+    // Always evaluate recent games on the server engine, never in the
+    // browser. This analysis runs unattended while the user browses other
+    // tabs, and browser Web Worker engines get heavily throttled - or
+    // stalled outright - once their tab is backgrounded, which left games
+    // stuck at "100%" and never saved. The server engine runs each game to
+    // completion regardless, and produces engine lines of the same shape.
+    await evaluateGameOnServer(
+        analysisGame,
+        engine,
+        new AbortController(),
+        { onProgress: progress => updateEntry(gameKey, { progress }) }
+    );
 
     const analyseResult = await analyseStateTree(analysisGame.stateTree, {
         includeBrilliant: classifications.included.brilliant,

@@ -187,6 +187,13 @@
     color: #bbbbbb;
 }
 
+.statusError {
+    padding: 3px 8px;
+    border-radius: 10px;
+    background-color: #f8514933;
+    color: #ff7b72;
+}
+
 .loading {
     display: flex;
     justify-content: center;

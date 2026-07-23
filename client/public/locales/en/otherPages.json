@@ -55,7 +55,8 @@
         "status": {
             "analysed": "Analysed",
             "analysing": "Analysing {{percent}}%",
-            "queued": "Queued"
+            "queued": "Queued",
+            "error": "Failed"
         }
     }
 }
