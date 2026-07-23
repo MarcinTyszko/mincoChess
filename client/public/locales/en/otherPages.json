@@ -56,7 +56,8 @@
             "analysed": "Analysed",
             "analysing": "Analysing {{percent}}%",
             "queued": "Queued",
-            "error": "Failed"
+            "error": "Failed",
+            "archiveFull": "Archive full"
         }
     }
 }

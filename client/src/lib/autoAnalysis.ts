@@ -4,6 +4,7 @@ import Game from "shared/types/game/Game";
 import AnalysedGame from "shared/types/game/AnalysedGame";
 import parseStateTree from "shared/lib/stateTree/parse";
 import { getGameAccuracy } from "shared/lib/reporter/accuracy";
+import createGameEvaluator from "@analysis/lib/evaluate";
 import { evaluateGameOnServer } from "@analysis/lib/serverEvaluate";
 import { analyseStateTree } from "@analysis/lib/reporter";
 import useSettingsStore from "@/stores/SettingsStore";
@@ -14,6 +15,11 @@ import {
     getGameKey
 } from "@/lib/games/recentGames";
 import { getArchivedGames, archiveGame } from "@/lib/gameArchive";
+
+// Background analysis should not hog the CPU like a foreground one
+const MAX_BACKGROUND_ENGINES = 2;
+
+type EngineLocation = "browser" | "server";
 
 async function isSignedIn() {
     try {
@@ -46,18 +52,63 @@ async function analyseGameInBackground(game: Game): Promise<{
         stateTree: parseStateTree(game)
     };
 
-    // Always evaluate recent games on the server engine, never in the
-    // browser. This analysis runs unattended while the user browses other
-    // tabs, and browser Web Worker engines get heavily throttled - or
-    // stalled outright - once their tab is backgrounded, which left games
-    // stuck at "100%" and never saved. The server engine runs each game to
-    // completion regardless, and produces engine lines of the same shape.
-    await evaluateGameOnServer(
-        analysisGame,
-        engine,
-        new AbortController(),
-        { onProgress: progress => updateEntry(gameKey, { progress }) }
-    );
+    // Evaluate every position with the engine the user picked for manual
+    // analysis (which they have confirmed works), then classify and save.
+    async function evaluateWith(location: EngineLocation) {
+        if (location == "server") {
+            await evaluateGameOnServer(
+                analysisGame,
+                engine,
+                new AbortController(),
+                { onProgress: progress => updateEntry(gameKey, { progress }) }
+            );
+
+            return;
+        }
+
+        const evaluator = createGameEvaluator(analysisGame, {
+            engineVersion: engine.version,
+            engineDepth: engine.depth,
+            engineTimeLimit: engine.timeLimitEnabled
+                ? engine.timeLimit : undefined,
+            cloudEngineLines: engine.lines,
+            maxEngineCount: MAX_BACKGROUND_ENGINES,
+            engineConfig: gameEngine => gameEngine.setLineCount(engine.lines),
+            onProgress: progress => updateEntry(gameKey, { progress })
+        });
+
+        await evaluator.evaluate();
+    }
+
+    const primary: EngineLocation = engine.location == "server"
+        ? "server" : "browser";
+    const fallback: EngineLocation = primary == "server"
+        ? "browser" : "server";
+
+    try {
+        await evaluateWith(primary);
+    } catch (primaryError) {
+        // The chosen engine is unavailable on this deployment (e.g. the
+        // server Stockfish binary, or a throttled browser worker). Retry on
+        // the other engine from a clean tree so a broken engine no longer
+        // means no background analysis at all.
+        console.warn(
+            `auto-analysis: ${primary} engine failed, retrying on `
+            + `${fallback}`, primaryError
+        );
+
+        analysisGame.stateTree = parseStateTree(game);
+        updateEntry(gameKey, { progress: 0 });
+
+        try {
+            await evaluateWith(fallback);
+        } catch (fallbackError) {
+            throw new Error(
+                "evaluation failed: "
+                + (fallbackError as Error).message
+            );
+        }
+    }
 
     const analyseResult = await analyseStateTree(analysisGame.stateTree, {
         includeBrilliant: classifications.included.brilliant,
@@ -69,7 +120,8 @@ async function analyseGameInBackground(game: Game): Promise<{
         }
     });
 
-    if (!analyseResult.gameAnalysis) throw new Error("analysis failed");
+    if (analyseResult.status != StatusCodes.OK || !analyseResult.gameAnalysis)
+        throw new Error(`classification failed (HTTP ${analyseResult.status})`);
 
     // Average move accuracies of the analysed game, saved alongside it
     // so game listings can show them without loading the state tree
@@ -91,7 +143,7 @@ async function analyseGameInBackground(game: Game): Promise<{
     if (!archiveResult.id) {
         throw archiveResult.status == StatusCodes.INSUFFICIENT_STORAGE
             ? new Error("archive full")
-            : new Error("archive failed");
+            : new Error(`save failed (HTTP ${archiveResult.status})`);
     }
 
     return { archiveId: archiveResult.id, accuracies };
@@ -170,10 +222,16 @@ export async function runAutoAnalysis(): Promise<void> {
                 accuracies: accuracies
             });
         } catch (err) {
-            updateEntry(gameKey, { status: "error" });
+            const reason = (err as Error).message || "unknown error";
+
+            // Surface the reason so a failing deployment is diagnosable
+            // instead of games silently turning red
+            console.error(`auto-analysis failed for ${gameKey}:`, err);
+
+            updateEntry(gameKey, { status: "error", error: reason });
 
             // A full archive fails every following game the same way
-            if ((err as Error).message == "archive full") break;
+            if (reason == "archive full") break;
         }
     }
 }

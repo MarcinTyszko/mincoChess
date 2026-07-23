@@ -15,6 +15,8 @@ export interface AutoAnalysisEntry {
     archiveId?: string;
     /** Player accuracies once the analysis has finished */
     accuracies?: Game["accuracies"];
+    /** Failure reason when status is "error", for display and debugging */
+    error?: string;
 }
 
 interface AutoAnalysisStore {
