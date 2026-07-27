@@ -8,6 +8,7 @@ import { toNodeHandler } from "better-auth/node";
 import connectDatabase from "@/database/connect";
 import hostnameWhitelist from "@/lib/security/whitelist";
 import getAuth from "@/lib/auth";
+import { serverEnginePool } from "@/lib/serverEngine";
 import mainRouter from "./routes";
 
 dotenv.config();
@@ -22,8 +23,33 @@ async function main() {
         console.log("starting server...");
         for (let i = 0; i < coreCount; i++) cluster.fork();
 
+        // Docker/systemd deliver stop signals to the primary only; without
+        // forwarding them, workers (and their Stockfish children) would be
+        // left running and reparented — the classic "orphaned engines" leak
+        const forwardShutdown = (signal: NodeJS.Signals) => () => {
+            for (const worker of Object.values(cluster.workers ?? {})) {
+                worker?.kill(signal);
+            }
+        };
+
+        process.once("SIGTERM", forwardShutdown("SIGTERM"));
+        process.once("SIGINT", forwardShutdown("SIGINT"));
+
         return;
     }
+
+    // Reap this worker's Stockfish processes on shutdown so none are left
+    // orphaned when the worker exits or the container is recycled
+    const shutdown = () => {
+        serverEnginePool.terminateAll();
+        process.exit(0);
+    };
+
+    process.once("SIGTERM", shutdown);
+    process.once("SIGINT", shutdown);
+
+    // Last-resort synchronous kill if the process exits some other way
+    process.once("exit", () => serverEnginePool.killAllNow());
 
     await connectDatabase();
 
