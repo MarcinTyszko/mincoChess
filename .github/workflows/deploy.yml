@@ -1,0 +1,18 @@
+name: Deploy ChessAPP
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull Latest Code and Rebuild Docker
+        run: |
+          cd /home/asus/homelab/mincoChess
+          git pull origin master
+          docker compose down
+          docker compose up -d --build

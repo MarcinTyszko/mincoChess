@@ -1,7 +1,6 @@
 node_modules
 */dist
 dist
-.env
 prompt.md
 .vs
 .VSCodeCounter
