@@ -10,6 +10,10 @@ services:
       - .env
     depends_on:
       - database
+    # This server shares its host with other services, so give the app a
+    # ceiling it cannot creep past. Steady state is ~200 MB idle and under
+    # 1 GB while analysing; the headroom is for concurrent analyses.
+    mem_limit: ${APP_MEMORY_LIMIT:-2g}
   database:
     image: mongo:latest
     restart: unless-stopped

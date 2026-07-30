@@ -9,6 +9,7 @@ import {
 } from "shared/types/game/position/StateTreeNode";
 import { getGameAnalysis } from "shared/lib/reporter/report";
 import analysisAuthenticator from "@/lib/security/analysis";
+import { analysisBodyLimit } from "@/constants/bodyLimits";
 
 const path = "/analysis/analyse";
 
@@ -16,7 +17,7 @@ const router = Router();
 
 router.use(path,
     analysisAuthenticator,
-    express.json({ limit: "1mb" })
+    express.json({ limit: analysisBodyLimit })
 );
 
 function parseRating(rating: unknown) {

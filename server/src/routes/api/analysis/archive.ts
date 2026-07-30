@@ -13,6 +13,7 @@ import { StateTreeNode } from "shared/types/game/position/StateTreeNode";
 import ArchivedGame from "@/database/models/ArchivedGame";
 import { GameArchive } from "shared/types/game/ArchivedGame";
 import { accountAuthenticator } from "@/lib/security/account";
+import { analysisBodyLimit } from "@/constants/bodyLimits";
 import * as Archive from "@/lib/gameArchive";
 
 const router = Router();
@@ -25,7 +26,7 @@ const maximumArchiveSize = Number(process.env.MAXIMUM_ARCHIVE_SIZE) || 1000;
 
 router.use("/analysis/archive",
     accountAuthenticator(),
-    express.json({ limit: "500kb" })
+    express.json({ limit: analysisBodyLimit })
 );
 
 router.get("/analysis/archive", async (req, res) => {

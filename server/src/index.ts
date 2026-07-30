@@ -1,6 +1,5 @@
 import express from "express";
 import cluster from "cluster";
-import os from "os";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { toNodeHandler } from "better-auth/node";
@@ -9,6 +8,7 @@ import connectDatabase from "@/database/connect";
 import hostnameWhitelist from "@/lib/security/whitelist";
 import getAuth from "@/lib/auth";
 import { serverEnginePool } from "@/lib/serverEngine";
+import { coreCount, workerCount } from "@/constants/cluster";
 import mainRouter from "./routes";
 
 dotenv.config();
@@ -16,17 +16,19 @@ dotenv.config();
 const port = process.env.PORT || 8080;
 const nodeEnv = process.env.NODE_ENV || "production";
 
-const coreCount = os.cpus().length;
-
 async function main() {
     if (cluster.isPrimary) {
         console.log("starting server...");
-        for (let i = 0; i < coreCount; i++) cluster.fork();
+        for (let i = 0; i < workerCount; i++) cluster.fork();
+
+        let stopping = false;
 
         // Docker/systemd deliver stop signals to the primary only; without
         // forwarding them, workers (and their Stockfish children) would be
         // left running and reparented — the classic "orphaned engines" leak
         const forwardShutdown = (signal: NodeJS.Signals) => () => {
+            stopping = true;
+
             for (const worker of Object.values(cluster.workers ?? {})) {
                 worker?.kill(signal);
             }
@@ -34,6 +36,15 @@ async function main() {
 
         process.once("SIGTERM", forwardShutdown("SIGTERM"));
         process.once("SIGINT", forwardShutdown("SIGINT"));
+
+        // With only a couple of workers, losing one to a crash takes a large
+        // slice of the server's capacity with it, so replace it
+        cluster.on("exit", worker => {
+            if (stopping) return;
+
+            console.error(`worker ${worker.id} died; restarting it`);
+            cluster.fork();
+        });
 
         return;
     }
@@ -47,6 +58,18 @@ async function main() {
 
     process.once("SIGTERM", shutdown);
     process.once("SIGINT", shutdown);
+
+    // A crashing worker is the other way engines get orphaned: without this
+    // the process dies while its Stockfish children keep running (and keep
+    // their memory) until the container is recycled
+    const crash = (err: unknown) => {
+        console.error("worker crashed, reaping engines:", err);
+        serverEnginePool.killAllNow();
+        process.exit(1);
+    };
+
+    process.once("uncaughtException", crash);
+    process.once("unhandledRejection", crash);
 
     // Last-resort synchronous kill if the process exits some other way
     process.once("exit", () => serverEnginePool.killAllNow());
@@ -74,8 +97,9 @@ async function main() {
 
         console.log(
             `server running on port ${port} `
-            + `(${nodeEnv} mode, ${coreCount} thread`
-            + (coreCount > 1 ? "s)" : ")")
+            + `(${nodeEnv} mode, ${workerCount} worker`
+            + (workerCount > 1 ? "s" : "")
+            + `, ${coreCount} cores)`
         );
     });
 }

@@ -5,7 +5,7 @@
         "./client"
     ],
     "scripts": {
-        "start": "node server/dist/index.js",
+        "start": "node --max-old-space-size=768 server/dist/index.js",
         "build": "npm run build --workspaces --if-present",
         "bbuild": "npm run build -w shared && npm run build -w server",
         "dev": "npm run build && npm start",

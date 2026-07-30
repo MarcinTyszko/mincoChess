@@ -1,47 +1,53 @@
 import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import { createInterface, Interface } from "readline";
-import cluster from "cluster";
-import os from "os";
 import { Chess } from "chess.js";
 
 import { EngineLine } from "shared/types/game/position/EngineLine";
 import EngineVersion from "shared/constants/EngineVersion";
+import { coreCount, workerCount } from "@/constants/cluster";
 
 const stockfishPath = process.env.STOCKFISH_PATH || "stockfish";
 
-// The server runs one cluster worker per core (see index.ts), and each
-// worker owns its own engine pool. The engine budget below is therefore a
-// GLOBAL target for the whole server that we divide across the workers, so
-// the total number of Stockfish processes stays bounded instead of being
-// (cores x poolSize) as it would be with a per-worker cap.
-const clusterWorkerCount = cluster.isWorker
-    ? Math.max(1, os.cpus().length)
-    : 1;
-
-// Evaluating many positions scales better across engine processes
-// than across threads of a single search
-const globalEngineBudget = Number(process.env.SERVER_ENGINE_PROCESSES)
-    || Math.min(4, Math.max(1, Math.floor(os.cpus().length / 3)));
+// Each cluster worker owns its own engine pool, so the budget below is a
+// GLOBAL target for the whole server that we divide across the workers,
+// keeping the total number of Stockfish processes bounded instead of being
+// (workers x poolSize) as it would be with a per-worker cap.
+//
+// A single engine costs ~364 MB resident (NNUE nets, hash and the musl
+// shim), which dominates this server's memory use, so the default budget
+// is small and deliberately independent of the core count.
+const globalEngineBudget = Math.max(
+    1, Number(process.env.SERVER_ENGINE_PROCESSES) || 2
+);
 
 export const enginePoolSize = Math.max(
-    1, Math.round(globalEngineBudget / clusterWorkerCount)
+    1, Math.round(globalEngineBudget / workerCount)
 );
 
 // Total Stockfish processes the whole server may run at once, used to size
 // the per-engine thread count so we don't oversubscribe the CPU
-const totalEngineProcesses = clusterWorkerCount * enginePoolSize;
+const totalEngineProcesses = workerCount * enginePoolSize;
 
-// Slightly undersubscribe: os.cpus() counts SMT threads, and Stockfish
-// gains little from hyperthread oversubscription
+// Leave half the machine alone: this app is expected to share a host with
+// other services, and Stockfish will happily saturate every core it is
+// given. os.cpus() also counts SMT threads, which NNUE search barely
+// benefits from.
 const engineThreads = Number(process.env.SERVER_ENGINE_THREADS)
-    || Math.max(1, Math.floor(os.cpus().length / totalEngineProcesses));
+    || Math.max(1, Math.min(
+        4, Math.floor(coreCount / 2 / totalEngineProcesses)
+    ));
 
-const engineHashMegabytes = Number(process.env.SERVER_ENGINE_HASH) || 128;
+// Analysis evaluates many shallow-ish positions rather than one long
+// search, so a large transposition table buys very little while costing
+// this much resident memory per engine
+const engineHashMegabytes = Number(process.env.SERVER_ENGINE_HASH) || 32;
 
 // Terminate an engine that has sat idle in the pool for this long, so an
 // idle server releases its Stockfish processes (and their memory) instead
-// of holding them resident forever
-const engineIdleTimeoutMs = Number(process.env.SERVER_ENGINE_IDLE_MS) || 60_000;
+// of holding them resident forever. Engines are only ever spawned by an
+// actual evaluation request, so with nobody analysing the server settles
+// back to zero engines shortly after the last one finishes.
+const engineIdleTimeoutMs = Number(process.env.SERVER_ENGINE_IDLE_MS) || 30_000;
 
 // Guard rails so a wedged or dead engine can never permanently occupy a
 // pool slot or hang a request

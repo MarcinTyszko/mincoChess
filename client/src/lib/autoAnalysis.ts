@@ -141,9 +141,16 @@ async function analyseGameInBackground(game: Game): Promise<{
     });
 
     if (!archiveResult.id) {
-        throw archiveResult.status == StatusCodes.INSUFFICIENT_STORAGE
-            ? new Error("archive full")
-            : new Error(`save failed (HTTP ${archiveResult.status})`);
+        if (archiveResult.status == StatusCodes.INSUFFICIENT_STORAGE)
+            throw new Error("archive full");
+
+        // The analysed tree was bigger than the server accepts. Only this
+        // game is affected, so it must not be mistaken for a full archive
+        // (which stops the whole queue).
+        if (archiveResult.status == StatusCodes.REQUEST_TOO_LONG)
+            throw new Error("game too large to save");
+
+        throw new Error(`save failed (HTTP ${archiveResult.status})`);
     }
 
     return { archiveId: archiveResult.id, accuracies };

@@ -21,7 +21,12 @@ async function connectDatabase() {
 
     try {
         await mongoose.connect(
-            process.env.DATABASE_URI || "mongodb://database/wintrchess"
+            process.env.DATABASE_URI || "mongodb://database/wintrchess",
+            {
+                // Every worker keeps its own pool, and mongoose defaults to
+                // 100 sockets each — far more than this workload needs
+                maxPoolSize: Number(process.env.DATABASE_POOL_SIZE) || 10
+            }
         );
         await initialiseIndexes();
         

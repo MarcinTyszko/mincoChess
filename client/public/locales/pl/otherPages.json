@@ -32,7 +32,9 @@
         "status": {
             "analysed": "Przeanalizowana",
             "analysing": "Analizuję {{percent}}%",
-            "queued": "W kolejce"
+            "queued": "W kolejce",
+            "error": "Nie udało się",
+            "archiveFull": "Archiwum pełne"
         }
     }
 }
