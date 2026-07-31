@@ -12,7 +12,22 @@ jobs:
     steps:
       - name: Pull Latest Code and Rebuild Docker
         run: |
+          set -euo pipefail
           cd /home/asus/homelab/mincoChess
-          git pull origin master
+
+          # .env holds this machine's own config (real ORIGIN, secrets) and is
+          # no longer tracked, so it has to survive the checkout: the commit
+          # that untracks it would otherwise delete it, and a hard reset wipes
+          # it every deploy after that.
+          cp .env /tmp/mincochess.env.bak
+
+          # Reset rather than merge. A pull fails outright whenever the
+          # deployment has drifted from master, which silently leaves the
+          # server running old code.
+          git fetch origin master
+          git reset --hard origin/master
+
+          cp /tmp/mincochess.env.bak .env
+
           docker compose down
           docker compose up -d --build

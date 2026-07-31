@@ -1,6 +1,10 @@
 node_modules
 */dist
 dist
+
+# Deployment config is per-machine: the server's own values (real ORIGIN,
+# secrets) must survive `git pull`. Copy .env.example and fill it in.
+.env
 prompt.md
 .vs
 .VSCodeCounter

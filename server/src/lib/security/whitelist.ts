@@ -1,20 +1,7 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-// The hostname the app is deployed on is always trusted, wherever
-// that happens to be (e.g. chess.example.com behind Cloudflare)
-const originHostname = (() => {
-    try {
-        return process.env.ORIGIN
-            ? new URL(process.env.ORIGIN).hostname
-            : null;
-    } catch {
-        return null;
-    }
-})();
+import { originHostnames } from "./origins";
 
 // Local deployments are accessed via LAN IPs as well as localhost,
 // so development mode also accepts private network addresses
@@ -32,7 +19,9 @@ const whitelistedHostnames = [
 ];
 
 const hostnameWhitelist: RequestHandler = (req, res, next) => {
-    const hostWhitelisted = req.hostname == originHostname
+    // Every hostname the app is deployed on is trusted, wherever those
+    // happen to be (e.g. chess.example.com behind Cloudflare)
+    const hostWhitelisted = originHostnames.includes(req.hostname)
         || whitelistedHostnames.some(
             hostnameRegex => hostnameRegex.test(req.hostname)
         );

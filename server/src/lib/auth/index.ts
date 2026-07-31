@@ -6,6 +6,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import schemas, { additionalUserFields } from "shared/constants/account/schemas";
 import Collection from "@/constants/Collection";
 import { sendAccountEmail } from "@/lib/email";
+import { origins } from "@/lib/security/origins";
 
 import { requestProcessor, userInitialiser } from "./registration";
 
@@ -28,10 +29,12 @@ function createAuth(database: mongo.Db) {
         secret: process.env.AUTH_SECRET,
         database: mongodbAdapter(database),
         // Local deployments are reached from LAN IPs as well as
-        // localhost, so trust the requesting origin in development
+        // localhost, so trust the requesting origin in development.
+        // In production only baseURL would be trusted by default, which
+        // rejects sign-in from every domain but the canonical one
         trustedOrigins: process.env.NODE_ENV == "development"
             ? request => [request?.headers.get("origin")]
-            : undefined,
+            : origins,
         emailAndPassword: {
             enabled: true,
             minPasswordLength: schemas.password.minLength || 8,
