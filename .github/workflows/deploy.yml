@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - master
+  # Lets a broken deployment be repaired without an empty commit
+  workflow_dispatch:
+
+# Where this deployment lives and which URLs it answers on. These are not
+# secrets - they are the public identity of the box - and they have to be
+# applied on the host, because .env is untracked and the client bundle
+# bakes it in at build time.
+env:
+  DEPLOY_PATH: /home/asus/homelab/mincoChess
+  APP_ORIGIN: https://chess.plominski.com
+  APP_ADDITIONAL_ORIGINS: https://chess.nienetflix.com
 
 jobs:
   deploy:
@@ -13,13 +24,12 @@ jobs:
       - name: Pull Latest Code and Rebuild Docker
         run: |
           set -euo pipefail
-          cd /home/asus/homelab/mincoChess
+          cd "$DEPLOY_PATH"
 
-          # .env holds this machine's own config (real ORIGIN, secrets) and is
-          # no longer tracked, so it has to survive the checkout: the commit
-          # that untracks it would otherwise delete it, and a hard reset wipes
-          # it every deploy after that.
-          cp .env /tmp/mincochess.env.bak
+          # .env holds this machine's secrets and is no longer tracked, so it
+          # has to survive the checkout: the commit that untracks it would
+          # otherwise delete it, and the hard reset would wipe it every time.
+          cp .env /tmp/mincochess.env.bak || true
 
           # Reset rather than merge. A pull fails outright whenever the
           # deployment has drifted from master, which silently leaves the
@@ -27,7 +37,48 @@ jobs:
           git fetch origin master
           git reset --hard origin/master
 
-          cp /tmp/mincochess.env.bak .env
+          cp /tmp/mincochess.env.bak .env || true
+
+          # Force the deployment's identity onto whatever .env is on the host.
+          # Without this the box keeps whatever it was last left with - which
+          # is how it ended up serving 401s with a development ORIGIN.
+          chmod +x scripts/set-env-var.sh
+          ./scripts/set-env-var.sh .env \
+            NODE_ENV=production \
+            "ORIGIN=$APP_ORIGIN" \
+            "ADDITIONAL_ORIGINS=$APP_ADDITIONAL_ORIGINS"
 
           docker compose down
           docker compose up -d --build
+
+      - name: Verify Deployment Answers On Every Domain
+        run: |
+          set -euo pipefail
+          cd "$DEPLOY_PATH"
+
+          port=$(grep -E '^PORT=' .env | cut -d= -f2)
+          port=${port:-8080}
+
+          # Give the cluster a moment to bind before probing
+          for _ in $(seq 30); do
+            curl -fsS -o /dev/null "http://localhost:$port/" && break || sleep 2
+          done
+
+          # A wrong ORIGIN makes the hostname whitelist reject the real
+          # domains with a 401, which is invisible from inside the container -
+          # so probe the way a browser arrives, by Host header.
+          failed=0
+          for origin in "$APP_ORIGIN" "$APP_ADDITIONAL_ORIGINS"; do
+            host=${origin#*://}
+            code=$(curl -s -o /dev/null -w '%{http_code}' \
+              -H "Host: $host" "http://localhost:$port/")
+
+            if [ "$code" = "401" ] || [ "$code" = "000" ]; then
+              echo "::error::$host is not being served (HTTP $code)"
+              failed=1
+            else
+              echo "$host -> HTTP $code"
+            fi
+          done
+
+          exit "$failed"

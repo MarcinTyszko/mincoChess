@@ -6,6 +6,7 @@ import { toNodeHandler } from "better-auth/node";
 
 import connectDatabase from "@/database/connect";
 import hostnameWhitelist from "@/lib/security/whitelist";
+import { origins } from "@/lib/security/origins";
 import getAuth from "@/lib/auth";
 import { serverEnginePool } from "@/lib/serverEngine";
 import { coreCount, workerCount } from "@/constants/cluster";
@@ -101,6 +102,10 @@ async function main() {
             + (workerCount > 1 ? "s" : "")
             + `, ${coreCount} cores)`
         );
+
+        // Worth a line at startup: if this is wrong, every visitor gets a
+        // 401 from the hostname whitelist and nothing else says why
+        console.log(`serving origins: ${origins.join(", ") || "(none)"}`);
     });
 }
 
